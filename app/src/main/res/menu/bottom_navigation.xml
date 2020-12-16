@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_layouts"
+        android:icon="@drawable/ic_nav_layouts"
+        android:title="@string/bottom_nav_layouts" />
+    <item
+        android:id="@+id/nav_runes"
+        android:icon="@drawable/ic_nav_runes"
+        android:title="@string/bottom_nav_runes"/>
+    <item
+        android:id="@+id/nav_sages"
+        android:icon="@drawable/ic_nav_sages"
+        android:title="@string/bottom_nav_sages"/>
+    <item
+        android:id="@+id/nav_favourites"
+        android:icon="@drawable/ic_nav_favourite"
+        android:title="@string/bottom_nav_favourites"/>
+    <item
+        android:id="@+id/nav_settings"
+        android:icon="@drawable/ic_nav_favourite"
+        android:title="@string/bottom_nav_settings"/>
+</menu>
