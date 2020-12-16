@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Runar</string>
+    <string name="bottom_nav_layouts">Расклады</string>
+    <string name="bottom_nav_runes">Руны</string>
+    <string name="bottom_nav_sages">Саги</string>
+    <string name="bottom_nav_favourites">Избранное</string>
+    <string name="bottom_nav_settings">Настройки</string>
+
+    <string name="layout1">Руна дня</string>
+    <string name="layout2">Расклад из 2 рун</string>
+    <string name="layout3">Норны</string>
+    <string name="layout4">Краткий прогноз</string>
+    <string name="layout5">Молот тора</string>
+    <string name="layout6">Крест</string>
+    <string name="layout7">Крест стихий</string>
+    <string name="layout8">Кельский крест</string>
+</resources>
