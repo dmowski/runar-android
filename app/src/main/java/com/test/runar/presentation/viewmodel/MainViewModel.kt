@@ -1,4 +1,4 @@
-package com.test.runar
+package com.test.runar.presentation.viewmodel
 
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
