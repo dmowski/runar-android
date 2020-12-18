@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/fragment_navigation"
+    app:startDestination="@id/layoutFragment">
+
+    <fragment
+        android:id="@+id/layoutFragment"
+        android:name="com.test.runar.ui.fragments.LayoutFragment"
+        android:label="LayoutFragment" />
+    <fragment
+        android:id="@+id/runesFragment"
+        android:name="com.test.runar.ui.fragments.RunesFragment"
+        android:label="RunesFragment" />
+    <fragment
+        android:id="@+id/placeholder"
+        android:name="com.test.runar.ui.fragments.RunesFragment" />
+    <fragment
+        android:id="@+id/placeholder2"
+        android:name="com.test.runar.ui.fragments.RunesFragment" />
+    <fragment
+        android:id="@+id/placeholder3"
+        android:name="com.test.runar.ui.fragments.RunesFragment" />
+</navigation>
