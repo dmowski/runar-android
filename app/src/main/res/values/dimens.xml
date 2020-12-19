@@ -2,5 +2,5 @@
 <resources>
     <dimen name="layout_text_size">29sp</dimen>
     <dimen name="layout_text_margin_bottom">7dp</dimen>
-    <dimen name="layout_between_margin">6dp</dimen>
+    <dimen name="layout_between_margin">7dp</dimen>
 </resources>
