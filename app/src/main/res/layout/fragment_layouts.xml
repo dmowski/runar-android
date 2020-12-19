@@ -1,217 +1,225 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/scroll_view"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="10dp">
-
+    android:scrollbars="none"
+    android:overScrollMode="never"
+    android:layout_height="match_parent">
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/first_layout"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginEnd="6dp"
-        android:layout_marginBottom="6dp"
-        android:background="@drawable/layout_item_selector_background"
-        android:clickable="true"
-        android:focusable="true"
-        app:layout_constraintBottom_toTopOf="@id/third_layout"
-        app:layout_constraintEnd_toStartOf="@id/second_layout"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/first_layout"
+            app:layout_constraintDimensionRatio="H,1:1.08"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="6dp"
+            android:layout_marginBottom="6dp"
+            android:background="@drawable/layout_item_selector_background"
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintBottom_toTopOf="@id/third_layout"
+            app:layout_constraintEnd_toStartOf="@id/second_layout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/layout_text_margin_bottom"
+                android:duplicateParentState="true"
+                android:fontFamily="@font/amatic_sc_bold"
+                android:text="@string/layout1"
+                android:textColor="@color/layout_text_selector"
+                android:textSize="@dimen/layout_text_size"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/layout_text_margin_bottom"
-            android:duplicateParentState="true"
-            android:fontFamily="@font/amatic_sc_bold"
-            android:text="@string/layout1"
-            android:textColor="@color/layout_text_selector"
-            android:textSize="@dimen/layout_text_size"
-            app:layout_constraintBottom_toBottomOf="parent"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/second_layout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="6dp"
+            android:background="@drawable/layout_item_selector_background"
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintBottom_toBottomOf="@id/first_layout"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toEndOf="@id/first_layout"
+            app:layout_constraintTop_toTopOf="@id/first_layout">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/layout_text_margin_bottom"
+                android:duplicateParentState="true"
+                android:fontFamily="@font/amatic_sc_bold"
+                android:text="@string/layout2"
+                android:textColor="@color/layout_text_selector"
+                android:textSize="@dimen/layout_text_size"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/third_layout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="6dp"
+            android:background="@drawable/layout_item_selector_background"
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintBottom_toTopOf="@id/fifth_layout"
+            app:layout_constraintEnd_toEndOf="@id/first_layout"
+            app:layout_constraintStart_toStartOf="@id/first_layout"
+            app:layout_constraintTop_toBottomOf="@id/first_layout">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/layout_text_margin_bottom"
+                android:fontFamily="@font/amatic_sc_bold"
+                android:text="@string/layout3"
+                android:textColor="@color/layout_text_selector"
+                android:textSize="@dimen/layout_text_size"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/fourth_layout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/layout_item_selector_background"
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintBottom_toBottomOf="@id/third_layout"
+            app:layout_constraintEnd_toEndOf="@id/second_layout"
+            app:layout_constraintStart_toStartOf="@id/second_layout"
+            app:layout_constraintTop_toTopOf="@id/third_layout">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/layout_text_margin_bottom"
+                android:fontFamily="@font/amatic_sc_bold"
+                android:text="@string/layout4"
+                android:textColor="@color/layout_text_selector"
+                android:textSize="@dimen/layout_text_size"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/fifth_layout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="6dp"
+            android:background="@drawable/layout_item_selector_background"
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintBottom_toTopOf="@id/seventh_layout"
+            app:layout_constraintEnd_toEndOf="@id/first_layout"
+            app:layout_constraintStart_toStartOf="@id/first_layout"
+            app:layout_constraintTop_toBottomOf="@id/third_layout">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/layout_text_margin_bottom"
+                android:fontFamily="@font/amatic_sc_bold"
+                android:text="@string/layout5"
+                android:textColor="@color/layout_text_selector"
+                android:textSize="@dimen/layout_text_size"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/sixth_layout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/layout_item_selector_background"
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintBottom_toBottomOf="@id/fifth_layout"
+            app:layout_constraintEnd_toEndOf="@id/second_layout"
+            app:layout_constraintStart_toStartOf="@id/second_layout"
+            app:layout_constraintTop_toTopOf="@id/fifth_layout">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/layout_text_margin_bottom"
+                android:fontFamily="@font/amatic_sc_bold"
+                android:text="@string/layout6"
+                android:textColor="@color/layout_text_selector"
+                android:textSize="@dimen/layout_text_size"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/seventh_layout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="6dp"
+            android:background="@drawable/layout_item_selector_background"
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/first_layout"
+            app:layout_constraintStart_toStartOf="@id/first_layout"
+            app:layout_constraintTop_toBottomOf="@id/fifth_layout">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/layout_text_margin_bottom"
+                android:fontFamily="@font/amatic_sc_bold"
+                android:text="@string/layout7"
+                android:textColor="@color/layout_text_selector"
+                android:textSize="@dimen/layout_text_size"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/eight_layout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/layout_item_selector_background"
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintBottom_toBottomOf="@id/seventh_layout"
+            app:layout_constraintEnd_toEndOf="@id/second_layout"
+            app:layout_constraintStart_toStartOf="@id/second_layout"
+            app:layout_constraintTop_toTopOf="@id/seventh_layout">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/layout_text_margin_bottom"
+                android:fontFamily="@font/amatic_sc_bold"
+                android:text="@string/layout8"
+                android:textColor="@color/layout_text_selector"
+                android:textSize="@dimen/layout_text_size"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/second_layout"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="6dp"
-        android:background="@drawable/layout_item_selector_background"
-        android:clickable="true"
-        android:focusable="true"
-        app:layout_constraintBottom_toBottomOf="@id/first_layout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/first_layout"
-        app:layout_constraintTop_toTopOf="@id/first_layout">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/layout_text_margin_bottom"
-            android:duplicateParentState="true"
-            android:fontFamily="@font/amatic_sc_bold"
-            android:text="@string/layout2"
-            android:textColor="@color/layout_text_selector"
-            android:textSize="@dimen/layout_text_size"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/third_layout"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="6dp"
-        android:layout_marginBottom="6dp"
-        android:background="@drawable/layout_item_selector_background"
-        android:clickable="true"
-        android:focusable="true"
-        app:layout_constraintBottom_toTopOf="@id/fifth_layout"
-        app:layout_constraintEnd_toEndOf="@id/first_layout"
-        app:layout_constraintStart_toStartOf="@id/first_layout"
-        app:layout_constraintTop_toBottomOf="@id/first_layout">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/layout_text_margin_bottom"
-            android:fontFamily="@font/amatic_sc_bold"
-            android:text="@string/layout3"
-            android:textColor="@color/layout_text_selector"
-            android:textSize="@dimen/layout_text_size"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/fourth_layout"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@drawable/layout_item_selector_background"
-        android:clickable="true"
-        android:focusable="true"
-        app:layout_constraintBottom_toBottomOf="@id/third_layout"
-        app:layout_constraintEnd_toEndOf="@id/second_layout"
-        app:layout_constraintStart_toStartOf="@id/second_layout"
-        app:layout_constraintTop_toTopOf="@id/third_layout">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/layout_text_margin_bottom"
-            android:fontFamily="@font/amatic_sc_bold"
-            android:text="@string/layout4"
-            android:textColor="@color/layout_text_selector"
-            android:textSize="@dimen/layout_text_size"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/fifth_layout"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="6dp"
-        android:layout_marginBottom="6dp"
-        android:background="@drawable/layout_item_selector_background"
-        android:clickable="true"
-        android:focusable="true"
-        app:layout_constraintBottom_toTopOf="@id/seventh_layout"
-        app:layout_constraintEnd_toEndOf="@id/first_layout"
-        app:layout_constraintStart_toStartOf="@id/first_layout"
-        app:layout_constraintTop_toBottomOf="@id/third_layout">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/layout_text_margin_bottom"
-            android:fontFamily="@font/amatic_sc_bold"
-            android:text="@string/layout5"
-            android:textColor="@color/layout_text_selector"
-            android:textSize="@dimen/layout_text_size"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/sixth_layout"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@drawable/layout_item_selector_background"
-        android:clickable="true"
-        android:focusable="true"
-        app:layout_constraintBottom_toBottomOf="@id/fifth_layout"
-        app:layout_constraintEnd_toEndOf="@id/second_layout"
-        app:layout_constraintStart_toStartOf="@id/second_layout"
-        app:layout_constraintTop_toTopOf="@id/fifth_layout">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/layout_text_margin_bottom"
-            android:fontFamily="@font/amatic_sc_bold"
-            android:text="@string/layout6"
-            android:textColor="@color/layout_text_selector"
-            android:textSize="@dimen/layout_text_size"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/seventh_layout"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="6dp"
-        android:background="@drawable/layout_item_selector_background"
-        android:clickable="true"
-        android:focusable="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@id/first_layout"
-        app:layout_constraintStart_toStartOf="@id/first_layout"
-        app:layout_constraintTop_toBottomOf="@id/fifth_layout">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/layout_text_margin_bottom"
-            android:fontFamily="@font/amatic_sc_bold"
-            android:text="@string/layout7"
-            android:textColor="@color/layout_text_selector"
-            android:textSize="@dimen/layout_text_size"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/eight_layout"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@drawable/layout_item_selector_background"
-        android:clickable="true"
-        android:focusable="true"
-        app:layout_constraintBottom_toBottomOf="@id/seventh_layout"
-        app:layout_constraintEnd_toEndOf="@id/second_layout"
-        app:layout_constraintStart_toStartOf="@id/second_layout"
-        app:layout_constraintTop_toTopOf="@id/seventh_layout">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/layout_text_margin_bottom"
-            android:fontFamily="@font/amatic_sc_bold"
-            android:text="@string/layout8"
-            android:textColor="@color/layout_text_selector"
-            android:textSize="@dimen/layout_text_size"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
