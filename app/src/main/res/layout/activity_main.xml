@@ -27,6 +27,7 @@
         android:id="@+id/bottomNavigationBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:itemIconSize="21dp"
         android:background="@color/bottom_nav_background_night"
         app:itemIconTint="@color/bottom_nav_icon_selector"
         app:itemTextColor="@color/bottom_nav_text_selector"
