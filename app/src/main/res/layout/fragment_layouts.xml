@@ -34,7 +34,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toTopOf="@id/first_layout_tw"
-                app:layout_constraintVertical_weight="2.7"/>
+                app:layout_constraintVertical_weight="@dimen/layout_text_size_ratio"/>
 
             <TextView
                 android:id="@+id/first_layout_tw"
@@ -77,7 +77,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toTopOf="@id/second_layout_tw"
-                app:layout_constraintVertical_weight="2.7"/>
+                app:layout_constraintVertical_weight="@dimen/layout_text_size_ratio"/>
 
             <TextView
                 android:id="@+id/second_layout_tw"
@@ -120,7 +120,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toTopOf="@id/third_layout_tw"
-                app:layout_constraintVertical_weight="2.7"/>
+                app:layout_constraintVertical_weight="@dimen/layout_text_size_ratio"/>
 
             <TextView
                 android:id="@+id/third_layout_tw"
@@ -160,7 +160,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toTopOf="@id/fourth_layout_tw"
-                app:layout_constraintVertical_weight="2.7"/>
+                app:layout_constraintVertical_weight="@dimen/layout_text_size_ratio"/>
 
             <TextView
                 android:id="@+id/fourth_layout_tw"
@@ -202,7 +202,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toTopOf="@id/fifth_layout_tw"
-                app:layout_constraintVertical_weight="2.7"/>
+                app:layout_constraintVertical_weight="@dimen/layout_text_size_ratio"/>
 
             <TextView
                 android:id="@+id/fifth_layout_tw"
@@ -242,7 +242,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toTopOf="@id/sixth_layout_tw"
-                app:layout_constraintVertical_weight="2.7"/>
+                app:layout_constraintVertical_weight="@dimen/layout_text_size_ratio"/>
 
             <TextView
                 android:id="@+id/sixth_layout_tw"
@@ -284,7 +284,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toTopOf="@id/seventh_layout_tw"
-                app:layout_constraintVertical_weight="2.7"/>
+                app:layout_constraintVertical_weight="@dimen/layout_text_size_ratio"/>
 
             <TextView
                 android:id="@+id/seventh_layout_tw"
@@ -324,7 +324,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toTopOf="@id/eight_layout_tw"
-                app:layout_constraintVertical_weight="2.7"/>
+                app:layout_constraintVertical_weight="@dimen/layout_text_size_ratio"/>
 
             <TextView
                 android:id="@+id/eight_layout_tw"
