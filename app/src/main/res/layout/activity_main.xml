@@ -8,9 +8,9 @@
 
     <FrameLayout
         android:id="@+id/fragment_container"
+        android:background="@drawable/background_main"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@drawable/background_main"
         app:layout_constraintBottom_toTopOf="@id/bottomNavigationBar"
         app:layout_constraintTop_toTopOf="parent" >
 
