@@ -14,4 +14,7 @@
     <color name="bottom_nav_text_deselected">#8E8E93</color>
     <color name="layout_text_deselected">#D2C4AD</color>
     <color name="layout_text_selected">#FCC874</color>
+    <color name="layout_desc_deselected">#D2C4AD</color>
+    <color name="layout_desc_selected">#4B4842</color>
+    <color name="checkbox">#A8A6A3</color>
 </resources>
