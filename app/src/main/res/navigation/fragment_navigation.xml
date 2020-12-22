@@ -21,4 +21,7 @@
     <fragment
         android:id="@+id/placeholder3"
         android:name="com.test.runar.ui.fragments.RunesFragment" />
+    <fragment
+        android:id="@+id/layoutDescriptionFragment"
+        android:name="com.test.runar.ui.fragments.LayoutDescriptionFragment"/>
 </navigation>

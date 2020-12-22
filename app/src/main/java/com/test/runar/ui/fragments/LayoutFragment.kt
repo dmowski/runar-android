@@ -5,12 +5,15 @@ import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.Navigation.findNavController
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.test.runar.R
 import com.test.runar.presentation.viewmodel.MainViewModel
+import com.test.runar.ui.activity.MainActivity
 
 class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener {
     private lateinit var model: MainViewModel
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         model = activity?.run {
@@ -32,5 +35,7 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
 
     override fun onClick(v: View?) {
         model.changeFragment(RunesFragment())
+        val navController = findNavController()
+        navController.navigate(R.id.layoutDescriptionFragment)
     }
 }
