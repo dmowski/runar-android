@@ -1,25 +1,25 @@
-package com.test.runar
+package com.test.runar.ui.fragments
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import com.test.runar.R
+import com.test.runar.presentation.viewmodel.MainViewModel
 
-class LayoutFragment: Fragment(),View.OnClickListener {
+class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener {
     private lateinit var model: MainViewModel
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.fragment_layouts,container,false)
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         model = activity?.run {
             ViewModelProviders.of(this)[MainViewModel::class.java]
         } ?: throw Exception("Invalid Activity")
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         view.findViewById<ConstraintLayout>(R.id.first_layout).setOnClickListener(this)
         view.findViewById<ConstraintLayout>(R.id.second_layout).setOnClickListener(this)
         view.findViewById<ConstraintLayout>(R.id.third_layout).setOnClickListener(this)
@@ -28,7 +28,9 @@ class LayoutFragment: Fragment(),View.OnClickListener {
         view.findViewById<ConstraintLayout>(R.id.sixth_layout).setOnClickListener(this)
         view.findViewById<ConstraintLayout>(R.id.seventh_layout).setOnClickListener(this)
         view.findViewById<ConstraintLayout>(R.id.eight_layout).setOnClickListener(this)
-        return view
     }
-    override fun onClick(v: View?) { model.changeFragment(RunesFragment()) }
+
+    override fun onClick(v: View?) {
+        model.changeFragment(RunesFragment())
+    }
 }
