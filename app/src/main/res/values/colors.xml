@@ -17,4 +17,5 @@
     <color name="layout_desc_deselected">#D2C4AD</color>
     <color name="layout_desc_selected">#4B4842</color>
     <color name="checkbox">#A8A6A3</color>
+    <color name="checkbox_color">#EFCD93</color>
 </resources>
