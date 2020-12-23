@@ -6,11 +6,12 @@
     <com.test.runar.CustomView.OffsetImageView
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:src="@drawable/background_fire"
+        app:offsetScaleType="fitX"
         app:verticalCropOffset="1"
-        app:offsetScaleType="crop"/>
+        app:verticalFitOffset="0"/>
     <FrameLayout
         app:layout_constraintHorizontal_weight="72"
         android:layout_width="0dp"
