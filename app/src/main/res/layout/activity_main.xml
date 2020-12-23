@@ -13,11 +13,12 @@
         app:layout_constraintBottom_toTopOf="@id/bottomNavigationBar"
         app:layout_constraintTop_toTopOf="parent" >
         <com.test.runar.CustomView.OffsetImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:src="@drawable/background_main"
+            app:offsetScaleType="fitX"
             app:verticalCropOffset="1"
-            app:offsetScaleType="crop"/>
+            app:verticalFitOffset="0"/>
         <fragment
             android:id="@+id/hostFragment"
             android:name="androidx.navigation.fragment.NavHostFragment"
