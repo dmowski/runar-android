@@ -8,12 +8,16 @@
 
     <FrameLayout
         android:id="@+id/fragment_container"
-        android:background="@drawable/background_main"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@id/bottomNavigationBar"
         app:layout_constraintTop_toTopOf="parent" >
-
+        <com.test.runar.CustomView.OffsetImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/background_main"
+            app:verticalCropOffset="1"
+            app:offsetScaleType="crop"/>
         <fragment
             android:id="@+id/hostFragment"
             android:name="androidx.navigation.fragment.NavHostFragment"
