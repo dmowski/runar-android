@@ -18,4 +18,6 @@
     <color name="layout_desc_selected">#4B4842</color>
     <color name="checkbox">#A8A6A3</color>
     <color name="checkbox_color">#EFCD93</color>
+
+    <color name="description_background_second_layout_color">#99000000</color>
 </resources>
