@@ -7,7 +7,11 @@
     <fragment
         android:id="@+id/layoutFragment"
         android:name="com.test.runar.ui.fragments.LayoutFragment"
-        android:label="LayoutFragment" />
+        android:label="LayoutFragment" >
+        <action
+            android:id="@+id/action_layoutFragment_to_layoutDescriptionFragment2"
+            app:destination="@id/layoutDescriptionFragment" />
+    </fragment>
     <fragment
         android:id="@+id/runesFragment"
         android:name="com.test.runar.ui.fragments.RunesFragment"
@@ -23,5 +27,10 @@
         android:name="com.test.runar.ui.fragments.RunesFragment" />
     <fragment
         android:id="@+id/layoutDescriptionFragment"
-        android:name="com.test.runar.ui.fragments.LayoutDescriptionFragment"/>
+        android:name="com.test.runar.ui.fragments.LayoutDescriptionFragment">
+        <argument
+            android:name="id"
+            app:argType="integer"
+            android:defaultValue="99" />
+    </fragment>
 </navigation>

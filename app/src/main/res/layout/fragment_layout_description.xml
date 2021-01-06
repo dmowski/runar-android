@@ -30,7 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:autoSizeTextType="uniform"
-            android:text="@string/header_sample"
+            android:text=""
             android:textColor="@color/layout_desc_deselected"
             android:fontFamily="@font/amatic_sc_bold"
             android:letterSpacing="@dimen/layout_text_letter_spacing"
@@ -49,6 +49,7 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.86"/>
     <ImageView
+        android:id="@+id/exit_button"
         android:layout_width="15dp"
         android:layout_height="15dp"
         android:layout_marginStart="10dp"
@@ -112,15 +113,16 @@
         android:buttonTint="@color/checkbox_color"
         android:button="@drawable/checkbox_selector" />
     <TextView
+        android:id="@+id/description_text_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="18dp"
         android:layout_marginBottom="10dp"
         app:autoSizeTextType="uniform"
-        android:text="@string/text_sample"
-        android:fontFamily="@font/sf_pro_display_regular"
+        android:text=""
         android:textColor="@color/layout_desc_text_color"
         android:maxLines="8"
+        android:lineSpacingMultiplier="@dimen/layout_description_line_spacing"
         app:layout_constraintTop_toBottomOf="@id/description_header_frame"
         app:layout_constraintStart_toEndOf="@id/left_guideline"
         app:layout_constraintEnd_toStartOf="@id/right_guideline"
