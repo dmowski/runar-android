@@ -3,6 +3,7 @@ package com.test.runar.ui.fragments
 import android.os.Bundle
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation.findNavController
@@ -34,8 +35,24 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
     }
 
     override fun onClick(v: View?) {
-        model.changeFragment(RunesFragment())
+        var dest=0
+        when(v?.id){
+            R.id.first_layout -> dest=1
+            R.id.second_layout -> dest=2
+            R.id.third_layout -> dest=3
+            R.id.fourth_layout -> dest=4
+            R.id.fifth_layout -> dest=5
+            R.id.sixth_layout -> dest=6
+            R.id.seventh_layout -> dest=7
+            R.id.eight_layout -> dest=8
+        }
         val navController = findNavController()
-        navController.navigate(R.id.layoutDescriptionFragment)
+        val bundle = bundleOf("id" to dest)
+        if(model.descriptionCheck(requireContext(),dest)){                            /*переделать под mvvm, а лучше вообще иначе*/
+            navController.navigate(R.id.layoutDescriptionFragment,bundle)
+        }
+        else{
+            navController.navigate(R.id.runesFragment)
+        }
     }
 }
