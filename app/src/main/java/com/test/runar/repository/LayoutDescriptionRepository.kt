@@ -1,8 +1,6 @@
 package com.test.runar.repository
 
 import android.content.Context
-import android.util.Log
-import androidx.lifecycle.LiveData
 import com.test.runar.model.LayoutDescriptionModel
 import com.test.runar.room.LayoutDescriptionDB
 import kotlinx.coroutines.CoroutineScope

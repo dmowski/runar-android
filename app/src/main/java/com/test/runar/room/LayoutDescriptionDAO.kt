@@ -1,9 +1,7 @@
 package com.test.runar.room
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Query
-import androidx.room.Update
 import com.test.runar.model.LayoutDescriptionModel
 
 @Dao
