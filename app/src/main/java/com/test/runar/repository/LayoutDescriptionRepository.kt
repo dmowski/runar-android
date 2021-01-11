@@ -16,21 +16,19 @@ class LayoutDescriptionRepository {
             return LayoutDescriptionDB.getLayoutDB(context)
         }
 
-        fun notShow(context: Context, id: Int){
+        suspend fun notShow(context: Context, id: Int){
             layoutDescriptionDB = initDB(context)
-            CoroutineScope(IO).launch {
-                layoutDescriptionDB!!.layoutDescriptionDAO().notShow(id)
-            }
+            layoutDescriptionDB!!.layoutDescriptionDAO().notShow(id)
         }
 
-        fun getLayoutDetails(context: Context,id: Int) : LayoutDescriptionModel{
+        suspend fun getLayoutDetails(context: Context,id: Int) : LayoutDescriptionModel{
             layoutDescriptionDB = initDB(context)
             return layoutDescriptionDB!!.layoutDescriptionDAO().getLayoutDetails(id)
         }
 
-        fun getShowStatus(context: Context,id:Int):Boolean{
+        suspend fun getShowStatus(context: Context,id:Int):Int{
             layoutDescriptionDB = initDB(context)
-            return layoutDescriptionDB!!.layoutDescriptionDAO().getShowStatus(id) != 0
+            return layoutDescriptionDB!!.layoutDescriptionDAO().getShowStatus(id)
         }
     }
 }

@@ -17,7 +17,7 @@ abstract class LayoutDescriptionDB : RoomDatabase() {
         fun getLayoutDB(context: Context): LayoutDescriptionDB{
             if(INSTANCE!=null) return INSTANCE!!
             synchronized(this){
-                INSTANCE = Room.databaseBuilder(context,LayoutDescriptionDB::class.java,"LD_DATABASE").createFromAsset("database/layouts.db").allowMainThreadQueries().build()
+                INSTANCE = Room.databaseBuilder(context,LayoutDescriptionDB::class.java,"LD_DATABASE").createFromAsset("database/layouts.db").build()
                 return INSTANCE!!
             }
         }
