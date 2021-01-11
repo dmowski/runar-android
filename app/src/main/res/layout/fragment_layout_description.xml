@@ -124,6 +124,7 @@
         android:textColor="@color/layout_desc_text_color"
         android:maxLines="8"
         android:lineSpacingMultiplier="@dimen/layout_description_line_spacing"
+        android:fontFamily="@font/roboto_light"
         app:layout_constraintTop_toBottomOf="@id/description_header_frame"
         app:layout_constraintStart_toEndOf="@id/left_guideline"
         app:layout_constraintEnd_toStartOf="@id/right_guideline"
