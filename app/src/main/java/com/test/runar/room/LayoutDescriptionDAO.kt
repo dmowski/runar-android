@@ -10,8 +10,8 @@ interface LayoutDescriptionDAO {
     suspend fun notShow(id: Int?)
 
     @Query("SELECT * FROM layouts WHERE layout_id = :id")
-    fun getLayoutDetails(id: Int?): LayoutDescriptionModel
+    suspend fun getLayoutDetails(id: Int?): LayoutDescriptionModel
     @Query("SELECT show FROM layouts WHERE layout_id = :id")
-    fun getShowStatus(id: Int?): Int
+    suspend fun getShowStatus(id: Int?): Int
 
 }
