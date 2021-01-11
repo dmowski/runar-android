@@ -22,11 +22,14 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         val navController = findNavController(R.id.hostFragment)
         bottomNav.setupWithNavController(navController)
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            if (destination.id ==R.id.layoutFragment){
-                bottomNav.visibility = View.VISIBLE
+            when(destination.id){
+                R.id.layoutFragment -> bottomNav.visibility = View.VISIBLE
+                R.id.runesFragment -> bottomNav.visibility = View.VISIBLE
+                R.id.placeholder -> bottomNav.visibility = View.VISIBLE
+                R.id.placeholder2 -> bottomNav.visibility = View.VISIBLE
+                R.id.placeholder3 -> bottomNav.visibility = View.VISIBLE
+                else -> bottomNav.visibility = View.GONE
             }
-            else
-                bottomNav.visibility = View.GONE
         }
     }
 

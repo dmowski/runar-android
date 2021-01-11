@@ -52,7 +52,7 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
         model.showStatus.observe(viewLifecycleOwner){
             when(it){
                 0-> {
-                    navController.navigate(R.id.runesFragment)
+                    navController.navigate(R.id.emptyFragment)
                     model.clearShowStatus()
                 }
                 1-> {

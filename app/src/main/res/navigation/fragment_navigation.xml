@@ -14,17 +14,19 @@
     </fragment>
     <fragment
         android:id="@+id/runesFragment"
-        android:name="com.test.runar.ui.fragments.RunesFragment"
+        android:name="com.test.runar.ui.fragments.FavFragment"
         android:label="RunesFragment" />
     <fragment
         android:id="@+id/placeholder"
-        android:name="com.test.runar.ui.fragments.RunesFragment" />
+        android:name="com.test.runar.ui.fragments.FavFragment" />
     <fragment
         android:id="@+id/placeholder2"
-        android:name="com.test.runar.ui.fragments.RunesFragment" />
+        android:name="com.test.runar.ui.fragments.FavFragment" />
     <fragment
         android:id="@+id/placeholder3"
-        android:name="com.test.runar.ui.fragments.RunesFragment" />
+        android:name="com.test.runar.ui.fragments.FavFragment" />
+
+
     <fragment
         android:id="@+id/layoutDescriptionFragment"
         android:name="com.test.runar.ui.fragments.LayoutDescriptionFragment">
@@ -33,4 +35,7 @@
             app:argType="integer"
             android:defaultValue="99" />
     </fragment>
+    <fragment
+        android:id="@+id/emptyFragment"
+        android:name="com.test.runar.ui.fragments.RunesFragment"/>
 </navigation>
