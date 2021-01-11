@@ -48,11 +48,18 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
         }
         val navController = findNavController()
         val bundle = bundleOf("id" to dest)
-        if(model.descriptionCheck(requireContext(),dest)){                            /*переделать под mvvm, а лучше вообще иначе*/
-            navController.navigate(R.id.layoutDescriptionFragment,bundle)
-        }
-        else{
-            navController.navigate(R.id.runesFragment)
+        model.descriptionCheck(requireContext(),dest)
+        model.showStatus.observe(viewLifecycleOwner){
+            when(it){
+                0-> {
+                    navController.navigate(R.id.runesFragment)
+                    model.clearShowStatus()
+                }
+                1-> {
+                    navController.navigate(R.id.layoutDescriptionFragment,bundle)
+                    model.clearShowStatus()
+                }
+            }
         }
     }
 }

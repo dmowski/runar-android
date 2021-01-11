@@ -37,7 +37,7 @@ class LayoutDescriptionFragment : Fragment(R.layout.fragment_layout_description)
         view.findViewById<ImageView>(R.id.exit_button).setOnClickListener(this)
         checkBox = view.findViewById(R.id.checkbox)
         val headerFrame = view.findViewById<FrameLayout>(R.id.description_header_frame)
-        text = view.findViewById<TextView>(R.id.description_text_view)
+        text = view.findViewById(R.id.description_text_view)
         header = headerFrame.getChildAt(0) as TextView
         model.getLayoutDescription(requireContext(),layoutId)
         model.selectedLayout.observe(viewLifecycleOwner){
@@ -60,16 +60,12 @@ class LayoutDescriptionFragment : Fragment(R.layout.fragment_layout_description)
         val navController = findNavController()
         when (v?.id){
             R.id.exit_button -> {
+                if(checkBox.isChecked) model.notShowSelectedLayout(requireContext(),layoutId)
                 navController.navigate(R.id.layoutFragment)
             }
             R.id.description_button_frame->{
-                if(checkBox.isChecked){
-                    model.notShowSelectedLayout(requireContext(),layoutId)
-                    navController.navigate(R.id.runesFragment)
-                }
-                else{
-                    navController.navigate(R.id.runesFragment)
-                }
+                if(checkBox.isChecked) model.notShowSelectedLayout(requireContext(),layoutId)
+                navController.navigate(R.id.runesFragment)
             }
         }
     }
