@@ -65,7 +65,7 @@ class LayoutDescriptionFragment : Fragment(R.layout.fragment_layout_description)
             }
             R.id.description_button_frame->{
                 if(checkBox.isChecked) model.notShowSelectedLayout(requireContext(),layoutId)
-                navController.navigate(R.id.runesFragment)
+                navController.navigate(R.id.emptyFragment)
             }
         }
     }
