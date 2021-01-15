@@ -1,6 +1,12 @@
 package com.test.runar.ui.fragments
 
+import android.content.res.Resources
+import android.graphics.Paint
+import android.graphics.Rect
 import android.os.Bundle
+import android.util.DisplayMetrics
+import android.util.Log
+import android.util.TypedValue
 import android.view.View
 import android.widget.CheckBox
 import android.widget.FrameLayout
@@ -11,12 +17,14 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.test.runar.R
 import com.test.runar.presentation.viewmodel.MainViewModel
+import kotlin.math.roundToInt
 
 class LayoutDescriptionFragment : Fragment(R.layout.fragment_layout_description), View.OnClickListener {
     private lateinit var model: MainViewModel
     private lateinit var checkBox : CheckBox
     private lateinit var header: TextView
     private lateinit var text: TextView
+    private lateinit var calcTextView: TextView
     var layoutId: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,31 +34,50 @@ class LayoutDescriptionFragment : Fragment(R.layout.fragment_layout_description)
         } ?: throw Exception("Invalid Activity")
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         layoutId = arguments?.getInt("id")!!
+
         view.findViewById<FrameLayout>(R.id.description_button_frame).setOnClickListener(this)
         view.findViewById<ImageView>(R.id.exit_button).setOnClickListener(this)
+
         checkBox = view.findViewById(R.id.checkbox)
-        val headerFrame = view.findViewById<FrameLayout>(R.id.description_header_frame)
+
         text = view.findViewById(R.id.description_text_view)
-        header = headerFrame.getChildAt(0) as TextView
+        calcTextView = view.findViewById(R.id.fs_calc)
+        header = view.findViewById<FrameLayout>(R.id.description_header_frame).getChildAt(0) as TextView
+
+        val calculatedFontSize = correctFontSize(calcTextView)
+        Log.d("Log",calculatedFontSize.toString())
+
         model.getLayoutDescription(requireContext(),layoutId)
         model.selectedLayout.observe(viewLifecycleOwner){
             if(it!=null) {
                 header.text = it.layoutName
+                text.setTextSize(TypedValue.COMPLEX_UNIT_PX,calculatedFontSize)
                 text.text = it.layoutDescription
-                text.maxLines = it.maxLines!!
             }
         }
     }
 
-
-
+    private fun correctFontSize(textView: TextView) : Float{
+        val text = "Простое гадание на рунах, однако оно"
+        val paint = Paint()
+        val bounds = Rect()
+        val maxWidth = Resources.getSystem().displayMetrics.widthPixels*0.84
+        paint.typeface = textView.typeface
+        var textSize = 1f
+        paint.textSize = 1f
+        paint.getTextBounds(text,0,text.length,bounds)
+        var currentWidth = bounds.width()
+        while(currentWidth<maxWidth){
+            textSize++
+            paint.textSize = textSize
+            paint.getTextBounds(text,0,text.length,bounds)
+            currentWidth = bounds.width()
+        }
+        return textSize-2f
+    }
     override fun onStop() {
         super.onStop()
         model.clearLayoutData()
@@ -60,11 +87,11 @@ class LayoutDescriptionFragment : Fragment(R.layout.fragment_layout_description)
         val navController = findNavController()
         when (v?.id){
             R.id.exit_button -> {
-                if(checkBox.isChecked) model.notShowSelectedLayout(requireContext(),layoutId)
+                if (checkBox.isChecked) model.notShowSelectedLayout(requireContext(), layoutId)
                 navController.navigate(R.id.layoutFragment)
             }
-            R.id.description_button_frame->{
-                if(checkBox.isChecked) model.notShowSelectedLayout(requireContext(),layoutId)
+            R.id.description_button_frame -> {
+                if (checkBox.isChecked) model.notShowSelectedLayout(requireContext(), layoutId)
                 navController.navigate(R.id.emptyFragment)
             }
         }
