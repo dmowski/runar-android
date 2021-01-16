@@ -8,16 +8,18 @@ import com.test.runar.model.LayoutDescriptionModel
 
 @Database(entities = [LayoutDescriptionModel::class], version = 1)
 abstract class LayoutDescriptionDB : RoomDatabase() {
-    abstract fun layoutDescriptionDAO() : LayoutDescriptionDAO
+    abstract fun layoutDescriptionDAO(): LayoutDescriptionDAO
 
-    companion object{
+    companion object {
         @Volatile
         private var INSTANCE: LayoutDescriptionDB? = null
 
-        fun getLayoutDB(context: Context): LayoutDescriptionDB{
-            if(INSTANCE!=null) return INSTANCE!!
-            synchronized(this){
-                INSTANCE = Room.databaseBuilder(context,LayoutDescriptionDB::class.java,"LD_DATABASE").createFromAsset("database/layouts.db").build()
+        fun getLayoutDB(context: Context): LayoutDescriptionDB {
+            if (INSTANCE != null) return INSTANCE!!
+            synchronized(this) {
+                INSTANCE =
+                    Room.databaseBuilder(context, LayoutDescriptionDB::class.java, "LD_DATABASE")
+                        .createFromAsset("database/layouts.db").build()
                 return INSTANCE!!
             }
         }

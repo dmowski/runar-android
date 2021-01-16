@@ -28,7 +28,8 @@ import com.test.runar.R
  * - fitX: image is scaled so that its X dimension is equal to the view's X dimension. Y dimension is scaled so that the ratio is preserved. If image's Y dimension is larger than view's dimension, `app:verticalCropOffset` is applied, otherwise `app:verticalFitOffset` is applied
  * - fitY: image is scaled so that its Y dimension is equal to the view's Y dimension. X dimension is scaled so that the ratio is preserved. If image's X dimension is larger than view's dimension, `app:horizontalCropOffset` is applied, otherwise `app:horizontalFitOffset` is applied
  */
-class OffsetImageView(context: Context, attrs: AttributeSet?, @AttrRes defStyleAttr: Int) : AppCompatImageView(context, attrs, defStyleAttr) {
+class OffsetImageView(context: Context, attrs: AttributeSet?, @AttrRes defStyleAttr: Int) :
+    AppCompatImageView(context, attrs, defStyleAttr) {
     companion object {
         private const val DEFAULT_HORIZONTAL_OFFSET = 0.5f
         private const val DEFAULT_VERTICAL_OFFSET = 0.5f
@@ -47,8 +48,10 @@ class OffsetImageView(context: Context, attrs: AttributeSet?, @AttrRes defStyleA
     init {
         scaleType = ScaleType.MATRIX
         if (attrs != null) {
-            val a = context.obtainStyledAttributes(attrs,
-                R.styleable.OffsetImageView, defStyleAttr, 0)
+            val a = context.obtainStyledAttributes(
+                attrs,
+                R.styleable.OffsetImageView, defStyleAttr, 0
+            )
 
             readAttrFloatValueIfSet(a, R.styleable.OffsetImageView_verticalCropOffset)?.let {
                 mVerticalCropOffsetPercent = it
@@ -62,7 +65,7 @@ class OffsetImageView(context: Context, attrs: AttributeSet?, @AttrRes defStyleA
             readAttrFloatValueIfSet(a, R.styleable.OffsetImageView_horizontalFitOffset)?.let {
                 mHorizontalFitOffsetPercent = it
             }
-            with (a) {
+            with(a) {
                 if (hasValue(R.styleable.OffsetImageView_offsetScaleType)) {
                     val code = getInt(R.styleable.OffsetImageView_offsetScaleType, -1)
                     if (code != -1) {
@@ -109,20 +112,23 @@ class OffsetImageView(context: Context, attrs: AttributeSet?, @AttrRes defStyleA
      * Sets the crop box offset by the specified percentage values. For example, a center-crop would
      * be (0.5, 0.5), a top-left crop would be (0, 0), and a bottom-center crop would be (0.5, 1)
      */
-    fun setOffsets(horizontalCropOffsetPercent: Float,
-                   verticalCropOffsetPercent: Float,
-                   horizontalFitOffsetPercent: Float,
-                   verticalFitOffsetPercent: Float,
-                   scaleType: OffsetScaleType
+    fun setOffsets(
+        horizontalCropOffsetPercent: Float,
+        verticalCropOffsetPercent: Float,
+        horizontalFitOffsetPercent: Float,
+        verticalFitOffsetPercent: Float,
+        scaleType: OffsetScaleType
     ) {
-        require(!(mHorizontalCropOffsetPercent < 0
-                || mVerticalCropOffsetPercent < 0
-                || mHorizontalFitOffsetPercent < 0
-                || mVerticalFitOffsetPercent < 0
-                || mHorizontalCropOffsetPercent > 1
-                || mVerticalCropOffsetPercent > 1
-                || mHorizontalFitOffsetPercent > 1
-                || mVerticalFitOffsetPercent > 1)) { "Offset values must be a float between 0.0 and 1.0" }
+        require(
+            !(mHorizontalCropOffsetPercent < 0
+                    || mVerticalCropOffsetPercent < 0
+                    || mHorizontalFitOffsetPercent < 0
+                    || mVerticalFitOffsetPercent < 0
+                    || mHorizontalCropOffsetPercent > 1
+                    || mVerticalCropOffsetPercent > 1
+                    || mHorizontalFitOffsetPercent > 1
+                    || mVerticalFitOffsetPercent > 1)
+        ) { "Offset values must be a float between 0.0 and 1.0" }
         mHorizontalCropOffsetPercent = horizontalCropOffsetPercent
         mVerticalCropOffsetPercent = verticalCropOffsetPercent
         mHorizontalFitOffsetPercent = horizontalFitOffsetPercent
@@ -173,19 +179,28 @@ class OffsetImageView(context: Context, attrs: AttributeSet?, @AttrRes defStyleA
                 xOffset,
                 yOffset,
                 xOffset + viewToDrawableWidth,
-                yOffset + viewToDrawableHeight)
+                yOffset + viewToDrawableHeight
+            )
             val viewRect = RectF(0f, 0f, viewWidth.toFloat(), viewHeight.toFloat())
             matrix.setRectToRect(drawableRect, viewRect, Matrix.ScaleToFit.FILL)
         } else {
-            val xOffset = mHorizontalFitOffsetPercent * (viewToDrawableWidth - drawableWidth) * scale
-            val yOffset = mVerticalFitOffsetPercent * (viewToDrawableHeight - drawableHeight) * scale
+            val xOffset =
+                mHorizontalFitOffsetPercent * (viewToDrawableWidth - drawableWidth) * scale
+            val yOffset =
+                mVerticalFitOffsetPercent * (viewToDrawableHeight - drawableHeight) * scale
 
             val drawableRect = RectF(
                 0f,
                 0f,
                 drawableWidth.toFloat(),
-                drawableHeight.toFloat())
-            val viewRect = RectF(xOffset, yOffset, xOffset + drawableWidth * scale, yOffset + drawableHeight * scale)
+                drawableHeight.toFloat()
+            )
+            val viewRect = RectF(
+                xOffset,
+                yOffset,
+                xOffset + drawableWidth * scale,
+                yOffset + drawableHeight * scale
+            )
             matrix.setRectToRect(drawableRect, viewRect, Matrix.ScaleToFit.FILL)
         }
         imageMatrix = matrix
