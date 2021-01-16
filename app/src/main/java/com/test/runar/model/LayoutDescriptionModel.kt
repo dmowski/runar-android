@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "layouts")
-data class LayoutDescriptionModel (
+data class LayoutDescriptionModel(
 
     @PrimaryKey
     @ColumnInfo(name = "layout_id")
@@ -16,4 +16,5 @@ data class LayoutDescriptionModel (
     var layoutDescription: String?,
     @ColumnInfo(name = "max_lines")
     var maxLines: Int?,
-    var show: Boolean?)
+    var show: Boolean?
+)
