@@ -3,14 +3,15 @@ package com.test.runar.ui.fragments
 import android.os.Bundle
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import com.test.runar.R
 import com.test.runar.presentation.viewmodel.MainViewModel
 
 class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener {
     private lateinit var model: MainViewModel
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         model = activity?.run {
@@ -31,6 +32,30 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
     }
 
     override fun onClick(v: View?) {
-        model.changeFragment(RunesFragment())
+        val dest = when (v?.id) {
+            R.id.first_layout -> 1
+            R.id.second_layout -> 2
+            R.id.third_layout -> 3
+            R.id.fourth_layout -> 4
+            R.id.fifth_layout -> 5
+            R.id.sixth_layout -> 6
+            R.id.seventh_layout -> 7
+            else -> 8
+        }
+        val navController = findNavController()
+        val bundle = bundleOf("id" to dest)
+        model.descriptionCheck(requireContext(), dest)
+        model.showStatus.observe(viewLifecycleOwner) {
+            when (it) {
+                0 -> {
+                    navController.navigate(R.id.emptyFragment)
+                    model.clearShowStatus()
+                }
+                1 -> {
+                    navController.navigate(R.id.layoutDescriptionFragment, bundle)
+                    model.clearShowStatus()
+                }
+            }
+        }
     }
 }
