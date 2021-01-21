@@ -7,6 +7,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.test.runar.R
+import com.test.runar.ui.dialogs.CancelDialog
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
