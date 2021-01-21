@@ -35,6 +35,12 @@
             app:argType="integer"
             android:defaultValue="99" />
     </fragment>
+
+    <fragment
+        android:id="@+id/layoutInitFragment"
+        android:name="com.test.runar.ui.fragments.LayoutInitFragment">
+
+    </fragment>
     <fragment
         android:id="@+id/emptyFragment"
         android:name="com.test.runar.ui.fragments.RunesFragment"/>
