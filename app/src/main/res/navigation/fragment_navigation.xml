@@ -34,12 +34,19 @@
             android:name="id"
             app:argType="integer"
             android:defaultValue="99" />
+        <action
+            android:id="@+id/action_layoutDescriptionFragment_to_layoutInitFragment"
+            app:destination="@id/layoutInitFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/layoutInitFragment"
         android:name="com.test.runar.ui.fragments.LayoutInitFragment">
 
+        <argument
+            android:name="descriptionFontSize"
+            app:argType="float"
+            android:defaultValue="0f" />
     </fragment>
     <fragment
         android:id="@+id/emptyFragment"

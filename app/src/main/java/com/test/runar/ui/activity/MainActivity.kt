@@ -36,7 +36,12 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         when (navController.currentDestination?.id) {
             R.id.runesFragment -> navController.navigate(R.id.layoutFragment)
             R.id.layoutDescriptionFragment -> navController.navigate(R.id.layoutFragment)
+            R.id.layoutInitFragment -> {
+                val alert = CancelDialog(navController,this)
+                alert.showDialog()
+            }
             R.id.layoutFragment -> android.os.Process.killProcess(android.os.Process.myPid())
+            R.id.emptyFragment -> navController.navigate(R.id.layoutFragment)
             else -> super.onBackPressed()
         }
     }
