@@ -38,4 +38,8 @@ class MainViewModel : ViewModel() {
     fun clearShowStatus() {
         showStatus.postValue(3)
     }
+
+    fun identify(){
+
+    }
 }
