@@ -6,6 +6,7 @@ import com.test.runar.model.LayoutDescriptionModel
 
 @Dao
 interface LayoutDescriptionDAO {
+
     @Query("UPDATE layouts SET show = 0 WHERE layout_id = :id")
     suspend fun notShow(id: Int?)
 
@@ -14,5 +15,4 @@ interface LayoutDescriptionDAO {
 
     @Query("SELECT show FROM layouts WHERE layout_id = :id")
     suspend fun getShowStatus(id: Int?): Int
-
 }

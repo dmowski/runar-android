@@ -29,10 +29,9 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         val navController = findNavController(R.id.hostFragment)
         bottomNav.setupWithNavController(navController)
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            when (destination.id) {
-                R.id.layoutFragment, R.id.runesFragment, R.id.placeholder, R.id.placeholder2, R.id.placeholder3 -> bottomNav.visibility =
-                    View.VISIBLE
-                else -> bottomNav.visibility = View.GONE
+            bottomNav.visibility = when (destination.id) {
+                R.id.layoutFragment, R.id.runesFragment, R.id.placeholder, R.id.placeholder2, R.id.placeholder3 -> View.VISIBLE
+                else -> View.GONE
             }
         }
     }
@@ -44,7 +43,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
             R.id.runesFragment -> navController.navigate(R.id.layoutFragment)
             R.id.layoutDescriptionFragment -> navController.navigate(R.id.layoutFragment)
             R.id.layoutInitFragment -> {
-                val alert = CancelDialog(navController,this)
+                val alert = CancelDialog(navController, this)
                 alert.showDialog()
             }
             R.id.layoutFragment -> android.os.Process.killProcess(android.os.Process.myPid())
