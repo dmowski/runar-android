@@ -39,7 +39,7 @@ class MainViewModel : ViewModel() {
         showStatus.postValue(3)
     }
 
-    fun identify(){
+    fun identify() {
 
     }
 }
