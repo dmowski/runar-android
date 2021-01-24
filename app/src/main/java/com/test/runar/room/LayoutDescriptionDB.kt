@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.test.runar.model.LayoutDescriptionModel
 
-@Database(entities = [LayoutDescriptionModel::class], version = 1)
+@Database(entities = [LayoutDescriptionModel::class], version = 1, exportSchema = false)
 abstract class LayoutDescriptionDB : RoomDatabase() {
     abstract fun layoutDescriptionDAO(): LayoutDescriptionDAO
 

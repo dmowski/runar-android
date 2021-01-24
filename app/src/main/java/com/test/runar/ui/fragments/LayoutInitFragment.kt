@@ -1,13 +1,12 @@
 package com.test.runar.ui.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.test.runar.R
 import com.test.runar.presentation.viewmodel.MainViewModel
@@ -15,17 +14,17 @@ import com.test.runar.ui.dialogs.CancelDialog
 import com.test.runar.ui.dialogs.DescriptionDialog
 
 class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
-        View.OnClickListener{
+    View.OnClickListener {
     private lateinit var model: MainViewModel
     private lateinit var header: TextView
-    private lateinit var headerText : String
-    private lateinit var descriptionText : String
-    private var fontSize : Float =0f
+    private lateinit var headerText: String
+    private lateinit var descriptionText: String
+    private var fontSize: Float = 0f
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         model = activity?.run {
-            ViewModelProviders.of(this)[MainViewModel::class.java]
+            ViewModelProvider(this).get(MainViewModel::class.java)
         } ?: throw Exception("Invalid Activity")
     }
 
@@ -62,8 +61,8 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
             R.id.description_button_frame -> {
                 navController.navigate(R.id.emptyFragment)
             }
-            R.id.info_button ->{
-                val info = DescriptionDialog(descriptionText,headerText,fontSize)
+            R.id.info_button -> {
+                val info = DescriptionDialog(descriptionText, headerText, fontSize)
                 activity?.let { info.showDialog(it) }
             }
         }
