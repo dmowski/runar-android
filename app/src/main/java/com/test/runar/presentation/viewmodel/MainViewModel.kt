@@ -53,26 +53,22 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         var userId = preferencesRepository.getUserId()
         var timeStamp = System.currentTimeMillis() / 1000L
         var androidVersion = "Android " + Build.VERSION.RELEASE
-        Log.d("Log",androidVersion)
+        Log.d("Log", androidVersion)
         CoroutineScope(IO).launch {
-            val response = RetrofitClient.apiInterface.createUser(UserInfo(userId,timeStamp,androidVersion))
-            withContext(Dispatchers.Main){
-                try {
-                    if(response.isSuccessful){
-                        Log.d("Log",response.message().toString())
+            try {
+                val response = RetrofitClient.apiInterface.createUser(UserInfo(userId, timeStamp, androidVersion))
+                withContext(Dispatchers.Main) {
+                    if (response.isSuccessful) {
+                        Log.d("Log", response.message().toString())
+                    } else {
+                        Log.d("Log", response.code().toString())
                     }
-                    else{
-                        Log.d("Log",response.code().toString())
-                    }
                 }
-                catch (e: HttpException){
-                    Log.d("Log","HttpExc: "+response.message().toString())
-                }
-                catch (e: Throwable){
-                    Log.d("Log","Error: "+response.message().toString())
-                }
+            } catch (e: HttpException) {
+                Log.d("Log", "Http error ")
+            } catch (e: Throwable) {
+                Log.d("Log", "Some Error ")
             }
         }
-
     }
 }
