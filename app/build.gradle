@@ -36,6 +36,13 @@ dependencies {
     def lifecycle_version = "2.2.0"
     def activity_version = "1.1.0"
     def room_version = "2.2.6"
+    def preference_version = "1.1.1"
+    def retrofit_version = "2.9.0"
+
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+
+    implementation "androidx.preference:preference-ktx:$preference_version"
 
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
