@@ -16,5 +16,13 @@ data class LayoutDescriptionModel(
     var layoutDescription: String?,
     @ColumnInfo(name = "max_lines")
     var maxLines: Int?,
-    var show: Boolean?
+    var show: Boolean?,
+    var slot1: Int?,
+    var slot2: Int?,
+    var slot3: Int?,
+    var slot4: Int?,
+    var slot5: Int?,
+    var slot6: Int?,
+    var slot7: Int?,
+
 )
