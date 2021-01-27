@@ -2,6 +2,8 @@ package com.test.runar.ui.fragments
 
 import android.graphics.Rect
 import android.os.Bundle
+import android.util.DisplayMetrics
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.ScrollView
@@ -17,9 +19,9 @@ import com.test.runar.presentation.viewmodel.MainViewModel
 class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener {
     private lateinit var model: MainViewModel
 
-    private var scroll_view:ScrollView?=null
-    private var arrow_down:ImageView?=null
-    private var arrow_up:ImageView?=null
+    private var scroll_view: ScrollView? = null
+    private var arrow_down: ImageView? = null
+    private var arrow_up: ImageView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,29 +44,24 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
         arrow_down = view.findViewById(R.id.arrow_down)
         arrow_up = view.findViewById(R.id.arrow_up)
         scroll_view = view.findViewById(R.id.scroll_view)
-
-        arrowUpDown()
+        //screen size and aspect ratio
+        var metrics: DisplayMetrics = context?.resources!!.displayMetrics
+        var ratio = metrics.heightPixels.toFloat() / metrics.widthPixels.toFloat()
+        if (ratio >= 2.1) {
+            arrow_down?.visibility = View.GONE
+        } else {
+            arrow_down?.visibility = View.VISIBLE
+            arrow_down?.setOnClickListener {
+                scroll_view?.post(Runnable {
+                    scroll_view?.fullScroll(ScrollView.FOCUS_DOWN)
+                })
+            }
+            arrowUp()
+        }
     }
 
-    private fun arrowUpDown() {
-
-        var scrollBounds = Rect()
-        scroll_view?.getHitRect(scrollBounds)
-
+    private fun arrowUp() {
         scroll_view?.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
-//if at least one pixel of the picture is visible and scrolling down
-            if (scroll_view?.getLocalVisibleRect(scrollBounds) == true && oldScrollY < scrollY) {
-                arrow_down?.visibility = View.VISIBLE
-
-                // if yes - scrolling down after clicking
-                arrow_down?.setOnClickListener {
-                    scroll_view?.post(Runnable {
-                        scroll_view?.fullScroll(ScrollView.FOCUS_DOWN)
-                    })
-                }
-            } else {
-                arrow_down?.visibility = View.GONE
-            }
 
             //  determine if the end of the list has been reached
             val bottom = (scroll_view?.getChildAt(scroll_view?.childCount!! - 1))?.height!! - scroll_view?.height!! - scrollY
@@ -81,6 +78,7 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
                 }
             } else {
                 arrow_up?.visibility = View.GONE
+                arrow_down?.visibility = View.VISIBLE
             }
         }
     }
