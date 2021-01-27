@@ -124,7 +124,30 @@
             app:layout_constraintStart_toStartOf="@id/third_rune"
             app:layout_constraintEnd_toEndOf="@id/third_rune"
             app:layout_constraintDimensionRatio="1:1.23"
-            android:background="@drawable/slot_inactive_2"/>
+            android:background="@drawable/slot_inactive_2">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:autoSizeTextType="uniform"
+                android:gravity="center"
+                android:fontFamily="@font/amatic_sc_bold"
+                android:textColor="@color/init_runes_number_color"
+                app:layout_constraintTop_toBottomOf="@id/top_guideline1"
+                app:layout_constraintBottom_toTopOf="@id/bottom_guideline1"/>
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/top_guideline1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.18"/>
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/bottom_guideline1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.77"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -134,7 +157,29 @@
             app:layout_constraintStart_toStartOf="@id/third_rune"
             app:layout_constraintEnd_toEndOf="@id/third_rune"
             app:layout_constraintDimensionRatio="1:1.23"
-            android:background="@drawable/slot_inactive_2"/>
+            android:background="@drawable/slot_inactive_2">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:autoSizeTextType="uniform"
+                android:gravity="center"
+                android:fontFamily="@font/amatic_sc_bold"
+                android:textColor="@color/init_runes_number_color"
+                app:layout_constraintTop_toBottomOf="@id/top_guideline2"
+                app:layout_constraintBottom_toTopOf="@id/bottom_guideline2"/>
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/top_guideline2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.18"/>
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/bottom_guideline2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.77"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -144,7 +189,29 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintDimensionRatio="1:1.23"
-            android:background="@drawable/slot_inactive_2"/>
+            android:background="@drawable/slot_inactive_2">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:autoSizeTextType="uniform"
+                android:gravity="center"
+                android:fontFamily="@font/amatic_sc_bold"
+                android:textColor="@color/init_runes_number_color"
+                app:layout_constraintTop_toBottomOf="@id/top_guideline3"
+                app:layout_constraintBottom_toTopOf="@id/bottom_guideline3"/>
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/top_guideline3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.18"/>
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/bottom_guideline3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.77"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -154,7 +221,29 @@
             app:layout_constraintStart_toStartOf="@id/third_rune"
             app:layout_constraintEnd_toEndOf="@id/third_rune"
             app:layout_constraintDimensionRatio="1:1.23"
-            android:background="@drawable/slot_inactive_2"/>
+            android:background="@drawable/slot_inactive_2">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:autoSizeTextType="uniform"
+                android:gravity="center"
+                android:fontFamily="@font/amatic_sc_bold"
+                android:textColor="@color/init_runes_number_color"
+                app:layout_constraintTop_toBottomOf="@id/top_guideline4"
+                app:layout_constraintBottom_toTopOf="@id/bottom_guideline4"/>
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/top_guideline4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.18"/>
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/bottom_guideline4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.77"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -164,7 +253,29 @@
             app:layout_constraintStart_toStartOf="@id/third_rune"
             app:layout_constraintEnd_toEndOf="@id/third_rune"
             app:layout_constraintDimensionRatio="1:1.23"
-            android:background="@drawable/slot_inactive_2"/>
+            android:background="@drawable/slot_inactive_2">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:autoSizeTextType="uniform"
+                android:gravity="center"
+                android:fontFamily="@font/amatic_sc_bold"
+                android:textColor="@color/init_runes_number_color"
+                app:layout_constraintTop_toBottomOf="@id/top_guideline5"
+                app:layout_constraintBottom_toTopOf="@id/bottom_guideline5"/>
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/top_guideline5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.18"/>
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/bottom_guideline5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.77"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -173,7 +284,29 @@
             app:layout_constraintBottom_toBottomOf="@id/third_rune"
             app:layout_constraintEnd_toStartOf="@id/third_rune"
             app:layout_constraintDimensionRatio="1:1.23"
-            android:background="@drawable/slot_inactive_2"/>
+            android:background="@drawable/slot_inactive_2">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:autoSizeTextType="uniform"
+                android:gravity="center"
+                android:fontFamily="@font/amatic_sc_bold"
+                android:textColor="@color/init_runes_number_color"
+                app:layout_constraintTop_toBottomOf="@id/top_guideline6"
+                app:layout_constraintBottom_toTopOf="@id/bottom_guideline6"/>
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/top_guideline6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.18"/>
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/bottom_guideline6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.77"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -182,7 +315,29 @@
             app:layout_constraintBottom_toBottomOf="@id/third_rune"
             app:layout_constraintStart_toEndOf="@id/third_rune"
             app:layout_constraintDimensionRatio="1:1.23"
-            android:background="@drawable/slot_inactive_2"/>
+            android:background="@drawable/slot_inactive_2">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:autoSizeTextType="uniform"
+                android:gravity="center"
+                android:fontFamily="@font/amatic_sc_bold"
+                android:textColor="@color/init_runes_number_color"
+                app:layout_constraintTop_toBottomOf="@id/top_guideline7"
+                app:layout_constraintBottom_toTopOf="@id/bottom_guideline7"/>
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/top_guideline7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.18"/>
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/bottom_guideline7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.77"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
     <androidx.constraintlayout.widget.Guideline
