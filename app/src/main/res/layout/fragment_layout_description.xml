@@ -17,7 +17,6 @@
         android:layout_height="match_parent"
         android:background="@color/description_background_second_layout_color"/>
     <FrameLayout
-        app:layout_constraintHorizontal_weight="72"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintDimensionRatio="H,3.5:1"

@@ -5,5 +5,6 @@
     <dimen name="layout_between_margin">7dp</dimen>
     <dimen name="layout_text_letter_spacing">-0.02</dimen>
     <dimen name="layout_description_line_spacing">1.5</dimen>
+    <dimen name="layout_popup_line_spacing">1.35</dimen>
     <dimen name ="layout_text_size_ratio">3.15</dimen>
 </resources>

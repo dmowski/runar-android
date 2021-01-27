@@ -22,4 +22,9 @@
     <color name="layout_desc_text_color">#E9E9E9</color>
 
     <color name="description_background_second_layout_color">#99000000</color>
+
+    <color name="description_popup_text_color">#DEDEDE</color>
+    <color name="cancel_popup_text_deselected">#EFCD93</color>
+    <color name="cancel_popup_text_selected">#4B4842</color>
+    <color name="init_runes_number_color">#FFEACA</color>
 </resources>

@@ -20,4 +20,14 @@
 
     <string name="layout_description_checkbox">Больше не показывать</string>
     <string name="layout_description_button">Начать расклад</string>
+
+    <string name ="layout_init_button_text1">Вытянуть руну</string>
+    <string name ="layout_init_button_text2">Толковать</string>
+    <string name ="layout_init_description_button_text">Узнать о раскладе</string>
+
+    <string name ="info_popup_button_text">Ок</string>
+
+    <string name="description_popup_text">Завершить расклад?</string>
+    <string name="description_popup_button1">Нет</string>
+    <string name="description_popup_button2">Завершить</string>
 </resources>

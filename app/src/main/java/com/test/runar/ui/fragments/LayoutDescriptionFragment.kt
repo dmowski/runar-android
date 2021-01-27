@@ -4,14 +4,15 @@ import android.content.res.Resources
 import android.graphics.Paint
 import android.graphics.Rect
 import android.os.Bundle
-import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.widget.CheckBox
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.test.runar.R
@@ -24,6 +25,7 @@ class LayoutDescriptionFragment : Fragment(R.layout.fragment_layout_description)
     private lateinit var header: TextView
     private lateinit var text: TextView
     private lateinit var calcTextView: TextView
+    private var fontSize: Float =0f
     var layoutId: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,7 +50,7 @@ class LayoutDescriptionFragment : Fragment(R.layout.fragment_layout_description)
             view.findViewById<FrameLayout>(R.id.description_header_frame).getChildAt(0) as TextView
 
         val calculatedFontSize = correctFontSize(calcTextView)
-        Log.d("Log", calculatedFontSize.toString())
+        fontSize = calculatedFontSize
 
         model.getLayoutDescription(requireContext(), layoutId)
         model.selectedLayout.observe(viewLifecycleOwner) {
@@ -93,7 +95,8 @@ class LayoutDescriptionFragment : Fragment(R.layout.fragment_layout_description)
             }
             R.id.description_button_frame -> {
                 if (checkBox.isChecked) model.notShowSelectedLayout(requireContext(), layoutId)
-                navController.navigate(R.id.emptyFragment)
+                val bundle = bundleOf("descriptionFontSize" to fontSize)
+                navController.navigate(R.id.layoutInitFragment,bundle)
             }
         }
     }
