@@ -11,21 +11,25 @@ import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.test.runar.R
 import com.test.runar.presentation.viewmodel.MainViewModel
 import com.test.runar.ui.dialogs.CancelDialog
 import com.test.runar.ui.dialogs.DescriptionDialog
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
     View.OnClickListener {
     private lateinit var model: MainViewModel
     private lateinit var header: TextView
+    private lateinit var buttonText: TextView
     private lateinit var headerText: String
     private lateinit var descriptionText: String
     private lateinit var layoutFrame : ConstraintLayout
     private var fontSize: Float = 0f
-    private var runeTable = IntArray(7)
+    private var runeTable : Array<Array<Int>> = Array(7) { Array(2) { 0 } }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,6 +48,7 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
         view.findViewById<TextView>(R.id.text_info).setOnClickListener(this)
         header =
             view.findViewById<FrameLayout>(R.id.description_header_frame).getChildAt(0) as TextView
+        buttonText = view.findViewById<FrameLayout>(R.id.description_button_frame).getChildAt(0) as TextView
         model.selectedLayout.observe(viewLifecycleOwner) {
             if (it != null) {
                 header.text = it.layoutName
@@ -62,7 +67,7 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
                     if(currentNumber==0){
                         (layoutFrame.getChildAt(i) as ConstraintLayout).visibility=View.INVISIBLE
                     }
-                    runeTable[i] = currentNumber
+                    runeTable[i][0] = currentNumber
                 }
                 when(it.layoutId){
                     2,4->{
@@ -104,7 +109,7 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
                     }
                 }
                 Log.d("Log",runeTable.joinToString())
-                slotChanger()
+                firstSlotOpener()
             }
         }
     }
@@ -122,7 +127,11 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
                 activity?.let { CancelDialog(navController, it) }?.showDialog()
             }
             R.id.description_button_frame -> {
-                if(!slotChanger()) navController.navigate(R.id.emptyFragment)
+                var result = slotChanger()
+                if(result[1]){
+                    buttonText.text = "Толковать"
+                }
+                if(!result[0]) navController.navigate(R.id.emptyFragment)
             }
             R.id.info_button, R.id.text_info -> {
                 val info = DescriptionDialog(descriptionText, headerText, fontSize)
@@ -131,24 +140,82 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
         }
     }
 
-    fun slotChanger(): Boolean{
+    private fun slotChanger(): Array<Boolean>{
         var result = false
+        var isLast = false
+        for(i in 0..6){
+            if(runeTable[i][1]==1){
+
+                val slot = layoutFrame.getChildAt(i) as ConstraintLayout
+
+                slot.setOnClickListener(null)
+                slot.setBackgroundResource(R.drawable.slot_active_big)
+                context?.let { (slot.getChildAt(0) as TextView).setTextColor(it.getColor(R.color.rune_number_color_selected)) }
+
+                runeSetter(slot)
+
+                //open it with animation
+                runeTable[i][0]=0
+                runeTable[i][1]=0
+                var minSlot =10
+                var minValue =10
+                for(i in 0..6){
+                    if(runeTable[i][0]<minValue&&runeTable[i][0]!=0){
+                        minSlot = i
+                        minValue=runeTable[i][0]
+                    }
+                }
+                if(minSlot!=10){
+                    runeTable[minSlot][1]=1
+                    val slot = layoutFrame.getChildAt(minSlot) as ConstraintLayout
+                    slot.setBackgroundResource(R.drawable.slot_active)
+                    context?.let { (slot.getChildAt(0) as TextView).setTextColor(it.getColor(R.color.rune_number_color_selected)) }
+                    slot.setOnClickListener {
+                        var result = slotChanger()
+                        if(result[1]){
+                            buttonText.text = "Толковать"
+                        }
+                    }
+                }
+                else isLast = true
+                result = true
+                return arrayOf(result,isLast)
+            }
+        }
+        result = false
+        return arrayOf(result,isLast)
+    }
+
+    private fun firstSlotOpener(){
         var minElement = 10
         var minValue =10
         for(i in 0..6){
-            if(minValue>runeTable[i]&&runeTable[i]!=0){
-                minValue=runeTable[i]
+            if(minValue>runeTable[i][0]&&runeTable[i][0]!=0){
+                minValue=runeTable[i][0]
                 minElement=i
             }
         }
+
         if(minValue !=10){
-            runeTable[minElement] = 0
-            result = true
+            runeTable[minElement][1] = 1
             val slot = layoutFrame.getChildAt(minElement) as ConstraintLayout
             slot.setBackgroundResource(R.drawable.slot_active)
             context?.let { (slot.getChildAt(0) as TextView).setTextColor(it.getColor(R.color.rune_number_color_selected)) }
+            slot.setOnClickListener {
+                var result = slotChanger()
+                if(result[1]){
+                    buttonText.text = "Толковать"
+                }
+            }
         }
-        return result
+    }
+
+    private fun runeSetter(slot: ConstraintLayout){
+        lifecycleScope.launch {
+            delay(500L)
+            slot.setBackgroundResource(R.drawable.rune_sample)
+            (slot.getChildAt(0) as TextView).visibility=View.INVISIBLE
+        }
     }
 
 }
