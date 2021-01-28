@@ -6,6 +6,7 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
@@ -56,6 +57,45 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
                 for(i in 0..6){
                     if((((layoutFrame.getChildAt(i) as ConstraintLayout).getChildAt(0) as TextView).text as String).toInt()==0){
                         (layoutFrame.getChildAt(i) as ConstraintLayout).visibility=View.INVISIBLE
+                    }
+                }
+                when(it.layoutId){
+                    2,4->{
+                        val constraintsSet = ConstraintSet()
+                        constraintsSet.clone(layoutFrame)
+                        constraintsSet.clear(R.id.third_rune,ConstraintSet.START)
+                        constraintsSet.clear(R.id.seventh_rune,ConstraintSet.START)
+                        constraintsSet.connect(R.id.third_rune,ConstraintSet.END,R.id.center_guideline,ConstraintSet.END,0)
+                        constraintsSet.connect(R.id.seventh_rune,ConstraintSet.START,R.id.center_guideline,ConstraintSet.END,0)
+                        constraintsSet.applyTo(layoutFrame)
+                    }
+                    5->{
+                        val constraintsSet = ConstraintSet()
+                        constraintsSet.clone(layoutFrame)
+                        constraintsSet.clear(R.id.first_rune,ConstraintSet.TOP)
+                        constraintsSet.clear(R.id.fourth_rune,ConstraintSet.BOTTOM)
+                        constraintsSet.clear(R.id.fifth_rune,ConstraintSet.BOTTOM)
+                        constraintsSet.clear(R.id.seventh_rune,ConstraintSet.TOP)
+                        constraintsSet.clear(R.id.seventh_rune,ConstraintSet.BOTTOM)
+                        constraintsSet.clear(R.id.sixth_layout,ConstraintSet.TOP)
+                        constraintsSet.clear(R.id.sixth_layout,ConstraintSet.BOTTOM)
+                        constraintsSet.connect(R.id.first_rune,ConstraintSet.TOP,R.id.support_top,ConstraintSet.BOTTOM,0)
+                        constraintsSet.connect(R.id.fourth_rune,ConstraintSet.BOTTOM,R.id.support_bottom,ConstraintSet.TOP,0)
+                        constraintsSet.connect(R.id.seventh_rune,ConstraintSet.TOP,R.id.support_big_top,ConstraintSet.BOTTOM,0)
+                        constraintsSet.connect(R.id.seventh_rune,ConstraintSet.BOTTOM,R.id.support_big_bottom,ConstraintSet.TOP,0)
+                        constraintsSet.connect(R.id.sixth_rune,ConstraintSet.TOP,R.id.seventh_rune,ConstraintSet.TOP,0)
+                        constraintsSet.connect(R.id.sixth_rune,ConstraintSet.BOTTOM,R.id.seventh_rune,ConstraintSet.BOTTOM,0)
+                        constraintsSet.applyTo(layoutFrame)
+                    }
+                    7->{
+                        val constraintsSet = ConstraintSet()
+                        constraintsSet.clone(layoutFrame)
+                        constraintsSet.clear(R.id.first_rune,ConstraintSet.TOP)
+                        constraintsSet.clear(R.id.fourth_rune,ConstraintSet.BOTTOM)
+                        constraintsSet.clear(R.id.fifth_rune,ConstraintSet.BOTTOM)
+                        constraintsSet.connect(R.id.first_rune,ConstraintSet.TOP,R.id.support_top,ConstraintSet.BOTTOM,0)
+                        constraintsSet.connect(R.id.fourth_rune,ConstraintSet.BOTTOM,R.id.support_bottom,ConstraintSet.TOP,0)
+                        constraintsSet.applyTo(layoutFrame)
                     }
                 }
             }
