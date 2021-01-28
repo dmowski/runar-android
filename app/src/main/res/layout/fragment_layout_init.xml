@@ -94,6 +94,7 @@
         android:clickable="true"
         android:focusable="true">
         <TextView
+            android:id="@+id/button_text"
             android:duplicateParentState="true"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
