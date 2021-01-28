@@ -114,7 +114,6 @@
         android:layout_marginStart="30dp"
         android:layout_marginBottom="25dp"
         android:layout_marginTop="10dp">
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -338,6 +337,58 @@
                 android:orientation="horizontal"
                 app:layout_constraintGuide_percent="0.77"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:id="@+id/support_bottom"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@id/third_rune"
+            app:layout_constraintEnd_toEndOf="@id/third_rune"
+            app:layout_constraintDimensionRatio="1:0.615"
+            android:background="@drawable/slot_inactive_2"
+            android:visibility="invisible"/>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:id="@+id/support_top"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="@id/third_rune"
+            app:layout_constraintEnd_toEndOf="@id/third_rune"
+            app:layout_constraintDimensionRatio="1:0.615"
+            android:background="@drawable/slot_inactive_2"
+            android:visibility="invisible"/>
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/center_guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5"/>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:id="@+id/support_big_bottom"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@id/third_rune"
+            app:layout_constraintEnd_toEndOf="@id/third_rune"
+            app:layout_constraintDimensionRatio="1:2.46"
+            android:background="@drawable/slot_inactive_2"
+            android:visibility="invisible"/>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:id="@+id/support_big_top"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="@id/third_rune"
+            app:layout_constraintEnd_toEndOf="@id/third_rune"
+            app:layout_constraintDimensionRatio="1:2.46"
+            android:background="@drawable/slot_inactive_2"
+            android:visibility="invisible"/>
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/center_guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
     <androidx.constraintlayout.widget.Guideline
