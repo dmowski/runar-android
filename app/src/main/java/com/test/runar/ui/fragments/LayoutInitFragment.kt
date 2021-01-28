@@ -37,6 +37,7 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
         view.findViewById<FrameLayout>(R.id.description_button_frame).setOnClickListener(this)
         view.findViewById<ImageView>(R.id.exit_button).setOnClickListener(this)
         view.findViewById<ImageView>(R.id.info_button).setOnClickListener(this)
+        view.findViewById<TextView>(R.id.text_info).setOnClickListener(this)
         header =
             view.findViewById<FrameLayout>(R.id.description_header_frame).getChildAt(0) as TextView
         model.selectedLayout.observe(viewLifecycleOwner) {
@@ -76,7 +77,7 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
             R.id.description_button_frame -> {
                 navController.navigate(R.id.emptyFragment)
             }
-            R.id.info_button -> {
+            R.id.info_button, R.id.text_info -> {
                 val info = DescriptionDialog(descriptionText, headerText, fontSize)
                 activity?.let { info.showDialog(it) }
             }
