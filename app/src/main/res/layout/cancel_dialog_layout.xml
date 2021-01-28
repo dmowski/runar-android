@@ -34,15 +34,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toTopOf="@id/dialog_element_left"
-            app:layout_constraintVertical_weight="2"
+            app:layout_constraintVertical_weight="3"
             android:background="@drawable/confirmation_dialog_background_top">
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:text="@string/description_popup_text"
                 android:textColor="@color/description_popup_text_color"
-                android:fontFamily="@font/roboto_medium_500"
                 app:autoSizeTextType="uniform"
+                android:fontFamily="@font/roboto_medium"
                 android:maxLines="1"
                 app:layout_constraintTop_toBottomOf="@id/top_guideline"
                 app:layout_constraintBottom_toTopOf="@id/bottom_guideline"
@@ -60,7 +60,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.67"/>
+                app:layout_constraintGuide_percent="0.63"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"
@@ -79,7 +79,7 @@
                 android:layout_height="0dp"
                 android:text="@string/description_popup_button1"
                 android:textColor="@color/cancel_popup_text_selector"
-                android:fontFamily="@font/roboto_regular_400"
+                android:fontFamily="@font/roboto_regular"
                 app:autoSizeTextType="uniform"
                 app:layout_constraintTop_toBottomOf="@id/top_left_button_guideline"
                 app:layout_constraintBottom_toTopOf="@id/bottom_left_button_guideline"
@@ -91,13 +91,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.28"/>
+                app:layout_constraintGuide_percent="0.23"/>
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/bottom_left_button_guideline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.67"/>
+                app:layout_constraintGuide_percent="0.80"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"
@@ -115,7 +115,7 @@
                 android:layout_height="0dp"
                 android:text="@string/description_popup_button2"
                 android:textColor="@color/cancel_popup_text_selector"
-                android:fontFamily="@font/roboto_medium_500"
+                android:fontFamily="@font/roboto_medium"
                 app:autoSizeTextType="uniform"
                 app:layout_constraintTop_toBottomOf="@id/top_right_button_guideline"
                 app:layout_constraintBottom_toTopOf="@id/bottom_right_button_guideline"
@@ -127,13 +127,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.28"/>
+                app:layout_constraintGuide_percent="0.23"/>
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/bottom_right_button_guideline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.67"/>
+                app:layout_constraintGuide_percent="0.805"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
