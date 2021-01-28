@@ -1,5 +1,6 @@
 package com.test.runar.ui.fragments
 
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -19,6 +20,7 @@ import com.test.runar.ui.dialogs.CancelDialog
 import com.test.runar.ui.dialogs.DescriptionDialog
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlin.random.Random
 
 class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
     View.OnClickListener {
@@ -30,18 +32,19 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
     private lateinit var layoutFrame : ConstraintLayout
     private var fontSize: Float = 0f
     private var runeTable : Array<Array<Int>> = Array(7) { Array(2) { 0 } }
+    private var runesList : Array<Array<Int>> = Array(25) { Array(2) { 0 } }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         model = activity?.run {
             ViewModelProviders.of(this)[MainViewModel::class.java]
         } ?: throw Exception("Invalid Activity")
+        runesArrayInit()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         fontSize = arguments?.getFloat("descriptionFontSize")!!
-
         view.findViewById<FrameLayout>(R.id.description_button_frame).setOnClickListener(this)
         view.findViewById<ImageView>(R.id.exit_button).setOnClickListener(this)
         view.findViewById<ImageView>(R.id.info_button).setOnClickListener(this)
@@ -108,7 +111,6 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
                         constraintsSet.applyTo(layoutFrame)
                     }
                 }
-                Log.d("Log",runeTable.joinToString())
                 firstSlotOpener()
             }
         }
@@ -213,8 +215,55 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
     private fun runeSetter(slot: ConstraintLayout){
         lifecycleScope.launch {
             delay(500L)
-            slot.setBackgroundResource(R.drawable.rune_sample)
+            val runeId = getUniqueRune()
+            Log.d("Log",runesList.joinToString())
+            val ims = context?.assets?.open("runes/${runeId}.png")
+            var runeImage = Drawable.createFromStream(ims,null)
+            slot.setBackgroundDrawable(runeImage)
             (slot.getChildAt(0) as TextView).visibility=View.INVISIBLE
+        }
+    }
+
+    private fun runesArrayInit(){
+        runesList[0] = arrayOf(1,2)
+        runesList[1] = arrayOf(3,4)
+        runesList[2] = arrayOf(5,6)
+        runesList[3] = arrayOf(7,8)
+        runesList[4] = arrayOf(9,10)
+        runesList[5] = arrayOf(11,12)
+        runesList[6] = arrayOf(13,0)
+        runesList[7] = arrayOf(14,15)
+        runesList[8] = arrayOf(16,0)
+        runesList[9] = arrayOf(17,18)
+        runesList[10] = arrayOf(19,0)
+        runesList[11] = arrayOf(20,0)
+        runesList[12] = arrayOf(21,0)
+        runesList[13] = arrayOf(22,23)
+        runesList[14] = arrayOf(24,25)
+        runesList[15] = arrayOf(26,0)
+        runesList[16] = arrayOf(27,28)
+        runesList[17] = arrayOf(29,30)
+        runesList[18] = arrayOf(31,32)
+        runesList[19] = arrayOf(33,34)
+        runesList[20] = arrayOf(35,36)
+        runesList[21] = arrayOf(37,0)
+        runesList[22] = arrayOf(38,0)
+        runesList[23] = arrayOf(39,40)
+        runesList[24] = arrayOf(41,0)
+    }
+
+    private fun getUniqueRune(): Int{
+        while(true){
+            var randomNumber = Random.nextInt(1,41)
+            for(i in 0..24){
+                for(i2 in 0..1){
+                    if(runesList[i][i2]==randomNumber) {
+                        runesList[i]= arrayOf(0,0)
+                        return randomNumber
+                    }
+                }
+            }
+            continue
         }
     }
 
