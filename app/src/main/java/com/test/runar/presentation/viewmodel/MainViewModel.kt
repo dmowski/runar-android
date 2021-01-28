@@ -20,6 +20,7 @@ import retrofit2.HttpException
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
     var selectedLayout = MutableLiveData<LayoutDescriptionModel>(null)
+    var currentUserLayout = MutableLiveData<Array<Int>>(null)
     var showStatus = MutableLiveData(3)
     var preferencesRepository = SharedPreferencesRepository(application)
 
@@ -37,6 +38,14 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     fun clearLayoutData() {
         selectedLayout.postValue(null)
+    }
+
+    fun setCurrentUserLayout(currentLayout: Array<Int>){
+        currentUserLayout.postValue(currentLayout)
+    }
+
+    fun clearUserLayoutData(){
+        currentUserLayout.postValue(null)
     }
 
     fun descriptionCheck(context: Context, id: Int) {
