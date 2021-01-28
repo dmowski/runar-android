@@ -20,7 +20,7 @@ class DescriptionDialog(description: String, header: String, fontSize: Float) :
     private lateinit var dialog: Dialog
     private val descriptionText = description
     private val headerText = header
-    private val fontSize = fontSize-1
+    private val fontSize = fontSize
 
     fun showDialog(activity: FragmentActivity) {
         dialog = Dialog(activity, R.style.ThemeOverlay)
