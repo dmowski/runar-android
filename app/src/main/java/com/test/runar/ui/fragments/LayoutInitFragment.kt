@@ -1,6 +1,7 @@
 package com.test.runar.ui.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
@@ -22,7 +23,9 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
     private lateinit var header: TextView
     private lateinit var headerText: String
     private lateinit var descriptionText: String
+    private lateinit var layoutFrame : ConstraintLayout
     private var fontSize: Float = 0f
+    private var runeTable = IntArray(7)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,7 +49,7 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
                 header.text = it.layoutName
                 headerText = it.layoutName.toString()
                 descriptionText = it.layoutDescription.toString()
-                var layoutFrame = view.findViewById<ConstraintLayout>(R.id.layoutFrame)
+                layoutFrame = view.findViewById<ConstraintLayout>(R.id.layoutFrame)
                 ((layoutFrame.getChildAt(0) as ConstraintLayout).getChildAt(0) as TextView).text = it.slot1.toString()
                 ((layoutFrame.getChildAt(1) as ConstraintLayout).getChildAt(0) as TextView).text = it.slot2.toString()
                 ((layoutFrame.getChildAt(2) as ConstraintLayout).getChildAt(0) as TextView).text = it.slot3.toString()
@@ -55,9 +58,11 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
                 ((layoutFrame.getChildAt(5) as ConstraintLayout).getChildAt(0) as TextView).text = it.slot6.toString()
                 ((layoutFrame.getChildAt(6) as ConstraintLayout).getChildAt(0) as TextView).text = it.slot7.toString()
                 for(i in 0..6){
-                    if((((layoutFrame.getChildAt(i) as ConstraintLayout).getChildAt(0) as TextView).text as String).toInt()==0){
+                    var currentNumber = (((layoutFrame.getChildAt(i) as ConstraintLayout).getChildAt(0) as TextView).text as String).toInt()
+                    if(currentNumber==0){
                         (layoutFrame.getChildAt(i) as ConstraintLayout).visibility=View.INVISIBLE
                     }
+                    runeTable[i] = currentNumber
                 }
                 when(it.layoutId){
                     2,4->{
@@ -98,6 +103,8 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
                         constraintsSet.applyTo(layoutFrame)
                     }
                 }
+                Log.d("Log",runeTable.joinToString())
+                slotChanger()
             }
         }
     }
@@ -115,13 +122,33 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
                 activity?.let { CancelDialog(navController, it) }?.showDialog()
             }
             R.id.description_button_frame -> {
-                navController.navigate(R.id.emptyFragment)
+                if(!slotChanger()) navController.navigate(R.id.emptyFragment)
             }
             R.id.info_button, R.id.text_info -> {
                 val info = DescriptionDialog(descriptionText, headerText, fontSize)
                 activity?.let { info.showDialog(it) }
             }
         }
+    }
+
+    fun slotChanger(): Boolean{
+        var result = false
+        var minElement = 10
+        var minValue =10
+        for(i in 0..6){
+            if(minValue>runeTable[i]&&runeTable[i]!=0){
+                minValue=runeTable[i]
+                minElement=i
+            }
+        }
+        if(minValue !=10){
+            runeTable[minElement] = 0
+            result = true
+            val slot = layoutFrame.getChildAt(minElement) as ConstraintLayout
+            slot.setBackgroundResource(R.drawable.slot_active)
+            context?.let { (slot.getChildAt(0) as TextView).setTextColor(it.getColor(R.color.rune_number_color_selected)) }
+        }
+        return result
     }
 
 }

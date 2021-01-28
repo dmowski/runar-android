@@ -27,4 +27,7 @@
     <color name="cancel_popup_text_deselected">#EFCD93</color>
     <color name="cancel_popup_text_selected">#4B4842</color>
     <color name="init_runes_number_color">#FFEACA</color>
+
+    <color name="rune_number_color_deselected">#B3D2C4AD</color>
+    <color name="rune_number_color_selected">#FFEACA</color>
 </resources>
