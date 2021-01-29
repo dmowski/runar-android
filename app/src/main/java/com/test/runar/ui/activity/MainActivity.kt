@@ -22,6 +22,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         }
         val model: MainViewModel by viewModels()
         model.identify()
+        supportActionBar?.hide()
     }
 
     private fun initBottomNavBar() {
