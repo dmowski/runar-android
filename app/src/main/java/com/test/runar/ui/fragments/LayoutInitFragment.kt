@@ -34,6 +34,7 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
     private var runeTable: Array<Array<Int>> = Array(7) { Array(2) { 0 } }
     private var runesList: Array<Array<Int>> = Array(25) { Array(2) { 0 } }
     private var layoutTable: Array<Int> = Array(7) { 0 }
+    private var layoutId: Int? = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,6 +73,7 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
                     }
                     runeTable[i][0] = currentNumber
                 }
+                layoutId = it.layoutId
                 when (it.layoutId) {
                     2, 4 -> {
                         val constraintsSet = ConstraintSet()
@@ -263,9 +265,19 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
     private fun getUniqueRune(): Int {
         while (true) {
             var randomNumber = Random.nextInt(1, 41)
-            for (i in 0..24) {
-                for (i2 in 0..1) {
-                    if (runesList[i][i2] == randomNumber) {
+            if(layoutId==2){
+                for (i in 0..24) {
+                    for (i2 in 0..1) {
+                        if (runesList[i][i2] == randomNumber) {
+                            runesList[i] = arrayOf(0, 0)
+                            return randomNumber
+                        }
+                    }
+                }
+            }
+            else{
+                for (i in 0..24) {
+                    if (runesList[i][0] == randomNumber) {
                         runesList[i] = arrayOf(0, 0)
                         return randomNumber
                     }
