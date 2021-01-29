@@ -58,15 +58,6 @@
         app:layout_constraintTop_toTopOf="@id/icon_top_guideline"
         android:clickable="true"
         android:focusable="true"/>
-    <ImageView
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        android:src="@drawable/ic_ask"
-        android:visibility="invisible"
-        app:layout_constraintStart_toEndOf="@id/icon_start_guideline"
-        app:layout_constraintEnd_toStartOf="@id/icon_end_guideline"
-        app:layout_constraintBottom_toBottomOf="@id/description_header_frame"/>
     <FrameLayout
         app:layout_constraintHorizontal_weight="62"
         android:layout_width="0dp"
