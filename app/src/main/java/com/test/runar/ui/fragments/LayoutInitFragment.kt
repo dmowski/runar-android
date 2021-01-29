@@ -267,19 +267,19 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
             var randomNumber = Random.nextInt(1, 41)
             if(layoutId==2){
                 for (i in 0..24) {
-                    for (i2 in 0..1) {
-                        if (runesList[i][i2] == randomNumber) {
-                            runesList[i] = arrayOf(0, 0)
-                            return randomNumber
-                        }
+                    if (runesList[i][0] == randomNumber) {
+                        runesList[i] = arrayOf(0, 0)
+                        return randomNumber
                     }
                 }
             }
             else{
                 for (i in 0..24) {
-                    if (runesList[i][0] == randomNumber) {
-                        runesList[i] = arrayOf(0, 0)
-                        return randomNumber
+                    for (i2 in 0..1) {
+                        if (runesList[i][i2] == randomNumber) {
+                            runesList[i] = arrayOf(0, 0)
+                            return randomNumber
+                        }
                     }
                 }
             }
