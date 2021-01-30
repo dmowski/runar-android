@@ -1,16 +1,17 @@
 package com.test.runar.ui.fragments
 
+import android.content.res.Resources
+import android.graphics.Paint
 import android.graphics.Rect
 import android.os.Bundle
 import android.util.DisplayMetrics
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.ScrollView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.test.runar.R
@@ -18,6 +19,7 @@ import com.test.runar.presentation.viewmodel.MainViewModel
 
 class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener {
     private lateinit var model: MainViewModel
+    private var fontSize: Float =0f
 
     private var scroll_view: ScrollView? = null
     private var arrow_down: ImageView? = null
@@ -28,6 +30,7 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
         model = activity?.run {
             ViewModelProviders.of(this)[MainViewModel::class.java]
         } ?: throw Exception("Invalid Activity")
+        fontSize = correctFontSize()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -96,12 +99,13 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
             else -> 8
         }
         val navController = findNavController()
-        val bundle = bundleOf("id" to dest)
+        val bundle = bundleOf("descriptionFontSize" to fontSize)
         model.descriptionCheck(requireContext(), dest)
+        model.getLayoutDescription(requireContext(), dest)
         model.showStatus.observe(viewLifecycleOwner) {
             when (it) {
                 0 -> {
-                    navController.navigate(R.id.emptyFragment)
+                    navController.navigate(R.id.layoutInitFragment, bundle)
                     model.clearShowStatus()
                 }
                 1 -> {
@@ -110,5 +114,23 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
                 }
             }
         }
+    }
+    private fun correctFontSize(): Float {
+        val text = "Простое гадание на рунах, однако оно"
+        val paint = Paint()
+        val bounds = Rect()
+        val maxWidth = Resources.getSystem().displayMetrics.widthPixels * 0.84
+        paint.typeface = context?.let { ResourcesCompat.getFont(it,R.font.roboto_light) }
+        var textSize = 1f
+        paint.textSize = 1f
+        paint.getTextBounds(text, 0, text.length, bounds)
+        var currentWidth = bounds.width()
+        while (currentWidth < maxWidth) {
+            textSize++
+            paint.textSize = textSize
+            paint.getTextBounds(text, 0, text.length, bounds)
+            currentWidth = bounds.width()
+        }
+        return textSize - 2f
     }
 }
