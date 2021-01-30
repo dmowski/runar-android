@@ -1,8 +1,5 @@
 package com.test.runar.ui.fragments
 
-import android.content.res.Resources
-import android.graphics.Paint
-import android.graphics.Rect
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.View
@@ -12,7 +9,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.test.runar.R
@@ -24,7 +20,6 @@ class LayoutDescriptionFragment : Fragment(R.layout.fragment_layout_description)
     private lateinit var checkBox: CheckBox
     private lateinit var header: TextView
     private lateinit var text: TextView
-    private lateinit var calcTextView: TextView
     private var fontSize: Float =0f
     var layoutId: Int = 0
 
@@ -37,7 +32,7 @@ class LayoutDescriptionFragment : Fragment(R.layout.fragment_layout_description)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        layoutId = arguments?.getInt("id")!!
+        fontSize = arguments?.getFloat("descriptionFontSize")!!
 
         view.findViewById<FrameLayout>(R.id.description_button_frame).setOnClickListener(this)
         view.findViewById<ImageView>(R.id.exit_button).setOnClickListener(this)
@@ -45,40 +40,17 @@ class LayoutDescriptionFragment : Fragment(R.layout.fragment_layout_description)
         checkBox = view.findViewById(R.id.checkbox)
 
         text = view.findViewById(R.id.description_text_view)
-        calcTextView = view.findViewById(R.id.fs_calc)
         header =
             view.findViewById<FrameLayout>(R.id.description_header_frame).getChildAt(0) as TextView
 
-        val calculatedFontSize = correctFontSize(calcTextView)
-        fontSize = calculatedFontSize
-
-        model.getLayoutDescription(requireContext(), layoutId)
         model.selectedLayout.observe(viewLifecycleOwner) {
             if (it != null) {
                 header.text = it.layoutName
-                text.setTextSize(TypedValue.COMPLEX_UNIT_PX, calculatedFontSize)
+                text.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
                 text.text = it.layoutDescription
+                layoutId = it.layoutId!!
             }
         }
-    }
-
-    private fun correctFontSize(textView: TextView): Float {
-        val text = "Простое гадание на рунах, однако оно"
-        val paint = Paint()
-        val bounds = Rect()
-        val maxWidth = Resources.getSystem().displayMetrics.widthPixels * 0.84
-        paint.typeface = textView.typeface
-        var textSize = 1f
-        paint.textSize = 1f
-        paint.getTextBounds(text, 0, text.length, bounds)
-        var currentWidth = bounds.width()
-        while (currentWidth < maxWidth) {
-            textSize++
-            paint.textSize = textSize
-            paint.getTextBounds(text, 0, text.length, bounds)
-            currentWidth = bounds.width()
-        }
-        return textSize - 2f
     }
 
     override fun onStop() {

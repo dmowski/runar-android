@@ -135,18 +135,6 @@
         app:layout_constraintStart_toEndOf="@id/left_guideline"
         app:layout_constraintEnd_toStartOf="@id/right_guideline"
         app:layout_constraintBottom_toTopOf="@+id/checkbox"/>
-    <TextView
-        android:id="@+id/fs_calc"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@id/description_text_view"
-        app:layout_constraintStart_toStartOf="@id/description_text_view"
-        android:text="Простое гадание на рунах, однако оно "
-        android:lineSpacingMultiplier="@dimen/layout_description_line_spacing"
-        android:fontFamily="@font/roboto_light"
-        android:visibility="invisible"
-        android:textColor="@color/white"
-        android:maxLines="1"/>
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/left_guideline"
         android:layout_width="wrap_content"
