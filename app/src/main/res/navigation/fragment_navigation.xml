@@ -11,6 +11,9 @@
         <action
             android:id="@+id/action_layoutFragment_to_layoutDescriptionFragment2"
             app:destination="@id/layoutDescriptionFragment" />
+        <action
+            android:id="@+id/action_layoutFragment_to_layoutInitFragment"
+            app:destination="@id/layoutInitFragment" />
     </fragment>
     <fragment
         android:id="@+id/runesFragment"
@@ -31,12 +34,9 @@
         android:id="@+id/layoutDescriptionFragment"
         android:name="com.test.runar.ui.fragments.LayoutDescriptionFragment">
         <argument
-            android:name="id"
-            app:argType="integer"
-            android:defaultValue="99" />
-        <action
-            android:id="@+id/action_layoutDescriptionFragment_to_layoutInitFragment"
-            app:destination="@id/layoutInitFragment" />
+            android:name="descriptionFontSize"
+            app:argType="float"
+            android:defaultValue="0f" />
     </fragment>
 
     <fragment
