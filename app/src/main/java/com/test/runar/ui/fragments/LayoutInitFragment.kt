@@ -33,7 +33,7 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
     private var fontSize: Float = 0f
     private var runeTable: Array<Array<Int>> = Array(7) { Array(2) { 0 } }
     private var runesList: Array<Array<Int>> = Array(25) { Array(2) { 0 } }
-    private var layoutTable: Array<Int> = Array(8) { 0 }
+    private var layoutTable: Array<Int> = Array(9) { 0 }
     private var layoutId: Int? = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,6 +58,7 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
         buttonText = view.findViewById<FrameLayout>(R.id.description_button_frame).getChildAt(0) as TextView
         model.selectedLayout.observe(viewLifecycleOwner) {
             if (it != null) {
+                layoutTable[8] = it.layoutId!!
                 header.text = it.layoutName
                 headerText = it.layoutName.toString()
                 descriptionText = it.layoutDescription.toString()
