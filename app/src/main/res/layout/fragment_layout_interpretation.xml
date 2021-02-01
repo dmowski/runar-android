@@ -45,20 +45,26 @@
                     android:textAlignment="center"/>
             </FrameLayout>
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="50dp"
-                android:layout_height="0dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:id="@+id/main_rune"
+                android:id="@+id/runes_layout"
                 app:layout_constraintTop_toBottomOf="@id/description_header_frame"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintDimensionRatio="1:1.23"
-                android:background="@drawable/slot_inactive"/>
+                app:layout_constraintEnd_toEndOf="parent">
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/center_guideline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.50"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/inter_frame"
                 android:layout_marginTop="15dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/main_rune"
+                app:layout_constraintTop_toBottomOf="@+id/runes_layout"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent">
                 <com.test.runar.CustomView.OffsetImageView

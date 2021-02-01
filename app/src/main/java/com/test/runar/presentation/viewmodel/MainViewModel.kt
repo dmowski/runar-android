@@ -5,6 +5,8 @@ import android.content.Context
 import android.os.Build
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import com.test.runar.model.LayoutDescriptionModel
 import com.test.runar.repository.LayoutDescriptionRepository
@@ -24,6 +26,23 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     var showStatus = MutableLiveData(3)
     var preferencesRepository = SharedPreferencesRepository(application)
     var runeHeight = MutableLiveData(0)
+    var layoutInterpretationData: LiveData<Pair<LayoutDescriptionModel,Array<Int>>> = object : MediatorLiveData<Pair<LayoutDescriptionModel,Array<Int>>>(){
+        var currentLayout: LayoutDescriptionModel? = null
+        var userLayout: Array<Int>? = null
+        init{
+            addSource(selectedLayout){
+                currentLayout ->
+                this.currentLayout = currentLayout
+                userLayout?.let { value = currentLayout to it }
+            }
+            addSource(currentUserLayout){
+                userLayout ->
+                this.userLayout = userLayout
+                currentLayout?.let { value = it to userLayout }
+            }
+        }
+    }
+
 
     fun notShowSelectedLayout(context: Context, id: Int) {
         CoroutineScope(IO).launch {
