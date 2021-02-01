@@ -39,7 +39,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                 ((view.findViewById<ScrollView>(R.id.scroll_view).getChildAt(0) as ConstraintLayout).getChildAt(0) as FrameLayout).getChildAt(0) as TextView
 
         model.layoutInterpretationData.observe(viewLifecycleOwner) {
-            if (it!=null) {
+            if (it!=null&& it.second[8]==it.first.layoutId) {
                 runeHeight = it.second[7]
                 runeWidth = (runeHeight / 1.23).toInt()
                 var userLayout = it.second
