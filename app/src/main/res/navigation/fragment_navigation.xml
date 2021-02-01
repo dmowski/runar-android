@@ -48,6 +48,10 @@
             app:argType="float"
             android:defaultValue="0f" />
     </fragment>
+
+    <fragment
+        android:id="@+id/layoutInterpretationFragment"
+        android:name="com.test.runar.ui.fragments.LayoutInterpretationFragment"/>
     <fragment
         android:id="@+id/emptyFragment"
         android:name="com.test.runar.ui.fragments.RunesFragment"/>
