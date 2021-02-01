@@ -1,9 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/main_layout"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.test.runar.CustomView.OffsetImageView
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/background_fire"
+        app:offsetScaleType="fitX"
+        app:verticalCropOffset="1"
+        app:verticalFitOffset="0"/>
     <ScrollView
         android:id="@+id/scroll_view"
         android:layout_width="match_parent"
@@ -13,16 +23,7 @@
         android:fillViewport="true">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <com.test.runar.CustomView.OffsetImageView
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/background_fire"
-                app:offsetScaleType="fitX"
-                app:verticalCropOffset="1"
-                app:verticalFitOffset="0"/>
+            android:layout_height="wrap_content">
             <FrameLayout
                 app:layout_constraintHorizontal_weight="72"
                 android:layout_width="0dp"
@@ -44,7 +45,7 @@
                     android:textAlignment="center"/>
             </FrameLayout>
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="0dp"
+                android:layout_width="50dp"
                 android:layout_height="0dp"
                 android:layout_marginTop="10dp"
                 android:id="@+id/main_rune"
@@ -53,6 +54,42 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintDimensionRatio="1:1.23"
                 android:background="@drawable/slot_inactive"/>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_marginTop="15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/main_rune"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+                <com.test.runar.CustomView.OffsetImageView
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@id/interpretation_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:src="@drawable/interpretation_background"
+                    app:offsetScaleType="fitX"
+                    app:verticalCropOffset="0"
+                    app:verticalFitOffset="0"/>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/interpretation_layout"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="70dp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:text="test"
+                        android:textColor="@color/init_runes_number_color"
+                        android:gravity="center"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/left_header_guideline"
                 android:layout_width="wrap_content"
