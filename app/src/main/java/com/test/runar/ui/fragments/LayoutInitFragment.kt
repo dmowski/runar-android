@@ -120,11 +120,6 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
         }
     }
 
-    override fun onStop() {
-        super.onStop()
-        model.clearLayoutData()
-    }
-
     override fun onClick(v: View?) {
 
         val navController = findNavController()
@@ -137,10 +132,11 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
                 if (result[1]) {
                     buttonText.text = "Толковать"
                 }
-                if (!result[0]) {
+                else if (!result[0]) {
                     model.setCurrentUserLayout(layoutTable)
-                    navController.navigate(R.id.emptyFragment)
+                    navController.navigate(R.id.layoutInterpretationFragment)
                 }
+
             }
             R.id.info_button, R.id.text_info -> {
                 val info = DescriptionDialog(descriptionText, headerText, fontSize)
@@ -151,7 +147,7 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
 
     private fun slotChanger(): Array<Boolean> {
         var result = false
-        var isLast = false
+        var isLast = false //is exist slots to open
         for (i in 0..6) {
             if (runeTable[i][1] == 1) {
 

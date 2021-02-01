@@ -31,6 +31,7 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
             ViewModelProviders.of(this)[MainViewModel::class.java]
         } ?: throw Exception("Invalid Activity")
         fontSize = correctFontSize()
+        model.clearLayoutData()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -55,7 +55,6 @@ class LayoutDescriptionFragment : Fragment(R.layout.fragment_layout_description)
 
     override fun onStop() {
         super.onStop()
-        model.clearLayoutData()
     }
 
     override fun onClick(v: View?) {
