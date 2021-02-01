@@ -23,6 +23,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     var currentUserLayout = MutableLiveData<Array<Int>>(null)
     var showStatus = MutableLiveData(3)
     var preferencesRepository = SharedPreferencesRepository(application)
+    var runeHeight = MutableLiveData(0)
 
     fun notShowSelectedLayout(context: Context, id: Int) {
         CoroutineScope(IO).launch {
@@ -51,6 +52,12 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     fun descriptionCheck(context: Context, id: Int) {
         CoroutineScope(IO).launch {
             showStatus.postValue(LayoutDescriptionRepository.getShowStatus(context, id))
+        }
+    }
+
+    fun setRuneHeight(height: Int){
+        if(height!=runeHeight.value){
+            runeHeight.postValue(height)
         }
     }
 
