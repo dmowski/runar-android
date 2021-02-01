@@ -33,7 +33,7 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
     private var fontSize: Float = 0f
     private var runeTable: Array<Array<Int>> = Array(7) { Array(2) { 0 } }
     private var runesList: Array<Array<Int>> = Array(25) { Array(2) { 0 } }
-    private var layoutTable: Array<Int> = Array(7) { 0 }
+    private var layoutTable: Array<Int> = Array(8) { 0 }
     private var layoutId: Int? = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,6 +41,7 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
         model = activity?.run {
             ViewModelProviders.of(this)[MainViewModel::class.java]
         } ?: throw Exception("Invalid Activity")
+        model.clearUserLayoutData()
         runesArrayInit()
     }
 
@@ -118,6 +119,9 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
                 firstSlotOpener()
             }
         }
+        model.runeHeight.observe(viewLifecycleOwner){
+            layoutTable[7] = it
+        }
     }
 
     override fun onClick(v: View?) {
@@ -131,9 +135,9 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
                 var result = slotChanger()
                 if (result[1]) {
                     buttonText.text = "Толковать"
+                    model.setCurrentUserLayout(layoutTable)
                 }
                 else if (!result[0]) {
-                    model.setCurrentUserLayout(layoutTable)
                     navController.navigate(R.id.layoutInterpretationFragment)
                 }
 
@@ -177,6 +181,7 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
                         var result = slotChanger()
                         if (result[1]) {
                             buttonText.text = "Толковать"
+                            model.setCurrentUserLayout(layoutTable)
                         }
                     }
                 } else isLast = true
@@ -219,7 +224,6 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
         lifecycleScope.launch {
             delay(500L)
             val runeId = getUniqueRune()
-            Log.d("Log", runesList.joinToString())
             val ims = context?.assets?.open("runes/${runeId}.png")
             var runeImage = Drawable.createFromStream(ims, null)
             slot.setBackgroundDrawable(runeImage)

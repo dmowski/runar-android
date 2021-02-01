@@ -1,9 +1,6 @@
 package com.test.runar.ui.fragments
 
-import android.content.res.Resources
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -13,6 +10,7 @@ import android.widget.ImageView
 import android.widget.ScrollView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -24,8 +22,8 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
     private lateinit var model: MainViewModel
     private lateinit var header: TextView
     private lateinit var headerText: String
-    private var runeHeight: Int =0
-
+    private var runeHeight: Int = 0
+    private var runeWidth: Int = 0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,59 +35,96 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         header =
                 ((view.findViewById<ScrollView>(R.id.scroll_view).getChildAt(0) as ConstraintLayout).getChildAt(0) as FrameLayout).getChildAt(0) as TextView
 
-        model.selectedLayout.observe(viewLifecycleOwner){
-            if(it!=null){
-                header.text = it.layoutName
+        model.layoutInterpretationData.observe(viewLifecycleOwner) {
+            if (it!=null) {
+                runeHeight = it.second[7]
+                runeWidth = (runeHeight / 1.23).toInt()
+                var userLayout = it.second
+                var selectedLayout = it.first
+                header.text = selectedLayout.layoutName
+
+                var runeLayout = (view.findViewById<ScrollView>(R.id.scroll_view).getChildAt(0) as ConstraintLayout).getChildAt(1) as ConstraintLayout
+                when (selectedLayout.layoutId) {
+                    1 -> {
+                        val firstRune = context?.let { it1 -> FrameLayout(it1) }
+                        if (firstRune != null) {
+                            firstRune.id = View.generateViewId()
+                            val firstRuneId = userLayout[2]
+
+                            val ims = context?.assets?.open("runes/${firstRuneId}.png")
+                            var firstRuneImage = Drawable.createFromStream(ims, null)
+                            firstRune.setBackgroundDrawable(firstRuneImage)
+                            var firstRuneLayoutParams = ConstraintLayout.LayoutParams(runeWidth, runeHeight)
+                            firstRune.layoutParams = firstRuneLayoutParams
+
+                            runeLayout.addView(firstRune)
+                            val set = ConstraintSet()
+                            set.clone(runeLayout)
+                            set.connect(firstRune.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, 0)
+                            set.connect(firstRune.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END, 0)
+                            set.connect(firstRune.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP, 0)
+                            set.applyTo(runeLayout)
+                        }
+                    }
+                    2->{
+                        val firstRune = FrameLayout(requireContext())
+                        val secondRune = FrameLayout(requireContext())
+
+                        firstRune.id = View.generateViewId()
+                        secondRune.id = View.generateViewId()
+
+                        val firstRuneId = userLayout[2]
+                        val secondRuneId = userLayout[6]
+
+                        val img1 = context?.assets?.open("runes/${firstRuneId}.png")
+                        val img2 = context?.assets?.open("runes/${secondRuneId}.png")
+
+                        firstRune.setBackgroundDrawable(Drawable.createFromStream(img1,null))
+                        secondRune.setBackgroundDrawable(Drawable.createFromStream(img2,null))
+
+                        firstRune.layoutParams = ConstraintLayout.LayoutParams(runeWidth, runeHeight)
+                        secondRune.layoutParams = ConstraintLayout.LayoutParams(runeWidth, runeHeight)
+
+                        runeLayout.addView(firstRune)
+                        runeLayout.addView(secondRune)
+
+                        val set = ConstraintSet()
+                        set.clone(runeLayout)
+                        set.connect(firstRune.id, ConstraintSet.END, R.id.center_guideline, ConstraintSet.START, 0)
+                        set.connect(firstRune.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP, 0)
+                        set.connect(secondRune.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP, 0)
+                        set.connect(secondRune.id, ConstraintSet.START, R.id.center_guideline, ConstraintSet.END, 0)
+                        set.applyTo(runeLayout)
+                    }
+                }
             }
         }
-        model.runeHeight.observe(viewLifecycleOwner){
-            if(it!=null){
-                runeHeight = it
-                var runeView = (view.findViewById<ScrollView>(R.id.scroll_view).getChildAt(0) as ConstraintLayout).getChildAt(1)
-                var layoutParams = runeView.layoutParams
-                layoutParams.height = 223
-                layoutParams.width = (223/1.23).toInt()
-                runeView.layoutParams = layoutParams
-            }
-        }
+
         val mainLayout = view.findViewById<ConstraintLayout>(R.id.main_layout)
         val backgroundLayout = (view.findViewById<ScrollView>(R.id.scroll_view).getChildAt(0) as ConstraintLayout).getChildAt(2) as ConstraintLayout
         val observer = mainLayout.viewTreeObserver
-        observer.addOnGlobalLayoutListener(object: ViewTreeObserver.OnGlobalLayoutListener {
+        observer.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
                 observer.removeOnGlobalLayoutListener(this)
                 val screenHeight = mainLayout.height
-                val minSize = screenHeight-backgroundLayout.top
-                //Log.d("Log",backgroundLayout.height.toString())
-                //Log.d("Log",minSize.toString())
-                if(minSize>backgroundLayout.height){
+                val minSize = screenHeight - backgroundLayout.top
+                if (minSize > backgroundLayout.height) {
                     val backLayout = backgroundLayout.getChildAt(1) as ConstraintLayout
                     val backLayoutParams = backLayout.layoutParams
                     backLayoutParams.height = minSize
                     backLayout.layoutParams = backLayoutParams
                 }
-                /*var bmp = BitmapFactory.decodeResource(resources,R.drawable.interpretation_background)
-                var aspect = mainLayout.width/414
-                var newBmp = Bitmap.createBitmap(bmp,0,0,414,backgroundLayout.height/aspect)
-                val imageView = backgroundLayout.getChildAt(0) as ImageView
-                imageView.setBackground(BitmapDrawable(resources,newBmp))*/
             }
         })
-
-
-
-
-
     }
 
     override fun onStop() {
         super.onStop()
-        model.clearLayoutData()
     }
+
     override fun onClick(v: View?) {
         val navController = findNavController()
     }
