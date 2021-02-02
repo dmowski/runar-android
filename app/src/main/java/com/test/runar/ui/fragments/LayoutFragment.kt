@@ -33,6 +33,7 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
         fontSize = correctFontSize()
         model.clearLayoutData()
         model.clearAusp()
+        model.clearAffirm()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
