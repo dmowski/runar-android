@@ -32,6 +32,7 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
         } ?: throw Exception("Invalid Activity")
         fontSize = correctFontSize()
         model.clearLayoutData()
+        model.clearAusp()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

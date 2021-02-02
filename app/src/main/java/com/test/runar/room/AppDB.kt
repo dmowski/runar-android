@@ -5,20 +5,21 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.test.runar.model.LayoutDescriptionModel
+import com.test.runar.model.RuneDescriptionModel
 
-@Database(entities = [LayoutDescriptionModel::class], version = 1, exportSchema = false)
-abstract class LayoutDescriptionDB : RoomDatabase() {
-    abstract fun layoutDescriptionDAO(): LayoutDescriptionDAO
+@Database(entities = [LayoutDescriptionModel::class,RuneDescriptionModel::class], version = 1, exportSchema = false)
+abstract class AppDB : RoomDatabase() {
+    abstract fun appDAO(): AppDAO
 
     companion object {
         @Volatile
-        private var INSTANCE: LayoutDescriptionDB? = null
+        private var INSTANCE: AppDB? = null
 
-        fun getLayoutDB(context: Context): LayoutDescriptionDB {
+        fun getLayoutDB(context: Context): AppDB {
             if (INSTANCE != null) return INSTANCE!!
             synchronized(this) {
                 INSTANCE =
-                    Room.databaseBuilder(context, LayoutDescriptionDB::class.java, "LD_DATABASE")
+                    Room.databaseBuilder(context, AppDB::class.java, "LD_DATABASE")
                         .createFromAsset("database/layouts.db").build()
                 return INSTANCE!!
             }
