@@ -23,6 +23,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         }
         model.identify()
         model.getRuneDataFromDB(this)
+        model.getAffirmationsDataFromDB(this)
         supportActionBar?.hide()
     }
 

@@ -2,6 +2,7 @@ package com.test.runar.room
 
 import androidx.room.Dao
 import androidx.room.Query
+import com.test.runar.model.AffimDescriptionModel
 import com.test.runar.model.LayoutDescriptionModel
 import com.test.runar.model.RuneDescriptionModel
 
@@ -19,4 +20,7 @@ interface AppDAO {
 
     @Query("SELECT * FROM runes")
     suspend fun getRunesDetails(): List<RuneDescriptionModel>
+
+    @Query("SELECT * FROM affirmations")
+    suspend fun getAffirmations(): List<AffimDescriptionModel>
 }

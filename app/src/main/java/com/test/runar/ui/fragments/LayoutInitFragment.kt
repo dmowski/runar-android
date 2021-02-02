@@ -9,6 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
@@ -139,7 +140,8 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
                     model.setCurrentUserLayout(layoutTable)
                 }
                 else if (!result[0]) {
-                    navController.navigate(R.id.layoutInterpretationFragment)
+                    val bundle = bundleOf("descriptionFontSize" to fontSize)
+                    navController.navigate(R.id.layoutInterpretationFragment,bundle)
                 }
 
             }
