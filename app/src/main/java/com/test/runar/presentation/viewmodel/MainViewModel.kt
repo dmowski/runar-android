@@ -32,6 +32,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     var currentAffirm = MutableLiveData("")
     var runesData : List<RuneDescriptionModel> = emptyList()
     var affirmData : List<AffimDescriptionModel> = emptyList()
+    var currentInterpretation = MutableLiveData("")
 
     var layoutInterpretationData: LiveData<Pair<LayoutDescriptionModel,Array<Int>>> = object : MediatorLiveData<Pair<LayoutDescriptionModel,Array<Int>>>(){
         var currentLayout: LayoutDescriptionModel? = null
@@ -48,6 +49,21 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 currentLayout?.let { value = it to userLayout }
             }
         }
+    }
+
+    fun getInterpretation(){
+        var layoutId = selectedLayout.value?.layoutId
+        var userLayout = currentUserLayout.value!!
+        var result : String =""
+        result = when(layoutId){
+            1-> getFullDescriptionForRune(userLayout[2])
+            2-> "Ваше настоящее положение дел можно охарактеризовать как (никак)"
+            3-> "Общее положение Ваших дел может быть описано как <bf>${getMeaningForRune(userLayout[6])}</bf><br>" +
+                    "Самое пристальное внимание обратите на проблему с вашим <bf>${getMeaningForRune(userLayout[5])}</bf><br>" +
+                    "Для решения данной проблемы, определитесь с <bf>${getMeaningForRune(userLayout[2])}</bf>"
+            else -> "<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>lol dude"
+        }
+        currentInterpretation.postValue(result)
     }
 
     fun getAuspForCurrentLayout(){
@@ -105,6 +121,24 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             }
         }
         return 0
+    }
+
+    fun getMeaningForRune(id: Int): String {
+        for(rune in runesData){
+            if(rune.runeId==id){
+                return rune.meaning!!
+            }
+        }
+        return ""
+    }
+
+    fun getFullDescriptionForRune(id: Int): String {
+        for(rune in runesData){
+            if(rune.runeId==id){
+                return rune.fullDescription!!
+            }
+        }
+        return ""
     }
 
     fun getRuneDataFromDB(context: Context){
