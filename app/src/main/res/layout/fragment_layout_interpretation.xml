@@ -130,6 +130,50 @@
                         android:lineSpacingMultiplier="1.2"
                         android:fontFamily="@font/roboto_light"
                         android:gravity="start"/>
+
+                    <FrameLayout
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="25dp"
+                        app:layout_constraintDimensionRatio="H,4.55:1"
+                        android:id="@+id/description_button_frame"
+                        android:background="@drawable/description_button_background_selector"
+                        app:layout_constraintTop_toBottomOf="@id/interpretation_text"
+                        android:layout_marginBottom="60dp"
+                        app:layout_constraintStart_toEndOf="@id/left_button_guideline"
+                        app:layout_constraintEnd_toStartOf="@id/right_button_guideline"
+                        android:clickable="true"
+                        android:focusable="true">
+                        <TextView
+                            android:id="@+id/button_text"
+                            android:duplicateParentState="true"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            app:autoSizeTextType="uniform"
+                            android:text="@string/layout_init_button_text1"
+                            android:textColor="@color/layout_description_button_text_selector"
+                            android:fontFamily="@font/amatic_sc_bold"
+                            android:textAlignment="center"
+                            android:layout_marginBottom="8dp"/>
+                    </FrameLayout>
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="25dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/description_button_frame"/>
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/left_button_guideline"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.19"/>
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/right_button_guideline"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.81"/>
                     <androidx.constraintlayout.widget.Guideline
                         android:id="@+id/auf_text_guideline"
                         android:layout_width="wrap_content"
