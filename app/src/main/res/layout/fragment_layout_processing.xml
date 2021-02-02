@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.test.runar.CustomView.OffsetImageView
+        android:id="@+id/offsetImageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/background_fire"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:offsetScaleType="fitX"
+        app:verticalCropOffset="1"
+        app:verticalFitOffset="0" />
+
+    <FrameLayout
+        android:id="@+id/description_header_frame"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="25dp"
+        app:layout_constraintDimensionRatio="H,3.5:1"
+        app:layout_constraintEnd_toStartOf="@id/right_header_guideline"
+        app:layout_constraintHorizontal_weight="72"
+        app:layout_constraintStart_toEndOf="@id/left_header_guideline"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fontFamily="@font/amatic_sc_bold"
+            android:letterSpacing="@dimen/layout_text_letter_spacing"
+            android:text=""
+            android:textAlignment="center"
+            android:textColor="@color/layout_desc_deselected"
+            app:autoSizeTextType="uniform" />
+    </FrameLayout>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/left_header_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.14" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/right_header_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.86" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/bottom_header_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.62" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/bottom_progress_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.78" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/top_header_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.23" />
+
+    <FrameLayout
+        android:id="@+id/description_button_frame"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="60dp"
+        android:background="@drawable/description_button_background_selector"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="H,4.55:1"
+        app:layout_constraintEnd_toStartOf="@id/right_button_guideline"
+        app:layout_constraintHorizontal_weight="62"
+        app:layout_constraintStart_toEndOf="@id/left_button_guideline">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="8dp"
+            android:duplicateParentState="true"
+            android:fontFamily="@font/amatic_sc_bold"
+            android:text="@string/layout_init_button_text3"
+            android:textAlignment="center"
+            android:textColor="@color/layout_description_button_text_selector"
+            app:autoSizeTextType="uniform" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/picture_with_progress_frame"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        app:layout_constraintDimensionRatio="H,4.55:1"
+        app:layout_constraintBottom_toBottomOf="@+id/bottom_header_guideline"
+        app:layout_constraintEnd_toStartOf="@id/right_header_guideline"
+        app:layout_constraintStart_toEndOf="@id/left_header_guideline"
+        app:layout_constraintTop_toTopOf="@+id/top_header_guideline">
+
+        <ProgressBar
+            android:id="@+id/progress"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:indeterminateDrawable="@drawable/loading"
+            android:visibility="visible" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/text_under_progress_frame"
+        android:layout_width="296dp"
+        android:layout_height="112dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_progress_guideline"
+        app:layout_constraintDimensionRatio="H,4.55:1"
+        app:layout_constraintEnd_toStartOf="@id/right_header_guideline"
+        app:layout_constraintStart_toEndOf="@id/left_header_guideline"
+        app:layout_constraintTop_toTopOf="@id/bottom_header_guideline">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_light"
+            android:letterSpacing="-0.02"
+            android:text="Магазин предметов скандинавской культуры и быта"
+            android:textAlignment="center"
+            android:textColor="#DADADA"
+            android:textSize="24sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:letterSpacing="-0.02"
+            android:text="Описание товаров"
+            android:textAlignment="center"
+            android:textColor="##DADADA"
+            android:textSize="16sp"
+            android:layout_gravity="center"
+            android:layout_marginTop="45dp"
+            android:fontFamily="@font/roboto_light"/>
+
+    </FrameLayout>
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/left_button_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.19" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/right_button_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.81" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/icon_description_start_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.31" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/icon_description_text_end_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.69" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/icon_description_processing_end_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.72" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/icon_description_processing_start_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.28" />
+
+    <FrameLayout
+        android:id="@+id/description_processing_frame"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="100dp"
+        android:foregroundGravity="center"
+        app:layout_constraintDimensionRatio="H,3.5:1"
+        app:layout_constraintEnd_toStartOf="@id/icon_description_processing_end_guideline"
+        app:layout_constraintHorizontal_weight="72"
+        app:layout_constraintStart_toEndOf="@id/icon_description_processing_start_guideline"
+        app:layout_constraintTop_toTopOf="parent" >
+
+        <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/roboto_light"
+        android:text="@string/layout_init_button_text4"
+        android:textAlignment="center"
+        android:textColor="@color/layout_desc_processing"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintTop_toBottomOf="@+id/description_header_frame" />
+    </FrameLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
