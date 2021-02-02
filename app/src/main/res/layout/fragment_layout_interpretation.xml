@@ -80,8 +80,8 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/interpretation_layout"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintEnd_toEndOf="@id/right_text_guideline"
-                    app:layout_constraintStart_toStartOf="@id/left_text_guideline"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content">
                     <TextView
@@ -94,47 +94,61 @@
                         app:autoSizeMinTextSize="5dp"
                         android:fontFamily="@font/roboto_light"
                         app:layout_constraintTop_toBottomOf="@id/text_affim"
-                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/left_text_guideline"
                         app:layout_constraintEnd_toEndOf="@id/auf_text_guideline"
                         android:textColor="@color/auf_text_color"
                         android:gravity="start"/>
                     <ImageView
                         android:id="@+id/spliter"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:src="@drawable/interpretation_bottom_line"
-                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/left_text_guideline"
+                        app:layout_constraintEnd_toEndOf="@id/right_text_guideline"
                         app:layout_constraintTop_toBottomOf="@+id/text"/>
                     <TextView
                         android:id="@+id/text_affim"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_regular"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/left_text_guideline"
+                        app:layout_constraintEnd_toStartOf="@id/right_text_guideline"
                         android:textColor="@color/affim_text_color"
                         android:letterSpacing="-0.02"
                         android:lineSpacingMultiplier="1.4"
                         android:gravity="start"/>
+                    <TextView
+                        android:id="@+id/interpretation_text"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/spliter"
+                        app:layout_constraintStart_toStartOf="@id/left_text_guideline"
+                        app:layout_constraintEnd_toStartOf="@id/right_text_guideline"
+                        android:textColor="@color/auf_text_color"
+                        android:lineSpacingMultiplier="1.2"
+                        android:fontFamily="@font/roboto_light"
+                        android:gravity="start"
+                        android:text="test"/>
                     <androidx.constraintlayout.widget.Guideline
                         android:id="@+id/auf_text_guideline"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        app:layout_constraintGuide_percent="0.60"/>
+                        app:layout_constraintGuide_percent="0.6"/>
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/left_text_guideline"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.10"/>
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/right_text_guideline"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.90"/>
                 </androidx.constraintlayout.widget.ConstraintLayout>
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/left_text_guideline"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_percent="0.10"/>
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/right_text_guideline"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_percent="0.90"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/left_header_guideline"
