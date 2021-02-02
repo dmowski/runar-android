@@ -56,11 +56,11 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         var userLayout = currentUserLayout.value!!
         var result : String =""
         result = when(layoutId){
-            1-> getFullDescriptionForRune(userLayout[2])
+            1-> getFullDescriptionForRune(userLayout[2])+"."
             2-> "Ваше настоящее положение дел можно охарактеризовать как (никак)"
-            3-> "Общее положение Ваших дел может быть описано как <bf>${getMeaningForRune(userLayout[6])}</bf><br>" +
-                    "Самое пристальное внимание обратите на проблему с вашим <bf>${getMeaningForRune(userLayout[5])}</bf><br>" +
-                    "Для решения данной проблемы, определитесь с <bf>${getMeaningForRune(userLayout[2])}</bf>"
+            3-> "Общее положение Ваших дел может быть описано как <bf>${getMeaningForRune(userLayout[6])}</bf>.<br>" +
+                    "Самое пристальное внимание обратите на проблему с вашим <bf>${getMeaningForRune(userLayout[2])}</bf>.<br>" +
+                    "Для решения данной проблемы, определитесь с <bf>${getMeaningForRune(userLayout[5])}</bf>."
             else -> "<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>lol dude"
         }
         currentInterpretation.postValue(result)
