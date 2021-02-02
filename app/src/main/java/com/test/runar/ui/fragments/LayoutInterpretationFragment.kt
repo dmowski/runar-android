@@ -47,6 +47,9 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                 header.text = selectedLayout.layoutName
 
                 var runeLayout = (view.findViewById<ScrollView>(R.id.scroll_view).getChildAt(0) as ConstraintLayout).getChildAt(1) as ConstraintLayout
+                for(i in 0..userLayout.size-1){
+                    Log.d("Log",userLayout[i].toString())
+                }
                 when (selectedLayout.layoutId) {
                     1 -> {
                         val firstRune = context?.let { it1 -> FrameLayout(it1) }
@@ -97,6 +100,367 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                         set.connect(firstRune.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP, 0)
                         set.connect(secondRune.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP, 0)
                         set.connect(secondRune.id, ConstraintSet.START, R.id.center_guideline, ConstraintSet.END, 0)
+                        set.applyTo(runeLayout)
+                    }
+                    3->{
+                        val firstRune = FrameLayout(requireContext())
+                        val secondRune = FrameLayout(requireContext())
+                        val thirdRune = FrameLayout(requireContext())
+
+                        firstRune.id = View.generateViewId()
+                        secondRune.id = View.generateViewId()
+                        thirdRune.id = View.generateViewId()
+
+                        val firstRuneId = userLayout[5]
+                        val secondRuneId = userLayout[2]
+                        val thirdRuneId = userLayout[6]
+
+                        val img1 = context?.assets?.open("runes/${firstRuneId}.png")
+                        val img2 = context?.assets?.open("runes/${secondRuneId}.png")
+                        val img3 = context?.assets?.open("runes/${thirdRuneId}.png")
+
+                        firstRune.setBackgroundDrawable(Drawable.createFromStream(img1,null))
+                        secondRune.setBackgroundDrawable(Drawable.createFromStream(img2,null))
+                        thirdRune.setBackgroundDrawable(Drawable.createFromStream(img3,null))
+
+                        firstRune.layoutParams = ConstraintLayout.LayoutParams(runeWidth, runeHeight)
+                        secondRune.layoutParams = ConstraintLayout.LayoutParams(runeWidth, runeHeight)
+                        thirdRune.layoutParams = ConstraintLayout.LayoutParams(runeWidth, runeHeight)
+
+                        runeLayout.addView(firstRune)
+                        runeLayout.addView(secondRune)
+                        runeLayout.addView(thirdRune)
+
+                        val set = ConstraintSet()
+                        set.clone(runeLayout)
+                        set.connect(secondRune.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, 0)
+                        set.connect(secondRune.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END, 0)
+                        set.connect(secondRune.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP, 0)
+                        set.connect(firstRune.id,ConstraintSet.TOP, secondRune.id, ConstraintSet.TOP, 0)
+                        set.connect(firstRune.id,ConstraintSet.BOTTOM, secondRune.id, ConstraintSet.BOTTOM, 0)
+                        set.connect(thirdRune.id,ConstraintSet.TOP, secondRune.id, ConstraintSet.TOP, 0)
+                        set.connect(thirdRune.id,ConstraintSet.BOTTOM, secondRune.id, ConstraintSet.BOTTOM, 0)
+                        set.connect(firstRune.id,ConstraintSet.END, secondRune.id, ConstraintSet.START, 0)
+                        set.connect(thirdRune.id,ConstraintSet.START, secondRune.id, ConstraintSet.END, 0)
+                        set.applyTo(runeLayout)
+                    }
+                    4->{
+                        val firstRune = FrameLayout(requireContext())
+                        val secondRune = FrameLayout(requireContext())
+                        val thirdRune = FrameLayout(requireContext())
+                        val fourthRune = FrameLayout(requireContext())
+
+                        firstRune.id = View.generateViewId()
+                        secondRune.id = View.generateViewId()
+                        thirdRune.id = View.generateViewId()
+                        fourthRune.id = View.generateViewId()
+
+                        val firstRuneId = userLayout[1]
+                        val secondRuneId = userLayout[2]
+                        val thirdRuneId = userLayout[3]
+                        val fourthRuneId = userLayout[6]
+
+                        val img1 = context?.assets?.open("runes/${firstRuneId}.png")
+                        val img2 = context?.assets?.open("runes/${secondRuneId}.png")
+                        val img3 = context?.assets?.open("runes/${thirdRuneId}.png")
+                        val img4 = context?.assets?.open("runes/${fourthRuneId}.png")
+
+                        firstRune.setBackgroundDrawable(Drawable.createFromStream(img1,null))
+                        secondRune.setBackgroundDrawable(Drawable.createFromStream(img2,null))
+                        thirdRune.setBackgroundDrawable(Drawable.createFromStream(img3,null))
+                        fourthRune.setBackgroundDrawable(Drawable.createFromStream(img4,null))
+
+                        firstRune.layoutParams = ConstraintLayout.LayoutParams(runeWidth, runeHeight)
+                        secondRune.layoutParams = ConstraintLayout.LayoutParams(runeWidth, runeHeight)
+                        thirdRune.layoutParams = ConstraintLayout.LayoutParams(runeWidth, runeHeight)
+                        fourthRune.layoutParams = ConstraintLayout.LayoutParams(runeWidth, runeHeight)
+
+                        runeLayout.addView(firstRune)
+                        runeLayout.addView(secondRune)
+                        runeLayout.addView(thirdRune)
+                        runeLayout.addView(fourthRune)
+
+                        val set = ConstraintSet()
+                        set.clone(runeLayout)
+                        set.connect(firstRune.id, ConstraintSet.END, R.id.center_guideline, ConstraintSet.END, 0)
+                        set.connect(firstRune.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP, 0)
+                        set.connect(secondRune.id,ConstraintSet.TOP,firstRune.id,ConstraintSet.BOTTOM,0)
+                        set.connect(secondRune.id,ConstraintSet.START,firstRune.id,ConstraintSet.START,0)
+                        set.connect(secondRune.id,ConstraintSet.END,firstRune.id,ConstraintSet.END,0)
+                        set.connect(thirdRune.id,ConstraintSet.TOP,secondRune.id,ConstraintSet.BOTTOM,0)
+                        set.connect(thirdRune.id,ConstraintSet.START,firstRune.id,ConstraintSet.START,0)
+                        set.connect(thirdRune.id,ConstraintSet.END,firstRune.id,ConstraintSet.END,0)
+                        set.connect(fourthRune.id, ConstraintSet.START, secondRune.id, ConstraintSet.END, 0)
+                        set.connect(fourthRune.id, ConstraintSet.BOTTOM, secondRune.id, ConstraintSet.BOTTOM, 0)
+                        set.connect(fourthRune.id, ConstraintSet.TOP, secondRune.id, ConstraintSet.TOP, 0)
+                        set.applyTo(runeLayout)
+                    }
+                    5->{
+                        val firstRune = FrameLayout(requireContext())
+                        val secondRune = FrameLayout(requireContext())
+                        val thirdRune = FrameLayout(requireContext())
+                        val fourthRune = FrameLayout(requireContext())
+
+                        firstRune.id = View.generateViewId()
+                        secondRune.id = View.generateViewId()
+                        thirdRune.id = View.generateViewId()
+                        fourthRune.id = View.generateViewId()
+
+                        val firstRuneId = userLayout[1]
+                        val secondRuneId = userLayout[5]
+                        val thirdRuneId = userLayout[6]
+                        val fourthRuneId = userLayout[2]
+
+                        val img1 = context?.assets?.open("runes/${firstRuneId}.png")
+                        val img2 = context?.assets?.open("runes/${secondRuneId}.png")
+                        val img3 = context?.assets?.open("runes/${thirdRuneId}.png")
+                        val img4 = context?.assets?.open("runes/${fourthRuneId}.png")
+
+                        firstRune.setBackgroundDrawable(Drawable.createFromStream(img1,null))
+                        secondRune.setBackgroundDrawable(Drawable.createFromStream(img2,null))
+                        thirdRune.setBackgroundDrawable(Drawable.createFromStream(img3,null))
+                        fourthRune.setBackgroundDrawable(Drawable.createFromStream(img4,null))
+
+                        firstRune.layoutParams = ConstraintLayout.LayoutParams(runeWidth, runeHeight)
+                        secondRune.layoutParams = ConstraintLayout.LayoutParams(runeWidth, runeHeight)
+                        thirdRune.layoutParams = ConstraintLayout.LayoutParams(runeWidth, runeHeight)
+                        fourthRune.layoutParams = ConstraintLayout.LayoutParams(runeWidth, runeHeight)
+
+                        runeLayout.addView(firstRune)
+                        runeLayout.addView(secondRune)
+                        runeLayout.addView(thirdRune)
+                        runeLayout.addView(fourthRune)
+
+                        val set = ConstraintSet()
+                        set.clone(runeLayout)
+                        set.connect(firstRune.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, 0)
+                        set.connect(firstRune.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END, 0)
+                        set.connect(firstRune.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP, 0)
+                        set.connect(fourthRune.id, ConstraintSet.START, firstRune.id, ConstraintSet.START, 0)
+                        set.connect(fourthRune.id, ConstraintSet.END, firstRune.id, ConstraintSet.END, 0)
+                        set.connect(fourthRune.id, ConstraintSet.TOP, firstRune.id, ConstraintSet.BOTTOM, 0)
+                        set.connect(secondRune.id, ConstraintSet.END, firstRune.id, ConstraintSet.START, 0)
+                        set.connect(secondRune.id, ConstraintSet.BOTTOM, fourthRune.id, ConstraintSet.BOTTOM, 0)
+                        set.connect(secondRune.id, ConstraintSet.TOP, firstRune.id, ConstraintSet.TOP, 0)
+                        set.connect(thirdRune.id, ConstraintSet.START, firstRune.id, ConstraintSet.END, 0)
+                        set.connect(thirdRune.id, ConstraintSet.BOTTOM, fourthRune.id, ConstraintSet.BOTTOM, 0)
+                        set.connect(thirdRune.id, ConstraintSet.TOP, firstRune.id, ConstraintSet.TOP, 0)
+                        set.applyTo(runeLayout)
+                    }
+                    6->{
+                        val firstRune = FrameLayout(requireContext())
+                        val secondRune = FrameLayout(requireContext())
+                        val thirdRune = FrameLayout(requireContext())
+                        val fourthRune = FrameLayout(requireContext())
+                        val fifthRune = FrameLayout(requireContext())
+
+                        firstRune.id = View.generateViewId()
+                        secondRune.id = View.generateViewId()
+                        thirdRune.id = View.generateViewId()
+                        fourthRune.id = View.generateViewId()
+                        fifthRune.id = View.generateViewId()
+
+                        val firstRuneId = userLayout[1]
+                        val secondRuneId = userLayout[2]
+                        val thirdRuneId = userLayout[3]
+                        val fourthRuneId = userLayout[5]
+                        val fifthRuneId = userLayout[6]
+
+                        val img1 = context?.assets?.open("runes/${firstRuneId}.png")
+                        val img2 = context?.assets?.open("runes/${secondRuneId}.png")
+                        val img3 = context?.assets?.open("runes/${thirdRuneId}.png")
+                        val img4 = context?.assets?.open("runes/${fourthRuneId}.png")
+                        val img5 = context?.assets?.open("runes/${fifthRuneId}.png")
+
+                        firstRune.setBackgroundDrawable(Drawable.createFromStream(img1,null))
+                        secondRune.setBackgroundDrawable(Drawable.createFromStream(img2,null))
+                        thirdRune.setBackgroundDrawable(Drawable.createFromStream(img3,null))
+                        fourthRune.setBackgroundDrawable(Drawable.createFromStream(img4,null))
+                        fifthRune.setBackgroundDrawable(Drawable.createFromStream(img5,null))
+
+                        firstRune.layoutParams = ConstraintLayout.LayoutParams(runeWidth, runeHeight)
+                        secondRune.layoutParams = ConstraintLayout.LayoutParams(runeWidth, runeHeight)
+                        thirdRune.layoutParams = ConstraintLayout.LayoutParams(runeWidth, runeHeight)
+                        fourthRune.layoutParams = ConstraintLayout.LayoutParams(runeWidth, runeHeight)
+                        fifthRune.layoutParams = ConstraintLayout.LayoutParams(runeWidth, runeHeight)
+
+                        runeLayout.addView(firstRune)
+                        runeLayout.addView(secondRune)
+                        runeLayout.addView(thirdRune)
+                        runeLayout.addView(fourthRune)
+                        runeLayout.addView(fifthRune)
+
+                        val set = ConstraintSet()
+                        set.clone(runeLayout)
+                        set.connect(firstRune.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END, 0)
+                        set.connect(firstRune.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, 0)
+                        set.connect(firstRune.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP, 0)
+                        set.connect(secondRune.id,ConstraintSet.TOP,firstRune.id,ConstraintSet.BOTTOM,0)
+                        set.connect(secondRune.id,ConstraintSet.START,firstRune.id,ConstraintSet.START,0)
+                        set.connect(secondRune.id,ConstraintSet.END,firstRune.id,ConstraintSet.END,0)
+                        set.connect(thirdRune.id,ConstraintSet.TOP,secondRune.id,ConstraintSet.BOTTOM,0)
+                        set.connect(thirdRune.id,ConstraintSet.START,firstRune.id,ConstraintSet.START,0)
+                        set.connect(thirdRune.id,ConstraintSet.END,firstRune.id,ConstraintSet.END,0)
+                        set.connect(fourthRune.id, ConstraintSet.END, secondRune.id, ConstraintSet.START, 0)
+                        set.connect(fourthRune.id, ConstraintSet.BOTTOM, secondRune.id, ConstraintSet.BOTTOM, 0)
+                        set.connect(fourthRune.id, ConstraintSet.TOP, secondRune.id, ConstraintSet.TOP, 0)
+                        set.connect(fifthRune.id, ConstraintSet.START, secondRune.id, ConstraintSet.END, 0)
+                        set.connect(fifthRune.id, ConstraintSet.BOTTOM, secondRune.id, ConstraintSet.BOTTOM, 0)
+                        set.connect(fifthRune.id, ConstraintSet.TOP, secondRune.id, ConstraintSet.TOP, 0)
+                        set.applyTo(runeLayout)
+                    }
+                    7->{
+                        val firstRune = FrameLayout(requireContext())
+                        val secondRune = FrameLayout(requireContext())
+                        val thirdRune = FrameLayout(requireContext())
+                        val fourthRune = FrameLayout(requireContext())
+                        val fifthRune = FrameLayout(requireContext())
+                        val sixthRune = FrameLayout(requireContext())
+
+                        firstRune.id = View.generateViewId()
+                        secondRune.id = View.generateViewId()
+                        thirdRune.id = View.generateViewId()
+                        fourthRune.id = View.generateViewId()
+                        fifthRune.id = View.generateViewId()
+                        sixthRune.id = View.generateViewId()
+
+                        val firstRuneId = userLayout[0]
+                        val secondRuneId = userLayout[1]
+                        val thirdRuneId = userLayout[2]
+                        val fourthRuneId = userLayout[3]
+                        val fifthRuneId = userLayout[5]
+                        val sixthRuneId = userLayout[6]
+
+                        val img1 = context?.assets?.open("runes/${firstRuneId}.png")
+                        val img2 = context?.assets?.open("runes/${secondRuneId}.png")
+                        val img3 = context?.assets?.open("runes/${thirdRuneId}.png")
+                        val img4 = context?.assets?.open("runes/${fourthRuneId}.png")
+                        val img5 = context?.assets?.open("runes/${fifthRuneId}.png")
+                        val img6 = context?.assets?.open("runes/${sixthRuneId}.png")
+
+                        firstRune.setBackgroundDrawable(Drawable.createFromStream(img1,null))
+                        secondRune.setBackgroundDrawable(Drawable.createFromStream(img2,null))
+                        thirdRune.setBackgroundDrawable(Drawable.createFromStream(img3,null))
+                        fourthRune.setBackgroundDrawable(Drawable.createFromStream(img4,null))
+                        fifthRune.setBackgroundDrawable(Drawable.createFromStream(img5,null))
+                        sixthRune.setBackgroundDrawable(Drawable.createFromStream(img6,null))
+
+                        firstRune.layoutParams = ConstraintLayout.LayoutParams(runeWidth, runeHeight)
+                        secondRune.layoutParams = ConstraintLayout.LayoutParams(runeWidth, runeHeight)
+                        thirdRune.layoutParams = ConstraintLayout.LayoutParams(runeWidth, runeHeight)
+                        fourthRune.layoutParams = ConstraintLayout.LayoutParams(runeWidth, runeHeight)
+                        fifthRune.layoutParams = ConstraintLayout.LayoutParams(runeWidth, runeHeight)
+                        sixthRune.layoutParams = ConstraintLayout.LayoutParams(runeWidth, runeHeight)
+
+                        runeLayout.addView(firstRune)
+                        runeLayout.addView(secondRune)
+                        runeLayout.addView(thirdRune)
+                        runeLayout.addView(fourthRune)
+                        runeLayout.addView(fifthRune)
+                        runeLayout.addView(sixthRune)
+
+                        val set = ConstraintSet()
+                        set.clone(runeLayout)
+                        set.connect(firstRune.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END, 0)
+                        set.connect(firstRune.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, 0)
+                        set.connect(firstRune.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP, 0)
+                        set.connect(secondRune.id,ConstraintSet.TOP,firstRune.id,ConstraintSet.BOTTOM,0)
+                        set.connect(secondRune.id,ConstraintSet.START,firstRune.id,ConstraintSet.START,0)
+                        set.connect(secondRune.id,ConstraintSet.END,firstRune.id,ConstraintSet.END,0)
+                        set.connect(thirdRune.id,ConstraintSet.TOP,secondRune.id,ConstraintSet.BOTTOM,0)
+                        set.connect(thirdRune.id,ConstraintSet.START,firstRune.id,ConstraintSet.START,0)
+                        set.connect(thirdRune.id,ConstraintSet.END,firstRune.id,ConstraintSet.END,0)
+                        set.connect(fourthRune.id,ConstraintSet.TOP,thirdRune.id,ConstraintSet.BOTTOM,0)
+                        set.connect(fourthRune.id,ConstraintSet.START,firstRune.id,ConstraintSet.START,0)
+                        set.connect(fourthRune.id,ConstraintSet.END,firstRune.id,ConstraintSet.END,0)
+                        set.connect(fifthRune.id, ConstraintSet.END, thirdRune.id, ConstraintSet.START, 0)
+                        set.connect(fifthRune.id, ConstraintSet.BOTTOM, thirdRune.id, ConstraintSet.BOTTOM, 0)
+                        set.connect(fifthRune.id, ConstraintSet.TOP, thirdRune.id, ConstraintSet.TOP, 0)
+                        set.connect(sixthRune.id, ConstraintSet.START, thirdRune.id, ConstraintSet.END, 0)
+                        set.connect(sixthRune.id, ConstraintSet.BOTTOM, thirdRune.id, ConstraintSet.BOTTOM, 0)
+                        set.connect(sixthRune.id, ConstraintSet.TOP, thirdRune.id, ConstraintSet.TOP, 0)
+                        set.applyTo(runeLayout)
+                    }
+                    8->{
+                        val firstRune = FrameLayout(requireContext())
+                        val secondRune = FrameLayout(requireContext())
+                        val thirdRune = FrameLayout(requireContext())
+                        val fourthRune = FrameLayout(requireContext())
+                        val fifthRune = FrameLayout(requireContext())
+                        val sixthRune = FrameLayout(requireContext())
+                        val seventhRune = FrameLayout(requireContext())
+
+                        firstRune.id = View.generateViewId()
+                        secondRune.id = View.generateViewId()
+                        thirdRune.id = View.generateViewId()
+                        fourthRune.id = View.generateViewId()
+                        fifthRune.id = View.generateViewId()
+                        sixthRune.id = View.generateViewId()
+                        seventhRune.id = View.generateViewId()
+
+                        val firstRuneId = userLayout[0]
+                        val secondRuneId = userLayout[1]
+                        val thirdRuneId = userLayout[2]
+                        val fourthRuneId = userLayout[3]
+                        val fifthRuneId = userLayout[4]
+                        val sixthRuneId = userLayout[5]
+                        val seventhRuneId = userLayout[6]
+
+                        val img1 = context?.assets?.open("runes/${firstRuneId}.png")
+                        val img2 = context?.assets?.open("runes/${secondRuneId}.png")
+                        val img3 = context?.assets?.open("runes/${thirdRuneId}.png")
+                        val img4 = context?.assets?.open("runes/${fourthRuneId}.png")
+                        val img5 = context?.assets?.open("runes/${fifthRuneId}.png")
+                        val img6 = context?.assets?.open("runes/${sixthRuneId}.png")
+                        val img7 = context?.assets?.open("runes/${seventhRuneId}.png")
+
+                        firstRune.setBackgroundDrawable(Drawable.createFromStream(img1,null))
+                        secondRune.setBackgroundDrawable(Drawable.createFromStream(img2,null))
+                        thirdRune.setBackgroundDrawable(Drawable.createFromStream(img3,null))
+                        fourthRune.setBackgroundDrawable(Drawable.createFromStream(img4,null))
+                        fifthRune.setBackgroundDrawable(Drawable.createFromStream(img5,null))
+                        sixthRune.setBackgroundDrawable(Drawable.createFromStream(img6,null))
+                        seventhRune.setBackgroundDrawable(Drawable.createFromStream(img7,null))
+
+                        firstRune.layoutParams = ConstraintLayout.LayoutParams(runeWidth, runeHeight)
+                        secondRune.layoutParams = ConstraintLayout.LayoutParams(runeWidth, runeHeight)
+                        thirdRune.layoutParams = ConstraintLayout.LayoutParams(runeWidth, runeHeight)
+                        fourthRune.layoutParams = ConstraintLayout.LayoutParams(runeWidth, runeHeight)
+                        fifthRune.layoutParams = ConstraintLayout.LayoutParams(runeWidth, runeHeight)
+                        sixthRune.layoutParams = ConstraintLayout.LayoutParams(runeWidth, runeHeight)
+                        seventhRune.layoutParams = ConstraintLayout.LayoutParams(runeWidth, runeHeight)
+
+                        runeLayout.addView(firstRune)
+                        runeLayout.addView(secondRune)
+                        runeLayout.addView(thirdRune)
+                        runeLayout.addView(fourthRune)
+                        runeLayout.addView(fifthRune)
+                        runeLayout.addView(sixthRune)
+                        runeLayout.addView(seventhRune)
+
+                        val set = ConstraintSet()
+                        set.clone(runeLayout)
+                        set.connect(firstRune.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END, 0)
+                        set.connect(firstRune.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, 0)
+                        set.connect(firstRune.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP, 0)
+                        set.connect(secondRune.id,ConstraintSet.TOP,firstRune.id,ConstraintSet.BOTTOM,0)
+                        set.connect(secondRune.id,ConstraintSet.START,firstRune.id,ConstraintSet.START,0)
+                        set.connect(secondRune.id,ConstraintSet.END,firstRune.id,ConstraintSet.END,0)
+                        set.connect(thirdRune.id,ConstraintSet.TOP,secondRune.id,ConstraintSet.BOTTOM,0)
+                        set.connect(thirdRune.id,ConstraintSet.START,firstRune.id,ConstraintSet.START,0)
+                        set.connect(thirdRune.id,ConstraintSet.END,firstRune.id,ConstraintSet.END,0)
+                        set.connect(fourthRune.id,ConstraintSet.TOP,thirdRune.id,ConstraintSet.BOTTOM,0)
+                        set.connect(fourthRune.id,ConstraintSet.START,firstRune.id,ConstraintSet.START,0)
+                        set.connect(fourthRune.id,ConstraintSet.END,firstRune.id,ConstraintSet.END,0)
+                        set.connect(fifthRune.id,ConstraintSet.TOP,fourthRune.id,ConstraintSet.BOTTOM,0)
+                        set.connect(fifthRune.id,ConstraintSet.START,firstRune.id,ConstraintSet.START,0)
+                        set.connect(fifthRune.id,ConstraintSet.END,firstRune.id,ConstraintSet.END,0)
+                        set.connect(sixthRune.id, ConstraintSet.END, thirdRune.id, ConstraintSet.START, 0)
+                        set.connect(sixthRune.id, ConstraintSet.BOTTOM, thirdRune.id, ConstraintSet.BOTTOM, 0)
+                        set.connect(sixthRune.id, ConstraintSet.TOP, thirdRune.id, ConstraintSet.TOP, 0)
+                        set.connect(seventhRune.id, ConstraintSet.START, thirdRune.id, ConstraintSet.END, 0)
+                        set.connect(seventhRune.id, ConstraintSet.BOTTOM, thirdRune.id, ConstraintSet.BOTTOM, 0)
+                        set.connect(seventhRune.id, ConstraintSet.TOP, thirdRune.id, ConstraintSet.TOP, 0)
                         set.applyTo(runeLayout)
                     }
                 }
