@@ -3,6 +3,7 @@ package com.test.runar.ui.fragments
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.text.Html
 import android.util.Log
 import android.util.TypedValue
 import android.view.View
@@ -19,6 +20,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
+import com.test.runar.CustomClasses.InterTagHandler
 import com.test.runar.R
 import com.test.runar.presentation.viewmodel.MainViewModel
 
@@ -478,6 +480,17 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                             model.getAffimForCurrentLayout(it)
                         }
                     }
+
+                    val secondFont = ResourcesCompat.getFont(requireContext(),R.font.roboto_medium)
+                    val interpretationText ="stre<bf>gerg</bf>rd<bf>g</bf>"
+
+                    var interpretationTextView =interpretationLayout.findViewById<TextView>(R.id.interpretation_text)
+                    interpretationTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
+
+                    interpretationTextView.text = Html.fromHtml(interpretationText,null,InterTagHandler(secondFont!!))
+
+
+
                 }
                 model.currentAffirm.observe(viewLifecycleOwner){
                     if(it!=""||it!=null){
