@@ -1,9 +1,12 @@
 package com.test.runar.ui.fragments
 
+import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
+import android.util.TypedValue
 import android.view.View
+import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.widget.FrameLayout
 import android.widget.ImageView
@@ -11,6 +14,8 @@ import android.widget.ScrollView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
+import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -24,6 +29,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
     private lateinit var headerText: String
     private var runeHeight: Int = 0
     private var runeWidth: Int = 0
+    private var fontSize: Float = 0f
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,6 +41,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        fontSize = arguments?.getFloat("descriptionFontSize")!!
         header =
                 ((view.findViewById<ScrollView>(R.id.scroll_view).getChildAt(0) as ConstraintLayout).getChildAt(0) as FrameLayout).getChildAt(0) as TextView
 
@@ -463,9 +470,21 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                 }
                 model.getAuspForCurrentLayout()
                 model.currentAusp.observe(viewLifecycleOwner){
-                    var testText = (((view.findViewById<ScrollView>(R.id.scroll_view).getChildAt(0) as ConstraintLayout).getChildAt(2) as ConstraintLayout).getChildAt(1) as ConstraintLayout).getChildAt(0) as TextView
+                    var interpretationLayout = ((view.findViewById<ScrollView>(R.id.scroll_view).getChildAt(0) as ConstraintLayout).getChildAt(2) as ConstraintLayout).getChildAt(1) as ConstraintLayout
+                    var testText = interpretationLayout.getChildAt(0) as TextView
                     if(it!=null){
-                        testText.text = it.toString()
+                        testText.text = "Благоприятность-$it %"
+                        if(it<=50){
+                            model.getAffimForCurrentLayout(it)
+                        }
+                    }
+                }
+                model.currentAffirm.observe(viewLifecycleOwner){
+                    if(it!=""||it!=null){
+                        var interpretationLayout = ((view.findViewById<ScrollView>(R.id.scroll_view).getChildAt(0) as ConstraintLayout).getChildAt(2) as ConstraintLayout).getChildAt(1) as ConstraintLayout
+                        val affimTextView = interpretationLayout.findViewById<TextView>(R.id.text_affim)
+                        affimTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
+                        affimTextView.text=it
                     }
                 }
                 //logic here

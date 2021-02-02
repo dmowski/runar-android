@@ -1,6 +1,7 @@
 package com.test.runar.repository
 
 import android.content.Context
+import com.test.runar.model.AffimDescriptionModel
 import com.test.runar.model.LayoutDescriptionModel
 import com.test.runar.model.RuneDescriptionModel
 import com.test.runar.room.AppDB
@@ -32,6 +33,11 @@ class DatabaseRepository {
         suspend fun getRunesList(context: Context): List<RuneDescriptionModel>{
             appDB = initDB(context)
             return appDB!!.appDAO().getRunesDetails()
+        }
+
+        suspend fun getAffirmList(context: Context): List<AffimDescriptionModel>{
+            appDB = initDB(context)
+            return appDB!!.appDAO().getAffirmations()
         }
     }
 }
