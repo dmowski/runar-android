@@ -22,6 +22,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
             initBottomNavBar()
         }
         model.identify()
+        model.getRuneDataFromDB(this)
         supportActionBar?.hide()
     }
 
