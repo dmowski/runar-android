@@ -480,17 +480,6 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                             model.getAffimForCurrentLayout(it)
                         }
                     }
-
-                    val secondFont = ResourcesCompat.getFont(requireContext(),R.font.roboto_medium)
-                    val interpretationText ="stre<bf>gerg</bf>rd<bf>g</bf>"
-
-                    var interpretationTextView =interpretationLayout.findViewById<TextView>(R.id.interpretation_text)
-                    interpretationTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
-
-                    interpretationTextView.text = Html.fromHtml(interpretationText,null,InterTagHandler(secondFont!!))
-
-
-
                 }
                 model.currentAffirm.observe(viewLifecycleOwner){
                     if(it!=""||it!=null){
@@ -498,28 +487,42 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                         val affimTextView = interpretationLayout.findViewById<TextView>(R.id.text_affim)
                         affimTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
                         affimTextView.text=it
+                        model.getInterpretation()
+                    }
+                }
+                model.currentInterpretation.observe(viewLifecycleOwner){
+                    if(it.isNotEmpty() &&it!=null){
+                        var interpretationLayout = ((view.findViewById<ScrollView>(R.id.scroll_view).getChildAt(0) as ConstraintLayout).getChildAt(2) as ConstraintLayout).getChildAt(1) as ConstraintLayout
+                        var interpretationTextView =interpretationLayout.findViewById<TextView>(R.id.interpretation_text)
+                        interpretationTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
+
+                        val secondFont = ResourcesCompat.getFont(requireContext(),R.font.roboto_medium)
+                        val interpretationText =it
+                        interpretationTextView.text = Html.fromHtml(interpretationText,null,InterTagHandler(secondFont!!))
+
+
+                        val mainLayout = view.findViewById<ConstraintLayout>(R.id.main_layout)
+                        val backgroundLayout = (view.findViewById<ScrollView>(R.id.scroll_view).getChildAt(0) as ConstraintLayout).getChildAt(2) as ConstraintLayout
+                        val observer = mainLayout.viewTreeObserver
+                        observer.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+                            override fun onGlobalLayout() {
+                                //observer.removeOnGlobalLayoutListener(this)
+                                val screenHeight = mainLayout.height
+                                val minSize = screenHeight - backgroundLayout.top
+                                if (minSize > backgroundLayout.height) {
+                                    val backLayout = backgroundLayout.getChildAt(1) as ConstraintLayout
+                                    val backLayoutParams = backLayout.layoutParams
+                                    backLayoutParams.height = minSize
+                                    backLayout.layoutParams = backLayoutParams
+                                }
+                            }
+                        })
                     }
                 }
                 //logic here
             }
         }
 
-        val mainLayout = view.findViewById<ConstraintLayout>(R.id.main_layout)
-        val backgroundLayout = (view.findViewById<ScrollView>(R.id.scroll_view).getChildAt(0) as ConstraintLayout).getChildAt(2) as ConstraintLayout
-        val observer = mainLayout.viewTreeObserver
-        observer.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
-            override fun onGlobalLayout() {
-                observer.removeOnGlobalLayoutListener(this)
-                val screenHeight = mainLayout.height
-                val minSize = screenHeight - backgroundLayout.top
-                if (minSize > backgroundLayout.height) {
-                    val backLayout = backgroundLayout.getChildAt(1) as ConstraintLayout
-                    val backLayoutParams = backLayout.layoutParams
-                    backLayoutParams.height = minSize
-                    backLayout.layoutParams = backLayoutParams
-                }
-            }
-        })
     }
 
     override fun onStop() {
