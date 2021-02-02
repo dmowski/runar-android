@@ -35,6 +35,7 @@
             android:letterSpacing="@dimen/layout_text_letter_spacing"
             android:textAlignment="center"/>
     </FrameLayout>
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/left_header_guideline"
         android:layout_width="wrap_content"
