@@ -9,7 +9,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import com.test.runar.model.LayoutDescriptionModel
-import com.test.runar.repository.LayoutDescriptionRepository
+import com.test.runar.model.RuneDescriptionModel
+import com.test.runar.repository.DatabaseRepository
 import com.test.runar.repository.SharedPreferencesRepository
 import com.test.runar.retrofit.RetrofitClient
 import com.test.runar.retrofit.UserInfo
@@ -26,6 +27,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     var showStatus = MutableLiveData(3)
     var preferencesRepository = SharedPreferencesRepository(application)
     var runeHeight = MutableLiveData(0)
+    var currentAusp = MutableLiveData(0)
+    var runesData : List<RuneDescriptionModel> = emptyList()
+
     var layoutInterpretationData: LiveData<Pair<LayoutDescriptionModel,Array<Int>>> = object : MediatorLiveData<Pair<LayoutDescriptionModel,Array<Int>>>(){
         var currentLayout: LayoutDescriptionModel? = null
         var userLayout: Array<Int>? = null
@@ -43,16 +47,40 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    fun getAuspForCurrentLayout(){
+        var layoutId = selectedLayout.value?.layoutId
+        var ausp = currentUserLayout.value?.get(2)?.let { getAuspForRune(it) }
+        currentAusp.postValue(ausp)
+    }
+    fun clearAusp(){
+        currentAusp.postValue(null)
+    }
+
+    fun getAuspForRune(id: Int): Int? {
+        for(rune in runesData){
+            if(rune.runeId==id){
+                return rune.ausp
+            }
+        }
+        return null
+    }
+
+    fun getRuneDataFromDB(context: Context){
+        CoroutineScope(IO).launch {
+            runesData = DatabaseRepository.getRunesList(context)
+        }
+    }
+
 
     fun notShowSelectedLayout(context: Context, id: Int) {
         CoroutineScope(IO).launch {
-            LayoutDescriptionRepository.notShow(context, id)
+            DatabaseRepository.notShow(context, id)
         }
     }
 
     fun getLayoutDescription(context: Context, id: Int) {
         CoroutineScope(IO).launch {
-            selectedLayout.postValue(LayoutDescriptionRepository.getLayoutDetails(context, id))
+            selectedLayout.postValue(DatabaseRepository.getLayoutDetails(context, id))
         }
     }
 
@@ -70,7 +98,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     fun descriptionCheck(context: Context, id: Int) {
         CoroutineScope(IO).launch {
-            showStatus.postValue(LayoutDescriptionRepository.getShowStatus(context, id))
+            showStatus.postValue(DatabaseRepository.getShowStatus(context, id))
         }
     }
 

@@ -47,9 +47,6 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                 header.text = selectedLayout.layoutName
 
                 var runeLayout = (view.findViewById<ScrollView>(R.id.scroll_view).getChildAt(0) as ConstraintLayout).getChildAt(1) as ConstraintLayout
-                for(i in 0..userLayout.size-1){
-                    Log.d("Log",userLayout[i].toString())
-                }
                 when (selectedLayout.layoutId) {
                     1 -> {
                         val firstRune = context?.let { it1 -> FrameLayout(it1) }
@@ -464,8 +461,13 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                         set.applyTo(runeLayout)
                     }
                 }
-
-
+                model.getAuspForCurrentLayout()
+                model.currentAusp.observe(viewLifecycleOwner){
+                    var testText = (((view.findViewById<ScrollView>(R.id.scroll_view).getChildAt(0) as ConstraintLayout).getChildAt(2) as ConstraintLayout).getChildAt(1) as ConstraintLayout).getChildAt(0) as TextView
+                    if(it!=null){
+                        testText.text = it.toString()
+                    }
+                }
                 //logic here
             }
         }
