@@ -135,19 +135,19 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        app:layout_constraintGuide_percent="0.6"/>
+                        app:layout_constraintGuide_percent="0.55"/>
                     <androidx.constraintlayout.widget.Guideline
                         android:id="@+id/left_text_guideline"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        app:layout_constraintGuide_percent="0.10"/>
+                        app:layout_constraintGuide_percent="0.05"/>
                     <androidx.constraintlayout.widget.Guideline
                         android:id="@+id/right_text_guideline"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        app:layout_constraintGuide_percent="0.90"/>
+                        app:layout_constraintGuide_percent="0.95"/>
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
             <androidx.constraintlayout.widget.Guideline
