@@ -464,6 +464,9 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                         set.applyTo(runeLayout)
                     }
                 }
+
+
+                //logic here
             }
         }
 
