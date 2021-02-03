@@ -93,7 +93,6 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
         }
     }
 
-
     override fun onClick(v: View?) {
         val dest = when (v?.id) {
             R.id.first_layout -> 1
