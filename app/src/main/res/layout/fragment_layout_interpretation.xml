@@ -148,7 +148,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             app:autoSizeTextType="uniform"
-                            android:text="@string/layout_init_button_text1"
+                            android:text="@string/layout_interpretation_button"
                             android:textColor="@color/layout_description_button_text_selector"
                             android:fontFamily="@font/amatic_sc_bold"
                             android:textAlignment="center"

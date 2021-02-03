@@ -15,11 +15,8 @@ import com.test.runar.repository.DatabaseRepository
 import com.test.runar.repository.SharedPreferencesRepository
 import com.test.runar.retrofit.RetrofitClient
 import com.test.runar.retrofit.UserInfo
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.*
 import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
@@ -51,17 +48,49 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun getInterpretation(){
+    fun getInterpretation(context: Context){
         var layoutId = selectedLayout.value?.layoutId
         var userLayout = currentUserLayout.value!!
         var result : String =""
-        result = when(layoutId){
-            1-> getFullDescriptionForRune(userLayout[2])+"."
-            2-> "Ваше настоящее положение дел можно охарактеризовать как (никак)"
-            3-> "Общее положение Ваших дел может быть описано как <bf>${getMeaningForRune(userLayout[6])}</bf>.<br>" +
+        when(layoutId){
+            1-> result = getFullDescriptionForRune(userLayout[2])+"."
+            2-> {
+                CoroutineScope(IO).launch {
+                    val index =userLayout[2]*100+userLayout[6]
+                    val inter = DatabaseRepository.getTwoRunesInterpretation(context,index)
+                    currentInterpretation.postValue("Ваше настоящее положение дел можно охарактеризовать как <bf>$inter</bf>.")
+                }
+                return
+            }
+            3->result = "Общее положение Ваших дел может быть описано как <bf>${getMeaningForRune(userLayout[6])}</bf>.<br>" +
                     "Самое пристальное внимание обратите на проблему с вашим <bf>${getMeaningForRune(userLayout[2])}</bf>.<br>" +
                     "Для решения данной проблемы, определитесь с <bf>${getMeaningForRune(userLayout[5])}</bf>."
-            else -> "<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>lol dude"
+            4->result = "Ваше текущее состояние можно описать как <bf>${getMeaningForRune(userLayout[6])}</bf>.<br>" +
+                    "Ваша проблема - это <bf>${getMeaningForRune(userLayout[2])}</bf>, " +
+                    "но для её решения вы должны опираться на <bf>${getMeaningForRune(userLayout[3])}</bf>.<br>" +
+                    "Если вы будете настойчивы в своих действиях то вас ждет <bf>${getMeaningForRune(userLayout[1])}</bf>."
+            5->result = "В прошлом вы ощущали <bf>${getMeaningForRune(userLayout[2])}</bf>.<br>" +
+                    "В настоящее время Вы чувствуете <bf>${getMeaningForRune(userLayout[5])}</bf>.<br>" +
+                    "В будущем вас ожидает <bf>${getMeaningForRune(userLayout[1])}</bf>."
+            6->result = "В прошлом вы ощущали <bf>${getMeaningForRune(userLayout[5])}</bf>.<br>" +
+                    "Настоящее (в том числе проблема) может быть описано как <bf>${getMeaningForRune(userLayout[2])}</bf>.<br>" +
+                    "При естественном развитии ситуации, Вас ожидает <bf>${getMeaningForRune(userLayout[6])}</bf>, " +
+                    "причем есть сила, а именно <bf>${getMeaningForRune(userLayout[3])}</bf>, на которую Вы не можете влиять.<br>" +
+                    "Но если Судьба принесет вам помощь - <bf>${getMeaningForRune(userLayout[1])}</bf>, то Вас ждет лучшее будущее."
+            7->result = "Вам, как человеку, присуща важная черта - <bf>${getMeaningForRune(userLayout[2])}</bf>, " +
+                    "и в настоящее время с Вами происходит <bf>${getMeaningForRune(userLayout[6])}</bf>.<br>" +
+                    "Источником Ваших проблем может быть <bf>${getMeaningForRune(userLayout[3])}</bf>.<br>" +
+                    "Наиболее вероятное будущее может быть описано как <bf>${getMeaningForRune(userLayout[5])}</bf>.<br>" +
+                    "Для достижения этого результата, Ваша главная цель - <bf>${getMeaningForRune(userLayout[1])}</bf>.<br>" +
+                    "Если же Вы не достигнете поставленной цели - вас ждет <bf>${getMeaningForRune(userLayout[0])}</bf>."
+            8->result ="В настоящее время с Вами происходит <bf>${getMeaningForRune(userLayout[2])}</bf>, " +
+                    "что является следствием вашего прошлого - <bf>${getMeaningForRune(userLayout[6])}</bf>.<br>" +
+                    "Чтобы достичь <bf>${getMeaningForRune(userLayout[5])}</bf> в будущем, " +
+                    "вам необходимо обратить внимание на <bf>${getMeaningForRune(userLayout[4])}</bf>.<br>" +
+                    "Возможно, причиной ваших трудностей является <bf>${getMeaningForRune(userLayout[3])}</bf>.<br>" +
+                    "Лучшее, чего Вы можете ожидать - это <bf>${getMeaningForRune(userLayout[1])}</bf>.<br>" +
+                    "В результате, вас ждет <bf>${getMeaningForRune(userLayout[0])}</bf>."
+            else ->result = "lol dude"
         }
         currentInterpretation.postValue(result)
     }
@@ -73,7 +102,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         when(layoutId){
             1-> ausp = getAuspForRune(userLayout[2])
             2-> ausp = (getAuspForRune(userLayout[2])+getAuspForRune(userLayout[6]))/2
-            3-> ausp = getAuspForRune(userLayout[2])
+            3-> ausp = getAuspForRune(userLayout[5])
             4-> ausp = (getAuspForRune(userLayout[1])+getAuspForRune(userLayout[3]))/2
             5-> ausp = (getAuspForRune(userLayout[5])+getAuspForRune(userLayout[1])+getAuspForRune(userLayout[6]))/3
             6-> ausp = (getAuspForRune(userLayout[3])+getAuspForRune(userLayout[1])+getAuspForRune(userLayout[6]))/3
