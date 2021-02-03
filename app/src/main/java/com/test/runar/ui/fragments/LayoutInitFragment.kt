@@ -281,7 +281,7 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
 
     private fun getUniqueRune(): Int {
         while (true) {
-            var randomNumber = Random.nextInt(1, 41)
+            var randomNumber = Random.nextInt(1, 42)
             if(layoutId==2){
                 for (i in 0..24) {
                     if (runesList[i][0] == randomNumber) {
