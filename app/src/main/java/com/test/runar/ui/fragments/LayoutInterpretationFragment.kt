@@ -39,6 +39,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
         model = activity?.run {
             ViewModelProviders.of(this)[MainViewModel::class.java]
         } ?: throw Exception("Invalid Activity")
+        Log.d("DebugData","Last fragment created")
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -474,6 +475,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                 model.currentAusp.observe(viewLifecycleOwner){
                     var interpretationLayout = ((view.findViewById<ScrollView>(R.id.scroll_view).getChildAt(0) as ConstraintLayout).getChildAt(2) as ConstraintLayout).getChildAt(1) as ConstraintLayout
                     var testText = interpretationLayout.getChildAt(0) as TextView
+                    interpretationLayout.findViewById<FrameLayout>(R.id.description_button_frame).setOnClickListener(this)
                     if(it!=null){
                         testText.text = "Благоприятность-$it %"
                         if(it<=50){
@@ -504,11 +506,12 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                         val mainLayout = view.findViewById<ConstraintLayout>(R.id.main_layout)
                         val backgroundLayout = (view.findViewById<ScrollView>(R.id.scroll_view).getChildAt(0) as ConstraintLayout).getChildAt(2) as ConstraintLayout
                         val observer = mainLayout.viewTreeObserver
-                        observer.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+                       /* observer.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
                             override fun onGlobalLayout() {
-                                //observer.removeOnGlobalLayoutListener(this)
+                                observer.removeOnGlobalLayoutListener(this)
                                 val screenHeight = mainLayout.height
                                 val minSize = screenHeight - backgroundLayout.top
+                                Log.d("DebugData","$minSize and ${backgroundLayout.height}")
                                 if (minSize > backgroundLayout.height) {
                                     val backLayout = backgroundLayout.getChildAt(1) as ConstraintLayout
                                     val backLayoutParams = backLayout.layoutParams
@@ -516,7 +519,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                                     backLayout.layoutParams = backLayoutParams
                                 }
                             }
-                        })
+                        })*/
                     }
                 }
                 //logic here
@@ -531,5 +534,6 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
 
     override fun onClick(v: View?) {
         val navController = findNavController()
+        navController.navigate(R.id.action_layoutInterpretationFragment_to_layoutFragment)
     }
 }
