@@ -62,12 +62,12 @@ class LayoutDescriptionFragment : Fragment(R.layout.fragment_layout_description)
         when (v?.id) {
             R.id.exit_button -> {
                 if (checkBox.isChecked) model.notShowSelectedLayout(requireContext(), layoutId)
-                navController.navigate(R.id.layoutFragment)
+                navController.navigate(R.id.action_layoutDescriptionFragment_to_layoutFragment)
             }
             R.id.description_button_frame -> {
                 if (checkBox.isChecked) model.notShowSelectedLayout(requireContext(), layoutId)
                 val bundle = bundleOf("descriptionFontSize" to fontSize)
-                navController.navigate(R.id.layoutInitFragment,bundle)
+                navController.navigate(R.id.action_layoutDescriptionFragment_to_layoutInitFragment,bundle)
             }
         }
     }

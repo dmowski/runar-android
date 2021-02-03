@@ -131,7 +131,8 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
         val navController = findNavController()
         when (v?.id) {
             R.id.exit_button -> {
-                activity?.let { CancelDialog(navController, it) }?.showDialog()
+                val action = R.id.action_layoutInitFragment_to_layoutFragment2
+                activity?.let { CancelDialog(navController, it, action) }?.showDialog()
             }
             R.id.description_button_frame -> {
                 var result = slotChanger()
@@ -141,7 +142,7 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
                 }
                 else if (!result[0]) {
                     val bundle = bundleOf("descriptionFontSize" to fontSize)
-                    navController.navigate(R.id.layoutInterpretationFragment,bundle)
+                    navController.navigate(R.id.action_layoutInitFragment_to_layoutInterpretationFragment,bundle)
                 }
 
             }
