@@ -241,6 +241,17 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
+    <com.test.runar.CustomView.OffsetImageView
+        android:id="@+id/load_helper"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/background_fire"
+        app:offsetScaleType="fitX"
+        app:verticalCropOffset="1"
+        app:verticalFitOffset="0"
+        android:visibility="visible"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
