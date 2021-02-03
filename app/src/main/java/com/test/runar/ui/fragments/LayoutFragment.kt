@@ -83,6 +83,7 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
         }
     }
 
+
     override fun onClick(v: View?) {
         val dest = when (v?.id) {
             R.id.first_layout -> 1
@@ -100,7 +101,7 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
         model.showStatus.observe(viewLifecycleOwner) {
             when (it) {
                 0 -> {
-                    navController.navigate(R.id.layoutProcessingFragment4) //TODO
+                    navController.navigate(R.id.emptyFragment)
                     model.clearShowStatus()
                 }
                 1 -> {
