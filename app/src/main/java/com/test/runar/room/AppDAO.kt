@@ -23,4 +23,7 @@ interface AppDAO {
 
     @Query("SELECT * FROM affirmations")
     suspend fun getAffirmations(): List<AffimDescriptionModel>
+
+    @Query("SELECT text FROM two_runes WHERE id = :id")
+    suspend fun getTwoRunesInter(id: Int?) : String
 }

@@ -489,7 +489,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                         val affimTextView = interpretationLayout.findViewById<TextView>(R.id.text_affim)
                         affimTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
                         affimTextView.text=it
-                        model.getInterpretation()
+                        model.getInterpretation(requireContext())
                     }
                 }
                 model.currentInterpretation.observe(viewLifecycleOwner){
