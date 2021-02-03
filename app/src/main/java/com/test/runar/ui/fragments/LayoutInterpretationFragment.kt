@@ -532,6 +532,8 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                                         constraintsSet.connect(R.id.bottom_support_frame,ConstraintSet.BOTTOM,ConstraintSet.PARENT_ID,ConstraintSet.BOTTOM)
                                         constraintsSet.clear(R.id.description_button_frame,ConstraintSet.TOP)
                                         constraintsSet.connect(R.id.description_button_frame,ConstraintSet.BOTTOM,R.id.bottom_support_frame,ConstraintSet.TOP)
+                                        constraintsSet.clear(R.id.checkbox,ConstraintSet.TOP)
+                                        constraintsSet.connect(R.id.checkbox,ConstraintSet.BOTTOM,R.id.description_button_frame,ConstraintSet.TOP)
                                         constraintsSet.applyTo(backLayout)
                                     }
                                 }

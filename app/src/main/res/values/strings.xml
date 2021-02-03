@@ -30,4 +30,6 @@
     <string name="description_popup_text">Завершить расклад?</string>
     <string name="description_popup_button1">Нет</string>
     <string name="description_popup_button2">Завершить</string>
+
+    <string name="layout_interpretation_checkbox">Сохранить</string>
 </resources>
