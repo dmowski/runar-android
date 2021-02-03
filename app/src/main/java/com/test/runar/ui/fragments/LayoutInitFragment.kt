@@ -2,7 +2,6 @@ package com.test.runar.ui.fragments
 
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
@@ -11,7 +10,6 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -31,11 +29,13 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
     private lateinit var headerText: String
     private lateinit var descriptionText: String
     private lateinit var layoutFrame: ConstraintLayout
+    private lateinit var button: FrameLayout
     private var fontSize: Float = 0f
     private var runeTable: Array<Array<Int>> = Array(7) { Array(2) { 0 } }
     private var runesList: Array<Array<Int>> = Array(25) { Array(2) { 0 } }
     private var layoutTable: Array<Int> = Array(9) { 0 }
     private var layoutId: Int? = 0
+    private var threadCounter =0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,10 +50,12 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
         super.onViewCreated(view, savedInstanceState)
         fontSize = arguments?.getFloat("descriptionFontSize")!!
 
+
         view.findViewById<FrameLayout>(R.id.description_button_frame).setOnClickListener(this)
         view.findViewById<ImageView>(R.id.exit_button).setOnClickListener(this)
         view.findViewById<ImageView>(R.id.info_button).setOnClickListener(this)
         view.findViewById<TextView>(R.id.text_info).setOnClickListener(this)
+        button = view.findViewById<FrameLayout>(R.id.description_button_frame)
         header =
                 view.findViewById<FrameLayout>(R.id.description_header_frame).getChildAt(0) as TextView
         buttonText = view.findViewById<FrameLayout>(R.id.description_button_frame).getChildAt(0) as TextView
@@ -226,6 +228,8 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
 
     private fun runeSetter(slot: ConstraintLayout, activeSlot: ConstraintLayout?, childNumber: Int) {
         lifecycleScope.launch {
+            threadCounter++
+            blockButton(false)
             delay(500L)
             val runeId = getUniqueRune()
             val ims = context?.assets?.open("runes/${runeId}.png")
@@ -237,7 +241,14 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
                 context?.let { (activeSlot.getChildAt(0) as TextView).setTextColor(it.getColor(R.color.rune_number_color_selected)) }
             }
             layoutTable[childNumber] = runeId
+            blockButton(true)
+            threadCounter--
         }
+    }
+
+    private fun blockButton(state: Boolean){
+        if(state) button.setOnClickListener(this)
+        else button.setOnClickListener(null)
     }
 
     private fun runesArrayInit() {
