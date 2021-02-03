@@ -21,6 +21,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.test.runar.CustomClasses.InterTagHandler
+import com.test.runar.CustomView.OffsetImageView
 import com.test.runar.R
 import com.test.runar.presentation.viewmodel.MainViewModel
 
@@ -39,7 +40,6 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
         model = activity?.run {
             ViewModelProviders.of(this)[MainViewModel::class.java]
         } ?: throw Exception("Invalid Activity")
-        Log.d("DebugData","Last fragment created")
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -517,7 +517,6 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                                     observer.removeOnGlobalLayoutListener(this)
                                     val screenHeight = mainLayout.height
                                     val minSize = screenHeight - backgroundLayout.top
-                                    Log.d("DebugData","$minSize and ${backgroundLayout.height}")
                                     var flag=false
                                     if (minSize > backgroundLayout.height) {
                                         val backLayoutParams = backLayout.layoutParams
@@ -536,6 +535,8 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                                         constraintsSet.connect(R.id.checkbox,ConstraintSet.BOTTOM,R.id.description_button_frame,ConstraintSet.TOP)
                                         constraintsSet.applyTo(backLayout)
                                     }
+                                    val supportView = view.findViewById<OffsetImageView>(R.id.load_helper)
+                                    supportView.visibility = View.GONE
                                 }
                             })
                         }
