@@ -39,5 +39,10 @@ class DatabaseRepository {
             appDB = initDB(context)
             return appDB!!.appDAO().getAffirmations()
         }
+
+        suspend fun getTwoRunesInterpretation(context: Context,id: Int): String{
+            appDB = initDB(context)
+            return appDB!!.appDAO().getTwoRunesInter(id)
+        }
     }
 }
