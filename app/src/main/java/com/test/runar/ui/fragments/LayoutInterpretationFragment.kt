@@ -493,33 +493,50 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                     }
                 }
                 model.currentInterpretation.observe(viewLifecycleOwner){
-                    if(it.isNotEmpty() &&it!=null){
-                        var interpretationLayout = ((view.findViewById<ScrollView>(R.id.scroll_view).getChildAt(0) as ConstraintLayout).getChildAt(2) as ConstraintLayout).getChildAt(1) as ConstraintLayout
-                        var interpretationTextView =interpretationLayout.findViewById<TextView>(R.id.interpretation_text)
-                        interpretationTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
+                    if(it!=null){
+                        if(it.isNotEmpty()){
 
-                        val secondFont = ResourcesCompat.getFont(requireContext(),R.font.roboto_medium)
-                        val interpretationText =it
-                        interpretationTextView.text = Html.fromHtml(interpretationText,null,InterTagHandler(secondFont!!))
+                            var interpretationLayout = ((view.findViewById<ScrollView>(R.id.scroll_view).getChildAt(0) as ConstraintLayout).getChildAt(2) as ConstraintLayout).getChildAt(1) as ConstraintLayout
+                            var interpretationTextView =interpretationLayout.findViewById<TextView>(R.id.interpretation_text)
+                            interpretationTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
+
+                            val secondFont = ResourcesCompat.getFont(requireContext(),R.font.roboto_medium)
+                            val interpretationText =it
+                            interpretationTextView.text = Html.fromHtml(interpretationText,null,InterTagHandler(secondFont!!))
 
 
-                        val mainLayout = view.findViewById<ConstraintLayout>(R.id.main_layout)
-                        val backgroundLayout = (view.findViewById<ScrollView>(R.id.scroll_view).getChildAt(0) as ConstraintLayout).getChildAt(2) as ConstraintLayout
-                        val observer = mainLayout.viewTreeObserver
-                       /* observer.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
-                            override fun onGlobalLayout() {
-                                observer.removeOnGlobalLayoutListener(this)
-                                val screenHeight = mainLayout.height
-                                val minSize = screenHeight - backgroundLayout.top
-                                Log.d("DebugData","$minSize and ${backgroundLayout.height}")
-                                if (minSize > backgroundLayout.height) {
-                                    val backLayout = backgroundLayout.getChildAt(1) as ConstraintLayout
-                                    val backLayoutParams = backLayout.layoutParams
-                                    backLayoutParams.height = minSize
-                                    backLayout.layoutParams = backLayoutParams
+                            val mainLayout = view.findViewById<ConstraintLayout>(R.id.main_layout)
+                            val backgroundLayout = (view.findViewById<ScrollView>(R.id.scroll_view).getChildAt(0) as ConstraintLayout).getChildAt(2) as ConstraintLayout
+                            val backLayout = backgroundLayout.getChildAt(1) as ConstraintLayout
+                            val interLayout = backgroundLayout.findViewById<ConstraintLayout>(R.id.interpretation_layout)
+                            val button = interLayout.findViewById<FrameLayout>(R.id.description_button_frame)
+                            val bottomSupportFrame = interLayout.findViewById<FrameLayout>(R.id.bottom_support_frame)
+                            val observer = mainLayout.viewTreeObserver
+                            observer.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+                                override fun onGlobalLayout() {
+                                    observer.removeOnGlobalLayoutListener(this)
+                                    val screenHeight = mainLayout.height
+                                    val minSize = screenHeight - backgroundLayout.top
+                                    Log.d("DebugData","$minSize and ${backgroundLayout.height}")
+                                    var flag=false
+                                    if (minSize > backgroundLayout.height) {
+                                        val backLayoutParams = backLayout.layoutParams
+                                        backLayoutParams.height = minSize
+                                        backLayout.layoutParams = backLayoutParams
+                                        flag=true
+                                    }
+                                    if(bottomSupportFrame.bottom<screenHeight&&flag){
+                                        val constraintsSet = ConstraintSet()
+                                        constraintsSet.clone(backLayout)
+                                        constraintsSet.clear(R.id.bottom_support_frame,ConstraintSet.TOP)
+                                        constraintsSet.connect(R.id.bottom_support_frame,ConstraintSet.BOTTOM,ConstraintSet.PARENT_ID,ConstraintSet.BOTTOM)
+                                        constraintsSet.clear(R.id.description_button_frame,ConstraintSet.TOP)
+                                        constraintsSet.connect(R.id.description_button_frame,ConstraintSet.BOTTOM,R.id.bottom_support_frame,ConstraintSet.TOP)
+                                        constraintsSet.applyTo(backLayout)
+                                    }
                                 }
-                            }
-                        })*/
+                            })
+                        }
                     }
                 }
                 //logic here
