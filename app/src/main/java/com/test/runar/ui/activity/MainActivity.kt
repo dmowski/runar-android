@@ -12,6 +12,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.test.runar.R
 import com.test.runar.presentation.viewmodel.MainViewModel
 import com.test.runar.ui.dialogs.CancelDialog
+import com.test.runar.ui.fragments.LayoutProcessingFragment
 import java.util.*
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
@@ -22,6 +23,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         val model: MainViewModel by viewModels()
         viewModel = model
         super.onCreate(savedInstanceState)
+
         if (savedInstanceState == null) {
             initBottomNavBar()
         }
