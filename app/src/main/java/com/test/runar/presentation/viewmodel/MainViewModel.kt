@@ -11,6 +11,7 @@ import androidx.lifecycle.MutableLiveData
 import com.test.runar.model.AffimDescriptionModel
 import com.test.runar.model.LayoutDescriptionModel
 import com.test.runar.model.RuneDescriptionModel
+import com.test.runar.model.UserLayoutModel
 import com.test.runar.repository.DatabaseRepository
 import com.test.runar.repository.SharedPreferencesRepository
 import com.test.runar.retrofit.RetrofitClient
@@ -93,6 +94,28 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             else ->result = "lol dude"
         }
         currentInterpretation.postValue(result)
+    }
+
+    fun saveUserLayout(context: Context){
+        var userId = preferencesRepository.getUserId()
+        var layoutId = selectedLayout.value?.layoutId
+        var userLayoutRunes = currentUserLayout.value!!
+        var currentDate = System.currentTimeMillis() / 1000L
+        CoroutineScope(IO).launch {
+            var userLayout = UserLayoutModel(
+                userId,
+                currentDate,
+                layoutId,
+                userLayoutRunes[0],
+                userLayoutRunes[1],
+                userLayoutRunes[2],
+                userLayoutRunes[3],
+                userLayoutRunes[4],
+                userLayoutRunes[5],
+                userLayoutRunes[6]
+            )
+            DatabaseRepository.addUserLayout(context,userLayout)
+        }
     }
 
     fun getAuspForCurrentLayout(){
@@ -225,6 +248,12 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     fun clearShowStatus() {
         showStatus.postValue(3)
+    }
+
+    fun closeDB(){
+        CoroutineScope(IO).launch {
+            DatabaseRepository.closeDB()
+        }
     }
 
     fun identify() {

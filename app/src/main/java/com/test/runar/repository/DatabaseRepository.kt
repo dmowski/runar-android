@@ -4,6 +4,7 @@ import android.content.Context
 import com.test.runar.model.AffimDescriptionModel
 import com.test.runar.model.LayoutDescriptionModel
 import com.test.runar.model.RuneDescriptionModel
+import com.test.runar.model.UserLayoutModel
 import com.test.runar.room.AppDB
 
 class DatabaseRepository {
@@ -43,6 +44,17 @@ class DatabaseRepository {
         suspend fun getTwoRunesInterpretation(context: Context,id: Int): String{
             appDB = initDB(context)
             return appDB!!.appDAO().getTwoRunesInter(id)
+        }
+
+        suspend fun addUserLayout(context: Context,data: UserLayoutModel){
+            appDB = initDB((context))
+            appDB!!.appDAO().addUserLayout(data)
+        }
+
+        suspend fun closeDB(){
+            if(appDB?.isOpen == true){
+                appDB?.close()
+            }
         }
     }
 }
