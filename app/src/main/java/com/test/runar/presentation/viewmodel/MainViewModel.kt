@@ -114,6 +114,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         currentAusp.postValue(null)
     }
 
+    fun clearInterpretation(){
+        currentInterpretation.postValue(null)
+    }
+
     fun getAuspForRune(id: Int): Int {
         for(rune in runesData){
             if(rune.runeId==id){
