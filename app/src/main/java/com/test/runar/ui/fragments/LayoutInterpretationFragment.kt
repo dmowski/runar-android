@@ -9,10 +9,7 @@ import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
-import android.widget.FrameLayout
-import android.widget.ImageView
-import android.widget.ScrollView
-import android.widget.TextView
+import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
@@ -30,6 +27,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
     private lateinit var model: MainViewModel
     private lateinit var header: TextView
     private lateinit var headerText: String
+    private lateinit var checkBox: CheckBox
     private var runeHeight: Int = 0
     private var runeWidth: Int = 0
     private var fontSize: Float = 0f
@@ -477,7 +475,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                     var testText = interpretationLayout.getChildAt(0) as TextView
                     interpretationLayout.findViewById<FrameLayout>(R.id.description_button_frame).setOnClickListener(this)
                     if(it!=null){
-                        testText.text = "Благоприятность-$it %"
+                        testText.text = "Благоприятность - $it %"
                         if(it<=50){
                             model.getAffimForCurrentLayout(it)
                         }
@@ -510,6 +508,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                             val backLayout = backgroundLayout.getChildAt(1) as ConstraintLayout
                             val interLayout = backgroundLayout.findViewById<ConstraintLayout>(R.id.interpretation_layout)
                             val button = interLayout.findViewById<FrameLayout>(R.id.description_button_frame)
+                            checkBox = interLayout.findViewById<CheckBox>(R.id.checkbox)
                             val bottomSupportFrame = interLayout.findViewById<FrameLayout>(R.id.bottom_support_frame)
                             val observer = mainLayout.viewTreeObserver
                             observer.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
@@ -554,6 +553,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
 
     override fun onClick(v: View?) {
         val navController = findNavController()
+        if (checkBox.isChecked) model.saveUserLayout(requireContext())
         navController.navigate(R.id.action_layoutInterpretationFragment_to_layoutFragment)
     }
 }
