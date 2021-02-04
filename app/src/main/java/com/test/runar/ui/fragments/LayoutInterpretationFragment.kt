@@ -1,5 +1,6 @@
 package com.test.runar.ui.fragments
 
+import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.os.Bundle
@@ -29,6 +30,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
     private lateinit var interpretationFrame : ConstraintLayout
     private lateinit var buttonFrame : FrameLayout
     private lateinit var headerFrame : FrameLayout
+    private lateinit var headerBackgroundFrame : FrameLayout
     private lateinit var runesLayout : ConstraintLayout
     private lateinit var headerText: String
     private lateinit var checkBox: CheckBox
@@ -48,9 +50,10 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
         super.onViewCreated(view, savedInstanceState)
         fontSize = arguments?.getFloat("descriptionFontSize")!!
         header =
-                ((view.findViewById<ScrollView>(R.id.scroll_view).getChildAt(0) as ConstraintLayout).getChildAt(0) as FrameLayout).getChildAt(0) as TextView
+                ((view.findViewById<ScrollView>(R.id.scroll_view).getChildAt(0) as ConstraintLayout).getChildAt(1) as FrameLayout).getChildAt(0) as TextView
         interpretationFrame =view.findViewById<ScrollView>(R.id.scroll_view).findViewById(R.id.inter_frame)
         headerFrame =view.findViewById<ScrollView>(R.id.scroll_view).findViewById(R.id.description_header_frame)
+        headerBackgroundFrame =view.findViewById<ScrollView>(R.id.scroll_view).findViewById(R.id.description_header_background)
         headerFrame.setOnClickListener(this)
 
 
@@ -62,7 +65,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                 var selectedLayout = it.first
                 header.text = selectedLayout.layoutName
 
-                var runeLayout = (view.findViewById<ScrollView>(R.id.scroll_view).getChildAt(0) as ConstraintLayout).getChildAt(1) as ConstraintLayout
+                var runeLayout = (view.findViewById<ScrollView>(R.id.scroll_view).getChildAt(0) as ConstraintLayout).getChildAt(2) as ConstraintLayout
                 runesLayout = runeLayout
                 when (selectedLayout.layoutId) {
                     1 -> {
@@ -486,7 +489,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                 //runes description**
                 model.getAuspForCurrentLayout()
                 model.currentAusp.observe(viewLifecycleOwner){
-                    var interpretationLayout = ((view.findViewById<ScrollView>(R.id.scroll_view).getChildAt(0) as ConstraintLayout).getChildAt(2) as ConstraintLayout).getChildAt(1) as ConstraintLayout
+                    var interpretationLayout = ((view.findViewById<ScrollView>(R.id.scroll_view).getChildAt(0) as ConstraintLayout).getChildAt(3) as ConstraintLayout).getChildAt(1) as ConstraintLayout
                     var testText = interpretationLayout.getChildAt(0) as TextView
                     interpretationLayout.findViewById<FrameLayout>(R.id.description_button_frame).setOnClickListener(this)
                     if(it!=null){
@@ -498,7 +501,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                 }
                 model.currentAffirm.observe(viewLifecycleOwner){
                     if(it!=""||it!=null){
-                        var interpretationLayout = ((view.findViewById<ScrollView>(R.id.scroll_view).getChildAt(0) as ConstraintLayout).getChildAt(2) as ConstraintLayout).getChildAt(1) as ConstraintLayout
+                        var interpretationLayout = ((view.findViewById<ScrollView>(R.id.scroll_view).getChildAt(0) as ConstraintLayout).getChildAt(3) as ConstraintLayout).getChildAt(1) as ConstraintLayout
                         val affimTextView = interpretationLayout.findViewById<TextView>(R.id.text_affim)
                         affimTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
                         affimTextView.text=it
@@ -509,7 +512,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                     if(it!=null){
                         if(it.isNotEmpty()){
 
-                            var interpretationLayout = ((view.findViewById<ScrollView>(R.id.scroll_view).getChildAt(0) as ConstraintLayout).getChildAt(2) as ConstraintLayout).getChildAt(1) as ConstraintLayout
+                            var interpretationLayout = ((view.findViewById<ScrollView>(R.id.scroll_view).getChildAt(0) as ConstraintLayout).getChildAt(3) as ConstraintLayout).getChildAt(1) as ConstraintLayout
                             var interpretationTextView =interpretationLayout.findViewById<TextView>(R.id.interpretation_text)
                             interpretationTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
 
@@ -519,7 +522,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
 
 
                             val mainLayout = view.findViewById<ConstraintLayout>(R.id.main_layout)
-                            val backgroundLayout = (view.findViewById<ScrollView>(R.id.scroll_view).getChildAt(0) as ConstraintLayout).getChildAt(2) as ConstraintLayout
+                            val backgroundLayout = (view.findViewById<ScrollView>(R.id.scroll_view).getChildAt(0) as ConstraintLayout).getChildAt(3) as ConstraintLayout
                             val backLayout = backgroundLayout.getChildAt(1) as ConstraintLayout
                             val interLayout = backgroundLayout.findViewById<ConstraintLayout>(R.id.interpretation_layout)
                             buttonFrame= interLayout.findViewById<FrameLayout>(R.id.description_button_frame)
@@ -575,9 +578,11 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                 interpretationFrame.visibility=View.VISIBLE
             }
             R.id.description_header_frame->{
+                headerBackgroundFrame.visibility=View.GONE
                 interpretationFrame.visibility=View.VISIBLE
             }
             else->{
+                headerBackgroundFrame.visibility=View.VISIBLE
                 interpretationFrame.visibility=View.GONE
             }
         }
