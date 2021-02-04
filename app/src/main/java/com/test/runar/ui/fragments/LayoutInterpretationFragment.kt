@@ -469,6 +469,12 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                         set.applyTo(runeLayout)
                     }
                 }
+                //**runes description
+                //runes click listeners
+                for(i in 0..runeLayout.childCount-1){
+                    runeLayout.getChildAt(i).setOnClickListener(this)
+                }
+                //runes description**
                 model.getAuspForCurrentLayout()
                 model.currentAusp.observe(viewLifecycleOwner){
                     var interpretationLayout = ((view.findViewById<ScrollView>(R.id.scroll_view).getChildAt(0) as ConstraintLayout).getChildAt(2) as ConstraintLayout).getChildAt(1) as ConstraintLayout
