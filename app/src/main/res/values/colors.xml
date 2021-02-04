@@ -33,4 +33,6 @@
 
     <color name="auf_text_color">#DADADA</color>
     <color name="affim_text_color">#D2C4AD</color>
+
+    <color name="interpretation_header_background">#CC000000</color>
 </resources>
