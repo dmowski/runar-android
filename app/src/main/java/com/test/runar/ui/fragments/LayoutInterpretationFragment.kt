@@ -28,6 +28,8 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
     private lateinit var header: TextView
     private lateinit var interpretationFrame : ConstraintLayout
     private lateinit var buttonFrame : FrameLayout
+    private lateinit var headerFrame : FrameLayout
+    private lateinit var runesLayout : ConstraintLayout
     private lateinit var headerText: String
     private lateinit var checkBox: CheckBox
     private var runeHeight: Int = 0
@@ -48,6 +50,9 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
         header =
                 ((view.findViewById<ScrollView>(R.id.scroll_view).getChildAt(0) as ConstraintLayout).getChildAt(0) as FrameLayout).getChildAt(0) as TextView
         interpretationFrame =view.findViewById<ScrollView>(R.id.scroll_view).findViewById(R.id.inter_frame)
+        headerFrame =view.findViewById<ScrollView>(R.id.scroll_view).findViewById(R.id.description_header_frame)
+        headerFrame.setOnClickListener(this)
+
 
         model.layoutInterpretationData.observe(viewLifecycleOwner) {
             if (it!=null&& it.second[8]==it.first.layoutId) {
@@ -58,6 +63,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                 header.text = selectedLayout.layoutName
 
                 var runeLayout = (view.findViewById<ScrollView>(R.id.scroll_view).getChildAt(0) as ConstraintLayout).getChildAt(1) as ConstraintLayout
+                runesLayout = runeLayout
                 when (selectedLayout.layoutId) {
                     1 -> {
                         val firstRune = context?.let { it1 -> FrameLayout(it1) }
@@ -566,6 +572,10 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
             R.id.description_button_frame->{
                 if (checkBox.isChecked) model.saveUserLayout(requireContext())
                 navController.navigate(R.id.action_layoutInterpretationFragment_to_layoutFragment)
+                interpretationFrame.visibility=View.VISIBLE
+            }
+            R.id.description_header_frame->{
+                interpretationFrame.visibility=View.VISIBLE
             }
             else->{
                 interpretationFrame.visibility=View.GONE
