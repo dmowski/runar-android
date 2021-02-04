@@ -63,33 +63,33 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 }
                 return
             }
-            3->result = "Общее положение Ваших дел может быть описано как <bf>${getMeaningForRune(userLayout[6])}</bf>.<br>" +
-                    "Самое пристальное внимание обратите на проблему с вашим <bf>${getMeaningForRune(userLayout[2])}</bf>.<br>" +
+            3->result = "Общее положение Ваших дел может быть описано как <bf>${getMeaningForRune(userLayout[6])}</bf>.<br><br>" +
+                    "Самое пристальное внимание обратите на проблему с вашим <bf>${getMeaningForRune(userLayout[2])}</bf>.<br><br>" +
                     "Для решения данной проблемы, определитесь с <bf>${getMeaningForRune(userLayout[5])}</bf>."
-            4->result = "Ваше текущее состояние можно описать как <bf>${getMeaningForRune(userLayout[6])}</bf>.<br>" +
+            4->result = "Ваше текущее состояние можно описать как <bf>${getMeaningForRune(userLayout[6])}</bf>.<br><br>" +
                     "Ваша проблема - это <bf>${getMeaningForRune(userLayout[2])}</bf>, " +
-                    "но для её решения вы должны опираться на <bf>${getMeaningForRune(userLayout[3])}</bf>.<br>" +
+                    "но для её решения вы должны опираться на <bf>${getMeaningForRune(userLayout[3])}</bf>.<br><br>" +
                     "Если вы будете настойчивы в своих действиях то вас ждет <bf>${getMeaningForRune(userLayout[1])}</bf>."
-            5->result = "В прошлом вы ощущали <bf>${getMeaningForRune(userLayout[2])}</bf>.<br>" +
-                    "В настоящее время Вы чувствуете <bf>${getMeaningForRune(userLayout[5])}</bf>.<br>" +
+            5->result = "В прошлом вы ощущали <bf>${getMeaningForRune(userLayout[2])}</bf>.<br><br>" +
+                    "В настоящее время Вы чувствуете <bf>${getMeaningForRune(userLayout[5])}</bf>.<br><br>" +
                     "В будущем вас ожидает <bf>${getMeaningForRune(userLayout[1])}</bf>."
-            6->result = "В прошлом вы ощущали <bf>${getMeaningForRune(userLayout[5])}</bf>.<br>" +
-                    "Настоящее (в том числе проблема) может быть описано как <bf>${getMeaningForRune(userLayout[2])}</bf>.<br>" +
+            6->result = "В прошлом вы ощущали <bf>${getMeaningForRune(userLayout[5])}</bf>.<br><br>" +
+                    "Настоящее (в том числе проблема) может быть описано как <bf>${getMeaningForRune(userLayout[2])}</bf>.<br><br>" +
                     "При естественном развитии ситуации, Вас ожидает <bf>${getMeaningForRune(userLayout[6])}</bf>, " +
-                    "причем есть сила, а именно <bf>${getMeaningForRune(userLayout[3])}</bf>, на которую Вы не можете влиять.<br>" +
+                    "причем есть сила, а именно <bf>${getMeaningForRune(userLayout[3])}</bf>, на которую Вы не можете влиять.<br><br>" +
                     "Но если Судьба принесет вам помощь - <bf>${getMeaningForRune(userLayout[1])}</bf>, то Вас ждет лучшее будущее."
             7->result = "Вам, как человеку, присуща важная черта - <bf>${getMeaningForRune(userLayout[2])}</bf>, " +
-                    "и в настоящее время с Вами происходит <bf>${getMeaningForRune(userLayout[6])}</bf>.<br>" +
-                    "Источником Ваших проблем может быть <bf>${getMeaningForRune(userLayout[3])}</bf>.<br>" +
-                    "Наиболее вероятное будущее может быть описано как <bf>${getMeaningForRune(userLayout[5])}</bf>.<br>" +
-                    "Для достижения этого результата, Ваша главная цель - <bf>${getMeaningForRune(userLayout[1])}</bf>.<br>" +
+                    "и в настоящее время с Вами происходит <bf>${getMeaningForRune(userLayout[6])}</bf>.<br><br>" +
+                    "Источником Ваших проблем может быть <bf>${getMeaningForRune(userLayout[3])}</bf>.<br><br>" +
+                    "Наиболее вероятное будущее может быть описано как <bf>${getMeaningForRune(userLayout[5])}</bf>.<br><br>" +
+                    "Для достижения этого результата, Ваша главная цель - <bf>${getMeaningForRune(userLayout[1])}</bf>.<br><br>" +
                     "Если же Вы не достигнете поставленной цели - вас ждет <bf>${getMeaningForRune(userLayout[0])}</bf>."
             8->result ="В настоящее время с Вами происходит <bf>${getMeaningForRune(userLayout[2])}</bf>, " +
-                    "что является следствием вашего прошлого - <bf>${getMeaningForRune(userLayout[6])}</bf>.<br>" +
+                    "что является следствием вашего прошлого - <bf>${getMeaningForRune(userLayout[6])}</bf>.<br><br>" +
                     "Чтобы достичь <bf>${getMeaningForRune(userLayout[5])}</bf> в будущем, " +
-                    "вам необходимо обратить внимание на <bf>${getMeaningForRune(userLayout[4])}</bf>.<br>" +
-                    "Возможно, причиной ваших трудностей является <bf>${getMeaningForRune(userLayout[3])}</bf>.<br>" +
-                    "Лучшее, чего Вы можете ожидать - это <bf>${getMeaningForRune(userLayout[1])}</bf>.<br>" +
+                    "вам необходимо обратить внимание на <bf>${getMeaningForRune(userLayout[4])}</bf>.<br><br>" +
+                    "Возможно, причиной ваших трудностей является <bf>${getMeaningForRune(userLayout[3])}</bf>.<br><br>" +
+                    "Лучшее, чего Вы можете ожидать - это <bf>${getMeaningForRune(userLayout[1])}</bf>.<br><br>" +
                     "В результате, вас ждет <bf>${getMeaningForRune(userLayout[0])}</bf>."
             else ->result = "lol dude"
         }
