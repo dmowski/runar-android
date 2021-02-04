@@ -26,6 +26,8 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
         View.OnClickListener {
     private lateinit var model: MainViewModel
     private lateinit var header: TextView
+    private lateinit var interpretationFrame : ConstraintLayout
+    private lateinit var buttonFrame : FrameLayout
     private lateinit var headerText: String
     private lateinit var checkBox: CheckBox
     private var runeHeight: Int = 0
@@ -45,6 +47,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
         fontSize = arguments?.getFloat("descriptionFontSize")!!
         header =
                 ((view.findViewById<ScrollView>(R.id.scroll_view).getChildAt(0) as ConstraintLayout).getChildAt(0) as FrameLayout).getChildAt(0) as TextView
+        interpretationFrame =view.findViewById<ScrollView>(R.id.scroll_view).findViewById(R.id.inter_frame)
 
         model.layoutInterpretationData.observe(viewLifecycleOwner) {
             if (it!=null&& it.second[8]==it.first.layoutId) {
@@ -471,7 +474,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                 }
                 //**runes description
                 //runes click listeners
-                for(i in 0..runeLayout.childCount-1){
+                for(i in 0 until runeLayout.childCount){
                     runeLayout.getChildAt(i).setOnClickListener(this)
                 }
                 //runes description**
@@ -513,7 +516,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                             val backgroundLayout = (view.findViewById<ScrollView>(R.id.scroll_view).getChildAt(0) as ConstraintLayout).getChildAt(2) as ConstraintLayout
                             val backLayout = backgroundLayout.getChildAt(1) as ConstraintLayout
                             val interLayout = backgroundLayout.findViewById<ConstraintLayout>(R.id.interpretation_layout)
-                            val button = interLayout.findViewById<FrameLayout>(R.id.description_button_frame)
+                            buttonFrame= interLayout.findViewById<FrameLayout>(R.id.description_button_frame)
                             checkBox = interLayout.findViewById<CheckBox>(R.id.checkbox)
                             val bottomSupportFrame = interLayout.findViewById<FrameLayout>(R.id.bottom_support_frame)
                             val observer = mainLayout.viewTreeObserver
@@ -559,7 +562,14 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
 
     override fun onClick(v: View?) {
         val navController = findNavController()
-        if (checkBox.isChecked) model.saveUserLayout(requireContext())
-        navController.navigate(R.id.action_layoutInterpretationFragment_to_layoutFragment)
+        when(v?.id){
+            R.id.description_button_frame->{
+                if (checkBox.isChecked) model.saveUserLayout(requireContext())
+                navController.navigate(R.id.action_layoutInterpretationFragment_to_layoutFragment)
+            }
+            else->{
+                interpretationFrame.visibility=View.GONE
+            }
+        }
     }
 }
