@@ -35,4 +35,5 @@
     <color name="affim_text_color">#D2C4AD</color>
 
     <color name="interpretation_header_background">#CC000000</color>
+    <color name="interpretation_runes_foreground">#59000000</color>
 </resources>

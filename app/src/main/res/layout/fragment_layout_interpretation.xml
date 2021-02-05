@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <com.test.runar.CustomView.OffsetImageView
+        android:id="@+id/back_image"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_width="match_parent"
@@ -62,6 +63,12 @@
                 app:layout_constraintTop_toBottomOf="@id/description_header_frame"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/rune_description_back"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/interpretation_header_background"
+                    android:visibility="gone"/>
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/center_guideline"
                     android:layout_width="wrap_content"
