@@ -29,14 +29,15 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
     private lateinit var header: TextView
     private lateinit var interpretationFrame: ConstraintLayout
     private lateinit var mainConstraintLayout: ConstraintLayout
+    private lateinit var interpretationLayout: ConstraintLayout
+
     private lateinit var buttonFrame: FrameLayout
+    private lateinit var checkBox: CheckBox
+
     private lateinit var headerFrame: FrameLayout
     private lateinit var headerBackgroundFrame: FrameLayout
     private lateinit var runesLayout: ConstraintLayout
-    private lateinit var checkBox: CheckBox
 
-
-    private lateinit var headerText: String
     private var runesViewList: ArrayList<FrameLayout> = arrayListOf()
     private var runeHeight: Int = 0
     private var runeWidth: Int = 0
@@ -59,6 +60,10 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
         headerFrame = view.findViewById(R.id.description_header_frame)
         headerBackgroundFrame = view.findViewById(R.id.description_header_background)
         runesLayout = view.findViewById(R.id.runes_layout)
+        mainConstraintLayout = view.findViewById(R.id.main_layout)
+        buttonFrame = view.findViewById(R.id.description_button_frame)
+        checkBox = view.findViewById(R.id.checkbox)
+        interpretationLayout = view.findViewById(R.id.interpretation_layout)
         headerFrame.setOnClickListener(this)
 
 
@@ -498,8 +503,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                 //runes description**
                 model.getAuspForCurrentLayout()
                 model.currentAusp.observe(viewLifecycleOwner) {
-                    var interpretationLayout = ((view.findViewById<ScrollView>(R.id.scroll_view).getChildAt(0) as ConstraintLayout).getChildAt(3) as ConstraintLayout).getChildAt(1) as ConstraintLayout
-                    var testText = interpretationLayout.getChildAt(0) as TextView
+                    var testText = interpretationLayout.findViewById<TextView>(R.id.text)
                     interpretationLayout.findViewById<FrameLayout>(R.id.description_button_frame).setOnClickListener(this)
                     if (it != null) {
                         testText.text = "Благоприятность - $it %"
@@ -510,7 +514,6 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                 }
                 model.currentAffirm.observe(viewLifecycleOwner) {
                     if (it != "" || it != null) {
-                        var interpretationLayout = ((view.findViewById<ScrollView>(R.id.scroll_view).getChildAt(0) as ConstraintLayout).getChildAt(3) as ConstraintLayout).getChildAt(1) as ConstraintLayout
                         val affimTextView = interpretationLayout.findViewById<TextView>(R.id.text_affim)
                         affimTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
                         affimTextView.text = it
@@ -520,8 +523,6 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                 model.currentInterpretation.observe(viewLifecycleOwner) {
                     if (it != null) {
                         if (it.isNotEmpty()) {
-
-                            var interpretationLayout = ((view.findViewById<ScrollView>(R.id.scroll_view).getChildAt(0) as ConstraintLayout).getChildAt(3) as ConstraintLayout).getChildAt(1) as ConstraintLayout
                             var interpretationTextView = interpretationLayout.findViewById<TextView>(R.id.interpretation_text)
                             interpretationTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
 
@@ -530,19 +531,16 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                             interpretationTextView.text = Html.fromHtml(interpretationText, null, InterTagHandler(secondFont!!))
 
 
-                            val mainLayout = view.findViewById<ConstraintLayout>(R.id.main_layout)
-                            mainConstraintLayout = mainLayout
-                            val backgroundLayout = (view.findViewById<ScrollView>(R.id.scroll_view).getChildAt(0) as ConstraintLayout).getChildAt(3) as ConstraintLayout
-                            val backLayout = backgroundLayout.getChildAt(1) as ConstraintLayout
+
+                            val backgroundLayout = interpretationFrame
+                            val backLayout = interpretationLayout
                             val interLayout = backgroundLayout.findViewById<ConstraintLayout>(R.id.interpretation_layout)
-                            buttonFrame = interLayout.findViewById<FrameLayout>(R.id.description_button_frame)
-                            checkBox = interLayout.findViewById<CheckBox>(R.id.checkbox)
                             val bottomSupportFrame = interLayout.findViewById<FrameLayout>(R.id.bottom_support_frame)
-                            val observer = mainLayout.viewTreeObserver
+                            val observer = mainConstraintLayout.viewTreeObserver
                             observer.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
                                 override fun onGlobalLayout() {
                                     observer.removeOnGlobalLayoutListener(this)
-                                    screenHeight = mainLayout.height
+                                    screenHeight = mainConstraintLayout.height
                                     val minSize = screenHeight - backgroundLayout.top
                                     var flag = false
                                     if (minSize > backgroundLayout.height) {
