@@ -1,9 +1,8 @@
 <resources>
     <string name="app_name">Runar</string>
     <string name="bottom_nav_layouts">Расклады</string>
-    <string name="bottom_nav_runes">Руны</string>
-    <string name="bottom_nav_sages">Саги</string>
-    <string name="bottom_nav_favourites">Избранное</string>
+    <string name="bottom_nav_library">Библиотека</string>
+    <string name="bottom_nav_favourites">Расклады</string>
     <string name="bottom_nav_settings">Настройки</string>
 
     <string name="layout1">Руна дня</string>

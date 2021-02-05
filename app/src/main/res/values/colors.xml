@@ -10,7 +10,7 @@
 
     <color name="bottom_nav_background_night">#1D1D1D</color>
     <color name="bottom_nav_selected">#EFCD93</color>
-    <color name="bottom_nav_deselected">#636366</color>
+    <color name="bottom_nav_deselected">#828282</color>
     <color name="bottom_nav_text_deselected">#8E8E93</color>
     <color name="layout_text_deselected">#D2C4AD</color>
     <color name="layout_text_selected">#FCC874</color>
