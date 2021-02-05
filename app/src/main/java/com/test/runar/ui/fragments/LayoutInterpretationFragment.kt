@@ -1,15 +1,12 @@
 package com.test.runar.ui.fragments
 
 import android.graphics.Color
-import android.graphics.Typeface
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.text.Html
-import android.util.Log
 import android.util.TypedValue
 import android.view.View
-import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -27,6 +24,8 @@ import com.test.runar.presentation.viewmodel.MainViewModel
 class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpretation),
         View.OnClickListener {
     private lateinit var model: MainViewModel
+
+
     private lateinit var header: TextView
     private lateinit var interpretationFrame: ConstraintLayout
     private lateinit var mainConstraintLayout: ConstraintLayout
@@ -34,8 +33,10 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
     private lateinit var headerFrame: FrameLayout
     private lateinit var headerBackgroundFrame: FrameLayout
     private lateinit var runesLayout: ConstraintLayout
-    private lateinit var headerText: String
     private lateinit var checkBox: CheckBox
+
+
+    private lateinit var headerText: String
     private var runesViewList: ArrayList<FrameLayout> = arrayListOf()
     private var runeHeight: Int = 0
     private var runeWidth: Int = 0
@@ -53,11 +54,11 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         fontSize = arguments?.getFloat("descriptionFontSize")!!
-        header =
-                ((view.findViewById<ScrollView>(R.id.scroll_view).getChildAt(0) as ConstraintLayout).getChildAt(1) as FrameLayout).getChildAt(0) as TextView
-        interpretationFrame = view.findViewById<ScrollView>(R.id.scroll_view).findViewById(R.id.inter_frame)
-        headerFrame = view.findViewById<ScrollView>(R.id.scroll_view).findViewById(R.id.description_header_frame)
-        headerBackgroundFrame = view.findViewById<ScrollView>(R.id.scroll_view).findViewById(R.id.description_header_background)
+        header = view.findViewById(R.id.header)
+        interpretationFrame = view.findViewById(R.id.inter_frame)
+        headerFrame = view.findViewById(R.id.description_header_frame)
+        headerBackgroundFrame = view.findViewById(R.id.description_header_background)
+        runesLayout = view.findViewById(R.id.runes_layout)
         headerFrame.setOnClickListener(this)
 
 
@@ -68,9 +69,6 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                 var userLayout = it.second
                 var selectedLayout = it.first
                 header.text = selectedLayout.layoutName
-
-                var runeLayout = (view.findViewById<ScrollView>(R.id.scroll_view).getChildAt(0) as ConstraintLayout).getChildAt(2) as ConstraintLayout
-                runesLayout = runeLayout
                 when (selectedLayout.layoutId) {
                     1 -> {
                         val firstRune = context?.let { it1 -> FrameLayout(it1) }
@@ -84,13 +82,13 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                             var firstRuneLayoutParams = ConstraintLayout.LayoutParams(runeWidth, runeHeight)
                             firstRune.layoutParams = firstRuneLayoutParams
 
-                            runeLayout.addView(firstRune)
+                            this.runesLayout.addView(firstRune)
                             val set = ConstraintSet()
-                            set.clone(runeLayout)
+                            set.clone(runesLayout)
                             set.connect(firstRune.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, 0)
                             set.connect(firstRune.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END, 0)
                             set.connect(firstRune.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP, 0)
-                            set.applyTo(runeLayout)
+                            set.applyTo(runesLayout)
                         }
                     }
                     2 -> {
@@ -113,16 +111,16 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                         firstRune.layoutParams = ConstraintLayout.LayoutParams(runeWidth, runeHeight)
                         secondRune.layoutParams = ConstraintLayout.LayoutParams(runeWidth, runeHeight)
 
-                        runeLayout.addView(firstRune)
-                        runeLayout.addView(secondRune)
+                        runesLayout.addView(firstRune)
+                        runesLayout.addView(secondRune)
 
                         val set = ConstraintSet()
-                        set.clone(runeLayout)
+                        set.clone(runesLayout)
                         set.connect(firstRune.id, ConstraintSet.END, R.id.center_guideline, ConstraintSet.START, 0)
                         set.connect(firstRune.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP, 0)
                         set.connect(secondRune.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP, 0)
                         set.connect(secondRune.id, ConstraintSet.START, R.id.center_guideline, ConstraintSet.END, 0)
-                        set.applyTo(runeLayout)
+                        set.applyTo(runesLayout)
                     }
                     3 -> {
                         val firstRune = FrameLayout(requireContext())
@@ -150,12 +148,12 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                         secondRune.layoutParams = ConstraintLayout.LayoutParams(runeWidth, runeHeight)
                         thirdRune.layoutParams = ConstraintLayout.LayoutParams(runeWidth, runeHeight)
 
-                        runeLayout.addView(firstRune)
-                        runeLayout.addView(secondRune)
-                        runeLayout.addView(thirdRune)
+                        runesLayout.addView(firstRune)
+                        runesLayout.addView(secondRune)
+                        runesLayout.addView(thirdRune)
 
                         val set = ConstraintSet()
-                        set.clone(runeLayout)
+                        set.clone(runesLayout)
                         set.connect(secondRune.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, 0)
                         set.connect(secondRune.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END, 0)
                         set.connect(secondRune.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP, 0)
@@ -165,7 +163,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                         set.connect(thirdRune.id, ConstraintSet.BOTTOM, secondRune.id, ConstraintSet.BOTTOM, 0)
                         set.connect(firstRune.id, ConstraintSet.END, secondRune.id, ConstraintSet.START, 0)
                         set.connect(thirdRune.id, ConstraintSet.START, secondRune.id, ConstraintSet.END, 0)
-                        set.applyTo(runeLayout)
+                        set.applyTo(runesLayout)
                     }
                     4 -> {
                         val firstRune = FrameLayout(requireContext())
@@ -199,13 +197,13 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                         thirdRune.layoutParams = ConstraintLayout.LayoutParams(runeWidth, runeHeight)
                         fourthRune.layoutParams = ConstraintLayout.LayoutParams(runeWidth, runeHeight)
 
-                        runeLayout.addView(firstRune)
-                        runeLayout.addView(secondRune)
-                        runeLayout.addView(thirdRune)
-                        runeLayout.addView(fourthRune)
+                        runesLayout.addView(firstRune)
+                        runesLayout.addView(secondRune)
+                        runesLayout.addView(thirdRune)
+                        runesLayout.addView(fourthRune)
 
                         val set = ConstraintSet()
-                        set.clone(runeLayout)
+                        set.clone(runesLayout)
                         set.connect(firstRune.id, ConstraintSet.END, R.id.center_guideline, ConstraintSet.END, 0)
                         set.connect(firstRune.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP, 0)
                         set.connect(secondRune.id, ConstraintSet.TOP, firstRune.id, ConstraintSet.BOTTOM, 0)
@@ -217,7 +215,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                         set.connect(fourthRune.id, ConstraintSet.START, secondRune.id, ConstraintSet.END, 0)
                         set.connect(fourthRune.id, ConstraintSet.BOTTOM, secondRune.id, ConstraintSet.BOTTOM, 0)
                         set.connect(fourthRune.id, ConstraintSet.TOP, secondRune.id, ConstraintSet.TOP, 0)
-                        set.applyTo(runeLayout)
+                        set.applyTo(runesLayout)
                     }
                     5 -> {
                         val firstRune = FrameLayout(requireContext())
@@ -251,13 +249,13 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                         thirdRune.layoutParams = ConstraintLayout.LayoutParams(runeWidth, runeHeight)
                         fourthRune.layoutParams = ConstraintLayout.LayoutParams(runeWidth, runeHeight)
 
-                        runeLayout.addView(firstRune)
-                        runeLayout.addView(secondRune)
-                        runeLayout.addView(thirdRune)
-                        runeLayout.addView(fourthRune)
+                        runesLayout.addView(firstRune)
+                        runesLayout.addView(secondRune)
+                        runesLayout.addView(thirdRune)
+                        runesLayout.addView(fourthRune)
 
                         val set = ConstraintSet()
-                        set.clone(runeLayout)
+                        set.clone(runesLayout)
                         set.connect(firstRune.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, 0)
                         set.connect(firstRune.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END, 0)
                         set.connect(firstRune.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP, 0)
@@ -270,7 +268,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                         set.connect(thirdRune.id, ConstraintSet.START, firstRune.id, ConstraintSet.END, 0)
                         set.connect(thirdRune.id, ConstraintSet.BOTTOM, fourthRune.id, ConstraintSet.BOTTOM, 0)
                         set.connect(thirdRune.id, ConstraintSet.TOP, firstRune.id, ConstraintSet.TOP, 0)
-                        set.applyTo(runeLayout)
+                        set.applyTo(runesLayout)
                     }
                     6 -> {
                         val firstRune = FrameLayout(requireContext())
@@ -310,14 +308,14 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                         fourthRune.layoutParams = ConstraintLayout.LayoutParams(runeWidth, runeHeight)
                         fifthRune.layoutParams = ConstraintLayout.LayoutParams(runeWidth, runeHeight)
 
-                        runeLayout.addView(firstRune)
-                        runeLayout.addView(secondRune)
-                        runeLayout.addView(thirdRune)
-                        runeLayout.addView(fourthRune)
-                        runeLayout.addView(fifthRune)
+                        runesLayout.addView(firstRune)
+                        runesLayout.addView(secondRune)
+                        runesLayout.addView(thirdRune)
+                        runesLayout.addView(fourthRune)
+                        runesLayout.addView(fifthRune)
 
                         val set = ConstraintSet()
-                        set.clone(runeLayout)
+                        set.clone(runesLayout)
                         set.connect(firstRune.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END, 0)
                         set.connect(firstRune.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, 0)
                         set.connect(firstRune.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP, 0)
@@ -333,7 +331,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                         set.connect(fifthRune.id, ConstraintSet.START, secondRune.id, ConstraintSet.END, 0)
                         set.connect(fifthRune.id, ConstraintSet.BOTTOM, secondRune.id, ConstraintSet.BOTTOM, 0)
                         set.connect(fifthRune.id, ConstraintSet.TOP, secondRune.id, ConstraintSet.TOP, 0)
-                        set.applyTo(runeLayout)
+                        set.applyTo(runesLayout)
                     }
                     7 -> {
                         val firstRune = FrameLayout(requireContext())
@@ -379,15 +377,15 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                         fifthRune.layoutParams = ConstraintLayout.LayoutParams(runeWidth, runeHeight)
                         sixthRune.layoutParams = ConstraintLayout.LayoutParams(runeWidth, runeHeight)
 
-                        runeLayout.addView(firstRune)
-                        runeLayout.addView(secondRune)
-                        runeLayout.addView(thirdRune)
-                        runeLayout.addView(fourthRune)
-                        runeLayout.addView(fifthRune)
-                        runeLayout.addView(sixthRune)
+                        runesLayout.addView(firstRune)
+                        runesLayout.addView(secondRune)
+                        runesLayout.addView(thirdRune)
+                        runesLayout.addView(fourthRune)
+                        runesLayout.addView(fifthRune)
+                        runesLayout.addView(sixthRune)
 
                         val set = ConstraintSet()
-                        set.clone(runeLayout)
+                        set.clone(runesLayout)
                         set.connect(firstRune.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END, 0)
                         set.connect(firstRune.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, 0)
                         set.connect(firstRune.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP, 0)
@@ -406,7 +404,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                         set.connect(sixthRune.id, ConstraintSet.START, thirdRune.id, ConstraintSet.END, 0)
                         set.connect(sixthRune.id, ConstraintSet.BOTTOM, thirdRune.id, ConstraintSet.BOTTOM, 0)
                         set.connect(sixthRune.id, ConstraintSet.TOP, thirdRune.id, ConstraintSet.TOP, 0)
-                        set.applyTo(runeLayout)
+                        set.applyTo(runesLayout)
                     }
                     8 -> {
                         val firstRune = FrameLayout(requireContext())
@@ -458,16 +456,16 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                         sixthRune.layoutParams = ConstraintLayout.LayoutParams(runeWidth, runeHeight)
                         seventhRune.layoutParams = ConstraintLayout.LayoutParams(runeWidth, runeHeight)
 
-                        runeLayout.addView(firstRune)
-                        runeLayout.addView(secondRune)
-                        runeLayout.addView(thirdRune)
-                        runeLayout.addView(fourthRune)
-                        runeLayout.addView(fifthRune)
-                        runeLayout.addView(sixthRune)
-                        runeLayout.addView(seventhRune)
+                        runesLayout.addView(firstRune)
+                        runesLayout.addView(secondRune)
+                        runesLayout.addView(thirdRune)
+                        runesLayout.addView(fourthRune)
+                        runesLayout.addView(fifthRune)
+                        runesLayout.addView(sixthRune)
+                        runesLayout.addView(seventhRune)
 
                         val set = ConstraintSet()
-                        set.clone(runeLayout)
+                        set.clone(runesLayout)
                         set.connect(firstRune.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END, 0)
                         set.connect(firstRune.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, 0)
                         set.connect(firstRune.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP, 0)
@@ -489,13 +487,13 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                         set.connect(seventhRune.id, ConstraintSet.START, thirdRune.id, ConstraintSet.END, 0)
                         set.connect(seventhRune.id, ConstraintSet.BOTTOM, thirdRune.id, ConstraintSet.BOTTOM, 0)
                         set.connect(seventhRune.id, ConstraintSet.TOP, thirdRune.id, ConstraintSet.TOP, 0)
-                        set.applyTo(runeLayout)
+                        set.applyTo(runesLayout)
                     }
                 }
                 //**runes description
                 //runes click listeners
-                for (i in 0 until runeLayout.childCount) {
-                    runeLayout.getChildAt(i).setOnClickListener(this)
+                for (i in 0 until this.runesLayout.childCount) {
+                    this.runesLayout.getChildAt(i).setOnClickListener(this)
                 }
                 //runes description**
                 model.getAuspForCurrentLayout()
