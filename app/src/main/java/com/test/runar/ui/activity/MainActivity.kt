@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         bottomNav.setupWithNavController(navController)
         navController.addOnDestinationChangedListener { _, destination, _ ->
             bottomNav.visibility = when (destination.id) {
-                R.id.layoutFragment, R.id.runesFragment, R.id.placeholder, R.id.placeholder2, R.id.placeholder3 -> View.VISIBLE
+                R.id.layoutFragment, R.id.emptyFragment, R.id.favFragment, R.id.favFragment -> View.VISIBLE
                 else -> View.GONE
             }
         }
@@ -66,7 +66,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
                 else viewModel.pressBackButton(true)
             }
             R.id.layoutFragment -> android.os.Process.killProcess(android.os.Process.myPid())
-            R.id.emptyFragment -> navController.navigate(R.id.layoutFragment)
+            R.id.favFragment -> navController.navigate(R.id.layoutFragment)
             else -> super.onBackPressed()
         }
     }
