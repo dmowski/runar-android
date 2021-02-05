@@ -24,7 +24,8 @@
         android:fillViewport="true">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:id="@+id/scroll_constraint_layout">
             <FrameLayout
                 android:id="@+id/description_header_background"
                 android:layout_width="0dp"
@@ -46,6 +47,7 @@
                 app:layout_constraintStart_toEndOf="@id/left_header_guideline"
                 app:layout_constraintEnd_toStartOf="@id/right_header_guideline">
                 <TextView
+                    android:id="@+id/header"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     app:autoSizeTextType="uniform"
@@ -85,6 +87,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent">
                 <com.test.runar.CustomView.OffsetImageView
+                    android:id="@+id/interpretation_background"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
