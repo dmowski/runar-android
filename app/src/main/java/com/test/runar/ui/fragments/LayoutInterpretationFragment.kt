@@ -582,23 +582,14 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
     }
 
     override fun onClick(v: View?) {
+        val runeIdList = arrayListOf<Int>()
+        for(rune in runesViewList) runeIdList.add(rune.id)
         val navController = findNavController()
         when (v?.id) {
             R.id.description_button_frame -> {
                 if (checkBox.isChecked) model.saveUserLayout(requireContext())
                 navController.navigate(R.id.action_layoutInterpretationFragment_to_layoutFragment)
                 interpretationFrame.visibility = View.VISIBLE
-
-                val constraintsSet = ConstraintSet()
-                constraintsSet.clone(runesLayout)
-                constraintsSet.clear(R.id.rune_description_back)
-                constraintsSet.applyTo(runesLayout)
-                var descriptionBack = runesLayout.findViewById<ConstraintLayout>(R.id.rune_description_back)
-                var backLayoutParams = descriptionBack.layoutParams
-                backLayoutParams.height = ConstraintLayout.LayoutParams.MATCH_PARENT
-                descriptionBack.layoutParams = backLayoutParams
-                descriptionBack.visibility = View.GONE
-
             }
             R.id.description_header_frame -> {
                 headerBackgroundFrame.visibility = View.GONE
@@ -606,8 +597,10 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                 for (rune in runesViewList) {
                     rune.foreground = ColorDrawable(Color.TRANSPARENT)
                 }
+                var descriptionBack = runesLayout.findViewById<ConstraintLayout>(R.id.rune_description_back)
+                descriptionBack.visibility = View.GONE
             }
-            else -> {
+            in runeIdList-> {
                 if(runesViewList!=null&&runesViewList.size>1){
                     headerBackgroundFrame.visibility = View.VISIBLE
                     interpretationFrame.visibility = View.GONE
@@ -625,7 +618,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                             constraintsSet.applyTo(runesLayout)
                             var descriptionBack = runesLayout.findViewById<ConstraintLayout>(R.id.rune_description_back)
                             var backLayoutParams = descriptionBack.layoutParams
-                            backLayoutParams.height = screenHeight-rune.bottom
+                            backLayoutParams.height = screenHeight-rune.bottom-runesLayout.top
                             descriptionBack.layoutParams = backLayoutParams
                             descriptionBack.visibility = View.VISIBLE
                         }
