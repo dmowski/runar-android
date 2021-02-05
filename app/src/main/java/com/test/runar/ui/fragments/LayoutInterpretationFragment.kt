@@ -42,6 +42,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
     private var runeHeight: Int = 0
     private var runeWidth: Int = 0
     private var fontSize: Float = 0f
+    private var layoutId: Int =0
 
     private var screenHeight: Int = 0
 
@@ -73,6 +74,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                 runeWidth = (runeHeight / 1.23).toInt()
                 var userLayout = it.second
                 var selectedLayout = it.first
+                layoutId = selectedLayout.layoutId!!
                 header.text = selectedLayout.layoutName
                 when (selectedLayout.layoutId) {
                     1 -> {
@@ -175,7 +177,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                         val secondRune = FrameLayout(requireContext())
                         val thirdRune = FrameLayout(requireContext())
                         val fourthRune = FrameLayout(requireContext())
-                        runesViewList.addAll(arrayListOf(firstRune, secondRune, thirdRune,fourthRune))
+                        runesViewList.addAll(arrayListOf(firstRune, secondRune, thirdRune, fourthRune))
 
                         firstRune.id = View.generateViewId()
                         secondRune.id = View.generateViewId()
@@ -227,7 +229,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                         val secondRune = FrameLayout(requireContext())
                         val thirdRune = FrameLayout(requireContext())
                         val fourthRune = FrameLayout(requireContext())
-                        runesViewList.addAll(arrayListOf(firstRune, secondRune, thirdRune,fourthRune))
+                        runesViewList.addAll(arrayListOf(firstRune, secondRune, thirdRune, fourthRune))
 
                         firstRune.id = View.generateViewId()
                         secondRune.id = View.generateViewId()
@@ -281,7 +283,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                         val thirdRune = FrameLayout(requireContext())
                         val fourthRune = FrameLayout(requireContext())
                         val fifthRune = FrameLayout(requireContext())
-                        runesViewList.addAll(arrayListOf(firstRune, secondRune, thirdRune,fourthRune, fifthRune))
+                        runesViewList.addAll(arrayListOf(firstRune, secondRune, thirdRune, fourthRune, fifthRune))
 
                         firstRune.id = View.generateViewId()
                         secondRune.id = View.generateViewId()
@@ -345,7 +347,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                         val fourthRune = FrameLayout(requireContext())
                         val fifthRune = FrameLayout(requireContext())
                         val sixthRune = FrameLayout(requireContext())
-                        runesViewList.addAll(arrayListOf(firstRune, secondRune, thirdRune,fourthRune,fifthRune,sixthRune))
+                        runesViewList.addAll(arrayListOf(firstRune, secondRune, thirdRune, fourthRune, fifthRune, sixthRune))
 
                         firstRune.id = View.generateViewId()
                         secondRune.id = View.generateViewId()
@@ -393,7 +395,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                         set.clone(runesLayout)
                         set.connect(firstRune.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END, 0)
                         set.connect(firstRune.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, 0)
-                        set.connect(firstRune.id, ConstraintSet.TOP, R.id.description_header_frame,ConstraintSet.BOTTOM, 0)
+                        set.connect(firstRune.id, ConstraintSet.TOP, R.id.description_header_frame, ConstraintSet.BOTTOM, 0)
                         set.connect(secondRune.id, ConstraintSet.TOP, firstRune.id, ConstraintSet.BOTTOM, 0)
                         set.connect(secondRune.id, ConstraintSet.START, firstRune.id, ConstraintSet.START, 0)
                         set.connect(secondRune.id, ConstraintSet.END, firstRune.id, ConstraintSet.END, 0)
@@ -419,7 +421,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                         val fifthRune = FrameLayout(requireContext())
                         val sixthRune = FrameLayout(requireContext())
                         val seventhRune = FrameLayout(requireContext())
-                        runesViewList.addAll(arrayListOf(firstRune, secondRune, thirdRune,fourthRune,fifthRune,sixthRune,seventhRune))
+                        runesViewList.addAll(arrayListOf(firstRune, secondRune, thirdRune, fourthRune, fifthRune, sixthRune, seventhRune))
 
                         firstRune.id = View.generateViewId()
                         secondRune.id = View.generateViewId()
@@ -531,7 +533,6 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                             interpretationTextView.text = Html.fromHtml(interpretationText, null, InterTagHandler(secondFont!!))
 
 
-
                             val backgroundLayout = interpretationFrame
                             val backLayout = interpretationLayout
                             val interLayout = backgroundLayout.findViewById<ConstraintLayout>(R.id.interpretation_layout)
@@ -579,7 +580,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
 
     override fun onClick(v: View?) {
         val runeIdList = arrayListOf<Int>()
-        for(rune in runesViewList) runeIdList.add(rune.id)
+        for (rune in runesViewList) runeIdList.add(rune.id)
         val navController = findNavController()
         when (v?.id) {
             R.id.description_button_frame -> {
@@ -596,30 +597,32 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                 var descriptionBack = runesLayout.findViewById<ConstraintLayout>(R.id.rune_description_back)
                 descriptionBack.visibility = View.GONE
             }
-            in runeIdList-> {
-                if(runesViewList!=null&&runesViewList.size>1){
+            in runeIdList -> {
+                if (runesViewList != null && runesViewList.size > 1) {
                     headerBackgroundFrame.visibility = View.VISIBLE
                     interpretationFrame.visibility = View.GONE
                     for (rune in runesViewList) {
                         if (rune.id != v?.id) {
-                            rune.foreground = ContextCompat.getDrawable(requireContext(),R.drawable.rune_foreground)
-                        }
-                        else rune.foreground = ColorDrawable(Color.TRANSPARENT)
+                            rune.foreground = ContextCompat.getDrawable(requireContext(), R.drawable.rune_foreground)
+                        } else rune.foreground = ColorDrawable(Color.TRANSPARENT)
                     }
-                    for(rune in runesViewList){
-                        if(rune.id == v?.id){
+                    for (rune in runesViewList) {
+                        if (rune.id == v?.id) {
                             val constraintsSet = ConstraintSet()
                             constraintsSet.clone(runesLayout)
-                            constraintsSet.connect(R.id.rune_description_back,ConstraintSet.TOP,rune.id,ConstraintSet.BOTTOM)
+                            constraintsSet.connect(R.id.rune_description_back, ConstraintSet.TOP, rune.id, ConstraintSet.BOTTOM)
                             constraintsSet.applyTo(runesLayout)
                             var descriptionBack = runesLayout.findViewById<ConstraintLayout>(R.id.rune_description_back)
                             var backLayoutParams = descriptionBack.layoutParams
-                            backLayoutParams.height = screenHeight-rune.bottom-runesLayout.top
+                            backLayoutParams.height = screenHeight - rune.bottom - runesLayout.top
                             descriptionBack.layoutParams = backLayoutParams
                             descriptionBack.visibility = View.VISIBLE
                         }
                     }
                 }
+
+
+
             }
         }
     }
