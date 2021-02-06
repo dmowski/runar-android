@@ -38,8 +38,33 @@
                     android:elevation="2dp"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@color/interpretation_header_background"
-                    android:visibility="gone"/>
+                    android:background="@drawable/rune_description_background"
+                    android:visibility="gone">
+                    <ImageView
+                        android:id="@+id/exit_button"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/cross_selector"
+                        app:layout_constraintStart_toEndOf="@id/icon_start_guideline"
+                        app:layout_constraintEnd_toStartOf="@id/icon_end_guideline"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_marginTop="15dp"
+                        android:clickable="true"
+                        android:focusable="true"/>
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/icon_start_guideline"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.92"/>
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/icon_end_guideline"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.97"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
                 <FrameLayout
                     android:id="@+id/description_header_background"
                     android:elevation="2dp"
