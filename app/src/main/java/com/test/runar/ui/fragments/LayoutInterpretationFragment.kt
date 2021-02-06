@@ -30,6 +30,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
     private lateinit var header: TextView
     private lateinit var runePosition: TextView
     private lateinit var runeAusf: TextView
+    private lateinit var bottomRunesNav: ConstraintLayout
     private lateinit var interpretationFrame: ConstraintLayout
     private lateinit var mainConstraintLayout: ConstraintLayout
     private lateinit var interpretationLayout: ConstraintLayout
@@ -44,6 +45,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
 
     private var runesViewList: ArrayList<FrameLayout> = arrayListOf()
     private var runesPositionsList: ArrayList<String?> = arrayListOf()
+    private var runesDotsList: ArrayList<ImageView> = arrayListOf()
     private var runeHeight: Int = 0
     private var runeWidth: Int = 0
     private var fontSize: Float = 0f
@@ -59,6 +61,8 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
     private var lastUserLayoutId =0
 
     private var ausfText =""
+
+    private var currentRunePosition =0;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,6 +85,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
         checkBox = view.findViewById(R.id.checkbox)
         interpretationLayout = view.findViewById(R.id.interpretation_layout)
         runeDescriptionSV = view.findViewById(R.id.rune_description_scroll)
+        bottomRunesNav = view.findViewById(R.id.bottom_runes_nav_bar)
 
         model.lastUserLayoutId.observe(viewLifecycleOwner){
             if(it!=null){
@@ -152,6 +157,31 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                             set.connect(secondRune.id, ConstraintSet.TOP, R.id.description_header_frame, ConstraintSet.BOTTOM, 0)
                             set.connect(secondRune.id, ConstraintSet.START, R.id.center_guideline, ConstraintSet.END, 0)
                             set.applyTo(runesLayout)
+
+                            val firstDot = ImageView(requireContext())
+                            val secondDot = ImageView(requireContext())
+                            runesDotsList.addAll(arrayListOf(firstDot,secondDot))
+                            firstDot.id = View.generateViewId()
+                            secondDot.id = View.generateViewId()
+
+                            firstDot.adjustViewBounds = true
+                            secondDot.adjustViewBounds = true
+
+                            firstDot.setImageResource(R.drawable.ic_circle_deselected)
+                            secondDot.setImageResource(R.drawable.ic_circle_deselected)
+
+                            bottomRunesNav.addView(firstDot)
+                            bottomRunesNav.addView(secondDot)
+
+                            val bottomNavSet = ConstraintSet()
+                            bottomNavSet.clone(bottomRunesNav)
+                            bottomNavSet.connect(firstDot.id,ConstraintSet.TOP,R.id.left_arrow,ConstraintSet.TOP,0)
+                            bottomNavSet.connect(firstDot.id,ConstraintSet.BOTTOM,R.id.left_arrow,ConstraintSet.BOTTOM,0)
+                            bottomNavSet.connect(firstDot.id,ConstraintSet.END,R.id.bottom_runes_nav_center,ConstraintSet.END,20)
+                            bottomNavSet.connect(secondDot.id,ConstraintSet.TOP,firstDot.id,ConstraintSet.TOP,0)
+                            bottomNavSet.connect(secondDot.id,ConstraintSet.BOTTOM,firstDot.id,ConstraintSet.BOTTOM,0)
+                            bottomNavSet.connect(secondDot.id,ConstraintSet.START,R.id.bottom_runes_nav_center,ConstraintSet.START,10)
+                            bottomNavSet.applyTo(bottomRunesNav)
                         }
                         3 -> {
                             val firstRune = FrameLayout(requireContext())
@@ -528,6 +558,9 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                     for (i in 0 until this.runesLayout.childCount) {
                         this.runesLayout.getChildAt(i).setOnClickListener(this)
                     }
+                    for (runeDot in runesDotsList){
+                        runeDot.setOnClickListener(this)
+                    }
                     //runes description**
                     model.getAuspForCurrentLayout()
                     model.currentAusp.observe(viewLifecycleOwner) {
@@ -604,6 +637,8 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
         }
 
         view.findViewById<ImageView>(R.id.exit_button).setOnClickListener(this)
+        view.findViewById<ImageView>(R.id.left_arrow).setOnClickListener(this)
+        view.findViewById<ImageView>(R.id.right_arrow).setOnClickListener(this)
 
         var runeName = view.findViewById<TextView>(R.id.rune_name)
         runePosition = view.findViewById<TextView>(R.id.rune_position)
@@ -626,7 +661,9 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
 
     override fun onClick(v: View?) {
         val runeIdList = arrayListOf<Int>()
+        val runeDotsIdList = arrayListOf<Int>()
         for (rune in runesViewList) runeIdList.add(rune.id)
+        for (runeDot in runesDotsList) runeDotsIdList.add(runeDot.id)
         val navController = findNavController()
         when (v?.id) {
             R.id.description_button_frame -> {
@@ -635,6 +672,21 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
             }
             in runeIdList -> {
                 showDescriptionOfSelectedRune(v)
+            }
+            in runeDotsIdList ->{
+                showDescriptionOfSelectedRune(runesViewList[runeDotsIdList.indexOf(v?.id)])
+            }
+            R.id.left_arrow ->{
+                if(currentRunePosition==0){
+                    showDescriptionOfSelectedRune(runesViewList.last())
+                }
+                else showDescriptionOfSelectedRune(runesViewList[currentRunePosition-1])
+            }
+            R.id.right_arrow->{
+                if(currentRunePosition==runesViewList.size-1){
+                    showDescriptionOfSelectedRune(runesViewList[0])
+                }
+                else showDescriptionOfSelectedRune(runesViewList[currentRunePosition+1])
             }
             R.id.exit_button ->{
                 hideRuneDescription()
@@ -668,9 +720,17 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                 if (rune.id == v?.id) {
 
 
+                    for(runeDot in runesDotsList){
+                        runeDot.setImageResource(R.drawable.ic_circle_deselected)
+                        runeDot.setOnClickListener(this)
+                    }
+
                     model.getSelectedRuneData(runesViewList.indexOf(rune))
                     runePosition.text =runesPositionsList[runesViewList.indexOf(rune)]
                     runeDescriptionSV.scrollTo(0,0)
+                    runesDotsList[runesViewList.indexOf(rune)].setImageResource(R.drawable.ic_circle_selected)
+                    runesDotsList[runesViewList.indexOf(rune)].setOnClickListener(null)
+                    currentRunePosition = runesViewList.indexOf(rune)
 
                     val constraintsSet = ConstraintSet()
                     constraintsSet.clone(runesLayout)
