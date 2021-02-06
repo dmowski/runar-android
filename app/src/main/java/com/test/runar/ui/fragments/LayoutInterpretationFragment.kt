@@ -33,6 +33,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
     private lateinit var interpretationFrame: ConstraintLayout
     private lateinit var mainConstraintLayout: ConstraintLayout
     private lateinit var interpretationLayout: ConstraintLayout
+    private lateinit var runeDescriptionSV: ScrollView
 
     private lateinit var buttonFrame: FrameLayout
     private lateinit var checkBox: CheckBox
@@ -79,6 +80,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
         buttonFrame = view.findViewById(R.id.description_button_frame)
         checkBox = view.findViewById(R.id.checkbox)
         interpretationLayout = view.findViewById(R.id.interpretation_layout)
+        runeDescriptionSV = view.findViewById(R.id.rune_description_scroll)
 
         model.lastUserLayoutId.observe(viewLifecycleOwner){
             if(it!=null){
@@ -612,6 +614,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                 runeName.text = it.runeName
                 runeDescription.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize-5f)
                 runeDescription.text = it.fullDescription
+                runeAusf.text = "Благоприятность - ${it.ausp} %"
             }
         }
 
@@ -667,7 +670,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
 
                     model.getSelectedRuneData(runesViewList.indexOf(rune))
                     runePosition.text =runesPositionsList[runesViewList.indexOf(rune)]
-                    runeAusf.text = ausfText
+                    runeDescriptionSV.scrollTo(0,0)
 
                     val constraintsSet = ConstraintSet()
                     constraintsSet.clone(runesLayout)
