@@ -76,7 +76,9 @@
                             android:text="test"
                             android:textAlignment="center"
                             android:textColor="@color/layout_desc_deselected"
-                            app:autoSizeTextType="uniform"/>
+                            app:autoSizeTextType="uniform"
+                            app:autoSizeMinTextSize="5dp"
+                            android:maxLines="1"/>
                     </FrameLayout>
 
                     <androidx.constraintlayout.widget.Guideline
