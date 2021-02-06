@@ -116,6 +116,101 @@
                         app:layout_constraintTop_toBottomOf="@id/rune_position_frame"
                         app:layout_constraintStart_toStartOf="@id/rune_ausf_start_guideline"
                         app:layout_constraintEnd_toEndOf="@id/rune_ausf_end_guideline"/>
+                    <ScrollView
+                        android:id="@+id/rune_description_scroll"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="15dp"
+                        app:layout_constraintTop_toBottomOf="@id/rune_ausf"
+                        app:layout_constraintBottom_toTopOf="@id/bottom_runes_nav_bar"
+                        app:layout_constraintStart_toStartOf="@id/rune_description_left_guideline"
+                        app:layout_constraintEnd_toEndOf="@id/rune_description_right_guideline">
+                        <TextView
+                            android:id="@+id/rune_description"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:lineSpacingMultiplier="1.35"
+                            android:fontFamily="@font/roboto_light"
+                            android:textColor="@color/auf_text_color"/>
+                    </ScrollView>
+                    <ImageView
+                        android:id="@+id/rune_description_bottom_background"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:elevation="6dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/bottom_runes_nav_bar"
+                        android:background="@drawable/rune_description_bottom_background"/>
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/bottom_runes_nav_bar"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:elevation="7dp"
+                        app:layout_constraintDimensionRatio="H,10:1"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent">
+                        <ImageView
+                            android:id="@+id/left_arrow"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:adjustViewBounds="true"
+                            android:src="@drawable/ic_runes_nav_left_arrow"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="@id/left_arrow_start_guideline"
+                            app:layout_constraintEnd_toEndOf="@id/left_arrow_end_guideline"/>
+                        <ImageView
+                            android:id="@+id/right_arrow"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:adjustViewBounds="true"
+                            android:src="@drawable/ic_runes_nav_right_arrow"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="@id/right_arrow_start_guideline"
+                            app:layout_constraintEnd_toEndOf="@id/right_arrow_end_guideline"/>
+                        <androidx.constraintlayout.widget.Guideline
+                            android:id="@+id/left_arrow_start_guideline"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            app:layout_constraintGuide_percent="0.06" />
+                        <androidx.constraintlayout.widget.Guideline
+                            android:id="@+id/left_arrow_end_guideline"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            app:layout_constraintGuide_percent="0.11" />
+                        <androidx.constraintlayout.widget.Guideline
+                            android:id="@+id/right_arrow_start_guideline"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            app:layout_constraintGuide_percent="0.89" />
+                        <androidx.constraintlayout.widget.Guideline
+                            android:id="@+id/right_arrow_end_guideline"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            app:layout_constraintGuide_percent="0.94" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/rune_description_left_guideline"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.06" />
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/rune_description_right_guideline"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.94" />
 
                     <androidx.constraintlayout.widget.Guideline
                         android:id="@+id/rune_ausf_start_guideline"
@@ -123,6 +218,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         app:layout_constraintGuide_percent="0.29" />
+
 
                     <androidx.constraintlayout.widget.Guideline
                         android:id="@+id/rune_ausf_end_guideline"
