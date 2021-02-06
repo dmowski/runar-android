@@ -177,18 +177,18 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                             bottomNavSet.clone(bottomRunesNav)
                             bottomNavSet.connect(firstDot.id,ConstraintSet.TOP,R.id.left_arrow,ConstraintSet.TOP,0)
                             bottomNavSet.connect(firstDot.id,ConstraintSet.BOTTOM,R.id.left_arrow,ConstraintSet.BOTTOM,0)
-                            bottomNavSet.connect(firstDot.id,ConstraintSet.END,R.id.bottom_runes_nav_center,ConstraintSet.END,20)
+                            bottomNavSet.connect(firstDot.id,ConstraintSet.END,R.id.bottom_runes_nav_center,ConstraintSet.END,15)
                             bottomNavSet.connect(secondDot.id,ConstraintSet.TOP,firstDot.id,ConstraintSet.TOP,0)
                             bottomNavSet.connect(secondDot.id,ConstraintSet.BOTTOM,firstDot.id,ConstraintSet.BOTTOM,0)
-                            bottomNavSet.connect(secondDot.id,ConstraintSet.START,R.id.bottom_runes_nav_center,ConstraintSet.START,10)
+                            bottomNavSet.connect(secondDot.id,ConstraintSet.START,R.id.bottom_runes_nav_center,ConstraintSet.START,15)
                             bottomNavSet.applyTo(bottomRunesNav)
                         }
                         3 -> {
                             val firstRune = FrameLayout(requireContext())
                             val secondRune = FrameLayout(requireContext())
                             val thirdRune = FrameLayout(requireContext())
-                            runesViewList.addAll(arrayListOf(firstRune, secondRune, thirdRune))
-                            runesPositionsList.addAll(arrayListOf(selectedLayout.slotMeaning6, selectedLayout.slotMeaning3, selectedLayout.slotMeaning7))
+                            runesViewList.addAll(arrayListOf(thirdRune, secondRune, firstRune))
+                            runesPositionsList.addAll(arrayListOf(selectedLayout.slotMeaning7, selectedLayout.slotMeaning3, selectedLayout.slotMeaning6))
 
                             firstRune.id = View.generateViewId()
                             secondRune.id = View.generateViewId()
@@ -226,6 +226,35 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                             set.connect(firstRune.id, ConstraintSet.END, secondRune.id, ConstraintSet.START, 0)
                             set.connect(thirdRune.id, ConstraintSet.START, secondRune.id, ConstraintSet.END, 0)
                             set.applyTo(runesLayout)
+
+                            val firstDot = ImageView(requireContext())
+                            val secondDot = ImageView(requireContext())
+                            val thirdDot = ImageView(requireContext())
+
+                            runesDotsList.addAll(arrayListOf(firstDot,secondDot,thirdDot))
+
+                            for(runeDot in runesDotsList){
+                                runeDot.id = View.generateViewId()
+                                runeDot.adjustViewBounds = true
+                                runeDot.setImageResource(R.drawable.ic_circle_deselected)
+                                bottomRunesNav.addView(runeDot)
+                            }
+
+                            val bottomNavSet = ConstraintSet()
+                            bottomNavSet.clone(bottomRunesNav)
+                            bottomNavSet.connect(firstDot.id,ConstraintSet.TOP,secondDot.id,ConstraintSet.TOP,0)
+                            bottomNavSet.connect(firstDot.id,ConstraintSet.BOTTOM,secondDot.id,ConstraintSet.BOTTOM,0)
+                            bottomNavSet.connect(firstDot.id,ConstraintSet.END,secondDot.id,ConstraintSet.START,15)
+
+                            bottomNavSet.connect(thirdDot.id,ConstraintSet.TOP,secondDot.id,ConstraintSet.TOP,0)
+                            bottomNavSet.connect(thirdDot.id,ConstraintSet.BOTTOM,secondDot.id,ConstraintSet.BOTTOM,0)
+                            bottomNavSet.connect(thirdDot.id,ConstraintSet.START,secondDot.id,ConstraintSet.END,15)
+
+                            bottomNavSet.connect(secondDot.id,ConstraintSet.TOP,R.id.left_arrow,ConstraintSet.TOP,0)
+                            bottomNavSet.connect(secondDot.id,ConstraintSet.BOTTOM,R.id.left_arrow,ConstraintSet.BOTTOM,0)
+                            bottomNavSet.connect(secondDot.id,ConstraintSet.START,ConstraintSet.PARENT_ID,ConstraintSet.START,15)
+                            bottomNavSet.connect(secondDot.id,ConstraintSet.END,ConstraintSet.PARENT_ID,ConstraintSet.END,15)
+                            bottomNavSet.applyTo(bottomRunesNav)
                         }
                         4 -> {
                             val firstRune = FrameLayout(requireContext())
