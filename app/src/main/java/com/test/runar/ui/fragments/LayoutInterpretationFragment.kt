@@ -52,6 +52,8 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
 
     private var screenHeight: Int = 0
 
+    private var lastUserLayoutId =0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         model = activity?.run {
@@ -74,9 +76,19 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
         interpretationLayout = view.findViewById(R.id.interpretation_layout)
         headerFrame.setOnClickListener(this)
 
+        model.lastUserLayoutId.observe(viewLifecycleOwner){
+            if(it!=null){
+                lastUserLayoutId = it
+            }
+        }
+
 
         model.layoutInterpretationData.observe(viewLifecycleOwner) {
-            if (it != null && it.second[8] == it.first.layoutId) {
+            var currentId = 0
+            for(i in it.second) currentId+=i
+
+            if (it != null && it.second[8] == it.first.layoutId&&lastUserLayoutId!=currentId) {
+                model.setLastUserLayout(currentId)
                 runeHeight = it.second[7]
                 runeWidth = (runeHeight / 1.23).toInt()
                 var userLayout = it.second
@@ -597,7 +609,6 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
             R.id.description_button_frame -> {
                 if (checkBox.isChecked) model.saveUserLayout(requireContext())
                 navController.navigate(R.id.action_layoutInterpretationFragment_to_layoutFragment)
-                interpretationFrame.visibility = View.VISIBLE
             }
             R.id.description_header_frame -> {
                 defaultConstraintSet.applyTo(runesLayout)

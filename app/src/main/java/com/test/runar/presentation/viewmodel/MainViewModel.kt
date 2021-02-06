@@ -31,6 +31,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     var runesData : List<RuneDescriptionModel> = emptyList()
     var affirmData : List<AffimDescriptionModel> = emptyList()
     var currentInterpretation = MutableLiveData("")
+    var lastUserLayoutId = MutableLiveData<Int>(null)
 
     var layoutInterpretationData: LiveData<Pair<LayoutDescriptionModel,Array<Int>>> = object : MediatorLiveData<Pair<LayoutDescriptionModel,Array<Int>>>(){
         var currentLayout: LayoutDescriptionModel? = null
@@ -47,6 +48,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 currentLayout?.let { value = it to userLayout }
             }
         }
+    }
+
+    fun setLastUserLayout(id: Int){
+        lastUserLayoutId.value = id
     }
 
     fun getInterpretation(context: Context){
