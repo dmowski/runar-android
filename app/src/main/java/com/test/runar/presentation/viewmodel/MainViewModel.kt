@@ -65,55 +65,55 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             }
             3->{
                 when(id){
-                    0->{runeId = userLayout[5]}
+                    2->{runeId = userLayout[5]}
                     1->{runeId = userLayout[2]}
-                    2->{runeId = userLayout[6]}
+                    0->{runeId = userLayout[6]}
                 }
             }
             4->{
                 when(id){
-                    0->{runeId = userLayout[1]}
+                    3->{runeId = userLayout[1]}
                     1->{runeId = userLayout[2]}
                     2->{runeId = userLayout[3]}
-                    3->{runeId = userLayout[6]}
+                    0->{runeId = userLayout[6]}
                 }
             }
             5->{
                 when(id){
-                    0->{runeId = userLayout[1]}
+                    3->{runeId = userLayout[1]}
                     1->{runeId = userLayout[5]}
                     2->{runeId = userLayout[6]}
-                    3->{runeId = userLayout[2]}
+                    0->{runeId = userLayout[2]}
                 }
             }
             6->{
                 when(id){
-                    0->{runeId = userLayout[1]}
+                    3->{runeId = userLayout[1]}
                     1->{runeId = userLayout[2]}
-                    2->{runeId = userLayout[3]}
-                    3->{runeId = userLayout[5]}
-                    4->{runeId = userLayout[6]}
+                    4->{runeId = userLayout[3]}
+                    0->{runeId = userLayout[5]}
+                    2->{runeId = userLayout[6]}
                 }
             }
             7->{
                 when(id){
-                    0->{runeId = userLayout[0]}
-                    1->{runeId = userLayout[1]}
-                    2->{runeId = userLayout[2]}
+                    5->{runeId = userLayout[0]}
+                    4->{runeId = userLayout[1]}
+                    1->{runeId = userLayout[2]}
                     3->{runeId = userLayout[3]}
-                    4->{runeId = userLayout[5]}
-                    5->{runeId = userLayout[6]}
+                    2->{runeId = userLayout[5]}
+                    0->{runeId = userLayout[6]}
                 }
             }
             8->{
                 when(id){
-                    0->{runeId = userLayout[0]}
-                    1->{runeId = userLayout[1]}
-                    2->{runeId = userLayout[2]}
-                    3->{runeId = userLayout[3]}
-                    4->{runeId = userLayout[4]}
-                    5->{runeId = userLayout[5]}
-                    6->{runeId = userLayout[6]}
+                    6->{runeId = userLayout[0]}
+                    5->{runeId = userLayout[1]}
+                    0->{runeId = userLayout[2]}
+                    4->{runeId = userLayout[3]}
+                    3->{runeId = userLayout[4]}
+                    2->{runeId = userLayout[5]}
+                    1->{runeId = userLayout[6]}
                 }
             }
         }
