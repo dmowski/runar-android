@@ -173,6 +173,12 @@
                             app:layout_constraintStart_toStartOf="@id/right_arrow_start_guideline"
                             app:layout_constraintEnd_toEndOf="@id/right_arrow_end_guideline"/>
                         <androidx.constraintlayout.widget.Guideline
+                            android:id="@+id/bottom_runes_nav_center"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            app:layout_constraintGuide_percent="0.5" />
+                        <androidx.constraintlayout.widget.Guideline
                             android:id="@+id/left_arrow_start_guideline"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
