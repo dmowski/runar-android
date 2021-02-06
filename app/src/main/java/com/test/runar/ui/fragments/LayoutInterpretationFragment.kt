@@ -594,6 +594,13 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
 
         view.findViewById<ImageView>(R.id.exit_button).setOnClickListener(this)
 
+        var runeName = view.findViewById<TextView>(R.id.rune_name)
+        model.selectedRune.observe(viewLifecycleOwner){
+            if(it!=null){
+                runeName.text = it.runeName
+            }
+        }
+
     }
 
     override fun onStop() {
@@ -642,6 +649,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
             }
             for (rune in runesViewList) {
                 if (rune.id == v?.id) {
+                    model.getSelectedRuneData(runesViewList.indexOf(rune))
                     val constraintsSet = ConstraintSet()
                     constraintsSet.clone(runesLayout)
                     constraintsSet.connect(R.id.rune_description_back, ConstraintSet.TOP, rune.id, ConstraintSet.BOTTOM)

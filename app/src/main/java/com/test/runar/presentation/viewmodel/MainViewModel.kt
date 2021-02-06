@@ -32,6 +32,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     var affirmData : List<AffimDescriptionModel> = emptyList()
     var currentInterpretation = MutableLiveData("")
     var lastUserLayoutId = MutableLiveData<Int>(null)
+    var selectedRune = MutableLiveData<RuneDescriptionModel>(null)
+
 
     var layoutInterpretationData: LiveData<Pair<LayoutDescriptionModel,Array<Int>>> = object : MediatorLiveData<Pair<LayoutDescriptionModel,Array<Int>>>(){
         var currentLayout: LayoutDescriptionModel? = null
@@ -46,6 +48,78 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 userLayout ->
                 this.userLayout = userLayout
                 currentLayout?.let { value = it to userLayout }
+            }
+        }
+    }
+
+    fun getSelectedRuneData(id: Int){
+        var layoutId = selectedLayout.value?.layoutId
+        var userLayout = currentUserLayout.value!!
+        var runeId =0
+        when(layoutId){
+            2->{
+                when(id){
+                    0->{runeId = userLayout[2]}
+                    1->{runeId = userLayout[6]}
+                }
+            }
+            3->{
+                when(id){
+                    0->{runeId = userLayout[5]}
+                    1->{runeId = userLayout[2]}
+                    2->{runeId = userLayout[6]}
+                }
+            }
+            4->{
+                when(id){
+                    0->{runeId = userLayout[1]}
+                    1->{runeId = userLayout[2]}
+                    2->{runeId = userLayout[3]}
+                    3->{runeId = userLayout[6]}
+                }
+            }
+            5->{
+                when(id){
+                    0->{runeId = userLayout[1]}
+                    1->{runeId = userLayout[5]}
+                    2->{runeId = userLayout[6]}
+                    3->{runeId = userLayout[2]}
+                }
+            }
+            6->{
+                when(id){
+                    0->{runeId = userLayout[1]}
+                    1->{runeId = userLayout[2]}
+                    2->{runeId = userLayout[3]}
+                    3->{runeId = userLayout[5]}
+                    4->{runeId = userLayout[6]}
+                }
+            }
+            7->{
+                when(id){
+                    0->{runeId = userLayout[0]}
+                    1->{runeId = userLayout[1]}
+                    2->{runeId = userLayout[2]}
+                    3->{runeId = userLayout[3]}
+                    4->{runeId = userLayout[5]}
+                    5->{runeId = userLayout[6]}
+                }
+            }
+            8->{
+                when(id){
+                    0->{runeId = userLayout[0]}
+                    1->{runeId = userLayout[1]}
+                    2->{runeId = userLayout[2]}
+                    3->{runeId = userLayout[3]}
+                    4->{runeId = userLayout[4]}
+                    5->{runeId = userLayout[5]}
+                    6->{runeId = userLayout[6]}
+                }
+            }
+        }
+        for(rune in runesData){
+            if(rune.runeId==runeId){
+                selectedRune.postValue(rune)
             }
         }
     }
