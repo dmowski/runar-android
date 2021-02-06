@@ -44,6 +44,8 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
     private var fontSize: Float = 0f
     private var layoutId: Int =0
 
+    private var defaultConstraintSet = ConstraintSet()
+
     private var screenHeight: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -538,6 +540,9 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                             val interLayout = backgroundLayout.findViewById<ConstraintLayout>(R.id.interpretation_layout)
                             val bottomSupportFrame = interLayout.findViewById<FrameLayout>(R.id.bottom_support_frame)
                             val observer = mainConstraintLayout.viewTreeObserver
+
+                            defaultConstraintSet.clone(runesLayout)
+
                             observer.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
                                 override fun onGlobalLayout() {
                                     observer.removeOnGlobalLayoutListener(this)
@@ -579,6 +584,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
     }
 
     override fun onClick(v: View?) {
+        var size =0
         val runeIdList = arrayListOf<Int>()
         for (rune in runesViewList) runeIdList.add(rune.id)
         val navController = findNavController()
@@ -589,6 +595,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                 interpretationFrame.visibility = View.VISIBLE
             }
             R.id.description_header_frame -> {
+                defaultConstraintSet.applyTo(runesLayout)
                 headerBackgroundFrame.visibility = View.GONE
                 interpretationFrame.visibility = View.VISIBLE
                 for (rune in runesViewList) {
@@ -598,6 +605,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                 descriptionBack.visibility = View.GONE
             }
             in runeIdList -> {
+                defaultConstraintSet.applyTo(runesLayout)
                 if (runesViewList != null && runesViewList.size > 1) {
                     headerBackgroundFrame.visibility = View.VISIBLE
                     interpretationFrame.visibility = View.GONE
@@ -612,17 +620,40 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                             constraintsSet.clone(runesLayout)
                             constraintsSet.connect(R.id.rune_description_back, ConstraintSet.TOP, rune.id, ConstraintSet.BOTTOM)
                             constraintsSet.applyTo(runesLayout)
-                            var descriptionBack = runesLayout.findViewById<ConstraintLayout>(R.id.rune_description_back)
-                            var backLayoutParams = descriptionBack.layoutParams
-                            backLayoutParams.height = screenHeight - rune.bottom - runesLayout.top
-                            descriptionBack.layoutParams = backLayoutParams
-                            descriptionBack.visibility = View.VISIBLE
                         }
                     }
                 }
 
+                when(layoutId){
+                    1,2,3-> size = runesViewList[0].bottom
+                    4->{
+                        size = runesViewList[0].bottom
+                        when(v?.id){
+                            runesViewList[1].id,runesViewList[3].id->{
+                                val set = ConstraintSet()
+                                set.clone(runesLayout)
+                                set.clear(runesViewList[0].id,ConstraintSet.TOP)
+                                set.connect(runesViewList[0].id,ConstraintSet.BOTTOM,headerFrame.id,ConstraintSet.BOTTOM)
+                                set.applyTo(runesLayout)
+                            }
+                            runesViewList[2].id->{
+                                val set = ConstraintSet()
+                                set.clone(runesLayout)
+                                set.clear(runesViewList[0].id)
+                                set.clear(runesViewList[1].id,ConstraintSet.BOTTOM)
+                                set.clear(runesViewList[1].id,ConstraintSet.TOP)
+                                set.connect(runesViewList[1].id,ConstraintSet.BOTTOM,headerFrame.id,ConstraintSet.BOTTOM)
+                                set.applyTo(runesLayout)
+                            }
+                        }
+                    }
+                }
 
-
+                var descriptionBack = runesLayout.findViewById<ConstraintLayout>(R.id.rune_description_back)
+                var backLayoutParams = descriptionBack.layoutParams
+                backLayoutParams.height = screenHeight - size - runesLayout.top
+                descriptionBack.layoutParams = backLayoutParams
+                descriptionBack.visibility = View.VISIBLE
             }
         }
     }
