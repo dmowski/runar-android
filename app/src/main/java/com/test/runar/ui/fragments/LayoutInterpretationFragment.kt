@@ -74,14 +74,12 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
         buttonFrame = view.findViewById(R.id.description_button_frame)
         checkBox = view.findViewById(R.id.checkbox)
         interpretationLayout = view.findViewById(R.id.interpretation_layout)
-        headerFrame.setOnClickListener(this)
 
         model.lastUserLayoutId.observe(viewLifecycleOwner){
             if(it!=null){
                 lastUserLayoutId = it
             }
         }
-
 
         model.layoutInterpretationData.observe(viewLifecycleOwner) {
             var currentId = 0
@@ -594,6 +592,8 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
             }
         }
 
+        view.findViewById<ImageView>(R.id.exit_button).setOnClickListener(this)
+
     }
 
     override fun onStop() {
@@ -601,7 +601,6 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
     }
 
     override fun onClick(v: View?) {
-        var size =0
         val runeIdList = arrayListOf<Int>()
         for (rune in runesViewList) runeIdList.add(rune.id)
         val navController = findNavController()
@@ -610,225 +609,233 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                 if (checkBox.isChecked) model.saveUserLayout(requireContext())
                 navController.navigate(R.id.action_layoutInterpretationFragment_to_layoutFragment)
             }
-            R.id.description_header_frame -> {
-                defaultConstraintSet.applyTo(runesLayout)
-                headerBackgroundFrame.visibility = View.GONE
-                interpretationFrame.visibility = View.VISIBLE
-                for (rune in runesViewList) {
-                    rune.foreground = ColorDrawable(Color.TRANSPARENT)
-                }
-                var descriptionBack = runesLayout.findViewById<ConstraintLayout>(R.id.rune_description_back)
-                descriptionBack.visibility = View.GONE
-            }
             in runeIdList -> {
-                defaultConstraintSet.applyTo(runesLayout)
-                if (runesViewList != null && runesViewList.size > 1) {
-                    headerBackgroundFrame.visibility = View.VISIBLE
-                    interpretationFrame.visibility = View.GONE
-                    for (rune in runesViewList) {
-                        if (rune.id != v?.id) {
-                            rune.foreground = ContextCompat.getDrawable(requireContext(), R.drawable.rune_foreground)
-                        } else rune.foreground = ColorDrawable(Color.TRANSPARENT)
-                    }
-                    for (rune in runesViewList) {
-                        if (rune.id == v?.id) {
-                            val constraintsSet = ConstraintSet()
-                            constraintsSet.clone(runesLayout)
-                            constraintsSet.connect(R.id.rune_description_back, ConstraintSet.TOP, rune.id, ConstraintSet.BOTTOM)
-                            constraintsSet.applyTo(runesLayout)
-                        }
-                    }
-                }
-
-                when(layoutId){
-                    1,2,3-> if(firsOpening){
-                        firsOpening = false
-                        size = runesViewList[0].bottom
-                        baseSize = size
-                    }
-                    else size = baseSize
-                    4->{
-                        if(firsOpening){
-                            firsOpening = false
-                            size = runesViewList[0].bottom
-                            baseSize = size
-                        }
-                        else size = baseSize
-                        when(v?.id){
-                            runesViewList[1].id,runesViewList[3].id->{
-                                val set = ConstraintSet()
-                                set.clone(runesLayout)
-                                set.clear(runesViewList[0].id,ConstraintSet.TOP)
-                                set.connect(runesViewList[0].id,ConstraintSet.BOTTOM,headerFrame.id,ConstraintSet.BOTTOM)
-                                set.applyTo(runesLayout)
-                            }
-                            runesViewList[2].id->{
-                                val set = ConstraintSet()
-                                set.clone(runesLayout)
-                                set.clear(runesViewList[0].id)
-                                set.clear(runesViewList[1].id,ConstraintSet.BOTTOM)
-                                set.clear(runesViewList[1].id,ConstraintSet.TOP)
-                                set.connect(runesViewList[1].id,ConstraintSet.BOTTOM,headerFrame.id,ConstraintSet.BOTTOM)
-                                set.applyTo(runesLayout)
-                            }
-                        }
-                    }
-                    5->{
-                        if(firsOpening){
-                            firsOpening = false
-                            size = runesViewList[0].bottom
-                            baseSize = size
-                        }
-                        else size = baseSize
-                        when(v?.id){
-                            runesViewList[1].id,runesViewList[2].id->{
-                                val set = ConstraintSet()
-                                set.clone(runesLayout)
-                                set.connect(runesViewList[0].id,ConstraintSet.BOTTOM,headerFrame.id,ConstraintSet.BOTTOM)
-                                set.applyTo(runesLayout)
-                            }
-                            runesViewList[3].id->{
-                                val set = ConstraintSet()
-                                set.clone(runesLayout)
-                                set.clear(runesViewList[0].id,ConstraintSet.TOP)
-                                set.connect(runesViewList[0].id,ConstraintSet.BOTTOM,headerFrame.id,ConstraintSet.BOTTOM)
-                                set.applyTo(runesLayout)
-                            }
-                        }
-                    }
-                    6->{
-                        if(firsOpening){
-                            firsOpening = false
-                            size = runesViewList[0].bottom
-                            baseSize = size
-                        }
-                        else size = baseSize
-                        when(v?.id){
-                            runesViewList[1].id,runesViewList[3].id,runesViewList[4].id->{
-                                val set = ConstraintSet()
-                                set.clone(runesLayout)
-                                set.clear(runesViewList[0].id,ConstraintSet.TOP)
-                                set.connect(runesViewList[0].id,ConstraintSet.BOTTOM,headerFrame.id,ConstraintSet.BOTTOM)
-                                set.applyTo(runesLayout)
-                            }
-                            runesViewList[2].id->{
-                                val set = ConstraintSet()
-                                set.clone(runesLayout)
-                                set.clear(runesViewList[0].id)
-                                set.clear(runesViewList[1].id,ConstraintSet.BOTTOM)
-                                set.clear(runesViewList[1].id,ConstraintSet.TOP)
-                                set.connect(runesViewList[1].id,ConstraintSet.BOTTOM,headerFrame.id,ConstraintSet.BOTTOM)
-                                set.applyTo(runesLayout)
-                                runesViewList[0].visibility= View.GONE
-                            }
-                        }
-                    }
-                    7->{
-                        if(firsOpening){
-                            firsOpening = false
-                            size = runesViewList[0].bottom
-                            baseSize = size
-                        }
-                        else size = baseSize
-                        when(v?.id){
-                            runesViewList[1].id->{
-                                val set = ConstraintSet()
-                                set.clone(runesLayout)
-                                set.clear(runesViewList[0].id,ConstraintSet.TOP)
-                                set.connect(runesViewList[0].id,ConstraintSet.BOTTOM,headerFrame.id,ConstraintSet.BOTTOM)
-                                set.applyTo(runesLayout)
-                            }
-
-                            runesViewList[2].id,runesViewList[4].id,runesViewList[5].id->{
-                                val set = ConstraintSet()
-                                set.clone(runesLayout)
-                                set.clear(runesViewList[0].id)
-                                set.clear(runesViewList[1].id,ConstraintSet.TOP)
-                                set.connect(runesViewList[1].id,ConstraintSet.BOTTOM,headerFrame.id,ConstraintSet.BOTTOM)
-                                set.applyTo(runesLayout)
-                                runesViewList[0].visibility= View.GONE
-                            }
-                            runesViewList[3].id->{
-                                val set = ConstraintSet()
-                                set.clone(runesLayout)
-                                set.clear(runesViewList[0].id)
-                                set.clear(runesViewList[1].id)
-                                set.clear(runesViewList[2].id,ConstraintSet.BOTTOM)
-                                set.clear(runesViewList[2].id,ConstraintSet.TOP)
-                                set.connect(runesViewList[2].id,ConstraintSet.BOTTOM,headerFrame.id,ConstraintSet.BOTTOM)
-                                set.applyTo(runesLayout)
-                                runesViewList[1].visibility= View.GONE
-                                runesViewList[0].visibility= View.GONE
-                            }
-                        }
-                    }
-
-                    8->{
-                        if(firsOpening){
-                            firsOpening = false
-                            size = runesViewList[0].bottom
-                            baseSize = size
-                        }
-                        else size = baseSize
-                        when(v?.id){
-                            runesViewList[1].id->{
-                                val set = ConstraintSet()
-                                set.clone(runesLayout)
-                                set.clear(runesViewList[0].id,ConstraintSet.TOP)
-                                set.connect(runesViewList[0].id,ConstraintSet.BOTTOM,headerFrame.id,ConstraintSet.BOTTOM)
-                                set.applyTo(runesLayout)
-                            }
-
-                            runesViewList[2].id,runesViewList[5].id,runesViewList[6].id->{
-                                val set = ConstraintSet()
-                                set.clone(runesLayout)
-                                set.clear(runesViewList[0].id)
-                                set.clear(runesViewList[1].id,ConstraintSet.TOP)
-                                set.connect(runesViewList[1].id,ConstraintSet.BOTTOM,headerFrame.id,ConstraintSet.BOTTOM)
-                                set.applyTo(runesLayout)
-                                runesViewList[0].visibility= View.GONE
-                            }
-                            runesViewList[3].id->{
-                                val set = ConstraintSet()
-                                set.clone(runesLayout)
-                                set.clear(runesViewList[0].id)
-                                set.clear(runesViewList[1].id)
-                                set.clear(runesViewList[2].id,ConstraintSet.BOTTOM)
-                                set.clear(runesViewList[2].id,ConstraintSet.TOP)
-                                set.connect(runesViewList[2].id,ConstraintSet.BOTTOM,headerFrame.id,ConstraintSet.BOTTOM)
-                                set.applyTo(runesLayout)
-                                runesViewList[1].visibility= View.GONE
-                                runesViewList[0].visibility= View.GONE
-                            }
-                            runesViewList[4].id->{
-                                val set = ConstraintSet()
-                                set.clone(runesLayout)
-                                set.clear(runesViewList[0].id)
-                                set.clear(runesViewList[1].id)
-                                set.clear(runesViewList[2].id)
-                                set.clear(runesViewList[5].id)
-                                set.clear(runesViewList[6].id)
-                                set.clear(runesViewList[3].id,ConstraintSet.BOTTOM)
-                                set.clear(runesViewList[3].id,ConstraintSet.TOP)
-                                set.connect(runesViewList[3].id,ConstraintSet.BOTTOM,headerFrame.id,ConstraintSet.BOTTOM)
-                                set.applyTo(runesLayout)
-                                runesViewList[1].visibility= View.GONE
-                                runesViewList[0].visibility= View.GONE
-                                runesViewList[2].visibility= View.GONE
-                                runesViewList[6].visibility= View.GONE
-                                runesViewList[5].visibility= View.GONE
-                            }
-                        }
-                    }
-                }
-
-                var descriptionBack = runesLayout.findViewById<ConstraintLayout>(R.id.rune_description_back)
-                var backLayoutParams = descriptionBack.layoutParams
-                Log.d("DebugData",screenHeight.toString()+" " + size)
-                backLayoutParams.height = screenHeight - size
-                descriptionBack.layoutParams = backLayoutParams
-                descriptionBack.visibility = View.VISIBLE
+                showDescriptionOfSelectedRune(v)
+            }
+            R.id.exit_button ->{
+                hideRuneDescription()
             }
         }
+    }
+
+    private fun hideRuneDescription(){
+        defaultConstraintSet.applyTo(runesLayout)
+        headerBackgroundFrame.visibility = View.GONE
+        interpretationFrame.visibility = View.VISIBLE
+        for (rune in runesViewList) {
+            rune.foreground = ColorDrawable(Color.TRANSPARENT)
+        }
+        var descriptionBack = runesLayout.findViewById<ConstraintLayout>(R.id.rune_description_back)
+        descriptionBack.visibility = View.GONE
+    }
+
+    private fun showDescriptionOfSelectedRune(v: View?){
+        var size =0
+        defaultConstraintSet.applyTo(runesLayout)
+        if (runesViewList != null && runesViewList.size > 1) {
+            headerBackgroundFrame.visibility = View.VISIBLE
+            interpretationFrame.visibility = View.GONE
+            for (rune in runesViewList) {
+                if (rune.id != v?.id) {
+                    rune.foreground = ContextCompat.getDrawable(requireContext(), R.drawable.rune_foreground)
+                } else rune.foreground = ColorDrawable(Color.TRANSPARENT)
+            }
+            for (rune in runesViewList) {
+                if (rune.id == v?.id) {
+                    val constraintsSet = ConstraintSet()
+                    constraintsSet.clone(runesLayout)
+                    constraintsSet.connect(R.id.rune_description_back, ConstraintSet.TOP, rune.id, ConstraintSet.BOTTOM)
+                    constraintsSet.applyTo(runesLayout)
+                }
+            }
+        }
+
+        when(layoutId){
+            1,2,3-> if(firsOpening){
+                firsOpening = false
+                size = runesViewList[0].bottom
+                baseSize = size
+            }
+            else size = baseSize
+            4->{
+                if(firsOpening){
+                    firsOpening = false
+                    size = runesViewList[0].bottom
+                    baseSize = size
+                }
+                else size = baseSize
+                when(v?.id){
+                    runesViewList[1].id,runesViewList[3].id->{
+                        val set = ConstraintSet()
+                        set.clone(runesLayout)
+                        set.clear(runesViewList[0].id,ConstraintSet.TOP)
+                        set.connect(runesViewList[0].id,ConstraintSet.BOTTOM,headerFrame.id,ConstraintSet.BOTTOM)
+                        set.applyTo(runesLayout)
+                    }
+                    runesViewList[2].id->{
+                        val set = ConstraintSet()
+                        set.clone(runesLayout)
+                        set.clear(runesViewList[0].id)
+                        set.clear(runesViewList[1].id,ConstraintSet.BOTTOM)
+                        set.clear(runesViewList[1].id,ConstraintSet.TOP)
+                        set.connect(runesViewList[1].id,ConstraintSet.BOTTOM,headerFrame.id,ConstraintSet.BOTTOM)
+                        set.applyTo(runesLayout)
+                    }
+                }
+            }
+            5->{
+                if(firsOpening){
+                    firsOpening = false
+                    size = runesViewList[0].bottom
+                    baseSize = size
+                }
+                else size = baseSize
+                when(v?.id){
+                    runesViewList[1].id,runesViewList[2].id->{
+                        val set = ConstraintSet()
+                        set.clone(runesLayout)
+                        set.connect(runesViewList[0].id,ConstraintSet.BOTTOM,headerFrame.id,ConstraintSet.BOTTOM)
+                        set.applyTo(runesLayout)
+                    }
+                    runesViewList[3].id->{
+                        val set = ConstraintSet()
+                        set.clone(runesLayout)
+                        set.clear(runesViewList[0].id,ConstraintSet.TOP)
+                        set.connect(runesViewList[0].id,ConstraintSet.BOTTOM,headerFrame.id,ConstraintSet.BOTTOM)
+                        set.applyTo(runesLayout)
+                    }
+                }
+            }
+            6->{
+                if(firsOpening){
+                    firsOpening = false
+                    size = runesViewList[0].bottom
+                    baseSize = size
+                }
+                else size = baseSize
+                when(v?.id){
+                    runesViewList[1].id,runesViewList[3].id,runesViewList[4].id->{
+                        val set = ConstraintSet()
+                        set.clone(runesLayout)
+                        set.clear(runesViewList[0].id,ConstraintSet.TOP)
+                        set.connect(runesViewList[0].id,ConstraintSet.BOTTOM,headerFrame.id,ConstraintSet.BOTTOM)
+                        set.applyTo(runesLayout)
+                    }
+                    runesViewList[2].id->{
+                        val set = ConstraintSet()
+                        set.clone(runesLayout)
+                        set.clear(runesViewList[0].id)
+                        set.clear(runesViewList[1].id,ConstraintSet.BOTTOM)
+                        set.clear(runesViewList[1].id,ConstraintSet.TOP)
+                        set.connect(runesViewList[1].id,ConstraintSet.BOTTOM,headerFrame.id,ConstraintSet.BOTTOM)
+                        set.applyTo(runesLayout)
+                        runesViewList[0].visibility= View.GONE
+                    }
+                }
+            }
+            7->{
+                if(firsOpening){
+                    firsOpening = false
+                    size = runesViewList[0].bottom
+                    baseSize = size
+                }
+                else size = baseSize
+                when(v?.id){
+                    runesViewList[1].id->{
+                        val set = ConstraintSet()
+                        set.clone(runesLayout)
+                        set.clear(runesViewList[0].id,ConstraintSet.TOP)
+                        set.connect(runesViewList[0].id,ConstraintSet.BOTTOM,headerFrame.id,ConstraintSet.BOTTOM)
+                        set.applyTo(runesLayout)
+                    }
+
+                    runesViewList[2].id,runesViewList[4].id,runesViewList[5].id->{
+                        val set = ConstraintSet()
+                        set.clone(runesLayout)
+                        set.clear(runesViewList[0].id)
+                        set.clear(runesViewList[1].id,ConstraintSet.TOP)
+                        set.connect(runesViewList[1].id,ConstraintSet.BOTTOM,headerFrame.id,ConstraintSet.BOTTOM)
+                        set.applyTo(runesLayout)
+                        runesViewList[0].visibility= View.GONE
+                    }
+                    runesViewList[3].id->{
+                        val set = ConstraintSet()
+                        set.clone(runesLayout)
+                        set.clear(runesViewList[0].id)
+                        set.clear(runesViewList[1].id)
+                        set.clear(runesViewList[2].id,ConstraintSet.BOTTOM)
+                        set.clear(runesViewList[2].id,ConstraintSet.TOP)
+                        set.connect(runesViewList[2].id,ConstraintSet.BOTTOM,headerFrame.id,ConstraintSet.BOTTOM)
+                        set.applyTo(runesLayout)
+                        runesViewList[1].visibility= View.GONE
+                        runesViewList[0].visibility= View.GONE
+                    }
+                }
+            }
+
+            8->{
+                if(firsOpening){
+                    firsOpening = false
+                    size = runesViewList[0].bottom
+                    baseSize = size
+                }
+                else size = baseSize
+                when(v?.id){
+                    runesViewList[1].id->{
+                        val set = ConstraintSet()
+                        set.clone(runesLayout)
+                        set.clear(runesViewList[0].id,ConstraintSet.TOP)
+                        set.connect(runesViewList[0].id,ConstraintSet.BOTTOM,headerFrame.id,ConstraintSet.BOTTOM)
+                        set.applyTo(runesLayout)
+                    }
+
+                    runesViewList[2].id,runesViewList[5].id,runesViewList[6].id->{
+                        val set = ConstraintSet()
+                        set.clone(runesLayout)
+                        set.clear(runesViewList[0].id)
+                        set.clear(runesViewList[1].id,ConstraintSet.TOP)
+                        set.connect(runesViewList[1].id,ConstraintSet.BOTTOM,headerFrame.id,ConstraintSet.BOTTOM)
+                        set.applyTo(runesLayout)
+                        runesViewList[0].visibility= View.GONE
+                    }
+                    runesViewList[3].id->{
+                        val set = ConstraintSet()
+                        set.clone(runesLayout)
+                        set.clear(runesViewList[0].id)
+                        set.clear(runesViewList[1].id)
+                        set.clear(runesViewList[2].id,ConstraintSet.BOTTOM)
+                        set.clear(runesViewList[2].id,ConstraintSet.TOP)
+                        set.connect(runesViewList[2].id,ConstraintSet.BOTTOM,headerFrame.id,ConstraintSet.BOTTOM)
+                        set.applyTo(runesLayout)
+                        runesViewList[1].visibility= View.GONE
+                        runesViewList[0].visibility= View.GONE
+                    }
+                    runesViewList[4].id->{
+                        val set = ConstraintSet()
+                        set.clone(runesLayout)
+                        set.clear(runesViewList[0].id)
+                        set.clear(runesViewList[1].id)
+                        set.clear(runesViewList[2].id)
+                        set.clear(runesViewList[5].id)
+                        set.clear(runesViewList[6].id)
+                        set.clear(runesViewList[3].id,ConstraintSet.BOTTOM)
+                        set.clear(runesViewList[3].id,ConstraintSet.TOP)
+                        set.connect(runesViewList[3].id,ConstraintSet.BOTTOM,headerFrame.id,ConstraintSet.BOTTOM)
+                        set.applyTo(runesLayout)
+                        runesViewList[1].visibility= View.GONE
+                        runesViewList[0].visibility= View.GONE
+                        runesViewList[2].visibility= View.GONE
+                        runesViewList[6].visibility= View.GONE
+                        runesViewList[5].visibility= View.GONE
+                    }
+                }
+            }
+        }
+
+        var descriptionBack = runesLayout.findViewById<ConstraintLayout>(R.id.rune_description_back)
+        var backLayoutParams = descriptionBack.layoutParams
+        backLayoutParams.height = screenHeight - size
+        descriptionBack.layoutParams = backLayoutParams
+        descriptionBack.visibility = View.VISIBLE
     }
 }
