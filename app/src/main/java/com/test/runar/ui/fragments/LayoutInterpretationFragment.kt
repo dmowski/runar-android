@@ -5,6 +5,7 @@ import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.text.Html
+import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewTreeObserver
@@ -46,6 +47,9 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
 
     private var defaultConstraintSet = ConstraintSet()
 
+    private var firsOpening = true
+    private var baseSize = 0
+
     private var screenHeight: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,6 +57,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
         model = activity?.run {
             ViewModelProviders.of(this)[MainViewModel::class.java]
         } ?: throw Exception("Invalid Activity")
+        Log.d("DebugData","Last fragment recreated")
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -625,11 +630,47 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                 }
 
                 when(layoutId){
-                    1,2,3-> size = runesViewList[0].bottom
-                    4->{
+                    1,2,3-> if(firsOpening){
+                        firsOpening = false
                         size = runesViewList[0].bottom
+                        baseSize = size
+                    }
+                    else size = baseSize
+                    4->{
+                        if(firsOpening){
+                            firsOpening = false
+                            size = runesViewList[0].bottom
+                            baseSize = size
+                        }
+                        else size = baseSize
                         when(v?.id){
                             runesViewList[1].id,runesViewList[3].id->{
+                                val set = ConstraintSet()
+                                set.clone(runesLayout)
+                                set.clear(runesViewList[0].id,ConstraintSet.TOP)
+                                set.connect(runesViewList[0].id,ConstraintSet.BOTTOM,headerFrame.id,ConstraintSet.BOTTOM)
+                                set.applyTo(runesLayout)
+                            }
+                            runesViewList[2].id->{
+                                val set = ConstraintSet()
+                                set.clone(runesLayout)
+                                set.clear(runesViewList[0].id)
+                                set.clear(runesViewList[1].id,ConstraintSet.BOTTOM)
+                                set.clear(runesViewList[1].id,ConstraintSet.TOP)
+                                set.connect(runesViewList[1].id,ConstraintSet.BOTTOM,headerFrame.id,ConstraintSet.BOTTOM)
+                                set.applyTo(runesLayout)
+                            }
+                        }
+                    }
+                    5->{
+                        if(firsOpening){
+                            firsOpening = false
+                            size = runesViewList[0].bottom
+                            baseSize = size
+                        }
+                        else size = baseSize
+                        when(v?.id){
+                            runesViewList[1].id,runesViewList[3].id,runesViewList[4].id->{
                                 val set = ConstraintSet()
                                 set.clone(runesLayout)
                                 set.clear(runesViewList[0].id,ConstraintSet.TOP)
@@ -651,7 +692,8 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
 
                 var descriptionBack = runesLayout.findViewById<ConstraintLayout>(R.id.rune_description_back)
                 var backLayoutParams = descriptionBack.layoutParams
-                backLayoutParams.height = screenHeight - size - runesLayout.top
+                Log.d("DebugData",screenHeight.toString()+" " + size)
+                backLayoutParams.height = screenHeight - size
                 descriptionBack.layoutParams = backLayoutParams
                 descriptionBack.visibility = View.VISIBLE
             }
