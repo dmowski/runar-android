@@ -59,10 +59,10 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <FrameLayout
+                        android:id="@+id/rune_name_frame"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
                         android:layout_marginTop="35dp"
-                        android:layout_marginBottom="10dp"
                         app:layout_constraintDimensionRatio="H,8:1"
                         app:layout_constraintEnd_toStartOf="@id/rune_name_end_guideline"
                         app:layout_constraintStart_toEndOf="@id/rune_name_start_guideline"
@@ -76,6 +76,27 @@
                             android:text="test"
                             android:textAlignment="center"
                             android:textColor="@color/layout_desc_deselected"
+                            app:autoSizeTextType="uniform"
+                            app:autoSizeMinTextSize="5dp"
+                            android:maxLines="1"/>
+                    </FrameLayout>
+                    <FrameLayout
+                        android:id="@+id/rune_position_frame"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="5dp"
+                        app:layout_constraintDimensionRatio="H,20:1"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/rune_name_frame">
+                        <TextView
+                            android:id="@+id/rune_position"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:fontFamily="@font/roboto_light"
+                            android:text="test"
+                            android:textAlignment="center"
+                            android:textColor="@color/interpretation_runes_position"
                             app:autoSizeTextType="uniform"
                             app:autoSizeMinTextSize="5dp"
                             android:maxLines="1"/>

@@ -28,6 +28,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
 
 
     private lateinit var header: TextView
+    private lateinit var runePosition: TextView
     private lateinit var interpretationFrame: ConstraintLayout
     private lateinit var mainConstraintLayout: ConstraintLayout
     private lateinit var interpretationLayout: ConstraintLayout
@@ -40,6 +41,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
     private lateinit var runesLayout: ConstraintLayout
 
     private var runesViewList: ArrayList<FrameLayout> = arrayListOf()
+    private var runesPositionsList: ArrayList<String?> = arrayListOf()
     private var runeHeight: Int = 0
     private var runeWidth: Int = 0
     private var fontSize: Float = 0f
@@ -119,7 +121,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                             val firstRune = FrameLayout(requireContext())
                             val secondRune = FrameLayout(requireContext())
                             runesViewList.addAll(arrayListOf(firstRune, secondRune))
-
+                            runesPositionsList.addAll(arrayListOf(selectedLayout.slotMeaning3, selectedLayout.slotMeaning7))
                             firstRune.id = View.generateViewId()
                             secondRune.id = View.generateViewId()
 
@@ -151,6 +153,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                             val secondRune = FrameLayout(requireContext())
                             val thirdRune = FrameLayout(requireContext())
                             runesViewList.addAll(arrayListOf(firstRune, secondRune, thirdRune))
+                            runesPositionsList.addAll(arrayListOf(selectedLayout.slotMeaning6, selectedLayout.slotMeaning3, selectedLayout.slotMeaning7))
 
                             firstRune.id = View.generateViewId()
                             secondRune.id = View.generateViewId()
@@ -195,6 +198,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                             val thirdRune = FrameLayout(requireContext())
                             val fourthRune = FrameLayout(requireContext())
                             runesViewList.addAll(arrayListOf(firstRune, secondRune, thirdRune, fourthRune))
+                            runesPositionsList.addAll(arrayListOf(selectedLayout.slotMeaning2, selectedLayout.slotMeaning3, selectedLayout.slotMeaning4, selectedLayout.slotMeaning7))
 
                             firstRune.id = View.generateViewId()
                             secondRune.id = View.generateViewId()
@@ -247,7 +251,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                             val thirdRune = FrameLayout(requireContext())
                             val fourthRune = FrameLayout(requireContext())
                             runesViewList.addAll(arrayListOf(firstRune, secondRune, thirdRune, fourthRune))
-
+                            runesPositionsList.addAll(arrayListOf(selectedLayout.slotMeaning2, selectedLayout.slotMeaning6, selectedLayout.slotMeaning7, selectedLayout.slotMeaning3))
                             firstRune.id = View.generateViewId()
                             secondRune.id = View.generateViewId()
                             thirdRune.id = View.generateViewId()
@@ -301,7 +305,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                             val fourthRune = FrameLayout(requireContext())
                             val fifthRune = FrameLayout(requireContext())
                             runesViewList.addAll(arrayListOf(firstRune, secondRune, thirdRune, fourthRune, fifthRune))
-
+                            runesPositionsList.addAll(arrayListOf(selectedLayout.slotMeaning2, selectedLayout.slotMeaning3, selectedLayout.slotMeaning4, selectedLayout.slotMeaning6, selectedLayout.slotMeaning7))
                             firstRune.id = View.generateViewId()
                             secondRune.id = View.generateViewId()
                             thirdRune.id = View.generateViewId()
@@ -365,7 +369,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                             val fifthRune = FrameLayout(requireContext())
                             val sixthRune = FrameLayout(requireContext())
                             runesViewList.addAll(arrayListOf(firstRune, secondRune, thirdRune, fourthRune, fifthRune, sixthRune))
-
+                            runesPositionsList.addAll(arrayListOf(selectedLayout.slotMeaning1, selectedLayout.slotMeaning2, selectedLayout.slotMeaning3, selectedLayout.slotMeaning4, selectedLayout.slotMeaning6, selectedLayout.slotMeaning7))
                             firstRune.id = View.generateViewId()
                             secondRune.id = View.generateViewId()
                             thirdRune.id = View.generateViewId()
@@ -439,7 +443,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                             val sixthRune = FrameLayout(requireContext())
                             val seventhRune = FrameLayout(requireContext())
                             runesViewList.addAll(arrayListOf(firstRune, secondRune, thirdRune, fourthRune, fifthRune, sixthRune, seventhRune))
-
+                            runesPositionsList.addAll(arrayListOf(selectedLayout.slotMeaning1, selectedLayout.slotMeaning2, selectedLayout.slotMeaning3, selectedLayout.slotMeaning4, selectedLayout.slotMeaning5, selectedLayout.slotMeaning6, selectedLayout.slotMeaning7))
                             firstRune.id = View.generateViewId()
                             secondRune.id = View.generateViewId()
                             thirdRune.id = View.generateViewId()
@@ -596,6 +600,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
         view.findViewById<ImageView>(R.id.exit_button).setOnClickListener(this)
 
         var runeName = view.findViewById<TextView>(R.id.rune_name)
+        runePosition = view.findViewById<TextView>(R.id.rune_position)
         model.selectedRune.observe(viewLifecycleOwner){
             if(it!=null){
                 runeName.text = it.runeName
@@ -650,7 +655,11 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
             }
             for (rune in runesViewList) {
                 if (rune.id == v?.id) {
+
+
                     model.getSelectedRuneData(runesViewList.indexOf(rune))
+                    runePosition.text =runesPositionsList[runesViewList.indexOf(rune)]
+
                     val constraintsSet = ConstraintSet()
                     constraintsSet.clone(runesLayout)
                     constraintsSet.connect(R.id.rune_description_back, ConstraintSet.TOP, rune.id, ConstraintSet.BOTTOM)
