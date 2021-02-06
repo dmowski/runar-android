@@ -606,9 +606,12 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
         var runeName = view.findViewById<TextView>(R.id.rune_name)
         runePosition = view.findViewById<TextView>(R.id.rune_position)
         runeAusf = view.findViewById<TextView>(R.id.rune_ausf)
+        var runeDescription = view.findViewById<TextView>(R.id.rune_description)
         model.selectedRune.observe(viewLifecycleOwner){
             if(it!=null){
                 runeName.text = it.runeName
+                runeDescription.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize-5f)
+                runeDescription.text = it.fullDescription
             }
         }
 
