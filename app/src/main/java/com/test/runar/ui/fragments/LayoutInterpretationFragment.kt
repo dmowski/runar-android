@@ -29,6 +29,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
 
     private lateinit var header: TextView
     private lateinit var runePosition: TextView
+    private lateinit var runeAusf: TextView
     private lateinit var interpretationFrame: ConstraintLayout
     private lateinit var mainConstraintLayout: ConstraintLayout
     private lateinit var interpretationLayout: ConstraintLayout
@@ -55,6 +56,8 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
     private var screenHeight: Int = 0
 
     private var lastUserLayoutId =0
+
+    private var ausfText =""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -529,7 +532,8 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                         var testText = interpretationLayout.findViewById<TextView>(R.id.text)
                         interpretationLayout.findViewById<FrameLayout>(R.id.description_button_frame).setOnClickListener(this)
                         if (it != null) {
-                            testText.text = "Благоприятность - $it %"
+                            ausfText = "Благоприятность - $it %"
+                            testText.text = ausfText
                             if (it <= 50) {
                                 model.getAffimForCurrentLayout(it)
                             }
@@ -601,6 +605,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
 
         var runeName = view.findViewById<TextView>(R.id.rune_name)
         runePosition = view.findViewById<TextView>(R.id.rune_position)
+        runeAusf = view.findViewById<TextView>(R.id.rune_ausf)
         model.selectedRune.observe(viewLifecycleOwner){
             if(it!=null){
                 runeName.text = it.runeName
@@ -659,6 +664,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
 
                     model.getSelectedRuneData(runesViewList.indexOf(rune))
                     runePosition.text =runesPositionsList[runesViewList.indexOf(rune)]
+                    runeAusf.text = ausfText
 
                     val constraintsSet = ConstraintSet()
                     constraintsSet.clone(runesLayout)

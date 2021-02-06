@@ -62,7 +62,7 @@
                         android:id="@+id/rune_name_frame"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
-                        android:layout_marginTop="35dp"
+                        android:layout_marginTop="30dp"
                         app:layout_constraintDimensionRatio="H,8:1"
                         app:layout_constraintEnd_toStartOf="@id/rune_name_end_guideline"
                         app:layout_constraintStart_toEndOf="@id/rune_name_start_guideline"
@@ -101,7 +101,35 @@
                             app:autoSizeMinTextSize="5dp"
                             android:maxLines="1"/>
                     </FrameLayout>
+                    <TextView
+                        android:id="@+id/rune_ausf"
+                        android:layout_marginTop="4dp"
+                        android:layout_width="0dp"
+                        android:layout_height="20dp"
+                        android:fontFamily="@font/roboto_light"
+                        android:text="test"
+                        android:textAlignment="center"
+                        android:textColor="@color/interpretation_runes_position"
+                        app:autoSizeTextType="uniform"
+                        app:autoSizeMinTextSize="5dp"
+                        android:maxLines="1"
+                        app:layout_constraintTop_toBottomOf="@id/rune_position_frame"
+                        app:layout_constraintStart_toStartOf="@id/rune_ausf_start_guideline"
+                        app:layout_constraintEnd_toEndOf="@id/rune_ausf_end_guideline"/>
 
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/rune_ausf_start_guideline"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.29" />
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/rune_ausf_end_guideline"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.71" />
                     <androidx.constraintlayout.widget.Guideline
                         android:id="@+id/rune_name_start_guideline"
                         android:layout_width="wrap_content"
