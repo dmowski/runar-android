@@ -36,4 +36,6 @@
 
     <color name="interpretation_header_background">#59000000</color>
     <color name="interpretation_runes_foreground">#59000000</color>
+
+    <color name="interpretation_runes_position">#A8A6A3</color>
 </resources>
