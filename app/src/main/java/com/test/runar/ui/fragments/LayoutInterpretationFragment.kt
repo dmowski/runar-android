@@ -261,8 +261,8 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                             val secondRune = FrameLayout(requireContext())
                             val thirdRune = FrameLayout(requireContext())
                             val fourthRune = FrameLayout(requireContext())
-                            runesViewList.addAll(arrayListOf(firstRune, secondRune, thirdRune, fourthRune))
-                            runesPositionsList.addAll(arrayListOf(selectedLayout.slotMeaning2, selectedLayout.slotMeaning3, selectedLayout.slotMeaning4, selectedLayout.slotMeaning7))
+                            runesViewList.addAll(arrayListOf(fourthRune,secondRune,thirdRune,firstRune))
+                            runesPositionsList.addAll(arrayListOf(selectedLayout.slotMeaning7, selectedLayout.slotMeaning3, selectedLayout.slotMeaning4, selectedLayout.slotMeaning2))
 
                             firstRune.id = View.generateViewId()
                             secondRune.id = View.generateViewId()
@@ -308,14 +308,49 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                             set.connect(fourthRune.id, ConstraintSet.BOTTOM, secondRune.id, ConstraintSet.BOTTOM, 0)
                             set.connect(fourthRune.id, ConstraintSet.TOP, secondRune.id, ConstraintSet.TOP, 0)
                             set.applyTo(runesLayout)
+
+                            val firstDot = ImageView(requireContext())
+                            val secondDot = ImageView(requireContext())
+                            val thirdDot = ImageView(requireContext())
+                            val fourthDot = ImageView(requireContext())
+
+                            runesDotsList.addAll(arrayListOf(firstDot,secondDot,thirdDot,fourthDot))
+
+                            for(runeDot in runesDotsList){
+                                runeDot.id = View.generateViewId()
+                                runeDot.adjustViewBounds = true
+                                runeDot.setImageResource(R.drawable.ic_circle_deselected)
+                                bottomRunesNav.addView(runeDot)
+                            }
+
+                            val bottomNavSet = ConstraintSet()
+                            bottomNavSet.clone(bottomRunesNav)
+                            bottomNavSet.connect(firstDot.id,ConstraintSet.TOP,secondDot.id,ConstraintSet.TOP,0)
+                            bottomNavSet.connect(firstDot.id,ConstraintSet.BOTTOM,secondDot.id,ConstraintSet.BOTTOM,0)
+                            bottomNavSet.connect(firstDot.id,ConstraintSet.END,secondDot.id,ConstraintSet.START,30)
+
+                            bottomNavSet.connect(secondDot.id,ConstraintSet.TOP,R.id.left_arrow,ConstraintSet.TOP,0)
+                            bottomNavSet.connect(secondDot.id,ConstraintSet.BOTTOM,R.id.left_arrow,ConstraintSet.BOTTOM,0)
+                            bottomNavSet.connect(secondDot.id,ConstraintSet.END,R.id.bottom_runes_nav_center,ConstraintSet.START,15)
+
+                            bottomNavSet.connect(thirdDot.id,ConstraintSet.TOP,secondDot.id,ConstraintSet.TOP,0)
+                            bottomNavSet.connect(thirdDot.id,ConstraintSet.BOTTOM,secondDot.id,ConstraintSet.BOTTOM,0)
+                            bottomNavSet.connect(thirdDot.id,ConstraintSet.START,R.id.bottom_runes_nav_center,ConstraintSet.END,15)
+
+                            bottomNavSet.connect(fourthDot.id,ConstraintSet.TOP,secondDot.id,ConstraintSet.TOP,0)
+                            bottomNavSet.connect(fourthDot.id,ConstraintSet.BOTTOM,secondDot.id,ConstraintSet.BOTTOM,0)
+                            bottomNavSet.connect(fourthDot.id,ConstraintSet.START,thirdDot.id,ConstraintSet.END,30)
+
+
+                            bottomNavSet.applyTo(bottomRunesNav)
                         }
                         5 -> {
                             val firstRune = FrameLayout(requireContext())
                             val secondRune = FrameLayout(requireContext())
                             val thirdRune = FrameLayout(requireContext())
                             val fourthRune = FrameLayout(requireContext())
-                            runesViewList.addAll(arrayListOf(firstRune, secondRune, thirdRune, fourthRune))
-                            runesPositionsList.addAll(arrayListOf(selectedLayout.slotMeaning2, selectedLayout.slotMeaning6, selectedLayout.slotMeaning7, selectedLayout.slotMeaning3))
+                            runesViewList.addAll(arrayListOf(fourthRune, secondRune, thirdRune, firstRune))
+                            runesPositionsList.addAll(arrayListOf(selectedLayout.slotMeaning3, selectedLayout.slotMeaning6, selectedLayout.slotMeaning7, selectedLayout.slotMeaning1))
                             firstRune.id = View.generateViewId()
                             secondRune.id = View.generateViewId()
                             thirdRune.id = View.generateViewId()
@@ -361,6 +396,41 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                             set.connect(thirdRune.id, ConstraintSet.BOTTOM, fourthRune.id, ConstraintSet.BOTTOM, 0)
                             set.connect(thirdRune.id, ConstraintSet.TOP, firstRune.id, ConstraintSet.TOP, 0)
                             set.applyTo(runesLayout)
+
+                            val firstDot = ImageView(requireContext())
+                            val secondDot = ImageView(requireContext())
+                            val thirdDot = ImageView(requireContext())
+                            val fourthDot = ImageView(requireContext())
+
+                            runesDotsList.addAll(arrayListOf(firstDot,secondDot,thirdDot,fourthDot))
+
+                            for(runeDot in runesDotsList){
+                                runeDot.id = View.generateViewId()
+                                runeDot.adjustViewBounds = true
+                                runeDot.setImageResource(R.drawable.ic_circle_deselected)
+                                bottomRunesNav.addView(runeDot)
+                            }
+
+                            val bottomNavSet = ConstraintSet()
+                            bottomNavSet.clone(bottomRunesNav)
+                            bottomNavSet.connect(firstDot.id,ConstraintSet.TOP,secondDot.id,ConstraintSet.TOP,0)
+                            bottomNavSet.connect(firstDot.id,ConstraintSet.BOTTOM,secondDot.id,ConstraintSet.BOTTOM,0)
+                            bottomNavSet.connect(firstDot.id,ConstraintSet.END,secondDot.id,ConstraintSet.START,30)
+
+                            bottomNavSet.connect(secondDot.id,ConstraintSet.TOP,R.id.left_arrow,ConstraintSet.TOP,0)
+                            bottomNavSet.connect(secondDot.id,ConstraintSet.BOTTOM,R.id.left_arrow,ConstraintSet.BOTTOM,0)
+                            bottomNavSet.connect(secondDot.id,ConstraintSet.END,R.id.bottom_runes_nav_center,ConstraintSet.START,15)
+
+                            bottomNavSet.connect(thirdDot.id,ConstraintSet.TOP,secondDot.id,ConstraintSet.TOP,0)
+                            bottomNavSet.connect(thirdDot.id,ConstraintSet.BOTTOM,secondDot.id,ConstraintSet.BOTTOM,0)
+                            bottomNavSet.connect(thirdDot.id,ConstraintSet.START,R.id.bottom_runes_nav_center,ConstraintSet.END,15)
+
+                            bottomNavSet.connect(fourthDot.id,ConstraintSet.TOP,secondDot.id,ConstraintSet.TOP,0)
+                            bottomNavSet.connect(fourthDot.id,ConstraintSet.BOTTOM,secondDot.id,ConstraintSet.BOTTOM,0)
+                            bottomNavSet.connect(fourthDot.id,ConstraintSet.START,thirdDot.id,ConstraintSet.END,30)
+
+
+                            bottomNavSet.applyTo(bottomRunesNav)
                         }
                         6 -> {
                             val firstRune = FrameLayout(requireContext())
@@ -368,8 +438,8 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                             val thirdRune = FrameLayout(requireContext())
                             val fourthRune = FrameLayout(requireContext())
                             val fifthRune = FrameLayout(requireContext())
-                            runesViewList.addAll(arrayListOf(firstRune, secondRune, thirdRune, fourthRune, fifthRune))
-                            runesPositionsList.addAll(arrayListOf(selectedLayout.slotMeaning2, selectedLayout.slotMeaning3, selectedLayout.slotMeaning4, selectedLayout.slotMeaning6, selectedLayout.slotMeaning7))
+                            runesViewList.addAll(arrayListOf(fourthRune,secondRune,fifthRune,firstRune,thirdRune))
+                            runesPositionsList.addAll(arrayListOf(selectedLayout.slotMeaning6, selectedLayout.slotMeaning3, selectedLayout.slotMeaning7, selectedLayout.slotMeaning2, selectedLayout.slotMeaning4))
                             firstRune.id = View.generateViewId()
                             secondRune.id = View.generateViewId()
                             thirdRune.id = View.generateViewId()
@@ -424,6 +494,47 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                             set.connect(fifthRune.id, ConstraintSet.BOTTOM, secondRune.id, ConstraintSet.BOTTOM, 0)
                             set.connect(fifthRune.id, ConstraintSet.TOP, secondRune.id, ConstraintSet.TOP, 0)
                             set.applyTo(runesLayout)
+
+                            val firstDot = ImageView(requireContext())
+                            val secondDot = ImageView(requireContext())
+                            val thirdDot = ImageView(requireContext())
+                            val fourthDot = ImageView(requireContext())
+                            val fifthDot = ImageView(requireContext())
+
+                            runesDotsList.addAll(arrayListOf(firstDot,secondDot,thirdDot,fourthDot,fifthDot))
+
+                            for(runeDot in runesDotsList){
+                                runeDot.id = View.generateViewId()
+                                runeDot.adjustViewBounds = true
+                                runeDot.setImageResource(R.drawable.ic_circle_deselected)
+                                bottomRunesNav.addView(runeDot)
+                            }
+
+                            val bottomNavSet = ConstraintSet()
+                            bottomNavSet.clone(bottomRunesNav)
+                            bottomNavSet.connect(firstDot.id,ConstraintSet.TOP,thirdDot.id,ConstraintSet.TOP,0)
+                            bottomNavSet.connect(firstDot.id,ConstraintSet.BOTTOM,thirdDot.id,ConstraintSet.BOTTOM,0)
+                            bottomNavSet.connect(firstDot.id,ConstraintSet.END,secondDot.id,ConstraintSet.START,15)
+
+                            bottomNavSet.connect(secondDot.id,ConstraintSet.TOP,thirdDot.id,ConstraintSet.TOP,0)
+                            bottomNavSet.connect(secondDot.id,ConstraintSet.BOTTOM,thirdDot.id,ConstraintSet.BOTTOM,0)
+                            bottomNavSet.connect(secondDot.id,ConstraintSet.END,thirdDot.id,ConstraintSet.START,15)
+
+                            bottomNavSet.connect(thirdDot.id,ConstraintSet.TOP,R.id.left_arrow,ConstraintSet.TOP,0)
+                            bottomNavSet.connect(thirdDot.id,ConstraintSet.BOTTOM,R.id.left_arrow,ConstraintSet.BOTTOM,0)
+                            bottomNavSet.connect(thirdDot.id,ConstraintSet.START,ConstraintSet.PARENT_ID,ConstraintSet.START,15)
+                            bottomNavSet.connect(thirdDot.id,ConstraintSet.END,ConstraintSet.PARENT_ID,ConstraintSet.END,15)
+
+                            bottomNavSet.connect(fourthDot.id,ConstraintSet.TOP,thirdDot.id,ConstraintSet.TOP,0)
+                            bottomNavSet.connect(fourthDot.id,ConstraintSet.BOTTOM,thirdDot.id,ConstraintSet.BOTTOM,0)
+                            bottomNavSet.connect(fourthDot.id,ConstraintSet.START,thirdDot.id,ConstraintSet.END,15)
+
+                            bottomNavSet.connect(fifthDot.id,ConstraintSet.TOP,thirdDot.id,ConstraintSet.TOP,0)
+                            bottomNavSet.connect(fifthDot.id,ConstraintSet.BOTTOM,thirdDot.id,ConstraintSet.BOTTOM,0)
+                            bottomNavSet.connect(fifthDot.id,ConstraintSet.START,fourthDot.id,ConstraintSet.END,15)
+
+
+                            bottomNavSet.applyTo(bottomRunesNav)
                         }
                         7 -> {
                             val firstRune = FrameLayout(requireContext())
@@ -432,8 +543,8 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                             val fourthRune = FrameLayout(requireContext())
                             val fifthRune = FrameLayout(requireContext())
                             val sixthRune = FrameLayout(requireContext())
-                            runesViewList.addAll(arrayListOf(firstRune, secondRune, thirdRune, fourthRune, fifthRune, sixthRune))
-                            runesPositionsList.addAll(arrayListOf(selectedLayout.slotMeaning1, selectedLayout.slotMeaning2, selectedLayout.slotMeaning3, selectedLayout.slotMeaning4, selectedLayout.slotMeaning6, selectedLayout.slotMeaning7))
+                            runesViewList.addAll(arrayListOf(sixthRune,thirdRune,fifthRune,fourthRune,secondRune,firstRune))
+                            runesPositionsList.addAll(arrayListOf(selectedLayout.slotMeaning7, selectedLayout.slotMeaning3, selectedLayout.slotMeaning6, selectedLayout.slotMeaning4, selectedLayout.slotMeaning2, selectedLayout.slotMeaning1))
                             firstRune.id = View.generateViewId()
                             secondRune.id = View.generateViewId()
                             thirdRune.id = View.generateViewId()
@@ -497,6 +608,51 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                             set.connect(sixthRune.id, ConstraintSet.BOTTOM, thirdRune.id, ConstraintSet.BOTTOM, 0)
                             set.connect(sixthRune.id, ConstraintSet.TOP, thirdRune.id, ConstraintSet.TOP, 0)
                             set.applyTo(runesLayout)
+
+                            val firstDot = ImageView(requireContext())
+                            val secondDot = ImageView(requireContext())
+                            val thirdDot = ImageView(requireContext())
+                            val fourthDot = ImageView(requireContext())
+                            val fifthDot = ImageView(requireContext())
+                            val sixthDot = ImageView(requireContext())
+
+                            runesDotsList.addAll(arrayListOf(firstDot,secondDot,thirdDot,fourthDot,fifthDot,sixthDot))
+
+                            for(runeDot in runesDotsList){
+                                runeDot.id = View.generateViewId()
+                                runeDot.adjustViewBounds = true
+                                runeDot.setImageResource(R.drawable.ic_circle_deselected)
+                                bottomRunesNav.addView(runeDot)
+                            }
+
+                            val bottomNavSet = ConstraintSet()
+                            bottomNavSet.clone(bottomRunesNav)
+                            bottomNavSet.connect(firstDot.id,ConstraintSet.TOP,thirdDot.id,ConstraintSet.TOP,0)
+                            bottomNavSet.connect(firstDot.id,ConstraintSet.BOTTOM,thirdDot.id,ConstraintSet.BOTTOM,0)
+                            bottomNavSet.connect(firstDot.id,ConstraintSet.END,secondDot.id,ConstraintSet.START,30)
+
+                            bottomNavSet.connect(secondDot.id,ConstraintSet.TOP,thirdDot.id,ConstraintSet.TOP,0)
+                            bottomNavSet.connect(secondDot.id,ConstraintSet.BOTTOM,thirdDot.id,ConstraintSet.BOTTOM,0)
+                            bottomNavSet.connect(secondDot.id,ConstraintSet.END,thirdDot.id,ConstraintSet.START,30)
+
+                            bottomNavSet.connect(thirdDot.id,ConstraintSet.TOP,R.id.left_arrow,ConstraintSet.TOP,0)
+                            bottomNavSet.connect(thirdDot.id,ConstraintSet.BOTTOM,R.id.left_arrow,ConstraintSet.BOTTOM,0)
+                            bottomNavSet.connect(thirdDot.id,ConstraintSet.END,R.id.bottom_runes_nav_center,ConstraintSet.START,15)
+
+                            bottomNavSet.connect(fourthDot.id,ConstraintSet.TOP,thirdDot.id,ConstraintSet.TOP,0)
+                            bottomNavSet.connect(fourthDot.id,ConstraintSet.BOTTOM,thirdDot.id,ConstraintSet.BOTTOM,0)
+                            bottomNavSet.connect(fourthDot.id,ConstraintSet.START,R.id.bottom_runes_nav_center,ConstraintSet.END,15)
+
+                            bottomNavSet.connect(fifthDot.id,ConstraintSet.TOP,thirdDot.id,ConstraintSet.TOP,0)
+                            bottomNavSet.connect(fifthDot.id,ConstraintSet.BOTTOM,thirdDot.id,ConstraintSet.BOTTOM,0)
+                            bottomNavSet.connect(fifthDot.id,ConstraintSet.START,fourthDot.id,ConstraintSet.END,30)
+
+                            bottomNavSet.connect(sixthDot.id,ConstraintSet.TOP,thirdDot.id,ConstraintSet.TOP,0)
+                            bottomNavSet.connect(sixthDot.id,ConstraintSet.BOTTOM,thirdDot.id,ConstraintSet.BOTTOM,0)
+                            bottomNavSet.connect(sixthDot.id,ConstraintSet.START,fifthDot.id,ConstraintSet.END,30)
+
+
+                            bottomNavSet.applyTo(bottomRunesNav)
                         }
                         8 -> {
                             val firstRune = FrameLayout(requireContext())
@@ -506,8 +662,8 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                             val fifthRune = FrameLayout(requireContext())
                             val sixthRune = FrameLayout(requireContext())
                             val seventhRune = FrameLayout(requireContext())
-                            runesViewList.addAll(arrayListOf(firstRune, secondRune, thirdRune, fourthRune, fifthRune, sixthRune, seventhRune))
-                            runesPositionsList.addAll(arrayListOf(selectedLayout.slotMeaning1, selectedLayout.slotMeaning2, selectedLayout.slotMeaning3, selectedLayout.slotMeaning4, selectedLayout.slotMeaning5, selectedLayout.slotMeaning6, selectedLayout.slotMeaning7))
+                            runesViewList.addAll(arrayListOf(thirdRune,seventhRune,sixthRune,fifthRune,fourthRune,secondRune,firstRune))
+                            runesPositionsList.addAll(arrayListOf(selectedLayout.slotMeaning3, selectedLayout.slotMeaning7, selectedLayout.slotMeaning6, selectedLayout.slotMeaning5, selectedLayout.slotMeaning4, selectedLayout.slotMeaning2, selectedLayout.slotMeaning1))
                             firstRune.id = View.generateViewId()
                             secondRune.id = View.generateViewId()
                             thirdRune.id = View.generateViewId()
@@ -580,6 +736,57 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                             set.connect(seventhRune.id, ConstraintSet.BOTTOM, thirdRune.id, ConstraintSet.BOTTOM, 0)
                             set.connect(seventhRune.id, ConstraintSet.TOP, thirdRune.id, ConstraintSet.TOP, 0)
                             set.applyTo(runesLayout)
+
+                            val firstDot = ImageView(requireContext())
+                            val secondDot = ImageView(requireContext())
+                            val thirdDot = ImageView(requireContext())
+                            val fourthDot = ImageView(requireContext())
+                            val fifthDot = ImageView(requireContext())
+                            val sixthDot = ImageView(requireContext())
+                            val seventhDot = ImageView(requireContext())
+
+                            runesDotsList.addAll(arrayListOf(firstDot,secondDot,thirdDot,fourthDot,fifthDot,sixthDot,seventhDot))
+
+                            for(runeDot in runesDotsList){
+                                runeDot.id = View.generateViewId()
+                                runeDot.adjustViewBounds = true
+                                runeDot.setImageResource(R.drawable.ic_circle_deselected)
+                                bottomRunesNav.addView(runeDot)
+                            }
+
+                            val bottomNavSet = ConstraintSet()
+                            bottomNavSet.clone(bottomRunesNav)
+                            bottomNavSet.connect(firstDot.id,ConstraintSet.TOP,fourthDot.id,ConstraintSet.TOP,0)
+                            bottomNavSet.connect(firstDot.id,ConstraintSet.BOTTOM,fourthDot.id,ConstraintSet.BOTTOM,0)
+                            bottomNavSet.connect(firstDot.id,ConstraintSet.END,secondDot.id,ConstraintSet.START,15)
+
+                            bottomNavSet.connect(secondDot.id,ConstraintSet.TOP,fourthDot.id,ConstraintSet.TOP,0)
+                            bottomNavSet.connect(secondDot.id,ConstraintSet.BOTTOM,fourthDot.id,ConstraintSet.BOTTOM,0)
+                            bottomNavSet.connect(secondDot.id,ConstraintSet.END,thirdDot.id,ConstraintSet.START,15)
+
+                            bottomNavSet.connect(thirdDot.id,ConstraintSet.TOP,fourthDot.id,ConstraintSet.TOP,0)
+                            bottomNavSet.connect(thirdDot.id,ConstraintSet.BOTTOM,fourthDot.id,ConstraintSet.BOTTOM,0)
+                            bottomNavSet.connect(thirdDot.id,ConstraintSet.END,fourthDot.id,ConstraintSet.START,15)
+
+                            bottomNavSet.connect(fourthDot.id,ConstraintSet.TOP,R.id.left_arrow,ConstraintSet.TOP,0)
+                            bottomNavSet.connect(fourthDot.id,ConstraintSet.BOTTOM,R.id.left_arrow,ConstraintSet.BOTTOM,0)
+                            bottomNavSet.connect(fourthDot.id,ConstraintSet.START,ConstraintSet.PARENT_ID,ConstraintSet.START,15)
+                            bottomNavSet.connect(fourthDot.id,ConstraintSet.END,ConstraintSet.PARENT_ID,ConstraintSet.END,15)
+
+                            bottomNavSet.connect(fifthDot.id,ConstraintSet.TOP,fourthDot.id,ConstraintSet.TOP,0)
+                            bottomNavSet.connect(fifthDot.id,ConstraintSet.BOTTOM,fourthDot.id,ConstraintSet.BOTTOM,0)
+                            bottomNavSet.connect(fifthDot.id,ConstraintSet.START,fourthDot.id,ConstraintSet.END,15)
+
+                            bottomNavSet.connect(sixthDot.id,ConstraintSet.TOP,fourthDot.id,ConstraintSet.TOP,0)
+                            bottomNavSet.connect(sixthDot.id,ConstraintSet.BOTTOM,fourthDot.id,ConstraintSet.BOTTOM,0)
+                            bottomNavSet.connect(sixthDot.id,ConstraintSet.START,fifthDot.id,ConstraintSet.END,15)
+
+                            bottomNavSet.connect(seventhDot.id,ConstraintSet.TOP,fourthDot.id,ConstraintSet.TOP,0)
+                            bottomNavSet.connect(seventhDot.id,ConstraintSet.BOTTOM,fourthDot.id,ConstraintSet.BOTTOM,0)
+                            bottomNavSet.connect(seventhDot.id,ConstraintSet.START,sixthDot.id,ConstraintSet.END,15)
+
+
+                            bottomNavSet.applyTo(bottomRunesNav)
                         }
                     }
                     //**runes description
@@ -779,22 +986,22 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
             4->{
                 if(firsOpening){
                     firsOpening = false
-                    size = runesViewList[0].bottom
+                    size = runesViewList[3].bottom
                     baseSize = size
                 }
                 else size = baseSize
                 when(v?.id){
-                    runesViewList[1].id,runesViewList[3].id->{
+                    runesViewList[1].id,runesViewList[0].id->{
                         val set = ConstraintSet()
                         set.clone(runesLayout)
-                        set.clear(runesViewList[0].id,ConstraintSet.TOP)
-                        set.connect(runesViewList[0].id,ConstraintSet.BOTTOM,headerFrame.id,ConstraintSet.BOTTOM)
+                        set.clear(runesViewList[3].id,ConstraintSet.TOP)
+                        set.connect(runesViewList[3].id,ConstraintSet.BOTTOM,headerFrame.id,ConstraintSet.BOTTOM)
                         set.applyTo(runesLayout)
                     }
                     runesViewList[2].id->{
                         val set = ConstraintSet()
                         set.clone(runesLayout)
-                        set.clear(runesViewList[0].id)
+                        set.clear(runesViewList[3].id)
                         set.clear(runesViewList[1].id,ConstraintSet.BOTTOM)
                         set.clear(runesViewList[1].id,ConstraintSet.TOP)
                         set.connect(runesViewList[1].id,ConstraintSet.BOTTOM,headerFrame.id,ConstraintSet.BOTTOM)
@@ -805,7 +1012,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
             5->{
                 if(firsOpening){
                     firsOpening = false
-                    size = runesViewList[0].bottom
+                    size = runesViewList[3].bottom
                     baseSize = size
                 }
                 else size = baseSize
@@ -813,14 +1020,14 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                     runesViewList[1].id,runesViewList[2].id->{
                         val set = ConstraintSet()
                         set.clone(runesLayout)
-                        set.connect(runesViewList[0].id,ConstraintSet.BOTTOM,headerFrame.id,ConstraintSet.BOTTOM)
+                        set.connect(runesViewList[3].id,ConstraintSet.BOTTOM,headerFrame.id,ConstraintSet.BOTTOM)
                         set.applyTo(runesLayout)
                     }
-                    runesViewList[3].id->{
+                    runesViewList[0].id->{
                         val set = ConstraintSet()
                         set.clone(runesLayout)
-                        set.clear(runesViewList[0].id,ConstraintSet.TOP)
-                        set.connect(runesViewList[0].id,ConstraintSet.BOTTOM,headerFrame.id,ConstraintSet.BOTTOM)
+                        set.clear(runesViewList[3].id,ConstraintSet.TOP)
+                        set.connect(runesViewList[3].id,ConstraintSet.BOTTOM,headerFrame.id,ConstraintSet.BOTTOM)
                         set.applyTo(runesLayout)
                     }
                 }
@@ -828,66 +1035,66 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
             6->{
                 if(firsOpening){
                     firsOpening = false
-                    size = runesViewList[0].bottom
+                    size = runesViewList[3].bottom
                     baseSize = size
                 }
                 else size = baseSize
                 when(v?.id){
-                    runesViewList[1].id,runesViewList[3].id,runesViewList[4].id->{
+                    runesViewList[1].id,runesViewList[0].id,runesViewList[2].id->{
                         val set = ConstraintSet()
                         set.clone(runesLayout)
-                        set.clear(runesViewList[0].id,ConstraintSet.TOP)
-                        set.connect(runesViewList[0].id,ConstraintSet.BOTTOM,headerFrame.id,ConstraintSet.BOTTOM)
+                        set.clear(runesViewList[3].id,ConstraintSet.TOP)
+                        set.connect(runesViewList[3].id,ConstraintSet.BOTTOM,headerFrame.id,ConstraintSet.BOTTOM)
                         set.applyTo(runesLayout)
                     }
-                    runesViewList[2].id->{
+                    runesViewList[4].id->{
                         val set = ConstraintSet()
                         set.clone(runesLayout)
-                        set.clear(runesViewList[0].id)
+                        set.clear(runesViewList[3].id)
                         set.clear(runesViewList[1].id,ConstraintSet.BOTTOM)
                         set.clear(runesViewList[1].id,ConstraintSet.TOP)
                         set.connect(runesViewList[1].id,ConstraintSet.BOTTOM,headerFrame.id,ConstraintSet.BOTTOM)
                         set.applyTo(runesLayout)
-                        runesViewList[0].visibility= View.GONE
+                        runesViewList[3].visibility= View.GONE
                     }
                 }
             }
             7->{
                 if(firsOpening){
                     firsOpening = false
-                    size = runesViewList[0].bottom
+                    size = runesViewList[5].bottom
                     baseSize = size
                 }
                 else size = baseSize
                 when(v?.id){
-                    runesViewList[1].id->{
+                    runesViewList[4].id->{
                         val set = ConstraintSet()
                         set.clone(runesLayout)
-                        set.clear(runesViewList[0].id,ConstraintSet.TOP)
-                        set.connect(runesViewList[0].id,ConstraintSet.BOTTOM,headerFrame.id,ConstraintSet.BOTTOM)
+                        set.clear(runesViewList[5].id,ConstraintSet.TOP)
+                        set.connect(runesViewList[5].id,ConstraintSet.BOTTOM,headerFrame.id,ConstraintSet.BOTTOM)
                         set.applyTo(runesLayout)
                     }
 
-                    runesViewList[2].id,runesViewList[4].id,runesViewList[5].id->{
+                    runesViewList[1].id,runesViewList[2].id,runesViewList[0].id->{
                         val set = ConstraintSet()
                         set.clone(runesLayout)
-                        set.clear(runesViewList[0].id)
-                        set.clear(runesViewList[1].id,ConstraintSet.TOP)
-                        set.connect(runesViewList[1].id,ConstraintSet.BOTTOM,headerFrame.id,ConstraintSet.BOTTOM)
+                        set.clear(runesViewList[5].id)
+                        set.clear(runesViewList[4].id,ConstraintSet.TOP)
+                        set.connect(runesViewList[4].id,ConstraintSet.BOTTOM,headerFrame.id,ConstraintSet.BOTTOM)
                         set.applyTo(runesLayout)
-                        runesViewList[0].visibility= View.GONE
+                        runesViewList[5].visibility= View.GONE
                     }
                     runesViewList[3].id->{
                         val set = ConstraintSet()
                         set.clone(runesLayout)
-                        set.clear(runesViewList[0].id)
-                        set.clear(runesViewList[1].id)
-                        set.clear(runesViewList[2].id,ConstraintSet.BOTTOM)
-                        set.clear(runesViewList[2].id,ConstraintSet.TOP)
-                        set.connect(runesViewList[2].id,ConstraintSet.BOTTOM,headerFrame.id,ConstraintSet.BOTTOM)
+                        set.clear(runesViewList[5].id)
+                        set.clear(runesViewList[4].id)
+                        set.clear(runesViewList[1].id,ConstraintSet.BOTTOM)
+                        set.clear(runesViewList[1].id,ConstraintSet.TOP)
+                        set.connect(runesViewList[1].id,ConstraintSet.BOTTOM,headerFrame.id,ConstraintSet.BOTTOM)
                         set.applyTo(runesLayout)
-                        runesViewList[1].visibility= View.GONE
-                        runesViewList[0].visibility= View.GONE
+                        runesViewList[4].visibility= View.GONE
+                        runesViewList[5].visibility= View.GONE
                     }
                 }
             }
@@ -895,57 +1102,57 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
             8->{
                 if(firsOpening){
                     firsOpening = false
-                    size = runesViewList[0].bottom
+                    size = runesViewList[6].bottom
                     baseSize = size
                 }
                 else size = baseSize
                 when(v?.id){
-                    runesViewList[1].id->{
+                    runesViewList[5].id->{
                         val set = ConstraintSet()
                         set.clone(runesLayout)
-                        set.clear(runesViewList[0].id,ConstraintSet.TOP)
-                        set.connect(runesViewList[0].id,ConstraintSet.BOTTOM,headerFrame.id,ConstraintSet.BOTTOM)
+                        set.clear(runesViewList[6].id,ConstraintSet.TOP)
+                        set.connect(runesViewList[6].id,ConstraintSet.BOTTOM,headerFrame.id,ConstraintSet.BOTTOM)
                         set.applyTo(runesLayout)
                     }
 
-                    runesViewList[2].id,runesViewList[5].id,runesViewList[6].id->{
+                    runesViewList[0].id,runesViewList[2].id,runesViewList[1].id->{
                         val set = ConstraintSet()
                         set.clone(runesLayout)
-                        set.clear(runesViewList[0].id)
-                        set.clear(runesViewList[1].id,ConstraintSet.TOP)
-                        set.connect(runesViewList[1].id,ConstraintSet.BOTTOM,headerFrame.id,ConstraintSet.BOTTOM)
+                        set.clear(runesViewList[6].id)
+                        set.clear(runesViewList[5].id,ConstraintSet.TOP)
+                        set.connect(runesViewList[5].id,ConstraintSet.BOTTOM,headerFrame.id,ConstraintSet.BOTTOM)
                         set.applyTo(runesLayout)
-                        runesViewList[0].visibility= View.GONE
-                    }
-                    runesViewList[3].id->{
-                        val set = ConstraintSet()
-                        set.clone(runesLayout)
-                        set.clear(runesViewList[0].id)
-                        set.clear(runesViewList[1].id)
-                        set.clear(runesViewList[2].id,ConstraintSet.BOTTOM)
-                        set.clear(runesViewList[2].id,ConstraintSet.TOP)
-                        set.connect(runesViewList[2].id,ConstraintSet.BOTTOM,headerFrame.id,ConstraintSet.BOTTOM)
-                        set.applyTo(runesLayout)
-                        runesViewList[1].visibility= View.GONE
-                        runesViewList[0].visibility= View.GONE
+                        runesViewList[6].visibility= View.GONE
                     }
                     runesViewList[4].id->{
                         val set = ConstraintSet()
                         set.clone(runesLayout)
-                        set.clear(runesViewList[0].id)
-                        set.clear(runesViewList[1].id)
-                        set.clear(runesViewList[2].id)
-                        set.clear(runesViewList[5].id)
                         set.clear(runesViewList[6].id)
-                        set.clear(runesViewList[3].id,ConstraintSet.BOTTOM)
-                        set.clear(runesViewList[3].id,ConstraintSet.TOP)
-                        set.connect(runesViewList[3].id,ConstraintSet.BOTTOM,headerFrame.id,ConstraintSet.BOTTOM)
+                        set.clear(runesViewList[5].id)
+                        set.clear(runesViewList[0].id,ConstraintSet.BOTTOM)
+                        set.clear(runesViewList[0].id,ConstraintSet.TOP)
+                        set.connect(runesViewList[0].id,ConstraintSet.BOTTOM,headerFrame.id,ConstraintSet.BOTTOM)
                         set.applyTo(runesLayout)
-                        runesViewList[1].visibility= View.GONE
-                        runesViewList[0].visibility= View.GONE
-                        runesViewList[2].visibility= View.GONE
-                        runesViewList[6].visibility= View.GONE
                         runesViewList[5].visibility= View.GONE
+                        runesViewList[6].visibility= View.GONE
+                    }
+                    runesViewList[3].id->{
+                        val set = ConstraintSet()
+                        set.clone(runesLayout)
+                        set.clear(runesViewList[6].id)
+                        set.clear(runesViewList[5].id)
+                        set.clear(runesViewList[0].id)
+                        set.clear(runesViewList[2].id)
+                        set.clear(runesViewList[1].id)
+                        set.clear(runesViewList[4].id,ConstraintSet.BOTTOM)
+                        set.clear(runesViewList[4].id,ConstraintSet.TOP)
+                        set.connect(runesViewList[4].id,ConstraintSet.BOTTOM,headerFrame.id,ConstraintSet.BOTTOM)
+                        set.applyTo(runesLayout)
+                        runesViewList[5].visibility= View.GONE
+                        runesViewList[6].visibility= View.GONE
+                        runesViewList[0].visibility= View.GONE
+                        runesViewList[1].visibility= View.GONE
+                        runesViewList[2].visibility= View.GONE
                     }
                 }
             }
