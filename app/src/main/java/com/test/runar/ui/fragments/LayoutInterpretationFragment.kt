@@ -135,8 +135,8 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                             val secondRune = FrameLayout(requireContext())
                             runesViewList.addAll(arrayListOf(firstRune, secondRune))
                             runesPositionsList.addAll(arrayListOf(selectedLayout.slotMeaning3, selectedLayout.slotMeaning7))
-                            firstRune.id = View.generateViewId()
-                            secondRune.id = View.generateViewId()
+
+                            viewIdGenerator(runesViewList)
 
                             val firstRuneId = userLayout[2]
                             val secondRuneId = userLayout[6]
@@ -164,17 +164,13 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                             val firstDot = ImageView(requireContext())
                             val secondDot = ImageView(requireContext())
                             runesDotsList.addAll(arrayListOf(firstDot,secondDot))
-                            firstDot.id = View.generateViewId()
-                            secondDot.id = View.generateViewId()
 
-                            firstDot.adjustViewBounds = true
-                            secondDot.adjustViewBounds = true
-
-                            firstDot.setImageResource(R.drawable.ic_circle_deselected)
-                            secondDot.setImageResource(R.drawable.ic_circle_deselected)
-
-                            bottomRunesNav.addView(firstDot)
-                            bottomRunesNav.addView(secondDot)
+                            for(runeDot in runesDotsList){
+                                runeDot.id = View.generateViewId()
+                                runeDot.adjustViewBounds = true
+                                runeDot.setImageResource(R.drawable.ic_circle_deselected)
+                                bottomRunesNav.addView(runeDot)
+                            }
 
                             val bottomNavSet = ConstraintSet()
                             bottomNavSet.clone(bottomRunesNav)
@@ -193,9 +189,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                             runesViewList.addAll(arrayListOf(thirdRune, secondRune, firstRune))
                             runesPositionsList.addAll(arrayListOf(selectedLayout.slotMeaning7, selectedLayout.slotMeaning3, selectedLayout.slotMeaning6))
 
-                            firstRune.id = View.generateViewId()
-                            secondRune.id = View.generateViewId()
-                            thirdRune.id = View.generateViewId()
+                            viewIdGenerator(runesViewList)
 
                             val firstRuneId = userLayout[5]
                             val secondRuneId = userLayout[2]
@@ -267,10 +261,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                             runesViewList.addAll(arrayListOf(fourthRune,secondRune,thirdRune,firstRune))
                             runesPositionsList.addAll(arrayListOf(selectedLayout.slotMeaning7, selectedLayout.slotMeaning3, selectedLayout.slotMeaning4, selectedLayout.slotMeaning2))
 
-                            firstRune.id = View.generateViewId()
-                            secondRune.id = View.generateViewId()
-                            thirdRune.id = View.generateViewId()
-                            fourthRune.id = View.generateViewId()
+                            viewIdGenerator(runesViewList)
 
                             val firstRuneId = userLayout[1]
                             val secondRuneId = userLayout[2]
@@ -354,10 +345,8 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                             val fourthRune = FrameLayout(requireContext())
                             runesViewList.addAll(arrayListOf(fourthRune, secondRune, thirdRune, firstRune))
                             runesPositionsList.addAll(arrayListOf(selectedLayout.slotMeaning3, selectedLayout.slotMeaning6, selectedLayout.slotMeaning7, selectedLayout.slotMeaning1))
-                            firstRune.id = View.generateViewId()
-                            secondRune.id = View.generateViewId()
-                            thirdRune.id = View.generateViewId()
-                            fourthRune.id = View.generateViewId()
+
+                            viewIdGenerator(runesViewList)
 
                             val firstRuneId = userLayout[1]
                             val secondRuneId = userLayout[5]
@@ -443,11 +432,8 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                             val fifthRune = FrameLayout(requireContext())
                             runesViewList.addAll(arrayListOf(fourthRune,secondRune,fifthRune,firstRune,thirdRune))
                             runesPositionsList.addAll(arrayListOf(selectedLayout.slotMeaning6, selectedLayout.slotMeaning3, selectedLayout.slotMeaning7, selectedLayout.slotMeaning2, selectedLayout.slotMeaning4))
-                            firstRune.id = View.generateViewId()
-                            secondRune.id = View.generateViewId()
-                            thirdRune.id = View.generateViewId()
-                            fourthRune.id = View.generateViewId()
-                            fifthRune.id = View.generateViewId()
+
+                            viewIdGenerator(runesViewList)
 
                             val firstRuneId = userLayout[1]
                             val secondRuneId = userLayout[2]
@@ -548,12 +534,8 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                             val sixthRune = FrameLayout(requireContext())
                             runesViewList.addAll(arrayListOf(sixthRune,thirdRune,fifthRune,fourthRune,secondRune,firstRune))
                             runesPositionsList.addAll(arrayListOf(selectedLayout.slotMeaning7, selectedLayout.slotMeaning3, selectedLayout.slotMeaning6, selectedLayout.slotMeaning4, selectedLayout.slotMeaning2, selectedLayout.slotMeaning1))
-                            firstRune.id = View.generateViewId()
-                            secondRune.id = View.generateViewId()
-                            thirdRune.id = View.generateViewId()
-                            fourthRune.id = View.generateViewId()
-                            fifthRune.id = View.generateViewId()
-                            sixthRune.id = View.generateViewId()
+
+                            viewIdGenerator(runesViewList)
 
                             val firstRuneId = userLayout[0]
                             val secondRuneId = userLayout[1]
@@ -667,13 +649,8 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                             val seventhRune = FrameLayout(requireContext())
                             runesViewList.addAll(arrayListOf(thirdRune,seventhRune,sixthRune,fifthRune,fourthRune,secondRune,firstRune))
                             runesPositionsList.addAll(arrayListOf(selectedLayout.slotMeaning3, selectedLayout.slotMeaning7, selectedLayout.slotMeaning6, selectedLayout.slotMeaning5, selectedLayout.slotMeaning4, selectedLayout.slotMeaning2, selectedLayout.slotMeaning1))
-                            firstRune.id = View.generateViewId()
-                            secondRune.id = View.generateViewId()
-                            thirdRune.id = View.generateViewId()
-                            fourthRune.id = View.generateViewId()
-                            fifthRune.id = View.generateViewId()
-                            sixthRune.id = View.generateViewId()
-                            seventhRune.id = View.generateViewId()
+
+                            viewIdGenerator(runesViewList)
 
                             val firstRuneId = userLayout[0]
                             val secondRuneId = userLayout[1]
@@ -1185,5 +1162,9 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
         backLayoutParams.height = screenHeight - size
         descriptionBack.layoutParams = backLayoutParams
         descriptionBack.visibility = View.VISIBLE
+    }
+
+    private fun <T : View>viewIdGenerator(list: ArrayList<T>){
+        for( element in list) element.id = View.generateViewId()
     }
 }
