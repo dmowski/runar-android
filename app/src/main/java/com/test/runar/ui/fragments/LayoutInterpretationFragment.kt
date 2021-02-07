@@ -888,7 +888,8 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                 runeName.text = it.runeName
                 runeDescription.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize-5f)
                 runeDescription.text = it.fullDescription
-                runeAusf.text = "Благоприятность - ${it.ausp} %"
+                val secondFont = ResourcesCompat.getFont(requireContext(), R.font.roboto_medium)
+                runeAusf.text = Html.fromHtml("Благоприятность - <bf>${it.ausp} %</bf>", null, InterTagHandler(secondFont!!))
             }
         }
         view.findViewById<ConstraintLayout>(R.id.rune_description_back).setOnTouchListener(object : OnSwipeTouchListener(requireContext()){
