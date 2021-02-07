@@ -886,7 +886,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
         model.selectedRune.observe(viewLifecycleOwner){
             if(it!=null){
                 runeName.text = it.runeName
-                runeDescription.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize-5f)
+                runeDescription.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize-3f)
                 runeDescription.text = it.fullDescription
                 val secondFont = ResourcesCompat.getFont(requireContext(), R.font.roboto_medium)
                 runeAusf.text = Html.fromHtml("Благоприятность - <bf>${it.ausp} %</bf>", null, InterTagHandler(secondFont!!))
