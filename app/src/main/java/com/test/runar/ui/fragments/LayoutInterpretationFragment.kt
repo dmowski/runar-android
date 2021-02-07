@@ -205,11 +205,9 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                             bottomNavSet.connect(firstDot.id,ConstraintSet.TOP,secondDot.id,ConstraintSet.TOP,0)
                             bottomNavSet.connect(firstDot.id,ConstraintSet.BOTTOM,secondDot.id,ConstraintSet.BOTTOM,0)
                             bottomNavSet.connect(firstDot.id,ConstraintSet.END,secondDot.id,ConstraintSet.START,15)
-
                             bottomNavSet.connect(thirdDot.id,ConstraintSet.TOP,secondDot.id,ConstraintSet.TOP,0)
                             bottomNavSet.connect(thirdDot.id,ConstraintSet.BOTTOM,secondDot.id,ConstraintSet.BOTTOM,0)
                             bottomNavSet.connect(thirdDot.id,ConstraintSet.START,secondDot.id,ConstraintSet.END,15)
-
                             bottomNavSet.connect(secondDot.id,ConstraintSet.TOP,R.id.left_arrow,ConstraintSet.TOP,0)
                             bottomNavSet.connect(secondDot.id,ConstraintSet.BOTTOM,R.id.left_arrow,ConstraintSet.BOTTOM,0)
                             bottomNavSet.connect(secondDot.id,ConstraintSet.START,ConstraintSet.PARENT_ID,ConstraintSet.START,15)
@@ -246,20 +244,15 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                             bottomNavSet.connect(firstDot.id,ConstraintSet.TOP,secondDot.id,ConstraintSet.TOP,0)
                             bottomNavSet.connect(firstDot.id,ConstraintSet.BOTTOM,secondDot.id,ConstraintSet.BOTTOM,0)
                             bottomNavSet.connect(firstDot.id,ConstraintSet.END,secondDot.id,ConstraintSet.START,30)
-
                             bottomNavSet.connect(secondDot.id,ConstraintSet.TOP,R.id.left_arrow,ConstraintSet.TOP,0)
                             bottomNavSet.connect(secondDot.id,ConstraintSet.BOTTOM,R.id.left_arrow,ConstraintSet.BOTTOM,0)
                             bottomNavSet.connect(secondDot.id,ConstraintSet.END,R.id.bottom_runes_nav_center,ConstraintSet.START,15)
-
                             bottomNavSet.connect(thirdDot.id,ConstraintSet.TOP,secondDot.id,ConstraintSet.TOP,0)
                             bottomNavSet.connect(thirdDot.id,ConstraintSet.BOTTOM,secondDot.id,ConstraintSet.BOTTOM,0)
                             bottomNavSet.connect(thirdDot.id,ConstraintSet.START,R.id.bottom_runes_nav_center,ConstraintSet.END,15)
-
                             bottomNavSet.connect(fourthDot.id,ConstraintSet.TOP,secondDot.id,ConstraintSet.TOP,0)
                             bottomNavSet.connect(fourthDot.id,ConstraintSet.BOTTOM,secondDot.id,ConstraintSet.BOTTOM,0)
                             bottomNavSet.connect(fourthDot.id,ConstraintSet.START,thirdDot.id,ConstraintSet.END,30)
-
-
                             bottomNavSet.applyTo(bottomRunesNav)
                         }
                         5 -> {
@@ -293,20 +286,15 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                             bottomNavSet.connect(firstDot.id,ConstraintSet.TOP,secondDot.id,ConstraintSet.TOP,0)
                             bottomNavSet.connect(firstDot.id,ConstraintSet.BOTTOM,secondDot.id,ConstraintSet.BOTTOM,0)
                             bottomNavSet.connect(firstDot.id,ConstraintSet.END,secondDot.id,ConstraintSet.START,30)
-
                             bottomNavSet.connect(secondDot.id,ConstraintSet.TOP,R.id.left_arrow,ConstraintSet.TOP,0)
                             bottomNavSet.connect(secondDot.id,ConstraintSet.BOTTOM,R.id.left_arrow,ConstraintSet.BOTTOM,0)
                             bottomNavSet.connect(secondDot.id,ConstraintSet.END,R.id.bottom_runes_nav_center,ConstraintSet.START,15)
-
                             bottomNavSet.connect(thirdDot.id,ConstraintSet.TOP,secondDot.id,ConstraintSet.TOP,0)
                             bottomNavSet.connect(thirdDot.id,ConstraintSet.BOTTOM,secondDot.id,ConstraintSet.BOTTOM,0)
                             bottomNavSet.connect(thirdDot.id,ConstraintSet.START,R.id.bottom_runes_nav_center,ConstraintSet.END,15)
-
                             bottomNavSet.connect(fourthDot.id,ConstraintSet.TOP,secondDot.id,ConstraintSet.TOP,0)
                             bottomNavSet.connect(fourthDot.id,ConstraintSet.BOTTOM,secondDot.id,ConstraintSet.BOTTOM,0)
                             bottomNavSet.connect(fourthDot.id,ConstraintSet.START,thirdDot.id,ConstraintSet.END,30)
-
-
                             bottomNavSet.applyTo(bottomRunesNav)
                         }
                         6 -> {
@@ -343,25 +331,19 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                             bottomNavSet.connect(firstDot.id,ConstraintSet.TOP,thirdDot.id,ConstraintSet.TOP,0)
                             bottomNavSet.connect(firstDot.id,ConstraintSet.BOTTOM,thirdDot.id,ConstraintSet.BOTTOM,0)
                             bottomNavSet.connect(firstDot.id,ConstraintSet.END,secondDot.id,ConstraintSet.START,15)
-
                             bottomNavSet.connect(secondDot.id,ConstraintSet.TOP,thirdDot.id,ConstraintSet.TOP,0)
                             bottomNavSet.connect(secondDot.id,ConstraintSet.BOTTOM,thirdDot.id,ConstraintSet.BOTTOM,0)
                             bottomNavSet.connect(secondDot.id,ConstraintSet.END,thirdDot.id,ConstraintSet.START,15)
-
                             bottomNavSet.connect(thirdDot.id,ConstraintSet.TOP,R.id.left_arrow,ConstraintSet.TOP,0)
                             bottomNavSet.connect(thirdDot.id,ConstraintSet.BOTTOM,R.id.left_arrow,ConstraintSet.BOTTOM,0)
                             bottomNavSet.connect(thirdDot.id,ConstraintSet.START,ConstraintSet.PARENT_ID,ConstraintSet.START,15)
                             bottomNavSet.connect(thirdDot.id,ConstraintSet.END,ConstraintSet.PARENT_ID,ConstraintSet.END,15)
-
                             bottomNavSet.connect(fourthDot.id,ConstraintSet.TOP,thirdDot.id,ConstraintSet.TOP,0)
                             bottomNavSet.connect(fourthDot.id,ConstraintSet.BOTTOM,thirdDot.id,ConstraintSet.BOTTOM,0)
                             bottomNavSet.connect(fourthDot.id,ConstraintSet.START,thirdDot.id,ConstraintSet.END,15)
-
                             bottomNavSet.connect(fifthDot.id,ConstraintSet.TOP,thirdDot.id,ConstraintSet.TOP,0)
                             bottomNavSet.connect(fifthDot.id,ConstraintSet.BOTTOM,thirdDot.id,ConstraintSet.BOTTOM,0)
                             bottomNavSet.connect(fifthDot.id,ConstraintSet.START,fourthDot.id,ConstraintSet.END,15)
-
-
                             bottomNavSet.applyTo(bottomRunesNav)
                         }
                         7 -> {
@@ -401,28 +383,21 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                             bottomNavSet.connect(firstDot.id,ConstraintSet.TOP,thirdDot.id,ConstraintSet.TOP,0)
                             bottomNavSet.connect(firstDot.id,ConstraintSet.BOTTOM,thirdDot.id,ConstraintSet.BOTTOM,0)
                             bottomNavSet.connect(firstDot.id,ConstraintSet.END,secondDot.id,ConstraintSet.START,30)
-
                             bottomNavSet.connect(secondDot.id,ConstraintSet.TOP,thirdDot.id,ConstraintSet.TOP,0)
                             bottomNavSet.connect(secondDot.id,ConstraintSet.BOTTOM,thirdDot.id,ConstraintSet.BOTTOM,0)
                             bottomNavSet.connect(secondDot.id,ConstraintSet.END,thirdDot.id,ConstraintSet.START,30)
-
                             bottomNavSet.connect(thirdDot.id,ConstraintSet.TOP,R.id.left_arrow,ConstraintSet.TOP,0)
                             bottomNavSet.connect(thirdDot.id,ConstraintSet.BOTTOM,R.id.left_arrow,ConstraintSet.BOTTOM,0)
                             bottomNavSet.connect(thirdDot.id,ConstraintSet.END,R.id.bottom_runes_nav_center,ConstraintSet.START,15)
-
                             bottomNavSet.connect(fourthDot.id,ConstraintSet.TOP,thirdDot.id,ConstraintSet.TOP,0)
                             bottomNavSet.connect(fourthDot.id,ConstraintSet.BOTTOM,thirdDot.id,ConstraintSet.BOTTOM,0)
                             bottomNavSet.connect(fourthDot.id,ConstraintSet.START,R.id.bottom_runes_nav_center,ConstraintSet.END,15)
-
                             bottomNavSet.connect(fifthDot.id,ConstraintSet.TOP,thirdDot.id,ConstraintSet.TOP,0)
                             bottomNavSet.connect(fifthDot.id,ConstraintSet.BOTTOM,thirdDot.id,ConstraintSet.BOTTOM,0)
                             bottomNavSet.connect(fifthDot.id,ConstraintSet.START,fourthDot.id,ConstraintSet.END,30)
-
                             bottomNavSet.connect(sixthDot.id,ConstraintSet.TOP,thirdDot.id,ConstraintSet.TOP,0)
                             bottomNavSet.connect(sixthDot.id,ConstraintSet.BOTTOM,thirdDot.id,ConstraintSet.BOTTOM,0)
                             bottomNavSet.connect(sixthDot.id,ConstraintSet.START,fifthDot.id,ConstraintSet.END,30)
-
-
                             bottomNavSet.applyTo(bottomRunesNav)
                         }
                         8 -> {
@@ -465,32 +440,25 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                             bottomNavSet.connect(firstDot.id,ConstraintSet.TOP,fourthDot.id,ConstraintSet.TOP,0)
                             bottomNavSet.connect(firstDot.id,ConstraintSet.BOTTOM,fourthDot.id,ConstraintSet.BOTTOM,0)
                             bottomNavSet.connect(firstDot.id,ConstraintSet.END,secondDot.id,ConstraintSet.START,15)
-
                             bottomNavSet.connect(secondDot.id,ConstraintSet.TOP,fourthDot.id,ConstraintSet.TOP,0)
                             bottomNavSet.connect(secondDot.id,ConstraintSet.BOTTOM,fourthDot.id,ConstraintSet.BOTTOM,0)
                             bottomNavSet.connect(secondDot.id,ConstraintSet.END,thirdDot.id,ConstraintSet.START,15)
-
                             bottomNavSet.connect(thirdDot.id,ConstraintSet.TOP,fourthDot.id,ConstraintSet.TOP,0)
                             bottomNavSet.connect(thirdDot.id,ConstraintSet.BOTTOM,fourthDot.id,ConstraintSet.BOTTOM,0)
                             bottomNavSet.connect(thirdDot.id,ConstraintSet.END,fourthDot.id,ConstraintSet.START,15)
-
                             bottomNavSet.connect(fourthDot.id,ConstraintSet.TOP,R.id.left_arrow,ConstraintSet.TOP,0)
                             bottomNavSet.connect(fourthDot.id,ConstraintSet.BOTTOM,R.id.left_arrow,ConstraintSet.BOTTOM,0)
                             bottomNavSet.connect(fourthDot.id,ConstraintSet.START,ConstraintSet.PARENT_ID,ConstraintSet.START,15)
                             bottomNavSet.connect(fourthDot.id,ConstraintSet.END,ConstraintSet.PARENT_ID,ConstraintSet.END,15)
-
                             bottomNavSet.connect(fifthDot.id,ConstraintSet.TOP,fourthDot.id,ConstraintSet.TOP,0)
                             bottomNavSet.connect(fifthDot.id,ConstraintSet.BOTTOM,fourthDot.id,ConstraintSet.BOTTOM,0)
                             bottomNavSet.connect(fifthDot.id,ConstraintSet.START,fourthDot.id,ConstraintSet.END,15)
-
                             bottomNavSet.connect(sixthDot.id,ConstraintSet.TOP,fourthDot.id,ConstraintSet.TOP,0)
                             bottomNavSet.connect(sixthDot.id,ConstraintSet.BOTTOM,fourthDot.id,ConstraintSet.BOTTOM,0)
                             bottomNavSet.connect(sixthDot.id,ConstraintSet.START,fifthDot.id,ConstraintSet.END,15)
-
                             bottomNavSet.connect(seventhDot.id,ConstraintSet.TOP,fourthDot.id,ConstraintSet.TOP,0)
                             bottomNavSet.connect(seventhDot.id,ConstraintSet.BOTTOM,fourthDot.id,ConstraintSet.BOTTOM,0)
                             bottomNavSet.connect(seventhDot.id,ConstraintSet.START,sixthDot.id,ConstraintSet.END,15)
-
                             bottomNavSet.applyTo(bottomRunesNav)
                         }
                     }
@@ -532,8 +500,6 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                                 val secondFont = ResourcesCompat.getFont(requireContext(), R.font.roboto_medium)
                                 val interpretationText = it
                                 interpretationTextView.text = Html.fromHtml(interpretationText, null, InterTagHandler(secondFont!!))
-
-
                                 val backgroundLayout = interpretationFrame
                                 val backLayout = interpretationLayout
                                 val interLayout = backgroundLayout.findViewById<ConstraintLayout>(R.id.interpretation_layout)
@@ -678,8 +644,6 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
             }
             for (rune in runesViewList) {
                 if (rune.id == v?.id) {
-
-
                     for(runeDot in runesDotsList){
                         runeDot.setImageResource(R.drawable.ic_circle_deselected)
                         runeDot.setOnClickListener(this)
