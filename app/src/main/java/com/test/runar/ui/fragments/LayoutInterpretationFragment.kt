@@ -1,5 +1,6 @@
 package com.test.runar.ui.fragments
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
@@ -18,6 +19,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.test.runar.CustomClasses.InterTagHandler
+import com.test.runar.CustomClasses.OnSwipeTouchListener
 import com.test.runar.CustomView.OffsetImageView
 import com.test.runar.R
 import com.test.runar.presentation.viewmodel.MainViewModel
@@ -72,6 +74,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
         Log.d("DebugData","Last fragment recreated")
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         fontSize = arguments?.getFloat("descriptionFontSize")!!
@@ -888,6 +891,24 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                 runeAusf.text = "Благоприятность - ${it.ausp} %"
             }
         }
+        view.findViewById<ConstraintLayout>(R.id.rune_description_back).setOnTouchListener(object : OnSwipeTouchListener(requireContext()){
+            override fun onSwipeRight() {
+                if(currentRunePosition==runesViewList.size-1){
+                    showDescriptionOfSelectedRune(runesViewList[0])
+                }
+                else showDescriptionOfSelectedRune(runesViewList[currentRunePosition+1])
+                super.onSwipeRight()
+            }
+
+            override fun onSwipeLeft() {
+                if(currentRunePosition==0){
+                    showDescriptionOfSelectedRune(runesViewList.last())
+                }
+                else showDescriptionOfSelectedRune(runesViewList[currentRunePosition-1])
+                super.onSwipeLeft()
+            }
+
+        })
 
     }
 
