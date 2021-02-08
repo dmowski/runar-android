@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         bottomNav.setupWithNavController(navController)
         navController.addOnDestinationChangedListener { _, destination, _ ->
             bottomNav.visibility = when (destination.id) {
-                R.id.layoutFragment, R.id.emptyFragment, R.id.favFragment, R.id.favFragment -> View.VISIBLE
+                R.id.layoutFragment, R.id.layoutDescriptionFragment, R.id.favFragment, R.id.favFragment -> View.VISIBLE
                 else -> View.GONE
             }
         }
