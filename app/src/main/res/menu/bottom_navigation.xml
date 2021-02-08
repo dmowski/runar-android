@@ -5,7 +5,7 @@
         android:icon="@drawable/ic_layouts"
         android:title="@string/bottom_nav_layouts" />
     <item
-        android:id="@+id/layoutInitFragment"
+        android:id="@+id/layoutDescriptionFragment"
         android:icon="@drawable/ic_library"
         android:title="@string/bottom_nav_library"/>
     <item
