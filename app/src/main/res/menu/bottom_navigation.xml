@@ -2,19 +2,19 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/layoutFragment"
-        android:icon="@drawable/layouts_icon"
+        android:icon="@drawable/ic_layouts"
         android:title="@string/bottom_nav_layouts" />
     <item
         android:id="@+id/layoutInitFragment"
-        android:icon="@drawable/library_icon"
+        android:icon="@drawable/ic_library"
         android:title="@string/bottom_nav_library"/>
     <item
         android:id="@+id/favFragment"
-        android:icon="@drawable/favourite_icon"
+        android:icon="@drawable/ic_favourite"
         android:title="@string/bottom_nav_favourites"/>
     <item
         android:id="@+id/emptyFragment"
-        android:icon="@drawable/settings_icon"
+        android:icon="@drawable/ic_settings"
         android:title="@string/bottom_nav_settings"/>
 
 </menu>

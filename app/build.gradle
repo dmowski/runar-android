@@ -66,5 +66,4 @@ dependencies {
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
 
     testImplementation 'junit:junit:4.13.1'
-
 }
