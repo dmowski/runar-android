@@ -6,63 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".ui.activity.MainActivity">
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/left_header_guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.14"/>
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/right_header_guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.86"/>
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/left_button_guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.19"/>
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/right_button_guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.81"/>
-
-    <FrameLayout
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintDimensionRatio="H,3.5:1"
-        android:id="@+id/fantom_header"
-        android:layout_marginTop="25dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="@id/left_header_guideline"
-        app:layout_constraintEnd_toStartOf="@id/right_header_guideline"
-        android:visibility="invisible"/>
-    <FrameLayout
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintDimensionRatio="H,4.55:1"
-        android:id="@+id/fantom_button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="60dp"
-        app:layout_constraintStart_toEndOf="@id/left_button_guideline"
-        app:layout_constraintEnd_toStartOf="@id/right_button_guideline"
-        android:visibility="invisible"/>
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/fantom_slots"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="25dp"
-        android:layout_marginTop="10dp"
-        app:layout_constraintTop_toBottomOf="@id/fantom_header"
-        app:layout_constraintBottom_toTopOf="@id/fantom_button"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:visibility="invisible"/>
-
     <com.test.runar.CustomView.OffsetImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
