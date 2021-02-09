@@ -25,7 +25,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     var currentUserLayout = MutableLiveData<Array<Int>>(null)
     var showStatus = MutableLiveData(3)
     var preferencesRepository = SharedPreferencesRepository(application)
-    var runeHeight = MutableLiveData(0)
     var currentAusp = MutableLiveData(0)
     var currentAffirm = MutableLiveData("")
     var runesData : List<RuneDescriptionModel> = emptyList()
@@ -316,12 +315,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     fun descriptionCheck(context: Context, id: Int) {
         CoroutineScope(IO).launch {
             showStatus.postValue(DatabaseRepository.getShowStatus(context, id))
-        }
-    }
-
-    fun setRuneHeight(height: Int){
-        if(height!=runeHeight.value){
-            runeHeight.postValue(height)
         }
     }
 

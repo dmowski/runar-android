@@ -123,9 +123,6 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
                 firstSlotOpener()
             }
         }
-        model.runeHeight.observe(viewLifecycleOwner){
-            layoutTable[7] = it
-        }
     }
 
     override fun onClick(v: View?) {
