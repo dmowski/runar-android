@@ -32,7 +32,7 @@ class LayoutDescriptionFragment : Fragment(R.layout.fragment_layout_description)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        fontSize = arguments?.getFloat("descriptionFontSize")!!
+        //fontSize = arguments?.getFloat("descriptionFontSize")!!
 
         view.findViewById<FrameLayout>(R.id.description_button_frame).setOnClickListener(this)
         view.findViewById<ImageView>(R.id.exit_button).setOnClickListener(this)
@@ -42,13 +42,17 @@ class LayoutDescriptionFragment : Fragment(R.layout.fragment_layout_description)
         text = view.findViewById(R.id.description_text_view)
         header =
             view.findViewById<FrameLayout>(R.id.description_header_frame).getChildAt(0) as TextView
-
-        model.selectedLayout.observe(viewLifecycleOwner) {
-            if (it != null) {
-                header.text = it.layoutName
-                text.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
-                text.text = it.layoutDescription
-                layoutId = it.layoutId!!
+        model.fontSize.observe(viewLifecycleOwner){
+            if(it!=null){
+                fontSize = it
+                model.selectedLayout.observe(viewLifecycleOwner) {
+                    if (it != null) {
+                        header.text = it.layoutName
+                        text.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
+                        text.text = it.layoutDescription
+                        layoutId = it.layoutId!!
+                    }
+                }
             }
         }
     }

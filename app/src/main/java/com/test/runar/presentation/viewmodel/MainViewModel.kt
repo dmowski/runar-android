@@ -32,6 +32,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     var currentInterpretation = MutableLiveData("")
     var lastUserLayoutId = MutableLiveData<Int>(null)
     var selectedRune = MutableLiveData<RuneDescriptionModel>(null)
+    var fontSize = MutableLiveData<Float>(null)
 
 
     var layoutInterpretationData: LiveData<Pair<LayoutDescriptionModel,Array<Int>>> = object : MediatorLiveData<Pair<LayoutDescriptionModel,Array<Int>>>(){
@@ -49,6 +50,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 currentLayout?.let { value = it to userLayout }
             }
         }
+    }
+
+    fun setFontSize(size: Float){
+        fontSize.postValue(size)
     }
 
     fun getSelectedRuneData(id: Int){
