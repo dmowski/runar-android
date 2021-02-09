@@ -37,7 +37,6 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
                 R.id.layoutFragment, R.id.runesFragment, R.id.placeholder, R.id.placeholder2, R.id.placeholder3 -> View.VISIBLE
                 else -> View.GONE
             }
-            model.setRuneHeight(findViewById<ConstraintLayout>(R.id.fantom_slots).height/5)
         }
     }
 
