@@ -32,6 +32,7 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
             ViewModelProviders.of(this)[MainViewModel::class.java]
         } ?: throw Exception("Invalid Activity")
         fontSize = correctFontSize()
+        model.setFontSize(fontSize)
         model.clearLayoutData()
         model.clearAusp()
         model.clearAffirm()
