@@ -32,7 +32,6 @@ class LayoutDescriptionFragment : Fragment(R.layout.fragment_layout_description)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //fontSize = arguments?.getFloat("descriptionFontSize")!!
 
         view.findViewById<FrameLayout>(R.id.description_button_frame).setOnClickListener(this)
         view.findViewById<ImageView>(R.id.exit_button).setOnClickListener(this)
@@ -70,8 +69,7 @@ class LayoutDescriptionFragment : Fragment(R.layout.fragment_layout_description)
             }
             R.id.description_button_frame -> {
                 if (checkBox.isChecked) model.notShowSelectedLayout(requireContext(), layoutId)
-                val bundle = bundleOf("descriptionFontSize" to fontSize)
-                navController.navigate(R.id.action_layoutDescriptionFragment_to_layoutInitFragment,bundle)
+                navController.navigate(R.id.action_layoutDescriptionFragment_to_layoutInitFragment)
             }
         }
     }

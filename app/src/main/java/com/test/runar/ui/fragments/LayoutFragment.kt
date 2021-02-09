@@ -106,17 +106,16 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
             else -> 8
         }
         val navController = findNavController()
-        val bundle = bundleOf("descriptionFontSize" to fontSize)
         model.descriptionCheck(requireContext(), dest)
         model.getLayoutDescription(requireContext(), dest)
         model.showStatus.observe(viewLifecycleOwner) {
             when (it) {
                 0 -> {
-                    navController.navigate(R.id.action_layoutFragment_to_layoutInitFragment, bundle)
+                    navController.navigate(R.id.action_layoutFragment_to_layoutInitFragment)
                     model.clearShowStatus()
                 }
                 1 -> {
-                    navController.navigate(R.id.action_layoutFragment_to_layoutDescriptionFragment2, bundle)
+                    navController.navigate(R.id.action_layoutFragment_to_layoutDescriptionFragment2)
                     model.clearShowStatus()
                 }
             }

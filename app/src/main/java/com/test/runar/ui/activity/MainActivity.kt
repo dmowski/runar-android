@@ -31,7 +31,6 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNavigationBar)
         val navController = findNavController(R.id.hostFragment)
         bottomNav.setupWithNavController(navController)
-        val model: MainViewModel by viewModels()
         navController.addOnDestinationChangedListener { _, destination, _ ->
             bottomNav.visibility = when (destination.id) {
                 R.id.layoutFragment, R.id.runesFragment, R.id.placeholder, R.id.placeholder2, R.id.placeholder3 -> View.VISIBLE
@@ -41,7 +40,6 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     }
 
     override fun onBackPressed() {
-        Log.d("Log", UUID.randomUUID().toString())
         val navController = findNavController(R.id.hostFragment)
         when (navController.currentDestination?.id) {
             R.id.runesFragment -> navController.navigate(R.id.layoutFragment)

@@ -48,9 +48,6 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //fontSize = arguments?.getFloat("descriptionFontSize")!!
-
-
         view.findViewById<FrameLayout>(R.id.description_button_frame).setOnClickListener(this)
         view.findViewById<ImageView>(R.id.exit_button).setOnClickListener(this)
         view.findViewById<ImageView>(R.id.info_button).setOnClickListener(this)
@@ -146,11 +143,10 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
                     model.setCurrentUserLayout(layoutTable)
                 }
                 else if (!result[0]) {
-                    val bundle = bundleOf("descriptionFontSize" to fontSize)
                     if(layoutId==1){
                         model.setCurrentUserLayout(layoutTable)
                     }
-                    navController.navigate(R.id.action_layoutInitFragment_to_layoutInterpretationFragment,bundle)
+                    navController.navigate(R.id.action_layoutInitFragment_to_layoutInterpretationFragment)
                 }
 
             }
