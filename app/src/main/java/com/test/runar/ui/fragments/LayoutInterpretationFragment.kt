@@ -79,7 +79,6 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         //set necessary views
-        //fontSize = arguments?.getFloat("descriptionFontSize")!!
         header = view.findViewById(R.id.header)
         interpretationFrame = view.findViewById(R.id.inter_frame)
         headerFrame = view.findViewById(R.id.description_header_frame)
