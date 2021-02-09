@@ -691,6 +691,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                         set.clear(runesViewList[1].id, ConstraintSet.TOP)
                         set.connect(runesViewList[1].id, ConstraintSet.BOTTOM, headerFrame.id, ConstraintSet.BOTTOM)
                         set.applyTo(runesLayout)
+                        runesViewList[3].visibility = View.GONE
                     }
                 }
             }
