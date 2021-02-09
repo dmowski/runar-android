@@ -33,6 +33,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     var lastUserLayoutId = MutableLiveData<Int>(null)
     var selectedRune = MutableLiveData<RuneDescriptionModel>(null)
     var fontSize = MutableLiveData<Float>(null)
+    var backButtonPressed = MutableLiveData<Boolean>(false)
+    var readyToDialog = MutableLiveData(true)
 
 
     var layoutInterpretationData: LiveData<Pair<LayoutDescriptionModel,Array<Int>>> = object : MediatorLiveData<Pair<LayoutDescriptionModel,Array<Int>>>(){
@@ -50,6 +52,13 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 currentLayout?.let { value = it to userLayout }
             }
         }
+    }
+
+    fun setDialogReady(state: Boolean){
+        readyToDialog.postValue(state)
+    }
+    fun pressBackButton(state: Boolean){
+        backButtonPressed.postValue(state)
     }
 
     fun setFontSize(size: Float){

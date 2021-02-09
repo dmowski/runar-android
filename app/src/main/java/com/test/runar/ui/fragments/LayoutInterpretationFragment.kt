@@ -580,10 +580,13 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
 
         })
 
-    }
+        model.backButtonPressed.observe(viewLifecycleOwner){
+            if (it){
+                hideRuneDescription()
+                model.pressBackButton(false)
+            }
+        }
 
-    override fun onStop() {
-        super.onStop()
     }
 
     override fun onClick(v: View?) {
@@ -620,6 +623,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
     }
 
     private fun hideRuneDescription(){
+        model.setDialogReady(true)
         defaultConstraintSet.applyTo(runesLayout)
         headerBackgroundFrame.visibility = View.GONE
         interpretationFrame.visibility = View.VISIBLE
@@ -631,6 +635,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
     }
 
     private fun showDescriptionOfSelectedRune(v: View?){
+        model.setDialogReady(false)
         var size =0
         defaultConstraintSet.applyTo(runesLayout)
         if (runesViewList != null && runesViewList.size > 1) {

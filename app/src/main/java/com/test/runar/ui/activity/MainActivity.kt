@@ -15,8 +15,12 @@ import com.test.runar.ui.dialogs.CancelDialog
 import java.util.*
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
+    private lateinit var viewModel: MainViewModel
+    private var readyToBack = true
+
     override fun onCreate(savedInstanceState: Bundle?) {
         val model: MainViewModel by viewModels()
+        viewModel = model
         super.onCreate(savedInstanceState)
         if (savedInstanceState == null) {
             initBottomNavBar()
@@ -25,6 +29,10 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         model.getRuneDataFromDB(this)
         model.getAffirmationsDataFromDB(this)
         supportActionBar?.hide()
+
+        model.readyToDialog.observe(this){
+            readyToBack = it
+        }
     }
 
     private fun initBottomNavBar() {
@@ -49,8 +57,11 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
                 alert.showDialog()
             }
             R.id.layoutInterpretationFragment ->{
-                val alert = CancelDialog(navController, this,R.id.action_layoutInterpretationFragment_to_layoutFragment)
-                alert.showDialog()
+                if(readyToBack){
+                    val alert = CancelDialog(navController, this,R.id.action_layoutInterpretationFragment_to_layoutFragment)
+                    alert.showDialog()
+                }
+                else viewModel.pressBackButton(true)
             }
             R.id.layoutFragment -> android.os.Process.killProcess(android.os.Process.myPid())
             R.id.emptyFragment -> navController.navigate(R.id.layoutFragment)
