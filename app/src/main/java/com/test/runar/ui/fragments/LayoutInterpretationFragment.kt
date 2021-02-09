@@ -563,7 +563,9 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                 }
             }
         }
-        view.findViewById<ConstraintLayout>(R.id.rune_description_back).setOnTouchListener(object : OnSwipeTouchListener(requireContext()) {
+
+
+        val swipeListener = object : OnSwipeTouchListener(requireContext()) {
             override fun onSwipeRight() {
                 if (currentRunePosition == runesViewList.size - 1) {
                     showDescriptionOfSelectedRune(runesViewList[0])
@@ -578,7 +580,9 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                 super.onSwipeLeft()
             }
 
-        })
+        }
+        runeDescriptionSV.setOnTouchListener(swipeListener)
+        view.findViewById<ConstraintLayout>(R.id.rune_description_back).setOnTouchListener(swipeListener)
 
         model.backButtonPressed.observe(viewLifecycleOwner){
             if (it){
