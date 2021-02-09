@@ -48,7 +48,7 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        fontSize = arguments?.getFloat("descriptionFontSize")!!
+        //fontSize = arguments?.getFloat("descriptionFontSize")!!
 
 
         view.findViewById<FrameLayout>(R.id.description_button_frame).setOnClickListener(this)
@@ -59,6 +59,12 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
         header =
                 view.findViewById<FrameLayout>(R.id.description_header_frame).getChildAt(0) as TextView
         buttonText = view.findViewById<FrameLayout>(R.id.description_button_frame).getChildAt(0) as TextView
+        model.fontSize.observe(viewLifecycleOwner){
+            if(it!=null){
+                fontSize = it
+            }
+        }
+
         model.selectedLayout.observe(viewLifecycleOwner) {
             if (it != null) {
                 layoutTable[8] = it.layoutId!!
