@@ -25,7 +25,6 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         val model: MainViewModel by viewModels()
         viewModel = model
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
 
         if (savedInstanceState == null) {
             initBottomNavBar()
@@ -46,7 +45,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         bottomNav.setupWithNavController(navController)
         navController.addOnDestinationChangedListener { _, destination, _ ->
             bottomNav.visibility = when (destination.id) {
-                R.id.layoutFragment -> View.VISIBLE
+                R.id.layoutFragment,R.id.favFragment -> View.VISIBLE
                 else -> View.GONE
             }
         }
@@ -55,9 +54,8 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     override fun onBackPressed() {
         val navController = findNavController(R.id.hostFragment)
         when (navController.currentDestination?.id) {
-            R.id.runesFragment -> navController.navigate(R.id.layoutFragment)
+            R.id.favFragment -> navController.navigate(R.id.layoutFragment)
             R.id.layoutDescriptionFragment -> navController.navigate(R.id.action_layoutDescriptionFragment_to_layoutFragment)
-            R.id.emptyFragment -> navController.navigate(R.id.layoutFragment)
             R.id.layoutInitFragment -> {
                 val alert = CancelDialog(navController, this,R.id.action_layoutInitFragment_to_layoutFragment2)
                 alert.showDialog()
