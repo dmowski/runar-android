@@ -46,6 +46,8 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
     private lateinit var headerBackgroundFrame: FrameLayout
     private lateinit var runesLayout: ConstraintLayout
 
+    private lateinit var divider: FrameLayout
+
     private var runesViewList: ArrayList<FrameLayout> = arrayListOf()
     private var runesPositionsList: ArrayList<String?> = arrayListOf()
     private var runesDotsList: ArrayList<ImageView> = arrayListOf()
@@ -79,6 +81,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         //set necessary views
+        divider = view.findViewById(R.id.divider1)
         header = view.findViewById(R.id.header)
         interpretationFrame = view.findViewById(R.id.inter_frame)
         headerFrame = view.findViewById(R.id.description_header_frame)
@@ -147,7 +150,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                                         set.clone(runesLayout)
                                         set.connect(firstRune.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, 0)
                                         set.connect(firstRune.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END, 0)
-                                        set.connect(firstRune.id, ConstraintSet.TOP, R.id.description_header_frame, ConstraintSet.BOTTOM, 0)
+                                        set.connect(firstRune.id, ConstraintSet.TOP, R.id.divider1, ConstraintSet.BOTTOM, 0)
                                         set.applyTo(runesLayout)
                                     }
                                 }
@@ -161,8 +164,8 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                                     val set = ConstraintSet()
                                     set.clone(runesLayout)
                                     set.connect(firstRune.id, ConstraintSet.END, R.id.center_guideline, ConstraintSet.START, 0)
-                                    set.connect(firstRune.id, ConstraintSet.TOP, R.id.description_header_frame, ConstraintSet.BOTTOM, 0)
-                                    set.connect(secondRune.id, ConstraintSet.TOP, R.id.description_header_frame, ConstraintSet.BOTTOM, 0)
+                                    set.connect(firstRune.id, ConstraintSet.TOP, R.id.divider1, ConstraintSet.BOTTOM, 0)
+                                    set.connect(secondRune.id, ConstraintSet.TOP, R.id.divider1, ConstraintSet.BOTTOM, 0)
                                     set.connect(secondRune.id, ConstraintSet.START, R.id.center_guideline, ConstraintSet.END, 0)
                                     set.applyTo(runesLayout)
 
@@ -190,7 +193,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                                     set.clone(runesLayout)
                                     set.connect(secondRune.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, 0)
                                     set.connect(secondRune.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END, 0)
-                                    set.connect(secondRune.id, ConstraintSet.TOP, R.id.description_header_frame, ConstraintSet.BOTTOM, 0)
+                                    set.connect(secondRune.id, ConstraintSet.TOP, R.id.divider1, ConstraintSet.BOTTOM, 0)
                                     set.connect(firstRune.id, ConstraintSet.TOP, secondRune.id, ConstraintSet.TOP, 0)
                                     set.connect(firstRune.id, ConstraintSet.BOTTOM, secondRune.id, ConstraintSet.BOTTOM, 0)
                                     set.connect(thirdRune.id, ConstraintSet.TOP, secondRune.id, ConstraintSet.TOP, 0)
@@ -226,13 +229,12 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                                     val set = ConstraintSet()
                                     set.clone(runesLayout)
                                     set.connect(firstRune.id, ConstraintSet.END, R.id.center_guideline, ConstraintSet.END, 0)
-                                    set.connect(firstRune.id, ConstraintSet.TOP, R.id.description_header_frame, ConstraintSet.BOTTOM, 0)
+                                    set.connect(firstRune.id, ConstraintSet.TOP, R.id.divider1, ConstraintSet.BOTTOM, 0)
                                     set.connect(secondRune.id, ConstraintSet.TOP, firstRune.id, ConstraintSet.BOTTOM, 0)
-                                    set.connect(secondRune.id, ConstraintSet.START, firstRune.id, ConstraintSet.START, 0)
-                                    set.connect(secondRune.id, ConstraintSet.END, firstRune.id, ConstraintSet.END, 0)
+                                    set.connect(secondRune.id, ConstraintSet.END, R.id.center_guideline, ConstraintSet.END, 0)
                                     set.connect(thirdRune.id, ConstraintSet.TOP, secondRune.id, ConstraintSet.BOTTOM, 0)
-                                    set.connect(thirdRune.id, ConstraintSet.START, firstRune.id, ConstraintSet.START, 0)
-                                    set.connect(thirdRune.id, ConstraintSet.END, firstRune.id, ConstraintSet.END, 0)
+                                    set.connect(thirdRune.id, ConstraintSet.START, secondRune.id, ConstraintSet.START, 0)
+                                    set.connect(thirdRune.id, ConstraintSet.END, secondRune.id, ConstraintSet.END, 0)
                                     set.connect(fourthRune.id, ConstraintSet.START, secondRune.id, ConstraintSet.END, 0)
                                     set.connect(fourthRune.id, ConstraintSet.BOTTOM, secondRune.id, ConstraintSet.BOTTOM, 0)
                                     set.connect(fourthRune.id, ConstraintSet.TOP, secondRune.id, ConstraintSet.TOP, 0)
@@ -268,7 +270,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                                     set.clone(runesLayout)
                                     set.connect(firstRune.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, 0)
                                     set.connect(firstRune.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END, 0)
-                                    set.connect(firstRune.id, ConstraintSet.TOP, R.id.description_header_frame, ConstraintSet.BOTTOM, 0)
+                                    set.connect(firstRune.id, ConstraintSet.TOP, R.id.divider1, ConstraintSet.BOTTOM, 0)
                                     set.connect(fourthRune.id, ConstraintSet.START, firstRune.id, ConstraintSet.START, 0)
                                     set.connect(fourthRune.id, ConstraintSet.END, firstRune.id, ConstraintSet.END, 0)
                                     set.connect(fourthRune.id, ConstraintSet.TOP, firstRune.id, ConstraintSet.BOTTOM, 0)
@@ -310,7 +312,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                                     set.clone(runesLayout)
                                     set.connect(firstRune.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END, 0)
                                     set.connect(firstRune.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, 0)
-                                    set.connect(firstRune.id, ConstraintSet.TOP, R.id.description_header_frame, ConstraintSet.BOTTOM, 0)
+                                    set.connect(firstRune.id, ConstraintSet.TOP, R.id.divider1, ConstraintSet.BOTTOM, 0)
                                     set.connect(secondRune.id, ConstraintSet.TOP, firstRune.id, ConstraintSet.BOTTOM, 0)
                                     set.connect(secondRune.id, ConstraintSet.START, firstRune.id, ConstraintSet.START, 0)
                                     set.connect(secondRune.id, ConstraintSet.END, firstRune.id, ConstraintSet.END, 0)
@@ -359,7 +361,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                                     set.clone(runesLayout)
                                     set.connect(firstRune.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END, 0)
                                     set.connect(firstRune.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, 0)
-                                    set.connect(firstRune.id, ConstraintSet.TOP, R.id.description_header_frame, ConstraintSet.BOTTOM, 0)
+                                    set.connect(firstRune.id, ConstraintSet.TOP, R.id.divider1, ConstraintSet.BOTTOM, 0)
                                     set.connect(secondRune.id, ConstraintSet.TOP, firstRune.id, ConstraintSet.BOTTOM, 0)
                                     set.connect(secondRune.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, 0)
                                     set.connect(secondRune.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END, 0)
@@ -413,7 +415,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                                     set.clone(runesLayout)
                                     set.connect(firstRune.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END, 0)
                                     set.connect(firstRune.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, 0)
-                                    set.connect(firstRune.id, ConstraintSet.TOP, R.id.description_header_frame, ConstraintSet.BOTTOM, 0)
+                                    set.connect(firstRune.id, ConstraintSet.TOP, R.id.divider1, ConstraintSet.BOTTOM, 0)
                                     set.connect(secondRune.id, ConstraintSet.TOP, firstRune.id, ConstraintSet.BOTTOM, 0)
                                     set.connect(secondRune.id, ConstraintSet.START, firstRune.id, ConstraintSet.START, 0)
                                     set.connect(secondRune.id, ConstraintSet.END, firstRune.id, ConstraintSet.END, 0)
@@ -681,19 +683,60 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
             }
         }
 
+
+
         when(layoutId){
-            1, 2, 3 -> if (firsOpening) {
+            1->if (firsOpening) {
                 firsOpening = false
-                size = runesViewList[0].bottom
+                size = runesViewList[0].bottom-divider.height
                 baseSize = size
             } else size = baseSize
+
+            2-> {
+            if (firsOpening) {
+                firsOpening = false
+                size = runesViewList[0].bottom-divider.height
+                baseSize = size
+            } else size = baseSize
+
+                val set = ConstraintSet()
+                set.clone(runesLayout)
+                set.clear(runesViewList[0].id, ConstraintSet.TOP)
+                set.connect(runesViewList[0].id, ConstraintSet.TOP, headerFrame.id, ConstraintSet.BOTTOM)
+                set.clear(runesViewList[1].id, ConstraintSet.TOP)
+                set.connect(runesViewList[1].id, ConstraintSet.TOP, headerFrame.id, ConstraintSet.BOTTOM)
+                set.applyTo(runesLayout)
+            }
+
+            3-> {
+                if (firsOpening) {
+                    firsOpening = false
+                    size = runesViewList[0].bottom-divider.height
+                    baseSize = size
+                } else size = baseSize
+
+                val set = ConstraintSet()
+                set.clone(runesLayout)
+                set.clear(runesViewList[1].id, ConstraintSet.TOP)
+                set.connect(runesViewList[1].id, ConstraintSet.TOP, headerFrame.id, ConstraintSet.BOTTOM)
+                set.applyTo(runesLayout)
+            }
+
             4 -> {
                 if (firsOpening) {
                     firsOpening = false
-                    size = runesViewList[3].bottom
+                    size = runesViewList[3].bottom-divider.height
                     baseSize = size
                 } else size = baseSize
                 when (v?.id) {
+                    runesViewList[3].id ->{
+                        val set = ConstraintSet()
+                        set.clone(runesLayout)
+                        set.clear(runesViewList[3].id, ConstraintSet.TOP)
+                        set.connect(runesViewList[3].id, ConstraintSet.TOP, headerFrame.id, ConstraintSet.BOTTOM)
+                        set.applyTo(runesLayout)
+                    }
+
                     runesViewList[1].id, runesViewList[0].id -> {
                         val set = ConstraintSet()
                         set.clone(runesLayout)
@@ -716,13 +759,23 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
             5 -> {
                 if (firsOpening) {
                     firsOpening = false
-                    size = runesViewList[3].bottom
+                    size = runesViewList[3].bottom-divider.height
                     baseSize = size
                 } else size = baseSize
                 when (v?.id) {
+                    runesViewList[3].id ->{
+                        val set = ConstraintSet()
+                        set.clone(runesLayout)
+                        set.clear(runesViewList[3].id, ConstraintSet.TOP)
+                        set.connect(runesViewList[3].id, ConstraintSet.TOP, headerFrame.id, ConstraintSet.BOTTOM)
+                        set.applyTo(runesLayout)
+                    }
                     runesViewList[1].id, runesViewList[2].id -> {
                         val set = ConstraintSet()
                         set.clone(runesLayout)
+                        set.clear(runesViewList[3].id,ConstraintSet.TOP)
+                        set.clear(runesViewList[3].id,ConstraintSet.BOTTOM)
+                        set.connect(runesViewList[3].id, ConstraintSet.TOP, headerFrame.id, ConstraintSet.BOTTOM)
                         set.connect(runesViewList[3].id, ConstraintSet.BOTTOM, headerFrame.id, ConstraintSet.BOTTOM)
                         set.applyTo(runesLayout)
                     }
@@ -738,10 +791,17 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
             6 -> {
                 if (firsOpening) {
                     firsOpening = false
-                    size = runesViewList[3].bottom
+                    size = runesViewList[3].bottom-divider.height
                     baseSize = size
                 } else size = baseSize
                 when (v?.id) {
+                    runesViewList[3].id ->{
+                        val set = ConstraintSet()
+                        set.clone(runesLayout)
+                        set.clear(runesViewList[3].id, ConstraintSet.TOP)
+                        set.connect(runesViewList[3].id, ConstraintSet.TOP, headerFrame.id, ConstraintSet.BOTTOM)
+                        set.applyTo(runesLayout)
+                    }
                     runesViewList[1].id, runesViewList[0].id, runesViewList[2].id -> {
                         val set = ConstraintSet()
                         set.clone(runesLayout)
@@ -764,10 +824,17 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
             7 -> {
                 if (firsOpening) {
                     firsOpening = false
-                    size = runesViewList[5].bottom
+                    size = runesViewList[5].bottom-divider.height
                     baseSize = size
                 } else size = baseSize
                 when (v?.id) {
+                    runesViewList[5].id ->{
+                        val set = ConstraintSet()
+                        set.clone(runesLayout)
+                        set.clear(runesViewList[5].id, ConstraintSet.TOP)
+                        set.connect(runesViewList[5].id, ConstraintSet.TOP, headerFrame.id, ConstraintSet.BOTTOM)
+                        set.applyTo(runesLayout)
+                    }
                     runesViewList[4].id -> {
                         val set = ConstraintSet()
                         set.clone(runesLayout)
@@ -799,14 +866,20 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                     }
                 }
             }
-
             8 -> {
                 if (firsOpening) {
                     firsOpening = false
-                    size = runesViewList[6].bottom
+                    size = runesViewList[6].bottom-divider.height
                     baseSize = size
                 } else size = baseSize
                 when (v?.id) {
+                    runesViewList[6].id ->{
+                        val set = ConstraintSet()
+                        set.clone(runesLayout)
+                        set.clear(runesViewList[6].id, ConstraintSet.TOP)
+                        set.connect(runesViewList[6].id, ConstraintSet.TOP, headerFrame.id, ConstraintSet.BOTTOM)
+                        set.applyTo(runesLayout)
+                    }
                     runesViewList[5].id -> {
                         val set = ConstraintSet()
                         set.clone(runesLayout)

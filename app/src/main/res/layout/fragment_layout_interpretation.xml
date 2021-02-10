@@ -278,7 +278,6 @@
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_marginTop="25dp"
-                    android:layout_marginBottom="10dp"
                     android:elevation="3dp"
                     app:layout_constraintDimensionRatio="H,3.5:1"
                     app:layout_constraintEnd_toStartOf="@id/right_header_guideline"
@@ -296,6 +295,15 @@
                         android:textColor="@color/layout_desc_deselected"
                         app:autoSizeTextType="uniform" />
                 </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/divider1"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/description_header_frame"
+                    app:layout_constraintDimensionRatio="H,12:1"/>
 
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/center_guideline"
@@ -323,7 +331,6 @@
                 android:id="@+id/inter_frame"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/runes_layout">
@@ -341,13 +348,22 @@
                     app:verticalCropOffset="0"
                     app:verticalFitOffset="0" />
 
+                <FrameLayout
+                    android:id="@+id/divider3"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintDimensionRatio="H,6:1"/>
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/interpretation_layout"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:layout_constraintTop_toBottomOf="@id/divider3">
 
 
                     <TextView
@@ -363,11 +379,19 @@
                         app:layout_constraintStart_toStartOf="@id/left_text_guideline"
                         app:layout_constraintTop_toTopOf="parent" />
 
+                    <FrameLayout
+                        android:id="@+id/divider6"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/text_affim"
+                        app:layout_constraintDimensionRatio="H,20:1"/>
+
                     <TextView
                         android:id="@+id/text"
                         android:layout_width="0dp"
                         android:layout_height="30dp"
-                        android:layout_marginTop="10dp"
                         android:fontFamily="@font/roboto_light"
                         android:gravity="start"
                         android:maxLines="1"
@@ -376,7 +400,16 @@
                         app:autoSizeTextType="uniform"
                         app:layout_constraintEnd_toEndOf="@id/auf_text_guideline"
                         app:layout_constraintStart_toStartOf="@id/left_text_guideline"
-                        app:layout_constraintTop_toBottomOf="@id/text_affim" />
+                        app:layout_constraintTop_toBottomOf="@id/divider6" />
+                    <FrameLayout
+                        android:id="@+id/divider4"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/text"
+                        app:layout_constraintDimensionRatio="H,15:1"/>
+
 
                     <ImageView
                         android:id="@+id/spliter"
@@ -385,20 +418,27 @@
                         android:src="@drawable/interpretation_bottom_line"
                         app:layout_constraintEnd_toEndOf="@id/right_text_guideline"
                         app:layout_constraintStart_toStartOf="@id/left_text_guideline"
-                        app:layout_constraintTop_toBottomOf="@+id/text" />
+                        app:layout_constraintTop_toBottomOf="@id/divider4" />
+                    <FrameLayout
+                        android:id="@+id/divider5"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/spliter"
+                        app:layout_constraintDimensionRatio="H,13:1"/>
 
                     <TextView
                         android:id="@+id/interpretation_text"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="15dp"
                         android:fontFamily="@font/roboto_light"
                         android:gravity="start"
                         android:lineSpacingMultiplier="1.2"
                         android:textColor="@color/auf_text_color"
                         app:layout_constraintEnd_toStartOf="@id/right_text_guideline"
                         app:layout_constraintStart_toStartOf="@id/left_text_guideline"
-                        app:layout_constraintTop_toBottomOf="@id/spliter" />
+                        app:layout_constraintTop_toBottomOf="@id/divider5" />
 
                     <FrameLayout
                         android:id="@+id/description_button_frame"
