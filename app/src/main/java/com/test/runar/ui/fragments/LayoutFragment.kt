@@ -105,7 +105,7 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
         model.showStatus.observe(viewLifecycleOwner) {
             when (it) {
                 0 -> {
-                    navController.navigate(R.id.layoutInitFragment, bundle)
+                    navController.navigate(R.id.layoutProcessingFragment4, bundle)
                     model.clearShowStatus()
                 }
                 1 -> {

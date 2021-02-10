@@ -122,7 +122,6 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
 
     override fun onStop() {
         super.onStop()
-        model.clearLayoutData()
     }
 
     override fun onClick(v: View?) {
@@ -139,7 +138,7 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
                 }
                 if (!result[0]) {
                     model.setCurrentUserLayout(layoutTable)
-                    navController.navigate(R.id.emptyFragment)
+                    navController.navigate(R.id.layoutProcessingFragment4)
                 }
             }
             R.id.info_button, R.id.text_info -> {
