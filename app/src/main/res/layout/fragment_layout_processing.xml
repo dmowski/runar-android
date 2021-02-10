@@ -33,7 +33,7 @@
             android:fontFamily="@font/amatic_sc_bold"
             android:layout_marginTop="20dp"
             android:letterSpacing="@dimen/layout_text_letter_spacing"
-            android:text="YJHYF"
+            android:text="test"
             android:textAlignment="center"
             android:textColor="@color/layout_desc_deselected"
             app:autoSizeTextType="uniform" />
