@@ -349,6 +349,20 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
+
+                    <TextView
+                        android:id="@+id/text_affim"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_regular"
+                        android:gravity="start"
+                        android:letterSpacing="-0.02"
+                        android:lineSpacingMultiplier="1.4"
+                        android:textColor="@color/affim_text_color"
+                        app:layout_constraintEnd_toStartOf="@id/right_text_guideline"
+                        app:layout_constraintStart_toStartOf="@id/left_text_guideline"
+                        app:layout_constraintTop_toTopOf="parent" />
+
                     <TextView
                         android:id="@+id/text"
                         android:layout_width="0dp"
@@ -372,19 +386,6 @@
                         app:layout_constraintEnd_toEndOf="@id/right_text_guideline"
                         app:layout_constraintStart_toStartOf="@id/left_text_guideline"
                         app:layout_constraintTop_toBottomOf="@+id/text" />
-
-                    <TextView
-                        android:id="@+id/text_affim"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_regular"
-                        android:gravity="start"
-                        android:letterSpacing="-0.02"
-                        android:lineSpacingMultiplier="1.4"
-                        android:textColor="@color/affim_text_color"
-                        app:layout_constraintEnd_toStartOf="@id/right_text_guideline"
-                        app:layout_constraintStart_toStartOf="@id/left_text_guideline"
-                        app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
                         android:id="@+id/interpretation_text"
