@@ -10,11 +10,12 @@
 
     <color name="bottom_nav_background_night">#1D1D1D</color>
     <color name="bottom_nav_selected">#EFCD93</color>
-    <color name="bottom_nav_deselected">#636366</color>
+    <color name="bottom_nav_deselected">#828282</color>
     <color name="bottom_nav_text_deselected">#8E8E93</color>
     <color name="layout_text_deselected">#D2C4AD</color>
     <color name="layout_text_selected">#FCC874</color>
     <color name="layout_desc_deselected">#D2C4AD</color>
+    <color name="layout_desc_processing">#F2F2F2</color>
     <color name="layout_desc_selected">#4B4842</color>
     <color name="checkbox">#A8A6A3</color>
     <color name="checkbox_color_unchecked">#A8A6A3</color>

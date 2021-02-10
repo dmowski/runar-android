@@ -2,22 +2,19 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/layoutFragment"
-        android:icon="@drawable/ic_nav_layouts"
+        android:icon="@drawable/ic_layouts"
         android:title="@string/bottom_nav_layouts" />
     <item
-        android:id="@+id/runesFragment"
-        android:icon="@drawable/ic_nav_runes"
-        android:title="@string/bottom_nav_runes"/>
+        android:id="@+id/layoutDescriptionFragment"
+        android:icon="@drawable/ic_library"
+        android:title="@string/bottom_nav_library"/>
     <item
-        android:id="@+id/placeholder"
-        android:icon="@drawable/ic_nav_sages"
-        android:title="@string/bottom_nav_sages"/>
-    <item
-        android:id="@+id/placeholder2"
-        android:icon="@drawable/ic_nav_favourite"
+        android:id="@+id/favFragment"
+        android:icon="@drawable/ic_union"
         android:title="@string/bottom_nav_favourites"/>
     <item
-        android:id="@+id/placeholder3"
-        android:icon="@drawable/ic_nav_favourite"
+        android:id="@+id/emptyFragment"
+        android:icon="@drawable/ic_settings"
         android:title="@string/bottom_nav_settings"/>
+
 </menu>

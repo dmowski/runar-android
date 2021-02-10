@@ -1,8 +1,7 @@
 <resources>
     <string name="app_name">Runar</string>
     <string name="bottom_nav_layouts">Расклады</string>
-    <string name="bottom_nav_runes">Руны</string>
-    <string name="bottom_nav_sages">Саги</string>
+    <string name="bottom_nav_library">Библиотека</string>
     <string name="bottom_nav_favourites">Избранное</string>
     <string name="bottom_nav_settings">Настройки</string>
 
@@ -21,16 +20,19 @@
     <string name="layout_description_checkbox">Больше не показывать</string>
     <string name="layout_description_button">Начать расклад</string>
 
-    <string name ="layout_init_button_text1">Вытянуть руну</string>
-    <string name ="layout_init_button_text2">Толковать</string>
-    <string name ="layout_init_description_button_text">Узнать о раскладе</string>
+    <string name="layout_init_button_text1">Вытянуть руну</string>
+    <string name="layout_init_button_text2">Толковать</string>
+    <string name="layout_init_button_text3">Перейти на сайт</string>
+    <string name="layout_init_button_text4">Расклад обрабатывается...</string>
+    <string name="layout_init_description_button_text">Узнать о раскладе</string>
 
-    <string name ="info_popup_button_text">Ок</string>
+    <string name="info_popup_button_text">Ок</string>
 
     <string name="description_popup_text">Завершить расклад?</string>
     <string name="description_popup_button1">Нет</string>
     <string name="description_popup_button2">Завершить</string>
-
     <string name="layout_interpretation_checkbox">Сохранить</string>
     <string name="layout_interpretation_button">Завершить</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

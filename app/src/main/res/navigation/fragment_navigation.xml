@@ -15,19 +15,6 @@
             android:id="@+id/action_layoutFragment_to_layoutInitFragment"
             app:destination="@id/layoutInitFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/runesFragment"
-        android:name="com.test.runar.ui.fragments.FavFragment"
-        android:label="RunesFragment" />
-    <fragment
-        android:id="@+id/placeholder"
-        android:name="com.test.runar.ui.fragments.FavFragment" />
-    <fragment
-        android:id="@+id/placeholder2"
-        android:name="com.test.runar.ui.fragments.FavFragment" />
-    <fragment
-        android:id="@+id/placeholder3"
-        android:name="com.test.runar.ui.fragments.FavFragment" />
 
 
     <fragment
@@ -55,7 +42,6 @@
             app:popUpTo="@id/layoutFragment"
             app:popUpToInclusive="true"/>
     </fragment>
-
     <fragment
         android:id="@+id/layoutInterpretationFragment"
         android:name="com.test.runar.ui.fragments.LayoutInterpretationFragment">
@@ -64,8 +50,24 @@
             app:destination="@id/layoutFragment"
             app:popUpTo="@id/layoutFragment"
             app:popUpToInclusive="true"/>
+        <action
+            android:id="@+id/action_layoutInitFragment_to_runesFragment2"
+            app:destination="@id/emptyFragment" />
     </fragment>
     <fragment
+        android:id="@+id/layoutProcessingFragment4"
+        android:name="com.test.runar.ui.fragments.LayoutProcessingFragment"
+        android:label="LayoutProcessingFragment" >
+        <action
+            android:id="@+id/action_layoutProcessingFragment4_to_favFragment"
+            app:destination="@id/favFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/favFragment"
+        android:name="com.test.runar.ui.fragments.FavFragment"
+        android:label="FavFragment" />
+    <fragment
         android:id="@+id/emptyFragment"
-        android:name="com.test.runar.ui.fragments.RunesFragment"/>
+        android:name="com.test.runar.ui.fragments.RunesFragment"
+        android:label="RunesFragment" />
 </navigation>
