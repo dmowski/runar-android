@@ -12,8 +12,6 @@ data class RuneDescriptionModel(
     var runeId: Int?,
     @ColumnInfo(name = "name")
     var runeName: String?,
-    @ColumnInfo(name = "name_eng")
-    var runeNameEng: String?,
     @ColumnInfo(name = "description_full")
     var fullDescription: String?,
     @ColumnInfo(name = "description")
