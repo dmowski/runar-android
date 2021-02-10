@@ -34,13 +34,13 @@
         android:id="@+id/layoutInitFragment"
         android:name="com.test.runar.ui.fragments.LayoutInitFragment">
         <action
-            android:id="@+id/action_layoutInitFragment_to_layoutInterpretationFragment"
-            app:destination="@id/layoutInterpretationFragment" />
-        <action
             android:id="@+id/action_layoutInitFragment_to_layoutFragment2"
             app:destination="@id/layoutFragment"
             app:popUpTo="@id/layoutFragment"
             app:popUpToInclusive="true"/>
+        <action
+            android:id="@+id/action_layoutInitFragment_to_layoutProcessingFragment4"
+            app:destination="@id/layoutProcessingFragment4" />
     </fragment>
 
     <fragment
@@ -54,18 +54,21 @@
     </fragment>
     <fragment
         android:id="@+id/layoutProcessingFragment4"
-        android:name="com.test.runar.ui.fragments.LayoutProcessingFragment"
-        android:label="LayoutProcessingFragment" >
+        android:name="com.test.runar.ui.fragments.LayoutProcessingFragment" >
         <action
-            android:id="@+id/action_layoutProcessingFragment4_to_favFragment"
-            app:destination="@id/favFragment" />
+            android:id="@+id/action_layoutProcessingFragment4_to_layoutInterpretationFragment"
+            app:destination="@id/layoutInterpretationFragment" />
     </fragment>
     <fragment
         android:id="@+id/favFragment"
         android:name="com.test.runar.ui.fragments.FavFragment"
         android:label="FavFragment" />
     <fragment
-        android:id="@+id/emptyFragment"
-        android:name="com.test.runar.ui.fragments.RunesFragment"
+        android:id="@+id/settingsFragment"
+        android:name="com.test.runar.ui.fragments.FavFragment"
         android:label="RunesFragment" />
+    <fragment
+        android:id="@+id/libraryFragment"
+        android:name="com.test.runar.ui.fragments.FavFragment"
+        android:label="LibraryFragment" />
 </navigation>
