@@ -37,7 +37,6 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
         model.clearAusp()
         model.clearAffirm()
         model.clearInterpretation()
-        Log.d("DebugData","First fragment recreated")
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -121,7 +120,7 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
         }
     }
     private fun correctFontSize(): Float {
-        val text = "Простое гадание на рунах, однако оно"
+        val text = requireContext().resources.getString(R.string.text_calculation_helper)
         val paint = Paint()
         val bounds = Rect()
         val maxWidth = Resources.getSystem().displayMetrics.widthPixels * 0.84

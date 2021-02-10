@@ -139,7 +139,7 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
             R.id.description_button_frame -> {
                 var result = slotChanger()
                 if (result[1]) {
-                    buttonText.text = "Толковать"
+                    buttonText.text = requireContext().resources.getString(R.string.layout_init_button_text2)
                     model.setCurrentUserLayout(layoutTable)
                 }
                 else if (!result[0]) {
@@ -188,7 +188,7 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
                     activeSlot.setOnClickListener {
                         var result = slotChanger()
                         if (result[1]) {
-                            buttonText.text = "Толковать"
+                            buttonText.text = requireContext().resources.getString(R.string.layout_init_button_text2)
                             model.setCurrentUserLayout(layoutTable)
                         }
                     }
@@ -222,7 +222,7 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
             slot.setOnClickListener {
                 var result = slotChanger()
                 if (result[1]) {
-                    buttonText.text = "Толковать"
+                    buttonText.text = requireContext().resources.getString(R.string.layout_init_button_text2)
                 }
             }
         }
