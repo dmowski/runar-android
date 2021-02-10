@@ -141,6 +141,7 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
                 if (result[1]) {
                     buttonText.text = "Толковать"
                     model.setCurrentUserLayout(layoutTable)
+                    navController.navigate(R.id.layoutProcessingFragment4)
                 }
                 else if (!result[0]) {
                     if(layoutId==1){
