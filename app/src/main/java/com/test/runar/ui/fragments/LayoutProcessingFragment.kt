@@ -39,6 +39,7 @@ class LayoutProcessingFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_layout_processing, container, false)
         progressLoading = view.findViewById(R.id.progress)
 
+        /*
         val runnable = Runnable {
             currentValue = 0
             while (currentValue <= 100) {
@@ -51,13 +52,14 @@ class LayoutProcessingFragment : Fragment() {
                 val navController = findNavController()
                 when(currentValue){
 
-                    //100 -> navController.navigate(R.id.favFragment)
+                    100 -> navController.navigate(R.id.favFragment)
 
                 }
             }
         }
         val thread = Thread(runnable)
         thread.start()
+        */
 
 
         return view
@@ -74,7 +76,7 @@ class LayoutProcessingFragment : Fragment() {
 
         view.findViewById<FrameLayout>(R.id.description_button_frame).setOnClickListener {
             val navController = findNavController()
-            navController.navigate(R.id.favFragment)
+            navController.navigate(R.id.action_layoutProcessingFragment4_to_layoutInterpretationFragment)
         }
 
         super.onViewCreated(view, savedInstanceState)
