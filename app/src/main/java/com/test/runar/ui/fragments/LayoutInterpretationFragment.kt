@@ -476,12 +476,21 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                             model.getAuspForCurrentLayout()
                             model.currentAusp.observe(viewLifecycleOwner) {
                                 var testText = interpretationLayout.findViewById<TextView>(R.id.text)
+                                val affimTextView = interpretationLayout.findViewById<TextView>(R.id.text_affim)
                                 interpretationLayout.findViewById<FrameLayout>(R.id.description_button_frame).setOnClickListener(this)
                                 if (it != null) {
                                     ausfText = "Благоприятность - $it %"
                                     testText.text = ausfText
                                     if (it <= 50) {
                                         model.getAffimForCurrentLayout(it)
+                                    }
+                                    else{
+                                        affimTextView.visibility = View.GONE
+                                        val constraintsSet = ConstraintSet()
+                                        constraintsSet.clone(interpretationLayout)
+                                        constraintsSet.clear(R.id.text,ConstraintSet.TOP)
+                                        constraintsSet.connect(R.id.text,ConstraintSet.TOP,ConstraintSet.PARENT_ID,ConstraintSet.TOP)
+                                        constraintsSet.applyTo(interpretationLayout)
                                     }
                                 }
                             }
