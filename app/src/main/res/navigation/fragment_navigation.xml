@@ -20,20 +20,36 @@
     <fragment
         android:id="@+id/layoutDescriptionFragment"
         android:name="com.test.runar.ui.fragments.LayoutDescriptionFragment">
-        <argument
-            android:name="descriptionFontSize"
-            app:argType="float"
-            android:defaultValue="0f" />
+        <action
+            android:id="@+id/action_layoutDescriptionFragment_to_layoutInitFragment"
+            app:destination="@id/layoutInitFragment" />
+        <action
+            android:id="@+id/action_layoutDescriptionFragment_to_layoutFragment"
+            app:destination="@id/layoutFragment"
+            app:popUpTo="@id/layoutFragment"
+            app:popUpToInclusive="true"/>
     </fragment>
 
     <fragment
         android:id="@+id/layoutInitFragment"
         android:name="com.test.runar.ui.fragments.LayoutInitFragment">
-
-        <argument
-            android:name="descriptionFontSize"
-            app:argType="float"
-            android:defaultValue="0f" />
+        <action
+            android:id="@+id/action_layoutInitFragment_to_layoutInterpretationFragment"
+            app:destination="@id/layoutInterpretationFragment" />
+        <action
+            android:id="@+id/action_layoutInitFragment_to_layoutFragment2"
+            app:destination="@id/layoutFragment"
+            app:popUpTo="@id/layoutFragment"
+            app:popUpToInclusive="true"/>
+    </fragment>
+    <fragment
+        android:id="@+id/layoutInterpretationFragment"
+        android:name="com.test.runar.ui.fragments.LayoutInterpretationFragment">
+        <action
+            android:id="@+id/action_layoutInterpretationFragment_to_layoutFragment"
+            app:destination="@id/layoutFragment"
+            app:popUpTo="@id/layoutFragment"
+            app:popUpToInclusive="true"/>
         <action
             android:id="@+id/action_layoutInitFragment_to_runesFragment2"
             app:destination="@id/emptyFragment" />

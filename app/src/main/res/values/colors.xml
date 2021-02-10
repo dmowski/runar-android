@@ -31,4 +31,11 @@
 
     <color name="rune_number_color_deselected">#B3D2C4AD</color>
     <color name="rune_number_color_selected">#FFEACA</color>
+
+    <color name="auf_text_color">#DADADA</color>
+    <color name="affim_text_color">#D2C4AD</color>
+
+    <color name="interpretation_header_background">#B3000000</color>
+
+    <color name="interpretation_runes_position">#A8A6A3</color>
 </resources>

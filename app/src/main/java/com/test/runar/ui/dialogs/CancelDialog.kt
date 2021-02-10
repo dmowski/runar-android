@@ -12,7 +12,8 @@ import com.test.runar.R
 
 class CancelDialog<T : Activity>(
     private val navController: NavController,
-    private val activity: T
+    private val activity: T,
+    private val cancelDest: Int
 ) {
 
     fun showDialog() {

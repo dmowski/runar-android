@@ -5,6 +5,7 @@ import android.graphics.Paint
 import android.graphics.Rect
 import android.os.Bundle
 import android.util.DisplayMetrics
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.ScrollView
@@ -31,6 +32,12 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
             ViewModelProviders.of(this)[MainViewModel::class.java]
         } ?: throw Exception("Invalid Activity")
         fontSize = correctFontSize()
+        model.setFontSize(fontSize)
+        model.clearLayoutData()
+        model.clearAusp()
+        model.clearAffirm()
+        model.clearInterpretation()
+        Log.d("DebugData","First fragment recreated")
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -99,7 +106,6 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
             else -> 8
         }
         val navController = findNavController()
-        val bundle = bundleOf("descriptionFontSize" to fontSize)
         model.descriptionCheck(requireContext(), dest)
         model.getLayoutDescription(requireContext(), dest)
         model.showStatus.observe(viewLifecycleOwner) {
@@ -109,7 +115,7 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
                     model.clearShowStatus()
                 }
                 1 -> {
-                    navController.navigate(R.id.layoutDescriptionFragment, bundle)
+                    navController.navigate(R.id.action_layoutFragment_to_layoutDescriptionFragment2)
                     model.clearShowStatus()
                 }
             }

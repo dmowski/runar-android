@@ -2,15 +2,14 @@ package com.test.runar.ui.fragments
 
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -30,33 +29,42 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
     private lateinit var headerText: String
     private lateinit var descriptionText: String
     private lateinit var layoutFrame: ConstraintLayout
+    private lateinit var button: FrameLayout
     private var fontSize: Float = 0f
     private var runeTable: Array<Array<Int>> = Array(7) { Array(2) { 0 } }
     private var runesList: Array<Array<Int>> = Array(25) { Array(2) { 0 } }
-    private var layoutTable: Array<Int> = Array(7) { 0 }
+    private var layoutTable: Array<Int> = Array(9) { 0 }
     private var layoutId: Int? = 0
+    private var threadCounter =0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         model = activity?.run {
             ViewModelProviders.of(this)[MainViewModel::class.java]
         } ?: throw Exception("Invalid Activity")
+        model.clearUserLayoutData()
         runesArrayInit()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        fontSize = arguments?.getFloat("descriptionFontSize")!!
-
         view.findViewById<FrameLayout>(R.id.description_button_frame).setOnClickListener(this)
         view.findViewById<ImageView>(R.id.exit_button).setOnClickListener(this)
         view.findViewById<ImageView>(R.id.info_button).setOnClickListener(this)
         view.findViewById<TextView>(R.id.text_info).setOnClickListener(this)
+        button = view.findViewById<FrameLayout>(R.id.description_button_frame)
         header =
                 view.findViewById<FrameLayout>(R.id.description_header_frame).getChildAt(0) as TextView
         buttonText = view.findViewById<FrameLayout>(R.id.description_button_frame).getChildAt(0) as TextView
+        model.fontSize.observe(viewLifecycleOwner){
+            if(it!=null){
+                fontSize = it
+            }
+        }
+
         model.selectedLayout.observe(viewLifecycleOwner) {
             if (it != null) {
+                layoutTable[8] = it.layoutId!!
                 header.text = it.layoutName
                 headerText = it.layoutName.toString()
                 descriptionText = it.layoutDescription.toString()
@@ -119,27 +127,28 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
             }
         }
     }
-
-    override fun onStop() {
-        super.onStop()
-    }
-
     override fun onClick(v: View?) {
 
         val navController = findNavController()
         when (v?.id) {
             R.id.exit_button -> {
-                activity?.let { CancelDialog(navController, it) }?.showDialog()
+                val action = R.id.action_layoutInitFragment_to_layoutFragment2
+                activity?.let { CancelDialog(navController, it, action) }?.showDialog()
             }
             R.id.description_button_frame -> {
                 var result = slotChanger()
                 if (result[1]) {
                     buttonText.text = "Толковать"
-                }
-                if (!result[0]) {
                     model.setCurrentUserLayout(layoutTable)
                     navController.navigate(R.id.layoutProcessingFragment4)
                 }
+                else if (!result[0]) {
+                    if(layoutId==1){
+                        model.setCurrentUserLayout(layoutTable)
+                    }
+                    navController.navigate(R.id.action_layoutInitFragment_to_layoutInterpretationFragment)
+                }
+
             }
             R.id.info_button, R.id.text_info -> {
                 val info = DescriptionDialog(descriptionText, headerText, fontSize)
@@ -150,7 +159,7 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
 
     private fun slotChanger(): Array<Boolean> {
         var result = false
-        var isLast = false
+        var isLast = false //is exist slots to open
         for (i in 0..6) {
             if (runeTable[i][1] == 1) {
 
@@ -180,6 +189,7 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
                         var result = slotChanger()
                         if (result[1]) {
                             buttonText.text = "Толковать"
+                            model.setCurrentUserLayout(layoutTable)
                         }
                     }
                 } else isLast = true
@@ -220,9 +230,10 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
 
     private fun runeSetter(slot: ConstraintLayout, activeSlot: ConstraintLayout?, childNumber: Int) {
         lifecycleScope.launch {
+            threadCounter++
+            blockButton(false)
             delay(500L)
             val runeId = getUniqueRune()
-            Log.d("Log", runesList.joinToString())
             val ims = context?.assets?.open("runes/${runeId}.png")
             var runeImage = Drawable.createFromStream(ims, null)
             slot.setBackgroundDrawable(runeImage)
@@ -232,7 +243,14 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
                 context?.let { (activeSlot.getChildAt(0) as TextView).setTextColor(it.getColor(R.color.rune_number_color_selected)) }
             }
             layoutTable[childNumber] = runeId
+            blockButton(true)
+            threadCounter--
         }
+    }
+
+    private fun blockButton(state: Boolean){
+        if(state) button.setOnClickListener(this)
+        else button.setOnClickListener(null)
     }
 
     private fun runesArrayInit() {
@@ -265,7 +283,7 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
 
     private fun getUniqueRune(): Int {
         while (true) {
-            var randomNumber = Random.nextInt(1, 41)
+            var randomNumber = Random.nextInt(1, 42)
             if(layoutId==2){
                 for (i in 0..24) {
                     if (runesList[i][0] == randomNumber) {

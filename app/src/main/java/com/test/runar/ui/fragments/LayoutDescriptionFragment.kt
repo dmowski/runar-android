@@ -32,7 +32,6 @@ class LayoutDescriptionFragment : Fragment(R.layout.fragment_layout_description)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        fontSize = arguments?.getFloat("descriptionFontSize")!!
 
         view.findViewById<FrameLayout>(R.id.description_button_frame).setOnClickListener(this)
         view.findViewById<ImageView>(R.id.exit_button).setOnClickListener(this)
@@ -42,13 +41,17 @@ class LayoutDescriptionFragment : Fragment(R.layout.fragment_layout_description)
         text = view.findViewById(R.id.description_text_view)
         header =
             view.findViewById<FrameLayout>(R.id.description_header_frame).getChildAt(0) as TextView
-
-        model.selectedLayout.observe(viewLifecycleOwner) {
-            if (it != null) {
-                header.text = it.layoutName
-                text.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
-                text.text = it.layoutDescription
-                layoutId = it.layoutId!!
+        model.fontSize.observe(viewLifecycleOwner){
+            if(it!=null){
+                fontSize = it
+                model.selectedLayout.observe(viewLifecycleOwner) {
+                    if (it != null) {
+                        header.text = it.layoutName
+                        text.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
+                        text.text = it.layoutDescription
+                        layoutId = it.layoutId!!
+                    }
+                }
             }
         }
     }
@@ -62,12 +65,11 @@ class LayoutDescriptionFragment : Fragment(R.layout.fragment_layout_description)
         when (v?.id) {
             R.id.exit_button -> {
                 if (checkBox.isChecked) model.notShowSelectedLayout(requireContext(), layoutId)
-                navController.navigate(R.id.layoutFragment)
+                navController.navigate(R.id.action_layoutDescriptionFragment_to_layoutFragment)
             }
             R.id.description_button_frame -> {
                 if (checkBox.isChecked) model.notShowSelectedLayout(requireContext(), layoutId)
-                val bundle = bundleOf("descriptionFontSize" to fontSize)
-                navController.navigate(R.id.layoutInitFragment,bundle)
+                navController.navigate(R.id.action_layoutDescriptionFragment_to_layoutInitFragment)
             }
         }
     }
