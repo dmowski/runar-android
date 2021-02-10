@@ -45,7 +45,7 @@
                 android:layout_height="match_parent"
                 android:fontFamily="@font/amatic_sc_bold"
                 android:letterSpacing="@dimen/layout_text_letter_spacing"
-                android:text="Норны"
+                android:text="test"
                 android:textAlignment="center"
                 android:textColor="@color/layout_desc_deselected"
                 app:autoSizeTextType="uniform" />
@@ -59,7 +59,7 @@
             android:layout_marginBottom="10dp"
             android:fontFamily="@font/roboto_light"
             android:lineSpacingMultiplier="@dimen/layout_popup_line_spacing"
-            android:text="sdfsdf"
+            android:text="test"
             android:textColor="@color/layout_desc_text_color"
             app:layout_constraintBottom_toTopOf="@+id/description_button_frame"
             app:layout_constraintEnd_toStartOf="@id/right_text_guideline"

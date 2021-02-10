@@ -74,7 +74,6 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
         model = activity?.run {
             ViewModelProviders.of(this)[MainViewModel::class.java]
         } ?: throw Exception("Invalid Activity")
-        Log.d("DebugData", "Last fragment recreated")
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -481,7 +480,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                                 val affimTextView = interpretationLayout.findViewById<TextView>(R.id.text_affim)
                                 interpretationLayout.findViewById<FrameLayout>(R.id.description_button_frame).setOnClickListener(this)
                                 if (it != null) {
-                                    ausfText = "Благоприятность - $it %"
+                                    ausfText = "${requireContext().resources.getString(R.string.layout_interpretation_ausf)} - $it %"
                                     testText.text = ausfText
                                     if (it <= 50) {
                                         model.getAffimForCurrentLayout(it)
@@ -569,7 +568,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                         runeDescription.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize - 3f)
                         runeDescription.text = it.fullDescription
                         val secondFont = ResourcesCompat.getFont(requireContext(), R.font.roboto_medium)
-                        runeAusf.text = Html.fromHtml("Благоприятность - <bf>${it.ausp} %</bf>", null, InterTagHandler(secondFont!!))
+                        runeAusf.text = Html.fromHtml("${requireContext().resources.getString(R.string.layout_interpretation_ausf)} - <bf>${it.ausp} %</bf>", null, InterTagHandler(secondFont!!))
                     }
                 }
             }
