@@ -91,7 +91,7 @@ class LayoutDescriptionFragment : Fragment(R.layout.fragment_layout_description)
         when (v?.id) {
             R.id.exit_button -> {
                 if (checkBox.isChecked) model.notShowSelectedLayout(requireContext(), layoutId)
-                navController.navigate(R.id.layoutProcessingFragment4)  //TODO
+                navController.navigate(R.id.layoutFragment)
             }
             R.id.description_button_frame -> {
                 if (checkBox.isChecked) model.notShowSelectedLayout(requireContext(), layoutId)
