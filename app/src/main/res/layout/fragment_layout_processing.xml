@@ -54,32 +54,12 @@
         app:layout_constraintGuide_percent="0.86" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/bottom_header_guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.5" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/bottom_progress_guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.68" />
-
-    <androidx.constraintlayout.widget.Guideline
         android:id="@+id/top_header_guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.25" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/top_guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.24" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/top_button_guideline"
@@ -94,161 +74,48 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.92" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/bottom_text_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.7" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/top_text_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.55" />
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/left_guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.08"/>
+        app:layout_constraintGuide_percent="0.08" />
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/right_guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.92"/>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/description_text_view"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="14dp"
-        android:layout_marginBottom="10dp"
-        android:fontFamily="@font/roboto_light"
-        android:lineSpacingMultiplier="@dimen/layout_description_line_spacing"
-        android:textColor="@color/layout_desc_text_color"
-        app:layout_constraintBottom_toTopOf="@+id/description_button_frame"
-        app:layout_constraintEnd_toStartOf="@id/right_guideline"
-        app:layout_constraintStart_toEndOf="@id/left_guideline"
-        app:layout_constraintTop_toBottomOf="@id/description_header_frame">
-
-        <ProgressBar
-            android:id="@+id/progress"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/circle_shape"
-            android:indeterminate="false"
-            android:max="100"
-            android:progress="65"
-            android:progressDrawable="@drawable/circular_progress_bar"
-            app:layout_constraintDimensionRatio="H,4.55:1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:fontFamily="@font/roboto_light"
-            android:letterSpacing="-0.02"
-            android:text="Магазин предметов скандинавской культуры и быта"
-            android:textAlignment="center"
-            android:textColor="#DADADA"
-            android:textSize="24sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/progress" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="16dp"
-            android:fontFamily="@font/roboto_light"
-            android:letterSpacing="-0.02"
-            android:text="Описание товаров"
-            android:textAlignment="center"
-            android:textColor="#DADADA"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView2" />
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:fontFamily="@font/roboto_light"
-            android:text="@string/layout_init_button_text4"
-            android:textAlignment="center"
-            android:textColor="@color/layout_desc_processing"
-            app:autoSizeTextType="uniform"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <FrameLayout
-        android:id="@+id/description_button_frame"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="60dp"
-        android:background="@drawable/description_button_background_selector"
-        android:clickable="true"
-        android:focusable="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintDimensionRatio="H,4.55:1"
-        app:layout_constraintEnd_toStartOf="@id/right_button_guideline"
-        app:layout_constraintHorizontal_weight="62"
-        app:layout_constraintStart_toEndOf="@id/left_button_guideline">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="8dp"
-            android:duplicateParentState="true"
-            android:fontFamily="@font/amatic_sc_bold"
-            android:gravity="center"
-            android:text="@string/layout_init_button_text3"
-            android:textAlignment="center"
-            android:textColor="@color/layout_description_button_text_selector"
-            app:autoSizeTextType="uniform" />
-    </FrameLayout>
-
-    <FrameLayout
-        android:id="@+id/arrow_right_frame"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="55dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/right_button_guideline"
-        app:layout_constraintStart_toEndOf="@id/icon_description_processing_end_guideline"
-        app:layout_constraintTop_toTopOf="@+id/description_button_frame">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:src="@drawable/arrow_right" />
-    </FrameLayout>
-
-
-
-
-
+        app:layout_constraintGuide_percent="0.92" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/left_button_guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.14" />
+        app:layout_constraintGuide_percent="0.19" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/right_button_guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.86" />
+        app:layout_constraintGuide_percent="0.81" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/icon_description_start_guideline"
@@ -272,12 +139,132 @@
         app:layout_constraintGuide_percent="0.72" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/icon_description_processing_start_guideline"
+        android:id="@+id/bottom_under_button_guidline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.28" />
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.79" />
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/description_text_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="10dp"
+        android:fontFamily="@font/roboto_light"
+        android:lineSpacingMultiplier="@dimen/layout_description_line_spacing"
+        android:textColor="@color/layout_desc_text_color"
+        app:layout_constraintBottom_toTopOf="@+id/description_button_frame"
+        app:layout_constraintEnd_toStartOf="@id/right_guideline"
+        app:layout_constraintStart_toEndOf="@id/left_guideline"
+        app:layout_constraintTop_toBottomOf="@id/description_header_frame">
+
+        <ProgressBar
+            android:id="@+id/progress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="40dp"
+            android:background="@drawable/circle_shape"
+            android:indeterminate="false"
+            android:max="100"
+            android:progress="65"
+            android:progressDrawable="@drawable/circular_progress_bar"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:fontFamily="@font/roboto_light"
+            android:text="@string/layout_init_button_text4"
+            android:textAlignment="center"
+            android:textColor="@color/layout_desc_processing"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="37dp"
+        android:fontFamily="@font/roboto_light"
+        android:text="Магазин предметов скандинавской культуры и быта"
+        android:textAlignment="center"
+        android:textColor="#DADADA"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_text_guideline"
+        app:layout_constraintEnd_toStartOf="@+id/right_guideline"
+        app:layout_constraintStart_toEndOf="@+id/left_guideline"
+        app:layout_constraintTop_toBottomOf="@+id/top_text_guideline" />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="7dp"
+        android:fontFamily="@font/roboto_light"
+        android:text="Описание товаров"
+        android:textAlignment="center"
+        android:textColor="#DADADA"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_under_button_guidline"
+        app:layout_constraintTop_toBottomOf="@+id/bottom_text_guideline"
+        app:layout_constraintStart_toEndOf="@+id/icon_description_start_guideline"
+        app:layout_constraintEnd_toStartOf="@+id/icon_description_text_end_guideline"/>
+    <FrameLayout
+        android:id="@+id/description_button_frame"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="60dp"
+        android:background="@drawable/description_button_background_selector"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="H,4.55:1"
+        app:layout_constraintEnd_toStartOf="@id/right_button_guideline"
+        app:layout_constraintHorizontal_weight="62"
+        app:layout_constraintStart_toEndOf="@id/left_button_guideline">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="8dp"
+            android:duplicateParentState="true"
+            android:fontFamily="@font/amatic_sc_bold"
+            android:text="Перейти на сайт"
+            android:textAlignment="center"
+            android:textColor="@color/layout_description_button_text_selector"
+            app:autoSizeTextType="uniform" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/arrow_right_frame"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="55dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/right_button_guideline"
+        app:layout_constraintStart_toEndOf="@id/icon_description_processing_end_guideline"
+        app:layout_constraintTop_toTopOf="@+id/description_button_frame">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/arrow_right" />
+    </FrameLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
