@@ -19,11 +19,11 @@ import com.test.runar.presentation.viewmodel.MainViewModel
 class LayoutProcessingFragment : Fragment() {
 
     private var progressLoading:ProgressBar?=null
+    private var nextButton: TextView?=null
     private var currentValue = 0
 
     private var layoutNameTextView:TextView? = null
     private lateinit var model: MainViewModel
-    private var layoutId:Int=0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,27 +38,32 @@ class LayoutProcessingFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_layout_processing, container, false)
         progressLoading = view.findViewById(R.id.progress)
-
-
-         val runnable = Runnable {
-            currentValue = 0
-            while (currentValue <= 100) {
-                try {
-                    progressLoading?.setProgress(currentValue)
-                    Thread.sleep(100) //speed
-                } catch (e: InterruptedException) {
-                }
-                currentValue++
-                val navController = findNavController()
-                when(currentValue){
-
-                    100 -> navController.navigate(R.id.favFragment)
-
-                }
-            }
+        nextButton = view.findViewById(R.id.button_go_to_site)
+        nextButton?.setOnClickListener {
+            val navController = findNavController()
+            navController.navigate(R.id.favFragment)
         }
-        val thread = Thread(runnable)
-        thread.start()
+
+//
+//         val runnable = Runnable {
+//            currentValue = 0
+//            while (currentValue <= 100) {
+//                try {
+//                    progressLoading?.setProgress(currentValue)
+//                    Thread.sleep(100) //speed
+//                } catch (e: InterruptedException) {
+//                }
+//                currentValue++
+//                val navController = findNavController()
+//                when(currentValue){
+//
+//                    100 -> navController.navigate(R.id.favFragment)
+//
+//                }
+//            }
+//        }
+//        val thread = Thread(runnable)
+//        thread.start()
 
 
 
