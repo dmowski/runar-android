@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:padding="13dp">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <LinearLayout
                 android:id="@+id/first_layout"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
@@ -44,22 +44,19 @@
                 app:layout_constraintDimensionRatio="H,1:1.08"
                 app:layout_constraintEnd_toStartOf="@id/second_layout"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="parent"
+                android:orientation="vertical">
 
                 <ImageView
                     android:id="@+id/first_layout_iw"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:src="@drawable/layout_1_img"
-                    app:layout_constraintBottom_toTopOf="@id/first_layout_tw"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_weight="@dimen/layout_text_size_ratio" />
+                    android:layout_weight="3.15"/>
 
                 <TextView
                     android:id="@+id/first_layout_tw"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_marginBottom="@dimen/layout_text_margin_bottom"
                     android:duplicateParentState="true"
@@ -68,16 +65,11 @@
                     android:text="@string/layout1"
                     android:textAlignment="center"
                     android:textColor="@color/layout_text_selector"
-                    android:textSize="@dimen/layout_text_size"
                     app:autoSizeTextType="uniform"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/first_layout_iw"
-                    app:layout_constraintVertical_weight="1" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    android:layout_weight="1"/>
+            </LinearLayout>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <LinearLayout
                 android:id="@+id/second_layout"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
@@ -88,22 +80,19 @@
                 app:layout_constraintBottom_toBottomOf="@id/first_layout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/first_layout"
-                app:layout_constraintTop_toTopOf="@id/first_layout">
+                app:layout_constraintTop_toTopOf="@id/first_layout"
+                android:orientation="vertical">
 
                 <ImageView
                     android:id="@+id/second_layout_iw"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:src="@drawable/layout_2_img"
-                    app:layout_constraintBottom_toTopOf="@id/second_layout_tw"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_weight="@dimen/layout_text_size_ratio" />
+                    android:layout_weight="3.15"/>
 
                 <TextView
                     android:id="@+id/second_layout_tw"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_marginBottom="@dimen/layout_text_margin_bottom"
                     android:duplicateParentState="true"
@@ -113,14 +102,10 @@
                     android:textAlignment="center"
                     android:textColor="@color/layout_text_selector"
                     app:autoSizeTextType="uniform"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/second_layout_iw"
-                    app:layout_constraintVertical_weight="1" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    android:layout_weight="1"/>
+            </LinearLayout>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <LinearLayout
                 android:id="@+id/third_layout"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
@@ -132,22 +117,19 @@
                 app:layout_constraintBottom_toTopOf="@id/fifth_layout"
                 app:layout_constraintEnd_toEndOf="@id/first_layout"
                 app:layout_constraintStart_toStartOf="@id/first_layout"
-                app:layout_constraintTop_toBottomOf="@id/first_layout">
+                app:layout_constraintTop_toBottomOf="@id/first_layout"
+                android:orientation="vertical">
 
                 <ImageView
                     android:id="@+id/third_layout_iw"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:src="@drawable/layout_3_img"
-                    app:layout_constraintBottom_toTopOf="@id/third_layout_tw"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_weight="@dimen/layout_text_size_ratio" />
+                    android:layout_weight="3.15"/>
 
                 <TextView
                     android:id="@+id/third_layout_tw"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_marginBottom="@dimen/layout_text_margin_bottom"
                     android:fontFamily="@font/amatic_sc_bold"
@@ -156,14 +138,10 @@
                     android:textAlignment="center"
                     android:textColor="@color/layout_text_selector"
                     app:autoSizeTextType="uniform"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/third_layout_iw"
-                    app:layout_constraintVertical_weight="1" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    android:layout_weight="1"/>
+            </LinearLayout>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <LinearLayout
                 android:id="@+id/fourth_layout"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
@@ -173,22 +151,19 @@
                 app:layout_constraintBottom_toBottomOf="@id/third_layout"
                 app:layout_constraintEnd_toEndOf="@id/second_layout"
                 app:layout_constraintStart_toStartOf="@id/second_layout"
-                app:layout_constraintTop_toTopOf="@id/third_layout">
+                app:layout_constraintTop_toTopOf="@id/third_layout"
+                android:orientation="vertical">
 
                 <ImageView
                     android:id="@+id/fourth_layout_iw"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:src="@drawable/layout_4_img"
-                    app:layout_constraintBottom_toTopOf="@id/fourth_layout_tw"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_weight="@dimen/layout_text_size_ratio" />
+                    android:layout_weight="3.15"/>
 
                 <TextView
                     android:id="@+id/fourth_layout_tw"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_marginBottom="@dimen/layout_text_margin_bottom"
                     android:fontFamily="@font/amatic_sc_bold"
@@ -197,14 +172,10 @@
                     android:textAlignment="center"
                     android:textColor="@color/layout_text_selector"
                     app:autoSizeTextType="uniform"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/fourth_layout_iw"
-                    app:layout_constraintVertical_weight="1" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    android:layout_weight="1"/>
+            </LinearLayout>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <LinearLayout
                 android:id="@+id/fifth_layout"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
@@ -216,22 +187,19 @@
                 app:layout_constraintBottom_toTopOf="@id/seventh_layout"
                 app:layout_constraintEnd_toEndOf="@id/first_layout"
                 app:layout_constraintStart_toStartOf="@id/first_layout"
-                app:layout_constraintTop_toBottomOf="@id/third_layout">
+                app:layout_constraintTop_toBottomOf="@id/third_layout"
+                android:orientation="vertical">
 
                 <ImageView
                     android:id="@+id/fifth_layout_iw"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:src="@drawable/layout_5_img"
-                    app:layout_constraintBottom_toTopOf="@id/fifth_layout_tw"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_weight="@dimen/layout_text_size_ratio" />
+                    android:layout_weight="3.15"/>
 
                 <TextView
                     android:id="@+id/fifth_layout_tw"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_marginBottom="@dimen/layout_text_margin_bottom"
                     android:fontFamily="@font/amatic_sc_bold"
@@ -240,14 +208,10 @@
                     android:textAlignment="center"
                     android:textColor="@color/layout_text_selector"
                     app:autoSizeTextType="uniform"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/fifth_layout_iw"
-                    app:layout_constraintVertical_weight="1" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    android:layout_weight="1"/>
+            </LinearLayout>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <LinearLayout
                 android:id="@+id/sixth_layout"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
@@ -257,22 +221,19 @@
                 app:layout_constraintBottom_toBottomOf="@id/fifth_layout"
                 app:layout_constraintEnd_toEndOf="@id/second_layout"
                 app:layout_constraintStart_toStartOf="@id/second_layout"
-                app:layout_constraintTop_toTopOf="@id/fifth_layout">
+                app:layout_constraintTop_toTopOf="@id/fifth_layout"
+                android:orientation="vertical">
 
                 <ImageView
                     android:id="@+id/sixth_layout_iw"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:src="@drawable/layout_6_img"
-                    app:layout_constraintBottom_toTopOf="@id/sixth_layout_tw"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_weight="@dimen/layout_text_size_ratio" />
+                    android:layout_weight="3.15"/>
 
                 <TextView
                     android:id="@+id/sixth_layout_tw"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_marginBottom="@dimen/layout_text_margin_bottom"
                     android:fontFamily="@font/amatic_sc_bold"
@@ -281,14 +242,10 @@
                     android:textAlignment="center"
                     android:textColor="@color/layout_text_selector"
                     app:autoSizeTextType="uniform"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/sixth_layout_iw"
-                    app:layout_constraintVertical_weight="1" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    android:layout_weight="1"/>
+            </LinearLayout>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <LinearLayout
                 android:id="@+id/seventh_layout"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
@@ -299,22 +256,19 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@id/first_layout"
                 app:layout_constraintStart_toStartOf="@id/first_layout"
-                app:layout_constraintTop_toBottomOf="@id/fifth_layout">
+                app:layout_constraintTop_toBottomOf="@id/fifth_layout"
+                android:orientation="vertical">
 
                 <ImageView
                     android:id="@+id/seventh_layout_iw"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:src="@drawable/layout_7_img"
-                    app:layout_constraintBottom_toTopOf="@id/seventh_layout_tw"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_weight="@dimen/layout_text_size_ratio" />
+                    android:layout_weight="3.15" />
 
                 <TextView
                     android:id="@+id/seventh_layout_tw"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_marginBottom="@dimen/layout_text_margin_bottom"
                     android:fontFamily="@font/amatic_sc_bold"
@@ -323,14 +277,10 @@
                     android:textAlignment="center"
                     android:textColor="@color/layout_text_selector"
                     app:autoSizeTextType="uniform"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/seventh_layout_iw"
-                    app:layout_constraintVertical_weight="1" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    android:layout_weight="1"/>
+            </LinearLayout>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <LinearLayout
                 android:id="@+id/eight_layout"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
@@ -340,22 +290,19 @@
                 app:layout_constraintBottom_toBottomOf="@id/seventh_layout"
                 app:layout_constraintEnd_toEndOf="@id/second_layout"
                 app:layout_constraintStart_toStartOf="@id/second_layout"
-                app:layout_constraintTop_toTopOf="@id/seventh_layout">
+                app:layout_constraintTop_toTopOf="@id/seventh_layout"
+                android:orientation="vertical">
 
                 <ImageView
                     android:id="@+id/eight_layout_iw"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:src="@drawable/layout_8_img"
-                    app:layout_constraintBottom_toTopOf="@id/eight_layout_tw"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_weight="@dimen/layout_text_size_ratio" />
+                    android:layout_weight="3.15" />
 
                 <TextView
                     android:id="@+id/eight_layout_tw"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_marginBottom="@dimen/layout_text_margin_bottom"
                     android:fontFamily="@font/amatic_sc_bold"
@@ -364,13 +311,8 @@
                     android:textAlignment="center"
                     android:textColor="@color/layout_text_selector"
                     app:autoSizeTextType="uniform"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/eight_layout_iw"
-                    app:layout_constraintVertical_weight="1" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    android:layout_weight="1" />
+            </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
@@ -384,7 +326,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="H,3.2:1"
         app:layout_constraintEnd_toStartOf="@+id/r_b_guideline"
-        app:layout_constraintHorizontal_weight="18"
         app:layout_constraintStart_toEndOf="@id/l_b_guideline" />
     <ImageButton
         android:id="@+id/arrow_up"
@@ -396,7 +337,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="H,3.2:1"
         app:layout_constraintEnd_toStartOf="@+id/r_b_guideline"
-        app:layout_constraintHorizontal_weight="18"
         app:layout_constraintStart_toEndOf="@id/l_b_guideline" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

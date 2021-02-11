@@ -8,6 +8,7 @@ import android.util.DisplayMetrics
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.ScrollView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.ResourcesCompat
@@ -41,14 +42,14 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        view.findViewById<ConstraintLayout>(R.id.first_layout).setOnClickListener(this)
-        view.findViewById<ConstraintLayout>(R.id.second_layout).setOnClickListener(this)
-        view.findViewById<ConstraintLayout>(R.id.third_layout).setOnClickListener(this)
-        view.findViewById<ConstraintLayout>(R.id.fourth_layout).setOnClickListener(this)
-        view.findViewById<ConstraintLayout>(R.id.fifth_layout).setOnClickListener(this)
-        view.findViewById<ConstraintLayout>(R.id.sixth_layout).setOnClickListener(this)
-        view.findViewById<ConstraintLayout>(R.id.seventh_layout).setOnClickListener(this)
-        view.findViewById<ConstraintLayout>(R.id.eight_layout).setOnClickListener(this)
+        view.findViewById<LinearLayout>(R.id.first_layout).setOnClickListener(this)
+        view.findViewById<LinearLayout>(R.id.second_layout).setOnClickListener(this)
+        view.findViewById<LinearLayout>(R.id.third_layout).setOnClickListener(this)
+        view.findViewById<LinearLayout>(R.id.fourth_layout).setOnClickListener(this)
+        view.findViewById<LinearLayout>(R.id.fifth_layout).setOnClickListener(this)
+        view.findViewById<LinearLayout>(R.id.sixth_layout).setOnClickListener(this)
+        view.findViewById<LinearLayout>(R.id.seventh_layout).setOnClickListener(this)
+        view.findViewById<LinearLayout>(R.id.eight_layout).setOnClickListener(this)
 
         arrow_down = view.findViewById(R.id.arrow_down)
         arrow_up = view.findViewById(R.id.arrow_up)
