@@ -64,11 +64,11 @@ class LayoutDescriptionFragment : Fragment(R.layout.fragment_layout_description)
         val navController = findNavController()
         when (v?.id) {
             R.id.exit_button -> {
-                if (checkBox.isChecked) model.notShowSelectedLayout(requireContext(), layoutId)
+                if (checkBox.isChecked) model.notShowSelectedLayout(layoutId)
                 navController.navigate(R.id.action_layoutDescriptionFragment_to_layoutFragment)
             }
             R.id.description_button_frame -> {
-                if (checkBox.isChecked) model.notShowSelectedLayout(requireContext(), layoutId)
+                if (checkBox.isChecked) model.notShowSelectedLayout(layoutId)
                 navController.navigate(R.id.action_layoutDescriptionFragment_to_layoutInitFragment)
             }
         }

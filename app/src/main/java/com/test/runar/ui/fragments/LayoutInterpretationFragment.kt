@@ -490,7 +490,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                                     val affimTextView = interpretationLayout.findViewById<TextView>(R.id.text_affim)
                                     affimTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
                                     affimTextView.text = it
-                                    model.getInterpretation(requireContext())
+                                    model.getInterpretation()
                                 }
                             }
                             model.currentInterpretation.observe(viewLifecycleOwner) {
@@ -601,7 +601,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
         val navController = findNavController()
         when (v?.id) {
             R.id.description_button_frame -> {
-                if (checkBox.isChecked) model.saveUserLayout(requireContext())
+                if (checkBox.isChecked) model.saveUserLayout()
                 navController.navigate(R.id.action_layoutInterpretationFragment_to_layoutFragment)
             }
             in runeIdList -> {

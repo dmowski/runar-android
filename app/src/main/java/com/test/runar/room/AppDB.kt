@@ -6,22 +6,27 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.test.runar.model.*
 
-@Database(entities = [LayoutDescriptionModel::class,RuneDescriptionModel::class,AffimDescriptionModel::class,TwoRunesInterModel::class,UserLayoutModel::class], version = 1, exportSchema = false)
+@Database(
+    entities = [LayoutDescriptionModel::class, RuneDescriptionModel::class, AffimDescriptionModel::class, TwoRunesInterModel::class, UserLayoutModel::class],
+    version = 1,
+    exportSchema = false
+)
 abstract class AppDB : RoomDatabase() {
     abstract fun appDAO(): AppDAO
 
     companion object {
         @Volatile
-        private var INSTANCE: AppDB? = null
+        private lateinit var INSTANCE: AppDB
 
-        fun getLayoutDB(context: Context): AppDB {
-            if (INSTANCE != null) return INSTANCE!!
+        fun init(context: Context) {
             synchronized(this) {
-                INSTANCE =
-                    Room.databaseBuilder(context, AppDB::class.java, "LD_DATABASE")
-                        .createFromAsset("database/layouts.db").build()
-                return INSTANCE!!
+                INSTANCE = Room.databaseBuilder(context, AppDB::class.java, "LD_DATABASE")
+                    .createFromAsset("database/layouts.db").build()
             }
+        }
+
+        fun getLayoutDB(): AppDB {
+            return INSTANCE
         }
     }
 }
