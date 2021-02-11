@@ -3,29 +3,27 @@ package com.test.runar.ui.activity
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import com.test.runar.R
 
 
-
 class SplashActivity : AppCompatActivity() {
-    private var progressBarLoading:ProgressBar?=null
+    private var progressBarLoading: ProgressBar? = null
     private val SPLASH_DELAY: Long = 1000 //3 seconds
     private var mDelayHandler: Handler? = null
     private var progressBarStatus = 0
-    var dummy:Int = 0
+    var dummy: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.splash_screen)
         progressBarLoading = findViewById(R.id.loadingProgress)
-        mDelayHandler = Handler()
+        mDelayHandler = Handler(Looper.getMainLooper())
         //Navigate with delay
         mDelayHandler!!.postDelayed(mRunnable, SPLASH_DELAY)
     }
-
-
 
     private fun launchMainActivity() {
         var intent = Intent(this, MainActivity::class.java)
@@ -36,7 +34,6 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private val mRunnable: Runnable = Runnable {
-
         Thread {
             while (progressBarStatus < 100) {
                 // performing some dummy operation

@@ -39,8 +39,8 @@ class LayoutProcessingFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_layout_processing, container, false)
         progressLoading = view.findViewById(R.id.progress)
 
-        /*
-        val runnable = Runnable {
+
+         val runnable = Runnable {
             currentValue = 0
             while (currentValue <= 100) {
                 try {
@@ -59,7 +59,7 @@ class LayoutProcessingFragment : Fragment() {
         }
         val thread = Thread(runnable)
         thread.start()
-        */
+
 
 
         return view
