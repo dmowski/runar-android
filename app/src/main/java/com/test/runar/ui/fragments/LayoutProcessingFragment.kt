@@ -19,11 +19,11 @@ import com.test.runar.presentation.viewmodel.MainViewModel
 class LayoutProcessingFragment : Fragment() {
 
     private var progressLoading:ProgressBar?=null
+    private var nextButton: TextView?=null
     private var currentValue = 0
 
     private var layoutNameTextView:TextView? = null
     private lateinit var model: MainViewModel
-    private var layoutId:Int=0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,27 +39,27 @@ class LayoutProcessingFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_layout_processing, container, false)
         progressLoading = view.findViewById(R.id.progress)
 
-        /*
-        val runnable = Runnable {
-            currentValue = 0
-            while (currentValue <= 100) {
-                try {
-                    progressLoading?.setProgress(currentValue)
-                    Thread.sleep(100) //speed
-                } catch (e: InterruptedException) {
-                }
-                currentValue++
-                val navController = findNavController()
-                when(currentValue){
+//
+//         val runnable = Runnable {
+//            currentValue = 0
+//            while (currentValue <= 100) {
+//                try {
+//                    progressLoading?.setProgress(currentValue)
+//                    Thread.sleep(100) //speed
+//                } catch (e: InterruptedException) {
+//                }
+//                currentValue++
+//                val navController = findNavController()
+//                when(currentValue){
+//
+//                    100 -> navController.navigate(R.id.favFragment)
+//
+//                }
+//            }
+//        }
+//        val thread = Thread(runnable)
+//        thread.start()
 
-                    100 -> navController.navigate(R.id.favFragment)
-
-                }
-            }
-        }
-        val thread = Thread(runnable)
-        thread.start()
-        */
 
 
         return view
