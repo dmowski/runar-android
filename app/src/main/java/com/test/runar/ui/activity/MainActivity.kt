@@ -12,24 +12,21 @@ import com.test.runar.presentation.viewmodel.MainViewModel
 import com.test.runar.ui.dialogs.CancelDialog
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
-    private lateinit var viewModel: MainViewModel
     private var readyToBack = true
-
+    private val viewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        val model: MainViewModel by viewModels()
-        viewModel = model
         super.onCreate(savedInstanceState)
 
         if (savedInstanceState == null) {
             initBottomNavBar()
         }
-        model.identify()
-        model.getRuneDataFromDB()
-        model.getAffirmationsDataFromDB()
+        viewModel.identify()
+        viewModel.getRuneDataFromDB()
+        viewModel.getAffirmationsDataFromDB()
         supportActionBar?.hide()
 
-        model.readyToDialog.observe(this){
+        viewModel.readyToDialog.observe(this){
             readyToBack = it
         }
     }
