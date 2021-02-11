@@ -237,6 +237,7 @@
         app:layout_constraintStart_toEndOf="@id/left_button_guideline">
 
         <TextView
+            android:id="@+id/button_go_to_site"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginBottom="8dp"
