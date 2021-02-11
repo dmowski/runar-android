@@ -237,14 +237,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        app:layout_constraintGuide_percent="0.16" />
+                        app:layout_constraintGuide_percent="0.18" />
 
                     <androidx.constraintlayout.widget.Guideline
                         android:id="@+id/rune_name_end_guideline"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        app:layout_constraintGuide_percent="0.84" />
+                        app:layout_constraintGuide_percent="0.82" />
 
                     <androidx.constraintlayout.widget.Guideline
                         android:id="@+id/icon_start_guideline"
@@ -258,7 +258,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        app:layout_constraintGuide_percent="0.97" />
+                        app:layout_constraintGuide_percent="0.96" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <FrameLayout
@@ -432,7 +432,7 @@
                         android:id="@+id/interpretation_text"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_light"
+                        android:fontFamily="@font/roboto_thin"
                         android:gravity="start"
                         android:lineSpacingMultiplier="1.2"
                         android:textColor="@color/auf_text_color"
