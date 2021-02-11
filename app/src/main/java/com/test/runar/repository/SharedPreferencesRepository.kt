@@ -1,12 +1,12 @@
 package com.test.runar.repository
 
-import android.app.Application
+import android.content.Context
 import android.content.SharedPreferences
 import androidx.preference.PreferenceManager
-import java.util.*
+import java.util.UUID
 
-class SharedPreferencesRepository(application: Application) {
-    private val preferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(application)
+class SharedPreferencesRepository private constructor(context: Context) {
+    private val preferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
 
     val userId: String
 
@@ -18,6 +18,22 @@ class SharedPreferencesRepository(application: Application) {
             userId = UUID.randomUUID().toString()
             editor.putString("Id", userId)
             editor.apply()
+        }
+    }
+
+    companion object {
+        
+        @Volatile
+        private lateinit var sharedPreferencesRepository: SharedPreferencesRepository
+
+        fun init(context: Context) {
+            synchronized(this) {
+                sharedPreferencesRepository = SharedPreferencesRepository(context)
+            }
+        }
+
+        fun get(): SharedPreferencesRepository {
+            return sharedPreferencesRepository
         }
     }
 }
