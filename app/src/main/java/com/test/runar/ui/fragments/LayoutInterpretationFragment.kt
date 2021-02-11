@@ -260,7 +260,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                                 }
                                 5 -> {
                                     runesViewList.addAll(arrayListOf(fourthRune, secondRune, thirdRune, firstRune))
-                                    runesPositionsList.addAll(arrayListOf(selectedLayout.slotMeaning3, selectedLayout.slotMeaning6, selectedLayout.slotMeaning7, selectedLayout.slotMeaning1))
+                                    runesPositionsList.addAll(arrayListOf(selectedLayout.slotMeaning3, selectedLayout.slotMeaning6, selectedLayout.slotMeaning7, selectedLayout.slotMeaning2))
 
                                     val runesIdsList = arrayListOf(userLayout[2], userLayout[5], userLayout[6], userLayout[1])
                                     runesInit(runesViewList, runesLayout, runesIdsList)
@@ -509,7 +509,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                                         var interpretationTextView = interpretationLayout.findViewById<TextView>(R.id.interpretation_text)
                                         interpretationTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
 
-                                        val secondFont = ResourcesCompat.getFont(requireContext(), R.font.roboto_medium)
+                                        val secondFont = ResourcesCompat.getFont(requireContext(), R.font.roboto_regular)
                                         val interpretationText = it
                                         interpretationTextView.text = Html.fromHtml(interpretationText, null, InterTagHandler(secondFont!!))
                                         val backgroundLayout = interpretationFrame
