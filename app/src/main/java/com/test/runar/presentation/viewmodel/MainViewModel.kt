@@ -69,8 +69,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun getSelectedRuneData(id: Int) {
-        var layoutId = selectedLayout.value?.layoutId
-        var userLayout = currentUserLayout.value!!
+        val layoutId = selectedLayout.value?.layoutId
+        val userLayout = currentUserLayout.value!!
         var runeId = 0
         when (layoutId) {
             2 -> {
@@ -300,9 +300,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun saveUserLayout() {
-        var userId = preferencesRepository.userId
-        var layoutId = selectedLayout.value?.layoutId
-        var userLayoutRunes = currentUserLayout.value!!
+        val userId = preferencesRepository.userId
+        val layoutId = selectedLayout.value?.layoutId
+        val userLayoutRunes = currentUserLayout.value!!
         var currentDate = System.currentTimeMillis() / 1000L
         CoroutineScope(IO).launch {
             var userLayout = UserLayoutModel(
@@ -397,7 +397,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         return 0
     }
 
-    fun getMeaningForRune(id: Int): String {
+    private fun getMeaningForRune(id: Int): String {
         for (rune in runesData) {
             if (rune.runeId == id) {
                 return rune.meaning!!
@@ -406,7 +406,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         return ""
     }
 
-    fun getFullDescriptionForRune(id: Int): String {
+    private fun getFullDescriptionForRune(id: Int): String {
         for (rune in runesData) {
             if (rune.runeId == id) {
                 return rune.fullDescription!!
