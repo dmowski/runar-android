@@ -26,7 +26,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     var selectedLayout = MutableLiveData<LayoutDescriptionModel>(null)
     var currentUserLayout = MutableLiveData<Array<Int>>(null)
     var showStatus = MutableLiveData(3)
-    var preferencesRepository = SharedPreferencesRepository(application)
+    var preferencesRepository = SharedPreferencesRepository.get()
     var currentAusp = MutableLiveData(0)
     var currentAffirm = MutableLiveData("")
     var runesData: List<RuneDescriptionModel> = emptyList()

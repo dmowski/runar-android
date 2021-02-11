@@ -12,6 +12,7 @@ import com.test.runar.presentation.viewmodel.MainViewModel
 import com.test.runar.ui.dialogs.CancelDialog
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
+
     private var readyToBack = true
     private val viewModel: MainViewModel by viewModels()
 
@@ -26,7 +27,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         viewModel.getAffirmationsDataFromDB()
         supportActionBar?.hide()
 
-        viewModel.readyToDialog.observe(this){
+        viewModel.readyToDialog.observe(this) {
             readyToBack = it
         }
     }
@@ -37,7 +38,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         bottomNav.setupWithNavController(navController)
         navController.addOnDestinationChangedListener { _, destination, _ ->
             bottomNav.visibility = when (destination.id) {
-                R.id.layoutFragment,R.id.favFragment -> View.VISIBLE
+                R.id.layoutFragment, R.id.favFragment -> View.VISIBLE
                 else -> View.GONE
             }
         }
@@ -49,15 +50,22 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
             R.id.favFragment -> navController.navigate(R.id.layoutFragment)
             R.id.layoutDescriptionFragment -> navController.navigate(R.id.action_layoutDescriptionFragment_to_layoutFragment)
             R.id.layoutInitFragment -> {
-                val alert = CancelDialog(navController, this,R.id.action_layoutInitFragment_to_layoutFragment2)
+                val alert = CancelDialog(
+                    navController,
+                    this,
+                    R.id.action_layoutInitFragment_to_layoutFragment2
+                )
                 alert.showDialog()
             }
-            R.id.layoutInterpretationFragment ->{
-                if(readyToBack){
-                    val alert = CancelDialog(navController, this,R.id.action_layoutInterpretationFragment_to_layoutFragment)
+            R.id.layoutInterpretationFragment -> {
+                if (readyToBack) {
+                    val alert = CancelDialog(
+                        navController,
+                        this,
+                        R.id.action_layoutInterpretationFragment_to_layoutFragment
+                    )
                     alert.showDialog()
-                }
-                else viewModel.pressBackButton(true)
+                } else viewModel.pressBackButton(true)
             }
             R.id.layoutFragment -> android.os.Process.killProcess(android.os.Process.myPid())
             else -> super.onBackPressed()
