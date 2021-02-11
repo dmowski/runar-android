@@ -22,7 +22,7 @@ class SharedPreferencesRepository private constructor(context: Context) {
     }
 
     companion object {
-        
+
         @Volatile
         private lateinit var sharedPreferencesRepository: SharedPreferencesRepository
 
