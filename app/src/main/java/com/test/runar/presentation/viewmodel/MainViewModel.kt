@@ -1,7 +1,6 @@
 package com.test.runar.presentation.viewmodel
 
 import android.app.Application
-import android.content.Context
 import android.os.Build
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
@@ -16,8 +15,11 @@ import com.test.runar.repository.DatabaseRepository
 import com.test.runar.repository.SharedPreferencesRepository
 import com.test.runar.retrofit.RetrofitClient
 import com.test.runar.retrofit.UserInfo
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
@@ -33,7 +35,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     var lastUserLayoutId = MutableLiveData<Int>(null)
     var selectedRune = MutableLiveData<RuneDescriptionModel>(null)
     var fontSize = MutableLiveData<Float>(null)
-    var backButtonPressed = MutableLiveData<Boolean>(false)
+    var backButtonPressed = MutableLiveData(false)
     var readyToDialog = MutableLiveData(true)
 
 
@@ -141,7 +143,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         lastUserLayoutId.value = id
     }
 
-    fun getInterpretation(context: Context){
+    fun getInterpretation(){
         var layoutId = selectedLayout.value?.layoutId
         var userLayout = currentUserLayout.value!!
         var result : String =""
@@ -150,7 +152,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             2-> {
                 CoroutineScope(IO).launch {
                     val index =userLayout[2]*100+userLayout[6]
-                    val inter = DatabaseRepository.getTwoRunesInterpretation(context,index)
+                    val inter = DatabaseRepository.getTwoRunesInterpretation(index)
                     currentInterpretation.postValue("Ваше настоящее положение дел можно охарактеризовать как <bf>$inter</bf>.")
                 }
                 return
@@ -188,7 +190,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         currentInterpretation.postValue(result)
     }
 
-    fun saveUserLayout(context: Context){
+    fun saveUserLayout(){
         var userId = preferencesRepository.getUserId()
         var layoutId = selectedLayout.value?.layoutId
         var userLayoutRunes = currentUserLayout.value!!
@@ -206,7 +208,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 userLayoutRunes[5],
                 userLayoutRunes[6]
             )
-            DatabaseRepository.addUserLayout(context,userLayout)
+            DatabaseRepository.addUserLayout(userLayout)
         }
     }
 
@@ -289,28 +291,28 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         return ""
     }
 
-    fun getRuneDataFromDB(context: Context){
+    fun getRuneDataFromDB(){
         CoroutineScope(IO).launch {
-            runesData = DatabaseRepository.getRunesList(context)
+            runesData = DatabaseRepository.getRunesList()
         }
     }
 
-    fun getAffirmationsDataFromDB(context: Context){
+    fun getAffirmationsDataFromDB(){
         CoroutineScope(IO).launch {
-            affirmData = DatabaseRepository.getAffirmList(context)
+            affirmData = DatabaseRepository.getAffirmList()
         }
     }
 
 
-    fun notShowSelectedLayout(context: Context, id: Int) {
+    fun notShowSelectedLayout(id: Int) {
         CoroutineScope(IO).launch {
-            DatabaseRepository.notShow(context, id)
+            DatabaseRepository.notShow(id)
         }
     }
 
-    fun getLayoutDescription(context: Context, id: Int) {
+    fun getLayoutDescription( id: Int) {
         CoroutineScope(IO).launch {
-            selectedLayout.postValue(DatabaseRepository.getLayoutDetails(context, id))
+            selectedLayout.postValue(DatabaseRepository.getLayoutDetails(id))
         }
     }
 
@@ -326,9 +328,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         currentUserLayout.postValue(null)
     }
 
-    fun descriptionCheck(context: Context, id: Int) {
+    fun descriptionCheck(id: Int) {
         CoroutineScope(IO).launch {
-            showStatus.postValue(DatabaseRepository.getShowStatus(context, id))
+            showStatus.postValue(DatabaseRepository.getShowStatus(id))
         }
     }
 
