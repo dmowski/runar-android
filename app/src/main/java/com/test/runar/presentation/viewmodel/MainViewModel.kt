@@ -40,21 +40,21 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
 
     var layoutInterpretationData: LiveData<Pair<LayoutDescriptionModel, Array<Int>>> =
-        object : MediatorLiveData<Pair<LayoutDescriptionModel, Array<Int>>>() {
-            var currentLayout: LayoutDescriptionModel? = null
-            var userLayout: Array<Int>? = null
+            object : MediatorLiveData<Pair<LayoutDescriptionModel, Array<Int>>>() {
+                var currentLayout: LayoutDescriptionModel? = null
+                var userLayout: Array<Int>? = null
 
-            init {
-                addSource(selectedLayout) { currentLayout ->
-                    this.currentLayout = currentLayout
-                    userLayout?.let { value = currentLayout to it }
-                }
-                addSource(currentUserLayout) { userLayout ->
-                    this.userLayout = userLayout
-                    currentLayout?.let { value = it to userLayout }
+                init {
+                    addSource(selectedLayout) { currentLayout ->
+                        this.currentLayout = currentLayout
+                        userLayout?.let { value = currentLayout to it }
+                    }
+                    addSource(currentUserLayout) { userLayout ->
+                        this.userLayout = userLayout
+                        currentLayout?.let { value = it to userLayout }
+                    }
                 }
             }
-        }
 
     fun setDialogReady(state: Boolean) {
         readyToDialog.postValue(state)
@@ -221,79 +221,79 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 return
             }
             3 -> result =
-                "Общее положение Ваших дел может быть описано как <bf>${getMeaningForRune(userLayout[6])}</bf>.<br><br>" +
-                        "Самое пристальное внимание обратите на проблему с вашим <bf>${
-                            getMeaningForRune(
-                                userLayout[2]
-                            )
-                        }</bf>.<br><br>" +
-                        "Для решения данной проблемы, определитесь с <bf>${
-                            getMeaningForRune(
-                                userLayout[5]
-                            )
-                        }</bf>."
+                    "Общее положение Ваших дел может быть описано как <bf>${getMeaningForRune(userLayout[6])}</bf>.<br><br>" +
+                            "Обратите самое пристальное внимание на важную проблему, а именно - <bf>${
+                                getMeaningForRune(
+                                        userLayout[2]
+                                )
+                            }</bf>.<br><br>" +
+                            "Возможное решение этой проблемы - это <bf>${
+                                getMeaningForRune(
+                                        userLayout[5]
+                                )
+                            }</bf>."
             4 -> result =
-                "Ваше текущее состояние можно описать как <bf>${getMeaningForRune(userLayout[6])}</bf>.<br><br>" +
-                        "Ваша проблема - это <bf>${getMeaningForRune(userLayout[2])}</bf>, " +
-                        "но для её решения вы должны опираться на <bf>${getMeaningForRune(userLayout[3])}</bf>.<br><br>" +
-                        "Если вы будете настойчивы в своих действиях то вас ждет <bf>${
-                            getMeaningForRune(
-                                userLayout[1]
-                            )
-                        }</bf>."
+                    "Ваше текущее состояние можно описать как <bf>${getMeaningForRune(userLayout[6])}</bf>.<br><br>" +
+                            "Ваша проблема - это <bf>${getMeaningForRune(userLayout[2])}</bf>, " +
+                            "но для её решения вы должны опираться на <bf>${getMeaningForRune(userLayout[3])}</bf>.<br><br>" +
+                            "Если вы будете настойчивы в своих действиях то вас ждет <bf>${
+                                getMeaningForRune(
+                                        userLayout[1]
+                                )
+                            }</bf>."
             5 -> result =
-                "В прошлом вы ощущали <bf>${getMeaningForRune(userLayout[2])}</bf>.<br><br>" +
-                        "В настоящее время Вы чувствуете <bf>${getMeaningForRune(userLayout[5])}</bf>.<br><br>" +
-                        "В будущем вас ожидает <bf>${getMeaningForRune(userLayout[1])}</bf>."
+                    "В прошлом вы ощущали <bf>${getMeaningForRune(userLayout[2])}</bf>.<br><br>" +
+                            "В настоящее время Вы чувствуете <bf>${getMeaningForRune(userLayout[5])}</bf>.<br><br>" +
+                            "В будущем вас ожидает <bf>${getMeaningForRune(userLayout[1])}</bf>."
             6 -> result =
-                "В прошлом вы ощущали <bf>${getMeaningForRune(userLayout[5])}</bf>.<br><br>" +
-                        "Настоящее (в том числе проблема) может быть описано как <bf>${
-                            getMeaningForRune(
-                                userLayout[2]
-                            )
-                        }</bf>.<br><br>" +
-                        "При естественном развитии ситуации, Вас ожидает <bf>${
-                            getMeaningForRune(
-                                userLayout[6]
-                            )
-                        }</bf>, " +
-                        "причем есть сила, а именно <bf>${getMeaningForRune(userLayout[3])}</bf>, на которую Вы не можете влиять.<br><br>" +
-                        "Но если Судьба принесет вам помощь - <bf>${getMeaningForRune(userLayout[1])}</bf>, то Вас ждет лучшее будущее."
+                    "В прошлом вы ощущали <bf>${getMeaningForRune(userLayout[5])}</bf>.<br><br>" +
+                            "Настоящее (в том числе проблема) может быть описано как <bf>${
+                                getMeaningForRune(
+                                        userLayout[2]
+                                )
+                            }</bf>.<br><br>" +
+                            "При естественном развитии ситуации, Вас ожидает <bf>${
+                                getMeaningForRune(
+                                        userLayout[6]
+                                )
+                            }</bf>, " +
+                            "причем есть сила, а именно <bf>${getMeaningForRune(userLayout[3])}</bf>, на которую Вы не можете влиять.<br><br>" +
+                            "Но если Судьба принесет вам помощь - <bf>${getMeaningForRune(userLayout[1])}</bf>, то Вас ждет лучшее будущее."
             7 -> result =
-                "Вам, как человеку, присуща важная черта - <bf>${getMeaningForRune(userLayout[2])}</bf>, " +
-                        "и в настоящее время с Вами происходит <bf>${getMeaningForRune(userLayout[6])}</bf>.<br><br>" +
-                        "Источником Ваших проблем может быть <bf>${getMeaningForRune(userLayout[3])}</bf>.<br><br>" +
-                        "Наиболее вероятное будущее может быть описано как <bf>${
-                            getMeaningForRune(
-                                userLayout[5]
-                            )
-                        }</bf>.<br><br>" +
-                        "Для достижения этого результата, Ваша главная цель - <bf>${
-                            getMeaningForRune(
-                                userLayout[1]
-                            )
-                        }</bf>.<br><br>" +
-                        "Если же Вы не достигнете поставленной цели - вас ждет <bf>${
-                            getMeaningForRune(
-                                userLayout[0]
-                            )
-                        }</bf>."
+                    "Вам, как человеку, присуща важная черта - <bf>${getMeaningForRune(userLayout[2])}</bf>, " +
+                            "и в настоящее время с Вами происходит <bf>${getMeaningForRune(userLayout[6])}</bf>.<br><br>" +
+                            "Источником Ваших проблем может быть <bf>${getMeaningForRune(userLayout[3])}</bf>.<br><br>" +
+                            "Наиболее вероятное будущее может быть описано как <bf>${
+                                getMeaningForRune(
+                                        userLayout[5]
+                                )
+                            }</bf>.<br><br>" +
+                            "Для достижения этого результата, Ваша главная цель - <bf>${
+                                getMeaningForRune(
+                                        userLayout[1]
+                                )
+                            }</bf>.<br><br>" +
+                            "Если же Вы не достигнете поставленной цели - вас ждет <bf>${
+                                getMeaningForRune(
+                                        userLayout[0]
+                                )
+                            }</bf>."
             8 -> result =
-                "В настоящее время с Вами происходит <bf>${getMeaningForRune(userLayout[2])}</bf>, " +
-                        "что является следствием вашего прошлого - <bf>${
-                            getMeaningForRune(
-                                userLayout[6]
-                            )
-                        }</bf>.<br><br>" +
-                        "Чтобы достичь <bf>${getMeaningForRune(userLayout[5])}</bf> в будущем, " +
-                        "вам необходимо обратить внимание на <bf>${getMeaningForRune(userLayout[4])}</bf>.<br><br>" +
-                        "Возможно, причиной ваших трудностей является <bf>${
-                            getMeaningForRune(
-                                userLayout[3]
-                            )
-                        }</bf>.<br><br>" +
-                        "Лучшее, чего Вы можете ожидать - это <bf>${getMeaningForRune(userLayout[1])}</bf>.<br><br>" +
-                        "В результате, вас ждет <bf>${getMeaningForRune(userLayout[0])}</bf>."
+                    "В настоящее время с Вами происходит <bf>${getMeaningForRune(userLayout[2])}</bf>, " +
+                            "что является следствием вашего прошлого - <bf>${
+                                getMeaningForRune(
+                                        userLayout[6]
+                                )
+                            }</bf>.<br><br>" +
+                            "Чтобы достичь <bf>${getMeaningForRune(userLayout[5])}</bf> в будущем, " +
+                            "вам необходимо обратить внимание на <bf>${getMeaningForRune(userLayout[4])}</bf>.<br><br>" +
+                            "Возможно, причиной ваших трудностей является <bf>${
+                                getMeaningForRune(
+                                        userLayout[3]
+                                )
+                            }</bf>.<br><br>" +
+                            "Лучшее, чего Вы можете ожидать - это <bf>${getMeaningForRune(userLayout[1])}</bf>.<br><br>" +
+                            "В результате, вас ждет <bf>${getMeaningForRune(userLayout[0])}</bf>."
             else -> result = "lol dude"
         }
         currentInterpretation.postValue(result)
@@ -306,16 +306,16 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         var currentDate = System.currentTimeMillis() / 1000L
         CoroutineScope(IO).launch {
             var userLayout = UserLayoutModel(
-                userId,
-                currentDate,
-                layoutId,
-                userLayoutRunes[0],
-                userLayoutRunes[1],
-                userLayoutRunes[2],
-                userLayoutRunes[3],
-                userLayoutRunes[4],
-                userLayoutRunes[5],
-                userLayoutRunes[6]
+                    userId,
+                    currentDate,
+                    layoutId,
+                    userLayoutRunes[0],
+                    userLayoutRunes[1],
+                    userLayoutRunes[2],
+                    userLayoutRunes[3],
+                    userLayoutRunes[4],
+                    userLayoutRunes[5],
+                    userLayoutRunes[6]
             )
             DatabaseRepository.addUserLayout(userLayout)
         }
@@ -331,21 +331,21 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             3 -> ausp = getAuspForRune(userLayout[5])
             4 -> ausp = (getAuspForRune(userLayout[1]) + getAuspForRune(userLayout[3])) / 2
             5 -> ausp =
-                (getAuspForRune(userLayout[5]) + getAuspForRune(userLayout[1]) + getAuspForRune(
-                    userLayout[6]
-                )) / 3
+                    (getAuspForRune(userLayout[5]) + getAuspForRune(userLayout[1]) + getAuspForRune(
+                            userLayout[6]
+                    )) / 3
             6 -> ausp =
-                (getAuspForRune(userLayout[3]) + getAuspForRune(userLayout[1]) + getAuspForRune(
-                    userLayout[6]
-                )) / 3
+                    (getAuspForRune(userLayout[3]) + getAuspForRune(userLayout[1]) + getAuspForRune(
+                            userLayout[6]
+                    )) / 3
             7 -> ausp =
-                (getAuspForRune(userLayout[0]) + getAuspForRune(userLayout[1]) + getAuspForRune(
-                    userLayout[5]
-                )) / 3
+                    (getAuspForRune(userLayout[0]) + getAuspForRune(userLayout[1]) + getAuspForRune(
+                            userLayout[5]
+                    )) / 3
             8 -> ausp =
-                (getAuspForRune(userLayout[0]) + getAuspForRune(userLayout[1]) + getAuspForRune(
-                    userLayout[5]
-                ) + getAuspForRune(userLayout[4])) / 4
+                    (getAuspForRune(userLayout[0]) + getAuspForRune(userLayout[1]) + getAuspForRune(
+                            userLayout[5]
+                    ) + getAuspForRune(userLayout[4])) / 4
         }
         currentAusp.postValue(ausp)
     }
@@ -476,11 +476,11 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         CoroutineScope(IO).launch {
             try {
                 val response = RetrofitClient.apiInterface.createUser(
-                    UserInfo(
-                        userId,
-                        timeStamp,
-                        androidVersion
-                    )
+                        UserInfo(
+                                userId,
+                                timeStamp,
+                                androidVersion
+                        )
                 )
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful) {
