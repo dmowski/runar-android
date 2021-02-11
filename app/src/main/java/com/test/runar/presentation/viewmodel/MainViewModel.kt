@@ -29,8 +29,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     var preferencesRepository = SharedPreferencesRepository(application)
     var currentAusp = MutableLiveData(0)
     var currentAffirm = MutableLiveData("")
-    var runesData : List<RuneDescriptionModel> = emptyList()
-    var affirmData : List<AffimDescriptionModel> = emptyList()
+    var runesData: List<RuneDescriptionModel> = emptyList()
+    var affirmData: List<AffimDescriptionModel> = emptyList()
     var currentInterpretation = MutableLiveData("")
     var lastUserLayoutId = MutableLiveData<Int>(null)
     var selectedRune = MutableLiveData<RuneDescriptionModel>(null)
@@ -39,159 +39,268 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     var readyToDialog = MutableLiveData(true)
 
 
-    var layoutInterpretationData: LiveData<Pair<LayoutDescriptionModel,Array<Int>>> = object : MediatorLiveData<Pair<LayoutDescriptionModel,Array<Int>>>(){
-        var currentLayout: LayoutDescriptionModel? = null
-        var userLayout: Array<Int>? = null
-        init{
-            addSource(selectedLayout){
-                currentLayout ->
-                this.currentLayout = currentLayout
-                userLayout?.let { value = currentLayout to it }
-            }
-            addSource(currentUserLayout){
-                userLayout ->
-                this.userLayout = userLayout
-                currentLayout?.let { value = it to userLayout }
+    var layoutInterpretationData: LiveData<Pair<LayoutDescriptionModel, Array<Int>>> =
+        object : MediatorLiveData<Pair<LayoutDescriptionModel, Array<Int>>>() {
+            var currentLayout: LayoutDescriptionModel? = null
+            var userLayout: Array<Int>? = null
+
+            init {
+                addSource(selectedLayout) { currentLayout ->
+                    this.currentLayout = currentLayout
+                    userLayout?.let { value = currentLayout to it }
+                }
+                addSource(currentUserLayout) { userLayout ->
+                    this.userLayout = userLayout
+                    currentLayout?.let { value = it to userLayout }
+                }
             }
         }
-    }
 
-    fun setDialogReady(state: Boolean){
+    fun setDialogReady(state: Boolean) {
         readyToDialog.postValue(state)
     }
-    fun pressBackButton(state: Boolean){
+
+    fun pressBackButton(state: Boolean) {
         backButtonPressed.postValue(state)
     }
 
-    fun setFontSize(size: Float){
+    fun setFontSize(size: Float) {
         fontSize.postValue(size)
     }
 
-    fun getSelectedRuneData(id: Int){
+    fun getSelectedRuneData(id: Int) {
         var layoutId = selectedLayout.value?.layoutId
         var userLayout = currentUserLayout.value!!
-        var runeId =0
-        when(layoutId){
-            2->{
-                when(id){
-                    0->{runeId = userLayout[2]}
-                    1->{runeId = userLayout[6]}
+        var runeId = 0
+        when (layoutId) {
+            2 -> {
+                when (id) {
+                    0 -> {
+                        runeId = userLayout[2]
+                    }
+                    1 -> {
+                        runeId = userLayout[6]
+                    }
                 }
             }
-            3->{
-                when(id){
-                    2->{runeId = userLayout[5]}
-                    1->{runeId = userLayout[2]}
-                    0->{runeId = userLayout[6]}
+            3 -> {
+                when (id) {
+                    2 -> {
+                        runeId = userLayout[5]
+                    }
+                    1 -> {
+                        runeId = userLayout[2]
+                    }
+                    0 -> {
+                        runeId = userLayout[6]
+                    }
                 }
             }
-            4->{
-                when(id){
-                    3->{runeId = userLayout[1]}
-                    1->{runeId = userLayout[2]}
-                    2->{runeId = userLayout[3]}
-                    0->{runeId = userLayout[6]}
+            4 -> {
+                when (id) {
+                    3 -> {
+                        runeId = userLayout[1]
+                    }
+                    1 -> {
+                        runeId = userLayout[2]
+                    }
+                    2 -> {
+                        runeId = userLayout[3]
+                    }
+                    0 -> {
+                        runeId = userLayout[6]
+                    }
                 }
             }
-            5->{
-                when(id){
-                    3->{runeId = userLayout[1]}
-                    1->{runeId = userLayout[5]}
-                    2->{runeId = userLayout[6]}
-                    0->{runeId = userLayout[2]}
+            5 -> {
+                when (id) {
+                    3 -> {
+                        runeId = userLayout[1]
+                    }
+                    1 -> {
+                        runeId = userLayout[5]
+                    }
+                    2 -> {
+                        runeId = userLayout[6]
+                    }
+                    0 -> {
+                        runeId = userLayout[2]
+                    }
                 }
             }
-            6->{
-                when(id){
-                    3->{runeId = userLayout[1]}
-                    1->{runeId = userLayout[2]}
-                    4->{runeId = userLayout[3]}
-                    0->{runeId = userLayout[5]}
-                    2->{runeId = userLayout[6]}
+            6 -> {
+                when (id) {
+                    3 -> {
+                        runeId = userLayout[1]
+                    }
+                    1 -> {
+                        runeId = userLayout[2]
+                    }
+                    4 -> {
+                        runeId = userLayout[3]
+                    }
+                    0 -> {
+                        runeId = userLayout[5]
+                    }
+                    2 -> {
+                        runeId = userLayout[6]
+                    }
                 }
             }
-            7->{
-                when(id){
-                    5->{runeId = userLayout[0]}
-                    4->{runeId = userLayout[1]}
-                    1->{runeId = userLayout[2]}
-                    3->{runeId = userLayout[3]}
-                    2->{runeId = userLayout[5]}
-                    0->{runeId = userLayout[6]}
+            7 -> {
+                when (id) {
+                    5 -> {
+                        runeId = userLayout[0]
+                    }
+                    4 -> {
+                        runeId = userLayout[1]
+                    }
+                    1 -> {
+                        runeId = userLayout[2]
+                    }
+                    3 -> {
+                        runeId = userLayout[3]
+                    }
+                    2 -> {
+                        runeId = userLayout[5]
+                    }
+                    0 -> {
+                        runeId = userLayout[6]
+                    }
                 }
             }
-            8->{
-                when(id){
-                    6->{runeId = userLayout[0]}
-                    5->{runeId = userLayout[1]}
-                    0->{runeId = userLayout[2]}
-                    4->{runeId = userLayout[3]}
-                    3->{runeId = userLayout[4]}
-                    2->{runeId = userLayout[5]}
-                    1->{runeId = userLayout[6]}
+            8 -> {
+                when (id) {
+                    6 -> {
+                        runeId = userLayout[0]
+                    }
+                    5 -> {
+                        runeId = userLayout[1]
+                    }
+                    0 -> {
+                        runeId = userLayout[2]
+                    }
+                    4 -> {
+                        runeId = userLayout[3]
+                    }
+                    3 -> {
+                        runeId = userLayout[4]
+                    }
+                    2 -> {
+                        runeId = userLayout[5]
+                    }
+                    1 -> {
+                        runeId = userLayout[6]
+                    }
                 }
             }
         }
-        for(rune in runesData){
-            if(rune.runeId==runeId){
+        for (rune in runesData) {
+            if (rune.runeId == runeId) {
                 selectedRune.postValue(rune)
             }
         }
     }
 
-    fun setLastUserLayout(id: Int){
+    fun setLastUserLayout(id: Int) {
         lastUserLayoutId.value = id
     }
 
-    fun getInterpretation(){
+    fun getInterpretation() {
         var layoutId = selectedLayout.value?.layoutId
         var userLayout = currentUserLayout.value!!
-        var result : String =""
-        when(layoutId){
-            1-> result = getFullDescriptionForRune(userLayout[2])+"."
-            2-> {
+        var result: String = ""
+        when (layoutId) {
+            1 -> result = getFullDescriptionForRune(userLayout[2]) + "."
+            2 -> {
                 CoroutineScope(IO).launch {
-                    val index =userLayout[2]*100+userLayout[6]
+                    val index = userLayout[2] * 100 + userLayout[6]
                     val inter = DatabaseRepository.getTwoRunesInterpretation(index)
                     currentInterpretation.postValue("Ваше настоящее положение дел можно охарактеризовать как <bf>$inter</bf>.")
                 }
                 return
             }
-            3->result = "Общее положение Ваших дел может быть описано как <bf>${getMeaningForRune(userLayout[6])}</bf>.<br><br>" +
-                    "Самое пристальное внимание обратите на проблему с вашим <bf>${getMeaningForRune(userLayout[2])}</bf>.<br><br>" +
-                    "Для решения данной проблемы, определитесь с <bf>${getMeaningForRune(userLayout[5])}</bf>."
-            4->result = "Ваше текущее состояние можно описать как <bf>${getMeaningForRune(userLayout[6])}</bf>.<br><br>" +
-                    "Ваша проблема - это <bf>${getMeaningForRune(userLayout[2])}</bf>, " +
-                    "но для её решения вы должны опираться на <bf>${getMeaningForRune(userLayout[3])}</bf>.<br><br>" +
-                    "Если вы будете настойчивы в своих действиях то вас ждет <bf>${getMeaningForRune(userLayout[1])}</bf>."
-            5->result = "В прошлом вы ощущали <bf>${getMeaningForRune(userLayout[2])}</bf>.<br><br>" +
-                    "В настоящее время Вы чувствуете <bf>${getMeaningForRune(userLayout[5])}</bf>.<br><br>" +
-                    "В будущем вас ожидает <bf>${getMeaningForRune(userLayout[1])}</bf>."
-            6->result = "В прошлом вы ощущали <bf>${getMeaningForRune(userLayout[5])}</bf>.<br><br>" +
-                    "Настоящее (в том числе проблема) может быть описано как <bf>${getMeaningForRune(userLayout[2])}</bf>.<br><br>" +
-                    "При естественном развитии ситуации, Вас ожидает <bf>${getMeaningForRune(userLayout[6])}</bf>, " +
-                    "причем есть сила, а именно <bf>${getMeaningForRune(userLayout[3])}</bf>, на которую Вы не можете влиять.<br><br>" +
-                    "Но если Судьба принесет вам помощь - <bf>${getMeaningForRune(userLayout[1])}</bf>, то Вас ждет лучшее будущее."
-            7->result = "Вам, как человеку, присуща важная черта - <bf>${getMeaningForRune(userLayout[2])}</bf>, " +
-                    "и в настоящее время с Вами происходит <bf>${getMeaningForRune(userLayout[6])}</bf>.<br><br>" +
-                    "Источником Ваших проблем может быть <bf>${getMeaningForRune(userLayout[3])}</bf>.<br><br>" +
-                    "Наиболее вероятное будущее может быть описано как <bf>${getMeaningForRune(userLayout[5])}</bf>.<br><br>" +
-                    "Для достижения этого результата, Ваша главная цель - <bf>${getMeaningForRune(userLayout[1])}</bf>.<br><br>" +
-                    "Если же Вы не достигнете поставленной цели - вас ждет <bf>${getMeaningForRune(userLayout[0])}</bf>."
-            8->result ="В настоящее время с Вами происходит <bf>${getMeaningForRune(userLayout[2])}</bf>, " +
-                    "что является следствием вашего прошлого - <bf>${getMeaningForRune(userLayout[6])}</bf>.<br><br>" +
-                    "Чтобы достичь <bf>${getMeaningForRune(userLayout[5])}</bf> в будущем, " +
-                    "вам необходимо обратить внимание на <bf>${getMeaningForRune(userLayout[4])}</bf>.<br><br>" +
-                    "Возможно, причиной ваших трудностей является <bf>${getMeaningForRune(userLayout[3])}</bf>.<br><br>" +
-                    "Лучшее, чего Вы можете ожидать - это <bf>${getMeaningForRune(userLayout[1])}</bf>.<br><br>" +
-                    "В результате, вас ждет <bf>${getMeaningForRune(userLayout[0])}</bf>."
-            else ->result = "lol dude"
+            3 -> result =
+                "Общее положение Ваших дел может быть описано как <bf>${getMeaningForRune(userLayout[6])}</bf>.<br><br>" +
+                        "Самое пристальное внимание обратите на проблему с вашим <bf>${
+                            getMeaningForRune(
+                                userLayout[2]
+                            )
+                        }</bf>.<br><br>" +
+                        "Для решения данной проблемы, определитесь с <bf>${
+                            getMeaningForRune(
+                                userLayout[5]
+                            )
+                        }</bf>."
+            4 -> result =
+                "Ваше текущее состояние можно описать как <bf>${getMeaningForRune(userLayout[6])}</bf>.<br><br>" +
+                        "Ваша проблема - это <bf>${getMeaningForRune(userLayout[2])}</bf>, " +
+                        "но для её решения вы должны опираться на <bf>${getMeaningForRune(userLayout[3])}</bf>.<br><br>" +
+                        "Если вы будете настойчивы в своих действиях то вас ждет <bf>${
+                            getMeaningForRune(
+                                userLayout[1]
+                            )
+                        }</bf>."
+            5 -> result =
+                "В прошлом вы ощущали <bf>${getMeaningForRune(userLayout[2])}</bf>.<br><br>" +
+                        "В настоящее время Вы чувствуете <bf>${getMeaningForRune(userLayout[5])}</bf>.<br><br>" +
+                        "В будущем вас ожидает <bf>${getMeaningForRune(userLayout[1])}</bf>."
+            6 -> result =
+                "В прошлом вы ощущали <bf>${getMeaningForRune(userLayout[5])}</bf>.<br><br>" +
+                        "Настоящее (в том числе проблема) может быть описано как <bf>${
+                            getMeaningForRune(
+                                userLayout[2]
+                            )
+                        }</bf>.<br><br>" +
+                        "При естественном развитии ситуации, Вас ожидает <bf>${
+                            getMeaningForRune(
+                                userLayout[6]
+                            )
+                        }</bf>, " +
+                        "причем есть сила, а именно <bf>${getMeaningForRune(userLayout[3])}</bf>, на которую Вы не можете влиять.<br><br>" +
+                        "Но если Судьба принесет вам помощь - <bf>${getMeaningForRune(userLayout[1])}</bf>, то Вас ждет лучшее будущее."
+            7 -> result =
+                "Вам, как человеку, присуща важная черта - <bf>${getMeaningForRune(userLayout[2])}</bf>, " +
+                        "и в настоящее время с Вами происходит <bf>${getMeaningForRune(userLayout[6])}</bf>.<br><br>" +
+                        "Источником Ваших проблем может быть <bf>${getMeaningForRune(userLayout[3])}</bf>.<br><br>" +
+                        "Наиболее вероятное будущее может быть описано как <bf>${
+                            getMeaningForRune(
+                                userLayout[5]
+                            )
+                        }</bf>.<br><br>" +
+                        "Для достижения этого результата, Ваша главная цель - <bf>${
+                            getMeaningForRune(
+                                userLayout[1]
+                            )
+                        }</bf>.<br><br>" +
+                        "Если же Вы не достигнете поставленной цели - вас ждет <bf>${
+                            getMeaningForRune(
+                                userLayout[0]
+                            )
+                        }</bf>."
+            8 -> result =
+                "В настоящее время с Вами происходит <bf>${getMeaningForRune(userLayout[2])}</bf>, " +
+                        "что является следствием вашего прошлого - <bf>${
+                            getMeaningForRune(
+                                userLayout[6]
+                            )
+                        }</bf>.<br><br>" +
+                        "Чтобы достичь <bf>${getMeaningForRune(userLayout[5])}</bf> в будущем, " +
+                        "вам необходимо обратить внимание на <bf>${getMeaningForRune(userLayout[4])}</bf>.<br><br>" +
+                        "Возможно, причиной ваших трудностей является <bf>${
+                            getMeaningForRune(
+                                userLayout[3]
+                            )
+                        }</bf>.<br><br>" +
+                        "Лучшее, чего Вы можете ожидать - это <bf>${getMeaningForRune(userLayout[1])}</bf>.<br><br>" +
+                        "В результате, вас ждет <bf>${getMeaningForRune(userLayout[0])}</bf>."
+            else -> result = "lol dude"
         }
         currentInterpretation.postValue(result)
     }
 
-    fun saveUserLayout(){
-        var userId = preferencesRepository.getUserId()
+    fun saveUserLayout() {
+        var userId = preferencesRepository.userId
         var layoutId = selectedLayout.value?.layoutId
         var userLayoutRunes = currentUserLayout.value!!
         var currentDate = System.currentTimeMillis() / 1000L
@@ -212,40 +321,53 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun getAuspForCurrentLayout(){
+    fun getAuspForCurrentLayout() {
         var layoutId = selectedLayout.value?.layoutId
-        var ausp : Int = 0
+        var ausp: Int = 0
         var userLayout = currentUserLayout.value!!
-        when(layoutId){
-            1-> ausp = getAuspForRune(userLayout[2])
-            2-> ausp = (getAuspForRune(userLayout[2])+getAuspForRune(userLayout[6]))/2
-            3-> ausp = getAuspForRune(userLayout[5])
-            4-> ausp = (getAuspForRune(userLayout[1])+getAuspForRune(userLayout[3]))/2
-            5-> ausp = (getAuspForRune(userLayout[5])+getAuspForRune(userLayout[1])+getAuspForRune(userLayout[6]))/3
-            6-> ausp = (getAuspForRune(userLayout[3])+getAuspForRune(userLayout[1])+getAuspForRune(userLayout[6]))/3
-            7-> ausp = (getAuspForRune(userLayout[0])+getAuspForRune(userLayout[1])+getAuspForRune(userLayout[5]))/3
-            8-> ausp = (getAuspForRune(userLayout[0])+getAuspForRune(userLayout[1])+getAuspForRune(userLayout[5])+getAuspForRune(userLayout[4]))/4
+        when (layoutId) {
+            1 -> ausp = getAuspForRune(userLayout[2])
+            2 -> ausp = (getAuspForRune(userLayout[2]) + getAuspForRune(userLayout[6])) / 2
+            3 -> ausp = getAuspForRune(userLayout[5])
+            4 -> ausp = (getAuspForRune(userLayout[1]) + getAuspForRune(userLayout[3])) / 2
+            5 -> ausp =
+                (getAuspForRune(userLayout[5]) + getAuspForRune(userLayout[1]) + getAuspForRune(
+                    userLayout[6]
+                )) / 3
+            6 -> ausp =
+                (getAuspForRune(userLayout[3]) + getAuspForRune(userLayout[1]) + getAuspForRune(
+                    userLayout[6]
+                )) / 3
+            7 -> ausp =
+                (getAuspForRune(userLayout[0]) + getAuspForRune(userLayout[1]) + getAuspForRune(
+                    userLayout[5]
+                )) / 3
+            8 -> ausp =
+                (getAuspForRune(userLayout[0]) + getAuspForRune(userLayout[1]) + getAuspForRune(
+                    userLayout[5]
+                ) + getAuspForRune(userLayout[4])) / 4
         }
         currentAusp.postValue(ausp)
     }
-    fun getAffimForCurrentLayout(ausp: Int){
-        while(true){
+
+    fun getAffimForCurrentLayout(ausp: Int) {
+        while (true) {
             var affirmElement = affirmData.random()
-            when(ausp){
-                in 0..19->{
+            when (ausp) {
+                in 0..19 -> {
                     currentAffirm.postValue(affirmElement.lvl1)
                     return
                 }
-                in 20..29->{
+                in 20..29 -> {
                     currentAffirm.postValue(affirmElement.lvl2)
                     return
                 }
-                in 30..39->{
+                in 30..39 -> {
                     currentAffirm.postValue(affirmElement.lvl3)
                     return
                 }
-                in 40..50->{
-                    if(affirmElement.lvl4!=null||affirmElement.lvl4!=""){
+                in 40..50 -> {
+                    if (affirmElement.lvl4 != null || affirmElement.lvl4 != "") {
                         currentAffirm.postValue(affirmElement.lvl4)
                         return
                     }
@@ -253,20 +375,22 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             }
         }
     }
-    fun clearAffirm(){
+
+    fun clearAffirm() {
         currentAffirm.postValue("")
     }
-    fun clearAusp(){
+
+    fun clearAusp() {
         currentAusp.postValue(null)
     }
 
-    fun clearInterpretation(){
+    fun clearInterpretation() {
         currentInterpretation.postValue(null)
     }
 
     fun getAuspForRune(id: Int): Int {
-        for(rune in runesData){
-            if(rune.runeId==id){
+        for (rune in runesData) {
+            if (rune.runeId == id) {
                 return rune.ausp!!
             }
         }
@@ -274,8 +398,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun getMeaningForRune(id: Int): String {
-        for(rune in runesData){
-            if(rune.runeId==id){
+        for (rune in runesData) {
+            if (rune.runeId == id) {
                 return rune.meaning!!
             }
         }
@@ -283,21 +407,21 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun getFullDescriptionForRune(id: Int): String {
-        for(rune in runesData){
-            if(rune.runeId==id){
+        for (rune in runesData) {
+            if (rune.runeId == id) {
                 return rune.fullDescription!!
             }
         }
         return ""
     }
 
-    fun getRuneDataFromDB(){
+    fun getRuneDataFromDB() {
         CoroutineScope(IO).launch {
             runesData = DatabaseRepository.getRunesList()
         }
     }
 
-    fun getAffirmationsDataFromDB(){
+    fun getAffirmationsDataFromDB() {
         CoroutineScope(IO).launch {
             affirmData = DatabaseRepository.getAffirmList()
         }
@@ -310,7 +434,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun getLayoutDescription( id: Int) {
+    fun getLayoutDescription(id: Int) {
         CoroutineScope(IO).launch {
             selectedLayout.postValue(DatabaseRepository.getLayoutDetails(id))
         }
@@ -320,11 +444,11 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         selectedLayout.postValue(null)
     }
 
-    fun setCurrentUserLayout(currentLayout: Array<Int>){
+    fun setCurrentUserLayout(currentLayout: Array<Int>) {
         currentUserLayout.postValue(currentLayout)
     }
 
-    fun clearUserLayoutData(){
+    fun clearUserLayoutData() {
         currentUserLayout.postValue(null)
     }
 
@@ -338,20 +462,26 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         showStatus.postValue(3)
     }
 
-    fun closeDB(){
+    fun closeDB() {
         CoroutineScope(IO).launch {
             DatabaseRepository.closeDB()
         }
     }
 
     fun identify() {
-        var userId = preferencesRepository.getUserId()
-        var timeStamp = System.currentTimeMillis() / 1000L
-        var androidVersion = "Android " + Build.VERSION.RELEASE
+        val userId = preferencesRepository.userId
+        val timeStamp = System.currentTimeMillis() / 1000L
+        val androidVersion = "Android " + Build.VERSION.RELEASE
         Log.d("Log", androidVersion)
         CoroutineScope(IO).launch {
             try {
-                val response = RetrofitClient.apiInterface.createUser(UserInfo(userId, timeStamp, androidVersion))
+                val response = RetrofitClient.apiInterface.createUser(
+                    UserInfo(
+                        userId,
+                        timeStamp,
+                        androidVersion
+                    )
+                )
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful) {
                         Log.d("Log", response.message().toString())
