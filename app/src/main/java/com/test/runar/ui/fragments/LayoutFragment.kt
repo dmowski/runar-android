@@ -104,8 +104,8 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
             else -> 8
         }
         val navController = findNavController()
-        model.descriptionCheck(requireContext(), dest)
-        model.getLayoutDescription(requireContext(), dest)
+        model.descriptionCheck(dest)
+        model.getLayoutDescription(dest)
         model.showStatus.observe(viewLifecycleOwner) {
             when (it) {
                 0 -> {

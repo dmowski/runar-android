@@ -1,21 +1,16 @@
 package com.test.runar.ui.activity
 
-import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.test.runar.R
 import com.test.runar.presentation.viewmodel.MainViewModel
 import com.test.runar.ui.dialogs.CancelDialog
-
 import java.util.*
-
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
     private lateinit var viewModel: MainViewModel
@@ -29,8 +24,8 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
             initBottomNavBar()
         }
         model.identify()
-        model.getRuneDataFromDB(this)
-        model.getAffirmationsDataFromDB(this)
+        model.getRuneDataFromDB()
+        model.getAffirmationsDataFromDB()
         supportActionBar?.hide()
 
         model.readyToDialog.observe(this){
@@ -67,7 +62,6 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
                 else viewModel.pressBackButton(true)
             }
             R.id.layoutFragment -> android.os.Process.killProcess(android.os.Process.myPid())
-            R.id.favFragment -> navController.navigate(R.id.layoutFragment)
             else -> super.onBackPressed()
         }
     }
