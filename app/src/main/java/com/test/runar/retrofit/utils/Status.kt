@@ -1,7 +1,7 @@
 package com.test.runar.retrofit.utils
 
-enum class Status {
-    SUCCESS,
-    ERROR,
-    LOADING
+sealed class Status {
+    object SUCCESS : Status()
+    object ERROR : Status()
+    object LOADING : Status()
 }
