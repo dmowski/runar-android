@@ -38,11 +38,6 @@ class LayoutProcessingFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_layout_processing, container, false)
         progressLoading = view.findViewById(R.id.progress)
-        nextButton = view.findViewById(R.id.button_go_to_site)
-        nextButton?.setOnClickListener {
-            val navController = findNavController()
-            navController.navigate(R.id.favFragment)
-        }
 
 //
 //         val runnable = Runnable {
