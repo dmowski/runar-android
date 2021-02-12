@@ -44,6 +44,16 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentLayoutsBinding.bind(view)
 
+        setClickListenerOnRuneLayouts()
+        setupArrows()
+    }
+
+    override fun onDestroyView() {
+        _binding = null
+        super.onDestroyView()
+    }
+
+    private fun setClickListenerOnRuneLayouts() {
         with(binding) {
             val listOfView = listOf(
                 firstLayout,
@@ -55,9 +65,13 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
                 seventhLayout,
                 eightLayout
             )
-            setOnClickListenerOnAllView(listOfView)
+            for (view in listOfView) {
+                view.setOnClickListener(this@LayoutFragment)
+            }
         }
+    }
 
+    private fun setupArrows() {
         val metrics: DisplayMetrics = requireContext().resources.displayMetrics
         val ratio = metrics.heightPixels.toFloat() / metrics.widthPixels.toFloat()
 
@@ -70,11 +84,8 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
                 binding.scrollView.fullScroll(ScrollView.FOCUS_DOWN)
             }
 
-            val heightOfLastChild = binding.scrollView.children.last().height
-            val heightOfScrollView = binding.scrollView.height
-
             binding.scrollView.setOnScrollChangeListener { _, _, scrollY, _, _ ->
-                val isBottomReached = heightOfLastChild - heightOfScrollView - scrollY == 0
+                val isBottomReached = binding.scrollView.children.last().height - binding.scrollView.height - scrollY == 0
                 showUpAndHideDownButtons(isBottomReached)
             }
 
@@ -82,11 +93,6 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
                 binding.scrollView.fullScroll(ScrollView.FOCUS_UP)
             }
         }
-    }
-
-    override fun onDestroyView() {
-        _binding = null
-        super.onDestroyView()
     }
 
     private fun showUpAndHideDownButtons(state: Boolean) {
@@ -141,11 +147,5 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
             currentWidth = bounds.width()
         }
         return textSize - 2f
-    }
-
-    private fun setOnClickListenerOnAllView(views: List<View>) {
-        for (view in views) {
-            view.setOnClickListener(this)
-        }
     }
 }
