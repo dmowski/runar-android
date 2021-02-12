@@ -18,6 +18,7 @@ class SplashViewModel : ViewModel() {
 
     init {
         viewModelScope.launch {
+
             delay(DELAY_BEFORE_START_LOADING)
             repeat(4){
                 _progress.postValue(25 * (it + 1))
