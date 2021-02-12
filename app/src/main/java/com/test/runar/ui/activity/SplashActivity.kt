@@ -2,22 +2,22 @@ package com.test.runar.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.ProgressBar
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.test.runar.R
+import com.test.runar.databinding.ActivitySplashBinding
 import com.test.runar.presentation.viewmodel.SplashViewModel
 
 class SplashActivity : AppCompatActivity() {
 
     private val viewModel: SplashViewModel by viewModels()
-    private var progressBarLoading: ProgressBar? = null
+    private lateinit var binding: ActivitySplashBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.splash_screen)
+        binding = ActivitySplashBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
-        progressBarLoading = findViewById(R.id.loadingProgress)
         setupViewModel()
     }
 
@@ -27,7 +27,7 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun updateProgress(progress: Int) {
-        progressBarLoading?.progress = progress
+        binding.loadingProgress.progress = progress
     }
 
     private fun launchMainActivity() {
