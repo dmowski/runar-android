@@ -16,6 +16,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
     private var readyToBack = true
     private val viewModel: MainViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

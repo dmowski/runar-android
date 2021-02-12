@@ -462,12 +462,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         showStatus.postValue(3)
     }
 
-    fun closeDB() {
-        CoroutineScope(IO).launch {
-            DatabaseRepository.closeDB()
-        }
-    }
-
     fun identify() {
         val userId = preferencesRepository.userId
         val timeStamp = System.currentTimeMillis() / 1000L
