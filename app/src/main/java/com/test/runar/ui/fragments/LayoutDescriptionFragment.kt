@@ -7,7 +7,6 @@ import android.widget.CheckBox
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -20,7 +19,7 @@ class LayoutDescriptionFragment : Fragment(R.layout.fragment_layout_description)
     private lateinit var checkBox: CheckBox
     private lateinit var header: TextView
     private lateinit var text: TextView
-    private var fontSize: Float =0f
+    private var fontSize: Float = 0f
     var layoutId: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,8 +40,8 @@ class LayoutDescriptionFragment : Fragment(R.layout.fragment_layout_description)
         text = view.findViewById(R.id.description_text_view)
         header =
             view.findViewById<FrameLayout>(R.id.description_header_frame).getChildAt(0) as TextView
-        model.fontSize.observe(viewLifecycleOwner){
-            if(it!=null){
+        model.fontSize.observe(viewLifecycleOwner) {
+            if (it != null) {
                 fontSize = it
                 model.selectedLayout.observe(viewLifecycleOwner) {
                     if (it != null) {
@@ -54,10 +53,6 @@ class LayoutDescriptionFragment : Fragment(R.layout.fragment_layout_description)
                 }
             }
         }
-    }
-
-    override fun onStop() {
-        super.onStop()
     }
 
     override fun onClick(v: View?) {
