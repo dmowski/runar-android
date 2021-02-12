@@ -7,40 +7,33 @@ import com.test.runar.model.UserLayoutModel
 import com.test.runar.room.AppDB
 
 object DatabaseRepository {
-    private val appDB: AppDB = AppDB.getLayoutDB()
+    private val appDao = AppDB.getLayoutDB().appDAO()
 
     suspend fun notShow(id: Int) {
-        appDB.appDAO().notShow(id)
+        appDao.notShow(id)
     }
 
     suspend fun getLayoutDetails(id: Int): LayoutDescriptionModel {
-        return appDB.appDAO().getLayoutDetails(id)
+        return appDao.getLayoutDetails(id)
     }
 
     suspend fun getShowStatus(id: Int): Int {
-        return appDB.appDAO().getShowStatus(id)
+        return appDao.getShowStatus(id)
     }
 
     suspend fun getRunesList(): List<RuneDescriptionModel> {
-        return appDB.appDAO().getRunesDetails()
+        return appDao.getRunesDetails()
     }
 
     suspend fun getAffirmList(): List<AffimDescriptionModel> {
-        return appDB.appDAO().getAffirmations()
+        return appDao.getAffirmations()
     }
 
     suspend fun getTwoRunesInterpretation(id: Int): String {
-        return appDB.appDAO().getTwoRunesInter(id)
+        return appDao.getTwoRunesInter(id)
     }
 
     suspend fun addUserLayout(data: UserLayoutModel) {
-        appDB.appDAO().addUserLayout(data)
+        appDao.addUserLayout(data)
     }
-
-    suspend fun closeDB() {
-        if (appDB.isOpen) {
-            appDB.close()
-        }
-    }
-
 }
