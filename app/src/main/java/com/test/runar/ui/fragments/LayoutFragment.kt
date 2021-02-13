@@ -14,8 +14,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.test.runar.R
-import com.test.runar.RunarLogger
 import com.test.runar.databinding.FragmentLayoutsBinding
+import com.test.runar.extensions.setOnCLickListenerForAll
 import com.test.runar.presentation.viewmodel.MainViewModel
 
 class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener {
@@ -65,9 +65,7 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
                 seventhLayout,
                 eightLayout
             )
-            for (view in listOfView) {
-                view.setOnClickListener(this@LayoutFragment)
-            }
+            listOfView.setOnCLickListenerForAll(this@LayoutFragment)
         }
     }
 
