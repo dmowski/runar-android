@@ -32,7 +32,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
 
     private lateinit var header: TextView
     private lateinit var runePosition: TextView
-    private lateinit var runeAusf: TextView
+    private lateinit var runeOpportuneness: TextView
     private lateinit var bottomRunesNav: ConstraintLayout
     private lateinit var interpretationFrame: ConstraintLayout
     private lateinit var mainConstraintLayout: ConstraintLayout
@@ -65,7 +65,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
 
     private var lastUserLayoutId =0
 
-    private var ausfText =""
+    private var auspText =""
 
     private var currentRunePosition =0
 
@@ -106,19 +106,19 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
             }
         }
         //get data about current layout
-        model.fontSize.observe(viewLifecycleOwner){
-            if (it!=null){
-                fontSize = it
-                model.layoutInterpretationData.observe(viewLifecycleOwner) {
+        model.fontSize.observe(viewLifecycleOwner){ interpretation ->
+            if (interpretation!=null){
+                fontSize = interpretation
+                model.layoutInterpretationData.observe(viewLifecycleOwner) { pair->
                     var currentId = 0
-                    if(it.second!=null){
-                        for(i in it.second) currentId+=i
-                        if (it != null && it.second[8] == it.first.layoutId&&lastUserLayoutId!=currentId) {
+                    if(pair.second!=null){
+                        for(i in pair.second) currentId+=i
+                        if (pair != null && pair.second[8] == pair.first.layoutId&&lastUserLayoutId!=currentId) {
                             model.setLastUserLayout(currentId)
                             runeHeight = runeHeightCalculator()
                             runeWidth = (runeHeight / 1.23).toInt()
-                            var userLayout = it.second
-                            var selectedLayout = it.first
+                            val userLayout = pair.second
+                            val selectedLayout = pair.first
                             layoutId = selectedLayout.layoutId!!
                             header.text = selectedLayout.layoutName
 
@@ -145,9 +145,9 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                                         val firstRuneId = userLayout[2]
 
                                         val ims = context?.assets?.open("runes/${firstRuneId}.png")
-                                        var firstRuneImage = Drawable.createFromStream(ims, null)
+                                        val firstRuneImage = Drawable.createFromStream(ims, null)
                                         firstRune.setBackgroundDrawable(firstRuneImage)
-                                        var firstRuneLayoutParams = ConstraintLayout.LayoutParams(runeWidth, runeHeight)
+                                        val firstRuneLayoutParams = ConstraintLayout.LayoutParams(runeWidth, runeHeight)
                                         firstRune.layoutParams = firstRuneLayoutParams
 
                                         this.runesLayout.addView(firstRune)
@@ -483,11 +483,11 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                             model.getAuspForCurrentLayout()
                             model.currentAusp.observe(viewLifecycleOwner) { ausp ->
                                 val testText = interpretationLayout.findViewById<TextView>(R.id.text)
-                                val affirmTextView = interpretationLayout.findViewById<TextView>(R.id.text_affim)
+                                val affirmTextView = binding.textAffim
                                 interpretationLayout.findViewById<FrameLayout>(R.id.description_button_frame).setOnClickListener(this)
                                 if (ausp != null) {
-                                    ausfText = "${requireContext().resources.getString(R.string.layout_interpretation_ausf)} - $ausp %"
-                                    testText.text = ausfText
+                                    auspText = "${requireContext().resources.getString(R.string.layout_interpretation_ausf)} - $ausp %"
+                                    testText.text = auspText
                                     if (ausp <= 50) {
                                         model.getAffimForCurrentLayout(ausp)
                                     }
@@ -501,22 +501,22 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                                     }
                                 }
                             }
-                            model.currentAffirm.observe(viewLifecycleOwner) {
-                                if (it != "" || it != null) {
-                                    val affimTextView = interpretationLayout.findViewById<TextView>(R.id.text_affim)
-                                    affimTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
-                                    affimTextView.text = it
+                            model.currentAffirm.observe(viewLifecycleOwner) {affirm->
+                                if (affirm != "" || affirm != null) {
+                                    val affirmTextView = binding.textAffim
+                                    affirmTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
+                                    affirmTextView.text = affirm
                                     model.getInterpretation()
                                 }
                             }
-                            model.currentInterpretation.observe(viewLifecycleOwner) {
-                                if (it != null) {
-                                    if (it.isNotEmpty()) {
-                                        var interpretationTextView = interpretationLayout.findViewById<TextView>(R.id.interpretation_text)
+                            model.currentInterpretation.observe(viewLifecycleOwner) {interpretation->
+                                if (interpretation != null) {
+                                    if (interpretation.isNotEmpty()) {
+                                        val interpretationTextView = binding.interpretationText
                                         interpretationTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
 
                                         val secondFont = ResourcesCompat.getFont(requireContext(), R.font.roboto_regular)
-                                        val interpretationText = it
+                                        val interpretationText = interpretation
                                         interpretationTextView.text = Html.fromHtml(interpretationText, null, InterTagHandler(secondFont!!))
                                         val backgroundLayout = interpretationFrame
                                         val backLayout = interpretationLayout
@@ -564,17 +564,17 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                 view.findViewById<ImageView>(R.id.left_arrow).setOnClickListener(this)
                 view.findViewById<ImageView>(R.id.right_arrow).setOnClickListener(this)
 
-                var runeName = view.findViewById<TextView>(R.id.rune_name)
+                val runeName = view.findViewById<TextView>(R.id.rune_name)
                 runePosition = view.findViewById<TextView>(R.id.rune_position)
-                runeAusf = view.findViewById<TextView>(R.id.rune_ausf)
-                var runeDescription = view.findViewById<TextView>(R.id.rune_description)
+                runeOpportuneness = view.findViewById<TextView>(R.id.rune_ausf)
+                val runeDescription = view.findViewById<TextView>(R.id.rune_description)
                 model.selectedRune.observe(viewLifecycleOwner){
                     if(it!=null){
                         runeName.text = it.runeName
                         runeDescription.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize - 3f)
                         runeDescription.text = it.fullDescription
                         val secondFont = ResourcesCompat.getFont(requireContext(), R.font.roboto_medium)
-                        runeAusf.text = Html.fromHtml("${requireContext().resources.getString(R.string.layout_interpretation_ausf)} - <bf>${it.ausp} %</bf>", null, InterTagHandler(secondFont!!))
+                        runeOpportuneness.text = Html.fromHtml("${requireContext().resources.getString(R.string.layout_interpretation_ausf)} - <bf>${it.ausp} %</bf>", null, InterTagHandler(secondFont!!))
                     }
                 }
             }
@@ -650,7 +650,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
         for (rune in runesViewList) {
             rune.foreground = ColorDrawable(Color.TRANSPARENT)
         }
-        var descriptionBack = runesLayout.findViewById<ConstraintLayout>(R.id.rune_description_back)
+        val descriptionBack = runesLayout.findViewById<ConstraintLayout>(R.id.rune_description_back)
         descriptionBack.visibility = View.GONE
     }
 
@@ -936,8 +936,8 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
             }
         }
 
-        var descriptionBack = runesLayout.findViewById<ConstraintLayout>(R.id.rune_description_back)
-        var backLayoutParams = descriptionBack.layoutParams
+        val descriptionBack = runesLayout.findViewById<ConstraintLayout>(R.id.rune_description_back)
+        val backLayoutParams = descriptionBack.layoutParams
         backLayoutParams.height = screenHeight - size
         descriptionBack.layoutParams = backLayoutParams
         descriptionBack.visibility = View.VISIBLE
