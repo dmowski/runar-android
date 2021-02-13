@@ -6,7 +6,6 @@ import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.text.Html
-import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
@@ -24,6 +23,7 @@ import com.test.runar.CustomClasses.OnSwipeTouchListener
 import com.test.runar.CustomView.OffsetImageView
 import com.test.runar.R
 import com.test.runar.presentation.viewmodel.MainViewModel
+import com.test.runar.databinding.FragmentLayoutInterpretationBinding
 
 class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpretation),
         View.OnClickListener {
@@ -67,7 +67,11 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
 
     private var ausfText =""
 
-    private var currentRunePosition =0;
+    private var currentRunePosition =0
+
+    private var _binding: FragmentLayoutInterpretationBinding? = null
+    private val binding
+        get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,6 +83,8 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        _binding = FragmentLayoutInterpretationBinding.bind(view)
+
         //set necessary views
         divider = view.findViewById(R.id.divider1)
         header = view.findViewById(R.id.header)
@@ -475,18 +481,18 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                             }
                             //runes description**
                             model.getAuspForCurrentLayout()
-                            model.currentAusp.observe(viewLifecycleOwner) {
-                                var testText = interpretationLayout.findViewById<TextView>(R.id.text)
-                                val affimTextView = interpretationLayout.findViewById<TextView>(R.id.text_affim)
+                            model.currentAusp.observe(viewLifecycleOwner) { ausp ->
+                                val testText = interpretationLayout.findViewById<TextView>(R.id.text)
+                                val affirmTextView = interpretationLayout.findViewById<TextView>(R.id.text_affim)
                                 interpretationLayout.findViewById<FrameLayout>(R.id.description_button_frame).setOnClickListener(this)
-                                if (it != null) {
-                                    ausfText = "${requireContext().resources.getString(R.string.layout_interpretation_ausf)} - $it %"
+                                if (ausp != null) {
+                                    ausfText = "${requireContext().resources.getString(R.string.layout_interpretation_ausf)} - $ausp %"
                                     testText.text = ausfText
-                                    if (it <= 50) {
-                                        model.getAffimForCurrentLayout(it)
+                                    if (ausp <= 50) {
+                                        model.getAffimForCurrentLayout(ausp)
                                     }
                                     else{
-                                        affimTextView.visibility = View.GONE
+                                        affirmTextView.visibility = View.GONE
                                         val constraintsSet = ConstraintSet()
                                         constraintsSet.clone(interpretationLayout)
                                         constraintsSet.clear(R.id.text,ConstraintSet.TOP)
