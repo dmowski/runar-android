@@ -3,17 +3,16 @@ package com.test.runar.ui.fragments
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.View
-import android.widget.FrameLayout
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.test.runar.R
+import com.test.runar.databinding.FragmentLayoutInitBinding
+import com.test.runar.extensions.setOnCLickListenerForAll
 import com.test.runar.presentation.viewmodel.MainViewModel
 import com.test.runar.ui.dialogs.CancelDialog
 import com.test.runar.ui.dialogs.DescriptionDialog
@@ -22,20 +21,21 @@ import kotlinx.coroutines.launch
 import kotlin.random.Random
 
 class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
-        View.OnClickListener {
+    View.OnClickListener {
     private lateinit var model: MainViewModel
-    private lateinit var header: TextView
-    private lateinit var buttonText: TextView
     private lateinit var headerText: String
     private lateinit var descriptionText: String
     private lateinit var layoutFrame: ConstraintLayout
-    private lateinit var button: FrameLayout
     private var fontSize: Float = 0f
     private var runeTable: Array<Array<Int>> = Array(7) { Array(2) { 0 } }
     private var runesList: Array<Array<Int>> = Array(25) { Array(2) { 0 } }
     private var layoutTable: Array<Int> = Array(9) { 0 }
     private var layoutId: Int? = 0
-    private var threadCounter =0
+    private var threadCounter = 0
+
+    private var _binding: FragmentLayoutInitBinding? = null
+    private val binding
+        get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,16 +48,13 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        view.findViewById<FrameLayout>(R.id.description_button_frame).setOnClickListener(this)
-        view.findViewById<ImageView>(R.id.exit_button).setOnClickListener(this)
-        view.findViewById<ImageView>(R.id.info_button).setOnClickListener(this)
-        view.findViewById<TextView>(R.id.text_info).setOnClickListener(this)
-        button = view.findViewById<FrameLayout>(R.id.description_button_frame)
-        header =
-                view.findViewById<FrameLayout>(R.id.description_header_frame).getChildAt(0) as TextView
-        buttonText = view.findViewById<FrameLayout>(R.id.description_button_frame).getChildAt(0) as TextView
-        model.fontSize.observe(viewLifecycleOwner){
-            if(it!=null){
+        _binding = FragmentLayoutInitBinding.bind(view)
+
+        val listOfView = listOf(binding.descriptionButtonFrame, binding.exitButton, binding.infoButton, binding.textInfo)
+        listOfView.setOnCLickListenerForAll(this)
+
+        model.fontSize.observe(viewLifecycleOwner) {
+            if (it != null) {
                 fontSize = it
             }
         }
@@ -65,10 +62,10 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
         model.selectedLayout.observe(viewLifecycleOwner) {
             if (it != null) {
                 layoutTable[8] = it.layoutId!!
-                header.text = it.layoutName
+                binding.descriptionHeaderFrame.text = it.layoutName
                 headerText = it.layoutName.toString()
                 descriptionText = it.layoutDescription.toString()
-                layoutFrame = view.findViewById<ConstraintLayout>(R.id.layoutFrame)
+                layoutFrame = view.findViewById(R.id.layoutFrame)
                 ((layoutFrame.getChildAt(0) as ConstraintLayout).getChildAt(0) as TextView).text = it.slot1.toString()
                 ((layoutFrame.getChildAt(1) as ConstraintLayout).getChildAt(0) as TextView).text = it.slot2.toString()
                 ((layoutFrame.getChildAt(2) as ConstraintLayout).getChildAt(0) as TextView).text = it.slot3.toString()
@@ -128,6 +125,11 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
         }
     }
 
+    override fun onDestroyView() {
+        _binding = null
+        super.onDestroyView()
+    }
+
     override fun onClick(v: View?) {
 
         val navController = findNavController()
@@ -139,11 +141,10 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
             R.id.description_button_frame -> {
                 var result = slotChanger()
                 if (result[1]) {
-                    buttonText.text = requireContext().resources.getString(R.string.layout_init_button_text2)
+                    binding.descriptionButtonFrame.text = requireContext().resources.getString(R.string.layout_init_button_text2)
                     model.setCurrentUserLayout(layoutTable)
-                }
-                else if (!result[0]) {
-                    if(layoutId==1){
+                } else if (!result[0]) {
+                    if (layoutId == 1) {
                         model.setCurrentUserLayout(layoutTable)
                     }
                     navController.navigate(R.id.action_layoutInitFragment_to_layoutProcessingFragment4)
@@ -188,7 +189,7 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
                     activeSlot.setOnClickListener {
                         var result = slotChanger()
                         if (result[1]) {
-                            buttonText.text = requireContext().resources.getString(R.string.layout_init_button_text2)
+                            binding.descriptionButtonFrame.text = requireContext().resources.getString(R.string.layout_init_button_text2)
                             model.setCurrentUserLayout(layoutTable)
                         }
                     }
@@ -222,7 +223,7 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
             slot.setOnClickListener {
                 var result = slotChanger()
                 if (result[1]) {
-                    buttonText.text = requireContext().resources.getString(R.string.layout_init_button_text2)
+                    binding.descriptionButtonFrame.text = requireContext().resources.getString(R.string.layout_init_button_text2)
                 }
             }
         }
@@ -248,9 +249,8 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
         }
     }
 
-    private fun blockButton(state: Boolean){
-        if(state) button.setOnClickListener(this)
-        else button.setOnClickListener(null)
+    private fun blockButton(state: Boolean) {
+        binding.descriptionButtonFrame.isClickable = state
     }
 
     private fun runesArrayInit() {
@@ -284,15 +284,14 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
     private fun getUniqueRune(): Int {
         while (true) {
             var randomNumber = Random.nextInt(1, 42)
-            if(layoutId==2){
+            if (layoutId == 2) {
                 for (i in 0..24) {
                     if (runesList[i][0] == randomNumber) {
                         runesList[i] = arrayOf(0, 0)
                         return randomNumber
                     }
                 }
-            }
-            else{
+            } else {
                 for (i in 0..24) {
                     for (i2 in 0..1) {
                         if (runesList[i][i2] == randomNumber) {
