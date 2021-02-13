@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.test.runar.R
 import com.test.runar.databinding.FragmentLayoutDescriptionBinding
+import com.test.runar.extensions.setOnCLickListenerForAll
 import com.test.runar.presentation.viewmodel.MainViewModel
 
 class LayoutDescriptionFragment : Fragment(R.layout.fragment_layout_description), View.OnClickListener {
@@ -35,16 +36,15 @@ class LayoutDescriptionFragment : Fragment(R.layout.fragment_layout_description)
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentLayoutDescriptionBinding.bind(view)
 
-        view.findViewById<FrameLayout>(R.id.description_button_frame).setOnClickListener(this)
-        view.findViewById<ImageView>(R.id.exit_button).setOnClickListener(this)
-
+        val listOfView = listOf(binding.descriptionButtonFrame, binding.exitButton)
+        listOfView.setOnCLickListenerForAll(this)
 
         model.fontSize.observe(viewLifecycleOwner) { textSize ->
             if (textSize != null) {
                 fontSize = textSize
                 model.selectedLayout.observe(viewLifecycleOwner) { layoutDescriptionModel ->
                     if (layoutDescriptionModel != null) {
-                        (binding.descriptionHeaderFrame.children.first() as TextView).text = layoutDescriptionModel.layoutName
+                        binding.descriptionHeaderFrame.text = layoutDescriptionModel.layoutName
                         binding.descriptionTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
                         binding.descriptionTextView.text = layoutDescriptionModel.layoutDescription
                         layoutId = layoutDescriptionModel.layoutId!!
