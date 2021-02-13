@@ -25,6 +25,7 @@ import com.test.runar.CustomView.OffsetImageView
 import com.test.runar.R
 import com.test.runar.presentation.viewmodel.MainViewModel
 import com.test.runar.databinding.FragmentLayoutInterpretationBinding
+import com.test.runar.extensions.setOnCLickListenerForAll
 
 class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpretation),
         View.OnClickListener {
@@ -453,9 +454,8 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                             for (i in 0 until this.runesLayout.childCount) {
                                 this.runesLayout.getChildAt(i).setOnClickListener(this)
                             }
-                            for (runeDot in runesDotsList){
-                                runeDot.setOnClickListener(this)
-                            }
+                            runesDotsList.setOnCLickListenerForAll(this)
+
                             //runes description**
                             model.getAuspForCurrentLayout()
                             model.currentAusp.observe(viewLifecycleOwner) { ausp ->
@@ -537,17 +537,14 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                         }
                     }
                 }
-                view.findViewById<ImageView>(R.id.exit_button).setOnClickListener(this)
-                view.findViewById<ImageView>(R.id.left_arrow).setOnClickListener(this)
-                view.findViewById<ImageView>(R.id.right_arrow).setOnClickListener(this)
+                val listOfView = listOf(binding.leftArrow,binding.rightArrow,binding.exitButton)
+                listOfView.setOnCLickListenerForAll(this)
 
-                val runeName = view.findViewById<TextView>(R.id.rune_name)
-                val runeDescription = view.findViewById<TextView>(R.id.rune_description)
                 model.selectedRune.observe(viewLifecycleOwner){
                     if(it!=null){
-                        runeName.text = it.runeName
-                        runeDescription.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize - 3f)
-                        runeDescription.text = it.fullDescription
+                        binding.runeName.text = it.runeName
+                        binding.runeDescription.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize - 3f)
+                        binding.runeDescription.text = it.fullDescription
                         val secondFont = ResourcesCompat.getFont(requireContext(), R.font.roboto_medium)
                         binding.runeAusf.text = Html.fromHtml("${requireContext().resources.getString(R.string.layout_interpretation_ausf)} - <bf>${it.ausp} %</bf>", null, InterTagHandler(secondFont!!))
                     }
@@ -573,7 +570,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
 
         }
         binding.runeDescriptionScroll.setOnTouchListener(swipeListener)
-        view.findViewById<ConstraintLayout>(R.id.rune_description_back).setOnTouchListener(swipeListener)
+        binding.runeDescriptionBack.setOnTouchListener(swipeListener)
 
         model.backButtonPressed.observe(viewLifecycleOwner){
             if (it){
@@ -625,8 +622,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
         for (rune in runesViewList) {
             rune.foreground = ColorDrawable(Color.TRANSPARENT)
         }
-        val descriptionBack = runesLayout.findViewById<ConstraintLayout>(R.id.rune_description_back)
-        descriptionBack.visibility = View.GONE
+        binding.runeDescriptionBack.visibility = View.GONE
     }
 
     private fun showDescriptionOfSelectedRune(v: View?){
@@ -912,7 +908,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
             }
         }
 
-        val descriptionBack = runesLayout.findViewById<ConstraintLayout>(R.id.rune_description_back)
+        val descriptionBack = binding.runeDescriptionBack
         val backLayoutParams = descriptionBack.layoutParams
         backLayoutParams.height = screenHeight - size
         descriptionBack.layoutParams = backLayoutParams
