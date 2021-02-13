@@ -6,6 +6,7 @@ import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.text.Html
+import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
@@ -28,11 +29,8 @@ import com.test.runar.databinding.FragmentLayoutInterpretationBinding
 class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpretation),
         View.OnClickListener {
     private lateinit var model: MainViewModel
-
-
-    private lateinit var header: TextView
     private lateinit var runePosition: TextView
-    private lateinit var runeOpportuneness: TextView
+    private lateinit var runeOpport: TextView
     private lateinit var bottomRunesNav: ConstraintLayout
     private lateinit var interpretationFrame: ConstraintLayout
     private lateinit var mainConstraintLayout: ConstraintLayout
@@ -45,8 +43,6 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
     private lateinit var headerFrame: FrameLayout
     private lateinit var headerBackgroundFrame: FrameLayout
     private lateinit var runesLayout: ConstraintLayout
-
-    private lateinit var divider: FrameLayout
 
     private var runesViewList: ArrayList<FrameLayout> = arrayListOf()
     private var runesPositionsList: ArrayList<String?> = arrayListOf()
@@ -86,8 +82,6 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
         _binding = FragmentLayoutInterpretationBinding.bind(view)
 
         //set necessary views
-        divider = view.findViewById(R.id.divider1)
-        header = view.findViewById(R.id.header)
         interpretationFrame = view.findViewById(R.id.inter_frame)
         headerFrame = view.findViewById(R.id.description_header_frame)
         headerBackgroundFrame = view.findViewById(R.id.description_header_background)
@@ -120,7 +114,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                             val userLayout = pair.second
                             val selectedLayout = pair.first
                             layoutId = selectedLayout.layoutId!!
-                            header.text = selectedLayout.layoutName
+                            binding.header.text = selectedLayout.layoutName
 
                             val firstRune = FrameLayout(requireContext())
                             val secondRune = FrameLayout(requireContext())
@@ -528,9 +522,11 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
 
                                         observer.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
                                             override fun onGlobalLayout() {
+                                                //Надо чекать ибо всё сломалось после изменения вёрстки
                                                 observer.removeOnGlobalLayoutListener(this)
                                                 screenHeight = mainConstraintLayout.height
-                                                val minSize = screenHeight - backgroundLayout.top
+                                                val minSize = screenHeight - backgroundLayout.top - binding.divider1.height - (TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,25f,requireContext().resources.displayMetrics)).toInt()
+                                                Log.d("DebugData","$screenHeight + ${backgroundLayout.top} + ${backgroundLayout.height}")
                                                 var flag = false
                                                 if (minSize > backgroundLayout.height) {
                                                     val backLayoutParams = backLayout.layoutParams
@@ -566,7 +562,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
 
                 val runeName = view.findViewById<TextView>(R.id.rune_name)
                 runePosition = view.findViewById<TextView>(R.id.rune_position)
-                runeOpportuneness = view.findViewById<TextView>(R.id.rune_ausf)
+                runeOpport = view.findViewById<TextView>(R.id.rune_ausf)
                 val runeDescription = view.findViewById<TextView>(R.id.rune_description)
                 model.selectedRune.observe(viewLifecycleOwner){
                     if(it!=null){
@@ -574,7 +570,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                         runeDescription.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize - 3f)
                         runeDescription.text = it.fullDescription
                         val secondFont = ResourcesCompat.getFont(requireContext(), R.font.roboto_medium)
-                        runeOpportuneness.text = Html.fromHtml("${requireContext().resources.getString(R.string.layout_interpretation_ausf)} - <bf>${it.ausp} %</bf>", null, InterTagHandler(secondFont!!))
+                        runeOpport.text = Html.fromHtml("${requireContext().resources.getString(R.string.layout_interpretation_ausf)} - <bf>${it.ausp} %</bf>", null, InterTagHandler(secondFont!!))
                     }
                 }
             }
@@ -690,6 +686,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
 
 
 
+        val divider = binding.divider1
         when(layoutId){
             1->if (firsOpening) {
                 firsOpening = false
@@ -955,8 +952,8 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
     //function for adding images for slot, order is important
     private fun runesImgSetter(runes: ArrayList<FrameLayout>, runesIds: ArrayList<Int>){
         runes.forEachIndexed { index, element ->
-            var i = context?.assets?.open("runes/${runesIds[index]}.png")
-            var runeImage = Drawable.createFromStream(i, null)
+            val i = context?.assets?.open("runes/${runesIds[index]}.png")
+            val runeImage = Drawable.createFromStream(i, null)
             element.setBackgroundDrawable(runeImage)
         }
     }
