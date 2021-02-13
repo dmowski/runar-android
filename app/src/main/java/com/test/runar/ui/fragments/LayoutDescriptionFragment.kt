@@ -39,15 +39,15 @@ class LayoutDescriptionFragment : Fragment(R.layout.fragment_layout_description)
         view.findViewById<ImageView>(R.id.exit_button).setOnClickListener(this)
 
 
-        model.fontSize.observe(viewLifecycleOwner) {
-            if (it != null) {
-                fontSize = it
-                model.selectedLayout.observe(viewLifecycleOwner) {
-                    if (it != null) {
-                        (binding.descriptionHeaderFrame.children.first() as TextView).text = it.layoutName
+        model.fontSize.observe(viewLifecycleOwner) { textSize ->
+            if (textSize != null) {
+                fontSize = textSize
+                model.selectedLayout.observe(viewLifecycleOwner) { layoutDescriptionModel ->
+                    if (layoutDescriptionModel != null) {
+                        (binding.descriptionHeaderFrame.children.first() as TextView).text = layoutDescriptionModel.layoutName
                         binding.descriptionTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
-                        binding.descriptionTextView.text = it.layoutDescription
-                        layoutId = it.layoutId!!
+                        binding.descriptionTextView.text = layoutDescriptionModel.layoutDescription
+                        layoutId = layoutDescriptionModel.layoutId!!
                     }
                 }
             }
