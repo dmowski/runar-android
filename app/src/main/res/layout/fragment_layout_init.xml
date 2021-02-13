@@ -28,7 +28,6 @@
         app:autoSizeTextType="uniform"
         app:layout_constraintDimensionRatio="H,3.5:1"
         app:layout_constraintEnd_toStartOf="@id/right_header_guideline"
-        app:layout_constraintHorizontal_weight="72"
         app:layout_constraintStart_toEndOf="@id/left_header_guideline"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Some text" />
@@ -96,7 +95,6 @@
         android:layout_height="0dp"
         android:layout_marginBottom="60dp"
         android:background="@drawable/description_button_background_selector"
-        android:duplicateParentState="true"
         android:fontFamily="@font/amatic_sc_bold"
         android:paddingBottom="8dp"
         android:text="@string/layout_init_button_text1"
@@ -106,7 +104,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="H,4.55:1"
         app:layout_constraintEnd_toStartOf="@id/right_button_guideline"
-        app:layout_constraintHorizontal_weight="62"
         app:layout_constraintStart_toEndOf="@id/left_button_guideline" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
