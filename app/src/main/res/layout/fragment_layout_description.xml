@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -19,26 +20,21 @@
         android:layout_height="match_parent"
         android:background="@color/description_background_second_layout_color" />
 
-    <FrameLayout
+    <TextView
         android:id="@+id/description_header_frame"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="25dp"
+        android:fontFamily="@font/amatic_sc_bold"
+        android:letterSpacing="@dimen/layout_text_letter_spacing"
+        android:textAlignment="center"
+        android:textColor="@color/layout_desc_deselected"
+        app:autoSizeTextType="uniform"
         app:layout_constraintDimensionRatio="H,3.5:1"
         app:layout_constraintEnd_toStartOf="@id/right_header_guideline"
         app:layout_constraintStart_toEndOf="@id/left_header_guideline"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fontFamily="@font/amatic_sc_bold"
-            android:letterSpacing="@dimen/layout_text_letter_spacing"
-            android:text=""
-            android:textAlignment="center"
-            android:textColor="@color/layout_desc_deselected"
-            app:autoSizeTextType="uniform" />
-    </FrameLayout>
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Some example text" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/left_header_guideline"
@@ -66,31 +62,23 @@
         app:layout_constraintStart_toEndOf="@id/icon_start_guideline"
         app:layout_constraintTop_toTopOf="@id/icon_top_guideline" />
 
-    <FrameLayout
+    <TextView
         android:id="@+id/description_button_frame"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="60dp"
         android:background="@drawable/description_button_background_selector"
-        android:clickable="true"
-        android:focusable="true"
+        android:fontFamily="@font/amatic_sc_bold"
+        android:gravity="center"
+        android:paddingBottom="4dp"
+        android:text="@string/layout_description_button"
+        android:textColor="@color/layout_description_button_text_selector"
+        app:autoSizeTextType="uniform"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="H,4.55:1"
         app:layout_constraintEnd_toStartOf="@id/right_button_guideline"
         app:layout_constraintHorizontal_weight="62"
-        app:layout_constraintStart_toEndOf="@id/left_button_guideline">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="8dp"
-            android:duplicateParentState="true"
-            android:fontFamily="@font/amatic_sc_bold"
-            android:text="@string/layout_description_button"
-            android:textAlignment="center"
-            android:textColor="@color/layout_description_button_text_selector"
-            app:autoSizeTextType="uniform" />
-    </FrameLayout>
+        app:layout_constraintStart_toEndOf="@id/left_button_guideline" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/left_button_guideline"
@@ -142,12 +130,12 @@
         android:layout_marginBottom="10dp"
         android:fontFamily="@font/roboto_light"
         android:lineSpacingMultiplier="@dimen/layout_description_line_spacing"
-        android:text="test"
         android:textColor="@color/layout_desc_text_color"
         app:layout_constraintBottom_toTopOf="@+id/checkbox"
         app:layout_constraintEnd_toStartOf="@id/right_guideline"
         app:layout_constraintStart_toEndOf="@id/left_guideline"
-        app:layout_constraintTop_toBottomOf="@id/description_header_frame" />
+        app:layout_constraintTop_toBottomOf="@id/description_header_frame"
+        tools:text="test" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/left_guideline"
