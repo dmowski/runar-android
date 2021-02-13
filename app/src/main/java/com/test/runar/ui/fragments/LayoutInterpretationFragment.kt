@@ -506,8 +506,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                                                 //Надо чекать ибо всё сломалось после изменения вёрстки
                                                 observer.removeOnGlobalLayoutListener(this)
                                                 screenHeight = binding.root.height
-                                                val minSize = screenHeight - backgroundLayout.top - binding.divider1.height - (TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,25f,requireContext().resources.displayMetrics)).toInt()
-                                                Log.d("DebugData","$screenHeight + ${backgroundLayout.top} + ${backgroundLayout.height}")
+                                                val minSize = screenHeight - backgroundLayout.top
                                                 var flag = false
                                                 if (minSize > backgroundLayout.height) {
                                                     val backLayoutParams = backLayout.layoutParams
