@@ -70,14 +70,13 @@
         android:background="@drawable/description_button_background_selector"
         android:fontFamily="@font/amatic_sc_bold"
         android:gravity="center"
-        android:paddingBottom="4dp"
+        android:paddingBottom="8dp"
         android:text="@string/layout_description_button"
         android:textColor="@color/layout_description_button_text_selector"
         app:autoSizeTextType="uniform"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="H,4.55:1"
         app:layout_constraintEnd_toStartOf="@id/right_button_guideline"
-        app:layout_constraintHorizontal_weight="62"
         app:layout_constraintStart_toEndOf="@id/left_button_guideline" />
 
     <androidx.constraintlayout.widget.Guideline

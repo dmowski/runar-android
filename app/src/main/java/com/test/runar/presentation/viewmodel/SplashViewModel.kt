@@ -21,15 +21,15 @@ class SplashViewModel : ViewModel() {
 
             delay(DELAY_BEFORE_START_LOADING)
             repeat(4){
-                _progress.postValue(25 * (it + 1))
                 delay(STEP_OF_LOADING)
+                _progress.postValue(25 * (it + 1))
             }
             _splashCommand.postValue(true)
         }
     }
 
     private companion object{
-        const val DELAY_BEFORE_START_LOADING = 1000L
+        const val DELAY_BEFORE_START_LOADING = 500L
         const val STEP_OF_LOADING = 500L
     }
 }
