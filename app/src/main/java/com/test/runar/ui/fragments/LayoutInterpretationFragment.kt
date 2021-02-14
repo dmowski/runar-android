@@ -45,8 +45,6 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
     private var layoutId: Int = 0
 
     private var defaultConstraintSet = ConstraintSet()
-
-    private var firsOpening = true
     private var baseSize = 0
     private var screenHeight: Int = 0
     private var lastUserLayoutId = 0
@@ -507,6 +505,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                                                 constraintsSet.connect(R.id.checkbox, ConstraintSet.BOTTOM, R.id.description_button_frame, ConstraintSet.TOP)
                                                 constraintsSet.applyTo(binding.interpretationLayout)
                                             }
+                                            baseSize = firstRune.bottom-binding.divider1.height
                                             binding.loadHelper.isVisible = false
                                         }
                                     })
@@ -641,19 +640,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
 
 
         when (layoutId) {
-            1 -> if (firsOpening) {
-                firsOpening = false
-                size = runesViewList[0].bottom - binding.divider1.height
-                baseSize = size
-            } else size = baseSize
-
             2 -> {
-                if (firsOpening) {
-                    firsOpening = false
-                    size = runesViewList[0].bottom - binding.divider1.height
-                    baseSize = size
-                } else size = baseSize
-
                 val set = ConstraintSet()
                 set.clone(runesLayout)
                 set.clear(runesViewList[0].id, ConstraintSet.TOP)
@@ -664,12 +651,6 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
             }
 
             3 -> {
-                if (firsOpening) {
-                    firsOpening = false
-                    size = runesViewList[0].bottom - binding.divider1.height
-                    baseSize = size
-                } else size = baseSize
-
                 val set = ConstraintSet()
                 set.clone(runesLayout)
                 set.clear(runesViewList[1].id, ConstraintSet.TOP)
@@ -678,11 +659,6 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
             }
 
             4 -> {
-                if (firsOpening) {
-                    firsOpening = false
-                    size = runesViewList[3].bottom - binding.divider1.height
-                    baseSize = size
-                } else size = baseSize
                 when (v?.id) {
                     runesViewList[3].id -> {
                         val set = ConstraintSet()
@@ -712,11 +688,6 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                 }
             }
             5 -> {
-                if (firsOpening) {
-                    firsOpening = false
-                    size = runesViewList[3].bottom - binding.divider1.height
-                    baseSize = size
-                } else size = baseSize
                 when (v?.id) {
                     runesViewList[3].id -> {
                         val set = ConstraintSet()
@@ -744,11 +715,6 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                 }
             }
             6 -> {
-                if (firsOpening) {
-                    firsOpening = false
-                    size = runesViewList[3].bottom - binding.divider1.height
-                    baseSize = size
-                } else size = baseSize
                 when (v?.id) {
                     runesViewList[3].id -> {
                         val set = ConstraintSet()
@@ -777,11 +743,6 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                 }
             }
             7 -> {
-                if (firsOpening) {
-                    firsOpening = false
-                    size = runesViewList[5].bottom - binding.divider1.height
-                    baseSize = size
-                } else size = baseSize
                 when (v?.id) {
                     runesViewList[5].id -> {
                         val set = ConstraintSet()
@@ -822,11 +783,6 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                 }
             }
             8 -> {
-                if (firsOpening) {
-                    firsOpening = false
-                    size = runesViewList[6].bottom - binding.divider1.height
-                    baseSize = size
-                } else size = baseSize
                 when (v?.id) {
                     runesViewList[6].id -> {
                         val set = ConstraintSet()
@@ -888,7 +844,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
 
         val descriptionBack = binding.runeDescriptionBack
         val backLayoutParams = descriptionBack.layoutParams
-        backLayoutParams.height = screenHeight - size
+        backLayoutParams.height = screenHeight - baseSize
         descriptionBack.layoutParams = backLayoutParams
         descriptionBack.isVisible =true
     }
