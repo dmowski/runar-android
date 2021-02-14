@@ -131,6 +131,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
+                android:id="@+id/first_rune_number"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:fontFamily="@font/amatic_sc_bold"
@@ -168,6 +169,7 @@
             app:layout_constraintTop_toBottomOf="@id/first_rune">
 
             <TextView
+                android:id="@+id/second_rune_number"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:fontFamily="@font/amatic_sc_bold"
@@ -204,6 +206,7 @@
             app:layout_constraintTop_toBottomOf="@id/second_rune">
 
             <TextView
+                android:id="@+id/third_rune_number"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:fontFamily="@font/amatic_sc_bold"
@@ -240,6 +243,7 @@
             app:layout_constraintTop_toBottomOf="@id/third_rune">
 
             <TextView
+                android:id="@+id/fourth_rune_number"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:fontFamily="@font/amatic_sc_bold"
@@ -276,6 +280,7 @@
             app:layout_constraintTop_toBottomOf="@id/fourth_rune">
 
             <TextView
+                android:id="@+id/fifth_rune_number"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:fontFamily="@font/amatic_sc_bold"
@@ -311,6 +316,7 @@
             app:layout_constraintTop_toTopOf="@id/third_rune">
 
             <TextView
+                android:id="@+id/sixth_rune_number"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:fontFamily="@font/amatic_sc_bold"
@@ -346,6 +352,7 @@
             app:layout_constraintTop_toTopOf="@id/third_rune">
 
             <TextView
+                android:id="@+id/seventh_rune_number"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:fontFamily="@font/amatic_sc_bold"
