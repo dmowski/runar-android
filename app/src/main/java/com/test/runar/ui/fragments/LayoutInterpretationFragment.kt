@@ -113,24 +113,22 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
 
                             when (selectedLayout.layoutId) {
                                 1 -> {
-                                    if (firstRune != null) {
-                                        firstRune.id = View.generateViewId()
-                                        val firstRuneId = userLayout[2]
+                                    firstRune.id = View.generateViewId()
+                                    val firstRuneId = userLayout[2]
 
-                                        val ims = context?.assets?.open("runes/${firstRuneId}.png")
-                                        val firstRuneImage = Drawable.createFromStream(ims, null)
-                                        firstRune.setBackgroundDrawable(firstRuneImage)
-                                        val firstRuneLayoutParams = ConstraintLayout.LayoutParams(runeWidth, runeHeight)
-                                        firstRune.layoutParams = firstRuneLayoutParams
+                                    val ims = context?.assets?.open("runes/${firstRuneId}.png")
+                                    val firstRuneImage = Drawable.createFromStream(ims, null)
+                                    firstRune.setBackgroundDrawable(firstRuneImage)
+                                    val firstRuneLayoutParams = ConstraintLayout.LayoutParams(runeWidth, runeHeight)
+                                    firstRune.layoutParams = firstRuneLayoutParams
 
-                                        this.runesLayout.addView(firstRune)
-                                        val set = ConstraintSet()
-                                        set.clone(runesLayout)
-                                        set.connect(firstRune.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, 0)
-                                        set.connect(firstRune.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END, 0)
-                                        set.connect(firstRune.id, ConstraintSet.TOP, R.id.divider1, ConstraintSet.BOTTOM, 0)
-                                        set.applyTo(runesLayout)
-                                    }
+                                    this.runesLayout.addView(firstRune)
+                                    val set = ConstraintSet()
+                                    set.clone(runesLayout)
+                                    set.connect(firstRune.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, 0)
+                                    set.connect(firstRune.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END, 0)
+                                    set.connect(firstRune.id, ConstraintSet.TOP, R.id.divider1, ConstraintSet.BOTTOM, 0)
+                                    set.applyTo(runesLayout)
                                 }
                                 2 -> {
                                     runesViewList.addAll(arrayListOf(firstRune, secondRune))
@@ -466,6 +464,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                                         constraintsSet.clear(R.id.text, ConstraintSet.TOP)
                                         constraintsSet.connect(R.id.text, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
                                         constraintsSet.applyTo(binding.interpretationLayout)
+                                        model.getInterpretation()
                                     }
                                 }
                             }
