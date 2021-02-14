@@ -6,6 +6,7 @@ import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.text.Html
+import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
@@ -479,8 +480,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                                 if (!interpretation.isNullOrBlank()) {
                                     binding.interpretationText.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
                                     val secondFont = ResourcesCompat.getFont(requireContext(), R.font.roboto_regular)
-                                    val interpretationText = interpretation
-                                    binding.interpretationText.text = Html.fromHtml(interpretationText, null, InterTagHandler(secondFont!!))
+                                    binding.interpretationText.text = Html.fromHtml(interpretation, null, InterTagHandler(secondFont!!))
                                     val observer = binding.root.viewTreeObserver
                                     defaultConstraintSet.clone(runesLayout)
                                     observer.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
@@ -492,7 +492,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                                             var flag = false
                                             if (minSize > binding.interFrame.height) {
                                                 val backLayoutParams = binding.interpretationLayout.layoutParams
-                                                backLayoutParams.height = minSize
+                                                backLayoutParams.height = minSize-binding.divider3.height
                                                 binding.interpretationLayout.layoutParams = backLayoutParams
                                                 flag = true
                                             }
