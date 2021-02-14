@@ -490,7 +490,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                                             var flag = false
                                             if (minSize > binding.interFrame.height) {
                                                 val backLayoutParams = binding.interpretationLayout.layoutParams
-                                                backLayoutParams.height = minSize-binding.divider3.height
+                                                backLayoutParams.height = minSize - binding.divider3.height
                                                 binding.interpretationLayout.layoutParams = backLayoutParams
                                                 flag = true
                                             }
@@ -505,7 +505,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                                                 constraintsSet.connect(R.id.checkbox, ConstraintSet.BOTTOM, R.id.description_button_frame, ConstraintSet.TOP)
                                                 constraintsSet.applyTo(binding.interpretationLayout)
                                             }
-                                            baseSize = firstRune.bottom-binding.divider1.height
+                                            baseSize = firstRune.bottom - binding.divider1.height
                                             binding.loadHelper.isVisible = false
                                         }
                                     })
@@ -621,7 +621,6 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                         runeDot.setImageResource(R.drawable.ic_circle_deselected)
                         runeDot.setOnClickListener(this)
                     }
-
                     model.getSelectedRuneData(runesViewList.indexOf(rune))
                     binding.runePosition.text = runesPositionsList[runesViewList.indexOf(rune)]
                     binding.runeDescriptionScroll.scrollTo(0, 0)
@@ -636,8 +635,6 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                 }
             }
         }
-
-
 
         when (layoutId) {
             2 -> {
@@ -683,7 +680,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                         set.clear(runesViewList[1].id, ConstraintSet.TOP)
                         set.connect(runesViewList[1].id, ConstraintSet.BOTTOM, headerFrame.id, ConstraintSet.BOTTOM)
                         set.applyTo(runesLayout)
-                        runesViewList[3].visibility = View.GONE
+                        runesViewList[3].isVisible = false
                     }
                 }
             }
@@ -738,7 +735,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                         set.clear(runesViewList[1].id, ConstraintSet.TOP)
                         set.connect(runesViewList[1].id, ConstraintSet.BOTTOM, headerFrame.id, ConstraintSet.BOTTOM)
                         set.applyTo(runesLayout)
-                        runesViewList[3].visibility = View.GONE
+                        runesViewList[3].isVisible = false
                     }
                 }
             }
@@ -766,19 +763,17 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                         set.clear(runesViewList[4].id, ConstraintSet.TOP)
                         set.connect(runesViewList[4].id, ConstraintSet.BOTTOM, headerFrame.id, ConstraintSet.BOTTOM)
                         set.applyTo(runesLayout)
-                        runesViewList[5].visibility = View.GONE
+                        runesViewList[5].isVisible = false
                     }
                     runesViewList[3].id -> {
                         val set = ConstraintSet()
                         set.clone(runesLayout)
-                        set.clear(runesViewList[5].id)
-                        set.clear(runesViewList[4].id)
+                        val removeList = arrayListOf(runesViewList[4], runesViewList[5])
+                        viewRemover(removeList, set)
                         set.clear(runesViewList[1].id, ConstraintSet.BOTTOM)
                         set.clear(runesViewList[1].id, ConstraintSet.TOP)
                         set.connect(runesViewList[1].id, ConstraintSet.BOTTOM, headerFrame.id, ConstraintSet.BOTTOM)
                         set.applyTo(runesLayout)
-                        runesViewList[4].visibility = View.GONE
-                        runesViewList[5].visibility = View.GONE
                     }
                 }
             }
@@ -806,37 +801,27 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                         set.clear(runesViewList[5].id, ConstraintSet.TOP)
                         set.connect(runesViewList[5].id, ConstraintSet.BOTTOM, headerFrame.id, ConstraintSet.BOTTOM)
                         set.applyTo(runesLayout)
-                        runesViewList[6].visibility = View.GONE
+                        runesViewList[6].isVisible = false
                     }
                     runesViewList[4].id -> {
                         val set = ConstraintSet()
                         set.clone(runesLayout)
-                        set.clear(runesViewList[6].id)
-                        set.clear(runesViewList[5].id)
+                        val removeList = arrayListOf(runesViewList[6], runesViewList[5])
+                        viewRemover(removeList, set)
                         set.clear(runesViewList[0].id, ConstraintSet.BOTTOM)
                         set.clear(runesViewList[0].id, ConstraintSet.TOP)
                         set.connect(runesViewList[0].id, ConstraintSet.BOTTOM, headerFrame.id, ConstraintSet.BOTTOM)
                         set.applyTo(runesLayout)
-                        runesViewList[5].visibility = View.GONE
-                        runesViewList[6].visibility = View.GONE
                     }
                     runesViewList[3].id -> {
                         val set = ConstraintSet()
                         set.clone(runesLayout)
-                        set.clear(runesViewList[6].id)
-                        set.clear(runesViewList[5].id)
-                        set.clear(runesViewList[0].id)
-                        set.clear(runesViewList[2].id)
-                        set.clear(runesViewList[1].id)
+                        val removeList = arrayListOf(runesViewList[6], runesViewList[5], runesViewList[0], runesViewList[1], runesViewList[2])
+                        viewRemover(removeList, set)
                         set.clear(runesViewList[4].id, ConstraintSet.BOTTOM)
                         set.clear(runesViewList[4].id, ConstraintSet.TOP)
                         set.connect(runesViewList[4].id, ConstraintSet.BOTTOM, headerFrame.id, ConstraintSet.BOTTOM)
                         set.applyTo(runesLayout)
-                        runesViewList[5].visibility = View.GONE
-                        runesViewList[6].visibility = View.GONE
-                        runesViewList[0].visibility = View.GONE
-                        runesViewList[1].visibility = View.GONE
-                        runesViewList[2].visibility = View.GONE
                     }
                 }
             }
@@ -846,8 +831,16 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
         val backLayoutParams = descriptionBack.layoutParams
         backLayoutParams.height = screenHeight - baseSize
         descriptionBack.layoutParams = backLayoutParams
-        descriptionBack.isVisible =true
+        descriptionBack.isVisible = true
     }
+
+    private fun <T : View> viewRemover(list: ArrayList<T>, parentSet: ConstraintSet) {
+        for (element in list) {
+            parentSet.clear(element.id)
+            element.isVisible = false
+        }
+    }
+
 
     private fun <T : View> viewIdGenerator(list: ArrayList<T>) {
         for (element in list) element.id = View.generateViewId()
