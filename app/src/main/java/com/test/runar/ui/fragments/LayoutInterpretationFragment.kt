@@ -6,7 +6,6 @@ import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.text.Html
-import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +15,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -41,20 +41,15 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
     private var runeHeight: Int = 0
     private var runeWidth: Int = 0
     private var fontSize: Float = 0f
-    private var layoutId: Int =0
+    private var layoutId: Int = 0
 
     private var defaultConstraintSet = ConstraintSet()
 
     private var firsOpening = true
     private var baseSize = 0
-
     private var screenHeight: Int = 0
-
-    private var lastUserLayoutId =0
-
-    private var auspText =""
-
-    private var currentRunePosition =0
+    private var lastUserLayoutId = 0
+    private var currentRunePosition = 0
 
     private var _binding: FragmentLayoutInterpretationBinding? = null
     private val binding
@@ -78,20 +73,20 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
         bottomRunesNav = binding.bottomRunesNavBar
 
         //get last layout for prevention of setting old data
-        model.lastUserLayoutId.observe(viewLifecycleOwner){
-            if(it!=null){
+        model.lastUserLayoutId.observe(viewLifecycleOwner) {
+            if (it != null) {
                 lastUserLayoutId = it
             }
         }
         //get data about current layout
-        model.fontSize.observe(viewLifecycleOwner){ interpretation ->
-            if (interpretation!=null){
+        model.fontSize.observe(viewLifecycleOwner) { interpretation ->
+            if (interpretation != null) {
                 fontSize = interpretation
-                model.layoutInterpretationData.observe(viewLifecycleOwner) { pair->
+                model.layoutInterpretationData.observe(viewLifecycleOwner) { pair ->
                     var currentId = 0
-                    if(pair.second!=null){
-                        for(i in pair.second) currentId+=i
-                        if (pair != null && pair.second[8] == pair.first.layoutId&&lastUserLayoutId!=currentId) {
+                    if (pair.second != null) {
+                        for (i in pair.second) currentId += i
+                        if (pair != null && pair.second[8] == pair.first.layoutId && lastUserLayoutId != currentId) {
                             model.setLastUserLayout(currentId)
                             runeHeight = runeHeightCalculator()
                             runeWidth = (runeHeight / 1.23).toInt()
@@ -459,88 +454,74 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                             //runes description**
                             model.getAuspForCurrentLayout()
                             model.currentAusp.observe(viewLifecycleOwner) { ausp ->
-                                val interpretationLayout = binding.interpretationLayout
-                                val affirmTextView = binding.textAffim
                                 binding.descriptionButtonFrame.setOnClickListener(this)
                                 if (ausp != null) {
-                                    auspText = "${requireContext().resources.getString(R.string.layout_interpretation_ausf)} - $ausp %"
-                                    binding.text.text = auspText
+                                    binding.text.text = "${requireContext().resources.getString(R.string.layout_interpretation_ausf)} - $ausp %"
                                     if (ausp <= 50) {
                                         model.getAffimForCurrentLayout(ausp)
-                                    }
-                                    else{
-                                        affirmTextView.visibility = View.GONE
+                                    } else {
+                                        binding.textAffim.visibility = View.GONE
                                         val constraintsSet = ConstraintSet()
-                                        constraintsSet.clone(interpretationLayout)
-                                        constraintsSet.clear(R.id.text,ConstraintSet.TOP)
-                                        constraintsSet.connect(R.id.text,ConstraintSet.TOP,ConstraintSet.PARENT_ID,ConstraintSet.TOP)
-                                        constraintsSet.applyTo(interpretationLayout)
+                                        constraintsSet.clone(binding.interpretationLayout)
+                                        constraintsSet.clear(R.id.text, ConstraintSet.TOP)
+                                        constraintsSet.connect(R.id.text, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
+                                        constraintsSet.applyTo(binding.interpretationLayout)
                                     }
                                 }
                             }
-                            model.currentAffirm.observe(viewLifecycleOwner) {affirm->
-                                if (affirm != "" || affirm != null) {
-                                    val affirmTextView = binding.textAffim
-                                    affirmTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
-                                    affirmTextView.text = affirm
+                            model.currentAffirm.observe(viewLifecycleOwner) { affirm ->
+                                if (affirm.isNotBlank()) {
+                                    binding.textAffim.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
+                                    binding.textAffim.text = affirm
                                     model.getInterpretation()
                                 }
                             }
-                            model.currentInterpretation.observe(viewLifecycleOwner) {interpretation->
-                                if (interpretation != null) {
-                                    if (interpretation.isNotEmpty()) {
-                                        val interpretationTextView = binding.interpretationText
-                                        interpretationTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
-
-                                        val secondFont = ResourcesCompat.getFont(requireContext(), R.font.roboto_regular)
-                                        val interpretationText = interpretation
-                                        interpretationTextView.text = Html.fromHtml(interpretationText, null, InterTagHandler(secondFont!!))
-                                        val backgroundLayout = binding.interFrame
-                                        val backLayout = binding.interpretationLayout
-                                        val observer = binding.root.viewTreeObserver
-
-                                        defaultConstraintSet.clone(runesLayout)
-
-                                        observer.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
-                                            override fun onGlobalLayout() {
-                                                //Надо чекать ибо всё сломалось после изменения вёрстки
-                                                observer.removeOnGlobalLayoutListener(this)
-                                                screenHeight = binding.root.height
-                                                val minSize = screenHeight - backgroundLayout.top
-                                                var flag = false
-                                                if (minSize > backgroundLayout.height) {
-                                                    val backLayoutParams = backLayout.layoutParams
-                                                    backLayoutParams.height = minSize
-                                                    backLayout.layoutParams = backLayoutParams
-                                                    flag = true
-                                                }
-                                                if (binding.bottomSupportFrame.bottom < screenHeight && flag) {
-                                                    val constraintsSet = ConstraintSet()
-                                                    constraintsSet.clone(backLayout)
-                                                    constraintsSet.clear(R.id.bottom_support_frame, ConstraintSet.TOP)
-                                                    constraintsSet.connect(R.id.bottom_support_frame, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM)
-                                                    constraintsSet.clear(R.id.description_button_frame, ConstraintSet.TOP)
-                                                    constraintsSet.connect(R.id.description_button_frame, ConstraintSet.BOTTOM, R.id.bottom_support_frame, ConstraintSet.TOP)
-                                                    constraintsSet.clear(R.id.checkbox, ConstraintSet.TOP)
-                                                    constraintsSet.connect(R.id.checkbox, ConstraintSet.BOTTOM, R.id.description_button_frame, ConstraintSet.TOP)
-                                                    constraintsSet.applyTo(backLayout)
-                                                }
-                                                val supportView = view.findViewById<OffsetImageView>(R.id.load_helper)
-                                                supportView.visibility = View.GONE
+                            model.currentInterpretation.observe(viewLifecycleOwner) { interpretation ->
+                                if (!interpretation.isNullOrBlank()) {
+                                    binding.interpretationText.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
+                                    val secondFont = ResourcesCompat.getFont(requireContext(), R.font.roboto_regular)
+                                    val interpretationText = interpretation
+                                    binding.interpretationText.text = Html.fromHtml(interpretationText, null, InterTagHandler(secondFont!!))
+                                    val observer = binding.root.viewTreeObserver
+                                    defaultConstraintSet.clone(runesLayout)
+                                    observer.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+                                        override fun onGlobalLayout() {
+                                            //Надо чекать ибо всё сломалось после изменения вёрстки
+                                            observer.removeOnGlobalLayoutListener(this)
+                                            screenHeight = binding.root.height
+                                            val minSize = screenHeight - binding.interFrame.top
+                                            var flag = false
+                                            if (minSize > binding.interFrame.height) {
+                                                val backLayoutParams = binding.interpretationLayout.layoutParams
+                                                backLayoutParams.height = minSize
+                                                binding.interpretationLayout.layoutParams = backLayoutParams
+                                                flag = true
                                             }
-                                        })
-                                    }
+                                            if (binding.bottomSupportFrame.bottom < screenHeight && flag) {
+                                                val constraintsSet = ConstraintSet()
+                                                constraintsSet.clone(binding.interpretationLayout)
+                                                constraintsSet.clear(R.id.bottom_support_frame, ConstraintSet.TOP)
+                                                constraintsSet.connect(R.id.bottom_support_frame, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM)
+                                                constraintsSet.clear(R.id.description_button_frame, ConstraintSet.TOP)
+                                                constraintsSet.connect(R.id.description_button_frame, ConstraintSet.BOTTOM, R.id.bottom_support_frame, ConstraintSet.TOP)
+                                                constraintsSet.clear(R.id.checkbox, ConstraintSet.TOP)
+                                                constraintsSet.connect(R.id.checkbox, ConstraintSet.BOTTOM, R.id.description_button_frame, ConstraintSet.TOP)
+                                                constraintsSet.applyTo(binding.interpretationLayout)
+                                            }
+                                            binding.loadHelper.isVisible = false
+                                        }
+                                    })
                                 }
                             }
                             //logic here
                         }
                     }
                 }
-                val listOfView = listOf(binding.leftArrow,binding.rightArrow,binding.exitButton)
+                val listOfView = listOf(binding.leftArrow, binding.rightArrow, binding.exitButton)
                 listOfView.setOnCLickListenerForAll(this)
 
-                model.selectedRune.observe(viewLifecycleOwner){
-                    if(it!=null){
+                model.selectedRune.observe(viewLifecycleOwner) {
+                    if (it != null) {
                         binding.runeName.text = it.runeName
                         binding.runeDescription.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize - 3f)
                         binding.runeDescription.text = it.fullDescription
@@ -571,8 +552,8 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
         binding.runeDescriptionScroll.setOnTouchListener(swipeListener)
         binding.runeDescriptionBack.setOnTouchListener(swipeListener)
 
-        model.backButtonPressed.observe(viewLifecycleOwner){
-            if (it){
+        model.backButtonPressed.observe(viewLifecycleOwner) {
+            if (it) {
                 hideRuneDescription()
                 model.pressBackButton(false)
             }
@@ -613,7 +594,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
         }
     }
 
-    private fun hideRuneDescription(){
+    private fun hideRuneDescription() {
         model.setDialogReady(true)
         defaultConstraintSet.applyTo(runesLayout)
         binding.descriptionHeaderBackground.visibility = View.GONE
@@ -621,16 +602,16 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
         for (rune in runesViewList) {
             rune.foreground = ColorDrawable(Color.TRANSPARENT)
         }
-        binding.runeDescriptionBack.visibility = View.GONE
+        binding.runeDescriptionBack.isVisible = false
     }
 
-    private fun showDescriptionOfSelectedRune(v: View?){
+    private fun showDescriptionOfSelectedRune(v: View?) {
         model.setDialogReady(false)
-        var size =0
+        var size = 0
         defaultConstraintSet.applyTo(runesLayout)
-        if (runesViewList != null && runesViewList.size > 1) {
-            binding.descriptionHeaderBackground.visibility = View.VISIBLE
-            binding.interFrame.visibility = View.GONE
+        if (runesViewList.size > 1) {
+            binding.descriptionHeaderBackground.isVisible = true
+            binding.interFrame.isVisible = false
             for (rune in runesViewList) {
                 if (rune.id != v?.id) {
                     rune.foreground = ContextCompat.getDrawable(requireContext(), R.drawable.rune_foreground)
@@ -638,13 +619,13 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
             }
             for (rune in runesViewList) {
                 if (rune.id == v?.id) {
-                    for(runeDot in runesDotsList){
+                    for (runeDot in runesDotsList) {
                         runeDot.setImageResource(R.drawable.ic_circle_deselected)
                         runeDot.setOnClickListener(this)
                     }
 
                     model.getSelectedRuneData(runesViewList.indexOf(rune))
-                    binding.runePosition.text =runesPositionsList[runesViewList.indexOf(rune)]
+                    binding.runePosition.text = runesPositionsList[runesViewList.indexOf(rune)]
                     binding.runeDescriptionScroll.scrollTo(0, 0)
                     runesDotsList[runesViewList.indexOf(rune)].setImageResource(R.drawable.ic_circle_selected)
                     runesDotsList[runesViewList.indexOf(rune)].setOnClickListener(null)
@@ -660,20 +641,19 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
 
 
 
-        val divider = binding.divider1
-        when(layoutId){
-            1->if (firsOpening) {
+        when (layoutId) {
+            1 -> if (firsOpening) {
                 firsOpening = false
-                size = runesViewList[0].bottom-divider.height
+                size = runesViewList[0].bottom - binding.divider1.height
                 baseSize = size
             } else size = baseSize
 
-            2-> {
-            if (firsOpening) {
-                firsOpening = false
-                size = runesViewList[0].bottom-divider.height
-                baseSize = size
-            } else size = baseSize
+            2 -> {
+                if (firsOpening) {
+                    firsOpening = false
+                    size = runesViewList[0].bottom - binding.divider1.height
+                    baseSize = size
+                } else size = baseSize
 
                 val set = ConstraintSet()
                 set.clone(runesLayout)
@@ -684,10 +664,10 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                 set.applyTo(runesLayout)
             }
 
-            3-> {
+            3 -> {
                 if (firsOpening) {
                     firsOpening = false
-                    size = runesViewList[0].bottom-divider.height
+                    size = runesViewList[0].bottom - binding.divider1.height
                     baseSize = size
                 } else size = baseSize
 
@@ -701,11 +681,11 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
             4 -> {
                 if (firsOpening) {
                     firsOpening = false
-                    size = runesViewList[3].bottom-divider.height
+                    size = runesViewList[3].bottom - binding.divider1.height
                     baseSize = size
                 } else size = baseSize
                 when (v?.id) {
-                    runesViewList[3].id ->{
+                    runesViewList[3].id -> {
                         val set = ConstraintSet()
                         set.clone(runesLayout)
                         set.clear(runesViewList[3].id, ConstraintSet.TOP)
@@ -735,11 +715,11 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
             5 -> {
                 if (firsOpening) {
                     firsOpening = false
-                    size = runesViewList[3].bottom-divider.height
+                    size = runesViewList[3].bottom - binding.divider1.height
                     baseSize = size
                 } else size = baseSize
                 when (v?.id) {
-                    runesViewList[3].id ->{
+                    runesViewList[3].id -> {
                         val set = ConstraintSet()
                         set.clone(runesLayout)
                         set.clear(runesViewList[3].id, ConstraintSet.TOP)
@@ -749,8 +729,8 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                     runesViewList[1].id, runesViewList[2].id -> {
                         val set = ConstraintSet()
                         set.clone(runesLayout)
-                        set.clear(runesViewList[3].id,ConstraintSet.TOP)
-                        set.clear(runesViewList[3].id,ConstraintSet.BOTTOM)
+                        set.clear(runesViewList[3].id, ConstraintSet.TOP)
+                        set.clear(runesViewList[3].id, ConstraintSet.BOTTOM)
                         set.connect(runesViewList[3].id, ConstraintSet.TOP, headerFrame.id, ConstraintSet.BOTTOM)
                         set.connect(runesViewList[3].id, ConstraintSet.BOTTOM, headerFrame.id, ConstraintSet.BOTTOM)
                         set.applyTo(runesLayout)
@@ -767,11 +747,11 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
             6 -> {
                 if (firsOpening) {
                     firsOpening = false
-                    size = runesViewList[3].bottom-divider.height
+                    size = runesViewList[3].bottom - binding.divider1.height
                     baseSize = size
                 } else size = baseSize
                 when (v?.id) {
-                    runesViewList[3].id ->{
+                    runesViewList[3].id -> {
                         val set = ConstraintSet()
                         set.clone(runesLayout)
                         set.clear(runesViewList[3].id, ConstraintSet.TOP)
@@ -800,11 +780,11 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
             7 -> {
                 if (firsOpening) {
                     firsOpening = false
-                    size = runesViewList[5].bottom-divider.height
+                    size = runesViewList[5].bottom - binding.divider1.height
                     baseSize = size
                 } else size = baseSize
                 when (v?.id) {
-                    runesViewList[5].id ->{
+                    runesViewList[5].id -> {
                         val set = ConstraintSet()
                         set.clone(runesLayout)
                         set.clear(runesViewList[5].id, ConstraintSet.TOP)
@@ -845,11 +825,11 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
             8 -> {
                 if (firsOpening) {
                     firsOpening = false
-                    size = runesViewList[6].bottom-divider.height
+                    size = runesViewList[6].bottom - binding.divider1.height
                     baseSize = size
                 } else size = baseSize
                 when (v?.id) {
-                    runesViewList[6].id ->{
+                    runesViewList[6].id -> {
                         val set = ConstraintSet()
                         set.clone(runesLayout)
                         set.clear(runesViewList[6].id, ConstraintSet.TOP)
@@ -911,20 +891,23 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
         val backLayoutParams = descriptionBack.layoutParams
         backLayoutParams.height = screenHeight - size
         descriptionBack.layoutParams = backLayoutParams
-        descriptionBack.visibility = View.VISIBLE
+        descriptionBack.isVisible =true
     }
 
-    private fun <T : View>viewIdGenerator(list: ArrayList<T>){
-        for( element in list) element.id = View.generateViewId()
+    private fun <T : View> viewIdGenerator(list: ArrayList<T>) {
+        for (element in list) element.id = View.generateViewId()
     }
-    private fun runesParametersSetter(list: ArrayList<FrameLayout>){
-        for(element in list) element.layoutParams = ConstraintLayout.LayoutParams(runeWidth, runeHeight)
+
+    private fun runesParametersSetter(list: ArrayList<FrameLayout>) {
+        for (element in list) element.layoutParams = ConstraintLayout.LayoutParams(runeWidth, runeHeight)
     }
-    private fun <T : View, S : ViewGroup>addViewHelper(list: ArrayList<T>, viewGroup: S){
-        for(element in list) viewGroup.addView(element)
+
+    private fun <T : View, S : ViewGroup> addViewHelper(list: ArrayList<T>, viewGroup: S) {
+        for (element in list) viewGroup.addView(element)
     }
+
     //function for adding images for slot, order is important
-    private fun runesImgSetter(runes: ArrayList<FrameLayout>, runesIds: ArrayList<Int>){
+    private fun runesImgSetter(runes: ArrayList<FrameLayout>, runesIds: ArrayList<Int>) {
         runes.forEachIndexed { index, element ->
             val i = context?.assets?.open("runes/${runesIds[index]}.png")
             val runeImage = Drawable.createFromStream(i, null)
@@ -932,8 +915,8 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
         }
     }
 
-    private fun dotsInit(list: ArrayList<ImageView>, parent: ConstraintLayout){
-        for(dot in list){
+    private fun dotsInit(list: ArrayList<ImageView>, parent: ConstraintLayout) {
+        for (dot in list) {
             dot.id = View.generateViewId()
             dot.adjustViewBounds = true
             dot.setImageResource(R.drawable.ic_circle_deselected)
@@ -941,24 +924,24 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
         }
     }
 
-    private fun runesInit(runes: ArrayList<FrameLayout>, parent: ConstraintLayout, runesIds: ArrayList<Int>){
+    private fun runesInit(runes: ArrayList<FrameLayout>, parent: ConstraintLayout, runesIds: ArrayList<Int>) {
         viewIdGenerator(runes)
         runesImgSetter(runes, runesIds)
         runesParametersSetter(runes)
         addViewHelper(runes, parent)
     }
 
-    private fun runeHeightCalculator() : Int{
+    private fun runeHeightCalculator(): Int {
         val statusBarResource = requireContext().resources.getIdentifier("status_bar_height", "dimen", "android")
         val displayMetrics = requireContext().resources.displayMetrics
         val screenHeight = displayMetrics.heightPixels
         val screenWidth = displayMetrics.widthPixels
         val statusBarHeight = requireContext().resources.getDimensionPixelSize(statusBarResource)
         val fragmentHeight = screenHeight - statusBarHeight
-        val headerHeight = screenWidth*0.72/3.5
-        val buttonHeight = screenWidth*0.62/4.55
-        val indentHeight = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,120f,displayMetrics)
+        val headerHeight = screenWidth * 0.72 / 3.5
+        val buttonHeight = screenWidth * 0.62 / 4.55
+        val indentHeight = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 120f, displayMetrics)
         val calculatedFrameHeight = fragmentHeight - headerHeight - buttonHeight - indentHeight
-        return (calculatedFrameHeight/5).toInt()
+        return (calculatedFrameHeight / 5).toInt()
     }
 }
