@@ -151,12 +151,11 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
                 val result = slotChanger()
                 if (result[1]) {
                     binding.descriptionButtonFrame.text = requireContext().resources.getString(R.string.layout_init_button_text2)
-                    model.setCurrentUserLayout(layoutTable)
                 } else if (!result[0]) {
                     if (layoutId == 1) {
-                        model.setCurrentUserLayout(layoutTable)
                     }
                     val bundle = bundleOf("layoutId" to layoutId)
+                    model.setCurrentUserLayout(layoutTable)
                     navController.navigate(R.id.action_layoutInitFragment_to_layoutProcessingFragment4,bundle)
                 }
 
@@ -200,7 +199,6 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
                         val result = slotChanger()
                         if (result[1]) {
                             binding.descriptionButtonFrame.text = requireContext().resources.getString(R.string.layout_init_button_text2)
-                            model.setCurrentUserLayout(layoutTable)
                         }
                     }
                 } else isLast = true
