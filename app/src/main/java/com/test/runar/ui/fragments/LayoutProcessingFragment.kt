@@ -23,7 +23,6 @@ import kotlinx.coroutines.launch
 class LayoutProcessingFragment : Fragment() {
 
     private var progressLoading: ProgressBar? = null
-    private var nextButton: TextView? = null
     private var currentValue = 0
 
     private var layoutNameTextView: TextView? = null
@@ -56,12 +55,6 @@ class LayoutProcessingFragment : Fragment() {
                 layoutNameTextView?.text = it.layoutName
             }
         }
-
-        view.findViewById<FrameLayout>(R.id.description_button_frame).setOnClickListener {
-            val navController = findNavController()
-            navController.navigate(R.id.action_layoutProcessingFragment4_to_layoutInterpretationFragment)
-        }
-
         super.onViewCreated(view, savedInstanceState)
     }
 
@@ -69,13 +62,13 @@ class LayoutProcessingFragment : Fragment() {
         lifecycleScope.launch {
             currentValue = 0
             while (currentValue <= 100) {
-                progressLoading?.setProgress(currentValue)
+                progressLoading?.progress = currentValue
                 delay(90)
                 currentValue++
                 val navController = findNavController()
                 when (currentValue) {
 
-                    100 -> navController.navigate(R.id.favFragment)
+                    100 -> navController.navigate(R.id.action_layoutProcessingFragment4_to_layoutInterpretationFragment)
 
                 }
             }
