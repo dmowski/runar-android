@@ -51,21 +51,29 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
             R.id.layoutDescriptionFragment -> navController.navigate(R.id.action_layoutDescriptionFragment_to_layoutFragment)
             R.id.layoutInitFragment -> {
                 val alert = CancelDialog(
-                    navController,
-                    this,
-                    R.id.action_layoutInitFragment_to_layoutFragment2
+                        navController,
+                        this,
+                        R.id.action_layoutInitFragment_to_layoutFragment2
                 )
                 alert.showDialog()
             }
             R.id.layoutInterpretationFragment -> {
                 if (readyToBack) {
                     val alert = CancelDialog(
-                        navController,
-                        this,
-                        R.id.action_layoutInterpretationFragment_to_layoutFragment
+                            navController,
+                            this,
+                            R.id.action_layoutInterpretationFragment_to_layoutFragment
                     )
                     alert.showDialog()
                 } else viewModel.pressBackButton(true)
+            }
+            R.id.layoutProcessingFragment4 -> {
+                val alert = CancelDialog(
+                        navController,
+                        this,
+                        R.id.action_layoutProcessingFragment4_to_layoutFragment
+                )
+                alert.showDialog()
             }
             R.id.layoutFragment -> android.os.Process.killProcess(android.os.Process.myPid())
             else -> super.onBackPressed()

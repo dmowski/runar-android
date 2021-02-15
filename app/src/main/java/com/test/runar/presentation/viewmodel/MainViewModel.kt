@@ -285,7 +285,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                                         userLayout[6]
                                 )
                             }</bf>.<br><br>" +
-                            "Чтобы достичь <bf>${getMeaningForRune(userLayout[5])}</bf> в будущем, " +
+                            "Если в будущем ваша цель <bf>${getMeaningForRune(userLayout[5])}</bf>, " +
                             "вам необходимо обратить внимание на <bf>${getMeaningForRune(userLayout[4])}</bf>.<br><br>" +
                             "Возможно, причиной ваших трудностей является <bf>${
                                 getMeaningForRune(
@@ -293,7 +293,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                                 )
                             }</bf>.<br><br>" +
                             "Лучшее, чего Вы можете ожидать - это <bf>${getMeaningForRune(userLayout[1])}</bf>.<br><br>" +
-                            "В результате, вас ждет <bf>${getMeaningForRune(userLayout[0])}</bf>."
+                            "Как наиболее вероятный результат - вас ждет <bf>${getMeaningForRune(userLayout[0])}</bf>."
             else -> result = "lol dude"
         }
         currentInterpretation.postValue(result)

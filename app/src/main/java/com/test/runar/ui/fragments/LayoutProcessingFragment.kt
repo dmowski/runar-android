@@ -59,11 +59,11 @@ class LayoutProcessingFragment : Fragment() {
     }
 
     private fun progressBarAction() {
-        lifecycleScope.launch {
+        lifecycleScope.launchWhenResumed {
             currentValue = 0
             while (currentValue <= 100) {
                 progressLoading?.progress = currentValue
-                delay(90)
+                delay(15) //inc to 90
                 currentValue++
                 val navController = findNavController()
                 when (currentValue) {
