@@ -12,13 +12,13 @@ import com.test.runar.model.UserLayoutModel
 interface AppDAO {
 
     @Query("UPDATE layouts SET show = 0 WHERE layout_id = :id")
-    suspend fun notShow(id: Int?)
+    suspend fun notShow(id: Int)
 
     @Query("SELECT * FROM layouts WHERE layout_id = :id")
-    suspend fun getLayoutDetails(id: Int?): LayoutDescriptionModel
+    suspend fun getLayoutDetails(id: Int): LayoutDescriptionModel
 
     @Query("SELECT show FROM layouts WHERE layout_id = :id")
-    suspend fun getShowStatus(id: Int?): Int
+    suspend fun getShowStatus(id: Int): Int
 
     @Query("SELECT layout_name FROM layouts WHERE layout_id = :id")
     suspend fun getLayoutName(id: Int?): String
