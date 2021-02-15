@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.os.bundleOf
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
@@ -19,7 +20,6 @@ import com.test.runar.presentation.viewmodel.MainViewModel
 class LayoutDescriptionFragment : Fragment(R.layout.fragment_layout_description), View.OnClickListener {
 
     private lateinit var model: MainViewModel
-    private var fontSize: Float = 0f
     private var layoutId: Int = 0
 
     private var _binding: FragmentLayoutDescriptionBinding? = null
@@ -31,6 +31,8 @@ class LayoutDescriptionFragment : Fragment(R.layout.fragment_layout_description)
         model = activity?.run {
             ViewModelProviders.of(this)[MainViewModel::class.java]
         } ?: throw Exception("Invalid Activity")
+        layoutId = arguments?.getInt("layoutId")!!
+        model.getLayoutDescription(layoutId)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -47,7 +49,6 @@ class LayoutDescriptionFragment : Fragment(R.layout.fragment_layout_description)
                         binding.descriptionHeaderFrame.text = layoutDescriptionModel.layoutName
                         binding.descriptionTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize)
                         binding.descriptionTextView.text = layoutDescriptionModel.layoutDescription
-                        layoutId = layoutDescriptionModel.layoutId!!
                     }
                 }
             }
@@ -59,8 +60,17 @@ class LayoutDescriptionFragment : Fragment(R.layout.fragment_layout_description)
         super.onDestroyView()
     }
 
+    override fun onDestroy() {
+        model.clearLayoutData()
+        model.clearAusp()
+        model.clearAffirm()
+        model.clearInterpretation()
+        super.onDestroy()
+    }
+
     override fun onClick(v: View?) {
         val navController = findNavController()
+        val bundle = bundleOf("layoutId" to layoutId)
         when (v?.id) {
             R.id.exit_button -> {
                 if (binding.checkbox.isChecked) model.notShowSelectedLayout(layoutId)
@@ -68,7 +78,7 @@ class LayoutDescriptionFragment : Fragment(R.layout.fragment_layout_description)
             }
             R.id.description_button_frame -> {
                 if (binding.checkbox.isChecked) model.notShowSelectedLayout(layoutId)
-                navController.navigate(R.id.action_layoutDescriptionFragment_to_layoutInitFragment)
+                navController.navigate(R.id.action_layoutDescriptionFragment_to_layoutInitFragment,bundle)
             }
         }
     }

@@ -42,7 +42,8 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
         model = activity?.run {
             ViewModelProviders.of(this)[MainViewModel::class.java]
         } ?: throw Exception("Invalid Activity")
-        model.clearUserLayoutData()
+        layoutId = arguments?.getInt("layoutId")!!
+        model.getLayoutDescription(layoutId!!)
         runesArrayInit()
     }
 
@@ -80,7 +81,6 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
                     }
                     runeTable[i][0] = currentNumber
                 }
-                layoutId = it.layoutId
                 when (it.layoutId) {
                     2, 4 -> {
                         val constraintsSet = ConstraintSet()
