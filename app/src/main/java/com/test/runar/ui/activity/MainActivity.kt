@@ -1,27 +1,34 @@
 package com.test.runar.ui.activity
 
 import android.os.Bundle
-import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
-import androidx.navigation.ui.setupWithNavController
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import androidx.core.view.isVisible
+import androidx.fragment.app.FragmentManager
 import com.test.runar.R
+import com.test.runar.RunarLogger
+import com.test.runar.databinding.ActivityMainBinding
 import com.test.runar.presentation.viewmodel.MainViewModel
+import com.test.runar.ui.Navigator
 import com.test.runar.ui.dialogs.CancelDialog
+import com.test.runar.ui.fragments.*
 
-class MainActivity : AppCompatActivity(R.layout.activity_main) {
+class MainActivity : AppCompatActivity(), Navigator {
 
-    private var readyToBack = true
     private val viewModel: MainViewModel by viewModels()
+    private var readyToBack = true
+
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         if (savedInstanceState == null) {
-            initBottomNavBar()
+            initFragments()
         }
+
         viewModel.identify()
         viewModel.getRuneDataFromDB()
         viewModel.getAffirmationsDataFromDB()
@@ -32,51 +39,83 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         }
     }
 
-    private fun initBottomNavBar() {
-        val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNavigationBar)
-        val navController = findNavController(R.id.hostFragment)
-        bottomNav.setupWithNavController(navController)
-        navController.addOnDestinationChangedListener { _, destination, _ ->
-            bottomNav.visibility = when (destination.id) {
-                R.id.layoutFragment, R.id.favFragment -> View.VISIBLE
-                else -> View.GONE
-            }
-        }
+    private fun initFragments() {
+        supportFragmentManager.beginTransaction()
+            .add(R.id.fragmentContainer, LayoutFragment())
+            .commit()
     }
 
     override fun onBackPressed() {
-        val navController = findNavController(R.id.hostFragment)
-        when (navController.currentDestination?.id) {
-            R.id.favFragment -> navController.navigate(R.id.layoutFragment)
-            R.id.layoutDescriptionFragment -> navController.navigate(R.id.action_layoutDescriptionFragment_to_layoutFragment)
-            R.id.layoutInitFragment -> {
-                val alert = CancelDialog(
-                        navController,
-                        this,
-                        R.id.action_layoutInitFragment_to_layoutFragment2
-                )
-                alert.showDialog()
-            }
-            R.id.layoutInterpretationFragment -> {
-                if (readyToBack) {
-                    val alert = CancelDialog(
-                            navController,
-                            this,
-                            R.id.action_layoutInterpretationFragment_to_layoutFragment
-                    )
-                    alert.showDialog()
-                } else viewModel.pressBackButton(true)
-            }
-            R.id.layoutProcessingFragment4 -> {
-                val alert = CancelDialog(
-                        navController,
-                        this,
-                        R.id.action_layoutProcessingFragment4_to_layoutFragment
-                )
-                alert.showDialog()
-            }
-            R.id.layoutFragment -> android.os.Process.killProcess(android.os.Process.myPid())
-            else -> super.onBackPressed()
+        val topFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainer)
+        when (topFragment) {
+            is LayoutFragment -> super.onBackPressed()
+            !is LayoutDescriptionFragment -> showDialog()
+            else -> { navigateToDefaultAndShowBottomNavBar() }
         }
+    }
+
+    override fun navigateToLayoutDescriptionFragment(layoutId: Int) {
+        supportFragmentManager.beginTransaction()
+            .hide(supportFragmentManager.findFragmentById(R.id.fragmentContainer)!!)
+            .add(R.id.fragmentContainer, LayoutDescriptionFragment.newInstance(layoutId))
+            .addToBackStack(KEY_TO_LAYOUT_FRAGMENT_BACK)
+            .commit()
+
+        binding.bottomNavigationBar.isVisible = false
+    }
+
+    override fun navigateToLayoutInitFragment(id: Int) {
+        when (val topFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainer)) {
+            is LayoutFragment -> {
+                supportFragmentManager.beginTransaction()
+                    .hide(topFragment)
+                    .add(R.id.fragmentContainer, LayoutInitFragment.newInstance(id))
+                    .addToBackStack(KEY_TO_LAYOUT_FRAGMENT_BACK)
+                    .commit()
+            }
+            is LayoutDescriptionFragment -> {
+                supportFragmentManager.beginTransaction()
+                    .hide(topFragment)
+                    .add(R.id.fragmentContainer, LayoutInitFragment.newInstance(id))
+                    .addToBackStack(null)
+                    .commit()
+            }
+            else -> throw IllegalArgumentException()
+        }
+
+        binding.bottomNavigationBar.isVisible = false
+    }
+
+    override fun navigateToLayoutProcessingFragment(id: Int, userLayout: IntArray) {
+        supportFragmentManager.beginTransaction()
+            .hide(supportFragmentManager.findFragmentById(R.id.fragmentContainer)!!)
+            .add(R.id.fragmentContainer, LayoutProcessingFragment.newInstance(id, userLayout))
+            .addToBackStack(null)
+            .commit()
+    }
+
+    override fun navigateToInterpretationFragment(id: Int, userLayout: IntArray) {
+        supportFragmentManager.beginTransaction()
+            .hide(supportFragmentManager.findFragmentById(R.id.fragmentContainer)!!)
+            .add(R.id.fragmentContainer, LayoutInterpretationFragment.newInstance(id, userLayout))
+            .addToBackStack(null)
+            .commit()
+    }
+
+    override fun showDialog() {
+        CancelDialog(this).showDialog()
+    }
+
+    override fun agreeWithDialog() {
+        navigateToDefaultAndShowBottomNavBar()
+    }
+
+    private fun navigateToDefaultAndShowBottomNavBar() {
+        supportFragmentManager.popBackStack(KEY_TO_LAYOUT_FRAGMENT_BACK, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+        binding.bottomNavigationBar.isVisible = true
+    }
+
+    companion object {
+        private const val KEY_TO_LAYOUT_FRAGMENT_BACK = "KEY_LAYOUT_FRAGMENT"
     }
 }
