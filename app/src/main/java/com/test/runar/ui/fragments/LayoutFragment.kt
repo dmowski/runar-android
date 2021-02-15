@@ -27,10 +27,6 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
         model = activity?.run {
             ViewModelProviders.of(this)[MainViewModel::class.java]
         } ?: throw Exception("Invalid Activity")
-        model.clearLayoutData()
-        model.clearAusp()
-        model.clearAffirm()
-        model.clearInterpretation()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -111,11 +107,9 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
             when (it) {
                 0 -> {
                     navController.navigate(R.id.action_layoutFragment_to_layoutInitFragment)
-                    model.clearShowStatus()
                 }
                 1 -> {
                     navController.navigate(R.id.action_layoutFragment_to_layoutDescriptionFragment2)
-                    model.clearShowStatus()
                 }
             }
         }

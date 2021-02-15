@@ -38,7 +38,7 @@ class CancelDialog<T : Activity>(
             dialog.dismiss()
         }
         dialog.findViewById<ConstraintLayout>(R.id.dialog_element_right).setOnClickListener {
-            navController.navigate(R.id.layoutFragment)
+            navController.navigate(cancelDest)
             dialog.dismiss()
         }
     }
