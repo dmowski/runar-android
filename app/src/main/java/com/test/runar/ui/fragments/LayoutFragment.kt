@@ -1,13 +1,9 @@
 package com.test.runar.ui.fragments
 
-import android.content.res.Resources
-import android.graphics.Paint
-import android.graphics.Rect
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.view.View
 import android.widget.ScrollView
-import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.children
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -21,7 +17,6 @@ import com.test.runar.presentation.viewmodel.MainViewModel
 class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener {
 
     private lateinit var model: MainViewModel
-    private var fontSize: Float = 0f
 
     private var _binding: FragmentLayoutsBinding? = null
     private val binding
@@ -32,8 +27,6 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
         model = activity?.run {
             ViewModelProviders.of(this)[MainViewModel::class.java]
         } ?: throw Exception("Invalid Activity")
-        fontSize = correctFontSize()
-        model.setFontSize(fontSize)
         model.clearLayoutData()
         model.clearAusp()
         model.clearAffirm()
@@ -126,24 +119,5 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
                 }
             }
         }
-    }
-
-    private fun correctFontSize(): Float {
-        val text = requireContext().resources.getString(R.string.text_calculation_helper)
-        val paint = Paint()
-        val bounds = Rect()
-        val maxWidth = Resources.getSystem().displayMetrics.widthPixels * 0.84
-        paint.typeface = context?.let { ResourcesCompat.getFont(it, R.font.roboto_light) }
-        var textSize = 1f
-        paint.textSize = 1f
-        paint.getTextBounds(text, 0, text.length, bounds)
-        var currentWidth = bounds.width()
-        while (currentWidth < maxWidth) {
-            textSize++
-            paint.textSize = textSize
-            paint.getTextBounds(text, 0, text.length, bounds)
-            currentWidth = bounds.width()
-        }
-        return textSize - 2f
     }
 }
