@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
@@ -155,7 +156,8 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
                     if (layoutId == 1) {
                         model.setCurrentUserLayout(layoutTable)
                     }
-                    navController.navigate(R.id.action_layoutInitFragment_to_layoutProcessingFragment4)
+                    val bundle = bundleOf("layoutId" to layoutId)
+                    navController.navigate(R.id.action_layoutInitFragment_to_layoutProcessingFragment4,bundle)
                 }
 
             }

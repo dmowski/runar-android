@@ -36,4 +36,8 @@ object DatabaseRepository {
     suspend fun addUserLayout(data: UserLayoutModel) {
         appDao.addUserLayout(data)
     }
+
+    suspend fun getLayoutName(id: Int): String{
+        return appDao.getLayoutName(id)
+    }
 }
