@@ -5,34 +5,33 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.test.runar.R
-import com.test.runar.presentation.viewmodel.MainViewModel
+import com.test.runar.presentation.viewmodel.ProcessingViewModel
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 
 class LayoutProcessingFragment : Fragment() {
 
     private var progressLoading: ProgressBar? = null
     private var currentValue = 0
+    private var layoutId: Int = 0
 
     private var layoutNameTextView: TextView? = null
-    private lateinit var model: MainViewModel
+    private lateinit var viewModel: ProcessingViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        model = activity?.run {
-            ViewModelProvider(this)[MainViewModel::class.java]
+        viewModel = activity?.run {
+            ViewModelProvider(this)[ProcessingViewModel::class.java]
         } ?: throw Exception("Invalid Activity")
+        layoutId = arguments?.getInt("layoutId")!!
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -50,10 +49,9 @@ class LayoutProcessingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         layoutNameTextView = view.findViewById(R.id.name_layout)
-        model.selectedLayout.observe(viewLifecycleOwner) {
-            if (it != null) {
-                layoutNameTextView?.text = it.layoutName
-            }
+        viewModel.getLayoutName(layoutId)
+        viewModel.layoutName.observe(viewLifecycleOwner) {name->
+            layoutNameTextView?.text = name
         }
         super.onViewCreated(view, savedInstanceState)
     }
