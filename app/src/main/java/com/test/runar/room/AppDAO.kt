@@ -20,6 +20,9 @@ interface AppDAO {
     @Query("SELECT show FROM layouts WHERE layout_id = :id")
     suspend fun getShowStatus(id: Int?): Int
 
+    @Query("SELECT layout_name FROM layouts WHERE layout_id = :id")
+    suspend fun getLayoutName(id: Int?): String
+
     @Query("SELECT * FROM runes")
     suspend fun getRunesDetails(): List<RuneDescriptionModel>
 
