@@ -6,7 +6,7 @@ object RunarLogger {
 
     private const val TAG = "RunarLogger"
 
-    fun logError(message: String?, throwable: Throwable? = null) {
+    fun logError(message: String? = "empty message", throwable: Throwable? = null) {
         Log.e(TAG, message, throwable)
     }
 }
