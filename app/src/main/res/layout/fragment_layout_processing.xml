@@ -159,7 +159,7 @@
         app:layout_constraintTop_toBottomOf="@id/description_header_frame">
 
         <ProgressBar
-            android:id="@+id/progress"
+            android:id="@+id/progress_of_loading_view"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -221,6 +221,7 @@
         app:layout_constraintTop_toBottomOf="@+id/bottom_text_guideline"
         app:layout_constraintStart_toEndOf="@+id/icon_description_start_guideline"
         app:layout_constraintEnd_toStartOf="@+id/icon_description_text_end_guideline"/>
+
     <FrameLayout
         android:id="@+id/description_button_frame"
         android:layout_width="0dp"
@@ -245,25 +246,8 @@
             android:text="Перейти на сайт"
             android:textAlignment="center"
             android:textColor="@color/layout_description_button_text_selector"
-            app:autoSizeTextType="uniform" />
-    </FrameLayout>
-
-    <FrameLayout
-        android:id="@+id/arrow_right_frame"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="55dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/right_button_guideline"
-        app:layout_constraintStart_toEndOf="@id/icon_description_processing_end_guideline"
-        app:layout_constraintTop_toTopOf="@+id/description_button_frame">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:src="@drawable/arrow_right" />
+            app:autoSizeTextType="uniform"
+            app:drawableEndCompat="@drawable/arrow_right" />
     </FrameLayout>
 
 

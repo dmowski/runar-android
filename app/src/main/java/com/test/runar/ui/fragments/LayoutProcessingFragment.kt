@@ -1,84 +1,79 @@
 package com.test.runar.ui.fragments
 
-import android.os.Build
+import android.content.Context
 import android.os.Bundle
-import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.ProgressBar
-import android.widget.TextView
-import androidx.annotation.RequiresApi
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import com.test.runar.R
+import com.test.runar.databinding.FragmentLayoutProcessingBinding
 import com.test.runar.presentation.viewmodel.ProcessingViewModel
+import com.test.runar.ui.Navigator
 import kotlinx.coroutines.delay
 
+class LayoutProcessingFragment : Fragment(R.layout.fragment_layout_processing) {
 
-class LayoutProcessingFragment : Fragment() {
-
-    private var progressLoading: ProgressBar? = null
-    private var currentValue = 0
     private var layoutId: Int = 0
     private var userLayout = intArrayOf()
 
-    private var layoutNameTextView: TextView? = null
-    private lateinit var viewModel: ProcessingViewModel
+    private var navigator: Navigator? = null
+
+    private var _binding: FragmentLayoutProcessingBinding? = null
+    private val binding
+        get() = _binding!!
+
+    private val viewModel: ProcessingViewModel by viewModels()
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        navigator = context as Navigator
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = activity?.run {
-            ViewModelProvider(this)[ProcessingViewModel::class.java]
-        } ?: throw Exception("Invalid Activity")
-        layoutId = arguments?.getInt("layoutId")!!
-        userLayout = arguments?.getIntArray("userLayout")!!
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_layout_processing, container, false)
-        progressLoading = view.findViewById(R.id.progress)
-        progressBarAction()
-        return view
+        layoutId = requireArguments().getInt(KEY_ID)
+        userLayout = requireArguments().getIntArray(KEY_USER_LAYOUT) ?: intArrayOf()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
-        layoutNameTextView = view.findViewById(R.id.name_layout)
+        _binding = FragmentLayoutProcessingBinding.bind(view)
+        progressBarAction()
         viewModel.getLayoutName(layoutId)
-        viewModel.layoutName.observe(viewLifecycleOwner) {name->
-            layoutNameTextView?.text = name
+        viewModel.layoutName.observe(viewLifecycleOwner) { name ->
+            binding.nameLayout.text = name
         }
         super.onViewCreated(view, savedInstanceState)
     }
 
+    override fun onDetach() {
+        navigator = null
+        super.onDetach()
+    }
+
     private fun progressBarAction() {
         lifecycleScope.launchWhenResumed {
-            currentValue = 0
-            while (currentValue <= 100) {
-                progressLoading?.progress = currentValue
-                delay(15) //inc to 90
-                currentValue++
-                val navController = findNavController()
-                when (currentValue) {
-
-                    100 -> {
-                        val bundle = bundleOf("layoutId" to layoutId,"userLayout" to userLayout)
-                        navController.navigate(R.id.action_layoutProcessingFragment4_to_layoutInterpretationFragment,bundle)
-                    }
-
-                }
+            for (i in 0..100){
+                binding.progressOfLoadingView.progress = i
+                delay(15)
             }
+            navigator?.navigateToInterpretationFragment(layoutId, userLayout)
         }
     }
 
+    companion object {
+        private const val KEY_ID = "KEY_ID"
+        private const val KEY_USER_LAYOUT = "KEY_USER_LAYOUT"
+
+        fun newInstance(id: Int, userLayout: IntArray): LayoutProcessingFragment {
+            return LayoutProcessingFragment().apply {
+                arguments = bundleOf(
+                    KEY_ID to id,
+                    KEY_USER_LAYOUT to userLayout
+                )
+            }
+        }
+    }
 }
 

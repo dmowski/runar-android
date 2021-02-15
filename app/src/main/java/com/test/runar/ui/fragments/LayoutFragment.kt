@@ -1,33 +1,33 @@
 package com.test.runar.ui.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.view.View
 import android.widget.ScrollView
-import androidx.core.os.bundleOf
 import androidx.core.view.children
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.fragment.findNavController
+import androidx.fragment.app.viewModels
 import com.test.runar.R
+import com.test.runar.RunarLogger
 import com.test.runar.databinding.FragmentLayoutsBinding
 import com.test.runar.extensions.setOnCLickListenerForAll
 import com.test.runar.presentation.viewmodel.LayoutViewModel
+import com.test.runar.ui.Navigator
 
 class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener {
 
-    private lateinit var viewModel: LayoutViewModel
+    private val viewModel: LayoutViewModel by viewModels()
+    private var navigator: Navigator? = null
 
     private var _binding: FragmentLayoutsBinding? = null
     private val binding
         get() = _binding!!
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel = activity?.run {
-            ViewModelProviders.of(this)[LayoutViewModel::class.java]
-        } ?: throw Exception("Invalid Activity")
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        navigator = context as Navigator
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -41,6 +41,11 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
     override fun onDestroyView() {
         _binding = null
         super.onDestroyView()
+    }
+
+    override fun onDetach() {
+        navigator = null
+        super.onDetach()
     }
 
     private fun setClickListenerOnRuneLayouts() {
@@ -91,7 +96,7 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
     }
 
     override fun onClick(v: View?) {
-        val dest = when (v?.id) {
+        val idOfRune = when (v?.id) {
             R.id.first_layout -> 1
             R.id.second_layout -> 2
             R.id.third_layout -> 3
@@ -101,17 +106,12 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
             R.id.seventh_layout -> 7
             else -> 8
         }
-        val bundle = bundleOf("layoutId" to dest)
-        val navController = findNavController()
-        viewModel.descriptionCheck(dest)
-        viewModel.showStatus.observe(viewLifecycleOwner) {
-            when (it) {
-                0 -> {
-                    navController.navigate(R.id.action_layoutFragment_to_layoutInitFragment,bundle)
-                }
-                1 -> {
-                    navController.navigate(R.id.action_layoutFragment_to_layoutDescriptionFragment2,bundle)
-                }
+        viewModel.checkDescriptionStatus(idOfRune)
+        viewModel.showStatus.observe(viewLifecycleOwner) { needShowDescription ->
+            if (needShowDescription) {
+                navigator?.navigateToLayoutDescriptionFragment(idOfRune)
+            } else {
+                navigator?.navigateToLayoutInitFragment(idOfRune)
             }
         }
     }

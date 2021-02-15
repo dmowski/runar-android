@@ -1,5 +1,6 @@
 package com.test.runar.ui.fragments
 
+import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.View
@@ -8,22 +9,22 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import com.test.runar.R
 import com.test.runar.databinding.FragmentLayoutInitBinding
 import com.test.runar.extensions.setOnCLickListenerForAll
 import com.test.runar.presentation.viewmodel.InitViewModel
+import com.test.runar.ui.Navigator
 import com.test.runar.ui.dialogs.CancelDialog
 import com.test.runar.ui.dialogs.DescriptionDialog
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.random.Random
 
-class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
-    View.OnClickListener {
-    private lateinit var viewModel: InitViewModel
+class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClickListener {
+
+    private val viewModel: InitViewModel by viewModels()
     private lateinit var headerText: String
     private lateinit var descriptionText: String
     private lateinit var layoutFrame: ConstraintLayout
@@ -31,21 +32,30 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
     private var runeTable: Array<Array<Int>> = Array(7) { Array(2) { 0 } }
     private var runesList: Array<Array<Int>> = Array(25) { Array(2) { 0 } }
     private var layoutTable: Array<Int> = Array(9) { 0 }
-    private var layoutId: Int? = 0
+    private var layoutId: Int = 0
     private var threadCounter = 0
+
+    private var navigator: Navigator? = null
 
     private var _binding: FragmentLayoutInitBinding? = null
     private val binding
         get() = _binding!!
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        navigator = context as Navigator
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = activity?.run {
-            ViewModelProviders.of(this)[InitViewModel::class.java]
-        } ?: throw Exception("Invalid Activity")
-        layoutId = arguments?.getInt("layoutId")!!
-        viewModel.getLayoutDescription(layoutId!!)
+        layoutId = requireArguments().getInt(KEY_ID)
+        viewModel.getLayoutDescription(layoutId)
         runesArrayInit()
+    }
+
+    override fun onDetach() {
+        navigator = null
+        super.onDetach()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -128,31 +138,27 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
     }
 
 
-
     override fun onClick(v: View?) {
 
-        val navController = findNavController()
         when (v?.id) {
             R.id.exit_button -> {
-                val action = R.id.action_layoutInitFragment_to_layoutFragment2
-                activity?.let { CancelDialog(navController, it, action) }?.showDialog()
+                navigator?.showDialog()
             }
             R.id.description_button_frame -> {
                 val result = slotChanger()
                 if (result[1]) {
-                    binding.descriptionButtonFrame.text = requireContext().resources.getString(R.string.layout_init_button_text2)
+                    binding.descriptionButtonFrame.text = getString(R.string.layout_init_button_text2)
                 } else if (!result[0]) {
                     if (layoutId == 1) {
                     }
-                    val userL = layoutTable.toIntArray()
-                    val bundle = bundleOf("layoutId" to layoutId,"userLayout" to userL)
-                    navController.navigate(R.id.action_layoutInitFragment_to_layoutProcessingFragment4,bundle)
+                    val userLayout = layoutTable.toIntArray()
+                    navigator?.navigateToLayoutProcessingFragment(layoutId, userLayout)
                 }
 
             }
             R.id.info_button, R.id.text_info -> {
                 val info = DescriptionDialog(descriptionText, headerText, fontSize)
-                activity?.let { info.showDialog(it) }
+                info.showDialog(requireActivity())
             }
         }
     }
@@ -300,6 +306,14 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
                 }
             }
             continue
+        }
+    }
+
+    companion object {
+        private const val KEY_ID = "KEY_ID"
+
+        fun newInstance(id: Int): LayoutInitFragment {
+            return LayoutInitFragment().apply { arguments = bundleOf(KEY_ID to id) }
         }
     }
 }

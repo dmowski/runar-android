@@ -14,14 +14,9 @@ import kotlinx.coroutines.launch
 class DescriptionViewModel : ViewModel() {
 
     private var _selectedLayout = SingleLiveEvent<LayoutDescriptionModel>()
-    private var _fontSize = MutableLiveData<Float>()
+
     val selectedLayout: LiveData<LayoutDescriptionModel> = _selectedLayout
-    val fontSize: LiveData<Float> = _fontSize
-
-    init {
-        _fontSize.postValue(SharedDataRepository.fontSize)
-    }
-
+    val fontSize: LiveData<Float> = MutableLiveData(SharedDataRepository.fontSize)
 
     fun getLayoutDescription(id: Int) {
         CoroutineScope(Dispatchers.IO).launch {
