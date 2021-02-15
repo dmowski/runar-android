@@ -154,7 +154,8 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
                 } else if (!result[0]) {
                     if (layoutId == 1) {
                     }
-                    val bundle = bundleOf("layoutId" to layoutId)
+                    val userL = layoutTable.toIntArray()
+                    val bundle = bundleOf("layoutId" to layoutId,"userLayout" to userL)
                     model.setCurrentUserLayout(layoutTable)
                     navController.navigate(R.id.action_layoutInitFragment_to_layoutProcessingFragment4,bundle)
                 }
