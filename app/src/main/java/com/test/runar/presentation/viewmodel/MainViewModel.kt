@@ -4,8 +4,6 @@ import android.app.Application
 import android.os.Build
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import com.test.runar.model.AffimDescriptionModel
 import com.test.runar.model.LayoutDescriptionModel
@@ -25,37 +23,17 @@ import retrofit2.HttpException
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
     var selectedLayout = MutableLiveData<LayoutDescriptionModel>(null)
-    var currentUserLayout = MutableLiveData<Array<Int>>(null)
+    var currentUserLayout = MutableLiveData<ArrayList<Int>>(null)
     var preferencesRepository = SharedPreferencesRepository.get()
     var currentAusp = MutableLiveData(0)
     var currentAffirm = MutableLiveData("")
     var runesData: List<RuneDescriptionModel> = emptyList()
     var affirmData: List<AffimDescriptionModel> = emptyList()
     var currentInterpretation = MutableLiveData("")
-    var lastUserLayoutId = MutableLiveData<Int>(null)
     var selectedRune = MutableLiveData<RuneDescriptionModel>(null)
     var fontSize = MutableLiveData<Float>(null)
     var backButtonPressed = MutableLiveData(false)
     var readyToDialog = MutableLiveData(true)
-
-
-    var layoutInterpretationData: LiveData<Pair<LayoutDescriptionModel, Array<Int>>> =
-            object : MediatorLiveData<Pair<LayoutDescriptionModel, Array<Int>>>() {
-                var currentLayout: LayoutDescriptionModel? = null
-                var userLayout: Array<Int>? = null
-
-                init {
-                    addSource(selectedLayout) { currentLayout ->
-                        this.currentLayout = currentLayout
-                        userLayout?.let { value = currentLayout to it }
-                    }
-                    addSource(currentUserLayout) { userLayout ->
-                        this.userLayout = userLayout
-                        currentLayout?.let { value = it to userLayout }
-                    }
-                }
-            }
-
     init {
         fontSize.postValue(SharedDataRepository.fontSize)
     }
@@ -200,11 +178,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             }
         }
     }
-
-    fun setLastUserLayout(id: Int) {
-        lastUserLayoutId.value = id
-    }
-
     fun getInterpretation() {
         var layoutId = selectedLayout.value?.layoutId
         var userLayout = currentUserLayout.value!!
@@ -440,8 +413,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         selectedLayout.postValue(null)
     }
 
-    fun setCurrentUserLayout(currentLayout: Array<Int>) {
-        currentUserLayout.postValue(currentLayout)
+    fun setCurrentUserLayout(currentLayout: ArrayList<Int>) {
+        currentUserLayout.value = currentLayout
     }
 
     fun identify() {
