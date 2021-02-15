@@ -14,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import com.test.runar.R
 import com.test.runar.databinding.FragmentLayoutInitBinding
 import com.test.runar.extensions.setOnCLickListenerForAll
+import com.test.runar.presentation.viewmodel.InitViewModel
 import com.test.runar.presentation.viewmodel.MainViewModel
 import com.test.runar.ui.dialogs.CancelDialog
 import com.test.runar.ui.dialogs.DescriptionDialog
@@ -23,7 +24,7 @@ import kotlin.random.Random
 
 class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
     View.OnClickListener {
-    private lateinit var model: MainViewModel
+    private lateinit var viewModel: InitViewModel
     private lateinit var headerText: String
     private lateinit var descriptionText: String
     private lateinit var layoutFrame: ConstraintLayout
@@ -40,11 +41,11 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        model = activity?.run {
-            ViewModelProviders.of(this)[MainViewModel::class.java]
+        viewModel = activity?.run {
+            ViewModelProviders.of(this)[InitViewModel::class.java]
         } ?: throw Exception("Invalid Activity")
         layoutId = arguments?.getInt("layoutId")!!
-        model.getLayoutDescription(layoutId!!)
+        viewModel.getLayoutDescription(layoutId!!)
         runesArrayInit()
     }
 
@@ -55,74 +56,70 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
         val listOfView = listOf(binding.descriptionButtonFrame, binding.exitButton, binding.infoButton, binding.textInfo)
         listOfView.setOnCLickListenerForAll(this)
 
-        model.fontSize.observe(viewLifecycleOwner) {
-            if (it != null) {
-                fontSize = it
-            }
+        viewModel.fontSize.observe(viewLifecycleOwner) {
+            fontSize = it
         }
 
-        model.selectedLayout.observe(viewLifecycleOwner) {
-            if (it != null) {
-                layoutTable[8] = it.layoutId!!
-                binding.descriptionHeaderFrame.text = it.layoutName
-                headerText = it.layoutName.toString()
-                descriptionText = it.layoutDescription.toString()
-                layoutFrame = binding.layoutFrame
-                binding.firstRuneNumber.text = it.slot1.toString()
-                binding.secondRuneNumber.text = it.slot2.toString()
-                binding.thirdRuneNumber.text = it.slot3.toString()
-                binding.fourthRuneNumber.text = it.slot4.toString()
-                binding.fifthRuneNumber.text = it.slot5.toString()
-                binding.sixthRuneNumber.text = it.slot6.toString()
-                binding.seventhRuneNumber.text = it.slot7.toString()
-                for (i in 0..6) {
-                    val currentNumber = (((layoutFrame.getChildAt(i) as ConstraintLayout).getChildAt(0) as TextView).text as String).toInt()
-                    if (currentNumber == 0) {
-                        (layoutFrame.getChildAt(i) as ConstraintLayout).visibility = View.INVISIBLE
-                    }
-                    runeTable[i][0] = currentNumber
+        viewModel.selectedLayout.observe(viewLifecycleOwner) {
+            layoutTable[8] = it.layoutId!!
+            binding.descriptionHeaderFrame.text = it.layoutName
+            headerText = it.layoutName.toString()
+            descriptionText = it.layoutDescription.toString()
+            layoutFrame = binding.layoutFrame
+            binding.firstRuneNumber.text = it.slot1.toString()
+            binding.secondRuneNumber.text = it.slot2.toString()
+            binding.thirdRuneNumber.text = it.slot3.toString()
+            binding.fourthRuneNumber.text = it.slot4.toString()
+            binding.fifthRuneNumber.text = it.slot5.toString()
+            binding.sixthRuneNumber.text = it.slot6.toString()
+            binding.seventhRuneNumber.text = it.slot7.toString()
+            for (i in 0..6) {
+                val currentNumber = (((layoutFrame.getChildAt(i) as ConstraintLayout).getChildAt(0) as TextView).text as String).toInt()
+                if (currentNumber == 0) {
+                    (layoutFrame.getChildAt(i) as ConstraintLayout).visibility = View.INVISIBLE
                 }
-                when (it.layoutId) {
-                    2, 4 -> {
-                        val constraintsSet = ConstraintSet()
-                        constraintsSet.clone(layoutFrame)
-                        constraintsSet.clear(R.id.third_rune, ConstraintSet.START)
-                        constraintsSet.clear(R.id.seventh_rune, ConstraintSet.START)
-                        constraintsSet.connect(R.id.third_rune, ConstraintSet.END, R.id.center_guideline, ConstraintSet.END, 0)
-                        constraintsSet.connect(R.id.seventh_rune, ConstraintSet.START, R.id.center_guideline, ConstraintSet.END, 0)
-                        constraintsSet.applyTo(layoutFrame)
-                    }
-                    5 -> {
-                        val constraintsSet = ConstraintSet()
-                        constraintsSet.clone(layoutFrame)
-                        constraintsSet.clear(R.id.first_rune, ConstraintSet.TOP)
-                        constraintsSet.clear(R.id.fourth_rune, ConstraintSet.BOTTOM)
-                        constraintsSet.clear(R.id.fifth_rune, ConstraintSet.BOTTOM)
-                        constraintsSet.clear(R.id.seventh_rune, ConstraintSet.TOP)
-                        constraintsSet.clear(R.id.seventh_rune, ConstraintSet.BOTTOM)
-                        constraintsSet.clear(R.id.sixth_layout, ConstraintSet.TOP)
-                        constraintsSet.clear(R.id.sixth_layout, ConstraintSet.BOTTOM)
-                        constraintsSet.connect(R.id.first_rune, ConstraintSet.TOP, R.id.support_top, ConstraintSet.BOTTOM, 0)
-                        constraintsSet.connect(R.id.fourth_rune, ConstraintSet.BOTTOM, R.id.support_bottom, ConstraintSet.TOP, 0)
-                        constraintsSet.connect(R.id.seventh_rune, ConstraintSet.TOP, R.id.support_big_top, ConstraintSet.BOTTOM, 0)
-                        constraintsSet.connect(R.id.seventh_rune, ConstraintSet.BOTTOM, R.id.support_big_bottom, ConstraintSet.TOP, 0)
-                        constraintsSet.connect(R.id.sixth_rune, ConstraintSet.TOP, R.id.seventh_rune, ConstraintSet.TOP, 0)
-                        constraintsSet.connect(R.id.sixth_rune, ConstraintSet.BOTTOM, R.id.seventh_rune, ConstraintSet.BOTTOM, 0)
-                        constraintsSet.applyTo(layoutFrame)
-                    }
-                    7 -> {
-                        val constraintsSet = ConstraintSet()
-                        constraintsSet.clone(layoutFrame)
-                        constraintsSet.clear(R.id.first_rune, ConstraintSet.TOP)
-                        constraintsSet.clear(R.id.fourth_rune, ConstraintSet.BOTTOM)
-                        constraintsSet.clear(R.id.fifth_rune, ConstraintSet.BOTTOM)
-                        constraintsSet.connect(R.id.first_rune, ConstraintSet.TOP, R.id.support_top, ConstraintSet.BOTTOM, 0)
-                        constraintsSet.connect(R.id.fourth_rune, ConstraintSet.BOTTOM, R.id.support_bottom, ConstraintSet.TOP, 0)
-                        constraintsSet.applyTo(layoutFrame)
-                    }
-                }
-                firstSlotOpener()
+                runeTable[i][0] = currentNumber
             }
+            when (it.layoutId) {
+                2, 4 -> {
+                    val constraintsSet = ConstraintSet()
+                    constraintsSet.clone(layoutFrame)
+                    constraintsSet.clear(R.id.third_rune, ConstraintSet.START)
+                    constraintsSet.clear(R.id.seventh_rune, ConstraintSet.START)
+                    constraintsSet.connect(R.id.third_rune, ConstraintSet.END, R.id.center_guideline, ConstraintSet.END, 0)
+                    constraintsSet.connect(R.id.seventh_rune, ConstraintSet.START, R.id.center_guideline, ConstraintSet.END, 0)
+                    constraintsSet.applyTo(layoutFrame)
+                }
+                5 -> {
+                    val constraintsSet = ConstraintSet()
+                    constraintsSet.clone(layoutFrame)
+                    constraintsSet.clear(R.id.first_rune, ConstraintSet.TOP)
+                    constraintsSet.clear(R.id.fourth_rune, ConstraintSet.BOTTOM)
+                    constraintsSet.clear(R.id.fifth_rune, ConstraintSet.BOTTOM)
+                    constraintsSet.clear(R.id.seventh_rune, ConstraintSet.TOP)
+                    constraintsSet.clear(R.id.seventh_rune, ConstraintSet.BOTTOM)
+                    constraintsSet.clear(R.id.sixth_layout, ConstraintSet.TOP)
+                    constraintsSet.clear(R.id.sixth_layout, ConstraintSet.BOTTOM)
+                    constraintsSet.connect(R.id.first_rune, ConstraintSet.TOP, R.id.support_top, ConstraintSet.BOTTOM, 0)
+                    constraintsSet.connect(R.id.fourth_rune, ConstraintSet.BOTTOM, R.id.support_bottom, ConstraintSet.TOP, 0)
+                    constraintsSet.connect(R.id.seventh_rune, ConstraintSet.TOP, R.id.support_big_top, ConstraintSet.BOTTOM, 0)
+                    constraintsSet.connect(R.id.seventh_rune, ConstraintSet.BOTTOM, R.id.support_big_bottom, ConstraintSet.TOP, 0)
+                    constraintsSet.connect(R.id.sixth_rune, ConstraintSet.TOP, R.id.seventh_rune, ConstraintSet.TOP, 0)
+                    constraintsSet.connect(R.id.sixth_rune, ConstraintSet.BOTTOM, R.id.seventh_rune, ConstraintSet.BOTTOM, 0)
+                    constraintsSet.applyTo(layoutFrame)
+                }
+                7 -> {
+                    val constraintsSet = ConstraintSet()
+                    constraintsSet.clone(layoutFrame)
+                    constraintsSet.clear(R.id.first_rune, ConstraintSet.TOP)
+                    constraintsSet.clear(R.id.fourth_rune, ConstraintSet.BOTTOM)
+                    constraintsSet.clear(R.id.fifth_rune, ConstraintSet.BOTTOM)
+                    constraintsSet.connect(R.id.first_rune, ConstraintSet.TOP, R.id.support_top, ConstraintSet.BOTTOM, 0)
+                    constraintsSet.connect(R.id.fourth_rune, ConstraintSet.BOTTOM, R.id.support_bottom, ConstraintSet.TOP, 0)
+                    constraintsSet.applyTo(layoutFrame)
+                }
+            }
+            firstSlotOpener()
         }
     }
 
@@ -131,13 +128,7 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
         super.onDestroyView()
     }
 
-    override fun onDestroy() {
-        model.clearLayoutData()
-        model.clearAusp()
-        model.clearAffirm()
-        model.clearInterpretation()
-        super.onDestroy()
-    }
+
 
     override fun onClick(v: View?) {
 
@@ -156,7 +147,6 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
                     }
                     val userL = layoutTable.toIntArray()
                     val bundle = bundleOf("layoutId" to layoutId,"userLayout" to userL)
-                    model.setCurrentUserLayout(layoutTable)
                     navController.navigate(R.id.action_layoutInitFragment_to_layoutProcessingFragment4,bundle)
                 }
 
