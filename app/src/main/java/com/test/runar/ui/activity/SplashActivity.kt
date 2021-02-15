@@ -3,63 +3,43 @@ package com.test.runar.ui.activity
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
-import android.os.Looper
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.test.runar.R
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 class SplashActivity : AppCompatActivity() {
     private var progressBarLoading: ProgressBar? = null
-    private val SPLASH_DELAY: Long = 1000 //3 seconds
-    private var mDelayHandler: Handler? = null
     private var progressBarStatus = 0
-    var dummy: Int = 0
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.splash_screen)
         progressBarLoading = findViewById(R.id.loadingProgress)
-        mDelayHandler = Handler(Looper.getMainLooper())
-        //Navigate with delay
-        mDelayHandler!!.postDelayed(mRunnable, SPLASH_DELAY)
+
+        progressBarAction()
     }
 
-    private fun launchMainActivity() {
-        var intent = Intent(this, MainActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-        startActivity(intent)
-        this.finish()
-        mDelayHandler!!.removeCallbacks(mRunnable)
-    }
+    private fun progressBarAction() {
+        lifecycleScope.launch {
+            while (true) {
+                delay(500)
 
-    private val mRunnable: Runnable = Runnable {
-        Thread {
-            while (progressBarStatus < 100) {
-                // performing some dummy operation
-                try {
-                    dummy = dummy + 25
-                    Thread.sleep(500)
-                } catch (e: InterruptedException) {
-                    e.printStackTrace()
+                if (progressBarStatus < 100) {
+                    progressBarLoading?.setProgress(progressBarStatus)
+                    progressBarStatus += 30
+                } else {
+                    var intent = Intent(this@SplashActivity, MainActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                    break
                 }
-                // tracking progress
-                progressBarStatus = dummy
-
-                // Updating the progress bar
-                progressBarLoading?.progress = progressBarStatus
             }
-            //splash_screen_progress_bar.setProgress(10)
-            launchMainActivity()
-        }.start()
-    }
-
-    override fun onDestroy() {
-
-        if (mDelayHandler != null) {
-            mDelayHandler!!.removeCallbacks(mRunnable)
         }
-        super.onDestroy()
     }
 }
 
