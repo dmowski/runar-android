@@ -437,8 +437,11 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun getLayoutDescription(id: Int) {
-        CoroutineScope(IO).launch {
-            selectedLayout.postValue(DatabaseRepository.getLayoutDetails(id))
+        if(selectedLayout.value==null){
+            Log.d("DebugData","layoutUpdated")
+            CoroutineScope(IO).launch {
+                selectedLayout.postValue(DatabaseRepository.getLayoutDetails(id))
+            }
         }
     }
 
