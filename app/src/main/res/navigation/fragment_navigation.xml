@@ -58,6 +58,11 @@
         <action
             android:id="@+id/action_layoutProcessingFragment4_to_layoutInterpretationFragment"
             app:destination="@id/layoutInterpretationFragment" />
+        <action
+            android:id="@+id/action_layoutProcessingFragment4_to_layoutFragment"
+            app:destination="@id/layoutFragment"
+            app:popUpTo="@id/layoutFragment"
+            app:popUpToInclusive="true"/>
     </fragment>
     <fragment
         android:id="@+id/favFragment"
