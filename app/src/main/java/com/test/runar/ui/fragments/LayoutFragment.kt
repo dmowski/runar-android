@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.DisplayMetrics
 import android.view.View
 import android.widget.ScrollView
+import androidx.core.os.bundleOf
 import androidx.core.view.children
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -100,16 +101,16 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
             R.id.seventh_layout -> 7
             else -> 8
         }
+        val bundle = bundleOf("layoutId" to dest)
         val navController = findNavController()
         model.descriptionCheck(dest)
-        model.getLayoutDescription(dest)
         model.showStatus.observe(viewLifecycleOwner) {
             when (it) {
                 0 -> {
-                    navController.navigate(R.id.action_layoutFragment_to_layoutInitFragment)
+                    navController.navigate(R.id.action_layoutFragment_to_layoutInitFragment,bundle)
                 }
                 1 -> {
-                    navController.navigate(R.id.action_layoutFragment_to_layoutDescriptionFragment2)
+                    navController.navigate(R.id.action_layoutFragment_to_layoutDescriptionFragment2,bundle)
                 }
             }
         }

@@ -14,6 +14,10 @@
         <action
             android:id="@+id/action_layoutFragment_to_layoutInitFragment"
             app:destination="@id/layoutInitFragment" />
+        <argument
+            android:name="layoutId"
+            app:argType="integer"
+            android:defaultValue="0" />
     </fragment>
 
 
@@ -28,6 +32,10 @@
             app:destination="@id/layoutFragment"
             app:popUpTo="@id/layoutFragment"
             app:popUpToInclusive="true"/>
+        <argument
+            android:name="layoutId"
+            app:argType="integer"
+            android:defaultValue="0" />
     </fragment>
 
     <fragment
