@@ -426,13 +426,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-
-    fun notShowSelectedLayout(id: Int) {
-        CoroutineScope(IO).launch {
-            DatabaseRepository.notShow(id)
-        }
-    }
-
     fun getLayoutDescription(id: Int) {
         if(selectedLayout.value==null){
             Log.d("DebugData","layoutUpdated")
