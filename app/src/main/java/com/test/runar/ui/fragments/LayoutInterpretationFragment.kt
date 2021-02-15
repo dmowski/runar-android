@@ -48,8 +48,6 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
     private var screenHeight: Int = 0
     private var lastUserLayoutId = 0
     private var currentRunePosition = 0
-
-    private var newLayoutId =0
     private var newUserLayout = arrayListOf<Int>()
 
     private var _binding: FragmentLayoutInterpretationBinding? = null
@@ -61,9 +59,11 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
         model = activity?.run {
             ViewModelProviders.of(this)[MainViewModel::class.java]
         } ?: throw Exception("Invalid Activity")
-        newLayoutId = arguments?.getInt("layoutId")!!
+        layoutId = arguments?.getInt("layoutId")!!
         newUserLayout = (arguments?.getIntArray("userLayout")!!).toCollection(ArrayList())
         for(dat in newUserLayout) Log.d("DebugData",dat.toString())
+        model.setCurrentUserLayout(newUserLayout)
+        model.getLayoutDescription(layoutId)
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -75,13 +75,6 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
         headerFrame = binding.descriptionHeaderFrame
         runesLayout = binding.runesLayout
         bottomRunesNav = binding.bottomRunesNavBar
-
-        //get last layout for prevention of setting old data
-        model.lastUserLayoutId.observe(viewLifecycleOwner) {
-            if (it != null) {
-                lastUserLayoutId = it
-            }
-        }
         //get data about current layout
         model.fontSize.observe(viewLifecycleOwner) { interpretation ->
             if (interpretation != null) {
@@ -91,7 +84,6 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                         runeHeight = runeHeightCalculator()
                         runeWidth = (runeHeight / 1.23).toInt()
                         val userLayout = newUserLayout
-                        layoutId = selectedLayout.layoutId!!
                         binding.header.text = selectedLayout.layoutName
 
                         val firstRune = FrameLayout(requireContext())
@@ -793,5 +785,13 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
     override fun onDestroyView() {
         _binding = null
         super.onDestroyView()
+    }
+
+    override fun onDestroy() {
+        model.clearLayoutData()
+        model.clearAusp()
+        model.clearAffirm()
+        model.clearInterpretation()
+        super.onDestroy()
     }
 }
