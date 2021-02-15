@@ -7,6 +7,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
+import com.test.runar.extensions.SingleLiveEvent
 import com.test.runar.model.AffimDescriptionModel
 import com.test.runar.model.LayoutDescriptionModel
 import com.test.runar.model.RuneDescriptionModel
@@ -26,7 +27,8 @@ import retrofit2.HttpException
 class MainViewModel(application: Application) : AndroidViewModel(application) {
     var selectedLayout = MutableLiveData<LayoutDescriptionModel>(null)
     var currentUserLayout = MutableLiveData<Array<Int>>(null)
-    var showStatus = MutableLiveData(3)
+    private var _showStatus = SingleLiveEvent<Int>()
+    val showStatus : LiveData<Int> = _showStatus
     var preferencesRepository = SharedPreferencesRepository.get()
     var currentAusp = MutableLiveData(0)
     var currentAffirm = MutableLiveData("")
@@ -441,6 +443,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun clearLayoutData() {
+        Log.d("DebugData","Data destroyed")
         selectedLayout.postValue(null)
     }
 
@@ -454,13 +457,13 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     fun descriptionCheck(id: Int) {
         CoroutineScope(IO).launch {
-            showStatus.postValue(DatabaseRepository.getShowStatus(id))
+            _showStatus.postValue(DatabaseRepository.getShowStatus(id))
         }
     }
 
-    fun clearShowStatus() {
+    /*fun clearShowStatus() {
         showStatus.postValue(3)
-    }
+    }*/
 
     fun identify() {
         val userId = preferencesRepository.userId

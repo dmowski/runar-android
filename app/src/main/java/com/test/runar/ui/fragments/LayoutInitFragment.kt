@@ -130,6 +130,14 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init),
         super.onDestroyView()
     }
 
+    override fun onDestroy() {
+        model.clearLayoutData()
+        model.clearAusp()
+        model.clearAffirm()
+        model.clearInterpretation()
+        super.onDestroy()
+    }
+
     override fun onClick(v: View?) {
 
         val navController = findNavController()

@@ -789,4 +789,8 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
         }
         bottomNavSet.applyTo(bottomRunesNav)
     }
+    override fun onDestroyView() {
+        _binding = null
+        super.onDestroyView()
+    }
 }
