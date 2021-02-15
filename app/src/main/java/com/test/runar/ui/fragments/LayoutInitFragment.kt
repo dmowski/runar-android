@@ -15,7 +15,6 @@ import com.test.runar.R
 import com.test.runar.databinding.FragmentLayoutInitBinding
 import com.test.runar.extensions.setOnCLickListenerForAll
 import com.test.runar.presentation.viewmodel.InitViewModel
-import com.test.runar.presentation.viewmodel.MainViewModel
 import com.test.runar.ui.dialogs.CancelDialog
 import com.test.runar.ui.dialogs.DescriptionDialog
 import kotlinx.coroutines.delay
