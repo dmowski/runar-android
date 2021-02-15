@@ -13,11 +13,11 @@ import androidx.navigation.fragment.findNavController
 import com.test.runar.R
 import com.test.runar.databinding.FragmentLayoutsBinding
 import com.test.runar.extensions.setOnCLickListenerForAll
-import com.test.runar.presentation.viewmodel.MainViewModel
+import com.test.runar.presentation.viewmodel.LayoutViewModel
 
 class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener {
 
-    private lateinit var model: MainViewModel
+    private lateinit var viewModel: LayoutViewModel
 
     private var _binding: FragmentLayoutsBinding? = null
     private val binding
@@ -25,8 +25,8 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        model = activity?.run {
-            ViewModelProviders.of(this)[MainViewModel::class.java]
+        viewModel = activity?.run {
+            ViewModelProviders.of(this)[LayoutViewModel::class.java]
         } ?: throw Exception("Invalid Activity")
     }
 
@@ -103,8 +103,8 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
         }
         val bundle = bundleOf("layoutId" to dest)
         val navController = findNavController()
-        model.descriptionCheck(dest)
-        model.showStatus.observe(viewLifecycleOwner) {
+        viewModel.descriptionCheck(dest)
+        viewModel.showStatus.observe(viewLifecycleOwner) {
             when (it) {
                 0 -> {
                     navController.navigate(R.id.action_layoutFragment_to_layoutInitFragment,bundle)
