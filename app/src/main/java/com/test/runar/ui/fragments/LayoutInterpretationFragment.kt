@@ -46,7 +46,6 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
     private var defaultConstraintSet = ConstraintSet()
     private var baseSize = 0
     private var screenHeight: Int = 0
-    private var lastUserLayoutId = 0
     private var currentRunePosition = 0
     private var newUserLayout = arrayListOf<Int>()
 
@@ -61,7 +60,6 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
         } ?: throw Exception("Invalid Activity")
         layoutId = arguments?.getInt("layoutId")!!
         newUserLayout = (arguments?.getIntArray("userLayout")!!).toCollection(ArrayList())
-        for(dat in newUserLayout) Log.d("DebugData",dat.toString())
         model.setCurrentUserLayout(newUserLayout)
         model.getLayoutDescription(layoutId)
     }
