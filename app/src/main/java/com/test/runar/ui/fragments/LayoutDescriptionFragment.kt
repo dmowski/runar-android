@@ -1,25 +1,20 @@
 package com.test.runar.ui.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.util.TypedValue
 import android.view.View
-import android.widget.FrameLayout
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.core.os.bundleOf
-import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.test.runar.R
 import com.test.runar.databinding.FragmentLayoutDescriptionBinding
 import com.test.runar.extensions.setOnCLickListenerForAll
-import com.test.runar.presentation.viewmodel.MainViewModel
+import com.test.runar.presentation.viewmodel.DescriptionViewModel
 
 class LayoutDescriptionFragment : Fragment(R.layout.fragment_layout_description), View.OnClickListener {
 
-    private lateinit var model: MainViewModel
+    private lateinit var viewModel: DescriptionViewModel
     private var layoutId: Int = 0
 
     private var _binding: FragmentLayoutDescriptionBinding? = null
@@ -28,11 +23,11 @@ class LayoutDescriptionFragment : Fragment(R.layout.fragment_layout_description)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        model = activity?.run {
-            ViewModelProviders.of(this)[MainViewModel::class.java]
+        viewModel = activity?.run {
+            ViewModelProviders.of(this)[DescriptionViewModel::class.java]
         } ?: throw Exception("Invalid Activity")
         layoutId = arguments?.getInt("layoutId")!!
-        model.getLayoutDescription(layoutId)
+        viewModel.getLayoutDescription(layoutId) //
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -42,14 +37,12 @@ class LayoutDescriptionFragment : Fragment(R.layout.fragment_layout_description)
         val listOfView = listOf(binding.descriptionButtonFrame, binding.exitButton)
         listOfView.setOnCLickListenerForAll(this)
 
-        model.fontSize.observe(viewLifecycleOwner) { textSize ->
-            if (textSize != null) {
-                model.selectedLayout.observe(viewLifecycleOwner) { layoutDescriptionModel ->
-                    if (layoutDescriptionModel != null) {
-                        binding.descriptionHeaderFrame.text = layoutDescriptionModel.layoutName
-                        binding.descriptionTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize)
-                        binding.descriptionTextView.text = layoutDescriptionModel.layoutDescription
-                    }
+        viewModel.fontSize.observe(viewLifecycleOwner) { textSize ->
+            viewModel.selectedLayout.observe(viewLifecycleOwner) { layoutDescriptionModel ->
+                if (layoutDescriptionModel != null) {
+                    binding.descriptionHeaderFrame.text = layoutDescriptionModel.layoutName
+                    binding.descriptionTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize)
+                    binding.descriptionTextView.text = layoutDescriptionModel.layoutDescription
                 }
             }
         }
@@ -60,25 +53,17 @@ class LayoutDescriptionFragment : Fragment(R.layout.fragment_layout_description)
         super.onDestroyView()
     }
 
-    override fun onDestroy() {
-        model.clearLayoutData()
-        model.clearAusp()
-        model.clearAffirm()
-        model.clearInterpretation()
-        super.onDestroy()
-    }
-
     override fun onClick(v: View?) {
         val navController = findNavController()
         val bundle = bundleOf("layoutId" to layoutId)
         when (v?.id) {
             R.id.exit_button -> {
-                if (binding.checkbox.isChecked) model.notShowSelectedLayout(layoutId)
+                if (binding.checkbox.isChecked) viewModel.notShowSelectedLayout(layoutId)
                 navController.navigate(R.id.action_layoutDescriptionFragment_to_layoutFragment)
             }
             R.id.description_button_frame -> {
-                if (binding.checkbox.isChecked) model.notShowSelectedLayout(layoutId)
-                navController.navigate(R.id.action_layoutDescriptionFragment_to_layoutInitFragment,bundle)
+                if (binding.checkbox.isChecked) viewModel.notShowSelectedLayout(layoutId)
+                navController.navigate(R.id.action_layoutDescriptionFragment_to_layoutInitFragment, bundle)
             }
         }
     }
