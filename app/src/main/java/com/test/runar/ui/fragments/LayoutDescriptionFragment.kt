@@ -1,6 +1,7 @@
 package com.test.runar.ui.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.widget.FrameLayout
@@ -41,11 +42,10 @@ class LayoutDescriptionFragment : Fragment(R.layout.fragment_layout_description)
 
         model.fontSize.observe(viewLifecycleOwner) { textSize ->
             if (textSize != null) {
-                fontSize = textSize
                 model.selectedLayout.observe(viewLifecycleOwner) { layoutDescriptionModel ->
                     if (layoutDescriptionModel != null) {
                         binding.descriptionHeaderFrame.text = layoutDescriptionModel.layoutName
-                        binding.descriptionTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
+                        binding.descriptionTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize)
                         binding.descriptionTextView.text = layoutDescriptionModel.layoutDescription
                         layoutId = layoutDescriptionModel.layoutId!!
                     }
