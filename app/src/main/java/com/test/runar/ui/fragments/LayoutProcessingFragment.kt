@@ -10,58 +10,41 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.test.runar.R
 import com.test.runar.presentation.viewmodel.MainViewModel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 class LayoutProcessingFragment : Fragment() {
 
-    private var progressLoading:ProgressBar?=null
-    private var nextButton: TextView?=null
+    private var progressLoading: ProgressBar? = null
+    private var nextButton: TextView? = null
     private var currentValue = 0
 
-    private var layoutNameTextView:TextView? = null
+    private var layoutNameTextView: TextView? = null
     private lateinit var model: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         model = activity?.run {
-            ViewModelProviders.of(this)[MainViewModel::class.java]
+            ViewModelProvider(this)[MainViewModel::class.java]
         } ?: throw Exception("Invalid Activity")
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_layout_processing, container, false)
         progressLoading = view.findViewById(R.id.progress)
-
-//
-//         val runnable = Runnable {
-//            currentValue = 0
-//            while (currentValue <= 100) {
-//                try {
-//                    progressLoading?.setProgress(currentValue)
-//                    Thread.sleep(100) //speed
-//                } catch (e: InterruptedException) {
-//                }
-//                currentValue++
-//                val navController = findNavController()
-//                when(currentValue){
-//
-//                    100 -> navController.navigate(R.id.favFragment)
-//
-//                }
-//            }
-//        }
-//        val thread = Thread(runnable)
-//        thread.start()
-
-
-
+        progressBarAction()
         return view
     }
 
@@ -81,5 +64,23 @@ class LayoutProcessingFragment : Fragment() {
 
         super.onViewCreated(view, savedInstanceState)
     }
+
+    private fun progressBarAction() {
+        lifecycleScope.launch {
+            currentValue = 0
+            while (currentValue <= 100) {
+                progressLoading?.setProgress(currentValue)
+                delay(90)
+                currentValue++
+                val navController = findNavController()
+                when (currentValue) {
+
+                    100 -> navController.navigate(R.id.favFragment)
+
+                }
+            }
+        }
+    }
+
 }
 
