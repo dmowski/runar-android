@@ -6,6 +6,7 @@ import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.text.Html
+import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
@@ -48,6 +49,9 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
     private var lastUserLayoutId = 0
     private var currentRunePosition = 0
 
+    private var newLayoutId =0
+    private var newUserLayout = arrayListOf<Int>()
+
     private var _binding: FragmentLayoutInterpretationBinding? = null
     private val binding
         get() = _binding!!
@@ -57,6 +61,9 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
         model = activity?.run {
             ViewModelProviders.of(this)[MainViewModel::class.java]
         } ?: throw Exception("Invalid Activity")
+        newLayoutId = arguments?.getInt("layoutId")!!
+        newUserLayout = (arguments?.getIntArray("userLayout")!!).toCollection(ArrayList())
+        for(dat in newUserLayout) Log.d("DebugData",dat.toString())
     }
 
     @SuppressLint("ClickableViewAccessibility")
