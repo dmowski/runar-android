@@ -86,288 +86,282 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
         model.fontSize.observe(viewLifecycleOwner) { interpretation ->
             if (interpretation != null) {
                 fontSize = interpretation
-                model.layoutInterpretationData.observe(viewLifecycleOwner) { pair ->
-                    var currentId = 0
-                    if (pair.second != null) {
-                        for (i in pair.second) currentId += i
-                        if (pair != null && pair.second[8] == pair.first.layoutId && lastUserLayoutId != currentId) {
-                            model.setLastUserLayout(currentId)
-                            runeHeight = runeHeightCalculator()
-                            runeWidth = (runeHeight / 1.23).toInt()
-                            val userLayout = pair.second
-                            val selectedLayout = pair.first
-                            layoutId = selectedLayout.layoutId!!
-                            binding.header.text = selectedLayout.layoutName
+                model.selectedLayout.observe(viewLifecycleOwner) { selectedLayout ->
+                    if(selectedLayout!=null){
+                        runeHeight = runeHeightCalculator()
+                        runeWidth = (runeHeight / 1.23).toInt()
+                        val userLayout = newUserLayout
+                        layoutId = selectedLayout.layoutId!!
+                        binding.header.text = selectedLayout.layoutName
 
-                            val firstRune = FrameLayout(requireContext())
-                            val secondRune = FrameLayout(requireContext())
-                            val thirdRune = FrameLayout(requireContext())
-                            val fourthRune = FrameLayout(requireContext())
-                            val fifthRune = FrameLayout(requireContext())
-                            val sixthRune = FrameLayout(requireContext())
-                            val seventhRune = FrameLayout(requireContext())
+                        val firstRune = FrameLayout(requireContext())
+                        val secondRune = FrameLayout(requireContext())
+                        val thirdRune = FrameLayout(requireContext())
+                        val fourthRune = FrameLayout(requireContext())
+                        val fifthRune = FrameLayout(requireContext())
+                        val sixthRune = FrameLayout(requireContext())
+                        val seventhRune = FrameLayout(requireContext())
 
-                            when (selectedLayout.layoutId) {
-                                1 -> {
-                                    firstRune.id = View.generateViewId()
-                                    val firstRuneId = userLayout[2]
+                        when (selectedLayout.layoutId) {
+                            1 -> {
+                                firstRune.id = View.generateViewId()
+                                val firstRuneId = userLayout[2]
 
-                                    val ims = context?.assets?.open("runes/${firstRuneId}.png")
-                                    val firstRuneImage = Drawable.createFromStream(ims, null)
-                                    firstRune.setBackgroundDrawable(firstRuneImage)
-                                    val firstRuneLayoutParams = ConstraintLayout.LayoutParams(runeWidth, runeHeight)
-                                    firstRune.layoutParams = firstRuneLayoutParams
+                                val ims = context?.assets?.open("runes/${firstRuneId}.png")
+                                val firstRuneImage = Drawable.createFromStream(ims, null)
+                                firstRune.setBackgroundDrawable(firstRuneImage)
+                                val firstRuneLayoutParams = ConstraintLayout.LayoutParams(runeWidth, runeHeight)
+                                firstRune.layoutParams = firstRuneLayoutParams
 
-                                    this.runesLayout.addView(firstRune)
-                                    val set = ConstraintSet()
-                                    set.clone(runesLayout)
-                                    set.connect(firstRune.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, 0)
-                                    set.connect(firstRune.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END, 0)
-                                    set.connect(firstRune.id, ConstraintSet.TOP, R.id.divider1, ConstraintSet.BOTTOM, 0)
-                                    set.applyTo(runesLayout)
-                                }
-                                2 -> {
-                                    runesViewList.addAll(arrayListOf(firstRune, secondRune))
-                                    runesPositionsList.addAll(arrayListOf(selectedLayout.slotMeaning3, selectedLayout.slotMeaning7))
-
-                                    val runesIdsList = arrayListOf(userLayout[2], userLayout[6])
-                                    runesInit(runesViewList, runesLayout, runesIdsList)
-
-                                    val set = ConstraintSet()
-                                    set.clone(runesLayout)
-                                    set.connect(firstRune.id, ConstraintSet.END, R.id.center_guideline, ConstraintSet.START, 0)
-                                    set.connect(firstRune.id, ConstraintSet.TOP, R.id.divider1, ConstraintSet.BOTTOM, 0)
-                                    set.connect(secondRune.id, ConstraintSet.TOP, R.id.divider1, ConstraintSet.BOTTOM, 0)
-                                    set.connect(secondRune.id, ConstraintSet.START, R.id.center_guideline, ConstraintSet.END, 0)
-                                    set.applyTo(runesLayout)
-                                    dotsCreator(2)
-                                }
-                                3 -> {
-                                    runesViewList.addAll(arrayListOf(thirdRune, secondRune, firstRune))
-                                    runesPositionsList.addAll(arrayListOf(selectedLayout.slotMeaning7, selectedLayout.slotMeaning3, selectedLayout.slotMeaning6))
-
-                                    val runesIdsList = arrayListOf(userLayout[6], userLayout[2], userLayout[5])
-                                    runesInit(runesViewList, runesLayout, runesIdsList)
-
-                                    val set = ConstraintSet()
-                                    set.clone(runesLayout)
-                                    set.connect(secondRune.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, 0)
-                                    set.connect(secondRune.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END, 0)
-                                    set.connect(secondRune.id, ConstraintSet.TOP, R.id.divider1, ConstraintSet.BOTTOM, 0)
-                                    set.connect(firstRune.id, ConstraintSet.TOP, secondRune.id, ConstraintSet.TOP, 0)
-                                    set.connect(firstRune.id, ConstraintSet.BOTTOM, secondRune.id, ConstraintSet.BOTTOM, 0)
-                                    set.connect(thirdRune.id, ConstraintSet.TOP, secondRune.id, ConstraintSet.TOP, 0)
-                                    set.connect(thirdRune.id, ConstraintSet.BOTTOM, secondRune.id, ConstraintSet.BOTTOM, 0)
-                                    set.connect(firstRune.id, ConstraintSet.END, secondRune.id, ConstraintSet.START, 0)
-                                    set.connect(thirdRune.id, ConstraintSet.START, secondRune.id, ConstraintSet.END, 0)
-                                    set.applyTo(runesLayout)
-                                    dotsCreator(3)
-                                }
-                                4 -> {
-                                    runesViewList.addAll(arrayListOf(fourthRune, secondRune, thirdRune, firstRune))
-                                    runesPositionsList.addAll(arrayListOf(selectedLayout.slotMeaning7, selectedLayout.slotMeaning3, selectedLayout.slotMeaning4, selectedLayout.slotMeaning2))
-
-                                    val runesIdsList = arrayListOf(userLayout[6], userLayout[2], userLayout[3], userLayout[1])
-                                    runesInit(runesViewList, runesLayout, runesIdsList)
-
-                                    val set = ConstraintSet()
-                                    set.clone(runesLayout)
-                                    set.connect(firstRune.id, ConstraintSet.END, R.id.center_guideline, ConstraintSet.END, 0)
-                                    set.connect(firstRune.id, ConstraintSet.TOP, R.id.divider1, ConstraintSet.BOTTOM, 0)
-                                    set.connect(secondRune.id, ConstraintSet.TOP, firstRune.id, ConstraintSet.BOTTOM, 0)
-                                    set.connect(secondRune.id, ConstraintSet.END, R.id.center_guideline, ConstraintSet.END, 0)
-                                    set.connect(thirdRune.id, ConstraintSet.TOP, secondRune.id, ConstraintSet.BOTTOM, 0)
-                                    set.connect(thirdRune.id, ConstraintSet.START, secondRune.id, ConstraintSet.START, 0)
-                                    set.connect(thirdRune.id, ConstraintSet.END, secondRune.id, ConstraintSet.END, 0)
-                                    set.connect(fourthRune.id, ConstraintSet.START, secondRune.id, ConstraintSet.END, 0)
-                                    set.connect(fourthRune.id, ConstraintSet.BOTTOM, secondRune.id, ConstraintSet.BOTTOM, 0)
-                                    set.connect(fourthRune.id, ConstraintSet.TOP, secondRune.id, ConstraintSet.TOP, 0)
-                                    set.applyTo(runesLayout)
-                                    dotsCreator(4)
-                                }
-                                5 -> {
-                                    runesViewList.addAll(arrayListOf(fourthRune, secondRune, thirdRune, firstRune))
-                                    runesPositionsList.addAll(arrayListOf(selectedLayout.slotMeaning3, selectedLayout.slotMeaning6, selectedLayout.slotMeaning7, selectedLayout.slotMeaning2))
-
-                                    val runesIdsList = arrayListOf(userLayout[2], userLayout[5], userLayout[6], userLayout[1])
-                                    runesInit(runesViewList, runesLayout, runesIdsList)
-
-                                    val set = ConstraintSet()
-                                    set.clone(runesLayout)
-                                    set.connect(firstRune.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, 0)
-                                    set.connect(firstRune.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END, 0)
-                                    set.connect(firstRune.id, ConstraintSet.TOP, R.id.divider1, ConstraintSet.BOTTOM, 0)
-                                    set.connect(fourthRune.id, ConstraintSet.START, firstRune.id, ConstraintSet.START, 0)
-                                    set.connect(fourthRune.id, ConstraintSet.END, firstRune.id, ConstraintSet.END, 0)
-                                    set.connect(fourthRune.id, ConstraintSet.TOP, firstRune.id, ConstraintSet.BOTTOM, 0)
-                                    set.connect(secondRune.id, ConstraintSet.END, firstRune.id, ConstraintSet.START, 0)
-                                    set.connect(secondRune.id, ConstraintSet.BOTTOM, fourthRune.id, ConstraintSet.BOTTOM, 0)
-                                    set.connect(secondRune.id, ConstraintSet.TOP, firstRune.id, ConstraintSet.TOP, 0)
-                                    set.connect(thirdRune.id, ConstraintSet.START, firstRune.id, ConstraintSet.END, 0)
-                                    set.connect(thirdRune.id, ConstraintSet.BOTTOM, fourthRune.id, ConstraintSet.BOTTOM, 0)
-                                    set.connect(thirdRune.id, ConstraintSet.TOP, firstRune.id, ConstraintSet.TOP, 0)
-                                    set.applyTo(runesLayout)
-                                    dotsCreator(4)
-                                }
-                                6 -> {
-                                    runesViewList.addAll(arrayListOf(fourthRune, secondRune, fifthRune, firstRune, thirdRune))
-                                    runesPositionsList.addAll(arrayListOf(selectedLayout.slotMeaning6, selectedLayout.slotMeaning3, selectedLayout.slotMeaning7, selectedLayout.slotMeaning2, selectedLayout.slotMeaning4))
-
-                                    val runesIdsList = arrayListOf(userLayout[5], userLayout[2], userLayout[6], userLayout[1], userLayout[3])
-                                    runesInit(runesViewList, runesLayout, runesIdsList)
-
-                                    val set = ConstraintSet()
-                                    set.clone(runesLayout)
-                                    set.connect(firstRune.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END, 0)
-                                    set.connect(firstRune.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, 0)
-                                    set.connect(firstRune.id, ConstraintSet.TOP, R.id.divider1, ConstraintSet.BOTTOM, 0)
-                                    set.connect(secondRune.id, ConstraintSet.TOP, firstRune.id, ConstraintSet.BOTTOM, 0)
-                                    set.connect(secondRune.id, ConstraintSet.START, firstRune.id, ConstraintSet.START, 0)
-                                    set.connect(secondRune.id, ConstraintSet.END, firstRune.id, ConstraintSet.END, 0)
-                                    set.connect(thirdRune.id, ConstraintSet.TOP, secondRune.id, ConstraintSet.BOTTOM, 0)
-                                    set.connect(thirdRune.id, ConstraintSet.START, firstRune.id, ConstraintSet.START, 0)
-                                    set.connect(thirdRune.id, ConstraintSet.END, firstRune.id, ConstraintSet.END, 0)
-                                    set.connect(fourthRune.id, ConstraintSet.END, secondRune.id, ConstraintSet.START, 0)
-                                    set.connect(fourthRune.id, ConstraintSet.BOTTOM, secondRune.id, ConstraintSet.BOTTOM, 0)
-                                    set.connect(fourthRune.id, ConstraintSet.TOP, secondRune.id, ConstraintSet.TOP, 0)
-                                    set.connect(fifthRune.id, ConstraintSet.START, secondRune.id, ConstraintSet.END, 0)
-                                    set.connect(fifthRune.id, ConstraintSet.BOTTOM, secondRune.id, ConstraintSet.BOTTOM, 0)
-                                    set.connect(fifthRune.id, ConstraintSet.TOP, secondRune.id, ConstraintSet.TOP, 0)
-                                    set.applyTo(runesLayout)
-                                    dotsCreator(5)
-                                }
-                                7 -> {
-                                    runesViewList.addAll(arrayListOf(sixthRune, thirdRune, fifthRune, fourthRune, secondRune, firstRune))
-                                    runesPositionsList.addAll(arrayListOf(selectedLayout.slotMeaning7, selectedLayout.slotMeaning3, selectedLayout.slotMeaning6, selectedLayout.slotMeaning4, selectedLayout.slotMeaning2, selectedLayout.slotMeaning1))
-
-                                    val runesIdsList = arrayListOf(userLayout[6], userLayout[2], userLayout[5], userLayout[3], userLayout[1], userLayout[0])
-                                    runesInit(runesViewList, runesLayout, runesIdsList)
-
-                                    val set = ConstraintSet()
-                                    set.clone(runesLayout)
-                                    set.connect(firstRune.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END, 0)
-                                    set.connect(firstRune.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, 0)
-                                    set.connect(firstRune.id, ConstraintSet.TOP, R.id.divider1, ConstraintSet.BOTTOM, 0)
-                                    set.connect(secondRune.id, ConstraintSet.TOP, firstRune.id, ConstraintSet.BOTTOM, 0)
-                                    set.connect(secondRune.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, 0)
-                                    set.connect(secondRune.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END, 0)
-                                    set.connect(thirdRune.id, ConstraintSet.TOP, secondRune.id, ConstraintSet.BOTTOM, 0)
-                                    set.connect(thirdRune.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, 0)
-                                    set.connect(thirdRune.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END, 0)
-                                    set.connect(fourthRune.id, ConstraintSet.TOP, thirdRune.id, ConstraintSet.BOTTOM, 0)
-                                    set.connect(fourthRune.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, 0)
-                                    set.connect(fourthRune.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END, 0)
-                                    set.connect(fifthRune.id, ConstraintSet.END, thirdRune.id, ConstraintSet.START, 0)
-                                    set.connect(fifthRune.id, ConstraintSet.BOTTOM, thirdRune.id, ConstraintSet.BOTTOM, 0)
-                                    set.connect(fifthRune.id, ConstraintSet.TOP, thirdRune.id, ConstraintSet.TOP, 0)
-                                    set.connect(sixthRune.id, ConstraintSet.START, thirdRune.id, ConstraintSet.END, 0)
-                                    set.connect(sixthRune.id, ConstraintSet.BOTTOM, thirdRune.id, ConstraintSet.BOTTOM, 0)
-                                    set.connect(sixthRune.id, ConstraintSet.TOP, thirdRune.id, ConstraintSet.TOP, 0)
-                                    set.applyTo(runesLayout)
-                                    dotsCreator(6)
-                                }
-                                8 -> {
-                                    runesViewList.addAll(arrayListOf(thirdRune, seventhRune, sixthRune, fifthRune, fourthRune, secondRune, firstRune))
-                                    runesPositionsList.addAll(arrayListOf(selectedLayout.slotMeaning3, selectedLayout.slotMeaning7, selectedLayout.slotMeaning6, selectedLayout.slotMeaning5, selectedLayout.slotMeaning4, selectedLayout.slotMeaning2, selectedLayout.slotMeaning1))
-
-                                    val runesIdsList = arrayListOf(userLayout[2], userLayout[6], userLayout[5], userLayout[4], userLayout[3], userLayout[1], userLayout[0])
-                                    runesInit(runesViewList, runesLayout, runesIdsList)
-
-                                    val set = ConstraintSet()
-                                    set.clone(runesLayout)
-                                    set.connect(firstRune.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END, 0)
-                                    set.connect(firstRune.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, 0)
-                                    set.connect(firstRune.id, ConstraintSet.TOP, R.id.divider1, ConstraintSet.BOTTOM, 0)
-                                    set.connect(secondRune.id, ConstraintSet.TOP, firstRune.id, ConstraintSet.BOTTOM, 0)
-                                    set.connect(secondRune.id, ConstraintSet.START, firstRune.id, ConstraintSet.START, 0)
-                                    set.connect(secondRune.id, ConstraintSet.END, firstRune.id, ConstraintSet.END, 0)
-                                    set.connect(thirdRune.id, ConstraintSet.TOP, secondRune.id, ConstraintSet.BOTTOM, 0)
-                                    set.connect(thirdRune.id, ConstraintSet.START, firstRune.id, ConstraintSet.START, 0)
-                                    set.connect(thirdRune.id, ConstraintSet.END, firstRune.id, ConstraintSet.END, 0)
-                                    set.connect(fourthRune.id, ConstraintSet.TOP, thirdRune.id, ConstraintSet.BOTTOM, 0)
-                                    set.connect(fourthRune.id, ConstraintSet.START, firstRune.id, ConstraintSet.START, 0)
-                                    set.connect(fourthRune.id, ConstraintSet.END, firstRune.id, ConstraintSet.END, 0)
-                                    set.connect(fifthRune.id, ConstraintSet.TOP, fourthRune.id, ConstraintSet.BOTTOM, 0)
-                                    set.connect(fifthRune.id, ConstraintSet.START, firstRune.id, ConstraintSet.START, 0)
-                                    set.connect(fifthRune.id, ConstraintSet.END, firstRune.id, ConstraintSet.END, 0)
-                                    set.connect(sixthRune.id, ConstraintSet.END, thirdRune.id, ConstraintSet.START, 0)
-                                    set.connect(sixthRune.id, ConstraintSet.BOTTOM, thirdRune.id, ConstraintSet.BOTTOM, 0)
-                                    set.connect(sixthRune.id, ConstraintSet.TOP, thirdRune.id, ConstraintSet.TOP, 0)
-                                    set.connect(seventhRune.id, ConstraintSet.START, thirdRune.id, ConstraintSet.END, 0)
-                                    set.connect(seventhRune.id, ConstraintSet.BOTTOM, thirdRune.id, ConstraintSet.BOTTOM, 0)
-                                    set.connect(seventhRune.id, ConstraintSet.TOP, thirdRune.id, ConstraintSet.TOP, 0)
-                                    set.applyTo(runesLayout)
-                                    dotsCreator(7)
-                                }
+                                this.runesLayout.addView(firstRune)
+                                val set = ConstraintSet()
+                                set.clone(runesLayout)
+                                set.connect(firstRune.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, 0)
+                                set.connect(firstRune.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END, 0)
+                                set.connect(firstRune.id, ConstraintSet.TOP, R.id.divider1, ConstraintSet.BOTTOM, 0)
+                                set.applyTo(runesLayout)
                             }
-                            //**runes description
-                            //runes click listeners
-                            for (i in 0 until this.runesLayout.childCount) {
-                                this.runesLayout.getChildAt(i).setOnClickListener(this)
-                            }
-                            runesDotsList.setOnCLickListenerForAll(this)
+                            2 -> {
+                                runesViewList.addAll(arrayListOf(firstRune, secondRune))
+                                runesPositionsList.addAll(arrayListOf(selectedLayout.slotMeaning3, selectedLayout.slotMeaning7))
 
-                            //runes description**
-                            model.getAuspForCurrentLayout()
-                            model.currentAusp.observe(viewLifecycleOwner) { ausp ->
-                                binding.descriptionButtonFrame.setOnClickListener(this)
-                                if (ausp != null) {
-                                    binding.text.text = "${requireContext().resources.getString(R.string.layout_interpretation_ausf)} - $ausp %"
-                                    if (ausp <= 50) {
-                                        model.getAffimForCurrentLayout(ausp)
-                                    } else {
-                                        binding.textAffim.visibility = View.GONE
-                                        val constraintsSet = ConstraintSet()
-                                        constraintsSet.clone(binding.interpretationLayout)
-                                        constraintsSet.clear(R.id.text, ConstraintSet.TOP)
-                                        constraintsSet.connect(R.id.text, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
-                                        constraintsSet.applyTo(binding.interpretationLayout)
-                                        model.getInterpretation()
-                                    }
-                                }
+                                val runesIdsList = arrayListOf(userLayout[2], userLayout[6])
+                                runesInit(runesViewList, runesLayout, runesIdsList)
+
+                                val set = ConstraintSet()
+                                set.clone(runesLayout)
+                                set.connect(firstRune.id, ConstraintSet.END, R.id.center_guideline, ConstraintSet.START, 0)
+                                set.connect(firstRune.id, ConstraintSet.TOP, R.id.divider1, ConstraintSet.BOTTOM, 0)
+                                set.connect(secondRune.id, ConstraintSet.TOP, R.id.divider1, ConstraintSet.BOTTOM, 0)
+                                set.connect(secondRune.id, ConstraintSet.START, R.id.center_guideline, ConstraintSet.END, 0)
+                                set.applyTo(runesLayout)
+                                dotsCreator(2)
                             }
-                            model.currentAffirm.observe(viewLifecycleOwner) { affirm ->
-                                if (affirm.isNotBlank()) {
-                                    binding.textAffim.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
-                                    binding.textAffim.text = affirm
+                            3 -> {
+                                runesViewList.addAll(arrayListOf(thirdRune, secondRune, firstRune))
+                                runesPositionsList.addAll(arrayListOf(selectedLayout.slotMeaning7, selectedLayout.slotMeaning3, selectedLayout.slotMeaning6))
+
+                                val runesIdsList = arrayListOf(userLayout[6], userLayout[2], userLayout[5])
+                                runesInit(runesViewList, runesLayout, runesIdsList)
+
+                                val set = ConstraintSet()
+                                set.clone(runesLayout)
+                                set.connect(secondRune.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, 0)
+                                set.connect(secondRune.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END, 0)
+                                set.connect(secondRune.id, ConstraintSet.TOP, R.id.divider1, ConstraintSet.BOTTOM, 0)
+                                set.connect(firstRune.id, ConstraintSet.TOP, secondRune.id, ConstraintSet.TOP, 0)
+                                set.connect(firstRune.id, ConstraintSet.BOTTOM, secondRune.id, ConstraintSet.BOTTOM, 0)
+                                set.connect(thirdRune.id, ConstraintSet.TOP, secondRune.id, ConstraintSet.TOP, 0)
+                                set.connect(thirdRune.id, ConstraintSet.BOTTOM, secondRune.id, ConstraintSet.BOTTOM, 0)
+                                set.connect(firstRune.id, ConstraintSet.END, secondRune.id, ConstraintSet.START, 0)
+                                set.connect(thirdRune.id, ConstraintSet.START, secondRune.id, ConstraintSet.END, 0)
+                                set.applyTo(runesLayout)
+                                dotsCreator(3)
+                            }
+                            4 -> {
+                                runesViewList.addAll(arrayListOf(fourthRune, secondRune, thirdRune, firstRune))
+                                runesPositionsList.addAll(arrayListOf(selectedLayout.slotMeaning7, selectedLayout.slotMeaning3, selectedLayout.slotMeaning4, selectedLayout.slotMeaning2))
+
+                                val runesIdsList = arrayListOf(userLayout[6], userLayout[2], userLayout[3], userLayout[1])
+                                runesInit(runesViewList, runesLayout, runesIdsList)
+
+                                val set = ConstraintSet()
+                                set.clone(runesLayout)
+                                set.connect(firstRune.id, ConstraintSet.END, R.id.center_guideline, ConstraintSet.END, 0)
+                                set.connect(firstRune.id, ConstraintSet.TOP, R.id.divider1, ConstraintSet.BOTTOM, 0)
+                                set.connect(secondRune.id, ConstraintSet.TOP, firstRune.id, ConstraintSet.BOTTOM, 0)
+                                set.connect(secondRune.id, ConstraintSet.END, R.id.center_guideline, ConstraintSet.END, 0)
+                                set.connect(thirdRune.id, ConstraintSet.TOP, secondRune.id, ConstraintSet.BOTTOM, 0)
+                                set.connect(thirdRune.id, ConstraintSet.START, secondRune.id, ConstraintSet.START, 0)
+                                set.connect(thirdRune.id, ConstraintSet.END, secondRune.id, ConstraintSet.END, 0)
+                                set.connect(fourthRune.id, ConstraintSet.START, secondRune.id, ConstraintSet.END, 0)
+                                set.connect(fourthRune.id, ConstraintSet.BOTTOM, secondRune.id, ConstraintSet.BOTTOM, 0)
+                                set.connect(fourthRune.id, ConstraintSet.TOP, secondRune.id, ConstraintSet.TOP, 0)
+                                set.applyTo(runesLayout)
+                                dotsCreator(4)
+                            }
+                            5 -> {
+                                runesViewList.addAll(arrayListOf(fourthRune, secondRune, thirdRune, firstRune))
+                                runesPositionsList.addAll(arrayListOf(selectedLayout.slotMeaning3, selectedLayout.slotMeaning6, selectedLayout.slotMeaning7, selectedLayout.slotMeaning2))
+
+                                val runesIdsList = arrayListOf(userLayout[2], userLayout[5], userLayout[6], userLayout[1])
+                                runesInit(runesViewList, runesLayout, runesIdsList)
+
+                                val set = ConstraintSet()
+                                set.clone(runesLayout)
+                                set.connect(firstRune.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, 0)
+                                set.connect(firstRune.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END, 0)
+                                set.connect(firstRune.id, ConstraintSet.TOP, R.id.divider1, ConstraintSet.BOTTOM, 0)
+                                set.connect(fourthRune.id, ConstraintSet.START, firstRune.id, ConstraintSet.START, 0)
+                                set.connect(fourthRune.id, ConstraintSet.END, firstRune.id, ConstraintSet.END, 0)
+                                set.connect(fourthRune.id, ConstraintSet.TOP, firstRune.id, ConstraintSet.BOTTOM, 0)
+                                set.connect(secondRune.id, ConstraintSet.END, firstRune.id, ConstraintSet.START, 0)
+                                set.connect(secondRune.id, ConstraintSet.BOTTOM, fourthRune.id, ConstraintSet.BOTTOM, 0)
+                                set.connect(secondRune.id, ConstraintSet.TOP, firstRune.id, ConstraintSet.TOP, 0)
+                                set.connect(thirdRune.id, ConstraintSet.START, firstRune.id, ConstraintSet.END, 0)
+                                set.connect(thirdRune.id, ConstraintSet.BOTTOM, fourthRune.id, ConstraintSet.BOTTOM, 0)
+                                set.connect(thirdRune.id, ConstraintSet.TOP, firstRune.id, ConstraintSet.TOP, 0)
+                                set.applyTo(runesLayout)
+                                dotsCreator(4)
+                            }
+                            6 -> {
+                                runesViewList.addAll(arrayListOf(fourthRune, secondRune, fifthRune, firstRune, thirdRune))
+                                runesPositionsList.addAll(arrayListOf(selectedLayout.slotMeaning6, selectedLayout.slotMeaning3, selectedLayout.slotMeaning7, selectedLayout.slotMeaning2, selectedLayout.slotMeaning4))
+
+                                val runesIdsList = arrayListOf(userLayout[5], userLayout[2], userLayout[6], userLayout[1], userLayout[3])
+                                runesInit(runesViewList, runesLayout, runesIdsList)
+
+                                val set = ConstraintSet()
+                                set.clone(runesLayout)
+                                set.connect(firstRune.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END, 0)
+                                set.connect(firstRune.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, 0)
+                                set.connect(firstRune.id, ConstraintSet.TOP, R.id.divider1, ConstraintSet.BOTTOM, 0)
+                                set.connect(secondRune.id, ConstraintSet.TOP, firstRune.id, ConstraintSet.BOTTOM, 0)
+                                set.connect(secondRune.id, ConstraintSet.START, firstRune.id, ConstraintSet.START, 0)
+                                set.connect(secondRune.id, ConstraintSet.END, firstRune.id, ConstraintSet.END, 0)
+                                set.connect(thirdRune.id, ConstraintSet.TOP, secondRune.id, ConstraintSet.BOTTOM, 0)
+                                set.connect(thirdRune.id, ConstraintSet.START, firstRune.id, ConstraintSet.START, 0)
+                                set.connect(thirdRune.id, ConstraintSet.END, firstRune.id, ConstraintSet.END, 0)
+                                set.connect(fourthRune.id, ConstraintSet.END, secondRune.id, ConstraintSet.START, 0)
+                                set.connect(fourthRune.id, ConstraintSet.BOTTOM, secondRune.id, ConstraintSet.BOTTOM, 0)
+                                set.connect(fourthRune.id, ConstraintSet.TOP, secondRune.id, ConstraintSet.TOP, 0)
+                                set.connect(fifthRune.id, ConstraintSet.START, secondRune.id, ConstraintSet.END, 0)
+                                set.connect(fifthRune.id, ConstraintSet.BOTTOM, secondRune.id, ConstraintSet.BOTTOM, 0)
+                                set.connect(fifthRune.id, ConstraintSet.TOP, secondRune.id, ConstraintSet.TOP, 0)
+                                set.applyTo(runesLayout)
+                                dotsCreator(5)
+                            }
+                            7 -> {
+                                runesViewList.addAll(arrayListOf(sixthRune, thirdRune, fifthRune, fourthRune, secondRune, firstRune))
+                                runesPositionsList.addAll(arrayListOf(selectedLayout.slotMeaning7, selectedLayout.slotMeaning3, selectedLayout.slotMeaning6, selectedLayout.slotMeaning4, selectedLayout.slotMeaning2, selectedLayout.slotMeaning1))
+
+                                val runesIdsList = arrayListOf(userLayout[6], userLayout[2], userLayout[5], userLayout[3], userLayout[1], userLayout[0])
+                                runesInit(runesViewList, runesLayout, runesIdsList)
+
+                                val set = ConstraintSet()
+                                set.clone(runesLayout)
+                                set.connect(firstRune.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END, 0)
+                                set.connect(firstRune.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, 0)
+                                set.connect(firstRune.id, ConstraintSet.TOP, R.id.divider1, ConstraintSet.BOTTOM, 0)
+                                set.connect(secondRune.id, ConstraintSet.TOP, firstRune.id, ConstraintSet.BOTTOM, 0)
+                                set.connect(secondRune.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, 0)
+                                set.connect(secondRune.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END, 0)
+                                set.connect(thirdRune.id, ConstraintSet.TOP, secondRune.id, ConstraintSet.BOTTOM, 0)
+                                set.connect(thirdRune.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, 0)
+                                set.connect(thirdRune.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END, 0)
+                                set.connect(fourthRune.id, ConstraintSet.TOP, thirdRune.id, ConstraintSet.BOTTOM, 0)
+                                set.connect(fourthRune.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, 0)
+                                set.connect(fourthRune.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END, 0)
+                                set.connect(fifthRune.id, ConstraintSet.END, thirdRune.id, ConstraintSet.START, 0)
+                                set.connect(fifthRune.id, ConstraintSet.BOTTOM, thirdRune.id, ConstraintSet.BOTTOM, 0)
+                                set.connect(fifthRune.id, ConstraintSet.TOP, thirdRune.id, ConstraintSet.TOP, 0)
+                                set.connect(sixthRune.id, ConstraintSet.START, thirdRune.id, ConstraintSet.END, 0)
+                                set.connect(sixthRune.id, ConstraintSet.BOTTOM, thirdRune.id, ConstraintSet.BOTTOM, 0)
+                                set.connect(sixthRune.id, ConstraintSet.TOP, thirdRune.id, ConstraintSet.TOP, 0)
+                                set.applyTo(runesLayout)
+                                dotsCreator(6)
+                            }
+                            8 -> {
+                                runesViewList.addAll(arrayListOf(thirdRune, seventhRune, sixthRune, fifthRune, fourthRune, secondRune, firstRune))
+                                runesPositionsList.addAll(arrayListOf(selectedLayout.slotMeaning3, selectedLayout.slotMeaning7, selectedLayout.slotMeaning6, selectedLayout.slotMeaning5, selectedLayout.slotMeaning4, selectedLayout.slotMeaning2, selectedLayout.slotMeaning1))
+
+                                val runesIdsList = arrayListOf(userLayout[2], userLayout[6], userLayout[5], userLayout[4], userLayout[3], userLayout[1], userLayout[0])
+                                runesInit(runesViewList, runesLayout, runesIdsList)
+
+                                val set = ConstraintSet()
+                                set.clone(runesLayout)
+                                set.connect(firstRune.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END, 0)
+                                set.connect(firstRune.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, 0)
+                                set.connect(firstRune.id, ConstraintSet.TOP, R.id.divider1, ConstraintSet.BOTTOM, 0)
+                                set.connect(secondRune.id, ConstraintSet.TOP, firstRune.id, ConstraintSet.BOTTOM, 0)
+                                set.connect(secondRune.id, ConstraintSet.START, firstRune.id, ConstraintSet.START, 0)
+                                set.connect(secondRune.id, ConstraintSet.END, firstRune.id, ConstraintSet.END, 0)
+                                set.connect(thirdRune.id, ConstraintSet.TOP, secondRune.id, ConstraintSet.BOTTOM, 0)
+                                set.connect(thirdRune.id, ConstraintSet.START, firstRune.id, ConstraintSet.START, 0)
+                                set.connect(thirdRune.id, ConstraintSet.END, firstRune.id, ConstraintSet.END, 0)
+                                set.connect(fourthRune.id, ConstraintSet.TOP, thirdRune.id, ConstraintSet.BOTTOM, 0)
+                                set.connect(fourthRune.id, ConstraintSet.START, firstRune.id, ConstraintSet.START, 0)
+                                set.connect(fourthRune.id, ConstraintSet.END, firstRune.id, ConstraintSet.END, 0)
+                                set.connect(fifthRune.id, ConstraintSet.TOP, fourthRune.id, ConstraintSet.BOTTOM, 0)
+                                set.connect(fifthRune.id, ConstraintSet.START, firstRune.id, ConstraintSet.START, 0)
+                                set.connect(fifthRune.id, ConstraintSet.END, firstRune.id, ConstraintSet.END, 0)
+                                set.connect(sixthRune.id, ConstraintSet.END, thirdRune.id, ConstraintSet.START, 0)
+                                set.connect(sixthRune.id, ConstraintSet.BOTTOM, thirdRune.id, ConstraintSet.BOTTOM, 0)
+                                set.connect(sixthRune.id, ConstraintSet.TOP, thirdRune.id, ConstraintSet.TOP, 0)
+                                set.connect(seventhRune.id, ConstraintSet.START, thirdRune.id, ConstraintSet.END, 0)
+                                set.connect(seventhRune.id, ConstraintSet.BOTTOM, thirdRune.id, ConstraintSet.BOTTOM, 0)
+                                set.connect(seventhRune.id, ConstraintSet.TOP, thirdRune.id, ConstraintSet.TOP, 0)
+                                set.applyTo(runesLayout)
+                                dotsCreator(7)
+                            }
+                        }
+                        //**runes description
+                        //runes click listeners
+                        for (i in 0 until this.runesLayout.childCount) {
+                            this.runesLayout.getChildAt(i).setOnClickListener(this)
+                        }
+                        runesDotsList.setOnCLickListenerForAll(this)
+
+                        //runes description**
+                        model.getAuspForCurrentLayout()
+                        model.currentAusp.observe(viewLifecycleOwner) { ausp ->
+                            binding.descriptionButtonFrame.setOnClickListener(this)
+                            if (ausp != null) {
+                                binding.text.text = "${requireContext().resources.getString(R.string.layout_interpretation_ausf)} - $ausp %"
+                                if (ausp <= 50) {
+                                    model.getAffimForCurrentLayout(ausp)
+                                } else {
+                                    binding.textAffim.visibility = View.GONE
+                                    val constraintsSet = ConstraintSet()
+                                    constraintsSet.clone(binding.interpretationLayout)
+                                    constraintsSet.clear(R.id.text, ConstraintSet.TOP)
+                                    constraintsSet.connect(R.id.text, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
+                                    constraintsSet.applyTo(binding.interpretationLayout)
                                     model.getInterpretation()
                                 }
                             }
-                            model.currentInterpretation.observe(viewLifecycleOwner) { interpretation ->
-                                if (!interpretation.isNullOrBlank()) {
-                                    binding.interpretationText.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
-                                    val secondFont = ResourcesCompat.getFont(requireContext(), R.font.roboto_regular)
-                                    binding.interpretationText.text = Html.fromHtml(interpretation, null, InterTagHandler(secondFont!!))
-                                    val observer = binding.root.viewTreeObserver
-                                    defaultConstraintSet.clone(runesLayout)
-                                    observer.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
-                                        override fun onGlobalLayout() {
-                                            observer.removeOnGlobalLayoutListener(this)
-                                            screenHeight = binding.root.height
-                                            val minSize = screenHeight - binding.interFrame.top
-                                            var flag = false
-                                            if (minSize > binding.interFrame.height) {
-                                                val backLayoutParams = binding.interpretationLayout.layoutParams
-                                                backLayoutParams.height = minSize - binding.divider3.height
-                                                binding.interpretationLayout.layoutParams = backLayoutParams
-                                                flag = true
-                                            }
-                                            if (binding.bottomSupportFrame.bottom < screenHeight && flag) {
-                                                val constraintsSet = ConstraintSet()
-                                                constraintsSet.clone(binding.interpretationLayout)
-                                                constraintsSet.clear(R.id.bottom_support_frame, ConstraintSet.TOP)
-                                                constraintsSet.connect(R.id.bottom_support_frame, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM)
-                                                constraintsSet.clear(R.id.description_button_frame, ConstraintSet.TOP)
-                                                constraintsSet.connect(R.id.description_button_frame, ConstraintSet.BOTTOM, R.id.bottom_support_frame, ConstraintSet.TOP)
-                                                constraintsSet.clear(R.id.checkbox, ConstraintSet.TOP)
-                                                constraintsSet.connect(R.id.checkbox, ConstraintSet.BOTTOM, R.id.description_button_frame, ConstraintSet.TOP)
-                                                constraintsSet.applyTo(binding.interpretationLayout)
-                                            }
-                                            baseSize = firstRune.bottom - binding.divider1.height
-                                            binding.loadHelper.isVisible = false
+                        }
+                        model.currentAffirm.observe(viewLifecycleOwner) { affirm ->
+                            if (affirm.isNotBlank()) {
+                                binding.textAffim.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
+                                binding.textAffim.text = affirm
+                                model.getInterpretation()
+                            }
+                        }
+                        model.currentInterpretation.observe(viewLifecycleOwner) { interpretation ->
+                            if (!interpretation.isNullOrBlank()) {
+                                binding.interpretationText.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
+                                val secondFont = ResourcesCompat.getFont(requireContext(), R.font.roboto_regular)
+                                binding.interpretationText.text = Html.fromHtml(interpretation, null, InterTagHandler(secondFont!!))
+                                val observer = binding.root.viewTreeObserver
+                                defaultConstraintSet.clone(runesLayout)
+                                observer.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+                                    override fun onGlobalLayout() {
+                                        observer.removeOnGlobalLayoutListener(this)
+                                        screenHeight = binding.root.height
+                                        val minSize = screenHeight - binding.interFrame.top
+                                        var flag = false
+                                        if (minSize > binding.interFrame.height) {
+                                            val backLayoutParams = binding.interpretationLayout.layoutParams
+                                            backLayoutParams.height = minSize - binding.divider3.height
+                                            binding.interpretationLayout.layoutParams = backLayoutParams
+                                            flag = true
                                         }
-                                    })
-                                }
+                                        if (binding.bottomSupportFrame.bottom < screenHeight && flag) {
+                                            val constraintsSet = ConstraintSet()
+                                            constraintsSet.clone(binding.interpretationLayout)
+                                            constraintsSet.clear(R.id.bottom_support_frame, ConstraintSet.TOP)
+                                            constraintsSet.connect(R.id.bottom_support_frame, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM)
+                                            constraintsSet.clear(R.id.description_button_frame, ConstraintSet.TOP)
+                                            constraintsSet.connect(R.id.description_button_frame, ConstraintSet.BOTTOM, R.id.bottom_support_frame, ConstraintSet.TOP)
+                                            constraintsSet.clear(R.id.checkbox, ConstraintSet.TOP)
+                                            constraintsSet.connect(R.id.checkbox, ConstraintSet.BOTTOM, R.id.description_button_frame, ConstraintSet.TOP)
+                                            constraintsSet.applyTo(binding.interpretationLayout)
+                                        }
+                                        baseSize = firstRune.bottom - binding.divider1.height
+                                        binding.loadHelper.isVisible = false
+                                    }
+                                })
                             }
                         }
                     }
