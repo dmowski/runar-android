@@ -12,6 +12,7 @@ import com.test.runar.model.LayoutDescriptionModel
 import com.test.runar.model.RuneDescriptionModel
 import com.test.runar.model.UserLayoutModel
 import com.test.runar.repository.DatabaseRepository
+import com.test.runar.repository.SharedDataRepository
 import com.test.runar.repository.SharedPreferencesRepository
 import com.test.runar.retrofit.RetrofitClient
 import com.test.runar.retrofit.UserInfo
@@ -56,16 +57,15 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 }
             }
 
+    init {
+        fontSize.postValue(SharedDataRepository.fontSize)
+    }
     fun setDialogReady(state: Boolean) {
         readyToDialog.postValue(state)
     }
 
     fun pressBackButton(state: Boolean) {
         backButtonPressed.postValue(state)
-    }
-
-    fun setFontSize(size: Float) {
-        fontSize.postValue(size)
     }
 
     fun getSelectedRuneData(id: Int) {
