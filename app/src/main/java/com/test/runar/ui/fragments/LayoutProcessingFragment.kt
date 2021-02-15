@@ -2,12 +2,14 @@ package com.test.runar.ui.fragments
 
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.annotation.RequiresApi
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -22,6 +24,7 @@ class LayoutProcessingFragment : Fragment() {
     private var progressLoading: ProgressBar? = null
     private var currentValue = 0
     private var layoutId: Int = 0
+    private var userLayout = intArrayOf()
 
     private var layoutNameTextView: TextView? = null
     private lateinit var viewModel: ProcessingViewModel
@@ -32,6 +35,7 @@ class LayoutProcessingFragment : Fragment() {
             ViewModelProvider(this)[ProcessingViewModel::class.java]
         } ?: throw Exception("Invalid Activity")
         layoutId = arguments?.getInt("layoutId")!!
+        userLayout = arguments?.getIntArray("userLayout")!!
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -66,7 +70,10 @@ class LayoutProcessingFragment : Fragment() {
                 val navController = findNavController()
                 when (currentValue) {
 
-                    100 -> navController.navigate(R.id.action_layoutProcessingFragment4_to_layoutInterpretationFragment)
+                    100 -> {
+                        val bundle = bundleOf("layoutId" to layoutId,"userLayout" to userLayout)
+                        navController.navigate(R.id.action_layoutProcessingFragment4_to_layoutInterpretationFragment,bundle)
+                    }
 
                 }
             }

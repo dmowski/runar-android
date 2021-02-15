@@ -49,6 +49,12 @@
         <action
             android:id="@+id/action_layoutInitFragment_to_layoutProcessingFragment4"
             app:destination="@id/layoutProcessingFragment4" />
+        <argument
+            android:name="layoutId"
+            app:argType="integer" />
+        <argument
+            android:name="userLayout"
+            app:argType="integer[]" />
     </fragment>
 
     <fragment
@@ -71,6 +77,13 @@
             app:destination="@id/layoutFragment"
             app:popUpTo="@id/layoutFragment"
             app:popUpToInclusive="true"/>
+        <argument
+            android:name="layoutId"
+            app:argType="integer" />
+        <argument
+            android:name="userLayout"
+            app:argType="integer[]" />
+
     </fragment>
     <fragment
         android:id="@+id/favFragment"
