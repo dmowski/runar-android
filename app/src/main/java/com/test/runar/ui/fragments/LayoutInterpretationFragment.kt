@@ -100,7 +100,17 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                         val fifthRune = FrameLayout(requireContext())
                         val sixthRune = FrameLayout(requireContext())
                         val seventhRune = FrameLayout(requireContext())
-
+                        runesPositionsList.addAll(
+                                arrayListOf(
+                                        selectedLayout.slotMeaning1,
+                                        selectedLayout.slotMeaning2,
+                                        selectedLayout.slotMeaning3,
+                                        selectedLayout.slotMeaning4,
+                                        selectedLayout.slotMeaning5,
+                                        selectedLayout.slotMeaning6,
+                                        selectedLayout.slotMeaning7
+                                )
+                        )
                         when (selectedLayout.layoutId) {
                             1 -> {
                                 firstRune.id = View.generateViewId()
@@ -120,7 +130,6 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                             }
                             2 -> {
                                 runesViewList.addAll(arrayListOf(firstRune, secondRune))
-                                runesPositionsList.addAll(arrayListOf(selectedLayout.slotMeaning3, selectedLayout.slotMeaning7))
 
                                 runesInit(runesViewList, runesLayout)
 
@@ -135,13 +144,6 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                             }
                             3 -> {
                                 runesViewList.addAll(arrayListOf(thirdRune, secondRune, firstRune))
-                                runesPositionsList.addAll(
-                                    arrayListOf(
-                                        selectedLayout.slotMeaning7,
-                                        selectedLayout.slotMeaning3,
-                                        selectedLayout.slotMeaning6
-                                    )
-                                )
 
                                 runesInit(runesViewList, runesLayout)
 
@@ -161,14 +163,6 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                             }
                             4 -> {
                                 runesViewList.addAll(arrayListOf(fourthRune, secondRune, thirdRune, firstRune))
-                                runesPositionsList.addAll(
-                                    arrayListOf(
-                                        selectedLayout.slotMeaning7,
-                                        selectedLayout.slotMeaning3,
-                                        selectedLayout.slotMeaning4,
-                                        selectedLayout.slotMeaning2
-                                    )
-                                )
 
                                 runesInit(runesViewList, runesLayout)
 
@@ -189,14 +183,6 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                             }
                             5 -> {
                                 runesViewList.addAll(arrayListOf(fourthRune, secondRune, thirdRune, firstRune))
-                                runesPositionsList.addAll(
-                                    arrayListOf(
-                                        selectedLayout.slotMeaning3,
-                                        selectedLayout.slotMeaning6,
-                                        selectedLayout.slotMeaning7,
-                                        selectedLayout.slotMeaning2
-                                    )
-                                )
 
                                 runesInit(runesViewList, runesLayout)
 
@@ -219,15 +205,6 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                             }
                             6 -> {
                                 runesViewList.addAll(arrayListOf(fourthRune, secondRune, fifthRune, firstRune, thirdRune))
-                                runesPositionsList.addAll(
-                                    arrayListOf(
-                                        selectedLayout.slotMeaning6,
-                                        selectedLayout.slotMeaning3,
-                                        selectedLayout.slotMeaning7,
-                                        selectedLayout.slotMeaning2,
-                                        selectedLayout.slotMeaning4
-                                    )
-                                )
 
                                 runesInit(runesViewList, runesLayout)
 
@@ -253,16 +230,6 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                             }
                             7 -> {
                                 runesViewList.addAll(arrayListOf(sixthRune, thirdRune, fifthRune, fourthRune, secondRune, firstRune))
-                                runesPositionsList.addAll(
-                                    arrayListOf(
-                                        selectedLayout.slotMeaning7,
-                                        selectedLayout.slotMeaning3,
-                                        selectedLayout.slotMeaning6,
-                                        selectedLayout.slotMeaning4,
-                                        selectedLayout.slotMeaning2,
-                                        selectedLayout.slotMeaning1
-                                    )
-                                )
 
                                 runesInit(runesViewList, runesLayout)
 
@@ -291,17 +258,6 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                             }
                             8 -> {
                                 runesViewList.addAll(arrayListOf(thirdRune, seventhRune, sixthRune, fifthRune, fourthRune, secondRune, firstRune))
-                                runesPositionsList.addAll(
-                                    arrayListOf(
-                                        selectedLayout.slotMeaning3,
-                                        selectedLayout.slotMeaning7,
-                                        selectedLayout.slotMeaning6,
-                                        selectedLayout.slotMeaning5,
-                                        selectedLayout.slotMeaning4,
-                                        selectedLayout.slotMeaning2,
-                                        selectedLayout.slotMeaning1
-                                    )
-                                )
                                 runesInit(runesViewList, runesLayout)
 
                                 val set = ConstraintSet()
