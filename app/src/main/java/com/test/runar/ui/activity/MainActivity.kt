@@ -56,27 +56,25 @@ class MainActivity : AppCompatActivity(), Navigator {
 
     override fun navigateToLayoutDescriptionFragment(layoutId: Int) {
         supportFragmentManager.beginTransaction()
-            .hide(supportFragmentManager.findFragmentById(R.id.fragmentContainer)!!)
-            .add(R.id.fragmentContainer, LayoutDescriptionFragment.newInstance(layoutId))
+            .replace(R.id.fragmentContainer, LayoutDescriptionFragment.newInstance(layoutId))
             .addToBackStack(KEY_TO_LAYOUT_FRAGMENT_BACK)
             .commit()
 
         binding.bottomNavigationBar.isVisible = false
     }
 
-    override fun navigateToLayoutInitFragment(id: Int) {
-        when (val topFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainer)) {
+    override fun navigateToLayoutInitFragment(layoutId: Int) {
+        val topFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainer)
+        when (topFragment) {
             is LayoutFragment -> {
                 supportFragmentManager.beginTransaction()
-                    .hide(topFragment)
-                    .add(R.id.fragmentContainer, LayoutInitFragment.newInstance(id))
+                    .replace(R.id.fragmentContainer, LayoutInitFragment.newInstance(layoutId))
                     .addToBackStack(KEY_TO_LAYOUT_FRAGMENT_BACK)
                     .commit()
             }
             is LayoutDescriptionFragment -> {
                 supportFragmentManager.beginTransaction()
-                    .hide(topFragment)
-                    .add(R.id.fragmentContainer, LayoutInitFragment.newInstance(id))
+                    .replace(R.id.fragmentContainer, LayoutInitFragment.newInstance(layoutId))
                     .addToBackStack(null)
                     .commit()
             }
@@ -86,18 +84,16 @@ class MainActivity : AppCompatActivity(), Navigator {
         binding.bottomNavigationBar.isVisible = false
     }
 
-    override fun navigateToLayoutProcessingFragment(id: Int, userLayout: IntArray) {
+    override fun navigateToLayoutProcessingFragment(layoutId: Int, userLayout: IntArray) {
         supportFragmentManager.beginTransaction()
-            .hide(supportFragmentManager.findFragmentById(R.id.fragmentContainer)!!)
-            .add(R.id.fragmentContainer, LayoutProcessingFragment.newInstance(id, userLayout))
+            .replace(R.id.fragmentContainer, LayoutProcessingFragment.newInstance(layoutId, userLayout))
             .addToBackStack(null)
             .commit()
     }
 
-    override fun navigateToInterpretationFragment(id: Int, userLayout: IntArray) {
+    override fun navigateToInterpretationFragment(layoutId: Int, userLayout: IntArray) {
         supportFragmentManager.beginTransaction()
-            .hide(supportFragmentManager.findFragmentById(R.id.fragmentContainer)!!)
-            .add(R.id.fragmentContainer, LayoutInterpretationFragment.newInstance(id, userLayout))
+            .replace(R.id.fragmentContainer, LayoutInterpretationFragment.newInstance(layoutId, userLayout))
             .addToBackStack(null)
             .commit()
     }
