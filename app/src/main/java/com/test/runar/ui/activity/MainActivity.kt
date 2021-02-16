@@ -6,8 +6,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentManager
 import com.test.runar.R
-import com.test.runar.RunarLogger
 import com.test.runar.databinding.ActivityMainBinding
+import com.test.runar.presentation.viewmodel.InterpretationViewModel
 import com.test.runar.presentation.viewmodel.MainViewModel
 import com.test.runar.ui.Navigator
 import com.test.runar.ui.dialogs.CancelDialog
@@ -29,8 +29,6 @@ class MainActivity : AppCompatActivity(), Navigator {
         }
 
         viewModel.identify()
-        viewModel.getRuneDataFromDB()
-        viewModel.getAffirmationsDataFromDB()
         supportActionBar?.hide()
     }
 

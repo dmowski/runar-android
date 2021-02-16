@@ -20,6 +20,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProviders
 import com.test.runar.CustomClasses.InterTagHandler
 import com.test.runar.CustomClasses.OnSwipeTouchListener
@@ -27,13 +28,14 @@ import com.test.runar.R
 import com.test.runar.RunarLogger
 import com.test.runar.databinding.FragmentLayoutInterpretationBinding
 import com.test.runar.extensions.setOnCLickListenerForAll
-import com.test.runar.presentation.viewmodel.MainViewModel
+import com.test.runar.presentation.viewmodel.InterpretationViewModel
+import com.test.runar.presentation.viewmodel.LayoutViewModel
 import com.test.runar.ui.activity.MainActivity
 
 class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpretation),
     View.OnClickListener {
 
-    private lateinit var model: MainViewModel
+    private val viewModel: InterpretationViewModel by viewModels()
     private lateinit var bottomRunesNav: ConstraintLayout
     private lateinit var headerFrame: FrameLayout
     private lateinit var runesLayout: ConstraintLayout
@@ -62,14 +64,12 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        model = activity?.run {
-            ViewModelProviders.of(this)[MainViewModel::class.java]
-        } ?: throw Exception("Invalid Activity")
         layoutId = requireArguments().getInt(KEY_LAYOUT_ID)
         newUserLayout = (requireArguments().getIntArray(KEY_USER_LAYOUT)!!).toCollection(ArrayList())
-        model.setCurrentUserLayout(newUserLayout)
-        model.getLayoutDescription(layoutId)
-        RunarLogger.logDebug("Interpretation fragment created")
+        viewModel.setCurrentUserLayout(newUserLayout)
+        viewModel.getLayoutDescription(layoutId)
+        viewModel.getRuneDataFromDB()
+        viewModel.getAffirmationsDataFromDB()
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -84,10 +84,10 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
         runesLayout = binding.runesLayout
         bottomRunesNav = binding.bottomRunesNavBar
         //get data about current layout
-        model.fontSize.observe(viewLifecycleOwner) { interpretation ->
+        viewModel.fontSize.observe(viewLifecycleOwner) { interpretation ->
             if (interpretation != null) {
                 fontSize = interpretation
-                model.selectedLayout.observe(viewLifecycleOwner) { selectedLayout ->
+                viewModel.selectedLayout.observe(viewLifecycleOwner) { selectedLayout ->
                     if (selectedLayout != null) {
                         runeHeight = runeHeightCalculator()
                         runeWidth = (runeHeight / 1.23).toInt()
@@ -359,13 +359,13 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                         runesDotsList.setOnCLickListenerForAll(this)
 
                         //runes description**
-                        model.getAuspForCurrentLayout()
-                        model.currentAusp.observe(viewLifecycleOwner) { ausp ->
+                        viewModel.getAuspForCurrentLayout()
+                        viewModel.currentAusp.observe(viewLifecycleOwner) { ausp ->
                             binding.descriptionButtonFrame.setOnClickListener(this)
                             if (ausp != null) {
                                 binding.text.text = "${requireContext().resources.getString(R.string.layout_interpretation_ausf)} - $ausp %"
                                 if (ausp <= 50) {
-                                    model.getAffimForCurrentLayout(ausp)
+                                    viewModel.getAffimForCurrentLayout(ausp)
                                 } else {
                                     binding.textAffim.visibility = View.GONE
                                     val constraintsSet = ConstraintSet()
@@ -373,18 +373,18 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                                     constraintsSet.clear(R.id.text, ConstraintSet.TOP)
                                     constraintsSet.connect(R.id.text, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
                                     constraintsSet.applyTo(binding.interpretationLayout)
-                                    model.getInterpretation()
+                                    viewModel.getInterpretation()
                                 }
                             }
                         }
-                        model.currentAffirm.observe(viewLifecycleOwner) { affirm ->
+                        viewModel.currentAffirm.observe(viewLifecycleOwner) { affirm ->
                             if (affirm.isNotBlank()) {
                                 binding.textAffim.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
                                 binding.textAffim.text = affirm
-                                model.getInterpretation()
+                                viewModel.getInterpretation()
                             }
                         }
-                        model.currentInterpretation.observe(viewLifecycleOwner) { interpretation ->
+                        viewModel.currentInterpretation.observe(viewLifecycleOwner) { interpretation ->
                             if (!interpretation.isNullOrBlank()) {
                                 binding.interpretationText.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
                                 val secondFont = ResourcesCompat.getFont(requireContext(), R.font.roboto_regular)
@@ -440,7 +440,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                 val listOfView = listOf(binding.leftArrow, binding.rightArrow, binding.exitButton)
                 listOfView.setOnCLickListenerForAll(this)
 
-                model.selectedRune.observe(viewLifecycleOwner) {
+                viewModel.selectedRune.observe(viewLifecycleOwner) {
                     if (it != null) {
                         binding.runeName.text = it.runeName
                         binding.runeDescription.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize - 3f)
@@ -502,7 +502,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
         for (runeDot in runesDotsList) runeDotsIdList.add(runeDot.id)
        when (v?.id) {
             R.id.description_button_frame -> {
-                if (binding.checkbox.isChecked) model.saveUserLayout()
+                if (binding.checkbox.isChecked) viewModel.saveUserLayout()
                 (requireActivity() as MainActivity).navigateToDefaultAndShowBottomNavBar()
             }
             in runeIdList -> {
@@ -555,7 +555,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                         runeDot.setImageResource(R.drawable.ic_circle_deselected)
                         runeDot.setOnClickListener(this)
                     }
-                    model.getSelectedRuneData(runesViewList.indexOf(rune))
+                    viewModel.getSelectedRuneData(runesViewList.indexOf(rune))
                     binding.runePosition.text = runesPositionsList[runesViewList.indexOf(rune)]
                     binding.runeDescriptionScroll.scrollTo(0, 0)
                     runesDotsList[runesViewList.indexOf(rune)].setImageResource(R.drawable.ic_circle_selected)
@@ -877,15 +877,6 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
     override fun onDestroyView() {
         _binding = null
         super.onDestroyView()
-    }
-
-    override fun onDestroy() {
-        model.clearLayoutData()
-        model.clearAusp()
-        model.clearAffirm()
-        model.clearInterpretation()
-        RunarLogger.logDebug("Interpretation fragment destroyed")
-        super.onDestroy()
     }
 
     companion object {
