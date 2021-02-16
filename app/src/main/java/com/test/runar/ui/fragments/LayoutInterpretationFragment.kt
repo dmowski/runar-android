@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.text.Html
 import android.util.TypedValue
+import android.view.KeyEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
@@ -56,6 +57,9 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
     private val binding
         get() = _binding!!
 
+    private var readyToReturn = true
+    private var backBlock = true
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         model = activity?.run {
@@ -70,6 +74,8 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentLayoutInterpretationBinding.bind(view)
 
@@ -470,13 +476,23 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
         binding.runeDescriptionScroll.setOnTouchListener(swipeListener)
         binding.runeDescriptionBack.setOnTouchListener(swipeListener)
 
-        model.backButtonPressed.observe(viewLifecycleOwner) {
-            if (it) {
-                hideRuneDescription()
-                model.pressBackButton(false)
+        view.isFocusableInTouchMode = true
+        view.requestFocus()
+        view.setOnKeyListener { _, keyCode, event ->
+            if(event.action == KeyEvent.ACTION_DOWN){
+                if (keyCode == KeyEvent.KEYCODE_BACK) {
+                    if(readyToReturn){
+                        backBlock = false
+                    }
+                    else{
+                        hideRuneDescription()
+                        readyToReturn = true
+                        backBlock = true
+                    }
+                }
             }
+            backBlock
         }
-
     }
 
     override fun onClick(v: View?) {
@@ -512,7 +528,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
     }
 
     private fun hideRuneDescription() {
-        model.setDialogReady(true)
+        readyToReturn = true
         defaultConstraintSet.applyTo(runesLayout)
         binding.descriptionHeaderBackground.visibility = View.GONE
         binding.interFrame.visibility = View.VISIBLE
@@ -523,8 +539,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
     }
 
     private fun showDescriptionOfSelectedRune(v: View?) {
-        model.setDialogReady(false)
-        var size = 0
+        readyToReturn = false
         defaultConstraintSet.applyTo(runesLayout)
         if (runesViewList.size > 1) {
             binding.descriptionHeaderBackground.isVisible = true
