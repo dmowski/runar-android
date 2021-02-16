@@ -106,7 +106,7 @@ class MainActivity : AppCompatActivity(), Navigator {
         navigateToDefaultAndShowBottomNavBar()
     }
 
-    private fun navigateToDefaultAndShowBottomNavBar() {
+    fun navigateToDefaultAndShowBottomNavBar() {
         supportFragmentManager.popBackStack(KEY_TO_LAYOUT_FRAGMENT_BACK, FragmentManager.POP_BACK_STACK_INCLUSIVE)
         binding.bottomNavigationBar.isVisible = true
     }
