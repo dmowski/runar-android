@@ -16,7 +16,6 @@ import com.test.runar.ui.fragments.*
 class MainActivity : AppCompatActivity(), Navigator {
 
     private val viewModel: MainViewModel by viewModels()
-    private var readyToBack = true
 
     private lateinit var binding: ActivityMainBinding
 
@@ -33,10 +32,6 @@ class MainActivity : AppCompatActivity(), Navigator {
         viewModel.getRuneDataFromDB()
         viewModel.getAffirmationsDataFromDB()
         supportActionBar?.hide()
-
-        viewModel.readyToDialog.observe(this) {
-            readyToBack = it
-        }
     }
 
     private fun initFragments() {

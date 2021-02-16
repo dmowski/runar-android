@@ -32,17 +32,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     var currentInterpretation = MutableLiveData("")
     var selectedRune = MutableLiveData<RuneDescriptionModel>(null)
     var fontSize = MutableLiveData<Float>(null)
-    var backButtonPressed = MutableLiveData(false)
-    var readyToDialog = MutableLiveData(true)
     init {
         fontSize.postValue(SharedDataRepository.fontSize)
-    }
-    fun setDialogReady(state: Boolean) {
-        readyToDialog.postValue(state)
-    }
-
-    fun pressBackButton(state: Boolean) {
-        backButtonPressed.postValue(state)
     }
 
     fun getSelectedRuneData(id: Int) {
