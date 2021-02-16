@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.test.runar.R
+import com.test.runar.RunarLogger
 import com.test.runar.databinding.FragmentLayoutInitBinding
 import com.test.runar.extensions.setOnCLickListenerForAll
 import com.test.runar.presentation.viewmodel.InitViewModel
@@ -40,7 +41,6 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
     private var _binding: FragmentLayoutInitBinding? = null
     private val binding
         get() = _binding!!
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
         navigator = context as Navigator
@@ -70,7 +70,10 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
         }
 
         viewModel.selectedLayout.observe(viewLifecycleOwner) {
-            layoutTable[8] = it.layoutId!!
+            when(it.layoutId){
+                1,2,3,4-> layoutTable[0] = it.layoutId!!
+                else-> layoutTable[0] = it.layoutId!!-1
+            }
             binding.descriptionHeaderFrame.text = it.layoutName
             headerText = it.layoutName.toString()
             descriptionText = it.layoutDescription.toString()
@@ -149,10 +152,9 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
                 if (result[1]) {
                     binding.descriptionButtonFrame.text = getString(R.string.layout_init_button_text2)
                 } else if (!result[0]) {
-                    if (layoutId == 1) {
-                    }
                     val userLayout = layoutTable.toIntArray()
                     navigator?.navigateToLayoutProcessingFragment(layoutId, userLayout)
+                    RunarLogger.logDebug("test")
                 }
 
             }
@@ -199,7 +201,7 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
                     }
                 } else isLast = true
                 result = true
-                runeSetter(slot, activeSlot, i)
+                runeSetter(slot, activeSlot, minValue)
                 return arrayOf(result, isLast)
             }
         }
@@ -247,7 +249,8 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
                 activeSlot.setBackgroundResource(R.drawable.slot_active)
                 context?.let { (activeSlot.getChildAt(0) as TextView).setTextColor(it.getColor(R.color.rune_number_color_selected)) }
             }
-            layoutTable[childNumber] = runeId
+            if(childNumber==10) layoutTable[layoutTable[0]] = runeId
+            else layoutTable[childNumber-1] = runeId
             blockButton(true)
             threadCounter--
         }

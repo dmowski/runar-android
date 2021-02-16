@@ -91,7 +91,6 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                     if (selectedLayout != null) {
                         runeHeight = runeHeightCalculator()
                         runeWidth = (runeHeight / 1.23).toInt()
-                        val userLayout = newUserLayout
                         binding.header.text = selectedLayout.layoutName
 
                         val firstRune = FrameLayout(requireContext())
@@ -105,9 +104,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                         when (selectedLayout.layoutId) {
                             1 -> {
                                 firstRune.id = View.generateViewId()
-                                val firstRuneId = userLayout[2]
-
-                                val ims = context?.assets?.open("runes/${firstRuneId}.png")
+                                val ims = context?.assets?.open("runes/${newUserLayout[1]}.png")
                                 val firstRuneImage = Drawable.createFromStream(ims, null)
                                 firstRune.setBackgroundDrawable(firstRuneImage)
                                 val firstRuneLayoutParams = ConstraintLayout.LayoutParams(runeWidth, runeHeight)
@@ -125,8 +122,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                                 runesViewList.addAll(arrayListOf(firstRune, secondRune))
                                 runesPositionsList.addAll(arrayListOf(selectedLayout.slotMeaning3, selectedLayout.slotMeaning7))
 
-                                val runesIdsList = arrayListOf(userLayout[2], userLayout[6])
-                                runesInit(runesViewList, runesLayout, runesIdsList)
+                                runesInit(runesViewList, runesLayout)
 
                                 val set = ConstraintSet()
                                 set.clone(runesLayout)
@@ -147,8 +143,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                                     )
                                 )
 
-                                val runesIdsList = arrayListOf(userLayout[6], userLayout[2], userLayout[5])
-                                runesInit(runesViewList, runesLayout, runesIdsList)
+                                runesInit(runesViewList, runesLayout)
 
                                 val set = ConstraintSet()
                                 set.clone(runesLayout)
@@ -175,8 +170,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                                     )
                                 )
 
-                                val runesIdsList = arrayListOf(userLayout[6], userLayout[2], userLayout[3], userLayout[1])
-                                runesInit(runesViewList, runesLayout, runesIdsList)
+                                runesInit(runesViewList, runesLayout)
 
                                 val set = ConstraintSet()
                                 set.clone(runesLayout)
@@ -204,8 +198,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                                     )
                                 )
 
-                                val runesIdsList = arrayListOf(userLayout[2], userLayout[5], userLayout[6], userLayout[1])
-                                runesInit(runesViewList, runesLayout, runesIdsList)
+                                runesInit(runesViewList, runesLayout)
 
                                 val set = ConstraintSet()
                                 set.clone(runesLayout)
@@ -236,8 +229,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                                     )
                                 )
 
-                                val runesIdsList = arrayListOf(userLayout[5], userLayout[2], userLayout[6], userLayout[1], userLayout[3])
-                                runesInit(runesViewList, runesLayout, runesIdsList)
+                                runesInit(runesViewList, runesLayout)
 
                                 val set = ConstraintSet()
                                 set.clone(runesLayout)
@@ -272,9 +264,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                                     )
                                 )
 
-                                val runesIdsList =
-                                    arrayListOf(userLayout[6], userLayout[2], userLayout[5], userLayout[3], userLayout[1], userLayout[0])
-                                runesInit(runesViewList, runesLayout, runesIdsList)
+                                runesInit(runesViewList, runesLayout)
 
                                 val set = ConstraintSet()
                                 set.clone(runesLayout)
@@ -312,17 +302,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                                         selectedLayout.slotMeaning1
                                     )
                                 )
-
-                                val runesIdsList = arrayListOf(
-                                    userLayout[2],
-                                    userLayout[6],
-                                    userLayout[5],
-                                    userLayout[4],
-                                    userLayout[3],
-                                    userLayout[1],
-                                    userLayout[0]
-                                )
-                                runesInit(runesViewList, runesLayout, runesIdsList)
+                                runesInit(runesViewList, runesLayout)
 
                                 val set = ConstraintSet()
                                 set.clone(runesLayout)
@@ -555,7 +535,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                         runeDot.setImageResource(R.drawable.ic_circle_deselected)
                         runeDot.setOnClickListener(this)
                     }
-                    viewModel.getSelectedRuneData(runesViewList.indexOf(rune))
+                    viewModel.getSelectedRuneData(runesViewList.indexOf(rune)+1)
                     binding.runePosition.text = runesPositionsList[runesViewList.indexOf(rune)]
                     binding.runeDescriptionScroll.scrollTo(0, 0)
                     runesDotsList[runesViewList.indexOf(rune)].setImageResource(R.drawable.ic_circle_selected)
@@ -789,9 +769,9 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
     }
 
     //function for adding images for slot, order is important
-    private fun runesImgSetter(runes: ArrayList<FrameLayout>, runesIds: ArrayList<Int>) {
+    private fun runesImgSetter(runes: ArrayList<FrameLayout>) {
         runes.forEachIndexed { index, element ->
-            val i = context?.assets?.open("runes/${runesIds[index]}.png")
+            val i = context?.assets?.open("runes/${newUserLayout[index+1]}.png")
             val runeImage = Drawable.createFromStream(i, null)
             element.setBackgroundDrawable(runeImage)
         }
@@ -806,9 +786,9 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
         }
     }
 
-    private fun runesInit(runes: ArrayList<FrameLayout>, parent: ConstraintLayout, runesIds: ArrayList<Int>) {
+    private fun runesInit(runes: ArrayList<FrameLayout>, parent: ConstraintLayout) {
         viewIdGenerator(runes)
-        runesImgSetter(runes, runesIds)
+        runesImgSetter(runes)
         runesParametersSetter(runes)
         addViewHelper(runes, parent)
     }
