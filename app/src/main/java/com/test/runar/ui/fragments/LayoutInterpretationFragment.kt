@@ -768,7 +768,6 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
         for (element in list) viewGroup.addView(element)
     }
 
-    //function for adding images for slot, order is important
     private fun runesImgSetter(runes: ArrayList<FrameLayout>) {
         runes.forEachIndexed { index, element ->
             val i = context?.assets?.open("runes/${newUserLayout[index+1]}.png")
