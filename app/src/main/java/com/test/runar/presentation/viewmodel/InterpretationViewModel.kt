@@ -54,82 +54,24 @@ class InterpretationViewModel(application: Application) : AndroidViewModel(appli
                 CoroutineScope(IO).launch {
                     val index = userLayout[1] * 100 + userLayout[2]
                     val inter = DatabaseRepository.getTwoRunesInterpretation(index)
-                    _currentInterpretation.postValue("Ваше настоящее положение дел можно охарактеризовать как <bf>$inter</bf>.")
+                    val res = String.format(selectedLayout.value?.interpretation!!,inter)
+                    _currentInterpretation.postValue(res)
                 }
                 return
             }
-            3 -> result =
-                    "Общее положение Ваших дел может быть описано как <bf>${getMeaningForRune(userLayout[1])}</bf>.<br><br>" +
-                            "Обратите самое пристальное внимание на важную проблему, а именно - <bf>${
-                                getMeaningForRune(
-                                        userLayout[2]
-                                )
-                            }</bf>.<br><br>" +
-                            "Возможное решение этой проблемы - это <bf>${
-                                getMeaningForRune(
-                                        userLayout[3]
-                                )
-                            }</bf>."
-            4 -> result =
-                    "Ваше текущее состояние можно описать как <bf>${getMeaningForRune(userLayout[1])}</bf>.<br><br>" +
-                            "Ваша проблема - это <bf>${getMeaningForRune(userLayout[2])}</bf>, " +
-                            "но для её решения вы должны опираться на <bf>${getMeaningForRune(userLayout[3])}</bf>.<br><br>" +
-                            "Если вы будете настойчивы в своих действиях то вас ждет <bf>${
-                                getMeaningForRune(userLayout[4])}</bf>."
-            5 -> result =
-                    "В прошлом вы ощущали <bf>${getMeaningForRune(userLayout[1])}</bf>.<br><br>" +
-                            "В настоящее время Вы чувствуете <bf>${getMeaningForRune(userLayout[2])}</bf>.<br><br>" +
-                            "В будущем вас ожидает <bf>${getMeaningForRune(userLayout[4])}</bf>."
-            6 -> result =
-                    "В прошлом вы ощущали <bf>${getMeaningForRune(userLayout[1])}</bf>.<br><br>" +
-                            "Настоящее (в том числе проблема) может быть описано как <bf>${
-                                getMeaningForRune(
-                                        userLayout[2]
-                                )
-                            }</bf>.<br><br>" +
-                            "При естественном развитии ситуации, Вас ожидает <bf>${
-                                getMeaningForRune(
-                                        userLayout[3]
-                                )
-                            }</bf>, " +
-                            "причем есть сила, а именно <bf>${getMeaningForRune(userLayout[5])}</bf>, на которую Вы не можете влиять.<br><br>" +
-                            "Но если Судьба принесет вам помощь - <bf>${getMeaningForRune(userLayout[4])}</bf>, то Вас ждет лучшее будущее."
-            7 -> result =
-                    "Вам, как человеку, присуща важная черта - <bf>${getMeaningForRune(userLayout[2])}</bf>, " +
-                            "и в настоящее время с Вами происходит <bf>${getMeaningForRune(userLayout[1])}</bf>.<br><br>" +
-                            "Источником Ваших проблем может быть <bf>${getMeaningForRune(userLayout[4])}</bf>.<br><br>" +
-                            "Наиболее вероятное будущее может быть описано как <bf>${
-                                getMeaningForRune(
-                                        userLayout[3]
-                                )
-                            }</bf>.<br><br>" +
-                            "Для достижения этого результата, Ваша главная цель - <bf>${
-                                getMeaningForRune(
-                                        userLayout[5]
-                                )
-                            }</bf>.<br><br>" +
-                            "Если же Вы не достигнете поставленной цели - вас ждет <bf>${
-                                getMeaningForRune(
-                                        userLayout[6]
-                                )
-                            }</bf>."
-            8 -> result =
-                    "В настоящее время с Вами происходит <bf>${getMeaningForRune(userLayout[1])}</bf>, " +
-                            "что является следствием вашего прошлого - <bf>${
-                                getMeaningForRune(
-                                        userLayout[2]
-                                )
-                            }</bf>.<br><br>" +
-                            "Если в будущем ваша цель <bf>${getMeaningForRune(userLayout[3])}</bf>, " +
-                            "вам необходимо обратить внимание на <bf>${getMeaningForRune(userLayout[4])}</bf>.<br><br>" +
-                            "Возможно, причиной ваших трудностей является <bf>${
-                                getMeaningForRune(
-                                        userLayout[5]
-                                )
-                            }</bf>.<br><br>" +
-                            "Лучшее, чего Вы можете ожидать - это <bf>${getMeaningForRune(userLayout[6])}</bf>.<br><br>" +
-                            "Как наиболее вероятный результат - вас ждет <bf>${getMeaningForRune(userLayout[7])}</bf>."
-            else -> result = "lol dude"
+            3 -> result = String.format(selectedLayout.value?.interpretation!!,
+                    getMeaningForRune(userLayout[1]),getMeaningForRune(userLayout[2]),getMeaningForRune(userLayout[3]))
+
+            4 -> result = String.format(selectedLayout.value?.interpretation!!,
+                    getMeaningForRune(userLayout[1]),getMeaningForRune(userLayout[2]),getMeaningForRune(userLayout[3]),getMeaningForRune(userLayout[4]))
+            5 -> result = String.format(selectedLayout.value?.interpretation!!,
+                    getMeaningForRune(userLayout[1]),getMeaningForRune(userLayout[2]),getMeaningForRune(userLayout[4]))
+            6 -> result = String.format(selectedLayout.value?.interpretation!!,
+                    getMeaningForRune(userLayout[1]),getMeaningForRune(userLayout[2]),getMeaningForRune(userLayout[3]),getMeaningForRune(userLayout[5]),getMeaningForRune(userLayout[4]))
+            7 -> result = String.format(selectedLayout.value?.interpretation!!,
+                    getMeaningForRune(userLayout[2]),getMeaningForRune(userLayout[1]),getMeaningForRune(userLayout[4]),getMeaningForRune(userLayout[3]),getMeaningForRune(userLayout[5]),getMeaningForRune(userLayout[6]))
+            8 -> result = String.format(selectedLayout.value?.interpretation!!,
+                    getMeaningForRune(userLayout[1]),getMeaningForRune(userLayout[2]),getMeaningForRune(userLayout[3]),getMeaningForRune(userLayout[4]),getMeaningForRune(userLayout[5]),getMeaningForRune(userLayout[6]),getMeaningForRune(userLayout[7]))
         }
         _currentInterpretation.postValue(result)
     }
@@ -137,20 +79,19 @@ class InterpretationViewModel(application: Application) : AndroidViewModel(appli
     fun saveUserLayout() {
         val userId = preferencesRepository.userId
         val layoutId = selectedLayout.value?.layoutId
-        val userLayoutRunes = this.userLayout
         val currentDate = System.currentTimeMillis() / 1000L
         CoroutineScope(IO).launch {
             var userLayout = UserLayoutModel(
                     userId,
                     currentDate,
                     layoutId,
-                    userLayoutRunes[0],
-                    userLayoutRunes[1],
-                    userLayoutRunes[2],
-                    userLayoutRunes[3],
-                    userLayoutRunes[4],
-                    userLayoutRunes[5],
-                    userLayoutRunes[6]
+                    userLayout[0],
+                    userLayout[1],
+                    userLayout[2],
+                    userLayout[3],
+                    userLayout[4],
+                    userLayout[5],
+                    userLayout[6]
             )
             DatabaseRepository.addUserLayout(userLayout)
         }
@@ -158,29 +99,16 @@ class InterpretationViewModel(application: Application) : AndroidViewModel(appli
 
     fun getAuspForCurrentLayout() {
         val layoutId = selectedLayout.value?.layoutId
-        var ausp: Int = 0
-        val userLayout = this.userLayout
+        var ausp = 0
         when (layoutId) {
-            1 -> ausp = getAuspForRune(userLayout[1])
-            2 -> ausp = (getAuspForRune(userLayout[1]) + getAuspForRune(userLayout[2])) / 2
-            3 -> ausp = getAuspForRune(userLayout[3])
-            4 -> ausp = (getAuspForRune(userLayout[3]) + getAuspForRune(userLayout[4])) / 2
-            5 -> ausp =
-                    (getAuspForRune(userLayout[2]) + getAuspForRune(userLayout[3]) + getAuspForRune(
-                            userLayout[4]
-                    )) / 3
-            6 -> ausp =
-                    (getAuspForRune(userLayout[3]) + getAuspForRune(userLayout[4]) + getAuspForRune(
-                            userLayout[5]
-                    )) / 3
-            7 -> ausp =
-                    (getAuspForRune(userLayout[3]) + getAuspForRune(userLayout[5]) + getAuspForRune(
-                            userLayout[6]
-                    )) / 3
-            8 -> ausp =
-                    (getAuspForRune(userLayout[3]) + getAuspForRune(userLayout[4]) + getAuspForRune(
-                            userLayout[6]
-                    ) + getAuspForRune(userLayout[7])) / 4
+            1 -> ausp = getSumOfAusp(arrayListOf(1))
+            2 -> ausp = getSumOfAusp(arrayListOf(1,2)) / 2
+            3 -> ausp = getSumOfAusp(arrayListOf(3))
+            4 -> ausp = getSumOfAusp(arrayListOf(3,4)) / 2
+            5 -> ausp = getSumOfAusp(arrayListOf(2,3,4))/ 3
+            6 -> ausp =getSumOfAusp(arrayListOf(3,4,5))/ 3
+            7 -> ausp =getSumOfAusp(arrayListOf(3,5,6))/ 3
+            8 -> ausp =getSumOfAusp(arrayListOf(3,4,6,7))/ 4
         }
         _currentAusp.postValue(ausp)
     }
@@ -211,13 +139,16 @@ class InterpretationViewModel(application: Application) : AndroidViewModel(appli
         }
     }
 
-    fun getAuspForRune(id: Int): Int {
-        for (rune in runesData) {
-            if (rune.runeId == id) {
-                return rune.ausp!!
+    fun getSumOfAusp(ids: ArrayList<Int>): Int {
+        var sum =0
+        for(runePos in ids){
+            for (rune in runesData) {
+                if (rune.runeId == userLayout[runePos]) {
+                    sum+= rune.ausp!!
+                }
             }
         }
-        return 0
+        return sum
     }
 
     private fun getMeaningForRune(id: Int): String {
