@@ -23,9 +23,11 @@ import androidx.lifecycle.ViewModelProviders
 import com.test.runar.CustomClasses.InterTagHandler
 import com.test.runar.CustomClasses.OnSwipeTouchListener
 import com.test.runar.R
+import com.test.runar.RunarLogger
 import com.test.runar.databinding.FragmentLayoutInterpretationBinding
 import com.test.runar.extensions.setOnCLickListenerForAll
 import com.test.runar.presentation.viewmodel.MainViewModel
+import com.test.runar.ui.activity.MainActivity
 
 class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpretation),
     View.OnClickListener {
@@ -63,6 +65,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
         newUserLayout = (requireArguments().getIntArray(KEY_USER_LAYOUT)!!).toCollection(ArrayList())
         model.setCurrentUserLayout(newUserLayout)
         model.getLayoutDescription(layoutId)
+        RunarLogger.logDebug("Interpretation fragment created")
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -481,11 +484,10 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
         val runeDotsIdList = arrayListOf<Int>()
         for (rune in runesViewList) runeIdList.add(rune.id)
         for (runeDot in runesDotsList) runeDotsIdList.add(runeDot.id)
-/*         val navController = findNavController()
        when (v?.id) {
             R.id.description_button_frame -> {
                 if (binding.checkbox.isChecked) model.saveUserLayout()
-                navController.navigate(R.id.action_layoutInterpretationFragment_to_layoutFragment)
+                (requireActivity() as MainActivity).navigateToDefaultAndShowBottomNavBar()
             }
             in runeIdList -> {
                 showDescriptionOfSelectedRune(v)
@@ -506,7 +508,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
             R.id.exit_button -> {
                 hideRuneDescription()
             }
-        }*/
+        }
     }
 
     private fun hideRuneDescription() {
@@ -867,6 +869,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
         model.clearAusp()
         model.clearAffirm()
         model.clearInterpretation()
+        RunarLogger.logDebug("Interpretation fragment destroyed")
         super.onDestroy()
     }
 
