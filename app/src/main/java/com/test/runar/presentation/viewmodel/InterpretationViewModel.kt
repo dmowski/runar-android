@@ -38,132 +38,8 @@ class InterpretationViewModel(application: Application) : AndroidViewModel(appli
 
 
     fun getSelectedRuneData(id: Int) {
-        val layoutId = selectedLayout.value?.layoutId
         val userLayout = this.userLayout
-        var runeId = 0
-        when (layoutId) {
-            2 -> {
-                when (id) {
-                    0 -> {
-                        runeId = userLayout[2]
-                    }
-                    1 -> {
-                        runeId = userLayout[6]
-                    }
-                }
-            }
-            3 -> {
-                when (id) {
-                    2 -> {
-                        runeId = userLayout[5]
-                    }
-                    1 -> {
-                        runeId = userLayout[2]
-                    }
-                    0 -> {
-                        runeId = userLayout[6]
-                    }
-                }
-            }
-            4 -> {
-                when (id) {
-                    3 -> {
-                        runeId = userLayout[1]
-                    }
-                    1 -> {
-                        runeId = userLayout[2]
-                    }
-                    2 -> {
-                        runeId = userLayout[3]
-                    }
-                    0 -> {
-                        runeId = userLayout[6]
-                    }
-                }
-            }
-            5 -> {
-                when (id) {
-                    3 -> {
-                        runeId = userLayout[1]
-                    }
-                    1 -> {
-                        runeId = userLayout[5]
-                    }
-                    2 -> {
-                        runeId = userLayout[6]
-                    }
-                    0 -> {
-                        runeId = userLayout[2]
-                    }
-                }
-            }
-            6 -> {
-                when (id) {
-                    3 -> {
-                        runeId = userLayout[1]
-                    }
-                    1 -> {
-                        runeId = userLayout[2]
-                    }
-                    4 -> {
-                        runeId = userLayout[3]
-                    }
-                    0 -> {
-                        runeId = userLayout[5]
-                    }
-                    2 -> {
-                        runeId = userLayout[6]
-                    }
-                }
-            }
-            7 -> {
-                when (id) {
-                    5 -> {
-                        runeId = userLayout[0]
-                    }
-                    4 -> {
-                        runeId = userLayout[1]
-                    }
-                    1 -> {
-                        runeId = userLayout[2]
-                    }
-                    3 -> {
-                        runeId = userLayout[3]
-                    }
-                    2 -> {
-                        runeId = userLayout[5]
-                    }
-                    0 -> {
-                        runeId = userLayout[6]
-                    }
-                }
-            }
-            8 -> {
-                when (id) {
-                    6 -> {
-                        runeId = userLayout[0]
-                    }
-                    5 -> {
-                        runeId = userLayout[1]
-                    }
-                    0 -> {
-                        runeId = userLayout[2]
-                    }
-                    4 -> {
-                        runeId = userLayout[3]
-                    }
-                    3 -> {
-                        runeId = userLayout[4]
-                    }
-                    2 -> {
-                        runeId = userLayout[5]
-                    }
-                    1 -> {
-                        runeId = userLayout[6]
-                    }
-                }
-            }
-        }
+        val runeId = userLayout[id]
         for (rune in runesData) {
             if (rune.runeId == runeId) {
                 _selectedRune.postValue(rune)
@@ -175,17 +51,17 @@ class InterpretationViewModel(application: Application) : AndroidViewModel(appli
         var userLayout = this.userLayout
         var result: String = ""
         when (layoutId) {
-            1 -> result = getFullDescriptionForRune(userLayout[2]) + "."
+            1 -> result = getFullDescriptionForRune(userLayout[1]) + "."
             2 -> {
                 CoroutineScope(IO).launch {
-                    val index = userLayout[2] * 100 + userLayout[6]
+                    val index = userLayout[1] * 100 + userLayout[2]
                     val inter = DatabaseRepository.getTwoRunesInterpretation(index)
                     _currentInterpretation.postValue("Ваше настоящее положение дел можно охарактеризовать как <bf>$inter</bf>.")
                 }
                 return
             }
             3 -> result =
-                    "Общее положение Ваших дел может быть описано как <bf>${getMeaningForRune(userLayout[6])}</bf>.<br><br>" +
+                    "Общее положение Ваших дел может быть описано как <bf>${getMeaningForRune(userLayout[1])}</bf>.<br><br>" +
                             "Обратите самое пристальное внимание на важную проблему, а именно - <bf>${
                                 getMeaningForRune(
                                         userLayout[2]
@@ -193,24 +69,21 @@ class InterpretationViewModel(application: Application) : AndroidViewModel(appli
                             }</bf>.<br><br>" +
                             "Возможное решение этой проблемы - это <bf>${
                                 getMeaningForRune(
-                                        userLayout[5]
+                                        userLayout[3]
                                 )
                             }</bf>."
             4 -> result =
-                    "Ваше текущее состояние можно описать как <bf>${getMeaningForRune(userLayout[6])}</bf>.<br><br>" +
+                    "Ваше текущее состояние можно описать как <bf>${getMeaningForRune(userLayout[1])}</bf>.<br><br>" +
                             "Ваша проблема - это <bf>${getMeaningForRune(userLayout[2])}</bf>, " +
                             "но для её решения вы должны опираться на <bf>${getMeaningForRune(userLayout[3])}</bf>.<br><br>" +
                             "Если вы будете настойчивы в своих действиях то вас ждет <bf>${
-                                getMeaningForRune(
-                                        userLayout[1]
-                                )
-                            }</bf>."
+                                getMeaningForRune(userLayout[4])}</bf>."
             5 -> result =
-                    "В прошлом вы ощущали <bf>${getMeaningForRune(userLayout[2])}</bf>.<br><br>" +
-                            "В настоящее время Вы чувствуете <bf>${getMeaningForRune(userLayout[5])}</bf>.<br><br>" +
-                            "В будущем вас ожидает <bf>${getMeaningForRune(userLayout[1])}</bf>."
+                    "В прошлом вы ощущали <bf>${getMeaningForRune(userLayout[1])}</bf>.<br><br>" +
+                            "В настоящее время Вы чувствуете <bf>${getMeaningForRune(userLayout[2])}</bf>.<br><br>" +
+                            "В будущем вас ожидает <bf>${getMeaningForRune(userLayout[4])}</bf>."
             6 -> result =
-                    "В прошлом вы ощущали <bf>${getMeaningForRune(userLayout[5])}</bf>.<br><br>" +
+                    "В прошлом вы ощущали <bf>${getMeaningForRune(userLayout[1])}</bf>.<br><br>" +
                             "Настоящее (в том числе проблема) может быть описано как <bf>${
                                 getMeaningForRune(
                                         userLayout[2]
@@ -218,46 +91,46 @@ class InterpretationViewModel(application: Application) : AndroidViewModel(appli
                             }</bf>.<br><br>" +
                             "При естественном развитии ситуации, Вас ожидает <bf>${
                                 getMeaningForRune(
-                                        userLayout[6]
+                                        userLayout[3]
                                 )
                             }</bf>, " +
-                            "причем есть сила, а именно <bf>${getMeaningForRune(userLayout[3])}</bf>, на которую Вы не можете влиять.<br><br>" +
-                            "Но если Судьба принесет вам помощь - <bf>${getMeaningForRune(userLayout[1])}</bf>, то Вас ждет лучшее будущее."
+                            "причем есть сила, а именно <bf>${getMeaningForRune(userLayout[5])}</bf>, на которую Вы не можете влиять.<br><br>" +
+                            "Но если Судьба принесет вам помощь - <bf>${getMeaningForRune(userLayout[4])}</bf>, то Вас ждет лучшее будущее."
             7 -> result =
                     "Вам, как человеку, присуща важная черта - <bf>${getMeaningForRune(userLayout[2])}</bf>, " +
-                            "и в настоящее время с Вами происходит <bf>${getMeaningForRune(userLayout[6])}</bf>.<br><br>" +
-                            "Источником Ваших проблем может быть <bf>${getMeaningForRune(userLayout[3])}</bf>.<br><br>" +
+                            "и в настоящее время с Вами происходит <bf>${getMeaningForRune(userLayout[1])}</bf>.<br><br>" +
+                            "Источником Ваших проблем может быть <bf>${getMeaningForRune(userLayout[4])}</bf>.<br><br>" +
                             "Наиболее вероятное будущее может быть описано как <bf>${
-                                getMeaningForRune(
-                                        userLayout[5]
-                                )
-                            }</bf>.<br><br>" +
-                            "Для достижения этого результата, Ваша главная цель - <bf>${
-                                getMeaningForRune(
-                                        userLayout[1]
-                                )
-                            }</bf>.<br><br>" +
-                            "Если же Вы не достигнете поставленной цели - вас ждет <bf>${
-                                getMeaningForRune(
-                                        userLayout[0]
-                                )
-                            }</bf>."
-            8 -> result =
-                    "В настоящее время с Вами происходит <bf>${getMeaningForRune(userLayout[2])}</bf>, " +
-                            "что является следствием вашего прошлого - <bf>${
-                                getMeaningForRune(
-                                        userLayout[6]
-                                )
-                            }</bf>.<br><br>" +
-                            "Если в будущем ваша цель <bf>${getMeaningForRune(userLayout[5])}</bf>, " +
-                            "вам необходимо обратить внимание на <bf>${getMeaningForRune(userLayout[4])}</bf>.<br><br>" +
-                            "Возможно, причиной ваших трудностей является <bf>${
                                 getMeaningForRune(
                                         userLayout[3]
                                 )
                             }</bf>.<br><br>" +
-                            "Лучшее, чего Вы можете ожидать - это <bf>${getMeaningForRune(userLayout[1])}</bf>.<br><br>" +
-                            "Как наиболее вероятный результат - вас ждет <bf>${getMeaningForRune(userLayout[0])}</bf>."
+                            "Для достижения этого результата, Ваша главная цель - <bf>${
+                                getMeaningForRune(
+                                        userLayout[5]
+                                )
+                            }</bf>.<br><br>" +
+                            "Если же Вы не достигнете поставленной цели - вас ждет <bf>${
+                                getMeaningForRune(
+                                        userLayout[6]
+                                )
+                            }</bf>."
+            8 -> result =
+                    "В настоящее время с Вами происходит <bf>${getMeaningForRune(userLayout[1])}</bf>, " +
+                            "что является следствием вашего прошлого - <bf>${
+                                getMeaningForRune(
+                                        userLayout[2]
+                                )
+                            }</bf>.<br><br>" +
+                            "Если в будущем ваша цель <bf>${getMeaningForRune(userLayout[3])}</bf>, " +
+                            "вам необходимо обратить внимание на <bf>${getMeaningForRune(userLayout[4])}</bf>.<br><br>" +
+                            "Возможно, причиной ваших трудностей является <bf>${
+                                getMeaningForRune(
+                                        userLayout[5]
+                                )
+                            }</bf>.<br><br>" +
+                            "Лучшее, чего Вы можете ожидать - это <bf>${getMeaningForRune(userLayout[6])}</bf>.<br><br>" +
+                            "Как наиболее вероятный результат - вас ждет <bf>${getMeaningForRune(userLayout[7])}</bf>."
             else -> result = "lol dude"
         }
         _currentInterpretation.postValue(result)
@@ -290,26 +163,26 @@ class InterpretationViewModel(application: Application) : AndroidViewModel(appli
         var ausp: Int = 0
         val userLayout = this.userLayout
         when (layoutId) {
-            1 -> ausp = getAuspForRune(userLayout[2])
-            2 -> ausp = (getAuspForRune(userLayout[2]) + getAuspForRune(userLayout[6])) / 2
-            3 -> ausp = getAuspForRune(userLayout[5])
-            4 -> ausp = (getAuspForRune(userLayout[1]) + getAuspForRune(userLayout[3])) / 2
+            1 -> ausp = getAuspForRune(userLayout[1])
+            2 -> ausp = (getAuspForRune(userLayout[1]) + getAuspForRune(userLayout[2])) / 2
+            3 -> ausp = getAuspForRune(userLayout[3])
+            4 -> ausp = (getAuspForRune(userLayout[3]) + getAuspForRune(userLayout[4])) / 2
             5 -> ausp =
-                    (getAuspForRune(userLayout[5]) + getAuspForRune(userLayout[1]) + getAuspForRune(
-                            userLayout[6]
+                    (getAuspForRune(userLayout[2]) + getAuspForRune(userLayout[3]) + getAuspForRune(
+                            userLayout[4]
                     )) / 3
             6 -> ausp =
-                    (getAuspForRune(userLayout[3]) + getAuspForRune(userLayout[1]) + getAuspForRune(
-                            userLayout[6]
+                    (getAuspForRune(userLayout[3]) + getAuspForRune(userLayout[4]) + getAuspForRune(
+                            userLayout[5]
                     )) / 3
             7 -> ausp =
-                    (getAuspForRune(userLayout[0]) + getAuspForRune(userLayout[1]) + getAuspForRune(
-                            userLayout[5]
+                    (getAuspForRune(userLayout[3]) + getAuspForRune(userLayout[5]) + getAuspForRune(
+                            userLayout[6]
                     )) / 3
             8 -> ausp =
-                    (getAuspForRune(userLayout[0]) + getAuspForRune(userLayout[1]) + getAuspForRune(
-                            userLayout[5]
-                    ) + getAuspForRune(userLayout[4])) / 4
+                    (getAuspForRune(userLayout[3]) + getAuspForRune(userLayout[4]) + getAuspForRune(
+                            userLayout[6]
+                    ) + getAuspForRune(userLayout[7])) / 4
         }
         _currentAusp.postValue(ausp)
     }
