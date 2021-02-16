@@ -38,7 +38,6 @@ class InterpretationViewModel(application: Application) : AndroidViewModel(appli
 
 
     fun getSelectedRuneData(id: Int) {
-        val userLayout = this.userLayout
         val runeId = userLayout[id]
         for (rune in runesData) {
             if (rune.runeId == runeId) {
@@ -47,8 +46,7 @@ class InterpretationViewModel(application: Application) : AndroidViewModel(appli
         }
     }
     fun getInterpretation() {
-        var layoutId = selectedLayout.value?.layoutId
-        var userLayout = this.userLayout
+        val layoutId = selectedLayout.value?.layoutId
         var result: String = ""
         when (layoutId) {
             1 -> result = getFullDescriptionForRune(userLayout[1]) + "."
@@ -140,7 +138,7 @@ class InterpretationViewModel(application: Application) : AndroidViewModel(appli
         val userId = preferencesRepository.userId
         val layoutId = selectedLayout.value?.layoutId
         val userLayoutRunes = this.userLayout
-        var currentDate = System.currentTimeMillis() / 1000L
+        val currentDate = System.currentTimeMillis() / 1000L
         CoroutineScope(IO).launch {
             var userLayout = UserLayoutModel(
                     userId,
