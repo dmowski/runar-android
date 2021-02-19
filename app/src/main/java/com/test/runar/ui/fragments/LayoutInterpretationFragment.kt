@@ -1,6 +1,8 @@
 package com.test.runar.ui.fragments
 
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
@@ -30,12 +32,15 @@ import com.test.runar.databinding.FragmentLayoutInterpretationBinding
 import com.test.runar.extensions.setOnCLickListenerForAll
 import com.test.runar.presentation.viewmodel.InterpretationViewModel
 import com.test.runar.presentation.viewmodel.LayoutViewModel
+import com.test.runar.ui.Navigator
 import com.test.runar.ui.activity.MainActivity
 
 class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpretation),
     View.OnClickListener {
 
     private val viewModel: InterpretationViewModel by viewModels()
+    private var navigator: Navigator? = null
+
     private lateinit var bottomRunesNav: ConstraintLayout
     private lateinit var headerFrame: FrameLayout
     private lateinit var runesLayout: ConstraintLayout
@@ -61,6 +66,16 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
 
     private var readyToReturn = true
     private var backBlock = true
+
+    override fun onAttach(context: Context) {
+        navigator = context as Navigator
+        super.onAttach(context)
+    }
+
+    override fun onDetach() {
+        navigator = null
+        super.onDetach()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -439,7 +454,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
        when (v?.id) {
             R.id.description_button_frame -> {
                 if (binding.checkbox.isChecked) viewModel.saveUserLayout()
-                (requireActivity() as MainActivity).navigateToDefaultAndShowBottomNavBar()
+                navigator?.navigateToDefaultAndShowBottomNavBar()
             }
             in runeIdList -> {
                 showDescriptionOfSelectedRune(v)

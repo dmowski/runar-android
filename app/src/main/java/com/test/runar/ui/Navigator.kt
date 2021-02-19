@@ -5,6 +5,7 @@ interface Navigator {
     fun navigateToLayoutInitFragment(layoutId: Int)
     fun navigateToLayoutProcessingFragment(layoutId: Int, userLayout: IntArray)
     fun navigateToInterpretationFragment(layoutId: Int, userLayout: IntArray)
+    fun navigateToDefaultAndShowBottomNavBar()
     fun showDialog()
     fun agreeWithDialog()
 }
