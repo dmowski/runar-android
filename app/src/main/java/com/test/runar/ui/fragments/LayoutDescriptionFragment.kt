@@ -29,6 +29,11 @@ class LayoutDescriptionFragment : Fragment(R.layout.fragment_layout_description)
         navigator = context as Navigator
     }
 
+    override fun onDetach() {
+        navigator = null
+        super.onDetach()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         layoutId = requireArguments().getInt(KEY_LAYOUT_ID)
