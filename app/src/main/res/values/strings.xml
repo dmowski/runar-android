@@ -41,4 +41,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string name="text_calculation_helper">Простое гадание на рунах, однако оно</string>
+
+
+    <string name="library_bar_fav">Избранное</string>
 </resources>
