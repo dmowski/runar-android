@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentManager
 import com.test.runar.R
+import com.test.runar.RunarLogger
 import com.test.runar.databinding.ActivityMainBinding
 import com.test.runar.presentation.viewmodel.MainViewModel
 import com.test.runar.ui.Navigator
@@ -29,6 +30,29 @@ class MainActivity : AppCompatActivity(), Navigator {
 
         viewModel.identify()
         supportActionBar?.hide()
+
+        binding.bottomNavigationBar.setOnNavigationItemSelectedListener { item->
+            when(item.itemId){
+                R.id.libraryFragment->{
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragmentContainer, LibraryFragment())
+                        .addToBackStack(null)
+                        .commit()
+                    binding.bottomNavigationBar.isVisible = true
+                    true
+                }
+                R.id.layoutFragment->{
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragmentContainer, LayoutFragment())
+                        .addToBackStack(null)
+                        .commit()
+                    binding.bottomNavigationBar.isVisible = true
+                    true
+                }
+                else-> false
+            }
+        }
+
     }
 
     private fun initFragments() {
@@ -40,7 +64,8 @@ class MainActivity : AppCompatActivity(), Navigator {
     override fun onBackPressed() {
         val topFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainer)
         when (topFragment) {
-            is LayoutFragment -> super.onBackPressed()
+            is LayoutFragment -> finishAndRemoveTask()
+            is LibraryFragment -> RunarLogger.logDebug("todo")
             !is LayoutDescriptionFragment -> showDialog()
             else -> { navigateToDefaultAndShowBottomNavBar() }
         }
