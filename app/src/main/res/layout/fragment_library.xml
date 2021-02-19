@@ -65,22 +65,26 @@
                     android:text="Описание рун"
                     android:id="@+id/item_header_1"
                     android:layout_width="0dp"
-                    android:layout_height="0dp"
+                    android:layout_height="wrap_content"
                     app:layout_constraintTop_toTopOf="@id/top_guideline_1"
-                    app:layout_constraintBottom_toBottomOf="@id/text_split_1"
                     app:layout_constraintStart_toEndOf="@id/img1"
                     app:layout_constraintEnd_toStartOf="@id/arrow1"
-                    android:layout_marginStart="10dp"/>
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:textColor="@color/library_item_header"/>
                 <TextView
                     android:text="Письменность древних германцев, употреблявшаяся с I—II по XII век"
                     android:id="@+id/item_text_1"
                     android:layout_width="0dp"
-                    android:layout_height="0dp"
+                    android:layout_height="wrap_content"
                     app:layout_constraintTop_toTopOf="@id/text_split_1"
-                    app:layout_constraintBottom_toBottomOf="@id/bottom_guideline_1"
                     app:layout_constraintStart_toEndOf="@id/img1"
                     app:layout_constraintEnd_toStartOf="@id/arrow1"
-                    android:layout_marginStart="10dp"/>
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:textColor="@color/library_item_text"/>
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/top_guideline_1"
                     android:layout_width="wrap_content"
