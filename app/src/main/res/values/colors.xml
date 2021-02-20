@@ -43,5 +43,5 @@
     <color name="library_top_bar">#191919</color>
     <color name="library_top_bar_header">#D2C4AD</color>
     <color name="library_item_header">#DADADA</color>
-    <color name="library_item_text">#EBEBF5</color>
+    <color name="library_item_text">#99EBEBF5</color>
 </resources>

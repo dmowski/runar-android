@@ -1,6 +1,7 @@
 package com.test.runar.ui.fragments
 
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.View
 import android.view.WindowManager
 import androidx.fragment.app.Fragment
@@ -28,7 +29,9 @@ class LibraryFragment : Fragment(R.layout.fragment_library) {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.fontSize.observe(viewLifecycleOwner){ textSize->
-
+            binding.itemHeader1.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize)
+            val secondTextSize = (textSize*0.8).toFloat()
+            binding.itemText1.setTextSize(TypedValue.COMPLEX_UNIT_PX, secondTextSize)
         }
     }
 }
