@@ -40,6 +40,7 @@
     <color name="interpretation_runes_position">#A8A6A3</color>
 
 
+    <color name="library_background">#73000000</color>
     <color name="library_top_bar">#191919</color>
     <color name="library_top_bar_header">#D2C4AD</color>
     <color name="library_item_header">#DADADA</color>

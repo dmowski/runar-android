@@ -2,7 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/library_background">
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/action_bar_frame"
         app:layout_constraintTop_toTopOf="parent"
@@ -10,12 +11,13 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="@color/library_top_bar"
-        app:layout_constraintDimensionRatio="H,1:0.135">
+        app:layout_constraintDimensionRatio="H,1:0.17">
         <com.google.android.material.appbar.MaterialToolbar
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:title="Библиотека"
             app:menu="@menu/library_top_bar"
+            app:buttonGravity="center_vertical"
             app:titleTextColor="@color/library_top_bar_header"/>
     </com.google.android.material.appbar.AppBarLayout>
     <ScrollView
