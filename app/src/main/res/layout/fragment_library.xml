@@ -64,27 +64,29 @@
                 <TextView
                     android:text="Описание рун"
                     android:id="@+id/item_header_1"
+                    android:layout_marginTop="-5dp"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toTopOf="@id/top_guideline_1"
+                    app:layout_constraintTop_toTopOf="@id/text_top_1"
                     app:layout_constraintStart_toEndOf="@id/img1"
                     app:layout_constraintEnd_toStartOf="@id/arrow1"
-                    android:layout_marginStart="10dp"
+                    android:layout_marginStart="15dp"
                     android:layout_marginEnd="10dp"
                     android:fontFamily="@font/roboto_medium"
-                    android:textColor="@color/library_item_header"/>
+                    android:textColor="@color/library_item_header" />
                 <TextView
                     android:text="Письменность древних германцев, употреблявшаяся с I—II по XII век"
                     android:id="@+id/item_text_1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toTopOf="@id/text_split_1"
+                    app:layout_constraintTop_toBottomOf="@id/item_header_1"
                     app:layout_constraintStart_toEndOf="@id/img1"
                     app:layout_constraintEnd_toStartOf="@id/arrow1"
-                    android:layout_marginStart="10dp"
+                    android:layout_marginStart="15dp"
                     android:layout_marginEnd="10dp"
                     android:fontFamily="@font/roboto_regular"
-                    android:textColor="@color/library_item_text"/>
+                    android:textColor="@color/library_item_text"
+                    android:lineSpacingMultiplier="1.12" />
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/top_guideline_1"
                     android:layout_width="wrap_content"
@@ -98,23 +100,23 @@
                     android:orientation="horizontal"
                     app:layout_constraintGuide_percent="0.77"/>
                 <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/text_split_1"
+                    android:id="@+id/text_top_1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    app:layout_constraintGuide_percent="0.48"/>
+                    app:layout_constraintGuide_percent="0.18"/>
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/top_arrow_guideline_1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    app:layout_constraintGuide_percent="0.44"/>
+                    app:layout_constraintGuide_percent="0.43"/>
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/bottom_arrow_guideline_1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    app:layout_constraintGuide_percent="0.56"/>
+                    app:layout_constraintGuide_percent="0.57"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/item2"
