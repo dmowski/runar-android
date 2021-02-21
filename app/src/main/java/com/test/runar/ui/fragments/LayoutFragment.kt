@@ -3,6 +3,7 @@ package com.test.runar.ui.fragments
 import android.content.Context
 import android.os.Bundle
 import android.util.DisplayMetrics
+import android.util.TypedValue
 import android.view.View
 import android.widget.ScrollView
 import androidx.core.view.children
@@ -36,6 +37,18 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
 
         setClickListenerOnRuneLayouts()
         setupArrows()
+
+        viewModel.fontSize.observe(viewLifecycleOwner){fontSize->
+            val namesFontSize=(fontSize*1.6).toFloat()
+            binding.firstLayoutTw.setTextSize(TypedValue.COMPLEX_UNIT_PX, namesFontSize)
+            binding.secondLayoutTw.setTextSize(TypedValue.COMPLEX_UNIT_PX, namesFontSize)
+            binding.thirdLayoutTw.setTextSize(TypedValue.COMPLEX_UNIT_PX, namesFontSize)
+            binding.fourthLayoutTw.setTextSize(TypedValue.COMPLEX_UNIT_PX, namesFontSize)
+            binding.fifthLayoutTw.setTextSize(TypedValue.COMPLEX_UNIT_PX, namesFontSize)
+            binding.sixthLayoutTw.setTextSize(TypedValue.COMPLEX_UNIT_PX, namesFontSize)
+            binding.seventhLayoutTw.setTextSize(TypedValue.COMPLEX_UNIT_PX, namesFontSize)
+            binding.eightLayoutTw.setTextSize(TypedValue.COMPLEX_UNIT_PX, namesFontSize)
+        }
     }
 
     override fun onDestroyView() {
