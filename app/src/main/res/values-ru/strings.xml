@@ -14,9 +14,6 @@
     <string name="layout7">Крест стихий</string>
     <string name="layout8">Кельтский крест</string>
 
-    <string name="text_sample">Простое гадание на рунах, однако оно позволяет ответить на самые разные вопросы и объясняет какие силы влияли на Вас в прошлом, влияют в настоящем и будут влиять в будущем. Выбирается всего три руны: первая символизирует недавнее прошлое, вторая – настоящее, третья – будущее.</string>
-    <string name="header_sample">Кельтский крест</string>
-
     <string name="layout_description_checkbox">Больше не показывать</string>
     <string name="layout_description_button">Начать расклад</string>
 

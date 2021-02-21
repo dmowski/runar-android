@@ -69,7 +69,7 @@
 
     <TextView
         android:id="@+id/text_info"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginStart="6dp"
         android:layout_marginTop="12dp"
@@ -80,7 +80,6 @@
         android:gravity="center"
         android:textColor="@color/layout_text_deselected"
         app:layout_constraintBottom_toBottomOf="@id/info_button"
-        app:layout_constraintEnd_toEndOf="@id/icon_description_text_end_guideline"
         app:layout_constraintStart_toEndOf="@id/info_button"
         app:layout_constraintTop_toBottomOf="@id/description_button_frame" />
 
