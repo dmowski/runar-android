@@ -106,7 +106,7 @@
 
     <TextView
         android:id="@+id/checkbox_text"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="48dp"
         android:fontFamily="@font/roboto_light"
         android:gravity="center_vertical"
@@ -114,7 +114,6 @@
         android:text="@string/layout_description_checkbox"
         android:textColor="@color/checkbox_color_unchecked"
         app:layout_constraintBottom_toTopOf="@id/description_button_frame"
-        app:layout_constraintEnd_toStartOf="@id/checkbox_text_guideline"
         app:layout_constraintStart_toEndOf="@id/checkbox" />
 
     <TextView
