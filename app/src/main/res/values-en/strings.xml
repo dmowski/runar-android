@@ -14,9 +14,6 @@
     <string name="layout7">Cross of elements</string>
     <string name="layout8">Celtic cross</string>
 
-    <string name="text_sample">Простое гадание на рунах, однако оно позволяет ответить на самые разные вопросы и объясняет какие силы влияли на Вас в прошлом, влияют в настоящем и будут влиять в будущем. Выбирается всего три руны: первая символизирует недавнее прошлое, вторая – настоящее, третья – будущее.</string>
-    <string name="header_sample">Celtic cross</string>
-
     <string name="layout_description_checkbox">Do not  show again</string>
     <string name="layout_description_button">Start runic draw</string>
 
@@ -40,5 +37,5 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
-    <string name="text_calculation_helper">Простое гадание на рунах, однако оно</string>
+    <string name="text_calculation_helper">The fame and popularity of this divination </string>
 </resources>
