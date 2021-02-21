@@ -17,6 +17,7 @@ import com.test.runar.ui.fragments.*
 class MainActivity : AppCompatActivity(), Navigator {
 
     private val viewModel: MainViewModel by viewModels()
+    private var fontSize: Float = 0f
 
     private lateinit var binding: ActivityMainBinding
 
@@ -36,6 +37,10 @@ class MainActivity : AppCompatActivity(), Navigator {
 
         viewModel.identify()
         supportActionBar?.hide()
+
+        viewModel.fontSize.observe(this){
+            fontSize = it
+        }
 
         binding.bottomNavigationBar.setOnNavigationItemSelectedListener { item->
             when(item.itemId){
@@ -122,7 +127,7 @@ class MainActivity : AppCompatActivity(), Navigator {
     }
 
     override fun showDialog() {
-        CancelDialog(this).showDialog()
+        CancelDialog(this,fontSize).showDialog()
     }
 
     override fun agreeWithDialog() {

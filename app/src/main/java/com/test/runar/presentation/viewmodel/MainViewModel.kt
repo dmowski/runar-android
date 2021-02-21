@@ -2,7 +2,10 @@ package com.test.runar.presentation.viewmodel
 
 import android.os.Build
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.test.runar.repository.SharedDataRepository
 import com.test.runar.repository.SharedPreferencesRepository
 import com.test.runar.retrofit.RetrofitClient
 import com.test.runar.retrofit.UserInfo
@@ -15,6 +18,7 @@ import retrofit2.HttpException
 class MainViewModel : ViewModel() {
 
     var preferencesRepository = SharedPreferencesRepository.get()
+    val fontSize: LiveData<Float> = MutableLiveData(SharedDataRepository.fontSize)
 
     fun identify() {
         val userId = preferencesRepository.userId

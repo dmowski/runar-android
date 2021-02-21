@@ -37,7 +37,11 @@ class DescriptionDialog(description: String, header: String, fontSize: Float) :
             .getChildAt(0) as TextView
         val description = dialog.findViewById<TextView>(com.test.runar.R.id.description_text_view)
         header.text = headerText
+        val headerFontSize = (fontSize*2).toFloat()
+        val buttonFontSize = (fontSize*1.5).toFloat()
+        header.setTextSize(TypedValue.COMPLEX_UNIT_PX, headerFontSize)
         description.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
+        dialog.findViewById<TextView>(com.test.runar.R.id.button_text).setTextSize(TypedValue.COMPLEX_UNIT_PX, buttonFontSize)
         description.text = descriptionText
         dialog.show()
         dialog.findViewById<ImageView>(com.test.runar.R.id.exit_button).setOnClickListener(this)
