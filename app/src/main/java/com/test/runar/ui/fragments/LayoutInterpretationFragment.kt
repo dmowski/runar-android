@@ -15,6 +15,7 @@ import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.widget.FrameLayout
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
@@ -42,7 +43,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
     private var navigator: Navigator? = null
 
     private lateinit var bottomRunesNav: ConstraintLayout
-    private lateinit var headerFrame: FrameLayout
+    private lateinit var headerFrame: TextView
     private lateinit var runesLayout: ConstraintLayout
 
     private var runesViewList: ArrayList<FrameLayout> = arrayListOf()
@@ -102,11 +103,17 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
         viewModel.fontSize.observe(viewLifecycleOwner) { interpretation ->
             if (interpretation != null) {
                 fontSize = interpretation
+                val headerTextSize = (interpretation*3).toFloat()
+                val buttonTextSize = (interpretation*1.65).toFloat()
+                val simpleTextSize = (interpretation*0.8).toFloat()
+                val advertHeaderTextSize = (interpretation*1.2).toFloat()
+                binding.descriptionHeaderFrame.setTextSize(TypedValue.COMPLEX_UNIT_PX, headerTextSize)
+                binding.descriptionButtonFrame.setTextSize(TypedValue.COMPLEX_UNIT_PX, buttonTextSize)
                 viewModel.selectedLayout.observe(viewLifecycleOwner) { selectedLayout ->
                     if (selectedLayout != null) {
                         runeHeight = runeHeightCalculator()
                         runeWidth = (runeHeight / 1.23).toInt()
-                        binding.header.text = selectedLayout.layoutName
+                        binding.descriptionHeaderFrame.text = selectedLayout.layoutName
 
                         val firstRune = FrameLayout(requireContext())
                         val secondRune = FrameLayout(requireContext())
