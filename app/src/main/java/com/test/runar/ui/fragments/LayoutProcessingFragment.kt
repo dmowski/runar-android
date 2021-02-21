@@ -2,6 +2,7 @@ package com.test.runar.ui.fragments
 
 import android.content.Context
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
@@ -35,6 +36,7 @@ class LayoutProcessingFragment : Fragment(R.layout.fragment_layout_processing) {
         super.onCreate(savedInstanceState)
         layoutId = requireArguments().getInt(KEY_ID)
         userLayout = requireArguments().getIntArray(KEY_USER_LAYOUT) ?: intArrayOf()
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -42,8 +44,20 @@ class LayoutProcessingFragment : Fragment(R.layout.fragment_layout_processing) {
         progressBarAction()
         viewModel.getLayoutName(layoutId)
         viewModel.layoutName.observe(viewLifecycleOwner) { name ->
-            binding.nameLayout.text = name
+            binding.descriptionHeaderFrame.text = name
         }
+        viewModel.fontSize.observe(viewLifecycleOwner){textSize->
+            val headerTextSize = (textSize*3).toFloat()
+            val buttonTextSize = (textSize*1.65).toFloat()
+            val simpleTextSize = (textSize*0.8).toFloat()
+            val advertHeaderTextSize = (textSize*1.2).toFloat()
+            binding.descriptionHeaderFrame.setTextSize(TypedValue.COMPLEX_UNIT_PX, headerTextSize)
+            binding.descriptionButtonFrame.setTextSize(TypedValue.COMPLEX_UNIT_PX, buttonTextSize)
+            binding.textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, simpleTextSize)
+            binding.textView3.setTextSize(TypedValue.COMPLEX_UNIT_PX, simpleTextSize)
+            binding.textView2.setTextSize(TypedValue.COMPLEX_UNIT_PX, advertHeaderTextSize)
+        }
+
         super.onViewCreated(view, savedInstanceState)
     }
 
