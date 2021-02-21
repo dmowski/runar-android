@@ -102,13 +102,20 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
         //get data about current layout
         viewModel.fontSize.observe(viewLifecycleOwner) { interpretation ->
             if (interpretation != null) {
+
                 fontSize = interpretation
                 val headerTextSize = (interpretation*3).toFloat()
                 val buttonTextSize = (interpretation*1.65).toFloat()
-                val simpleTextSize = (interpretation*0.8).toFloat()
-                val advertHeaderTextSize = (interpretation*1.2).toFloat()
+                val checkboxTextSize = (interpretation*0.8).toFloat()
+                val runeNameTextSize = (interpretation*1.2).toFloat()
+                val littleTextSize = (interpretation*0.75).toFloat()
                 binding.descriptionHeaderFrame.setTextSize(TypedValue.COMPLEX_UNIT_PX, headerTextSize)
                 binding.descriptionButtonFrame.setTextSize(TypedValue.COMPLEX_UNIT_PX, buttonTextSize)
+                binding.checkboxText.setTextSize(TypedValue.COMPLEX_UNIT_PX, checkboxTextSize)
+                binding.text.setTextSize(TypedValue.COMPLEX_UNIT_PX, interpretation)
+                binding.runeName.setTextSize(TypedValue.COMPLEX_UNIT_PX, runeNameTextSize)
+                binding.runePosition.setTextSize(TypedValue.COMPLEX_UNIT_PX, littleTextSize)
+                binding.runeAusf.setTextSize(TypedValue.COMPLEX_UNIT_PX, littleTextSize)
                 viewModel.selectedLayout.observe(viewLifecycleOwner) { selectedLayout ->
                     if (selectedLayout != null) {
                         runeHeight = runeHeightCalculator()
