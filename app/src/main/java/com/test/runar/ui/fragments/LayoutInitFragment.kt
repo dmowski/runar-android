@@ -3,6 +3,7 @@ package com.test.runar.ui.fragments
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.View
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -17,7 +18,6 @@ import com.test.runar.databinding.FragmentLayoutInitBinding
 import com.test.runar.extensions.setOnCLickListenerForAll
 import com.test.runar.presentation.viewmodel.InitViewModel
 import com.test.runar.ui.Navigator
-import com.test.runar.ui.dialogs.CancelDialog
 import com.test.runar.ui.dialogs.DescriptionDialog
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -65,8 +65,14 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
         val listOfView = listOf(binding.descriptionButtonFrame, binding.exitButton, binding.infoButton, binding.textInfo)
         listOfView.setOnCLickListenerForAll(this)
 
-        viewModel.fontSize.observe(viewLifecycleOwner) {
-            fontSize = it
+        viewModel.fontSize.observe(viewLifecycleOwner) {textSize->
+            fontSize = textSize
+            val headerTextSize = (textSize*3).toFloat()
+            val buttonTextSize = (textSize*1.65).toFloat()
+            val infoTextSize = (textSize*0.8).toFloat()
+            binding.descriptionHeaderFrame.setTextSize(TypedValue.COMPLEX_UNIT_PX, headerTextSize)
+            binding.descriptionButtonFrame.setTextSize(TypedValue.COMPLEX_UNIT_PX, buttonTextSize)
+            binding.textInfo.setTextSize(TypedValue.COMPLEX_UNIT_PX, infoTextSize)
         }
 
         viewModel.selectedLayout.observe(viewLifecycleOwner) {
