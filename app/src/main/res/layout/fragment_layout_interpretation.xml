@@ -273,28 +273,19 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <FrameLayout
+                <TextView
                     android:id="@+id/description_header_frame"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_marginTop="25dp"
-                    android:elevation="3dp"
+                    android:fontFamily="@font/amatic_sc_bold"
+                    android:letterSpacing="@dimen/layout_text_letter_spacing"
+                    android:textAlignment="center"
+                    android:textColor="@color/layout_desc_deselected"
                     app:layout_constraintDimensionRatio="H,3.5:1"
                     app:layout_constraintEnd_toStartOf="@id/right_header_guideline"
                     app:layout_constraintStart_toEndOf="@id/left_header_guideline"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <TextView
-                        android:id="@+id/header"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:fontFamily="@font/amatic_sc_bold"
-                        android:letterSpacing="@dimen/layout_text_letter_spacing"
-                        android:text="test"
-                        android:textAlignment="center"
-                        android:textColor="@color/layout_desc_deselected"
-                        app:autoSizeTextType="uniform" />
-                </FrameLayout>
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <FrameLayout
                     android:id="@+id/divider1"
@@ -440,30 +431,20 @@
                         app:layout_constraintStart_toStartOf="@id/left_text_guideline"
                         app:layout_constraintTop_toBottomOf="@id/divider5" />
 
-                    <FrameLayout
+                    <TextView
                         android:id="@+id/description_button_frame"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
                         android:background="@drawable/description_button_background_selector"
-                        android:clickable="true"
-                        android:focusable="true"
+                        android:fontFamily="@font/amatic_sc_bold"
+                        android:paddingBottom="8dp"
+                        android:text="@string/layout_interpretation_button"
+                        android:gravity="center"
+                        android:textColor="@color/layout_description_button_text_selector"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintDimensionRatio="H,4.55:1"
                         app:layout_constraintEnd_toStartOf="@id/right_button_guideline"
-                        app:layout_constraintStart_toEndOf="@id/left_button_guideline"
-                        app:layout_constraintTop_toBottomOf="@id/checkbox">
-
-                        <TextView
-                            android:id="@+id/button_text"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginBottom="8dp"
-                            android:duplicateParentState="true"
-                            android:fontFamily="@font/amatic_sc_bold"
-                            android:text="@string/layout_interpretation_button"
-                            android:textAlignment="center"
-                            android:textColor="@color/layout_description_button_text_selector"
-                            app:autoSizeTextType="uniform" />
-                    </FrameLayout>
+                        app:layout_constraintStart_toEndOf="@id/left_button_guideline" />
 
                     <CheckBox
                         android:id="@+id/checkbox"
