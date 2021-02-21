@@ -41,14 +41,14 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
+                android:id="@+id/header_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fontFamily="@font/amatic_sc_bold"
                 android:letterSpacing="@dimen/layout_text_letter_spacing"
                 android:text="test"
                 android:textAlignment="center"
-                android:textColor="@color/layout_desc_deselected"
-                app:autoSizeTextType="uniform" />
+                android:textColor="@color/layout_desc_deselected" />
         </FrameLayout>
 
         <TextView
@@ -81,6 +81,7 @@
             app:layout_constraintStart_toEndOf="@id/left_button_guideline">
 
             <TextView
+                android:id="@+id/button_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="8dp"
@@ -89,8 +90,7 @@
                 android:fontFamily="@font/amatic_sc_bold"
                 android:text="@string/info_popup_button_text"
                 android:textAlignment="center"
-                android:textColor="@color/layout_description_button_text_selector"
-                app:autoSizeTextType="uniform" />
+                android:textColor="@color/layout_description_button_text_selector" />
         </FrameLayout>
 
         <ImageView

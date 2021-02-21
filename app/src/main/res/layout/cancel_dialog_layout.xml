@@ -37,11 +37,11 @@
             app:layout_constraintVertical_weight="3"
             android:background="@drawable/confirmation_dialog_background_top">
             <TextView
+                android:id="@+id/dialog_text"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:text="@string/description_popup_text"
                 android:textColor="@color/description_popup_text_color"
-                app:autoSizeTextType="uniform"
                 android:fontFamily="@font/roboto_medium"
                 android:maxLines="1"
                 app:layout_constraintTop_toBottomOf="@id/top_guideline"
@@ -75,12 +75,12 @@
             android:clickable="true"
             android:focusable="true">
             <TextView
+                android:id="@+id/button_no"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:text="@string/description_popup_button1"
                 android:textColor="@color/cancel_popup_text_selector"
                 android:fontFamily="@font/roboto_regular"
-                app:autoSizeTextType="uniform"
                 app:layout_constraintTop_toBottomOf="@id/top_left_button_guideline"
                 app:layout_constraintBottom_toTopOf="@id/bottom_left_button_guideline"
                 app:layout_constraintStart_toStartOf="parent"
@@ -111,12 +111,12 @@
             android:clickable="true"
             android:focusable="true">
             <TextView
+                android:id="@+id/button_yes"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:text="@string/description_popup_button2"
                 android:textColor="@color/cancel_popup_text_selector"
                 android:fontFamily="@font/roboto_medium"
-                app:autoSizeTextType="uniform"
                 app:layout_constraintTop_toBottomOf="@id/top_right_button_guideline"
                 app:layout_constraintBottom_toTopOf="@id/bottom_right_button_guideline"
                 app:layout_constraintStart_toStartOf="parent"
