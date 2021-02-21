@@ -5,6 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.test.runar.model.*
+import java.util.*
 
 @Database(
     entities = [LayoutDescriptionModel::class, RuneDescriptionModel::class, AffimDescriptionModel::class, TwoRunesInterModel::class, UserLayoutModel::class],
@@ -19,9 +20,17 @@ abstract class AppDB : RoomDatabase() {
         private lateinit var INSTANCE: AppDB
 
         fun init(context: Context) {
+            var locale: String = Locale.getDefault().language
+            var dataBaseFilePath = ""
+
+            if (locale.equals("ru")) {
+                dataBaseFilePath = "database/layouts.db"
+            } else {
+                dataBaseFilePath = "database/en_layouts.db"
+            }
             synchronized(this) {
                 INSTANCE = Room.databaseBuilder(context, AppDB::class.java, "LD_DATABASE")
-                    .createFromAsset("database/layouts.db").build()
+                    .createFromAsset(dataBaseFilePath).build()
             }
         }
 
