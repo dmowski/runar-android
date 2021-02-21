@@ -15,28 +15,19 @@
         app:verticalCropOffset="1"
         app:verticalFitOffset="0" />
 
-    <FrameLayout
+    <TextView
         android:id="@+id/description_header_frame"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="25dp"
+        android:fontFamily="@font/amatic_sc_bold"
+        android:letterSpacing="@dimen/layout_text_letter_spacing"
+        android:textAlignment="center"
+        android:textColor="@color/layout_desc_deselected"
         app:layout_constraintDimensionRatio="H,3.5:1"
         app:layout_constraintEnd_toStartOf="@id/right_header_guideline"
-        app:layout_constraintHorizontal_weight="72"
         app:layout_constraintStart_toEndOf="@id/left_header_guideline"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:id="@+id/name_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fontFamily="@font/amatic_sc_bold"
-            android:letterSpacing="@dimen/layout_text_letter_spacing"
-            android:text="test"
-            android:textAlignment="center"
-            android:textColor="@color/layout_desc_deselected"
-            app:autoSizeTextType="uniform" />
-    </FrameLayout>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/left_header_guideline"
@@ -175,10 +166,10 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView" />
+            app:layout_constraintTop_toBottomOf="@+id/text_view" />
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="0dp"
@@ -186,15 +177,13 @@
             android:text="@string/layout_init_button_text4"
             android:textAlignment="center"
             android:textColor="@color/layout_desc_processing"
-            app:autoSizeTextType="uniform"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/text_view_2"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="37dp"
@@ -202,13 +191,13 @@
         android:text="@string/layout_init_processing"
         android:textAlignment="center"
         android:textColor="#DADADA"
-        app:autoSizeTextType="uniform"
         app:layout_constraintBottom_toTopOf="@+id/bottom_text_guideline"
         app:layout_constraintEnd_toStartOf="@+id/right_guideline"
         app:layout_constraintStart_toEndOf="@+id/left_guideline"
         app:layout_constraintTop_toBottomOf="@+id/top_text_guideline" />
 
     <TextView
+        android:id="@+id/text_view_3"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="5dp"
@@ -222,33 +211,20 @@
         app:layout_constraintStart_toEndOf="@+id/icon_description_start_guideline"
         app:layout_constraintEnd_toStartOf="@+id/icon_description_text_end_guideline"/>
 
-    <FrameLayout
+    <TextView
         android:id="@+id/description_button_frame"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="60dp"
         android:background="@drawable/description_button_background_selector"
-        android:clickable="true"
-        android:focusable="true"
+        android:fontFamily="@font/amatic_sc_bold"
+        android:paddingBottom="8dp"
+        android:text="@string/layout_init_button_text1"
+        android:gravity="center"
+        android:textColor="@color/layout_description_button_text_selector"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="H,4.55:1"
         app:layout_constraintEnd_toStartOf="@id/right_button_guideline"
-        app:layout_constraintHorizontal_weight="62"
-        app:layout_constraintStart_toEndOf="@id/left_button_guideline">
-
-        <TextView
-            android:id="@+id/button_go_to_site"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="8dp"
-            android:duplicateParentState="true"
-            android:fontFamily="@font/amatic_sc_bold"
-            android:text="@string/layout_go_to_site"
-            android:textAlignment="center"
-            android:textColor="@color/layout_description_button_text_selector"
-            app:autoSizeTextType="uniform"
-            app:drawableEndCompat="@drawable/arrow_right" />
-    </FrameLayout>
-
+        app:layout_constraintStart_toEndOf="@id/left_button_guideline" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
