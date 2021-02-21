@@ -76,8 +76,6 @@
                             android:text="test"
                             android:textAlignment="center"
                             android:textColor="@color/layout_desc_deselected"
-                            app:autoSizeTextType="uniform"
-                            app:autoSizeMinTextSize="5dp"
                             android:maxLines="1"/>
                     </FrameLayout>
                     <FrameLayout
@@ -97,8 +95,6 @@
                             android:text="test"
                             android:textAlignment="center"
                             android:textColor="@color/interpretation_runes_position"
-                            app:autoSizeTextType="uniform"
-                            app:autoSizeMinTextSize="5dp"
                             android:maxLines="1"/>
                     </FrameLayout>
                     <TextView
@@ -110,8 +106,6 @@
                         android:text="test"
                         android:textAlignment="center"
                         android:textColor="@color/interpretation_runes_position"
-                        app:autoSizeTextType="uniform"
-                        app:autoSizeMinTextSize="5dp"
                         android:maxLines="1"
                         app:layout_constraintTop_toBottomOf="@id/rune_position_frame"
                         app:layout_constraintStart_toStartOf="@id/rune_ausf_start_guideline"
@@ -387,8 +381,6 @@
                         android:gravity="start"
                         android:maxLines="1"
                         android:textColor="@color/auf_text_color"
-                        app:autoSizeMinTextSize="5dp"
-                        app:autoSizeTextType="uniform"
                         app:layout_constraintEnd_toEndOf="@id/auf_text_guideline"
                         app:layout_constraintStart_toStartOf="@id/left_text_guideline"
                         app:layout_constraintTop_toBottomOf="@id/divider6" />
@@ -444,7 +436,8 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintDimensionRatio="H,4.55:1"
                         app:layout_constraintEnd_toStartOf="@id/right_button_guideline"
-                        app:layout_constraintStart_toEndOf="@id/left_button_guideline" />
+                        app:layout_constraintStart_toEndOf="@id/left_button_guideline"
+                        app:layout_constraintTop_toBottomOf="@+id/checkbox"/>
 
                     <CheckBox
                         android:id="@+id/checkbox"
@@ -469,8 +462,6 @@
                         android:maxLines="1"
                         android:text="@string/layout_interpretation_checkbox"
                         android:textColor="@color/checkbox_color_unchecked"
-                        app:autoSizeMinTextSize="5sp"
-                        app:autoSizeTextType="uniform"
                         app:layout_constraintBottom_toTopOf="@id/description_button_frame"
                         app:layout_constraintEnd_toStartOf="@id/checkbox_text_guideline"
                         app:layout_constraintStart_toEndOf="@id/checkbox" />
