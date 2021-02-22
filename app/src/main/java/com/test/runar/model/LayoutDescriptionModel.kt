@@ -38,5 +38,6 @@ data class LayoutDescriptionModel(
     var slotMeaning6 : String?,
     @ColumnInfo(name = "slot7_meaning")
     var slotMeaning7 : String?,
+    @ColumnInfo(name = "interpretation")
     var interpretation : String?
 )
