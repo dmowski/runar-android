@@ -8,7 +8,7 @@ import com.test.runar.model.*
 import java.util.*
 
 @Database(
-    entities = [LayoutDescriptionModel::class, RuneDescriptionModel::class, AffimDescriptionModel::class, TwoRunesInterModel::class, UserLayoutModel::class],
+    entities = [LayoutDescriptionModel::class, RuneDescriptionModel::class, AffimDescriptionModel::class, TwoRunesInterModel::class],
     version = 1,
     exportSchema = false
 )

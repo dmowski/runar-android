@@ -26,7 +26,7 @@ class DescriptionViewModel : ViewModel() {
 
     fun notShowSelectedLayout(id: Int) {
         CoroutineScope(Dispatchers.IO).launch {
-            DatabaseRepository.notShow(id)
+            //DatabaseRepository.notShow(id)
         }
     }
 

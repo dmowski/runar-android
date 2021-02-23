@@ -11,14 +11,14 @@ import com.test.runar.model.UserLayoutModel
 @Dao
 interface AppDAO {
 
-    @Query("UPDATE layouts SET show = 0 WHERE layout_id = :id")
-    suspend fun notShow(id: Int)
+   /* @Query("UPDATE layouts SET show = 0 WHERE layout_id = :id")
+    suspend fun notShow(id: Int)*/
 
     @Query("SELECT * FROM layouts WHERE layout_id = :id")
     suspend fun getLayoutDetails(id: Int): LayoutDescriptionModel
 
-    @Query("SELECT show FROM layouts WHERE layout_id = :id")
-    suspend fun getShowStatus(id: Int): Int
+   /* @Query("SELECT show FROM layouts WHERE layout_id = :id")
+    suspend fun getShowStatus(id: Int): Int*/
 
     @Query("SELECT layout_name FROM layouts WHERE layout_id = :id")
     suspend fun getLayoutName(id: Int?): String
@@ -32,6 +32,6 @@ interface AppDAO {
     @Query("SELECT text FROM two_runes WHERE id = :id")
     suspend fun getTwoRunesInter(id: Int?) : String
 
-    @Insert
-    suspend fun addUserLayout(data: UserLayoutModel)
+    //@Insert
+    //suspend fun addUserLayout(data: UserLayoutModel)
 }

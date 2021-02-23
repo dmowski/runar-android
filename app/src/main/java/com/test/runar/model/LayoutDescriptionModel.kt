@@ -14,9 +14,6 @@ data class LayoutDescriptionModel(
     var layoutName: String?,
     @ColumnInfo(name = "layout_description")
     var layoutDescription: String?,
-    @ColumnInfo(name = "max_lines")
-    var maxLines: Int?,
-    var show: Boolean?,
     var slot1: Int?,
     var slot2: Int?,
     var slot3: Int?,
