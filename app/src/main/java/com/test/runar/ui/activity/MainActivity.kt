@@ -1,5 +1,6 @@
 package com.test.runar.ui.activity
 
+import android.content.IntentFilter
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.viewModels
@@ -10,6 +11,7 @@ import com.test.runar.R
 import com.test.runar.RunarLogger
 import com.test.runar.databinding.ActivityMainBinding
 import com.test.runar.presentation.viewmodel.MainViewModel
+import com.test.runar.receivers.LanguageBroadcastReceiver
 import com.test.runar.ui.Navigator
 import com.test.runar.ui.dialogs.CancelDialog
 import com.test.runar.ui.fragments.*
@@ -18,6 +20,7 @@ class MainActivity : AppCompatActivity(), Navigator {
 
     private val viewModel: MainViewModel by viewModels()
     private var fontSize: Float = 0f
+    private var languageReceiver = LanguageBroadcastReceiver()
 
     private lateinit var binding: ActivityMainBinding
 
@@ -34,6 +37,9 @@ class MainActivity : AppCompatActivity(), Navigator {
         if (savedInstanceState == null) {
             initFragments()
         }
+
+        this.registerReceiver(languageReceiver, IntentFilter("android.intent.action.LOCALE_CHANGED"))
+
 
         viewModel.identify()
         supportActionBar?.hide()
@@ -64,6 +70,11 @@ class MainActivity : AppCompatActivity(), Navigator {
             }
         }
 
+    }
+
+    override fun onResume() {
+        forceBarHide()
+        super.onResume()
     }
 
     private fun initFragments() {
@@ -137,6 +148,15 @@ class MainActivity : AppCompatActivity(), Navigator {
     override fun navigateToDefaultAndShowBottomNavBar() {
         supportFragmentManager.popBackStack(KEY_TO_LAYOUT_FRAGMENT_BACK, FragmentManager.POP_BACK_STACK_INCLUSIVE)
         binding.bottomNavigationBar.isVisible = true
+    }
+
+    fun forceBarHide(){
+        val topFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainer)
+        when(topFragment){
+            is LayoutFragment -> binding.bottomNavigationBar.isVisible = true
+            is LibraryFragment -> binding.bottomNavigationBar.isVisible = true
+            else-> binding.bottomNavigationBar.isVisible = false
+        }
     }
 
     companion object {
