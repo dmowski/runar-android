@@ -13,13 +13,13 @@ import kotlinx.coroutines.launch
 
 class LayoutViewModel : ViewModel() {
 
-    private var _showStatus = MutableLiveData<Boolean>()
+    private var _showStatus = SingleLiveEvent<Boolean>()
     val showStatus : LiveData<Boolean> = _showStatus
     val fontSize: LiveData<Float> = MutableLiveData(SharedDataRepository.fontSize)
 
     fun checkDescriptionStatus(id: Int) {
         CoroutineScope(Dispatchers.IO).launch {
-            _showStatus.postValue(true)
+            _showStatus.postValue(DatabaseRepository.getShowStatus(id) == 1)
         }
     }
 }

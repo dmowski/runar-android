@@ -5,12 +5,14 @@ import com.test.runar.model.LayoutDescriptionModel
 import com.test.runar.model.RuneDescriptionModel
 import com.test.runar.model.UserLayoutModel
 import com.test.runar.room.AppDB
+import com.test.runar.room.DataDB
 
 object DatabaseRepository {
     private val appDao = AppDB.getLayoutDB().appDAO()
+    private val dataDao = DataDB.getDataDB().dataDAO()
 
     suspend fun notShow(id: Int) {
-       // appDao.notShow(id)
+        dataDao.notShow(id)
     }
 
     suspend fun getLayoutDetails(id: Int): LayoutDescriptionModel {
@@ -18,8 +20,7 @@ object DatabaseRepository {
     }
 
     suspend fun getShowStatus(id: Int): Int {
-       // return appDao.getShowStatus(id)
-        return 1
+        return dataDao.getShowStatus(id)
     }
 
     suspend fun getRunesList(): List<RuneDescriptionModel> {

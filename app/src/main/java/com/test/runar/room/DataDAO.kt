@@ -11,11 +11,11 @@ import com.test.runar.model.UserLayoutModel
 @Dao
 interface DataDAO {
 
-   /* @Query("UPDATE layouts SET show = 0 WHERE layout_id = :id")
-    suspend fun notShow(id: Int)*/
+    @Query("UPDATE description_status SET status = 0 WHERE layout_id = :id")
+    suspend fun notShow(id: Int)
 
-   /* @Query("SELECT show FROM layouts WHERE layout_id = :id")
-    suspend fun getShowStatus(id: Int): Int*/
+    @Query("SELECT status FROM description_status WHERE layout_id = :id")
+    suspend fun getShowStatus(id: Int): Int
 
     //@Insert
     //suspend fun addUserLayout(data: UserLayoutModel)
