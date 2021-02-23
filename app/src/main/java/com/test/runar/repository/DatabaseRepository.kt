@@ -8,8 +8,12 @@ import com.test.runar.room.AppDB
 import com.test.runar.room.DataDB
 
 object DatabaseRepository {
-    private val appDao = AppDB.getLayoutDB().appDAO()
-    private val dataDao = DataDB.getDataDB().dataDAO()
+    private var appDao = AppDB.getLayoutDB().appDAO()
+    private var dataDao = DataDB.getDataDB().dataDAO()
+    fun reinit(){
+        appDao = AppDB.getLayoutDB().appDAO()
+        dataDao = DataDB.getDataDB().dataDAO()
+    }
 
     suspend fun notShow(id: Int) {
         dataDao.notShow(id)

@@ -28,11 +28,9 @@ abstract class AppDB : RoomDatabase() {
             } else {
                 dataBaseFilePath = "database/en_layouts.db"
             }
-            synchronized(this) {
-                context.deleteDatabase("LD_DATABASE")  //stupid solution need to fix in future (maybe)
-                INSTANCE = Room.databaseBuilder(context, AppDB::class.java, "LD_DATABASE")
+            context.deleteDatabase("LD_DATABASE")  //stupid solution need to fix in future (maybe)
+            INSTANCE = Room.databaseBuilder(context, AppDB::class.java, "LD_DATABASE")
                     .createFromAsset(dataBaseFilePath).build()
-            }
         }
 
         fun getLayoutDB(): AppDB {
