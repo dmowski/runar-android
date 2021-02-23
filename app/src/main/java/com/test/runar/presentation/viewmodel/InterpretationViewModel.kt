@@ -81,7 +81,7 @@ class InterpretationViewModel(application: Application) : AndroidViewModel(appli
         val layoutId = selectedLayout.value?.layoutId
         val currentDate = System.currentTimeMillis() / 1000L
         CoroutineScope(IO).launch {
-            var userLayout = UserLayoutModel(
+            val userLayout = UserLayoutModel(
                     userId,
                     currentDate,
                     layoutId,
@@ -93,7 +93,7 @@ class InterpretationViewModel(application: Application) : AndroidViewModel(appli
                     userLayout[5],
                     userLayout[6]
             )
-            //DatabaseRepository.addUserLayout(userLayout)
+            DatabaseRepository.addUserLayout(userLayout)
         }
     }
 
