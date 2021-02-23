@@ -17,6 +17,6 @@ interface DataDAO {
     @Query("SELECT status FROM description_status WHERE layout_id = :id")
     suspend fun getShowStatus(id: Int): Int
 
-    //@Insert
-    //suspend fun addUserLayout(data: UserLayoutModel)
+    @Insert
+    suspend fun addUserLayout(data: UserLayoutModel)
 }

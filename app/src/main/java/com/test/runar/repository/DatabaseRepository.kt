@@ -35,9 +35,9 @@ object DatabaseRepository {
         return appDao.getTwoRunesInter(id)
     }
 
-   /* suspend fun addUserLayout(data: UserLayoutModel) {
-        appDao.addUserLayout(data)
-    }*/
+    suspend fun addUserLayout(data: UserLayoutModel) {
+        dataDao.addUserLayout(data)
+    }
 
     suspend fun getLayoutName(id: Int): String{
         return appDao.getLayoutName(id)

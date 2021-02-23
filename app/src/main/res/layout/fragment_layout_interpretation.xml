@@ -279,7 +279,8 @@
                     app:layout_constraintDimensionRatio="H,3.5:1"
                     app:layout_constraintEnd_toStartOf="@id/right_header_guideline"
                     app:layout_constraintStart_toEndOf="@id/left_header_guideline"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:elevation="3dp"/>
 
                 <FrameLayout
                     android:id="@+id/divider1"
