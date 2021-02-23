@@ -19,7 +19,7 @@ class LayoutViewModel : ViewModel() {
 
     fun checkDescriptionStatus(id: Int) {
         CoroutineScope(Dispatchers.IO).launch {
-            _showStatus.postValue(DatabaseRepository.getShowStatus(id) == 1)
+            _showStatus.postValue(true)
         }
     }
 }
