@@ -10,7 +10,7 @@ object DatabaseRepository {
     private val appDao = AppDB.getLayoutDB().appDAO()
 
     suspend fun notShow(id: Int) {
-        appDao.notShow(id)
+       // appDao.notShow(id)
     }
 
     suspend fun getLayoutDetails(id: Int): LayoutDescriptionModel {
@@ -18,7 +18,8 @@ object DatabaseRepository {
     }
 
     suspend fun getShowStatus(id: Int): Int {
-        return appDao.getShowStatus(id)
+       // return appDao.getShowStatus(id)
+        return 1
     }
 
     suspend fun getRunesList(): List<RuneDescriptionModel> {
@@ -33,9 +34,9 @@ object DatabaseRepository {
         return appDao.getTwoRunesInter(id)
     }
 
-    suspend fun addUserLayout(data: UserLayoutModel) {
+   /* suspend fun addUserLayout(data: UserLayoutModel) {
         appDao.addUserLayout(data)
-    }
+    }*/
 
     suspend fun getLayoutName(id: Int): String{
         return appDao.getLayoutName(id)
