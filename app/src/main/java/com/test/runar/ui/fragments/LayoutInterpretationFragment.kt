@@ -369,6 +369,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                                             flag = true
                                         }
                                         if (binding.bottomSupportFrame.bottom < screenHeight && flag) {
+                                            val pixelMargin = (15*requireContext().resources.displayMetrics.density).toInt()
                                             val constraintsSet = ConstraintSet()
                                             constraintsSet.clone(binding.interpretationLayout)
                                             constraintsSet.clear(R.id.bottom_support_frame, ConstraintSet.TOP)
@@ -390,7 +391,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                                                 R.id.checkbox,
                                                 ConstraintSet.BOTTOM,
                                                 R.id.description_button_frame,
-                                                ConstraintSet.TOP
+                                                ConstraintSet.TOP,pixelMargin
                                             )
                                             constraintsSet.applyTo(binding.interpretationLayout)
                                         }

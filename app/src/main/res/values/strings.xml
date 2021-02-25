@@ -31,7 +31,7 @@
     <string name="description_popup_text">Остановить расклад?</string>
     <string name="description_popup_button1">Нет</string>
     <string name="description_popup_button2">Да</string>
-    <string name="layout_interpretation_checkbox">Сохранить</string>
+    <string name="layout_interpretation_checkbox">Сохранить результат</string>
     <string name="layout_interpretation_button">Завершить</string>
     <string name="layout_interpretation_ausf">Уровень удачи</string>
     <!-- TODO: Remove or change this placeholder text -->
