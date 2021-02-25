@@ -28,7 +28,7 @@
 
     <string name="info_popup_button_text">Ок</string>
 
-    <string name="description_popup_text">Завершить расклад?</string>
+    <string name="description_popup_text">Остановить расклад?</string>
     <string name="description_popup_button1">Нет</string>
     <string name="description_popup_button2">Да</string>
     <string name="layout_interpretation_checkbox">Сохранить</string>

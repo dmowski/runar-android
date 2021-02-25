@@ -28,7 +28,7 @@
 
     <string name="info_popup_button_text">Ок</string>
 
-    <string name="description_popup_text">Завершить расклад?</string>
+    <string name="description_popup_text">Остановить расклад?</string>
     <string name="description_popup_button1">Нет</string>
     <string name="description_popup_button2">Да</string>
     <string name="layout_interpretation_checkbox">Сохранить</string>
@@ -38,4 +38,17 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string name="text_calculation_helper">Простое гадание на рунах, однако оно</string>
+
+    <string name="library_bar_fav">Избранное</string>
+
+    <string name="library_item1_header">Описание рун</string>
+    <string name="library_item1_text">Письменность древних германцев, употреблявшаяся с I—II по XII век</string>
+    <string name="library_item2_header">История рун</string>
+    <string name="library_item2_text">Первые руны появились в дохристианском мире</string>
+    <string name="library_item3_header">Старшая Эдда</string>
+    <string name="library_item3_text">Сборник древнеисландских песен о богах и героях мифологии</string>
+    <string name="library_item4_header">Младшая Эдда</string>
+    <string name="library_item4_text">Прозаический трактат о поэтике скальдов</string>
+    <string name="library_item5_header">Скандинавские сказки</string>
+    <string name="library_item5_text">Сказки стран Норвегии, Дании, Швеции, Финляндии и Исландии</string>
 </resources>
