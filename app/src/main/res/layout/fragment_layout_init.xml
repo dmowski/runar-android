@@ -60,35 +60,18 @@
         android:id="@+id/info_button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
         android:adjustViewBounds="true"
         android:src="@drawable/ic_info_button"
         app:layout_constraintEnd_toStartOf="@id/icon_description_end_guideline"
         app:layout_constraintStart_toEndOf="@id/icon_description_start_guideline"
-        app:layout_constraintTop_toBottomOf="@id/description_button_frame" />
-
-    <TextView
-        android:id="@+id/text_info"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginStart="6dp"
-        android:layout_marginTop="12dp"
-        android:fontFamily="@font/roboto_light"
-        android:maxLines="1"
-        android:paddingTop="2dp"
-        android:text="@string/layout_init_description_button_text"
-        android:gravity="center"
-        android:textColor="@color/layout_text_deselected"
-        app:layout_constraintBottom_toBottomOf="@id/info_button"
-        app:layout_constraintStart_toEndOf="@id/info_button"
-        app:layout_constraintTop_toBottomOf="@id/description_button_frame" />
-
+        app:layout_constraintTop_toTopOf="@id/description_button_frame"
+        app:layout_constraintBottom_toBottomOf="@id/description_button_frame"/>
 
     <TextView
         android:id="@+id/description_button_frame"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="60dp"
+        android:layout_marginBottom="30dp"
         android:background="@drawable/description_button_background_selector"
         android:fontFamily="@font/amatic_sc_bold"
         android:paddingBottom="8dp"
@@ -105,9 +88,9 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="30dp"
-        android:layout_marginBottom="25dp"
+        android:layout_marginBottom="20dp"
         app:layout_constraintBottom_toTopOf="@id/description_button_frame"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -464,14 +447,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.29" />
+        app:layout_constraintGuide_percent="0.85" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/icon_description_end_guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.35" />
+        app:layout_constraintGuide_percent="0.96" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/icon_description_text_end_guideline"
