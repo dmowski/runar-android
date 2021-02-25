@@ -341,7 +341,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintDimensionRatio="H,6:1"/>
+                    app:layout_constraintDimensionRatio="H,7:1"/>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/interpretation_layout"
@@ -350,29 +350,6 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/divider3">
-
-
-                    <TextView
-                        android:id="@+id/text_affim"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_regular"
-                        android:gravity="start"
-                        android:letterSpacing="-0.02"
-                        android:lineSpacingMultiplier="1.4"
-                        android:textColor="@color/affim_text_color"
-                        app:layout_constraintEnd_toStartOf="@id/right_text_guideline"
-                        app:layout_constraintStart_toStartOf="@id/left_text_guideline"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <FrameLayout
-                        android:id="@+id/divider6"
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/text_affim"
-                        app:layout_constraintDimensionRatio="H,20:1"/>
 
                     <TextView
                         android:id="@+id/text"
@@ -384,7 +361,7 @@
                         android:textColor="@color/auf_text_color"
                         app:layout_constraintEnd_toEndOf="@id/auf_text_guideline"
                         app:layout_constraintStart_toStartOf="@id/left_text_guideline"
-                        app:layout_constraintTop_toBottomOf="@id/divider6" />
+                        app:layout_constraintTop_toTopOf="parent" />
                     <FrameLayout
                         android:id="@+id/divider4"
                         android:layout_width="0dp"
@@ -424,6 +401,29 @@
                         app:layout_constraintStart_toStartOf="@id/left_text_guideline"
                         app:layout_constraintTop_toBottomOf="@id/divider5" />
 
+                    <FrameLayout
+                        android:id="@+id/divider6"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/interpretation_text"
+                        app:layout_constraintDimensionRatio="H,20:1"/>
+
+                    <TextView
+                        android:id="@+id/text_affim"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_regular"
+                        android:gravity="start"
+                        android:letterSpacing="-0.02"
+                        android:lineSpacingMultiplier="1.4"
+                        android:textColor="@color/affim_text_color"
+                        app:layout_constraintEnd_toStartOf="@id/right_text_guideline"
+                        app:layout_constraintStart_toStartOf="@id/left_text_guideline"
+                        app:layout_constraintTop_toBottomOf="@id/divider6" />
+
+
                     <TextView
                         android:id="@+id/description_button_frame"
                         android:layout_width="0dp"
@@ -451,7 +451,7 @@
                         android:text=""
                         android:textColor="@color/checkbox"
                         app:layout_constraintStart_toStartOf="@id/description_button_frame"
-                        app:layout_constraintTop_toBottomOf="@id/interpretation_text" />
+                        app:layout_constraintTop_toBottomOf="@id/text_affim" />
 
                     <TextView
                         android:id="@+id/checkbox_text"

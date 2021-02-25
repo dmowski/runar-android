@@ -335,8 +335,8 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                                     binding.textAffim.visibility = View.GONE
                                     val constraintsSet = ConstraintSet()
                                     constraintsSet.clone(binding.interpretationLayout)
-                                    constraintsSet.clear(R.id.text, ConstraintSet.TOP)
-                                    constraintsSet.connect(R.id.text, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
+                                    constraintsSet.clear(R.id.checkbox, ConstraintSet.TOP)
+                                    constraintsSet.connect(R.id.checkbox, ConstraintSet.TOP, R.id.interpretation_text, ConstraintSet.BOTTOM)
                                     constraintsSet.applyTo(binding.interpretationLayout)
                                     viewModel.getInterpretation()
                                 }
