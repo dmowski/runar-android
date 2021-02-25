@@ -44,9 +44,22 @@
                     android:background="@drawable/rune_description_background"
                     android:elevation="2dp"
                     android:visibility="gone">
+                    <ImageView
+                        android:layout_margin="1px"
+                        android:elevation="6dp"
+                        android:id="@+id/pop_top_background"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/description_top_background"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintDimensionRatio="H,2.2:1"/>
 
                     <ImageView
                         android:id="@+id/exit_button"
+                        android:elevation="7dp"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
@@ -60,6 +73,7 @@
 
                     <FrameLayout
                         android:id="@+id/rune_name_frame"
+                        android:elevation="7dp"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
                         android:layout_marginTop="30dp"
@@ -80,6 +94,7 @@
                     </FrameLayout>
                     <FrameLayout
                         android:id="@+id/rune_position_frame"
+                        android:elevation="7dp"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
                         android:layout_marginTop="5dp"
@@ -99,6 +114,7 @@
                     </FrameLayout>
                     <TextView
                         android:id="@+id/rune_ausf"
+                        android:elevation="7dp"
                         android:layout_marginTop="4dp"
                         android:layout_width="0dp"
                         android:layout_height="20dp"
@@ -114,7 +130,7 @@
                         android:id="@+id/rune_description_scroll"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
-                        android:layout_marginTop="15dp"
+                        android:layout_marginTop="10dp"
                         app:layout_constraintTop_toBottomOf="@id/rune_ausf"
                         app:layout_constraintBottom_toTopOf="@id/bottom_runes_nav_bar"
                         app:layout_constraintStart_toStartOf="@id/rune_description_left_guideline"
@@ -130,12 +146,13 @@
                     <ImageView
                         android:id="@+id/rune_description_bottom_background"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="0dp"
                         android:elevation="6dp"
+                        android:scaleType="centerCrop"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/bottom_runes_nav_bar"
+                        app:layout_constraintDimensionRatio="H,5:1"
                         android:background="@drawable/rune_description_bottom_background"/>
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/bottom_runes_nav_bar"
@@ -259,7 +276,7 @@
                     android:id="@+id/description_header_background"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:background="@color/interpretation_header_background"
+                    android:background="@drawable/inter_header_back"
                     android:elevation="2dp"
                     android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="@id/description_header_frame"
