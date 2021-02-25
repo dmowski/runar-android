@@ -62,7 +62,7 @@
                         android:elevation="7dp"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="15dp"
+                        android:layout_marginTop="10dp"
                         android:adjustViewBounds="true"
                         android:clickable="true"
                         android:focusable="true"
@@ -262,14 +262,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        app:layout_constraintGuide_percent="0.92" />
+                        app:layout_constraintGuide_percent="0.86" />
 
                     <androidx.constraintlayout.widget.Guideline
                         android:id="@+id/icon_end_guideline"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        app:layout_constraintGuide_percent="0.96" />
+                        app:layout_constraintGuide_percent="0.97" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <FrameLayout
