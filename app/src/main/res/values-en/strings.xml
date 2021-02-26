@@ -5,20 +5,20 @@
     <string name="bottom_nav_favourites">Favourites</string>
     <string name="bottom_nav_settings">Settings</string>
 
-    <string name="layout1">Rune of the day</string>
-    <string name="layout2">2 runes</string>
-    <string name="layout3">Norns</string>
-    <string name="layout4">Brief prophecy</string>
-    <string name="layout5">Thor\'s Hammer</string>
-    <string name="layout6">Cross</string>
-    <string name="layout7">Cross of elements</string>
-    <string name="layout8">Celtic cross</string>
+    <string name="layout1">RUNE OF THE DAY</string>
+    <string name="layout2">2 RUNES</string>
+    <string name="layout3">NORNS</string>
+    <string name="layout4">BRIEF PROPHECY</string>
+    <string name="layout5">THOR\'S HAMMER</string>
+    <string name="layout6">CROSS</string>
+    <string name="layout7">CROSS OF ELEMENTS</string>
+    <string name="layout8">CELTIC CROSS</string>
 
-    <string name="layout_description_checkbox">Do not  show again</string>
-    <string name="layout_description_button">Start runic draw</string>
+    <string name="layout_description_checkbox">Do not show again</string>
+    <string name="layout_description_button">Start Runic Draw</string>
 
-    <string name="layout_init_button_text1">Pull out a rune</string>
-    <string name="layout_init_button_text2">Get a interpretation</string>
+    <string name="layout_init_button_text1">Pull Out a Rune</string>
+    <string name="layout_init_button_text2">Get Interpretation</string>
     <string name="layout_init_button_text3">Check the website</string>
     <string name="layout_init_button_text4">Processing...</string>
     <string name="layout_init_processing">Ravendark Guitars </string>
@@ -28,7 +28,7 @@
 
     <string name="info_popup_button_text">Ок</string>
 
-    <string name="description_popup_text">Do you really want to stop Runic Draw?</string>
+    <string name="description_popup_text">Do you really want to stop\nRunic Draw?</string>
     <string name="description_popup_button1">No</string>
     <string name="description_popup_button2">Yes</string>
     <string name="layout_interpretation_checkbox">Save this draw</string>
