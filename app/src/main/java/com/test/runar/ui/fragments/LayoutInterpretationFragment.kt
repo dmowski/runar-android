@@ -351,9 +351,17 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                         }
                         viewModel.currentInterpretation.observe(viewLifecycleOwner) { interpretation ->
                             if (!interpretation.isNullOrBlank()) {
-                                binding.interpretationText.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
                                 val secondFont = ResourcesCompat.getFont(requireContext(), R.font.roboto_regular)
-                                binding.interpretationText.text = Html.fromHtml(interpretation, null, InterTagHandler(secondFont!!))
+                                if(selectedLayout.layoutId==1){
+                                    val newFontSize = (fontSize*0.95).toFloat()
+                                    binding.interpretationText.setTextSize(TypedValue.COMPLEX_UNIT_PX, newFontSize)
+                                    binding.interpretationText.typeface = ResourcesCompat.getFont(requireContext(), R.font.roboto_light)
+                                    binding.interpretationText.text = interpretation
+                                }
+                                else{
+                                    binding.interpretationText.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
+                                    binding.interpretationText.text = Html.fromHtml(interpretation, null, InterTagHandler(secondFont!!))
+                                }
                                 val observer = binding.root.viewTreeObserver
                                 defaultConstraintSet.clone(runesLayout)
                                 observer.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
