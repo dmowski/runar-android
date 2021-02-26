@@ -335,8 +335,8 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                                     binding.textAffim.visibility = View.GONE
                                     val constraintsSet = ConstraintSet()
                                     constraintsSet.clone(binding.interpretationLayout)
-                                    constraintsSet.clear(R.id.text, ConstraintSet.TOP)
-                                    constraintsSet.connect(R.id.text, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
+                                    constraintsSet.clear(R.id.checkbox, ConstraintSet.TOP)
+                                    constraintsSet.connect(R.id.checkbox, ConstraintSet.TOP, R.id.interpretation_text, ConstraintSet.BOTTOM)
                                     constraintsSet.applyTo(binding.interpretationLayout)
                                     viewModel.getInterpretation()
                                 }
@@ -369,6 +369,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                                             flag = true
                                         }
                                         if (binding.bottomSupportFrame.bottom < screenHeight && flag) {
+                                            val pixelMargin = (15*requireContext().resources.displayMetrics.density).toInt()
                                             val constraintsSet = ConstraintSet()
                                             constraintsSet.clone(binding.interpretationLayout)
                                             constraintsSet.clear(R.id.bottom_support_frame, ConstraintSet.TOP)
@@ -390,7 +391,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                                                 R.id.checkbox,
                                                 ConstraintSet.BOTTOM,
                                                 R.id.description_button_frame,
-                                                ConstraintSet.TOP
+                                                ConstraintSet.TOP,pixelMargin
                                             )
                                             constraintsSet.applyTo(binding.interpretationLayout)
                                         }
@@ -409,7 +410,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                     if (it != null) {
                         binding.runeName.text = it.runeName
                         binding.runeDescription.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize - 3f)
-                        binding.runeDescription.text = it.fullDescription
+                        binding.runeDescription.text = "\n"+it.fullDescription+"\n"
                         val secondFont = ResourcesCompat.getFont(requireContext(), R.font.roboto_medium)
                         binding.runeAusf.text = Html.fromHtml(
                             "${requireContext().resources.getString(R.string.layout_interpretation_ausf)} - <bf>${it.ausp} %</bf>",

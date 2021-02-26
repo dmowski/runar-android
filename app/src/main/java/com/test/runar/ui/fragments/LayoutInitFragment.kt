@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -62,17 +63,15 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentLayoutInitBinding.bind(view)
 
-        val listOfView = listOf(binding.descriptionButtonFrame, binding.exitButton, binding.infoButton, binding.textInfo)
+        val listOfView = listOf(binding.descriptionButtonFrame, binding.exitButton, binding.infoButton)
         listOfView.setOnCLickListenerForAll(this)
 
         viewModel.fontSize.observe(viewLifecycleOwner) {textSize->
             fontSize = textSize
             val headerTextSize = (textSize*3).toFloat()
             val buttonTextSize = (textSize*1.65).toFloat()
-            val infoTextSize = (textSize*0.8).toFloat()
             binding.descriptionHeaderFrame.setTextSize(TypedValue.COMPLEX_UNIT_PX, headerTextSize)
             binding.descriptionButtonFrame.setTextSize(TypedValue.COMPLEX_UNIT_PX, buttonTextSize)
-            binding.textInfo.setTextSize(TypedValue.COMPLEX_UNIT_PX, infoTextSize)
         }
 
         viewModel.selectedLayout.observe(viewLifecycleOwner) {
@@ -156,15 +155,15 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
             R.id.description_button_frame -> {
                 val result = slotChanger()
                 if (result[1]) {
+                    binding.infoButton.isVisible = false
                     binding.descriptionButtonFrame.text = getString(R.string.layout_init_button_text2)
                 } else if (!result[0]) {
                     val userLayout = layoutTable.toIntArray()
                     navigator?.navigateToLayoutProcessingFragment(layoutId, userLayout)
-                    RunarLogger.logDebug("test")
                 }
 
             }
-            R.id.info_button, R.id.text_info -> {
+            R.id.info_button -> {
                 val info = DescriptionDialog(descriptionText, headerText, fontSize)
                 info.showDialog(requireActivity())
             }
@@ -203,6 +202,7 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
                         val result = slotChanger()
                         if (result[1]) {
                             binding.descriptionButtonFrame.text = requireContext().resources.getString(R.string.layout_init_button_text2)
+                            binding.infoButton.isVisible = false
                         }
                     }
                 } else isLast = true
@@ -236,6 +236,7 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
                 val result = slotChanger()
                 if (result[1]) {
                     binding.descriptionButtonFrame.text = requireContext().resources.getString(R.string.layout_init_button_text2)
+                    binding.infoButton.isVisible = false
                 }
             }
         }

@@ -65,7 +65,7 @@
         android:id="@+id/description_button_frame"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="60dp"
+        android:layout_marginBottom="30dp"
         android:background="@drawable/description_button_background_selector"
         android:fontFamily="@font/amatic_sc_bold"
         android:gravity="center"
@@ -99,10 +99,13 @@
         android:buttonTint="@color/checkbox_tint_selector"
         android:minWidth="0dp"
         android:paddingStart="10dp"
+        android:layout_marginBottom="15dp"
         android:text=""
         android:textColor="@color/checkbox"
         app:layout_constraintBottom_toTopOf="@id/description_button_frame"
-        app:layout_constraintStart_toStartOf="@id/description_button_frame" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/checkbox_text"
+        app:layout_constraintHorizontal_chainStyle="packed"/>
 
     <TextView
         android:id="@+id/checkbox_text"
@@ -113,8 +116,10 @@
         android:maxLines="1"
         android:text="@string/layout_description_checkbox"
         android:textColor="@color/checkbox_color_unchecked"
-        app:layout_constraintBottom_toTopOf="@id/description_button_frame"
-        app:layout_constraintStart_toEndOf="@id/checkbox" />
+        app:layout_constraintBottom_toBottomOf="@id/checkbox"
+        app:layout_constraintStart_toEndOf="@id/checkbox"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <TextView
         android:id="@+id/description_text_view"
@@ -150,7 +155,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.92" />
+        app:layout_constraintGuide_percent="0.86" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/icon_end_guideline"
@@ -165,11 +170,4 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.015" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/checkbox_text_guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.69" />
 </androidx.constraintlayout.widget.ConstraintLayout>

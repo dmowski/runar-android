@@ -215,7 +215,7 @@
         android:id="@+id/description_button_frame"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="60dp"
+        android:layout_marginBottom="30dp"
         android:background="@drawable/description_button_background_selector"
         android:fontFamily="@font/amatic_sc_bold"
         android:paddingBottom="8dp"
