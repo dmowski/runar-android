@@ -332,11 +332,12 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                                 if (ausp <= 50) {
                                     viewModel.getAffimForCurrentLayout(ausp)
                                 } else {
+                                    val pixelAusfMargin = (30*requireContext().resources.displayMetrics.density).toInt()
                                     binding.textAffim.visibility = View.GONE
                                     val constraintsSet = ConstraintSet()
                                     constraintsSet.clone(binding.interpretationLayout)
                                     constraintsSet.clear(R.id.checkbox, ConstraintSet.TOP)
-                                    constraintsSet.connect(R.id.checkbox, ConstraintSet.TOP, R.id.interpretation_text, ConstraintSet.BOTTOM)
+                                    constraintsSet.connect(R.id.checkbox, ConstraintSet.TOP, R.id.interpretation_text, ConstraintSet.BOTTOM,pixelAusfMargin)
                                     constraintsSet.applyTo(binding.interpretationLayout)
                                     viewModel.getInterpretation()
                                 }
