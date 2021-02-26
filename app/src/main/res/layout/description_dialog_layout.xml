@@ -95,7 +95,7 @@
             android:id="@+id/exit_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="10dp"
             android:adjustViewBounds="true"
             android:clickable="true"
             android:focusable="true"
@@ -123,14 +123,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.90" />
+            app:layout_constraintGuide_percent="0.86" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/right_cross_guideline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.94" />
+            app:layout_constraintGuide_percent="0.97" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/left_header_guideline"
