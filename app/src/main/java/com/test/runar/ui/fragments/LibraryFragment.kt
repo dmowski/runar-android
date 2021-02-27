@@ -12,18 +12,13 @@ import com.test.runar.databinding.FragmentLibraryBinding
 import com.test.runar.presentation.viewmodel.DescriptionViewModel
 import com.test.runar.presentation.viewmodel.LibraryViewModel
 
-class LibraryFragment : Fragment(R.layout.fragment_library) {
-
+class LibraryFragment : Fragment() {
+/*
     private val viewModel: LibraryViewModel by viewModels()
 
     private var _binding: FragmentLibraryBinding? = null
     private val binding
         get() = _binding!!
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         _binding = FragmentLibraryBinding.bind(view)
         super.onViewCreated(view, savedInstanceState)
@@ -40,6 +35,13 @@ class LibraryFragment : Fragment(R.layout.fragment_library) {
             binding.itemText3.setTextSize(TypedValue.COMPLEX_UNIT_PX, secondTextSize)
             binding.itemText4.setTextSize(TypedValue.COMPLEX_UNIT_PX, secondTextSize)
             binding.itemText5.setTextSize(TypedValue.COMPLEX_UNIT_PX, secondTextSize)
+        }
+    }*/
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent{
+
         }
     }
 }
