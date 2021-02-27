@@ -66,7 +66,7 @@ class LibraryFragment : Fragment() {
     ): View? {
         return ComposeView(requireContext()).apply {
             setContent {
-                TopBar()
+                Bars()
             }
         }
     }
@@ -79,10 +79,19 @@ fun DefaultPreview() {
 }
 
 @Composable
+fun Bars(){
+    Column{
+        TopBar()
+    }
+}
+
+@Composable
 fun TopBar() {
     TopAppBar(
         title = { Text(text = "Библиотека")},
-        backgroundColor = colorResource(id = R.color.library_top_bar)
+        backgroundColor = colorResource(id = R.color.library_top_bar),
+        modifier = Modifier.aspectRatio(5.8f,false),
+        contentColor = colorResource(id = R.color.library_top_bar_header)
     )
 }
 
