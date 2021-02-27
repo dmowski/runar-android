@@ -8,8 +8,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
@@ -70,29 +73,31 @@ class LibraryFragment : Fragment() {
             }
         }
     }
+
+
 }
 
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
-    TopBar()
+    Bars()
 }
 
 @Composable
-fun Bars(){
-    Column{
-        TopBar()
+fun Bars() {
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text(text = "Библиотека") },
+                backgroundColor = colorResource(id = R.color.library_top_bar),
+                modifier = Modifier.aspectRatio(5.8f, false),
+                contentColor = colorResource(id = R.color.library_top_bar_header)
+            )
+        },
+        backgroundColor = Color(0x00000000)
+    ) {
+
     }
-}
-
-@Composable
-fun TopBar() {
-    TopAppBar(
-        title = { Text(text = "Библиотека")},
-        backgroundColor = colorResource(id = R.color.library_top_bar),
-        modifier = Modifier.aspectRatio(5.8f,false),
-        contentColor = colorResource(id = R.color.library_top_bar_header)
-    )
 }
 
 @Composable
@@ -123,4 +128,12 @@ fun FirstMenuItem() {
                 .background(Color.Yellow)
         )
     }
+}
+
+sealed class MenuAction(
+    @StringRes val label: Int,
+    @DrawableRes val icon: Int
+) {
+
+    object Fav : MenuAction(R.string.library_bar_fav, R.drawable.ic_library_top_fav)
 }
