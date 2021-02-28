@@ -23,6 +23,8 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.res.*
 import androidx.compose.ui.semantics.SemanticsProperties.Text
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
@@ -111,7 +113,7 @@ fun Bars() {
         },
         backgroundColor = Color(0x00000000)
     ) {
-        Column{
+        Column {
             FirstMenuItem()
             FirstMenuItem()
             FirstMenuItem()
@@ -129,8 +131,8 @@ fun FirstMenuItem() {
             Modifier
                 .fillMaxSize()
                 .weight(16f)
-        ){
-            
+        ) {
+
         }
         Column(
             Modifier
@@ -138,27 +140,69 @@ fun FirstMenuItem() {
                 .weight(398f)
         ) {
             Box(
-                Modifier.fillMaxSize().weight(24f)
+                Modifier
+                    .fillMaxSize()
+                    .weight(20f)
             )
             Row(
-                Modifier.fillMaxSize().weight(62f),verticalAlignment = Alignment.CenterVertically
-            ){
-                Image(painter = painterResource(id = R.drawable.library_item1_pic), contentDescription = null,modifier = Modifier.background(Color(0x00000000)))
+                Modifier
+                    .fillMaxSize()
+                    .weight(62f), verticalAlignment = Alignment.CenterVertically
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.library_item1_pic),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .background(Color(0x00000000))
+                        .padding(top = 5.dp, bottom = 5.dp)
+                )
+                Column(
+                    Modifier
+                        .fillMaxSize()
+                        .weight(277f)
+                        .padding(start = 15.dp)
+                ) {
+                    Text(
+                        text = "Описание рун",
+                        color = colorResource(id = R.color.library_item_header),
+                        fontFamily = FontFamily(Font(R.font.roboto_medium))
+                    )
+                    Text(
+                        text = "Текст описания",
+                        color = colorResource(id = R.color.library_item_text),
+                        fontFamily = FontFamily(Font(R.font.roboto_regular))
+                    )
+                }
                 Box(
-                    Modifier.fillMaxSize().weight(277f).background(Color.Red).padding(start=15.dp)
+                    Modifier
+                        .fillMaxSize()
+                        .weight(17f)
+                )
+                Image(
+                    painter = painterResource(id = R.drawable.ic_right),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .background(Color(0x00000000))
+                        .weight(10f)
                 )
                 Box(
-                    Modifier.fillMaxSize().weight(17f)
-                )
-                Image(painter = painterResource(id = R.drawable.ic_right), contentDescription = null,modifier = Modifier.background(Color(0x00000000)).weight(10f))
-                Box(
-                    Modifier.fillMaxSize().weight(16f)
+                    Modifier
+                        .fillMaxSize()
+                        .weight(16f)
                 )
             }
             Box(
-                Modifier.fillMaxSize().weight(22f)
+                Modifier
+                    .fillMaxSize()
+                    .weight(20f)
             )
-            Image(painter = painterResource(id = R.drawable.ic_divider), contentDescription = null,modifier = Modifier.fillMaxSize().weight(1f))
+            Image(
+                painter = painterResource(id = R.drawable.ic_divider),
+                contentDescription = null,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .weight(1f)
+            )
         }
     }
 }
