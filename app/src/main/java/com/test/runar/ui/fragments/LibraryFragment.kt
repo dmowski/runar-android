@@ -15,6 +15,7 @@ import androidx.compose.material.icons.filled.Call
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
@@ -103,14 +104,18 @@ fun Bars() {
                         tint = colorResource(id = R.color.library_top_bar_fav),
                         contentDescription = "Избранное",
                         modifier = Modifier
-                            .padding(end = 12.dp)
+                            .padding(end = 10.dp)
                     )
                 }
             )
         },
         backgroundColor = Color(0x00000000)
     ) {
-        FirstMenuItem()
+        Column{
+            FirstMenuItem()
+            FirstMenuItem()
+            FirstMenuItem()
+        }
     }
 }
 
@@ -119,27 +124,41 @@ fun FirstMenuItem() {
     Row(
         Modifier
             .aspectRatio(3.8f, true)
-            .background(Color.Green)
     ) {
         Box(
             Modifier
                 .fillMaxSize()
                 .weight(16f)
-                .background(Color.Blue)
-        )
-        Row(
-            Modifier
-                .fillMaxSize()
-                .weight(377f)
-                .background(Color.Gray)
-        ) {
-
+        ){
+            
         }
-        Box(
+        Column(
             Modifier
                 .fillMaxSize()
-                .weight(21f)
-                .background(Color.Yellow)
-        )
+                .weight(398f)
+        ) {
+            Box(
+                Modifier.fillMaxSize().weight(24f)
+            )
+            Row(
+                Modifier.fillMaxSize().weight(62f),verticalAlignment = Alignment.CenterVertically
+            ){
+                Image(painter = painterResource(id = R.drawable.library_item1_pic), contentDescription = null,modifier = Modifier.background(Color(0x00000000)))
+                Box(
+                    Modifier.fillMaxSize().weight(277f).background(Color.Red).padding(start=15.dp)
+                )
+                Box(
+                    Modifier.fillMaxSize().weight(17f)
+                )
+                Image(painter = painterResource(id = R.drawable.ic_right), contentDescription = null,modifier = Modifier.background(Color(0x00000000)).weight(10f))
+                Box(
+                    Modifier.fillMaxSize().weight(16f)
+                )
+            }
+            Box(
+                Modifier.fillMaxSize().weight(22f)
+            )
+            Image(painter = painterResource(id = R.drawable.ic_divider), contentDescription = null,modifier = Modifier.fillMaxSize().weight(1f))
+        }
     }
 }
