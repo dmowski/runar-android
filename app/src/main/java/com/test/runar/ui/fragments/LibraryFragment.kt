@@ -61,7 +61,7 @@ fun ItemData() {
         stringResource(id = R.string.library_item3_text),
         R.drawable.library_item3_pic
     )
-    FirstMenuItem(
+   /* FirstMenuItem(
         fontSize!!,
         stringResource(id = R.string.library_item4_header),
         stringResource(id = R.string.library_item4_text),
@@ -72,7 +72,9 @@ fun ItemData() {
         stringResource(id = R.string.library_item5_header),
         stringResource(id = R.string.library_item5_text),
         R.drawable.library_item5_pic
-    )
+    )*/
+    SecondMenuItem(fontSize = fontSize!!, header = "Песни о богах")
+    SecondMenuItem(fontSize = fontSize!!, header = "Песни о героях")
 }
 
 @Preview(showBackground = true)
@@ -188,6 +190,63 @@ fun FirstMenuItem(fontSize: Float, header: String, text: String, imgId: Int) {
                     .fillMaxSize()
                     .weight(20f)
             )
+            Image(
+                painter = painterResource(id = R.drawable.ic_divider),
+                contentDescription = null,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .weight(1f)
+            )
+        }
+    }
+}
+@Composable
+fun SecondMenuItem(fontSize: Float, header: String) {
+    Row(
+        Modifier
+            .aspectRatio(6.3f, true)
+    ) {
+        Box(
+            Modifier
+                .fillMaxSize()
+                .weight(16f)
+        )
+        Column(
+            Modifier
+                .fillMaxSize()
+                .weight(398f)
+        ) {
+            Row(
+                Modifier
+                    .fillMaxSize()
+                    .weight(66f), verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = header,
+                    color = colorResource(id = R.color.library_item_header),
+                    fontFamily = FontFamily(Font(R.font.roboto_medium)),
+                    style = TextStyle(fontSize = with(LocalDensity.current) { fontSize.toSp() }),
+                    modifier = Modifier
+                        .weight(320f)
+                )
+                Box(
+                    Modifier
+                        .fillMaxSize()
+                        .weight(17f)
+                )
+                Image(
+                    painter = painterResource(id = R.drawable.ic_right),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .background(Color(0x00000000))
+                        .weight(10f)
+                )
+                Box(
+                    Modifier
+                        .fillMaxSize()
+                        .weight(16f)
+                )
+            }
             Image(
                 painter = painterResource(id = R.drawable.ic_divider),
                 contentDescription = null,
