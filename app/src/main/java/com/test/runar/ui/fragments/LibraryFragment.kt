@@ -3,6 +3,7 @@ package com.test.runar.ui.fragments
 import android.os.Bundle
 import android.view.*
 import androidx.compose.foundation.*
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -43,7 +44,6 @@ class LibraryFragment : Fragment() {
 fun ItemData() {
     val viewModel: LibraryViewModel = viewModel()
     val fontSize by viewModel.fontSize.observeAsState()
-/*
     FirstMenuItem(
         fontSize!!,
         stringResource(id = R.string.library_item1_header),
@@ -75,7 +75,7 @@ fun ItemData() {
         R.drawable.library_item5_pic
     )
     SecondMenuItem(fontSize = fontSize!!, header = "Песни о богах")
-    SecondMenuItem(fontSize = fontSize!!, header = "Песни о героях")*/
+    SecondMenuItem(fontSize = fontSize!!, header = "Песни о героях")
     ThirdMenuItem(
         fontSize = fontSize!!, text = "Слушайте, вы,\n" +
                 "превышние роды,\n" +
@@ -130,7 +130,8 @@ fun Bars() {
         },
         backgroundColor = Color(0x00000000)
     ) {
-        Column {
+        val scrollState = rememberScrollState()
+        Column(Modifier.verticalScroll(state = scrollState,enabled = true)) {
             ItemData()
         }
     }
