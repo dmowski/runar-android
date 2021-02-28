@@ -1,71 +1,30 @@
 package com.test.runar.ui.fragments
 
-
-import androidx.activity.compose.setContent
 import android.os.Bundle
-import android.util.TypedValue
 import android.view.*
-import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Call
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.*
-import androidx.compose.ui.semantics.SemanticsProperties.Text
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.test.runar.R
-import com.test.runar.databinding.FragmentLayoutDescriptionBinding
-import com.test.runar.databinding.FragmentLibraryBinding
-import com.test.runar.presentation.viewmodel.DescriptionViewModel
 import com.test.runar.presentation.viewmodel.LibraryViewModel
 
 class LibraryFragment : Fragment() {
-/*
-    private val viewModel: LibraryViewModel by viewModels()
-
-    private var _binding: FragmentLibraryBinding? = null
-    private val binding
-        get() = _binding!!
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        _binding = FragmentLibraryBinding.bind(view)
-        super.onViewCreated(view, savedInstanceState)
-
-        viewModel.fontSize.observe(viewLifecycleOwner){ textSize->
-            binding.itemHeader1.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize)
-            binding.itemHeader2.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize)
-            binding.itemHeader3.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize)
-            binding.itemHeader4.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize)
-            binding.itemHeader5.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize)
-            val secondTextSize = (textSize*0.8).toFloat()
-            binding.itemText1.setTextSize(TypedValue.COMPLEX_UNIT_PX, secondTextSize)
-            binding.itemText2.setTextSize(TypedValue.COMPLEX_UNIT_PX, secondTextSize)
-            binding.itemText3.setTextSize(TypedValue.COMPLEX_UNIT_PX, secondTextSize)
-            binding.itemText4.setTextSize(TypedValue.COMPLEX_UNIT_PX, secondTextSize)
-            binding.itemText5.setTextSize(TypedValue.COMPLEX_UNIT_PX, secondTextSize)
-        }
-    }*/
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -77,14 +36,49 @@ class LibraryFragment : Fragment() {
             }
         }
     }
+}
 
+@Composable
+fun ItemData() {
+    val viewModel: LibraryViewModel = viewModel()
+    val fontSize by viewModel.fontSize.observeAsState()
 
+    FirstMenuItem(
+        fontSize!!,
+        stringResource(id = R.string.library_item1_header),
+        stringResource(id = R.string.library_item1_text),
+        R.drawable.library_item1_pic
+    )
+    FirstMenuItem(
+        fontSize!!,
+        stringResource(id = R.string.library_item2_header),
+        stringResource(id = R.string.library_item2_text),
+        R.drawable.library_item2_pic
+    )
+    FirstMenuItem(
+        fontSize!!,
+        stringResource(id = R.string.library_item3_header),
+        stringResource(id = R.string.library_item3_text),
+        R.drawable.library_item3_pic
+    )
+    FirstMenuItem(
+        fontSize!!,
+        stringResource(id = R.string.library_item4_header),
+        stringResource(id = R.string.library_item4_text),
+        R.drawable.library_item4_pic
+    )
+    FirstMenuItem(
+        fontSize!!,
+        stringResource(id = R.string.library_item5_header),
+        stringResource(id = R.string.library_item5_text),
+        R.drawable.library_item5_pic
+    )
 }
 
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
-    FirstMenuItem()
+    ItemData()
 }
 
 @Composable
@@ -114,15 +108,13 @@ fun Bars() {
         backgroundColor = Color(0x00000000)
     ) {
         Column {
-            FirstMenuItem()
-            FirstMenuItem()
-            FirstMenuItem()
+            ItemData()
         }
     }
 }
 
 @Composable
-fun FirstMenuItem() {
+fun FirstMenuItem(fontSize: Float, header: String, text: String, imgId: Int) {
     Row(
         Modifier
             .aspectRatio(3.8f, true)
@@ -131,9 +123,7 @@ fun FirstMenuItem() {
             Modifier
                 .fillMaxSize()
                 .weight(16f)
-        ) {
-
-        }
+        )
         Column(
             Modifier
                 .fillMaxSize()
@@ -150,7 +140,7 @@ fun FirstMenuItem() {
                     .weight(62f), verticalAlignment = Alignment.CenterVertically
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.library_item1_pic),
+                    painter = painterResource(id = imgId),
                     contentDescription = null,
                     modifier = Modifier
                         .background(Color(0x00000000))
@@ -163,14 +153,16 @@ fun FirstMenuItem() {
                         .padding(start = 15.dp)
                 ) {
                     Text(
-                        text = "Описание рун",
+                        text = header,
                         color = colorResource(id = R.color.library_item_header),
-                        fontFamily = FontFamily(Font(R.font.roboto_medium))
+                        fontFamily = FontFamily(Font(R.font.roboto_medium)),
+                        style = TextStyle(fontSize = with(LocalDensity.current) { fontSize.toSp() })
                     )
                     Text(
-                        text = "Текст описания",
+                        text = text,
                         color = colorResource(id = R.color.library_item_text),
-                        fontFamily = FontFamily(Font(R.font.roboto_regular))
+                        fontFamily = FontFamily(Font(R.font.roboto_regular)),
+                        style = TextStyle(fontSize = with(LocalDensity.current) { ((fontSize * 0.8).toFloat()).toSp() })
                     )
                 }
                 Box(
