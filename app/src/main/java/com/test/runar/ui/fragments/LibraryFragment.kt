@@ -12,6 +12,8 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.*
@@ -22,21 +24,40 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.test.runar.R
+import com.test.runar.RunarLogger
 import com.test.runar.presentation.viewmodel.LibraryViewModel
 
 class LibraryFragment : Fragment() {
+    val viewModel: LibraryViewModel by viewModels()
+    var currentNav = mutableListOf<Int>()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return ComposeView(requireContext()).apply {
+    ): View {
+        val view = ComposeView(requireContext()).apply {
             setContent {
                 Bars()
             }
         }
+        view.isFocusableInTouchMode = true
+        view.requestFocus()
+        viewModel.currentNav.observe(viewLifecycleOwner){
+            currentNav = it
+        }
+
+        view.setOnKeyListener { _, keyCode, event ->
+            if(event.action == KeyEvent.ACTION_DOWN){
+                if (keyCode == KeyEvent.KEYCODE_BACK) {
+                    viewModel.goBackInMenu()
+                }
+            }
+            true
+        }
+        return view
     }
 }
 
@@ -56,59 +77,6 @@ fun ItemData() {
             }
     }
     }
-    /*
-    FirstMenuItem(
-        fontSize!!,
-        stringResource(id = R.string.library_item1_header),
-        stringResource(id = R.string.library_item1_text),
-        R.drawable.library_item1_pic
-    )
-    FirstMenuItem(
-        fontSize!!,
-        stringResource(id = R.string.library_item2_header),
-        stringResource(id = R.string.library_item2_text),
-        R.drawable.library_item2_pic
-    )
-    FirstMenuItem(
-        fontSize!!,
-        stringResource(id = R.string.library_item3_header),
-        stringResource(id = R.string.library_item3_text),
-        R.drawable.library_item3_pic
-    )
-    FirstMenuItem(
-        fontSize!!,
-        stringResource(id = R.string.library_item4_header),
-        stringResource(id = R.string.library_item4_text),
-        R.drawable.library_item4_pic
-    )
-    FirstMenuItem(
-        fontSize!!,
-        stringResource(id = R.string.library_item5_header),
-        stringResource(id = R.string.library_item5_text),
-        R.drawable.library_item5_pic
-    )
-    SecondMenuItem(fontSize = fontSize!!, header = "Песни о богах")
-    SecondMenuItem(fontSize = fontSize!!, header = "Песни о героях")
-    ThirdMenuItem(
-        fontSize = fontSize!!, text = "Слушайте, вы,\n" +
-                "превышние роды,\n" +
-                "меньшие, старшие —\n" +
-                "все Хеймдалля чада!\n" +
-                "Коль просит Один,\n" +
-                "я поведаю\n" +
-                "о судьбах минувших,\n" +
-                "о прошлом, как помню:", id = 1
-    )
-    ThirdMenuItem(
-        fontSize = fontSize!!, text = "йотунов помню,\n" +
-                "до начала рожденных,\n" +
-                "кои меня\n" +
-                "древле родили,\n" +
-                "и девять знаю\n" +
-                "земель — все девять\n" +
-                "от древа предела\n" +
-                "корня земные,", id = 2
-    )*/
 }
 
 @Preview(showBackground = true)
@@ -158,6 +126,7 @@ fun FirstMenuItem(fontSize: Float, header: String, text: String, imgId: Int, sub
             .aspectRatio(3.8f, true)
             .clickable {
                 viewModel.setCurrentMenu(submenuId)
+                viewModel.addNavAction(submenuId)
             }
     ) {
         Box(
@@ -248,6 +217,7 @@ fun SecondMenuItem(fontSize: Float, header: String, submenuId: Int) {
             .aspectRatio(6.3f, true)
             .clickable {
                 viewModel.setCurrentMenu(submenuId)
+                viewModel.addNavAction(submenuId)
             }
     ) {
         Box(
@@ -306,6 +276,7 @@ fun SecondMenuItem(fontSize: Float, header: String, submenuId: Int) {
 fun ThirdMenuItem(fontSize: Float, text: String, id: Int,submenuId: Int) {
     val viewModel: LibraryViewModel = viewModel()
     Column(horizontalAlignment = Alignment.CenterHorizontally,modifier = Modifier.clickable {
+        viewModel.clearNavAction()
         viewModel.setCurrentMenu(submenuId)
     }) {
         Box(Modifier.aspectRatio(13.8f))
