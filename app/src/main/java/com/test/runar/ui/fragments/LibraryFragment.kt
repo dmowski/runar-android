@@ -44,6 +44,19 @@ class LibraryFragment : Fragment() {
 fun ItemData() {
     val viewModel: LibraryViewModel = viewModel()
     val fontSize by viewModel.fontSize.observeAsState()
+    val currentMenu by viewModel.currentMenu.observeAsState()
+    viewModel.firstMenuDraw()
+
+    if(currentMenu!=null){
+        for(item in currentMenu!!){
+            when(item.typeId){
+                1-> FirstMenuItem(fontSize = fontSize!!, header = item.header!!, text =item.text!! , imgId = item.icon!!,submenuId = item.subMenuId!!)
+                2-> SecondMenuItem(fontSize = fontSize!!, header = item.header!!, submenuId = item.subMenuId!!)
+                3-> ThirdMenuItem(fontSize = fontSize!!, text = item.text!!, id = item.id!!, submenuId = item.subMenuId!!)
+            }
+    }
+    }
+    /*
     FirstMenuItem(
         fontSize!!,
         stringResource(id = R.string.library_item1_header),
@@ -95,7 +108,7 @@ fun ItemData() {
                 "земель — все девять\n" +
                 "от древа предела\n" +
                 "корня земные,", id = 2
-    )
+    )*/
 }
 
 @Preview(showBackground = true)
@@ -138,10 +151,14 @@ fun Bars() {
 }
 
 @Composable
-fun FirstMenuItem(fontSize: Float, header: String, text: String, imgId: Int) {
+fun FirstMenuItem(fontSize: Float, header: String, text: String, imgId: Int, submenuId: Int) {
+    val viewModel: LibraryViewModel = viewModel()
     Row(
         Modifier
             .aspectRatio(3.8f, true)
+            .clickable {
+                viewModel.setCurrentMenu(submenuId)
+            }
     ) {
         Box(
             Modifier
@@ -224,10 +241,14 @@ fun FirstMenuItem(fontSize: Float, header: String, text: String, imgId: Int) {
 }
 
 @Composable
-fun SecondMenuItem(fontSize: Float, header: String) {
+fun SecondMenuItem(fontSize: Float, header: String, submenuId: Int) {
+    val viewModel: LibraryViewModel = viewModel()
     Row(
         Modifier
             .aspectRatio(6.3f, true)
+            .clickable {
+                viewModel.setCurrentMenu(submenuId)
+            }
     ) {
         Box(
             Modifier
@@ -282,8 +303,11 @@ fun SecondMenuItem(fontSize: Float, header: String) {
 }
 
 @Composable
-fun ThirdMenuItem(fontSize: Float, text: String, id: Int) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+fun ThirdMenuItem(fontSize: Float, text: String, id: Int,submenuId: Int) {
+    val viewModel: LibraryViewModel = viewModel()
+    Column(horizontalAlignment = Alignment.CenterHorizontally,modifier = Modifier.clickable {
+        viewModel.setCurrentMenu(submenuId)
+    }) {
         Box(Modifier.aspectRatio(13.8f))
         Text(
             text = id.toString(),
