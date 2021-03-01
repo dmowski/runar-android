@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.test.runar.R
+import com.test.runar.RunarLogger
 import com.test.runar.extensions.SingleLiveEvent
 import com.test.runar.model.LayoutDescriptionModel
 import com.test.runar.model.LibraryItemsModel
@@ -43,6 +44,7 @@ class LibraryViewModel : ViewModel() {
 
     var _currentMenu = MutableLiveData<List<LibraryItemsModel>>(emptyList())
     var currentMenu: LiveData<List<LibraryItemsModel>> = _currentMenu
+    var currentNav = MutableLiveData<MutableList<Int>>(mutableListOf())
     fun setCurrentMenu(menuId: Int){
         var newList = mutableListOf<LibraryItemsModel>()
         for(item in dbList){
@@ -51,7 +53,30 @@ class LibraryViewModel : ViewModel() {
         _currentMenu.postValue(newList)
     }
     fun firstMenuDraw(){
-        if (currentMenu.value?.size==0) setCurrentMenu(1)
+        if (currentMenu.value?.size==0) {
+            setCurrentMenu(1)
+            clearNavAction()
+            currentNav.value?.add(1)
+        }
+        test()
+    }
+    fun addNavAction(menuId: Int){
+        currentNav.value?.add(menuId)
+    }
+    fun removeNavAction(){
+        currentNav.value?.removeLast()
+    }
+    fun clearNavAction(){
+        currentNav.value?.clear()
+    }
+    fun test(){
+        RunarLogger.logDebug(currentNav.value.toString())
+    }
+    fun goBackInMenu(){
+        if(currentNav.value?.last()!=1){
+            removeNavAction()
+            setCurrentMenu(currentNav.value?.last()!!)
+        }
     }
 
 }
