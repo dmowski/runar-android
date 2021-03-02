@@ -6,10 +6,9 @@ import androidx.room.PrimaryKey
 
 data class LibraryItemsModel(
     var icon: Int?,
-    var header: String?,
+    var title: String?,
     var text: String?,
-    var typeId: Int?,
-    var menuId: Int?,
+    var typeView: String?,
     var id: Int?,
-    var subMenuId: Int?
+    var parentId: Int?
 )

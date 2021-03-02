@@ -3,7 +3,6 @@ package com.test.runar.ui.fragments
 import android.os.Bundle
 import android.view.*
 import androidx.compose.foundation.*
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -12,8 +11,6 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.key.key
-import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.*
@@ -27,7 +24,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.test.runar.R
-import com.test.runar.RunarLogger
 import com.test.runar.presentation.viewmodel.LibraryViewModel
 
 class LibraryFragment : Fragment() {
@@ -45,12 +41,12 @@ class LibraryFragment : Fragment() {
         }
         view.isFocusableInTouchMode = true
         view.requestFocus()
-        viewModel.currentNav.observe(viewLifecycleOwner){
+        viewModel.currentNav.observe(viewLifecycleOwner) {
             currentNav = it
         }
 
         view.setOnKeyListener { _, keyCode, event ->
-            if(event.action == KeyEvent.ACTION_DOWN){
+            if (event.action == KeyEvent.ACTION_DOWN) {
                 if (keyCode == KeyEvent.KEYCODE_BACK) {
                     viewModel.goBackInMenu()
                 }
@@ -68,14 +64,28 @@ fun ItemData() {
     val currentMenu by viewModel.currentMenu.observeAsState()
     viewModel.firstMenuDraw()
 
-    if(currentMenu!=null){
-        for(item in currentMenu!!){
-            when(item.typeId){
-                1-> FirstMenuItem(fontSize = fontSize!!, header = item.header!!, text =item.text!! , imgId = item.icon!!,submenuId = item.subMenuId!!)
-                2-> SecondMenuItem(fontSize = fontSize!!, header = item.header!!, submenuId = item.subMenuId!!)
-                3-> ThirdMenuItem(fontSize = fontSize!!, text = item.text!!, id = item.id!!, submenuId = item.subMenuId!!)
+    if (currentMenu != null) {
+        for (item in currentMenu!!) {
+            when (item.typeView) {
+                "root" -> FirstMenuItem(
+                    fontSize = fontSize!!,
+                    header = item.title!!,
+                    text = item.text!!,
+                    imgId = item.icon!!,
+                    id = item.id!!
+                )
+                "simpleMenu" -> SecondMenuItem(
+                    fontSize = fontSize!!,
+                    header = item.title!!,
+                    id = item.id!!
+                )
+                "fullText" -> ThirdMenuItem(
+                    fontSize = fontSize!!,
+                    text = item.text!!,
+                    title = item.title!!
+                )
             }
-    }
+        }
     }
 }
 
@@ -119,21 +129,20 @@ fun Bars() {
         backgroundColor = Color(0x73000000)
     ) {
         val scrollState = rememberScrollState()
-        Column(Modifier.verticalScroll(state = scrollState,enabled = true)) {
+        Column(Modifier.verticalScroll(state = scrollState, enabled = true)) {
             ItemData()
         }
     }
 }
 
 @Composable
-fun FirstMenuItem(fontSize: Float, header: String, text: String, imgId: Int, submenuId: Int) {
+fun FirstMenuItem(fontSize: Float, header: String, text: String, imgId: Int, id: Int) {
     val viewModel: LibraryViewModel = viewModel()
     Row(
         Modifier
             .aspectRatio(3.8f, true)
             .clickable {
-                viewModel.setCurrentMenu(submenuId)
-                viewModel.addNavAction(submenuId)
+                viewModel.setCurrentMenu(id)
             }
     ) {
         Box(
@@ -218,14 +227,13 @@ fun FirstMenuItem(fontSize: Float, header: String, text: String, imgId: Int, sub
 }
 
 @Composable
-fun SecondMenuItem(fontSize: Float, header: String, submenuId: Int) {
+fun SecondMenuItem(fontSize: Float, header: String, id: Int) {
     val viewModel: LibraryViewModel = viewModel()
     Row(
         Modifier
             .aspectRatio(6.3f, true)
             .clickable {
-                viewModel.setCurrentMenu(submenuId)
-                viewModel.addNavAction(submenuId)
+                viewModel.setCurrentMenu(id)
             }
     ) {
         Box(
@@ -281,15 +289,11 @@ fun SecondMenuItem(fontSize: Float, header: String, submenuId: Int) {
 }
 
 @Composable
-fun ThirdMenuItem(fontSize: Float, text: String, id: Int,submenuId: Int) {
-    val viewModel: LibraryViewModel = viewModel()
-    Column(horizontalAlignment = Alignment.CenterHorizontally,modifier = Modifier.clickable {
-        viewModel.clearNavAction()
-        viewModel.setCurrentMenu(submenuId)
-    }) {
+fun ThirdMenuItem(fontSize: Float, text: String, title: String) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Box(Modifier.aspectRatio(13.8f))
         Text(
-            text = id.toString(),
+            text = title,
             color = colorResource(id = R.color.library_third_id),
             fontFamily = FontFamily(Font(R.font.roboto_bold)),
             style = TextStyle(fontSize = with(LocalDensity.current) { ((fontSize * 0.9).toFloat()).toSp() })
