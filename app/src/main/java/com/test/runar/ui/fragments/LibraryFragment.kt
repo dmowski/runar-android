@@ -100,6 +100,13 @@ fun Bars() {
                 modifier = Modifier.aspectRatio(5.8f, false),
                 actions = {
                     Icon(
+                        painter = painterResource(id = R.drawable.ic_bell),
+                        tint = colorResource(id = R.color.library_top_bar_bell),
+                        contentDescription = "Звонок",
+                        modifier = Modifier
+                            .padding(end = 15.dp)
+                    )
+                    Icon(
                         painter = painterResource(id = R.drawable.ic_bookmark_2),
                         tint = colorResource(id = R.color.library_top_bar_fav),
                         contentDescription = "Избранное",
@@ -109,7 +116,7 @@ fun Bars() {
                 }
             )
         },
-        backgroundColor = Color(0x00000000)
+        backgroundColor = Color(0x73000000)
     ) {
         val scrollState = rememberScrollState()
         Column(Modifier.verticalScroll(state = scrollState,enabled = true)) {
@@ -166,7 +173,8 @@ fun FirstMenuItem(fontSize: Float, header: String, text: String, imgId: Int, sub
                         text = header,
                         color = colorResource(id = R.color.library_item_header),
                         fontFamily = FontFamily(Font(R.font.roboto_medium)),
-                        style = TextStyle(fontSize = with(LocalDensity.current) { fontSize.toSp() })
+                        style = TextStyle(fontSize = with(LocalDensity.current) { fontSize.toSp() }),
+                        modifier = Modifier.padding(bottom = 1.dp)
                     )
                     Text(
                         text = text,
