@@ -90,4 +90,7 @@ dependencies {
     // Integration with observables
     implementation 'androidx.compose.runtime:runtime-livedata:1.0.0-beta01'
     implementation 'androidx.compose.runtime:runtime-rxjava2:1.0.0-beta01'
+
+    implementation("io.coil-kt:coil:1.1.1")
+    implementation 'jp.wasabeef.composable:coil:1.x.x'
 }
