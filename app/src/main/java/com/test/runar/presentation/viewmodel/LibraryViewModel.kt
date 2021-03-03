@@ -6,37 +6,27 @@ import androidx.lifecycle.ViewModel
 import com.test.runar.R
 import com.test.runar.RunarLogger
 import com.test.runar.model.LibraryItemsModel
+import com.test.runar.repository.DatabaseRepository
 import com.test.runar.repository.SharedDataRepository
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class LibraryViewModel : ViewModel() {
 
     val fontSize: LiveData<Float> = MutableLiveData(SharedDataRepository.fontSize)
-    val dbList: List<LibraryItemsModel> = listOf(
-        LibraryItemsModel("https://lineform.s3.eu-west-2.amazonaws.com/temp_runar/1.png","Описание рун","Письменность древних германцев, употреблявшаяся с I—II по XII век","root",1,null),
-        LibraryItemsModel("https://lineform.s3.eu-west-2.amazonaws.com/temp_runar/2.png","История рун","Первые руны появились в дохристианском мире","root",2,null),
-        LibraryItemsModel("https://lineform.s3.eu-west-2.amazonaws.com/temp_runar/3.png","Старшая Эдда","Сборник древнеисландских песен о богах и героях мифологии","root",3,null),
-        LibraryItemsModel(null,"Скандинавские сказки",null,"simpleMenu",25,1),
-        LibraryItemsModel(null,"Песни о героях",null,"simpleMenu",26,1),
-        LibraryItemsModel(null,"1","йотунов помню,\n" +
-                "до начала рожденных,\n" +
-                "кои меня\n" +
-                "древле родили,\n" +
-                "и девять знаю\n" +
-                "земель — все девять\n" +
-                "от древа предела\n" +
-                "корня земные,","fullText",30,25),
-        LibraryItemsModel(null,"2","йотунов помню,\n" +
-                "до начала рожденных,\n" +
-                "кои меня\n" +
-                "древле родили,\n" +
-                "и девять знаю\n" +
-                "земель — все девять\n" +
-                "от древа предела\n" +
-                "корня земные,","fullText",40,26))
-
+    var dbList: List<LibraryItemsModel> = emptyList()
     var _currentMenu = MutableLiveData<List<LibraryItemsModel>>(emptyList())
     var currentMenu: LiveData<List<LibraryItemsModel>> = _currentMenu
     var currentNav = MutableLiveData<MutableList<Int>>(mutableListOf())
+
+    fun getRuneDataFromDB() {
+        CoroutineScope(Dispatchers.IO).launch {
+            dbList = DatabaseRepository.getLibraryItemList()
+        }
+    }
+
+
     fun setCurrentMenu(id: Int){
         val newList = mutableListOf<LibraryItemsModel>()
         for(item in dbList){
