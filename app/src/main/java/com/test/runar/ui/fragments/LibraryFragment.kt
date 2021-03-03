@@ -30,6 +30,12 @@ import dev.chrisbanes.accompanist.coil.CoilImage
 class LibraryFragment : Fragment() {
     val viewModel: LibraryViewModel by viewModels()
     var currentNav = mutableListOf<Int>()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        viewModel.getRuneDataFromDB()
+        super.onCreate(savedInstanceState)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
