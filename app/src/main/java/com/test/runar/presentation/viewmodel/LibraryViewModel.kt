@@ -12,9 +12,9 @@ class LibraryViewModel : ViewModel() {
 
     val fontSize: LiveData<Float> = MutableLiveData(SharedDataRepository.fontSize)
     val dbList: List<LibraryItemsModel> = listOf(
-        LibraryItemsModel(R.drawable.library_item1_pic,"Описание рун","Письменность древних германцев, употреблявшаяся с I—II по XII век","root",1,null),
-        LibraryItemsModel(R.drawable.library_item2_pic,"История рун","Первые руны появились в дохристианском мире","root",2,null),
-        LibraryItemsModel(R.drawable.library_item3_pic,"Старшая Эдда","Сборник древнеисландских песен о богах и героях мифологии","root",3,null),
+        LibraryItemsModel("https://lineform.s3.eu-west-2.amazonaws.com/temp_runar/1.png","Описание рун","Письменность древних германцев, употреблявшаяся с I—II по XII век","root",1,null),
+        LibraryItemsModel("https://lineform.s3.eu-west-2.amazonaws.com/temp_runar/2.png","История рун","Первые руны появились в дохристианском мире","root",2,null),
+        LibraryItemsModel("https://lineform.s3.eu-west-2.amazonaws.com/temp_runar/3.png","Старшая Эдда","Сборник древнеисландских песен о богах и героях мифологии","root",3,null),
         LibraryItemsModel(null,"Скандинавские сказки",null,"simpleMenu",25,1),
         LibraryItemsModel(null,"Песни о героях",null,"simpleMenu",26,1),
         LibraryItemsModel(null,"1","йотунов помню,\n" +
