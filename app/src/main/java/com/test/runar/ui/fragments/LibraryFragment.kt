@@ -25,6 +25,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.test.runar.R
 import com.test.runar.presentation.viewmodel.LibraryViewModel
+import dev.chrisbanes.accompanist.coil.CoilImage
 
 class LibraryFragment : Fragment() {
     val viewModel: LibraryViewModel by viewModels()
@@ -71,7 +72,7 @@ fun ItemData() {
                     fontSize = fontSize!!,
                     header = item.title!!,
                     text = item.text!!,
-                    imgId = item.icon!!,
+                    imgLink = item.icon!!,
                     id = item.id!!
                 )
                 "simpleMenu" -> SecondMenuItem(
@@ -136,7 +137,7 @@ fun Bars() {
 }
 
 @Composable
-fun FirstMenuItem(fontSize: Float, header: String, text: String, imgId: Int, id: Int) {
+fun FirstMenuItem(fontSize: Float, header: String, text: String, imgLink: String, id: Int) {
     val viewModel: LibraryViewModel = viewModel()
     Row(
         Modifier
@@ -165,8 +166,8 @@ fun FirstMenuItem(fontSize: Float, header: String, text: String, imgId: Int, id:
                     .fillMaxSize()
                     .weight(62f), verticalAlignment = Alignment.CenterVertically
             ) {
-                Image(
-                    painter = painterResource(id = imgId),
+                CoilImage(
+                    data=imgLink,
                     contentDescription = null,
                     modifier = Modifier
                         .background(Color(0x00000000))
