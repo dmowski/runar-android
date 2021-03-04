@@ -70,8 +70,13 @@ fun ItemData() {
     val viewModel: LibraryViewModel = viewModel()
     val fontSize by viewModel.fontSize.observeAsState()
     val currentMenu by viewModel.currentMenu.observeAsState()
+    val currentNavRoute by viewModel.currentNavRoute.observeAsState()
     viewModel.firstMenuDraw()
+    viewModel.updateCurrentNavRoute()
 
+    if (currentNavRoute!!.size>0) {
+        NavigateItem(fontSize = fontSize!!, route = currentNavRoute!!)
+    }
     if (currentMenu != null) {
         for (item in currentMenu!!) {
             when (item.typeView) {
@@ -174,7 +179,7 @@ fun FirstMenuItem(fontSize: Float, header: String, text: String, imgLink: String
                     .weight(62f), verticalAlignment = Alignment.CenterVertically
             ) {
                 CoilImage(
-                    data=imgLink,
+                    data = imgLink,
                     contentDescription = null,
                     modifier = Modifier
                         .background(Color(0x00000000))
@@ -230,6 +235,37 @@ fun FirstMenuItem(fontSize: Float, header: String, text: String, imgLink: String
                     .fillMaxSize()
                     .weight(1f)
             )
+        }
+    }
+}
+
+@Composable
+fun NavigateItem(fontSize: Float, route: List<String>) {
+    Row(
+        Modifier
+            .aspectRatio(10f, true)
+    ) {
+        Box(
+            Modifier
+                .fillMaxSize()
+                .weight(16f)
+        )
+        Row(
+            Modifier
+                .fillMaxSize()
+                .weight(398f),verticalAlignment = Alignment.CenterVertically
+        ) {
+            for(item in route){
+                var color = colorResource(id = R.color.library_nav_not_selected)
+                if(item==route.last()) color = colorResource(id = R.color.library_nav_selected)
+                Text(
+                    text = item,
+                    style = TextStyle(fontSize = with(LocalDensity.current) { ((fontSize * 0.7).toFloat()).toSp() }),
+                    color = color,
+                    fontFamily = FontFamily(Font(R.font.roboto_light)),
+                    modifier = Modifier.padding(end = 1.dp)
+                )
+            }
         }
     }
 }
@@ -298,7 +334,7 @@ fun SecondMenuItem(fontSize: Float, header: String, id: Int) {
 
 @Composable
 fun ThirdMenuItem(fontSize: Float, text: String, title: String) {
-    val newText = text.replace("\\n","\n")
+    val newText = text.replace("\\n", "\n")
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Box(Modifier.aspectRatio(13.8f))
         Text(
