@@ -20,6 +20,8 @@ class LibraryViewModel : ViewModel() {
     var currentMenu: LiveData<List<LibraryItemsModel>> = _currentMenu
     var currentNav = MutableLiveData<MutableList<Int>>(mutableListOf())
 
+    var currentNavRoute = MutableLiveData<MutableList<String>>(mutableListOf())
+
     fun getRuneDataFromDB() {
         CoroutineScope(Dispatchers.IO).launch {
             dbList = DatabaseRepository.getLibraryItemList()
@@ -70,6 +72,20 @@ class LibraryViewModel : ViewModel() {
                 }
             }
         }
+    }
+
+    fun updateCurrentNavRoute(){
+        val newRoute = mutableListOf<String>()
+        for(id in currentNav.value!!){
+            if(id!=8688){
+                for(item in dbList){
+                    if(item.id==id){
+                        newRoute.add("> "+item.title+"  ")
+                    }
+                }
+            }
+        }
+        currentNavRoute.postValue(newRoute)
     }
 
 }
