@@ -36,6 +36,7 @@ class LibraryViewModel : ViewModel() {
         }
         _currentMenu.postValue(newList)
         currentNav.value?.add(id)
+        RunarLogger.logDebug("yep")
     }
     fun firstMenuDraw(){
         if (currentMenu.value?.size==0) {
@@ -64,6 +65,7 @@ class LibraryViewModel : ViewModel() {
             if(item.id==currentNav.value?.last()) {
                 if(item.parentId!=null){
                     setCurrentMenu(item.parentId!!)
+                    RunarLogger.logDebug("go back, please")
                     currentNav.value?.removeLast()
                     currentNav.value?.removeLast()
                 }
@@ -84,6 +86,10 @@ class LibraryViewModel : ViewModel() {
                     }
                 }
             }
+        }
+        if(newRoute.size>2) {
+            newRoute.removeLast()
+            newRoute.add(">...")
         }
         currentNavRoute.postValue(newRoute)
     }
