@@ -74,7 +74,7 @@ fun ItemData() {
     viewModel.firstMenuDraw()
     viewModel.updateCurrentNavRoute()
 
-    if (currentNavRoute!!.size>0) {
+    if (currentNavRoute!!.size > 0) {
         NavigateItem(fontSize = fontSize!!, route = currentNavRoute!!)
     }
     if (currentMenu != null) {
@@ -97,6 +97,15 @@ fun ItemData() {
                     text = item.text!!,
                     title = item.title!!
                 )
+                "simpleText" -> SimpleTextItem(
+                    fontSize = fontSize!!,
+                    text = item.text!!
+                )
+                "rune" -> RuneDescription(fontSize = fontSize!!,
+                    header = item.title!!,
+                    text = item.text!!,
+                    imgLink = "test",
+                    id = item.id!!)
             }
         }
     }
@@ -253,11 +262,11 @@ fun NavigateItem(fontSize: Float, route: List<String>) {
         Row(
             Modifier
                 .fillMaxSize()
-                .weight(398f),verticalAlignment = Alignment.CenterVertically
+                .weight(398f), verticalAlignment = Alignment.CenterVertically
         ) {
-            for(item in route){
+            for (item in route) {
                 var color = colorResource(id = R.color.library_nav_not_selected)
-                if(item==route.last()) color = colorResource(id = R.color.library_nav_selected)
+                if (item == route.last()) color = colorResource(id = R.color.library_nav_selected)
                 Text(
                     text = item,
                     style = TextStyle(fontSize = with(LocalDensity.current) { ((fontSize * 0.7).toFloat()).toSp() }),
@@ -352,6 +361,69 @@ fun ThirdMenuItem(fontSize: Float, text: String, title: String) {
                 textAlign = TextAlign.Center,
                 lineHeight = with(LocalDensity.current) { ((fontSize * 1.4).toFloat()).toSp() }),
             modifier = Modifier.padding(top = 5.dp)
+        )
+    }
+}
+
+@Composable
+fun SimpleTextItem(fontSize: Float, text: String) {
+    val newText = text.replace("\\n", "\n")
+    Row {
+        Box(
+            Modifier
+                .fillMaxSize()
+                .weight(16f)
+        )
+        Box(
+            Modifier
+                .fillMaxSize()
+                .weight(398f)
+        ) {
+            Text(
+                text = newText,
+                color = colorResource(id = R.color.library_simple_text),
+                fontFamily = FontFamily(Font(R.font.roboto_light)),
+                style = TextStyle(
+                    fontSize = with(LocalDensity.current) { ((fontSize * 0.95).toFloat()).toSp() },
+                    textAlign = TextAlign.Start,
+                    lineHeight = with(LocalDensity.current) { ((fontSize * 1.4).toFloat()).toSp() }),
+            )
+        }
+    }
+}
+
+@Composable
+fun RuneDescription(fontSize: Float, header: String, text: String, imgLink: String, id: Int){
+    val viewModel: LibraryViewModel = viewModel()
+    Column(
+        Modifier
+            .clickable {
+                viewModel.setCurrentMenu(id)
+            }
+    ){
+        Box(Modifier.aspectRatio(14f))
+        Text(
+            text = header,
+            color = colorResource(id = R.color.library_third_id),
+            fontFamily = FontFamily(Font(R.font.roboto_regular)),
+            style = TextStyle(fontSize = with(LocalDensity.current) { ((fontSize * 1.5).toFloat()).toSp() })
+        )
+        Text(
+            text = text,
+            color = colorResource(id = R.color.library_third_text),
+            fontFamily = FontFamily(Font(R.font.roboto_light)),
+            style = TextStyle(
+                fontSize = with(LocalDensity.current) { ((fontSize * 0.95).toFloat()).toSp() },
+                textAlign = TextAlign.Center,
+                lineHeight = with(LocalDensity.current) { ((fontSize * 1.4).toFloat()).toSp() }),
+            modifier = Modifier.padding(top = 5.dp)
+        )
+        Box(Modifier.aspectRatio(12f))
+        Image(
+            painter = painterResource(id = R.drawable.ic_divider),
+            contentDescription = null,
+            modifier = Modifier
+                .fillMaxSize()
         )
     }
 }

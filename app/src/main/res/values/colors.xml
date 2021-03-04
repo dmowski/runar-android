@@ -53,4 +53,10 @@
 
     <color name="library_nav_not_selected">#A8A6A3</color>
     <color name="library_nav_selected">#EFCD93</color>
+
+    <color name="library_simple_text">#DADADA</color>
+
+    <color name="library_rune_header">#EFCD93</color>
+    <color name="library_rune_text">#DADADA</color>
+
 </resources>
