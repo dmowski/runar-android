@@ -24,6 +24,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.test.runar.R
+import com.test.runar.RunarLogger
 import com.test.runar.presentation.viewmodel.LibraryViewModel
 import dev.chrisbanes.accompanist.coil.CoilImage
 
@@ -297,6 +298,7 @@ fun SecondMenuItem(fontSize: Float, header: String, id: Int) {
 
 @Composable
 fun ThirdMenuItem(fontSize: Float, text: String, title: String) {
+    val newText = text.replace("\\n","\n")
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Box(Modifier.aspectRatio(13.8f))
         Text(
@@ -306,7 +308,7 @@ fun ThirdMenuItem(fontSize: Float, text: String, title: String) {
             style = TextStyle(fontSize = with(LocalDensity.current) { ((fontSize * 0.9).toFloat()).toSp() })
         )
         Text(
-            text = text,
+            text = newText,
             color = colorResource(id = R.color.library_third_text),
             fontFamily = FontFamily(Font(R.font.roboto_light)),
             style = TextStyle(
