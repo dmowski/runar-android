@@ -17,7 +17,7 @@ class SplashActivity : AppCompatActivity() {
         binding = ActivitySplashBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
-
+        supportActionBar?.hide()
         setupViewModel()
     }
 

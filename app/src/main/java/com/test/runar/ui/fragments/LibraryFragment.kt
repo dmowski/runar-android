@@ -191,7 +191,7 @@ fun FirstMenuItem(fontSize: Float, header: String, text: String, imgLink: String
                         color = colorResource(id = R.color.library_item_header),
                         fontFamily = FontFamily(Font(R.font.roboto_medium)),
                         style = TextStyle(fontSize = with(LocalDensity.current) { fontSize.toSp() }),
-                        modifier = Modifier.padding(bottom = 1.dp)
+                        modifier = Modifier.padding(bottom = 2.dp)
                     )
                     Text(
                         text = text,
