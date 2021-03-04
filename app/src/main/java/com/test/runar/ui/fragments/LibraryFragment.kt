@@ -1,5 +1,7 @@
 package com.test.runar.ui.fragments
 
+import android.content.res.loader.AssetsProvider
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.*
 import androidx.compose.foundation.*
@@ -394,30 +396,54 @@ fun SimpleTextItem(fontSize: Float, text: String) {
 
 @Composable
 fun RuneDescription(fontSize: Float, header: String, text: String, imgLink: String, id: Int){
-    val viewModel: LibraryViewModel = viewModel()
     Column(
-        Modifier
-            .clickable {
-                viewModel.setCurrentMenu(id)
-            }
+        horizontalAlignment = Alignment.CenterHorizontally
     ){
-        Box(Modifier.aspectRatio(14f))
+        Box(Modifier.aspectRatio(30f))
         Text(
             text = header,
             color = colorResource(id = R.color.library_third_id),
             fontFamily = FontFamily(Font(R.font.roboto_regular)),
-            style = TextStyle(fontSize = with(LocalDensity.current) { ((fontSize * 1.5).toFloat()).toSp() })
-        )
-        Text(
-            text = text,
-            color = colorResource(id = R.color.library_third_text),
-            fontFamily = FontFamily(Font(R.font.roboto_light)),
             style = TextStyle(
-                fontSize = with(LocalDensity.current) { ((fontSize * 0.95).toFloat()).toSp() },
+                fontSize = with(LocalDensity.current) { ((fontSize * 1.5).toFloat()).toSp() },
                 textAlign = TextAlign.Center,
-                lineHeight = with(LocalDensity.current) { ((fontSize * 1.4).toFloat()).toSp() }),
-            modifier = Modifier.padding(top = 5.dp)
+            ),
         )
+        Box(Modifier.aspectRatio(30f))
+        Row{
+            Box(Modifier.fillMaxSize().weight(152f))
+            CoilImage(
+                data = R.drawable.test_rune,
+                contentDescription = null,
+                modifier = Modifier
+                    .background(Color(0x00000000)).weight(100f)
+            )
+            Box(Modifier.fillMaxSize().weight(152f))
+        }
+        Box(Modifier.aspectRatio(30f))
+        Row {
+            Box(
+                Modifier
+                    .fillMaxSize()
+                    .weight(16f)
+            )
+            Box(
+                Modifier
+                    .fillMaxSize()
+                    .weight(398f)
+            ) {
+                Text(
+                    text = text,
+                    color = colorResource(id = R.color.library_third_text),
+                    fontFamily = FontFamily(Font(R.font.roboto_light)),
+                    style = TextStyle(
+                        fontSize = with(LocalDensity.current) { ((fontSize * 0.95).toFloat()).toSp() },
+                        textAlign = TextAlign.Start,
+                        lineHeight = with(LocalDensity.current) { ((fontSize * 1.4).toFloat()).toSp() }),
+                    modifier = Modifier.padding(top = 5.dp)
+                )
+            }
+        }
         Box(Modifier.aspectRatio(12f))
         Image(
             painter = painterResource(id = R.drawable.ic_divider),
