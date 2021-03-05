@@ -143,14 +143,14 @@ fun Bars() {
                         contentDescription = "Звонок",
                         modifier = Modifier
                             .padding(end = 15.dp)
-                    )*/
+                    )
                     Icon(
                         painter = painterResource(id = R.drawable.ic_bookmark_2),
                         tint = colorResource(id = R.color.library_top_bar_fav),
                         contentDescription = "Избранное",
                         modifier = Modifier
                             .padding(end = 10.dp)
-                    )
+                    )*/
                 }
             )
         },

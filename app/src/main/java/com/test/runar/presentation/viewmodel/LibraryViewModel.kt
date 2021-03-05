@@ -84,16 +84,19 @@ class LibraryViewModel : ViewModel() {
 
     fun updateCurrentNavRoute(){
         val newRoute = mutableListOf<String>()
+        var routLength =0
         for(id in currentNav.value!!){
             if(id!=8688){
                 for(item in dbList){
                     if(item.id==id){
-                        newRoute.add("> "+item.title+"  ")
+                        val routeString = "> "+item.title+"  "
+                        newRoute.add(routeString)
+                        routLength+=routeString.length
                     }
                 }
             }
         }
-        if(newRoute.size>2) {
+        if(routLength>45) {
             newRoute.removeLast()
             newRoute.add(">...")
         }
