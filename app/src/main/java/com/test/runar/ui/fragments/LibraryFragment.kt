@@ -239,7 +239,7 @@ fun FirstMenuItem(fontSize: Float, header: String, text: String, imgLink: String
                     Text(
                         text = header,
                         color = colorResource(id = R.color.library_item_header),
-                        fontFamily = FontFamily(Font(R.font.roboto_medium)),
+                        fontFamily = FontFamily(Font(R.font.roboto_regular)),
                         style = TextStyle(fontSize = with(LocalDensity.current) { fontSize.toSp() }),
                         modifier = Modifier.padding(bottom = 2.dp)
                     )
@@ -340,7 +340,7 @@ fun SecondMenuItem(fontSize: Float, header: String, id: Int) {
                 Text(
                     text = header,
                     color = colorResource(id = R.color.library_item_header),
-                    fontFamily = FontFamily(Font(R.font.roboto_medium)),
+                    fontFamily = FontFamily(Font(R.font.roboto_regular)),
                     style = TextStyle(fontSize = with(LocalDensity.current) { fontSize.toSp() }),
                     modifier = Modifier
                         .weight(320f)
