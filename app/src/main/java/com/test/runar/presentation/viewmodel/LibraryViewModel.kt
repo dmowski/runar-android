@@ -22,6 +22,8 @@ class LibraryViewModel : ViewModel() {
 
     var currentNavRoute = MutableLiveData<MutableList<String>>(mutableListOf())
 
+    var lastMenuHeader = MutableLiveData<String>("Библиотека")
+
     fun getRuneDataFromDB() {
         CoroutineScope(Dispatchers.IO).launch {
             dbList = DatabaseRepository.getLibraryItemList()
@@ -101,6 +103,21 @@ class LibraryViewModel : ViewModel() {
             newRoute.add(">...")
         }
         currentNavRoute.postValue(newRoute)
+    }
+    fun updateLastMenuHeader(){
+        var newHeader ="Библиотека"
+        var lastId = 8688
+        if(currentNav.value!!.size>0) lastId = currentNav.value!!.last()
+
+        if(lastId==8688) newHeader ="Библиотека"
+        else{
+            for(item in dbList){
+                if(item.id==lastId){
+                    if(item.title!=null) newHeader = item.title!!
+                }
+            }
+        }
+        lastMenuHeader.value = newHeader
     }
 
 }

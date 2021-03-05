@@ -13,6 +13,8 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.*
@@ -75,6 +77,7 @@ fun ItemData() {
     val currentNavRoute by viewModel.currentNavRoute.observeAsState()
     viewModel.firstMenuDraw()
     viewModel.updateCurrentNavRoute()
+    viewModel.updateLastMenuHeader()
 
     if (currentNavRoute!!.size > 0) {
         NavigateItem(fontSize = fontSize!!, route = currentNavRoute!!)
@@ -103,11 +106,13 @@ fun ItemData() {
                     fontSize = fontSize!!,
                     text = item.text!!
                 )
-                "rune" -> RuneDescription(fontSize = fontSize!!,
+                "rune" -> RuneDescription(
+                    fontSize = fontSize!!,
                     header = item.title!!,
                     text = item.text!!,
                     imgLink = "test",
-                    id = item.id!!)
+                    id = item.id!!
+                )
             }
         }
     }
@@ -123,19 +128,32 @@ fun DefaultPreview() {
 fun Bars() {
     val viewModel: LibraryViewModel = viewModel()
     val fontSize by viewModel.fontSize.observeAsState()
+    val header by viewModel.lastMenuHeader.observeAsState()
+
+    var barColor = colorResource(id = R.color.library_top_bar_header)
+    var barFont = FontFamily(Font(R.font.roboto_medium))
+    var barFontSize = with(LocalDensity.current) { ((fontSize!! * 1.35).toFloat()).toSp() }
+    var navIcon :@Composable() (()-> Unit)? = null
+
+    if (header != "Библиотека") {
+        barColor = colorResource(id = R.color.library_top_bar_header_2)
+        barFont = FontFamily(Font(R.font.roboto_medium))
+        barFontSize = with(LocalDensity.current) { fontSize!!.toSp() }
+        navIcon = { TopBarIcon() }
+    }
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {
                     Text(
-                        text = "Библиотека",
-                        color = colorResource(id = R.color.library_top_bar_header),
-                        fontFamily = FontFamily(Font(R.font.roboto_medium)),
-                        style = TextStyle(fontSize = with(LocalDensity.current) { ((fontSize!! * 1.35).toFloat()).toSp() })
+                        text = header!!,
+                        color = barColor,
+                        fontFamily = barFont,
+                        style = TextStyle(fontSize = barFontSize)
                     )
                 },
                 backgroundColor = colorResource(id = R.color.library_top_bar),
-                modifier = Modifier.aspectRatio(5.8f, false),
+                navigationIcon = navIcon,
                 actions = {
                     /*Icon(
                         painter = painterResource(id = R.drawable.ic_bell),
@@ -160,6 +178,18 @@ fun Bars() {
         Column(Modifier.verticalScroll(state = scrollState, enabled = true)) {
             ItemData()
         }
+    }
+}
+
+@Composable
+fun TopBarIcon(){
+    val viewModel: LibraryViewModel = viewModel()
+    IconButton(onClick = { viewModel.goBackInMenu() }) {
+        Icon(
+            painter = painterResource(id = R.drawable.ic_library_back_arrow_2),
+            tint = colorResource(id = R.color.library_top_bar_fav),
+            contentDescription = "arrow"
+        )
     }
 }
 
@@ -393,10 +423,10 @@ fun SimpleTextItem(fontSize: Float, text: String) {
 }
 
 @Composable
-fun RuneDescription(fontSize: Float, header: String, text: String, imgLink: String, id: Int){
+fun RuneDescription(fontSize: Float, header: String, text: String, imgLink: String, id: Int) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
-    ){
+    ) {
         Box(Modifier.aspectRatio(30f))
         Text(
             text = header,
@@ -408,11 +438,12 @@ fun RuneDescription(fontSize: Float, header: String, text: String, imgLink: Stri
             ),
         )
         Box(Modifier.aspectRatio(30f))
-        Row{
+        Row {
             Box(
                 Modifier
                     .fillMaxSize()
-                    .weight(152f))
+                    .weight(152f)
+            )
             CoilImage(
                 data = R.drawable.test_rune,
                 contentDescription = null,
@@ -423,7 +454,8 @@ fun RuneDescription(fontSize: Float, header: String, text: String, imgLink: Stri
             Box(
                 Modifier
                     .fillMaxSize()
-                    .weight(152f))
+                    .weight(152f)
+            )
         }
         Box(Modifier.aspectRatio(30f))
         Row {
@@ -437,7 +469,7 @@ fun RuneDescription(fontSize: Float, header: String, text: String, imgLink: Stri
                     .fillMaxSize()
                     .weight(366f)
             ) {
-                Column{
+                Column {
                     Text(
                         text = text,
                         color = colorResource(id = R.color.library_third_text),
