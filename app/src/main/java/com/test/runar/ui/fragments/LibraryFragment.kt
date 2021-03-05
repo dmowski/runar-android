@@ -121,25 +121,29 @@ fun DefaultPreview() {
 
 @Composable
 fun Bars() {
+    val viewModel: LibraryViewModel = viewModel()
+    val fontSize by viewModel.fontSize.observeAsState()
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {
                     Text(
                         text = "Библиотека",
-                        color = colorResource(id = R.color.library_top_bar_header)
+                        color = colorResource(id = R.color.library_top_bar_header),
+                        fontFamily = FontFamily(Font(R.font.roboto_medium)),
+                        style = TextStyle(fontSize = with(LocalDensity.current) { ((fontSize!! * 1.35).toFloat()).toSp() })
                     )
                 },
                 backgroundColor = colorResource(id = R.color.library_top_bar),
                 modifier = Modifier.aspectRatio(5.8f, false),
                 actions = {
-                    Icon(
+                    /*Icon(
                         painter = painterResource(id = R.drawable.ic_bell),
                         tint = colorResource(id = R.color.library_top_bar_bell),
                         contentDescription = "Звонок",
                         modifier = Modifier
                             .padding(end = 15.dp)
-                    )
+                    )*/
                     Icon(
                         painter = painterResource(id = R.drawable.ic_bookmark_2),
                         tint = colorResource(id = R.color.library_top_bar_fav),
@@ -241,10 +245,7 @@ fun FirstMenuItem(fontSize: Float, header: String, text: String, imgLink: String
             )
             Image(
                 painter = painterResource(id = R.drawable.ic_divider),
-                contentDescription = null,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .weight(1f)
+                contentDescription = null
             )
         }
     }
@@ -334,10 +335,7 @@ fun SecondMenuItem(fontSize: Float, header: String, id: Int) {
             }
             Image(
                 painter = painterResource(id = R.drawable.ic_divider),
-                contentDescription = null,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .weight(1f)
+                contentDescription = null
             )
         }
     }
@@ -411,45 +409,57 @@ fun RuneDescription(fontSize: Float, header: String, text: String, imgLink: Stri
         )
         Box(Modifier.aspectRatio(30f))
         Row{
-            Box(Modifier.fillMaxSize().weight(152f))
+            Box(
+                Modifier
+                    .fillMaxSize()
+                    .weight(152f))
             CoilImage(
                 data = R.drawable.test_rune,
                 contentDescription = null,
                 modifier = Modifier
-                    .background(Color(0x00000000)).weight(100f)
+                    .background(Color(0x00000000))
+                    .weight(100f)
             )
-            Box(Modifier.fillMaxSize().weight(152f))
+            Box(
+                Modifier
+                    .fillMaxSize()
+                    .weight(152f))
         }
         Box(Modifier.aspectRatio(30f))
         Row {
             Box(
                 Modifier
                     .fillMaxSize()
-                    .weight(16f)
+                    .weight(24f)
             )
             Box(
                 Modifier
                     .fillMaxSize()
-                    .weight(398f)
+                    .weight(366f)
             ) {
-                Text(
-                    text = text,
-                    color = colorResource(id = R.color.library_third_text),
-                    fontFamily = FontFamily(Font(R.font.roboto_light)),
-                    style = TextStyle(
-                        fontSize = with(LocalDensity.current) { ((fontSize * 0.95).toFloat()).toSp() },
-                        textAlign = TextAlign.Start,
-                        lineHeight = with(LocalDensity.current) { ((fontSize * 1.4).toFloat()).toSp() }),
-                    modifier = Modifier.padding(top = 5.dp)
-                )
+                Column{
+                    Text(
+                        text = text,
+                        color = colorResource(id = R.color.library_third_text),
+                        fontFamily = FontFamily(Font(R.font.roboto_light)),
+                        style = TextStyle(
+                            fontSize = with(LocalDensity.current) { ((fontSize * 0.95).toFloat()).toSp() },
+                            textAlign = TextAlign.Start,
+                            lineHeight = with(LocalDensity.current) { ((fontSize * 1.4).toFloat()).toSp() }),
+                        modifier = Modifier.padding(top = 5.dp)
+                    )
+                    Box(Modifier.aspectRatio(12f))
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_divider),
+                        contentDescription = null
+                    )
+                }
             }
+            Box(
+                Modifier
+                    .fillMaxSize()
+                    .weight(24f)
+            )
         }
-        Box(Modifier.aspectRatio(12f))
-        Image(
-            painter = painterResource(id = R.drawable.ic_divider),
-            contentDescription = null,
-            modifier = Modifier
-                .fillMaxSize()
-        )
     }
 }

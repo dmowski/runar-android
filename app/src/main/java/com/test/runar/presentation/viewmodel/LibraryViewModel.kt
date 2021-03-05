@@ -36,7 +36,14 @@ class LibraryViewModel : ViewModel() {
         }
         _currentMenu.postValue(newList)
         currentNav.value?.add(id)
-        RunarLogger.logDebug("yep")
+    }
+
+    fun returnAndSetCurrentMenu(id: Int){
+        val newList = mutableListOf<LibraryItemsModel>()
+        for(item in dbList){
+            if(item.parentId==id) newList.add(item)
+        }
+        _currentMenu.postValue(newList)
     }
     fun firstMenuDraw(){
         if (currentMenu.value?.size==0) {
@@ -64,14 +71,13 @@ class LibraryViewModel : ViewModel() {
         for(item in dbList){
             if(item.id==currentNav.value?.last()) {
                 if(item.parentId!=null){
-                    setCurrentMenu(item.parentId!!)
-                    RunarLogger.logDebug("go back, please")
-                    currentNav.value?.removeLast()
+                    returnAndSetCurrentMenu(item.parentId!!)
                     currentNav.value?.removeLast()
                 }
                 else{
                     mainMenuDraw()
                 }
+                return
             }
         }
     }
