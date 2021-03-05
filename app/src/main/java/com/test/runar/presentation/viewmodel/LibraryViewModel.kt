@@ -1,5 +1,6 @@
 package com.test.runar.presentation.viewmodel
 
+import androidx.core.content.res.TypedArrayUtils.getText
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -104,12 +105,12 @@ class LibraryViewModel : ViewModel() {
         }
         currentNavRoute.postValue(newRoute)
     }
-    fun updateLastMenuHeader(){
-        var newHeader ="Библиотека"
+    fun updateLastMenuHeader(header: String){
+        var newHeader =header
         var lastId = 8688
         if(currentNav.value!!.size>0) lastId = currentNav.value!!.last()
 
-        if(lastId==8688) newHeader ="Библиотека"
+        if(lastId==8688) newHeader =header
         else{
             for(item in dbList){
                 if(item.id==lastId){

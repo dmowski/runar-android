@@ -38,4 +38,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string name="text_calculation_helper">The fame and popularity of this divination </string>
+
+    <string name="library_top_bar_header">Library</string>
 </resources>

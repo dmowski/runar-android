@@ -77,7 +77,7 @@ fun ItemData() {
     val currentNavRoute by viewModel.currentNavRoute.observeAsState()
     viewModel.firstMenuDraw()
     viewModel.updateCurrentNavRoute()
-    viewModel.updateLastMenuHeader()
+    viewModel.updateLastMenuHeader(stringResource(id = R.string.library_top_bar_header))
 
     if (currentNavRoute!!.size > 0) {
         NavigateItem(fontSize = fontSize!!, route = currentNavRoute!!)
@@ -135,7 +135,7 @@ fun Bars() {
     var barFontSize = with(LocalDensity.current) { ((fontSize!! * 1.35).toFloat()).toSp() }
     var navIcon :@Composable() (()-> Unit)? = null
 
-    if (header != "Библиотека") {
+    if (header != stringResource(id = R.string.library_top_bar_header)) {
         barColor = colorResource(id = R.color.library_top_bar_header_2)
         barFont = FontFamily(Font(R.font.roboto_medium))
         barFontSize = with(LocalDensity.current) { fontSize!!.toSp() }
