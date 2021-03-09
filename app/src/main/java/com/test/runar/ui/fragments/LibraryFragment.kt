@@ -90,12 +90,16 @@ fun ItemData() {
                     header = item.title!!,
                     text = item.text!!,
                     imgLink = item.icon!!,
-                    id = item.id!!
+                    clickAction = {
+                        viewModel.setCurrentMenu(item.id!!)
+                    }
                 )
                 "simpleMenu" -> SecondMenuItem(
                     fontSize = fontSize!!,
                     header = item.title!!,
-                    id = item.id!!
+                    clickAction = {
+                        viewModel.setCurrentMenu(item.id!!)
+                    }
                 )
                 "fullText" -> ThirdMenuItem(
                     fontSize = fontSize!!,
@@ -194,14 +198,11 @@ fun TopBarIcon(){
 }
 
 @Composable
-fun FirstMenuItem(fontSize: Float, header: String, text: String, imgLink: String, id: Int) {
-    val viewModel: LibraryViewModel = viewModel()
+fun FirstMenuItem(fontSize: Float, header: String, text: String, imgLink: String, clickAction : () -> Unit) {
     Row(
         Modifier
             .aspectRatio(3.8f, true)
-            .clickable {
-                viewModel.setCurrentMenu(id)
-            }
+            .clickable (onClick = clickAction)
     ) {
         Box(
             Modifier
@@ -313,14 +314,12 @@ fun NavigateItem(fontSize: Float, route: List<String>) {
 }
 
 @Composable
-fun SecondMenuItem(fontSize: Float, header: String, id: Int) {
+fun SecondMenuItem(fontSize: Float, header: String,clickAction : () -> Unit) {
     val viewModel: LibraryViewModel = viewModel()
     Row(
         Modifier
             .aspectRatio(6.3f, true)
-            .clickable {
-                viewModel.setCurrentMenu(id)
-            }
+            .clickable (onClick = clickAction)
     ) {
         Box(
             Modifier
