@@ -1,7 +1,5 @@
 package com.test.runar.ui.fragments
 
-import android.content.res.loader.AssetsProvider
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.*
 import androidx.compose.foundation.*
@@ -13,8 +11,6 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.*
@@ -28,7 +24,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.test.runar.R
-import com.test.runar.RunarLogger
 import com.test.runar.presentation.viewmodel.LibraryViewModel
 import dev.chrisbanes.accompanist.coil.CoilImage
 
@@ -73,17 +68,17 @@ class LibraryFragment : Fragment() {
 fun ItemData() {
     val viewModel: LibraryViewModel = viewModel()
     val fontSize by viewModel.fontSize.observeAsState()
-    val currentMenu by viewModel.currentMenu.observeAsState()
-    val currentNavRoute by viewModel.currentNavRoute.observeAsState()
-    viewModel.firstMenuDraw()
-    viewModel.updateCurrentNavRoute()
+    val menuData by viewModel.menuData.observeAsState()
+
     viewModel.updateLastMenuHeader(stringResource(id = R.string.library_top_bar_header))
 
-    if (currentNavRoute!!.size > 0) {
-        NavigateItem(fontSize = fontSize!!, route = currentNavRoute!!)
+    viewModel.firstMenuDataCheck()
+
+    if (menuData?.second?.size!! > 0) {
+        NavigateItem(fontSize = fontSize!!, route = menuData!!.second)
     }
-    if (currentMenu != null) {
-        for (item in currentMenu!!) {
+    if (menuData?.first != null) {
+        for (item in menuData?.first!!) {
             when (item.typeView) {
                 "root" -> FirstMenuItem(
                     fontSize = fontSize!!,
@@ -91,14 +86,14 @@ fun ItemData() {
                     text = item.text!!,
                     imgLink = item.icon!!,
                     clickAction = {
-                        viewModel.setCurrentMenu(item.id!!)
+                        viewModel.updateMenuData(item.id!!)
                     }
                 )
                 "simpleMenu" -> SecondMenuItem(
                     fontSize = fontSize!!,
                     header = item.title!!,
                     clickAction = {
-                        viewModel.setCurrentMenu(item.id!!)
+                        viewModel.updateMenuData(item.id!!)
                     }
                 )
                 "fullText" -> ThirdMenuItem(
@@ -157,23 +152,7 @@ fun Bars() {
                     )
                 },
                 backgroundColor = colorResource(id = R.color.library_top_bar),
-                navigationIcon = navIcon,
-                actions = {
-                    /*Icon(
-                        painter = painterResource(id = R.drawable.ic_bell),
-                        tint = colorResource(id = R.color.library_top_bar_bell),
-                        contentDescription = "Звонок",
-                        modifier = Modifier
-                            .padding(end = 15.dp)
-                    )
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_bookmark_2),
-                        tint = colorResource(id = R.color.library_top_bar_fav),
-                        contentDescription = "Избранное",
-                        modifier = Modifier
-                            .padding(end = 10.dp)
-                    )*/
-                }
+                navigationIcon = navIcon
             )
         },
         backgroundColor = Color(0x73000000)
@@ -202,7 +181,7 @@ fun FirstMenuItem(fontSize: Float, header: String, text: String, imgLink: String
     Row(
         Modifier
             .aspectRatio(3.8f, true)
-            .clickable (onClick = clickAction)
+            .clickable(onClick = clickAction)
     ) {
         Box(
             Modifier
@@ -315,11 +294,10 @@ fun NavigateItem(fontSize: Float, route: List<String>) {
 
 @Composable
 fun SecondMenuItem(fontSize: Float, header: String,clickAction : () -> Unit) {
-    val viewModel: LibraryViewModel = viewModel()
     Row(
         Modifier
             .aspectRatio(6.3f, true)
-            .clickable (onClick = clickAction)
+            .clickable(onClick = clickAction)
     ) {
         Box(
             Modifier
