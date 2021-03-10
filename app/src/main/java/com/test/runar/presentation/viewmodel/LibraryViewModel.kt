@@ -3,6 +3,7 @@ package com.test.runar.presentation.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.test.runar.RunarLogger
 import com.test.runar.model.LibraryItemsModel
 import com.test.runar.model.NewLibraryItemsModel
 import com.test.runar.repository.DatabaseRepository
@@ -54,6 +55,22 @@ class LibraryViewModel : ViewModel() {
             imageUrl = null,
             sortOrder = 11,
             type = "subMenu"),
+        NewLibraryItemsModel(
+            childs = listOf("6047e3d0f9cd129f52a654"),
+            id = "6047e3d0f9cd129f52ae3h6",
+            content = null,
+            title = "test1",
+            imageUrl = null,
+            sortOrder = 11,
+            type = "subMenu"),
+        NewLibraryItemsModel(
+            childs = listOf(),
+            id = "6047e3d0f9cd129f52a654",
+            content = null,
+            title = "test2",
+            imageUrl = null,
+            sortOrder = 11,
+            type = "subMenu"),
     )
 
     val fontSize: LiveData<Float> = MutableLiveData(SharedDataRepository.fontSize)
@@ -76,6 +93,7 @@ class LibraryViewModel : ViewModel() {
         if (menuData.value?.first?.size==0) {
             updateMenuData()
         }
+        RunarLogger.logDebug(menuNavData.toString())
     }
 
     private fun updateMenuData() {
@@ -122,19 +140,16 @@ class LibraryViewModel : ViewModel() {
         menuData.postValue(Pair(newList, mutableListOf()))
     }
 
-    fun goBackInMenu() {/*
-        for (item in dbList) {
-            if (item.id == menuNavData.last()) {
-                if (item.parentId != null) {
-                    menuNavData.removeLast()
-                    menuNavData.removeLast()
-                    updateMenuData(item.parentId!!)
-                } else {
-                    updateMenuData()
-                }
-                return
-            }
-        }*/
+    fun goBackInMenu() {
+        RunarLogger.logDebug("back")
+        if(menuNavData.size>1){
+            menuNavData.removeLast()
+            updateMenuData(menuNavData.last())
+            menuNavData.removeLast()
+        }
+        else{
+            updateMenuData()
+        }
     }
 
     fun updateLastMenuHeader(header: String) {/*
