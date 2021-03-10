@@ -31,7 +31,7 @@ class LibraryFragment : Fragment() {
     val viewModel: LibraryViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        //viewModel.getRuneDataFromDB()
+        viewModel.getRuneDataFromDB()
         super.onCreate(savedInstanceState)
     }
 
