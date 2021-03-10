@@ -160,6 +160,7 @@ fun Bars() {
         val scrollState = rememberScrollState()
         Column(Modifier.verticalScroll(state = scrollState, enabled = true)) {
             ItemData()
+            Box(modifier = Modifier.aspectRatio(15f,true))
         }
     }
 }
