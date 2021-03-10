@@ -152,19 +152,19 @@ class LibraryViewModel : ViewModel() {
         }
     }
 
-    fun updateLastMenuHeader(header: String) {/*
+    fun updateLastMenuHeader(header: String) {
         var newHeader = header
-        var lastId = 8688
+        var lastId: String? = null
         if (menuNavData.size > 0) lastId = menuNavData.last()
 
-        if (lastId == 8688) newHeader = header
+        if (lastId == null) newHeader = header
         else {
-            for (item in dbList) {
+            for (item in newData) {
                 if (item.id == lastId) {
                     if (item.title != null) newHeader = item.title!!
                 }
             }
         }
-        lastMenuHeader.value = newHeader*/
+        lastMenuHeader.value = newHeader
     }
 }
