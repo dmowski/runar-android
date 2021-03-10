@@ -50,4 +50,12 @@
 
     <color name="library_third_id">#FFEACA</color>
     <color name="library_third_text">#DADADA</color>
+
+
+    <color name="settings_header">#191919</color>
+    <color name="settings_header_name">#EFCD93</color>
+    <color name="settings_language_name">#DADADA</color>
+    <color name="settings_language">#9A9A9A</color>
+    <color name="settings_radio_button">#EFCD93</color>
+
 </resources>

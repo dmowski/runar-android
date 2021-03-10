@@ -1,11 +1,15 @@
 package com.test.runar.ui.activity
 
+import android.content.Context
+import android.content.Intent
 import android.content.IntentFilter
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.test.runar.R
 import com.test.runar.RunarLogger
@@ -15,6 +19,10 @@ import com.test.runar.receivers.LanguageBroadcastReceiver
 import com.test.runar.ui.Navigator
 import com.test.runar.ui.dialogs.CancelDialog
 import com.test.runar.ui.fragments.*
+import com.zeugmasolutions.localehelper.LocaleHelper
+import com.zeugmasolutions.localehelper.LocaleHelperActivityDelegate
+import com.zeugmasolutions.localehelper.LocaleHelperActivityDelegateImpl
+import java.util.*
 
 class MainActivity : AppCompatActivity(), Navigator {
 
@@ -66,11 +74,20 @@ class MainActivity : AppCompatActivity(), Navigator {
                     binding.bottomNavigationBar.isVisible = true
                     true
                 }
+                R.id.settingsFragment->{
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragmentContainer, SettingsFragment())
+                        .addToBackStack(null)
+                        .commit()
+                    binding.bottomNavigationBar.isVisible = true
+                    true
+                }
                 else-> false
             }
         }
-
     }
+
+
 
     override fun onResume() {
         forceBarHide()

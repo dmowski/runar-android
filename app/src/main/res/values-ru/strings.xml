@@ -51,4 +51,11 @@
     <string name="library_item4_text">Прозаический трактат о поэтике скальдов</string>
     <string name="library_item5_header">Скандинавские сказки</string>
     <string name="library_item5_text">Сказки стран Норвегии, Дании, Швеции, Финляндии и Исландии</string>
+
+    <string name="settings_layout">Настройки</string>
+    <string name="settings_language">Язык</string>
+    <string name="settings_language_rus">Русский</string>
+    <string name="settings_language_en">English</string>
+    <string name="music_txt">Музыка</string>
+    <string name="rate_app_txt">Оценить приложение</string>
 </resources>

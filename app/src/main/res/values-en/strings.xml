@@ -38,4 +38,12 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string name="text_calculation_helper">The fame and popularity of this divination </string>
+
+    <string name="settings_layout">Settings</string>
+    <string name="settings_language">Language</string>
+    <string name="settings_language_rus">Russian</string>
+    <string name="settings_language_en">English</string>
+    <string name="music_txt">Music</string>
+    <string name="rate_app_txt">Rate the app</string>
+
 </resources>
