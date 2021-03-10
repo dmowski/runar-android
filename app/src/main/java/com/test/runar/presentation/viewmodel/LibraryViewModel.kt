@@ -120,32 +120,32 @@ class LibraryViewModel : ViewModel() {
             }
         }
         menuNavData.add(id)
-        /*val newRoute = mutableListOf<String>()
+
+        val newRoute = mutableListOf<String>()
         var routLength = 0
         for (menuId in menuNavData) {
-            if (menuId != 8688) {
-                for (item in dbList) {
-                    if (item.id == menuId) {
-                        val routeString = "> " + item.title + "  "
-                        newRoute.add(routeString)
-                        routLength += routeString.length
-                    }
+            for (item in newData) {
+                if (item.id == menuId) {
+                    val routeString = "> " + item.title + "  "
+                    newRoute.add(routeString)
+                    routLength += routeString.length
                 }
             }
         }
         if (routLength > 45) {
             newRoute.removeLast()
             newRoute.add(">...")
-        }*/
-        menuData.postValue(Pair(newList, mutableListOf()))
+        }
+        menuData.postValue(Pair(newList, newRoute))
     }
 
     fun goBackInMenu() {
         RunarLogger.logDebug("back")
         if(menuNavData.size>1){
             menuNavData.removeLast()
-            updateMenuData(menuNavData.last())
+            val last = menuNavData.last()
             menuNavData.removeLast()
+            updateMenuData(last)
         }
         else{
             updateMenuData()
