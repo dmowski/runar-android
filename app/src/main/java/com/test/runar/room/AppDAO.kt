@@ -25,4 +25,11 @@ interface AppDAO {
 
     @Query("SELECT * FROM library")
     suspend fun getLibraryItems(): List<LibraryItemsModel>
+
+    @Query("DELETE FROM library")
+    suspend fun clearLibrary()
+
+    @Insert
+    suspend fun insertLibraryData(data: List<LibraryItemsModel>)
+
 }
