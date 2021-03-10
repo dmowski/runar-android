@@ -29,10 +29,9 @@ import dev.chrisbanes.accompanist.coil.CoilImage
 
 class LibraryFragment : Fragment() {
     val viewModel: LibraryViewModel by viewModels()
-    var currentNav = mutableListOf<Int>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        viewModel.getRuneDataFromDB()
+        //viewModel.getRuneDataFromDB()
         super.onCreate(savedInstanceState)
     }
 
@@ -48,9 +47,6 @@ class LibraryFragment : Fragment() {
         }
         view.isFocusableInTouchMode = true
         view.requestFocus()
-        viewModel.currentNav.observe(viewLifecycleOwner) {
-            currentNav = it
-        }
 
         view.setOnKeyListener { _, keyCode, event ->
             if (event.action == KeyEvent.ACTION_DOWN) {
@@ -79,38 +75,37 @@ fun ItemData() {
     }
     if (menuData?.first != null) {
         for (item in menuData?.first!!) {
-            when (item.typeView) {
+            when (item.type) {
                 "root" -> FirstMenuItem(
                     fontSize = fontSize!!,
                     header = item.title!!,
-                    text = item.text!!,
-                    imgLink = item.icon!!,
+                    text = item.content!!,
+                    imgLink = item.imageUrl!!,
                     clickAction = {
                         viewModel.updateMenuData(item.id!!)
                     }
                 )
-                "simpleMenu" -> SecondMenuItem(
+                "subMenu" -> SecondMenuItem(
                     fontSize = fontSize!!,
                     header = item.title!!,
                     clickAction = {
                         viewModel.updateMenuData(item.id!!)
                     }
                 )
-                "fullText" -> ThirdMenuItem(
+                "poem" -> ThirdMenuItem(
                     fontSize = fontSize!!,
-                    text = item.text!!,
+                    text = item.content!!,
                     title = item.title!!
                 )
-                "simpleText" -> SimpleTextItem(
+                "plainText" -> SimpleTextItem(
                     fontSize = fontSize!!,
-                    text = item.text!!
+                    text = item.content!!
                 )
                 "rune" -> RuneDescription(
                     fontSize = fontSize!!,
                     header = item.title!!,
-                    text = item.text!!,
-                    imgLink = "test",
-                    id = item.id!!
+                    text = item.content!!,
+                    imgLink = "test"
                 )
             }
         }
@@ -401,7 +396,7 @@ fun SimpleTextItem(fontSize: Float, text: String) {
 }
 
 @Composable
-fun RuneDescription(fontSize: Float, header: String, text: String, imgLink: String, id: Int) {
+fun RuneDescription(fontSize: Float, header: String, text: String, imgLink: String) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
