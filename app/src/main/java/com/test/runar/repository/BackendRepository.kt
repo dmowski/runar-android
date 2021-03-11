@@ -48,6 +48,7 @@ object BackendRepository {
             RunarLogger.logDebug("Library http error")
         } catch (e: Throwable) {
             RunarLogger.logDebug("Library some strange error")
+            RunarLogger.logError("Library",e)
         }
     }
 }
