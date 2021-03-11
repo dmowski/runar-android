@@ -20,16 +20,18 @@ abstract class AppDB : RoomDatabase() {
         private lateinit var INSTANCE: AppDB
 
         fun init(context: Context) {
-            var locale: String = Locale.getDefault().language
+            val locale: String = Locale.getDefault().language
             var dataBaseFilePath = ""
+            var dataBaseName =""
 
             if (locale.equals("ru")) {
                 dataBaseFilePath = "database/layouts.db"
+                dataBaseName = "RU_DATABASE"
             } else {
                 dataBaseFilePath = "database/en_layouts.db"
+                dataBaseName = "EN_DATABASE"
             }
-            context.deleteDatabase("LD_DATABASE")  //stupid solution need to fix in future (maybe)
-            INSTANCE = Room.databaseBuilder(context, AppDB::class.java, "LD_DATABASE")
+            INSTANCE = Room.databaseBuilder(context, AppDB::class.java, dataBaseName)
                     .createFromAsset(dataBaseFilePath).build()
         }
 
