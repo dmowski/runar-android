@@ -11,6 +11,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.util.*
 
 class SplashViewModel : ViewModel() {
 
@@ -29,7 +30,9 @@ class SplashViewModel : ViewModel() {
                 RunarLogger.logDebug("1")
                 _progress.postValue(25 * (it + 1))
             }
-            BackendRepository.getLibraryData("ru")
+            val locale: String = Locale.getDefault().language
+            if (locale.equals("ru"))  BackendRepository.getLibraryData("ru")
+            else  BackendRepository.getLibraryData("en")
             repeat(2){
                 delay(STEP_OF_LOADING)
                 RunarLogger.logDebug("2")
