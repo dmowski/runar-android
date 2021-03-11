@@ -1,5 +1,6 @@
 package com.test.runar.repository
 
+import com.test.runar.RunarLogger
 import com.test.runar.model.*
 import com.test.runar.room.AppDB
 import com.test.runar.room.DataDB
@@ -46,5 +47,12 @@ object DatabaseRepository {
 
     suspend fun getLibraryItemList(): List<LibraryItemsModel> {
         return appDao.getLibraryItems()
+    }
+
+    suspend fun updateLibraryDB(list: List<LibraryItemsModel>){
+        appDao.clearLibrary()
+        RunarLogger.logDebug("library cleared")
+        appDao.insertLibraryData(list)
+        RunarLogger.logDebug("library data inserted")
     }
 }

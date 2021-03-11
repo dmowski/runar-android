@@ -57,7 +57,6 @@ class MainActivity : AppCompatActivity(), Navigator {
                         .addToBackStack(null)
                         .commit()
                     binding.bottomNavigationBar.isVisible = true
-                    BackendRepository.getLibraryData("ru")
                     true
                 }
                 R.id.layoutFragment->{
