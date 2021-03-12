@@ -3,6 +3,7 @@ package com.test.runar.presentation.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.test.runar.RunarLogger
 import com.test.runar.model.LibraryItemsModel
 import com.test.runar.repository.DatabaseRepository
 import com.test.runar.repository.SharedDataRepository
@@ -43,6 +44,7 @@ class LibraryViewModel : ViewModel() {
     }
 
     fun updateMenuData(id: String){
+        RunarLogger.logDebug(id)
         val newList = mutableListOf<LibraryItemsModel>()
         var selectedItem = LibraryItemsModel()
         for(curItem in dbList){
@@ -56,9 +58,16 @@ class LibraryViewModel : ViewModel() {
                 }
             }
         }
-        menuNavData.add(id)
 
         newList.sortBy{it.sortOrder}
+        if(newList.size==0) {
+            updateMenuData()
+            return
+        }
+
+        menuNavData.add(id)
+
+
         val newRoute = mutableListOf<String>()
         var routLength = 0
         for (menuId in menuNavData) {
