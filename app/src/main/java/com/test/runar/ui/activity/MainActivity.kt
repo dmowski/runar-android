@@ -67,6 +67,14 @@ class MainActivity : AppCompatActivity(), Navigator {
                     binding.bottomNavigationBar.isVisible = true
                     true
                 }
+                R.id.favFragment->{
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragmentContainer, FavouriteFragment())
+                        .addToBackStack(null)
+                        .commit()
+                    binding.bottomNavigationBar.isVisible = true
+                    true
+                }
                 else-> false
             }
         }
