@@ -38,6 +38,7 @@ class LibraryViewModel : ViewModel() {
             if (item.type == "root") newList.add(item)
         }
         menuNavData.clear()
+        newList.sortBy{it.sortOrder}
         menuData.postValue(Pair(newList, mutableListOf()))
     }
 
@@ -57,6 +58,7 @@ class LibraryViewModel : ViewModel() {
         }
         menuNavData.add(id)
 
+        newList.sortBy{it.sortOrder}
         val newRoute = mutableListOf<String>()
         var routLength = 0
         for (menuId in menuNavData) {
