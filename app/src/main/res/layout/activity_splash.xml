@@ -4,21 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_loading">
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/top_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.15" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/bottom_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.46" />
-
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/progressBar_guideline"
         android:layout_width="wrap_content"
@@ -41,15 +26,13 @@
         app:layout_constraintGuide_percent="0.74" />
 
     <ImageView
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:src="@drawable/loading_group_image"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_image"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/top_image" />
+        android:src="@drawable/loading_image"
+        app:layout_constraintBottom_toTopOf="@id/progressBar_guideline"
+        app:layout_constraintEnd_toEndOf="@id/right_progress_guideline"
+        app:layout_constraintStart_toStartOf="@id/left_progress_guideline"
+        android:adjustViewBounds="true"/>
 
     <ProgressBar
         android:id="@+id/loadingProgress"
@@ -59,10 +42,6 @@
         android:max="100"
         android:progressDrawable="@drawable/splsh_screen_process_loading"
         app:layout_constraintEnd_toStartOf="@+id/right_progress_guideline"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintLeft_toLeftOf="@id/left_progress_guideline"
         app:layout_constraintStart_toStartOf="@+id/left_progress_guideline"
         app:layout_constraintTop_toTopOf="@+id/progressBar_guideline"/>
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

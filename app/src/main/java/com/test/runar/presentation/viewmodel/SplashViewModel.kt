@@ -27,15 +27,13 @@ class SplashViewModel : ViewModel() {
             delay(DELAY_BEFORE_START_LOADING)
             repeat(2){
                 delay(STEP_OF_LOADING)
-                RunarLogger.logDebug("1")
                 _progress.postValue(25 * (it + 1))
             }
-            val locale: String = Locale.getDefault().language
+            /*val locale: String = Locale.getDefault().language
             if (locale.equals("ru"))  BackendRepository.getLibraryData("ru")
-            else  BackendRepository.getLibraryData("en")
+            else  BackendRepository.getLibraryData("en")*/
             repeat(2){
                 delay(STEP_OF_LOADING)
-                RunarLogger.logDebug("2")
                 _progress.postValue(25 * (it + 2))
             }
             _splashCommand.postValue(true)
