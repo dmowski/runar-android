@@ -44,6 +44,7 @@
     <string name="settings_language_rus">Russian</string>
     <string name="settings_language_en">English</string>
     <string name="music_txt">Music</string>
-    <string name="rate_app_txt">Rate the app</string>
+    <string name="rate_app_txt">Rate the application</string>
+    <string name="about_app_txt">About</string>
 
 </resources>

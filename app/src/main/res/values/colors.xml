@@ -57,5 +57,8 @@
     <color name="settings_language_name">#DADADA</color>
     <color name="settings_language">#9A9A9A</color>
     <color name="settings_radio_button">#EFCD93</color>
+    <color name="settings_about_app">#FFFFFF</color>
+    <color name="switch_thumb">#d4cdcd</color>
+    <color name="switch_track">#9A9A9A</color>
 
 </resources>

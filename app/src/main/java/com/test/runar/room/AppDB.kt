@@ -30,7 +30,7 @@ abstract class AppDB : RoomDatabase() {
             }
             context.deleteDatabase("LD_DATABASE")  //stupid solution need to fix in future (maybe)
             INSTANCE = Room.databaseBuilder(context, AppDB::class.java, "LD_DATABASE")
-                    .createFromAsset(dataBaseFilePath).build()
+                .createFromAsset(dataBaseFilePath).build()
         }
 
         fun getLayoutDB(): AppDB {

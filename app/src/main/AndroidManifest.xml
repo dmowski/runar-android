@@ -13,6 +13,9 @@
         android:supportsRtl="true"
         android:name=".App"
         android:theme="@style/Theme.Runar">
+        <service
+            android:name=".service.MediaService"
+            android:enabled="true" />
         <activity
             android:name=".ui.activity.MainActivity"
             android:screenOrientation="portrait" />
