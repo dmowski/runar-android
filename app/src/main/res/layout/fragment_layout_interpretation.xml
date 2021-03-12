@@ -55,7 +55,7 @@
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintDimensionRatio="H,2.35:1"/>
+                        app:layout_constraintDimensionRatio="H,2.5:1"/>
 
                     <ImageView
                         android:id="@+id/exit_button"
