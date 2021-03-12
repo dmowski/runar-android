@@ -61,7 +61,7 @@ class LibraryFragment : Fragment() {
 }
 
 @Composable
-fun ItemData() {
+private fun ItemData() {
     val viewModel: LibraryViewModel = viewModel()
     val fontSize by viewModel.fontSize.observeAsState()
     val menuData by viewModel.menuData.observeAsState()
@@ -114,12 +114,12 @@ fun ItemData() {
 
 @Preview(showBackground = true)
 @Composable
-fun DefaultPreview() {
+private fun DefaultPreview() {
     ItemData()
 }
 
 @Composable
-fun Bars() {
+private fun Bars() {
     val viewModel: LibraryViewModel = viewModel()
     val fontSize by viewModel.fontSize.observeAsState()
     val header by viewModel.lastMenuHeader.observeAsState()
@@ -161,7 +161,7 @@ fun Bars() {
 }
 
 @Composable
-fun TopBarIcon(){
+private fun TopBarIcon(){
     val viewModel: LibraryViewModel = viewModel()
     IconButton(onClick = { viewModel.goBackInMenu() }) {
         Icon(
@@ -173,7 +173,7 @@ fun TopBarIcon(){
 }
 
 @Composable
-fun FirstMenuItem(fontSize: Float, header: String, text: String, imgLink: String, clickAction : () -> Unit) {
+private fun FirstMenuItem(fontSize: Float, header: String, text: String, imgLink: String, clickAction : () -> Unit) {
     Row(
         Modifier
             .aspectRatio(3.8f, true)
@@ -258,7 +258,7 @@ fun FirstMenuItem(fontSize: Float, header: String, text: String, imgLink: String
 }
 
 @Composable
-fun NavigateItem(fontSize: Float, route: List<String>) {
+private fun NavigateItem(fontSize: Float, route: List<String>) {
     Row(
         Modifier
             .aspectRatio(10f, true)
@@ -289,7 +289,7 @@ fun NavigateItem(fontSize: Float, route: List<String>) {
 }
 
 @Composable
-fun SecondMenuItem(fontSize: Float, header: String,clickAction : () -> Unit) {
+private fun SecondMenuItem(fontSize: Float, header: String,clickAction : () -> Unit) {
     Row(
         Modifier
             .aspectRatio(6.3f, true)
@@ -345,7 +345,7 @@ fun SecondMenuItem(fontSize: Float, header: String,clickAction : () -> Unit) {
 }
 
 @Composable
-fun ThirdMenuItem(fontSize: Float, text: String, title: String) {
+private fun ThirdMenuItem(fontSize: Float, text: String, title: String) {
     val newText = text.replace("\\n", "\n")
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Box(Modifier.aspectRatio(13.8f))
@@ -369,7 +369,7 @@ fun ThirdMenuItem(fontSize: Float, text: String, title: String) {
 }
 
 @Composable
-fun SimpleTextItem(fontSize: Float, text: String) {
+private fun SimpleTextItem(fontSize: Float, text: String) {
     val newText = text.replace("\\n", "\n")
     Row {
         Box(
@@ -396,7 +396,7 @@ fun SimpleTextItem(fontSize: Float, text: String) {
 }
 
 @Composable
-fun RuneDescription(fontSize: Float, header: String, text: String, imgLink: String) {
+private fun RuneDescription(fontSize: Float, header: String, text: String, imgLink: String) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
