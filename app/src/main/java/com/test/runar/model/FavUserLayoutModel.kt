@@ -5,4 +5,5 @@ data class FavUserLayoutModel (
     var content: String?,
     var imgId: Int?,
     var id: Int?,
+    var selected: Boolean?
 )
