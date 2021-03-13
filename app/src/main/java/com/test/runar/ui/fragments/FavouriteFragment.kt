@@ -151,8 +151,8 @@ private fun TopBarIcon(clickAction: () -> Unit) {
 
 @Composable
 private fun TopBarActions() {
-    //val viewModel: LibraryViewModel = viewModel()
-    IconButton(onClick = { /*viewModel.goBackInMenu() */ }) {
+    val viewModel: FavouriteViewModel = viewModel()
+    IconButton(onClick = { viewModel.removeSelectedLayouts() }) {
         Icon(
             painter = painterResource(id = R.drawable.ic_delete),
             tint = colorResource(id = R.color.fav_top_bar_delete),
