@@ -69,9 +69,7 @@ class FavouriteFragment : Fragment() {
 private fun Bars() {
     val viewModel: FavouriteViewModel = viewModel()
     val fontSize by viewModel.fontSize.observeAsState()
-    //val header by viewModel.lastMenuHeader.observeAsState()
     val favData by viewModel.favData.observeAsState()
-    val checkboxMap = mutableMapOf<Int,Boolean>()
     val existSelected by viewModel.haveSelectedItem.observeAsState()
     var barColor = colorResource(id = R.color.library_top_bar_header)
     var barFont = FontFamily(Font(R.font.roboto_medium))
@@ -79,10 +77,16 @@ private fun Bars() {
     var barText = "Избранное"
     var navIcon: @Composable() (() -> Unit)? = null
     var navActions: @Composable RowScope.() -> Unit = {}
+
+    val checkedState = remember { mutableStateOf(false) }
+
     if (existSelected!!) {
-        barText =""
-        navIcon = { TopBarIcon() }
-        navActions = {TopBarActions()}
+        barText = ""
+        navIcon = { TopBarIcon(clickAction = {
+            viewModel.changeAll(false)
+            checkedState.value = false
+        }) }
+        navActions = { TopBarActions() }
     }
 
     Scaffold(
@@ -104,7 +108,6 @@ private fun Bars() {
         backgroundColor = Color(0x73000000)
     ) {
 
-        val checkedState = remember { mutableStateOf(false) }
         val scrollState = rememberScrollState()
         Column(Modifier.verticalScroll(state = scrollState, enabled = true)) {
             checkboxItem(
@@ -116,7 +119,7 @@ private fun Bars() {
             )
             if (favData != null) {
                 for (item in favData!!) {
-                    if(item.id!=666999){
+                    if (item.id != 666999) {
                         FavItem(
                             fontSize = fontSize!!,
                             header = item.header!!,
@@ -136,9 +139,8 @@ private fun Bars() {
 }
 
 @Composable
-private fun TopBarIcon() {
-    //val viewModel: LibraryViewModel = viewModel()
-    IconButton(onClick = { /*viewModel.goBackInMenu() */}) {
+private fun TopBarIcon(clickAction: () -> Unit) {
+    IconButton(onClick = clickAction) {
         Icon(
             painter = painterResource(id = R.drawable.ic_library_back_arrow_2),
             tint = colorResource(id = R.color.library_top_bar_fav),
@@ -162,15 +164,15 @@ private fun TopBarActions() {
 @Composable
 private fun checkboxItem(
     state: Boolean,
-    checkAction : (Boolean) -> Unit
-){
+    checkAction: (Boolean) -> Unit
+) {
     Box(
         Modifier
             .aspectRatio(10f, true)
-    ){
+    ) {
         Row(
             verticalAlignment = Alignment.CenterVertically
-        ){
+        ) {
             Box(
                 Modifier
                     .fillMaxSize()
@@ -206,7 +208,7 @@ private fun FavItem(
     imgId: Int,
     clickAction: () -> Unit,
     state: Boolean,
-    checkAction : (Boolean) -> Unit
+    checkAction: (Boolean) -> Unit
 ) {
 
     Row(
