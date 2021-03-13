@@ -62,5 +62,9 @@
 
     <color name="fav_time_text">#DADADA</color>
     <color name="fav_inter_text">#BDBDBD</color>
+    
+    <color name="fav_checkbox_border">#979797</color>
+    <color name="fav_checkbox_selected">#EFCD93</color>
+    <color name="fav_checkbox_checkmark">#000000</color>
 
 </resources>

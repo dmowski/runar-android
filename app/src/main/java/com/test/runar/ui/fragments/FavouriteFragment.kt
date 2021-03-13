@@ -11,8 +11,11 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalDensity
@@ -136,6 +139,7 @@ private fun FavItem(
     imgId: Int,
     clickAction: () -> Unit
 ) {
+    val checkedState = remember { mutableStateOf(false) }
     Row(
         Modifier
             .aspectRatio(4.6f, true)
@@ -201,12 +205,17 @@ private fun FavItem(
                         .weight(15f)
                 )
                 //end img
-                Image(
-                    painter = painterResource(id = R.drawable.ic_right),
-                    contentDescription = null,
+                Checkbox(
+                    checked = checkedState.value,
+                    onCheckedChange = {checkedState.value = it},
                     modifier = Modifier
-                        .background(Color(0x00000000))
-                        .weight(18f)
+                        .weight(18f),
+                    colors = CheckboxDefaults.colors(
+                        uncheckedColor = colorResource(id = R.color.fav_checkbox_border),
+                        checkedColor = colorResource(id = R.color.fav_checkbox_selected),
+                        checkmarkColor = colorResource(id = R.color.fav_checkbox_checkmark)
+                    )
+
                 )
                 //end space
                 Box(
