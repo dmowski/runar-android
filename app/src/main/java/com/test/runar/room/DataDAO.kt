@@ -19,4 +19,7 @@ interface DataDAO {
 
     @Insert
     suspend fun addUserLayout(data: UserLayoutModel)
+
+    @Query("SELECT * FROM user_layouts")
+    suspend fun getUserLayouts(): List<UserLayoutModel>
 }
