@@ -44,6 +44,23 @@ class FavouriteViewModel: ViewModel() {
         favData.postValue(correctData)
     }
 
+    fun removeSelectedLayouts(){
+        val idsList = mutableListOf<Int>()
+        for(item in favData.value!!){
+            if(item.selected!=null){
+                if(item.selected!!){
+                    idsList.add(item.id!!)
+                }
+            }
+        }
+        RunarLogger.logDebug(idsList.size.toString())
+        CoroutineScope(Dispatchers.IO).launch {
+            DatabaseRepository.deleteUserLayoutsByIds(idsList)
+            favList = DatabaseRepository.getUserLayouts()
+            getCorrectUserData()
+        }
+    }
+
     /*хз как иначе заставить компоуз обновить данные, пока решение добавлять и удалять странный объект в список каждый раз, лол*/
     fun changeSelection(id: Int){
         val newData = mutableListOf<FavUserLayoutModel>()
