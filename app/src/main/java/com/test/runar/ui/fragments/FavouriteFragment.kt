@@ -12,13 +12,12 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -27,10 +26,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.test.runar.R
-import com.test.runar.RunarLogger
 import com.test.runar.presentation.viewmodel.FavouriteViewModel
-import com.test.runar.presentation.viewmodel.LibraryViewModel
-import dev.chrisbanes.accompanist.coil.CoilImage
+import com.test.runar.ui.dialogs.SavedLayoutsDialog
 
 class FavouriteFragment : Fragment() {
     val viewModel: FavouriteViewModel by viewModels()
@@ -39,7 +36,6 @@ class FavouriteFragment : Fragment() {
         viewModel.getUserLayoutsFromDB()
         super.onCreate(savedInstanceState)
     }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -56,7 +52,7 @@ class FavouriteFragment : Fragment() {
         view.setOnKeyListener { _, keyCode, event ->
             if (event.action == KeyEvent.ACTION_DOWN) {
                 if (keyCode == KeyEvent.KEYCODE_BACK) {
-                    //viewModel.goBackInMenu()
+                    //on future
                 }
             }
             true
@@ -86,7 +82,12 @@ private fun Bars() {
             viewModel.changeAll(false)
             checkedState.value = false
         }) }
-        navActions = { TopBarActions() }
+        navActions = { TopBarActions(fontSize!!,
+            clickAction = {
+                viewModel.removeSelectedLayouts()
+                viewModel.changeAll(false)
+                checkedState.value = false
+            }) }
     }
 
     Scaffold(
@@ -150,9 +151,11 @@ private fun TopBarIcon(clickAction: () -> Unit) {
 }
 
 @Composable
-private fun TopBarActions() {
-    val viewModel: FavouriteViewModel = viewModel()
-    IconButton(onClick = { viewModel.removeSelectedLayouts() }) {
+private fun TopBarActions(fontSize: Float,clickAction: () -> Unit) {
+    val context = LocalContext.current
+    IconButton(onClick = {
+        SavedLayoutsDialog(context,fontSize,clickAction).showDialog()
+    }) {
         Icon(
             painter = painterResource(id = R.drawable.ic_delete),
             tint = colorResource(id = R.color.fav_top_bar_delete),

@@ -20,7 +20,6 @@ class FavouriteViewModel: ViewModel() {
     var favData = MutableLiveData<List<FavUserLayoutModel>>()
     var haveSelectedItem = MutableLiveData(false)
 
-
     fun getUserLayoutsFromDB() {
         CoroutineScope(Dispatchers.IO).launch {
             favList = DatabaseRepository.getUserLayouts()

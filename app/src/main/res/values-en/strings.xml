@@ -40,4 +40,6 @@
     <string name="text_calculation_helper">The fame and popularity of this divination </string>
 
     <string name="library_top_bar_header">Library</string>
+
+    <string name="fav_dialog_text">Хотите удалить избранные расклады?</string>
 </resources>
