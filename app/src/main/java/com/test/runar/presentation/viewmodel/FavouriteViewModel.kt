@@ -18,6 +18,7 @@ class FavouriteViewModel: ViewModel() {
     val fontSize: LiveData<Float> = MutableLiveData(SharedDataRepository.fontSize)
     var favList: List<UserLayoutModel> = emptyList()
     var favData = MutableLiveData<List<FavUserLayoutModel>>()
+    var haveSelectedItem = MutableLiveData(false)
 
 
     fun getUserLayoutsFromDB() {
@@ -60,6 +61,11 @@ class FavouriteViewModel: ViewModel() {
             }
         }
         if(shitExist) newData.add(FavUserLayoutModel(null,null,null,666999,null))
+        var selectedExist = false
+        for(item in newData){
+            if(item.selected==true) selectedExist = true
+        }
+        haveSelectedItem.postValue(selectedExist)
         favData.postValue(newData)
     }
 
@@ -77,6 +83,11 @@ class FavouriteViewModel: ViewModel() {
             }
         }
         if(shitExist) newData.add(FavUserLayoutModel(null,null,null,666999,null))
+        var selectedExist = false
+        for(item in newData){
+            if(item.selected==true) selectedExist = true
+        }
+        haveSelectedItem.postValue(selectedExist)
         favData.postValue(newData)
     }
 
