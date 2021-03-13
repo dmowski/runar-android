@@ -91,7 +91,8 @@ class InterpretationViewModel(application: Application) : AndroidViewModel(appli
                     userLayout[3],
                     userLayout[4],
                     userLayout[5],
-                    userLayout[6]
+                    userLayout[6],
+                    currentInterpretation.value
             )
             DatabaseRepository.addUserLayout(userLayout)
         }
