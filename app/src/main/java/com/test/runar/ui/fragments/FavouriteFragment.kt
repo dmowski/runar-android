@@ -138,79 +138,90 @@ private fun FavItem(
 ) {
     Row(
         Modifier
-            .aspectRatio(3.8f, true)
+            .aspectRatio(4.6f, true)
             .clickable(onClick = clickAction)
     ) {
+        //start space
         Box(
             Modifier
                 .fillMaxSize()
                 .weight(16f)
         )
+        //data space
         Column(
             Modifier
                 .fillMaxSize()
                 .weight(398f)
         ) {
+            //top space
             Box(
                 Modifier
                     .fillMaxSize()
-                    .weight(20f)
+                    .weight(10f)
             )
+            //data
             Row(
                 Modifier
                     .fillMaxSize()
-                    .weight(62f), verticalAlignment = Alignment.CenterVertically
+                    .weight(66f), verticalAlignment = Alignment.CenterVertically
             ) {
+                //first img
                 CoilImage(
-                    data = R.drawable.test_rune,
+                    data = R.drawable.fav_test_img,
                     contentDescription = null,
                     modifier = Modifier
                         .background(Color(0x00000000))
                         .padding(top = 5.dp, bottom = 5.dp)
                 )
+                //space between first img and text
                 Column(
                     Modifier
                         .fillMaxSize()
-                        .weight(277f)
+                        .weight(268f)
                         .padding(start = 15.dp)
                 ) {
                     Text(
                         text = header,
-                        color = colorResource(id = R.color.library_item_header),
+                        color = colorResource(id = R.color.fav_time_text),
                         fontFamily = FontFamily(Font(R.font.roboto_regular)),
                         style = TextStyle(fontSize = with(LocalDensity.current) { ((fontSize * 0.8).toFloat()).toSp() }),
-                        modifier = Modifier.padding(bottom = 2.dp)
+                        modifier = Modifier.padding(bottom = 4.dp)
                     )
                     Text(
                         text = text,
-                        color = colorResource(id = R.color.library_item_text),
-                        fontFamily = FontFamily(Font(R.font.roboto_regular)),
+                        color = colorResource(id = R.color.fav_inter_text),
+                        fontFamily = FontFamily(Font(R.font.roboto_light)),
                         style = TextStyle(fontSize = with(LocalDensity.current) { ((fontSize * 0.8).toFloat()).toSp() })
                     )
                 }
+                //space between text and end img
                 Box(
                     Modifier
                         .fillMaxSize()
-                        .weight(17f)
+                        .weight(15f)
                 )
+                //end img
                 Image(
                     painter = painterResource(id = R.drawable.ic_right),
                     contentDescription = null,
                     modifier = Modifier
                         .background(Color(0x00000000))
-                        .weight(10f)
+                        .weight(18f)
                 )
+                //end space
                 Box(
                     Modifier
                         .fillMaxSize()
-                        .weight(16f)
+                        .weight(22f)
                 )
             }
+            //bottom space
             Box(
                 Modifier
                     .fillMaxSize()
-                    .weight(20f)
+                    .weight(10f)
             )
+            //bottom divider
             Image(
                 painter = painterResource(id = R.drawable.ic_divider),
                 contentDescription = null
