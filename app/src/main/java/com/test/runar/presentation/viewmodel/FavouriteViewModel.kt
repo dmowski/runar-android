@@ -33,12 +33,25 @@ class FavouriteViewModel: ViewModel() {
         for(item in favList){
             val correctItem = FavUserLayoutModel(
                 header = item.saveDate.toString(),
-                content = item.interpretation,
+                content = textCorrection(item.interpretation),
                 imgId = null,
                 id = item.id
             )
             correctData.add(correctItem)
         }
         _favData.postValue(correctData)
+    }
+
+    private fun textCorrection(text: String?): String{
+        var newText =""
+        if(text!=null){
+            newText = text
+                .replace("<bf>","")
+                .replace("</bf>","")
+        }
+        else newText ="WTF"
+        newText = newText.substring(0,60)
+        newText+="..."
+        return newText
     }
 }
