@@ -59,4 +59,8 @@ object DatabaseRepository {
     suspend fun getUserLayouts(): List<UserLayoutModel>{
         return dataDao.getUserLayouts()
     }
+
+    suspend fun deleteUserLayoutsByIds(ids: List<Int>){
+        dataDao.removeUserLayoutsByIds(ids)
+    }
 }

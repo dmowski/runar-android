@@ -72,32 +72,33 @@ private fun Bars() {
     //val header by viewModel.lastMenuHeader.observeAsState()
     val favData by viewModel.favData.observeAsState()
     val checkboxMap = mutableMapOf<Int,Boolean>()
-    RunarLogger.logDebug("triggered")
-
+    val existSelected by viewModel.haveSelectedItem.observeAsState()
     var barColor = colorResource(id = R.color.library_top_bar_header)
     var barFont = FontFamily(Font(R.font.roboto_medium))
     var barFontSize = with(LocalDensity.current) { ((fontSize!! * 1.35).toFloat()).toSp() }
+    var barText = "Избранное"
     var navIcon: @Composable() (() -> Unit)? = null
-
-    /*if (header != stringResource(id = R.string.library_top_bar_header)) {
-        barColor = colorResource(id = R.color.library_top_bar_header_2)
-        barFont = FontFamily(Font(R.font.roboto_medium))
-        barFontSize = with(LocalDensity.current) { fontSize!!.toSp() }
+    var navActions: @Composable RowScope.() -> Unit = {}
+    if (existSelected!!) {
+        barText =""
         navIcon = { TopBarIcon() }
-    }*/
+        navActions = {TopBarActions()}
+    }
+
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {
                     Text(
-                        text = "Избранное",
+                        text = barText,
                         color = barColor,
                         fontFamily = barFont,
                         style = TextStyle(fontSize = barFontSize)
                     )
                 },
                 backgroundColor = colorResource(id = R.color.library_top_bar),
-                navigationIcon = navIcon
+                navigationIcon = navIcon,
+                actions = navActions
             )
         },
         backgroundColor = Color(0x73000000)
@@ -136,12 +137,24 @@ private fun Bars() {
 
 @Composable
 private fun TopBarIcon() {
-    val viewModel: LibraryViewModel = viewModel()
-    IconButton(onClick = { viewModel.goBackInMenu() }) {
+    //val viewModel: LibraryViewModel = viewModel()
+    IconButton(onClick = { /*viewModel.goBackInMenu() */}) {
         Icon(
             painter = painterResource(id = R.drawable.ic_library_back_arrow_2),
             tint = colorResource(id = R.color.library_top_bar_fav),
             contentDescription = "arrow"
+        )
+    }
+}
+
+@Composable
+private fun TopBarActions() {
+    //val viewModel: LibraryViewModel = viewModel()
+    IconButton(onClick = { /*viewModel.goBackInMenu() */ }) {
+        Icon(
+            painter = painterResource(id = R.drawable.ic_delete),
+            tint = colorResource(id = R.color.fav_top_bar_delete),
+            contentDescription = "trash"
         )
     }
 }

@@ -66,5 +66,6 @@
     <color name="fav_checkbox_border">#979797</color>
     <color name="fav_checkbox_selected">#EFCD93</color>
     <color name="fav_checkbox_checkmark">#000000</color>
+    <color name="fav_top_bar_delete">#DADADA</color>
 
 </resources>
