@@ -117,7 +117,15 @@ class FavouriteViewModel: ViewModel() {
                 .replace("<br>"," ")
         }
         else newText ="WTF"
-        newText = newText.substring(0,52)
+        val maxStrSize = 31
+        var curInd =newText.indexOf(" ")
+        var prevInd =newText.indexOf(" ")
+        while(curInd<maxStrSize&&curInd!=-1){
+            prevInd = curInd
+            curInd = newText.indexOf(" ",prevInd+1)
+        }
+        RunarLogger.logDebug("last: $prevInd")
+        newText = newText.substring(0,30+prevInd)
         newText+="..."
         return newText
     }
