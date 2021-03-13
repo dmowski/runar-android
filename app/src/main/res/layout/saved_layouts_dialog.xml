@@ -40,7 +40,7 @@
                 android:id="@+id/dialog_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/description_popup_text"
+                android:text="@string/fav_dialog_text"
                 android:textColor="@color/description_popup_text_color"
                 android:fontFamily="@font/roboto_medium"
                 app:layout_constraintTop_toTopOf="parent"
