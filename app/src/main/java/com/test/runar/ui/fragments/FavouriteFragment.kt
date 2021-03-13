@@ -8,11 +8,8 @@ import android.view.ViewGroup
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
@@ -30,6 +27,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.test.runar.R
+import com.test.runar.RunarLogger
 import com.test.runar.presentation.viewmodel.FavouriteViewModel
 import com.test.runar.presentation.viewmodel.LibraryViewModel
 import dev.chrisbanes.accompanist.coil.CoilImage
@@ -73,6 +71,8 @@ private fun Bars() {
     val fontSize by viewModel.fontSize.observeAsState()
     //val header by viewModel.lastMenuHeader.observeAsState()
     val favData by viewModel.favData.observeAsState()
+    val checkboxMap = mutableMapOf<Int,Boolean>()
+    RunarLogger.logDebug("triggered")
 
     var barColor = colorResource(id = R.color.library_top_bar_header)
     var barFont = FontFamily(Font(R.font.roboto_medium))
@@ -102,16 +102,31 @@ private fun Bars() {
         },
         backgroundColor = Color(0x73000000)
     ) {
+
+        val checkedState = remember { mutableStateOf(false) }
         val scrollState = rememberScrollState()
         Column(Modifier.verticalScroll(state = scrollState, enabled = true)) {
+            checkboxItem(
+                state = checkedState.value,
+                checkAction = {
+                    checkedState.value = it
+                    viewModel.changeAll(it)
+                }
+            )
             if (favData != null) {
                 for (item in favData!!) {
-                    FavItem(
-                        fontSize = fontSize!!,
-                        header = item.header!!,
-                        text = item.content!!,
-                        imgId = 12,
-                        clickAction = { })
+                    if(item.id!=666999){
+                        FavItem(
+                            fontSize = fontSize!!,
+                            header = item.header!!,
+                            text = item.content!!,
+                            imgId = 12,
+                            clickAction = {},
+                            state = item.selected!!,
+                            checkAction = {
+                                viewModel.changeSelection(item.id!!)
+                            })
+                    }
                 }
             }
             Box(modifier = Modifier.aspectRatio(15f, true))
@@ -132,14 +147,55 @@ private fun TopBarIcon() {
 }
 
 @Composable
+private fun checkboxItem(
+    state: Boolean,
+    checkAction : (Boolean) -> Unit
+){
+    Box(
+        Modifier
+            .aspectRatio(10f, true)
+    ){
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ){
+            Box(
+                Modifier
+                    .fillMaxSize()
+                    .weight(355f)
+            )
+            Checkbox(
+                checked = state,
+                onCheckedChange = checkAction,
+                modifier = Modifier
+                    .weight(18f),
+                colors = CheckboxDefaults.colors(
+                    uncheckedColor = colorResource(id = R.color.fav_checkbox_border),
+                    checkedColor = colorResource(id = R.color.fav_checkbox_selected),
+                    checkmarkColor = colorResource(id = R.color.fav_checkbox_checkmark)
+                )
+
+            )
+            //end space
+            Box(
+                Modifier
+                    .fillMaxSize()
+                    .weight(22f)
+            )
+        }
+    }
+}
+
+@Composable
 private fun FavItem(
     fontSize: Float,
     header: String,
     text: String,
     imgId: Int,
-    clickAction: () -> Unit
+    clickAction: () -> Unit,
+    state: Boolean,
+    checkAction : (Boolean) -> Unit
 ) {
-    val checkedState = remember { mutableStateOf(false) }
+
     Row(
         Modifier
             .aspectRatio(4.6f, true)
@@ -170,8 +226,8 @@ private fun FavItem(
                     .weight(66f), verticalAlignment = Alignment.CenterVertically
             ) {
                 //first img
-                CoilImage(
-                    data = R.drawable.fav_test_img,
+                Image(
+                    painter = painterResource(id = R.drawable.fav_test_img),
                     contentDescription = null,
                     modifier = Modifier
                         .background(Color(0x00000000))
@@ -206,8 +262,8 @@ private fun FavItem(
                 )
                 //end img
                 Checkbox(
-                    checked = checkedState.value,
-                    onCheckedChange = {checkedState.value = it},
+                    checked = state,
+                    onCheckedChange = checkAction,
                     modifier = Modifier
                         .weight(18f),
                     colors = CheckboxDefaults.colors(

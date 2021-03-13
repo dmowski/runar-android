@@ -3,6 +3,7 @@ package com.test.runar.presentation.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.test.runar.RunarLogger
 import com.test.runar.model.FavUserLayoutModel
 import com.test.runar.model.UserLayoutModel
 import com.test.runar.repository.DatabaseRepository
@@ -16,9 +17,7 @@ import java.util.*
 class FavouriteViewModel: ViewModel() {
     val fontSize: LiveData<Float> = MutableLiveData(SharedDataRepository.fontSize)
     var favList: List<UserLayoutModel> = emptyList()
-    private var _favData = MutableLiveData<List<FavUserLayoutModel>>()
-
-    val favData: LiveData<List<FavUserLayoutModel>> = _favData
+    var favData = MutableLiveData<List<FavUserLayoutModel>>()
 
 
     fun getUserLayoutsFromDB() {
@@ -29,16 +28,56 @@ class FavouriteViewModel: ViewModel() {
     }
     private fun getCorrectUserData(){
         val correctData = mutableListOf<FavUserLayoutModel>()
+        val checkboxMap = mutableMapOf<Int,Boolean>()
         for(item in favList){
             val correctItem = FavUserLayoutModel(
                 header = dateCorrection(item.saveDate),
                 content = textCorrection(item.interpretation),
                 imgId = null,
-                id = item.id
+                id = item.id,
+                selected = false
             )
             correctData.add(correctItem)
+            checkboxMap[item.id!!] = true
         }
-        _favData.postValue(correctData)
+        favData.postValue(correctData)
+    }
+
+    /*хз как иначе заставить компоуз обновить данные, пока решение добавлять и удалять странный объект в список каждый раз, лол*/
+    fun changeSelection(id: Int){
+        val newData = mutableListOf<FavUserLayoutModel>()
+        val oldData = favData.value
+        var shitExist = true
+        if (oldData != null) {
+            for(item in oldData){
+                if(item.id==id){
+                    item.selected=!(item.selected)!!
+                }
+                if(item.id==666999){
+                    shitExist=false
+                }
+                else newData.add(item)
+            }
+        }
+        if(shitExist) newData.add(FavUserLayoutModel(null,null,null,666999,null))
+        favData.postValue(newData)
+    }
+
+    fun changeAll(state: Boolean){
+        val newData = mutableListOf<FavUserLayoutModel>()
+        val oldData = favData.value
+        var shitExist = true
+        if (oldData != null) {
+            for(item in oldData){
+                item.selected=state
+                if(item.id==666999){
+                    shitExist=false
+                }
+                else newData.add(item)
+            }
+        }
+        if(shitExist) newData.add(FavUserLayoutModel(null,null,null,666999,null))
+        favData.postValue(newData)
     }
 
     private fun textCorrection(text: String?): String{
