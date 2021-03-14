@@ -8,16 +8,13 @@ import com.test.runar.extensions.SingleLiveEvent
 import com.test.runar.model.AffimDescriptionModel
 import com.test.runar.model.LayoutDescriptionModel
 import com.test.runar.model.RuneDescriptionModel
-import com.test.runar.model.UserLayoutModel
 import com.test.runar.repository.DatabaseRepository
 import com.test.runar.repository.SharedDataRepository
-import com.test.runar.repository.SharedPreferencesRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 
-class InterpretationViewModel(application: Application) : AndroidViewModel(application) {
-    var preferencesRepository = SharedPreferencesRepository.get()
+class InterpretationFavViewModel(application: Application) : AndroidViewModel(application) {
     val fontSize: LiveData<Float> = MutableLiveData(SharedDataRepository.fontSize)
     var runesData: List<RuneDescriptionModel> = emptyList()
     var affirmData: List<AffimDescriptionModel> = emptyList()
@@ -74,28 +71,6 @@ class InterpretationViewModel(application: Application) : AndroidViewModel(appli
                     getMeaningForRune(userLayout[1]),getMeaningForRune(userLayout[2]),getMeaningForRune(userLayout[3]),getMeaningForRune(userLayout[4]),getMeaningForRune(userLayout[5]),getMeaningForRune(userLayout[6]),getMeaningForRune(userLayout[7]))
         }
         _currentInterpretation.postValue(result)
-    }
-
-    fun saveUserLayout() {
-        val userId = preferencesRepository.userId
-        val layoutId = selectedLayout.value?.layoutId
-        val currentDate = System.currentTimeMillis() / 1000L
-        CoroutineScope(IO).launch {
-            val userLayout = UserLayoutModel(
-                    userId,
-                    currentDate,
-                    layoutId,
-                    userLayout[1],
-                    userLayout[2],
-                    userLayout[3],
-                    userLayout[4],
-                    userLayout[5],
-                    userLayout[6],
-                    userLayout[7],
-                    currentInterpretation.value
-            )
-            DatabaseRepository.addUserLayout(userLayout)
-        }
     }
 
     fun getAuspForCurrentLayout() {

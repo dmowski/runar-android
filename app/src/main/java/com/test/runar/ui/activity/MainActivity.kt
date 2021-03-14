@@ -97,6 +97,7 @@ class MainActivity : AppCompatActivity(), Navigator {
         when (topFragment) {
             is LayoutFragment -> finishAndRemoveTask()
             is LibraryFragment -> RunarLogger.logDebug("todo")
+            is LayoutInterpretationFavFragment -> navigateToFavAndShowBottomNavBar()
             !is LayoutDescriptionFragment -> showDialog()
             else -> { navigateToDefaultAndShowBottomNavBar() }
         }
@@ -146,6 +147,14 @@ class MainActivity : AppCompatActivity(), Navigator {
             .commit()
     }
 
+    override fun navigateToFavInterpretationFragment(layoutId: Int, userLayout: IntArray) {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragmentContainer, LayoutInterpretationFavFragment.newInstance(layoutId, userLayout))
+            .addToBackStack(null)
+            .commit()
+        binding.bottomNavigationBar.isVisible = false
+    }
+
     override fun showDialog() {
         CancelDialog(this,fontSize).showDialog()
     }
@@ -156,6 +165,14 @@ class MainActivity : AppCompatActivity(), Navigator {
 
     override fun navigateToDefaultAndShowBottomNavBar() {
         supportFragmentManager.popBackStack(KEY_TO_LAYOUT_FRAGMENT_BACK, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+        binding.bottomNavigationBar.isVisible = true
+    }
+
+    override fun navigateToFavAndShowBottomNavBar() {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragmentContainer, FavouriteFragment())
+            .addToBackStack(null)
+            .commit()
         binding.bottomNavigationBar.isVisible = true
     }
 
