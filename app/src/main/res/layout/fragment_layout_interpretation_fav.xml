@@ -299,6 +299,39 @@
                     app:layout_constraintTop_toTopOf="parent"
                     android:elevation="3dp"/>
 
+                <ImageView
+                    android:id="@+id/exit_button_main"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:src="@drawable/cross_selector"
+                    app:layout_constraintEnd_toStartOf="@id/icon_end_guideline_main"
+                    app:layout_constraintStart_toEndOf="@id/icon_start_guideline_main"
+                    app:layout_constraintTop_toTopOf="@id/icon_top_guideline_main" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/icon_start_guideline_main"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.86" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/icon_end_guideline_main"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.97" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/icon_top_guideline_main"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintGuide_percent="0.015" />
+
                 <FrameLayout
                     android:id="@+id/divider1"
                     android:layout_width="0dp"
