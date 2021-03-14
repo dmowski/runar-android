@@ -82,7 +82,6 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
         super.onCreate(savedInstanceState)
         layoutId = requireArguments().getInt(KEY_LAYOUT_ID)
         newUserLayout = (requireArguments().getIntArray(KEY_USER_LAYOUT)!!).toCollection(ArrayList())
-        RunarLogger.logDebug(newUserLayout.toString())
         viewModel.setCurrentUserLayout(newUserLayout)
         viewModel.getLayoutDescription(layoutId)
         viewModel.getRuneDataFromDB()

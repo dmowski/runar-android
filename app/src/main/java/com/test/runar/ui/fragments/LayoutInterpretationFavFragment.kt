@@ -78,7 +78,6 @@ class LayoutInterpretationFavFragment : Fragment(R.layout.fragment_layout_interp
         super.onCreate(savedInstanceState)
         layoutId = requireArguments().getInt(KEY_LAYOUT_ID)
         newUserLayout = (requireArguments().getIntArray(KEY_USER_LAYOUT)!!).toCollection(ArrayList())
-        RunarLogger.logDebug(newUserLayout.toString())
         viewModel.setCurrentUserLayout(newUserLayout)
         viewModel.getLayoutDescription(layoutId)
         viewModel.getRuneDataFromDB()
@@ -390,7 +389,6 @@ class LayoutInterpretationFavFragment : Fragment(R.layout.fragment_layout_interp
             }
         }
 
-
         val swipeListener = object : OnSwipeTouchListener(requireContext()) {
             override fun onSwipeRight() {
                 if (currentRunePosition == runesViewList.size - 1) {
@@ -407,6 +405,7 @@ class LayoutInterpretationFavFragment : Fragment(R.layout.fragment_layout_interp
             }
 
         }
+        binding.exitButtonMain.setOnClickListener(this)
         binding.runeDescriptionScroll.setOnTouchListener(swipeListener)
         binding.runeDescriptionBack.setOnTouchListener(swipeListener)
 
@@ -435,6 +434,10 @@ class LayoutInterpretationFavFragment : Fragment(R.layout.fragment_layout_interp
         for (rune in runesViewList) runeIdList.add(rune.id)
         for (runeDot in runesDotsList) runeDotsIdList.add(runeDot.id)
        when (v?.id) {
+           R.id.exit_button_main->{
+               RunarLogger.logDebug("click")
+               navigator?.navigateToFavAndShowBottomNavBar()
+           }
             in runeIdList -> {
                 showDescriptionOfSelectedRune(v)
             }
