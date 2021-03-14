@@ -265,8 +265,7 @@ private fun FavItem(
                     painter = painterResource(id = R.drawable.fav_test_img),
                     contentDescription = null,
                     modifier = Modifier
-                        .background(Color(0x00000000))
-                        .padding(top = 5.dp, bottom = 5.dp)
+                        .background(Color(0x00000000)).weight(50f).fillMaxSize()
                 )
                 //space between first img and text
                 Column(

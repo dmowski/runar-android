@@ -36,7 +36,6 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
         _binding = FragmentLayoutsBinding.bind(view)
 
         setClickListenerOnRuneLayouts()
-        setupArrows()
 
         viewModel.fontSize.observe(viewLifecycleOwner){fontSize->
             val namesFontSize=(fontSize*1.6).toFloat()
@@ -74,37 +73,6 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
                 eightLayout
             )
             listOfView.setOnCLickListenerForAll(this@LayoutFragment)
-        }
-    }
-
-    private fun setupArrows() {
-        val metrics: DisplayMetrics = requireContext().resources.displayMetrics
-        val ratio = metrics.heightPixels.toFloat() / metrics.widthPixels.toFloat()
-
-        if (ratio >= 2.1) {
-            binding.arrowDown.isVisible = false
-        } else {
-            binding.arrowDown.isVisible = true
-
-            binding.arrowDown.setOnClickListener {
-                binding.scrollView.fullScroll(ScrollView.FOCUS_DOWN)
-            }
-
-            binding.scrollView.setOnScrollChangeListener { _, _, scrollY, _, _ ->
-                val isBottomReached = binding.scrollView.children.last().height - binding.scrollView.height - scrollY == 0
-                showUpAndHideDownButtons(isBottomReached)
-            }
-
-            binding.arrowUp.setOnClickListener {
-                binding.scrollView.fullScroll(ScrollView.FOCUS_UP)
-            }
-        }
-    }
-
-    private fun showUpAndHideDownButtons(state: Boolean) {
-        with(binding) {
-            arrowUp.isVisible = state
-            arrowDown.isVisible = !state
         }
     }
 
