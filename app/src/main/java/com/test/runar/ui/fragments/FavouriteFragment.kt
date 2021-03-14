@@ -1,5 +1,6 @@
 package com.test.runar.ui.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.LayoutInflater
@@ -26,16 +27,30 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.test.runar.R
+import com.test.runar.RunarLogger
 import com.test.runar.presentation.viewmodel.FavouriteViewModel
+import com.test.runar.ui.Navigator
 import com.test.runar.ui.dialogs.SavedLayoutsDialog
 
 class FavouriteFragment : Fragment() {
     val viewModel: FavouriteViewModel by viewModels()
+    private var navigator: Navigator? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         viewModel.getUserLayoutsFromDB()
         super.onCreate(savedInstanceState)
     }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        navigator = context as Navigator
+    }
+
+    override fun onDetach() {
+        navigator = null
+        super.onDetach()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -43,7 +58,7 @@ class FavouriteFragment : Fragment() {
     ): View {
         val view = ComposeView(requireContext()).apply {
             setContent {
-                Bars()
+                Bars(navigator)
             }
         }
         view.isFocusableInTouchMode = true
@@ -62,7 +77,7 @@ class FavouriteFragment : Fragment() {
 }
 
 @Composable
-private fun Bars() {
+private fun Bars(navigator: Navigator?) {
     val viewModel: FavouriteViewModel = viewModel()
     val fontSize by viewModel.fontSize.observeAsState()
     val favData by viewModel.favData.observeAsState()
@@ -126,7 +141,9 @@ private fun Bars() {
                             header = item.header!!,
                             text = item.content!!,
                             imgId = 12,
-                            clickAction = {},
+                            clickAction = {
+                                navigator?.navigateToFavInterpretationFragment(layoutId = item.layoutId!!,userLayout = item.userData!!)
+                            },
                             state = item.selected!!,
                             checkAction = {
                                 viewModel.changeSelection(item.id!!)

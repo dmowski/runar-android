@@ -35,7 +35,9 @@ class FavouriteViewModel: ViewModel() {
                 content = textCorrection(item.interpretation),
                 imgId = null,
                 id = item.id,
-                selected = false
+                selected = false,
+                layoutId = item.layoutId,
+                userData = intArrayOf(item.layoutId!!,item.slot1!!,item.slot2!!,item.slot3!!,item.slot4!!,item.slot5!!,item.slot6!!,item.slot7!!)
             )
             correctData.add(correctItem)
             checkboxMap[item.id!!] = true
@@ -76,7 +78,7 @@ class FavouriteViewModel: ViewModel() {
                 else newData.add(item)
             }
         }
-        if(shitExist) newData.add(FavUserLayoutModel(null,null,null,666999,null))
+        if(shitExist) newData.add(FavUserLayoutModel(null,null,null,666999,null,null,null))
         var selectedExist = false
         for(item in newData){
             if(item.selected==true) selectedExist = true
@@ -98,7 +100,7 @@ class FavouriteViewModel: ViewModel() {
                 else newData.add(item)
             }
         }
-        if(shitExist) newData.add(FavUserLayoutModel(null,null,null,666999,null))
+        if(shitExist) newData.add(FavUserLayoutModel(null,null,null,666999,null,null,null))
         var selectedExist = false
         for(item in newData){
             if(item.selected==true) selectedExist = true
@@ -123,7 +125,6 @@ class FavouriteViewModel: ViewModel() {
             prevInd = curInd
             curInd = newText.indexOf(" ",prevInd+1)
         }
-        RunarLogger.logDebug("last: $prevInd")
         newText = newText.substring(0,30+prevInd)
         newText+="..."
         return newText
