@@ -126,14 +126,16 @@ private fun Bars(navigator: Navigator?) {
 
         val scrollState = rememberScrollState()
         Column(Modifier.verticalScroll(state = scrollState, enabled = true)) {
-            checkboxItem(
-                state = checkedState.value,
-                checkAction = {
-                    checkedState.value = it
-                    viewModel.changeAll(it)
-                }
-            )
             if (favData != null) {
+                if(favData!!.isNotEmpty()){
+                    checkboxItem(
+                        state = checkedState.value,
+                        checkAction = {
+                            checkedState.value = it
+                            viewModel.changeAll(it)
+                        }
+                    )
+                }
                 for (item in favData!!) {
                     if (item.id != 666999) {
                         FavItem(
@@ -321,9 +323,8 @@ private fun FavItem(
                     .weight(10f)
             )
             //bottom divider
-            Image(
-                painter = painterResource(id = R.drawable.ic_divider),
-                contentDescription = null
+            Divider(
+                color = Color(0xA6545458)
             )
         }
     }
