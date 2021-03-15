@@ -249,9 +249,8 @@ private fun FirstMenuItem(fontSize: Float, header: String, text: String, imgLink
                     .fillMaxSize()
                     .weight(20f)
             )
-            Image(
-                painter = painterResource(id = R.drawable.ic_divider),
-                contentDescription = null
+            Divider(
+                color = Color(0xA6545458)
             )
         }
     }
@@ -336,9 +335,8 @@ private fun SecondMenuItem(fontSize: Float, header: String,clickAction : () -> U
                         .weight(16f)
                 )
             }
-            Image(
-                painter = painterResource(id = R.drawable.ic_divider),
-                contentDescription = null
+            Divider(
+                color = Color(0xA6545458)
             )
         }
     }
@@ -454,9 +452,8 @@ private fun RuneDescription(fontSize: Float, header: String, text: String, imgLi
                         modifier = Modifier.padding(top = 5.dp)
                     )
                     Box(Modifier.aspectRatio(12f))
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_divider),
-                        contentDescription = null
+                    Divider(
+                        color = Color(0xA6545458)
                     )
                 }
             }
