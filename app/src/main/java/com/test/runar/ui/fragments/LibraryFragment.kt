@@ -401,10 +401,10 @@ private fun RuneDescription(fontSize: Float, header: String, text: String, imgLi
         Box(Modifier.aspectRatio(30f))
         Text(
             text = header,
-            color = colorResource(id = R.color.library_third_id),
+            color = colorResource(id = R.color.lib_run_header),
             fontFamily = FontFamily(Font(R.font.roboto_regular)),
             style = TextStyle(
-                fontSize = with(LocalDensity.current) { ((fontSize * 1.5).toFloat()).toSp() },
+                fontSize = with(LocalDensity.current) { ((fontSize * 1.2).toFloat()).toSp() },
                 textAlign = TextAlign.Center,
             ),
         )

@@ -68,4 +68,6 @@
     <color name="fav_checkbox_checkmark">#000000</color>
     <color name="fav_top_bar_delete">#DADADA</color>
 
+    <color name="lib_run_header">#EFCD93</color>
+
 </resources>
