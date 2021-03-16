@@ -60,8 +60,9 @@
     <color name="library_rune_header">#EFCD93</color>
     <color name="library_rune_text">#DADADA</color>
 
-    <color name="fav_time_text">#DADADA</color>
+    <color name="fav_time_text">#828282</color>
     <color name="fav_inter_text">#BDBDBD</color>
+    <color name="fav_header_text">#D2C4AD</color>
     
     <color name="fav_checkbox_border">#979797</color>
     <color name="fav_checkbox_selected">#EFCD93</color>

@@ -3,6 +3,7 @@ package com.test.runar.presentation.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.test.runar.R
 import com.test.runar.RunarLogger
 import com.test.runar.model.FavUserLayoutModel
 import com.test.runar.model.UserLayoutModel
@@ -31,9 +32,9 @@ class FavouriteViewModel: ViewModel() {
         val checkboxMap = mutableMapOf<Int,Boolean>()
         for(item in favList){
             val correctItem = FavUserLayoutModel(
-                header = dateCorrection(item.saveDate),
+                header = headerSelector(item.layoutId!!),
                 content = textCorrection(item.interpretation),
-                imgId = null,
+                time = dateCorrection(item.saveDate),
                 id = item.id,
                 selected = false,
                 layoutId = item.layoutId,
@@ -118,24 +119,39 @@ class FavouriteViewModel: ViewModel() {
                 .replace("<br>"," ")
         }
         else newText ="WTF"
-        val maxStrSize = 31
+        val maxStrSize = 41
         var curInd =newText.indexOf(" ")
         var prevInd =newText.indexOf(" ")
         while(curInd<maxStrSize&&curInd!=-1){
             prevInd = curInd
             curInd = newText.indexOf(" ",prevInd+1)
         }
-        newText = newText.substring(0,30+prevInd)
+        newText = newText.substring(0,40+prevInd)
         newText+="..."
         return newText
     }
 
     private fun dateCorrection(time: Long?): String{
         if(time!=null){
-            val sdf = SimpleDateFormat("dd.MM.yyyy HH:mm")
+            val sdf = SimpleDateFormat("dd.MM.yyyy   HH:mm")
             val netDate = Date(time*1000)
             return sdf.format(netDate)
         }
         else return "WTF"
+    }
+
+    private fun headerSelector(layoutId: Int): Int{
+        var headerId = R.string.layout1
+        when(layoutId){
+            1-> headerId = R.string.layout1
+            2-> headerId = R.string.layout2
+            3-> headerId = R.string.layout3
+            4-> headerId = R.string.layout4
+            5-> headerId = R.string.layout5
+            6-> headerId = R.string.layout6
+            7-> headerId = R.string.layout7
+            8-> headerId = R.string.layout8
+        }
+        return  headerId
     }
 }
