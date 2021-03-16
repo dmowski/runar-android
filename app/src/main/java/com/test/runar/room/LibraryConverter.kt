@@ -7,7 +7,7 @@ class LibraryConverter {
 
     @TypeConverter
     fun fromChilds(items: List<String>?): String?{
-        return items?.stream()?.collect(Collectors.joining(","))
+        return items?.stream()?.collect(Collectors.joining("|"))
     }
 
     @TypeConverter

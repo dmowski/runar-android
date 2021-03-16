@@ -76,15 +76,19 @@ private fun ItemData() {
     if (menuData?.first != null) {
         for (item in menuData?.first!!) {
             when (item.type) {
-                "root" -> FirstMenuItem(
-                    fontSize = fontSize!!,
-                    header = item.title!!,
-                    text = item.content!!,
-                    imgLink = item.imageUrl!!,
-                    clickAction = {
-                        viewModel.updateMenuData(item.id!!)
-                    }
-                )
+                "root" -> {
+                    /*var txt =" "
+                    if(item.content!=null) txt = item.content!!*/
+                    FirstMenuItem(
+                        fontSize = fontSize!!,
+                        header = item.title!!,
+                        text = item.content!!,
+                        imgLink = item.imageUrl!!,
+                        clickAction = {
+                            viewModel.updateMenuData(item.id!!)
+                        }
+                    )
+                }
                 "subMenu" -> SecondMenuItem(
                     fontSize = fontSize!!,
                     header = item.title!!,
@@ -363,6 +367,7 @@ private fun ThirdMenuItem(fontSize: Float, text: String, title: String) {
                 lineHeight = with(LocalDensity.current) { ((fontSize * 1.4).toFloat()).toSp() }),
             modifier = Modifier.padding(top = 5.dp)
         )
+        Box(Modifier.aspectRatio(20f))
     }
 }
 
