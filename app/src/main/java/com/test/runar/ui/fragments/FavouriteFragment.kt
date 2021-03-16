@@ -19,15 +19,16 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.test.runar.R
-import com.test.runar.RunarLogger
 import com.test.runar.presentation.viewmodel.FavouriteViewModel
 import com.test.runar.ui.Navigator
 import com.test.runar.ui.dialogs.SavedLayoutsDialog
@@ -140,9 +141,9 @@ private fun Bars(navigator: Navigator?) {
                     if (item.id != 666999) {
                         FavItem(
                             fontSize = fontSize!!,
-                            header = item.header!!,
+                            time = item.time!!,
                             text = item.content!!,
-                            imgId = 12,
+                            header = item.header!!,
                             clickAction = {
                                 navigator?.navigateToFavInterpretationFragment(layoutId = item.layoutId!!,userLayout = item.userData!!)
                             },
@@ -225,9 +226,9 @@ private fun checkboxItem(
 @Composable
 private fun FavItem(
     fontSize: Float,
-    header: String,
+    time: String,
     text: String,
-    imgId: Int,
+    header: Int,
     clickAction: () -> Unit,
     state: Boolean,
     checkAction: (Boolean) -> Unit
@@ -235,7 +236,7 @@ private fun FavItem(
 
     Row(
         Modifier
-            .aspectRatio(4.6f, true)
+            .aspectRatio(4.25f, true)
             .clickable(onClick = clickAction)
     ) {
         //start space
@@ -263,26 +264,34 @@ private fun FavItem(
                     .weight(66f), verticalAlignment = Alignment.CenterVertically
             ) {
                 //first img
-                Image(
-                    painter = painterResource(id = R.drawable.fav_test_img),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .background(Color(0x00000000)).weight(50f).fillMaxSize()
-                )
                 //space between first img and text
                 Column(
                     Modifier
                         .fillMaxSize()
-                        .weight(268f)
-                        .padding(start = 15.dp)
+                        .weight(318f)
+                        .padding(end = 5.dp)
                 ) {
-                    Text(
-                        text = header,
-                        color = colorResource(id = R.color.fav_time_text),
-                        fontFamily = FontFamily(Font(R.font.roboto_regular)),
-                        style = TextStyle(fontSize = with(LocalDensity.current) { ((fontSize * 0.8).toFloat()).toSp() }),
-                        modifier = Modifier.padding(bottom = 4.dp)
-                    )
+                    Row(verticalAlignment = Alignment.Bottom){
+                        Text(
+                            text = stringResource(id = header),
+                            color = colorResource(id = R.color.fav_header_text),
+                            fontFamily = FontFamily(Font(R.font.roboto_regular)),
+                            style = TextStyle(fontSize = with(LocalDensity.current) { fontSize.toSp()}),
+                            modifier = Modifier
+                                .padding(bottom = 4.dp)
+                                .weight(10f),
+                        )
+                        Text(
+                            text = time,
+                            color = colorResource(id = R.color.fav_time_text),
+                            fontFamily = FontFamily(Font(R.font.roboto_regular)),
+                            style = TextStyle(fontSize = with(LocalDensity.current) { ((fontSize * 0.7).toFloat()).toSp() }),
+                            modifier = Modifier
+                                .padding(bottom = 4.dp)
+                                .weight(10f),
+                            textAlign = TextAlign.End
+                        )
+                    }
                     Text(
                         text = text,
                         color = colorResource(id = R.color.fav_inter_text),
@@ -320,7 +329,7 @@ private fun FavItem(
             Box(
                 Modifier
                     .fillMaxSize()
-                    .weight(10f)
+                    .weight(16f)
             )
             //bottom divider
             Divider(
