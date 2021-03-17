@@ -181,6 +181,7 @@ class MainActivity : AppCompatActivity(), Navigator {
         when(topFragment){
             is LayoutFragment -> binding.bottomNavigationBar.isVisible = true
             is LibraryFragment -> binding.bottomNavigationBar.isVisible = true
+            is FavouriteFragment -> binding.bottomNavigationBar.isVisible = true
             else-> binding.bottomNavigationBar.isVisible = false
         }
     }
