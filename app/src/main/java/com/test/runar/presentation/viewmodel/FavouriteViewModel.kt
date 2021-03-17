@@ -3,7 +3,6 @@ package com.test.runar.presentation.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.test.runar.R
 import com.test.runar.RunarLogger
 import com.test.runar.model.*
 import com.test.runar.repository.DatabaseRepository
@@ -16,10 +15,10 @@ import java.util.*
 
 class FavouriteViewModel: ViewModel() {
     val fontSize: LiveData<Float> = MutableLiveData(SharedDataRepository.fontSize)
-    var favList: List<UserLayoutModel> = emptyList()
-    var runesData: List<RuneDescriptionModel> = emptyList()
-    var layoutsData: List<LayoutDescriptionModel> = emptyList()
-    var twoRunesInters: List<TwoRunesInterModel> = emptyList()
+    private var favList: List<UserLayoutModel> = emptyList()
+    private var runesData: List<RuneDescriptionModel> = emptyList()
+    private var layoutsData: List<LayoutDescriptionModel> = emptyList()
+    private var twoRunesInters: List<TwoRunesInterModel> = emptyList()
     var favData = MutableLiveData<List<FavUserLayoutModel>>()
     var haveSelectedItem = MutableLiveData(false)
 
@@ -37,7 +36,7 @@ class FavouriteViewModel: ViewModel() {
         val checkboxMap = mutableMapOf<Int,Boolean>()
         for(item in favList){
             val data = intArrayOf(item.layoutId!!,item.slot1!!,item.slot2!!,item.slot3!!,item.slot4!!,item.slot5!!,item.slot6!!,item.slot7!!)
-            var inter = getInterpretation(item.layoutId!!,data = data)
+            val inter = getInterpretation(item.layoutId!!,data = data)
             val correctItem = FavUserLayoutModel(
                 header = getHeader(item.layoutId!!),
                 content = textCorrection(inter),
@@ -119,6 +118,7 @@ class FavouriteViewModel: ViewModel() {
 
     private fun textCorrection(text: String?): String{
         var newText =""
+        var complete = false
         if(text!=null){
             newText = text
                 .replace("<bf>","")
@@ -126,17 +126,20 @@ class FavouriteViewModel: ViewModel() {
                 .replace("<br>"," ")
         }
         else newText ="WTF"
-        val maxStrSize = 41
+        val maxStrSize = 37
         var curInd =newText.indexOf(" ")
         var prevInd =newText.indexOf(" ")
         while(curInd<maxStrSize&&curInd!=-1){
             prevInd = curInd
             curInd = newText.indexOf(" ",prevInd+1)
         }
-        var end = 40+prevInd
-        if(end>newText.length) end = newText.length
+        var end = 36+prevInd
+        if(end>newText.length) {
+            if(end>newText.length+3) complete = true
+            end = newText.length
+        }
         newText = newText.substring(0,end)
-        newText+="..."
+        if(!complete) newText+="..."
         return newText
     }
 
@@ -157,7 +160,7 @@ class FavouriteViewModel: ViewModel() {
         return header
     }
 
-    fun getInterpretation(layoutId: Int,data: IntArray): String {
+    private fun getInterpretation(layoutId: Int, data: IntArray): String {
         var result= ""
         when (layoutId) {
             1 -> result = getFullDescriptionForRune(data[1]) + "."
@@ -205,7 +208,9 @@ class FavouriteViewModel: ViewModel() {
         var res =" "
         for(inter in twoRunesInters){
             if(inter.id==id) res = inter.text!!
+            RunarLogger.logDebug(inter.text.toString())
         }
+        RunarLogger.logDebug(id.toString())
         return res
     }
 

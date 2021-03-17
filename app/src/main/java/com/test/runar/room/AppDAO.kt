@@ -26,7 +26,7 @@ interface AppDAO {
     @Query("SELECT text FROM two_runes WHERE id = :id")
     suspend fun getTwoRunesInter(id: Int?) : String
 
-    @Query("SELECT text FROM two_runes")
+    @Query("SELECT * FROM two_runes")
     fun getAllTwoRunesInter() : List<TwoRunesInterModel>
 
     @Query("SELECT * FROM library")
