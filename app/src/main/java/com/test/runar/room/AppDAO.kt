@@ -11,17 +11,23 @@ interface AppDAO {
     @Query("SELECT * FROM layouts WHERE layout_id = :id")
     suspend fun getLayoutDetails(id: Int): LayoutDescriptionModel
 
+    @Query("SELECT * FROM layouts")
+    fun getAllLayoutDetails(): List<LayoutDescriptionModel>
+
     @Query("SELECT layout_name FROM layouts WHERE layout_id = :id")
     suspend fun getLayoutName(id: Int?): String
 
     @Query("SELECT * FROM runes")
-    suspend fun getRunesDetails(): List<RuneDescriptionModel>
+    fun getRunesDetails(): List<RuneDescriptionModel>
 
     @Query("SELECT * FROM affirmations")
     suspend fun getAffirmations(): List<AffimDescriptionModel>
 
     @Query("SELECT text FROM two_runes WHERE id = :id")
     suspend fun getTwoRunesInter(id: Int?) : String
+
+    @Query("SELECT text FROM two_runes")
+    fun getAllTwoRunesInter() : List<TwoRunesInterModel>
 
     @Query("SELECT * FROM library")
     fun getLibraryItems(): List<LibraryItemsModel>

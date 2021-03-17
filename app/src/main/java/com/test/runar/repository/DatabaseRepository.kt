@@ -21,11 +21,15 @@ object DatabaseRepository {
         return appDao.getLayoutDetails(id)
     }
 
+    fun getAllLayouts(): List<LayoutDescriptionModel>{
+        return appDao.getAllLayoutDetails()
+    }
+
     suspend fun getShowStatus(id: Int): Int {
         return dataDao.getShowStatus(id)
     }
 
-    suspend fun getRunesList(): List<RuneDescriptionModel> {
+    fun getRunesList(): List<RuneDescriptionModel> {
         return appDao.getRunesDetails()
     }
 
@@ -35,6 +39,10 @@ object DatabaseRepository {
 
     suspend fun getTwoRunesInterpretation(id: Int): String {
         return appDao.getTwoRunesInter(id)
+    }
+
+    fun getAllTwoRunesInter(): List<TwoRunesInterModel>{
+        return appDao.getAllTwoRunesInter()
     }
 
     suspend fun addUserLayout(data: UserLayoutModel) {

@@ -5,8 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.test.runar.R
 import com.test.runar.RunarLogger
-import com.test.runar.model.FavUserLayoutModel
-import com.test.runar.model.UserLayoutModel
+import com.test.runar.model.*
 import com.test.runar.repository.DatabaseRepository
 import com.test.runar.repository.SharedDataRepository
 import kotlinx.coroutines.CoroutineScope
@@ -18,12 +17,18 @@ import java.util.*
 class FavouriteViewModel: ViewModel() {
     val fontSize: LiveData<Float> = MutableLiveData(SharedDataRepository.fontSize)
     var favList: List<UserLayoutModel> = emptyList()
+    var runesData: List<RuneDescriptionModel> = emptyList()
+    var layoutsData: List<LayoutDescriptionModel> = emptyList()
+    var twoRunesInters: List<TwoRunesInterModel> = emptyList()
     var favData = MutableLiveData<List<FavUserLayoutModel>>()
     var haveSelectedItem = MutableLiveData(false)
 
     fun getUserLayoutsFromDB() {
         CoroutineScope(Dispatchers.IO).launch {
             favList = DatabaseRepository.getUserLayouts().asReversed().take(500)
+            runesData = DatabaseRepository.getRunesList()
+            layoutsData = DatabaseRepository.getAllLayouts()
+            twoRunesInters = DatabaseRepository.getAllTwoRunesInter()
             getCorrectUserData()
         }
     }
@@ -31,14 +36,16 @@ class FavouriteViewModel: ViewModel() {
         val correctData = mutableListOf<FavUserLayoutModel>()
         val checkboxMap = mutableMapOf<Int,Boolean>()
         for(item in favList){
+            val data = intArrayOf(item.layoutId!!,item.slot1!!,item.slot2!!,item.slot3!!,item.slot4!!,item.slot5!!,item.slot6!!,item.slot7!!)
+            var inter = getInterpretation(item.layoutId!!,data = data)
             val correctItem = FavUserLayoutModel(
-                header = headerSelector(item.layoutId!!),
-                content = textCorrection(item.interpretation),
+                header = getHeader(item.layoutId!!),
+                content = textCorrection(inter),
                 time = dateCorrection(item.saveDate),
                 id = item.id,
                 selected = false,
                 layoutId = item.layoutId,
-                userData = intArrayOf(item.layoutId!!,item.slot1!!,item.slot2!!,item.slot3!!,item.slot4!!,item.slot5!!,item.slot6!!,item.slot7!!)
+                userData = data
             )
             correctData.add(correctItem)
             checkboxMap[item.id!!] = true
@@ -126,7 +133,9 @@ class FavouriteViewModel: ViewModel() {
             prevInd = curInd
             curInd = newText.indexOf(" ",prevInd+1)
         }
-        newText = newText.substring(0,40+prevInd)
+        var end = 40+prevInd
+        if(end>newText.length) end = newText.length
+        newText = newText.substring(0,end)
         newText+="..."
         return newText
     }
@@ -140,18 +149,73 @@ class FavouriteViewModel: ViewModel() {
         else return "WTF"
     }
 
-    private fun headerSelector(layoutId: Int): Int{
-        var headerId = R.string.layout1
-        when(layoutId){
-            1-> headerId = R.string.layout1
-            2-> headerId = R.string.layout2
-            3-> headerId = R.string.layout3
-            4-> headerId = R.string.layout4
-            5-> headerId = R.string.layout5
-            6-> headerId = R.string.layout6
-            7-> headerId = R.string.layout7
-            8-> headerId = R.string.layout8
+    private fun getHeader(layoutId: Int): String{
+        var header =""
+        for(item in layoutsData){
+            if(item.layoutId==layoutId) header=item.layoutName!!
         }
-        return  headerId
+        return header
+    }
+
+    fun getInterpretation(layoutId: Int,data: IntArray): String {
+        var result= ""
+        var selectedLayoutInter = getSelectedLayoutInter(layoutId)
+        when (layoutId) {
+            1 -> result = getFullDescriptionForRune(data[1]) + "."
+            2 -> {
+                val index = data[1] * 100 + data[2]
+                val inter = getTwoRunesInter(index)
+                val res = String.format(selectedLayoutInter,inter)
+                result = res
+            }
+            3 -> result = String.format(selectedLayoutInter,
+                getMeaningForRune(data[1]),getMeaningForRune(data[2]),getMeaningForRune(data[3]))
+
+            4 -> result = String.format(selectedLayoutInter,
+                getMeaningForRune(data[1]),getMeaningForRune(data[2]),getMeaningForRune(data[3]),getMeaningForRune(data[4]))
+            5 -> result = String.format(selectedLayoutInter,
+                getMeaningForRune(data[1]),getMeaningForRune(data[2]),getMeaningForRune(data[4]))
+            6 -> result = String.format(selectedLayoutInter,
+                getMeaningForRune(data[1]),getMeaningForRune(data[2]),getMeaningForRune(data[3]),getMeaningForRune(data[5]),getMeaningForRune(data[4]))
+            7 -> result = String.format(selectedLayoutInter,
+                getMeaningForRune(data[2]),getMeaningForRune(data[1]),getMeaningForRune(data[4]),getMeaningForRune(data[3]),getMeaningForRune(data[5]),getMeaningForRune(data[6]))
+            8 -> result = String.format(selectedLayoutInter,
+                getMeaningForRune(data[1]),getMeaningForRune(data[2]),getMeaningForRune(data[3]),getMeaningForRune(data[4]),getMeaningForRune(data[5]),getMeaningForRune(data[6]),getMeaningForRune(data[7]))
+        }
+        return result
+    }
+
+    private fun getFullDescriptionForRune(id: Int): String {
+        for (rune in runesData) {
+            if (rune.runeId == id) {
+                return rune.fullDescription!!
+            }
+        }
+        return ""
+    }
+
+    private fun getSelectedLayoutInter(id: Int):String{
+        var res =""
+        for(item in layoutsData){
+            if(item.layoutId==id) res = item.interpretation!!
+        }
+        return res
+    }
+
+    private fun getTwoRunesInter(id: Int): String{
+        var res =" "
+        for(inter in twoRunesInters){
+            if(inter.id==id) res = inter.text!!
+        }
+        return res
+    }
+
+    private fun getMeaningForRune(id: Int): String {
+        for (rune in runesData) {
+            if (rune.runeId == id) {
+                return rune.meaning!!
+            }
+        }
+        return ""
     }
 }
