@@ -310,7 +310,8 @@ private fun FavItem(
                     checked = state,
                     onCheckedChange = checkAction,
                     modifier = Modifier
-                        .weight(18f),
+                        .weight(18f)
+                        .padding(top = 6.dp),
                     colors = CheckboxDefaults.colors(
                         uncheckedColor = colorResource(id = R.color.fav_checkbox_border),
                         checkedColor = colorResource(id = R.color.fav_checkbox_selected),
