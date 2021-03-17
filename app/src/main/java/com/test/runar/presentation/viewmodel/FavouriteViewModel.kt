@@ -159,27 +159,26 @@ class FavouriteViewModel: ViewModel() {
 
     fun getInterpretation(layoutId: Int,data: IntArray): String {
         var result= ""
-        var selectedLayoutInter = getSelectedLayoutInter(layoutId)
         when (layoutId) {
             1 -> result = getFullDescriptionForRune(data[1]) + "."
             2 -> {
                 val index = data[1] * 100 + data[2]
                 val inter = getTwoRunesInter(index)
-                val res = String.format(selectedLayoutInter,inter)
+                val res = String.format(getSelectedLayoutInter(layoutId),inter)
                 result = res
             }
-            3 -> result = String.format(selectedLayoutInter,
+            3 -> result = String.format(getSelectedLayoutInter(layoutId),
                 getMeaningForRune(data[1]),getMeaningForRune(data[2]),getMeaningForRune(data[3]))
 
-            4 -> result = String.format(selectedLayoutInter,
+            4 -> result = String.format(getSelectedLayoutInter(layoutId),
                 getMeaningForRune(data[1]),getMeaningForRune(data[2]),getMeaningForRune(data[3]),getMeaningForRune(data[4]))
-            5 -> result = String.format(selectedLayoutInter,
+            5 -> result = String.format(getSelectedLayoutInter(layoutId),
                 getMeaningForRune(data[1]),getMeaningForRune(data[2]),getMeaningForRune(data[4]))
-            6 -> result = String.format(selectedLayoutInter,
+            6 -> result = String.format(getSelectedLayoutInter(layoutId),
                 getMeaningForRune(data[1]),getMeaningForRune(data[2]),getMeaningForRune(data[3]),getMeaningForRune(data[5]),getMeaningForRune(data[4]))
-            7 -> result = String.format(selectedLayoutInter,
+            7 -> result = String.format(getSelectedLayoutInter(layoutId),
                 getMeaningForRune(data[2]),getMeaningForRune(data[1]),getMeaningForRune(data[4]),getMeaningForRune(data[3]),getMeaningForRune(data[5]),getMeaningForRune(data[6]))
-            8 -> result = String.format(selectedLayoutInter,
+            8 -> result = String.format(getSelectedLayoutInter(layoutId),
                 getMeaningForRune(data[1]),getMeaningForRune(data[2]),getMeaningForRune(data[3]),getMeaningForRune(data[4]),getMeaningForRune(data[5]),getMeaningForRune(data[6]),getMeaningForRune(data[7]))
         }
         return result
