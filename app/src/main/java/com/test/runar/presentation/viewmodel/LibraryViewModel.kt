@@ -9,9 +9,13 @@ import com.test.runar.repository.DatabaseRepository
 import com.test.runar.repository.SharedDataRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.asCoroutineDispatcher
 import kotlinx.coroutines.launch
+import java.util.concurrent.Executors
 
 class LibraryViewModel : ViewModel() {
+    private val singleThread = Executors.newSingleThreadExecutor().asCoroutineDispatcher()
+
     val fontSize: LiveData<Float> = MutableLiveData(SharedDataRepository.fontSize)
     var dbList: List<LibraryItemsModel> = emptyList()
     var lastMenuHeader = MutableLiveData("Библиотека")
@@ -22,14 +26,16 @@ class LibraryViewModel : ViewModel() {
     var menuNavData = mutableListOf<String>()
 
     fun getRuneDataFromDB() {
-        CoroutineScope(Dispatchers.IO).launch {
+        CoroutineScope(singleThread).launch {
             dbList = DatabaseRepository.getLibraryItemList()
         }
     }
 
     fun firstMenuDataCheck() {
-        if (menuData.value?.first?.size==0) {
-            updateMenuData()
+        CoroutineScope(singleThread).launch {
+            if (menuData.value?.first?.size==0) {
+                updateMenuData()
+            }
         }
     }
 

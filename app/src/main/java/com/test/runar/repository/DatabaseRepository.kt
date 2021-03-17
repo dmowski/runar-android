@@ -45,7 +45,7 @@ object DatabaseRepository {
         return appDao.getLayoutName(id)
     }
 
-    suspend fun getLibraryItemList(): List<LibraryItemsModel> {
+    fun getLibraryItemList(): List<LibraryItemsModel> {
         return appDao.getLibraryItems()
     }
 
