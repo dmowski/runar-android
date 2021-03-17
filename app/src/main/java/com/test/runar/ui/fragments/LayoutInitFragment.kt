@@ -145,6 +145,14 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
         super.onDestroyView()
     }
 
+    private fun itemsChecker(data: IntArray): Int{
+        var res =0
+        for(item in data){
+            if(item!=0) res++
+        }
+        return --res
+    }
+
 
     override fun onClick(v: View?) {
 
@@ -159,7 +167,9 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
                     binding.descriptionButtonFrame.text = getString(R.string.layout_init_button_text2)
                 } else if (!result[0]) {
                     val userLayout = layoutTable.toIntArray()
-                    navigator?.navigateToLayoutProcessingFragment(layoutId, userLayout)
+                    if(userLayout[0]==itemsChecker(userLayout)){
+                        navigator?.navigateToLayoutProcessingFragment(layoutId, userLayout)
+                    }
                 }
 
             }
