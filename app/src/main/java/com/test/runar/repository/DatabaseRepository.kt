@@ -56,7 +56,7 @@ object DatabaseRepository {
         RunarLogger.logDebug("library data inserted")
     }
 
-    suspend fun getUserLayouts(): List<UserLayoutModel>{
+    fun getUserLayouts(): List<UserLayoutModel>{
         return dataDao.getUserLayouts()
     }
 

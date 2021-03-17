@@ -23,7 +23,7 @@ class FavouriteViewModel: ViewModel() {
 
     fun getUserLayoutsFromDB() {
         CoroutineScope(Dispatchers.IO).launch {
-            favList = DatabaseRepository.getUserLayouts()
+            favList = DatabaseRepository.getUserLayouts().asReversed().take(500)
             getCorrectUserData()
         }
     }
