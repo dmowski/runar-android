@@ -228,7 +228,7 @@ private fun FavItem(
     fontSize: Float,
     time: String,
     text: String,
-    header: Int,
+    header: String,
     clickAction: () -> Unit,
     state: Boolean,
     checkAction: (Boolean) -> Unit
@@ -273,7 +273,7 @@ private fun FavItem(
                 ) {
                     Row(verticalAlignment = Alignment.Bottom){
                         Text(
-                            text = stringResource(id = header),
+                            text = header,
                             color = colorResource(id = R.color.fav_header_text),
                             fontFamily = FontFamily(Font(R.font.roboto_regular)),
                             style = TextStyle(fontSize = with(LocalDensity.current) { fontSize.toSp()}),
@@ -288,7 +288,7 @@ private fun FavItem(
                             style = TextStyle(fontSize = with(LocalDensity.current) { ((fontSize * 0.7).toFloat()).toSp() }),
                             modifier = Modifier
                                 .padding(bottom = 4.dp)
-                                .weight(10f),
+                                .weight(7f),
                             textAlign = TextAlign.End
                         )
                     }
