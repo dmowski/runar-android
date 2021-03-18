@@ -1,4 +1,4 @@
-package com.test.runar.CustomView
+package com.test.runar.customView
 
 import android.content.Context
 import android.content.res.TypedArray

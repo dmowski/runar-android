@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.test.runar.CustomView.OffsetImageView
+    <com.test.runar.customView.OffsetImageView
         android:id="@+id/back_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -371,7 +371,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/runes_layout">
 
-                <com.test.runar.CustomView.OffsetImageView
+                <com.test.runar.customView.OffsetImageView
                     android:id="@+id/interpretation_background"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
@@ -507,7 +507,7 @@
 
     </ScrollView>
 
-    <com.test.runar.CustomView.OffsetImageView
+    <com.test.runar.customView.OffsetImageView
         android:id="@+id/load_helper"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

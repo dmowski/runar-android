@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.test.runar.CustomView.OffsetImageView
+    <com.test.runar.customView.OffsetImageView
         android:id="@+id/offsetImageView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

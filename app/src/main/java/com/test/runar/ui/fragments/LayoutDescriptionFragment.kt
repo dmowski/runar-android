@@ -8,7 +8,6 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.test.runar.R
-import com.test.runar.RunarLogger
 import com.test.runar.databinding.FragmentLayoutDescriptionBinding
 import com.test.runar.extensions.setOnCLickListenerForAll
 import com.test.runar.presentation.viewmodel.DescriptionViewModel

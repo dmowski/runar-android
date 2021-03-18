@@ -36,7 +36,7 @@ object BackendRepository {
             withContext(Dispatchers.Main) {
                 if (response.isSuccessful) {
                     RunarLogger.logDebug("Library success: "+ response.message().toString())
-                    val convertedResult = DataClassConverters.LibRespToItems(response.body()!!)
+                    val convertedResult = DataClassConverters.libRespToItems(response.body()!!)
                     RunarLogger.logDebug("Data Loaded and Converted")
                     DatabaseRepository.updateLibraryDB(convertedResult)
                     RunarLogger.logDebug("work with library done")

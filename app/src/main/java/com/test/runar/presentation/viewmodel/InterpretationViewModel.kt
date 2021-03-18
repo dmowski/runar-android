@@ -140,7 +140,7 @@ class InterpretationViewModel(application: Application) : AndroidViewModel(appli
         }
     }
 
-    fun getSumOfAusp(ids: ArrayList<Int>): Int {
+    private fun getSumOfAusp(ids: ArrayList<Int>): Int {
         var sum =0
         for(runePos in ids){
             for (rune in runesData) {

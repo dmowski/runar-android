@@ -1,7 +1,6 @@
 package com.test.runar.ui.fragments
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -24,17 +23,13 @@ import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProviders
-import com.test.runar.CustomClasses.InterTagHandler
-import com.test.runar.CustomClasses.OnSwipeTouchListener
+import com.test.runar.customClasses.InterTagHandler
+import com.test.runar.customClasses.OnSwipeTouchListener
 import com.test.runar.R
-import com.test.runar.RunarLogger
 import com.test.runar.databinding.FragmentLayoutInterpretationBinding
 import com.test.runar.extensions.setOnCLickListenerForAll
 import com.test.runar.presentation.viewmodel.InterpretationViewModel
-import com.test.runar.presentation.viewmodel.LayoutViewModel
 import com.test.runar.ui.Navigator
-import com.test.runar.ui.activity.MainActivity
 
 class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpretation),
     View.OnClickListener {
