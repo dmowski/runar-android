@@ -12,7 +12,6 @@ import com.test.runar.RunarLogger
 import com.test.runar.databinding.ActivityMainBinding
 import com.test.runar.presentation.viewmodel.MainViewModel
 import com.test.runar.receivers.LanguageBroadcastReceiver
-import com.test.runar.repository.BackendRepository
 import com.test.runar.ui.Navigator
 import com.test.runar.ui.dialogs.CancelDialog
 import com.test.runar.ui.fragments.*

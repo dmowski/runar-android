@@ -1,6 +1,5 @@
 package com.test.runar.ui.dialogs
 
-import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.graphics.drawable.ColorDrawable
@@ -11,7 +10,6 @@ import android.view.WindowManager
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.test.runar.R
-import com.test.runar.ui.Navigator
 
 class SavedLayoutsDialog(private val context: Context, private val fontSize:Float, closeFunc : ()->Unit) {
 

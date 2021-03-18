@@ -4,7 +4,7 @@ import com.test.runar.model.LibraryItemsModel
 import com.test.runar.retrofit.LibraryResponse
 
 object DataClassConverters {
-    fun LibRespToItems(respList: List<LibraryResponse>): List<LibraryItemsModel>{
+    fun libRespToItems(respList: List<LibraryResponse>): List<LibraryItemsModel>{
         val resultList: ArrayList<LibraryItemsModel> = arrayListOf()
         for(item in respList){
             val itemModel = LibraryItemsModel(

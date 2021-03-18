@@ -23,8 +23,8 @@ import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.test.runar.CustomClasses.InterTagHandler
-import com.test.runar.CustomClasses.OnSwipeTouchListener
+import com.test.runar.customClasses.InterTagHandler
+import com.test.runar.customClasses.OnSwipeTouchListener
 import com.test.runar.R
 import com.test.runar.RunarLogger
 import com.test.runar.databinding.FragmentLayoutInterpretationFavBinding

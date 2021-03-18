@@ -83,9 +83,9 @@ private fun Bars(navigator: Navigator?) {
     val fontSize by viewModel.fontSize.observeAsState()
     val favData by viewModel.favData.observeAsState()
     val existSelected by viewModel.haveSelectedItem.observeAsState()
-    var barColor = colorResource(id = R.color.library_top_bar_header)
-    var barFont = FontFamily(Font(R.font.roboto_medium))
-    var barFontSize = with(LocalDensity.current) { ((fontSize!! * 1.35).toFloat()).toSp() }
+    val barColor = colorResource(id = R.color.library_top_bar_header)
+    val barFont = FontFamily(Font(R.font.roboto_medium))
+    val barFontSize = with(LocalDensity.current) { ((fontSize!! * 1.35).toFloat()).toSp() }
     var barText = "Избранное"
     var navIcon: @Composable() (() -> Unit)? = null
     var navActions: @Composable RowScope.() -> Unit = {}
