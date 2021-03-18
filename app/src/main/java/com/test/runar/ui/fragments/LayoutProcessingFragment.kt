@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import com.test.runar.R
 import com.test.runar.databinding.FragmentLayoutProcessingBinding
 import com.test.runar.presentation.viewmodel.ProcessingViewModel
+import com.test.runar.service.MediaService
 import com.test.runar.ui.Navigator
 import kotlinx.coroutines.delay
 
@@ -27,6 +28,8 @@ class LayoutProcessingFragment : Fragment(R.layout.fragment_layout_processing) {
 
     private val viewModel: ProcessingViewModel by viewModels()
 
+    private lateinit var mediaService: MediaService
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         navigator = context as Navigator
@@ -36,7 +39,7 @@ class LayoutProcessingFragment : Fragment(R.layout.fragment_layout_processing) {
         super.onCreate(savedInstanceState)
         layoutId = requireArguments().getInt(KEY_ID)
         userLayout = requireArguments().getIntArray(KEY_USER_LAYOUT) ?: intArrayOf()
-
+        mediaService = MediaService()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -49,13 +52,22 @@ class LayoutProcessingFragment : Fragment(R.layout.fragment_layout_processing) {
         viewModel.fontSize.observe(viewLifecycleOwner){textSize->
             val headerTextSize = (textSize*3).toFloat()
             val buttonTextSize = (textSize*1.65).toFloat()
-            val simpleTextSize = (textSize*0.8).toFloat()
-            val advertHeaderTextSize = (textSize*1.2).toFloat()
+            val simpleTextSize = (textSize * 0.8).toFloat()
+            val advertHeaderTextSize = (textSize * 1.2).toFloat()
             binding.descriptionHeaderFrame.setTextSize(TypedValue.COMPLEX_UNIT_PX, headerTextSize)
             binding.descriptionButtonFrame.setTextSize(TypedValue.COMPLEX_UNIT_PX, buttonTextSize)
             binding.textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, simpleTextSize)
-            binding.textView3.setTextSize(TypedValue.COMPLEX_UNIT_PX, simpleTextSize)
-            binding.textView2.setTextSize(TypedValue.COMPLEX_UNIT_PX, advertHeaderTextSize)
+            binding.textSongName.setTextSize(TypedValue.COMPLEX_UNIT_PX, simpleTextSize)
+            binding.textGroupName.setTextSize(TypedValue.COMPLEX_UNIT_PX, advertHeaderTextSize)
+            if (mediaService.list.contains(R.raw.song1)) {
+                binding.textGroupName.text = "Лёд"
+            } else if (mediaService.list.contains(R.raw.song)) {
+                binding.textGroupName.text = "Лёд"
+            } else if (mediaService.list.contains(R.raw.song2)) {
+                binding.textGroupName.text = "Лёд"
+            } else {
+                binding.textGroupName.text = "Лёд"
+            }
         }
 
         super.onViewCreated(view, savedInstanceState)

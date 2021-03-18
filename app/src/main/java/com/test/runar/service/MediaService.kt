@@ -6,6 +6,7 @@ import android.media.MediaPlayer
 import android.os.IBinder
 import android.util.Log
 import com.test.runar.R
+import com.test.runar.databinding.FragmentLayoutProcessingBinding
 import java.security.SecureRandom
 import java.util.*
 
@@ -23,7 +24,6 @@ class MediaService : Service() {
 
     override fun onCreate() {
         super.onCreate()
-
         mediaPlayer = MediaPlayer.create(applicationContext, randomSong)
     }
 
