@@ -208,9 +208,7 @@ class FavouriteViewModel: ViewModel() {
         var res =" "
         for(inter in twoRunesInters){
             if(inter.id==id) res = inter.text!!
-            RunarLogger.logDebug(inter.text.toString())
         }
-        RunarLogger.logDebug(id.toString())
         return res
     }
 
