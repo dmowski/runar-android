@@ -60,5 +60,6 @@
     <color name="settings_about_app">#FFFFFF</color>
     <color name="switch_thumb">#d4cdcd</color>
     <color name="switch_track">#9A9A9A</color>
+    <color name="arrow">#60EBEBF5</color>
 
 </resources>

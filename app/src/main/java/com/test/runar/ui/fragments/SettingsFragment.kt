@@ -1,13 +1,17 @@
 package com.test.runar.ui.fragments
 
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.content.res.Configuration
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.compose.ui.graphics.Color
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.test.runar.R
@@ -51,11 +55,24 @@ class SettingsFragment : Fragment() {
         ratetxt = view.findViewById(R.id.rate_app_txt)
         abouttxt = view.findViewById(R.id.about_txt)
 
+
         var locale: String = Locale.getDefault().language
         if (locale.equals("ru")) {
             radioButtonRus?.isChecked = true
+            radioButtonRus?.buttonTintList = ColorStateList.valueOf(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.settings_radio_button
+                )
+            )
         } else {
             radioButtonEn?.isChecked = true
+            radioButtonEn?.buttonTintList = ColorStateList.valueOf(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.settings_radio_button
+                )
+            )
         }
 
         radioGroup?.setOnCheckedChangeListener { _, checkedId ->
@@ -120,6 +137,18 @@ class SettingsFragment : Fragment() {
         ratetxt?.setText(R.string.rate_app_txt)
         abouttxt?.setText(R.string.about_app_txt)
 
+        radioButtonRus?.buttonTintList = ColorStateList.valueOf(
+            ContextCompat.getColor(
+                requireContext(),
+                R.color.settings_radio_button
+            )
+        )
+        radioButtonEn?.buttonTintList = ColorStateList.valueOf(
+            ContextCompat.getColor(
+                requireContext(),
+                R.color.arrow
+            )
+        )
         radioButtonRus?.isChecked = true
         radioButtonEn?.isChecked = false
     }
@@ -143,6 +172,18 @@ class SettingsFragment : Fragment() {
         musictxt?.setText(R.string.music_txt)
         ratetxt?.setText(R.string.rate_app_txt)
         abouttxt?.setText(R.string.about_app_txt)
+        radioButtonEn?.buttonTintList = ColorStateList.valueOf(
+            ContextCompat.getColor(
+                requireContext(),
+                R.color.settings_radio_button
+            )
+        )
+        radioButtonRus?.buttonTintList = ColorStateList.valueOf(
+            ContextCompat.getColor(
+                requireContext(),
+                R.color.arrow
+            )
+        )
         radioButtonEn?.isChecked = true
         radioButtonRus?.isChecked = false
     }

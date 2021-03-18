@@ -247,15 +247,14 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:textSize="23sp"
-        android:fontFamily="@font/roboto_light"
+        android:fontFamily="@font/roboto_medium"
         android:letterSpacing="@dimen/layout_text_letter_spacing"
         android:text="@string/settings_layout"
         android:textColor="@color/settings_header_name"
         app:layout_constraintDimensionRatio="H,3.5:1"
         app:layout_constraintBottom_toTopOf="@+id/bottom_heading_guideline"
         app:layout_constraintEnd_toStartOf="@+id/right_heading_guideline"
-        app:layout_constraintStart_toEndOf="@+id/left_heading_guideline"
-        app:layout_constraintTop_toBottomOf="@+id/top_heading_guideline" />
+        app:layout_constraintStart_toEndOf="@+id/left_heading_guideline" />
 
     <TextView
         android:id="@+id/setting_language"
@@ -302,19 +301,18 @@
             android:id="@+id/radioButton_rus"
             android:layout_width="wrap_content"
             android:layout_height="20dp"
-            android:buttonTint="@color/settings_radio_button"
-           android:scaleY="0.8"
-            android:scaleX="0.8"/>
+            android:buttonTint="@color/arrow"
+            android:scaleX="0.8"
+            android:scaleY="0.8" />
 
         <RadioButton
             android:id="@+id/radioButton_en"
             android:layout_width="wrap_content"
             android:layout_height="20dp"
             android:layout_marginTop="8dp"
-            android:scaleY="0.8"
+            android:buttonTint="@color/arrow"
             android:scaleX="0.8"
-            android:buttonTint="@color/settings_radio_button"
-             />
+            android:scaleY="0.8" />
     </RadioGroup>
 
     <ImageView

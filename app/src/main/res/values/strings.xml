@@ -60,4 +60,5 @@
     <string name="music_txt">Музыка</string>
     <string name="rate_app_txt">Оценить приложение</string>
     <string name="about_app_txt">О приложении</string>
+    <string name="about_txt">Версия приложения 1.0</string>
 </resources>
