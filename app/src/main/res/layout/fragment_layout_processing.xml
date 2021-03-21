@@ -70,7 +70,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.7" />
+        app:layout_constraintGuide_percent="0.65" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/top_text_guideline"
@@ -148,7 +148,17 @@
         app:layout_constraintEnd_toStartOf="@id/right_guideline"
         app:layout_constraintStart_toEndOf="@id/left_guideline"
         app:layout_constraintTop_toBottomOf="@id/description_header_frame">
-
+        <ImageView
+            android:id="@+id/image_group"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="29dp"
+            android:layout_marginTop="29dp"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="@+id/progress_of_loading_view"
+            app:layout_constraintStart_toStartOf="@+id/progress_of_loading_view"
+            app:layout_constraintTop_toTopOf="@+id/progress_of_loading_view"
+            app:layout_constraintBottom_toBottomOf="@+id/progress_of_loading_view"/>
         <ProgressBar
             android:id="@+id/progress_of_loading_view"
             style="?android:attr/progressBarStyleHorizontal"
@@ -208,8 +218,8 @@
         android:textColor="#DADADA"
         app:layout_constraintBottom_toTopOf="@+id/bottom_under_button_guidline"
         app:layout_constraintTop_toBottomOf="@+id/bottom_text_guideline"
-        app:layout_constraintStart_toEndOf="@+id/icon_description_start_guideline"
-        app:layout_constraintEnd_toStartOf="@+id/icon_description_text_end_guideline"/>
+        app:layout_constraintStart_toEndOf="@+id/left_button_guideline"
+        app:layout_constraintEnd_toStartOf="@+id/right_button_guideline"/>
 
     <TextView
         android:id="@+id/description_button_frame"

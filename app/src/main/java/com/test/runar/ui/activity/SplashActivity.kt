@@ -1,13 +1,19 @@
 package com.test.runar.ui.activity
 
+import android.content.ComponentName
+import android.content.Context
 import android.content.Intent
+import android.content.ServiceConnection
 import android.os.Bundle
+import android.os.IBinder
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import com.test.runar.R
 import com.test.runar.databinding.ActivitySplashBinding
 import com.test.runar.presentation.viewmodel.SplashViewModel
 import com.test.runar.service.MediaService
+import com.test.runar.ui.fragments.LayoutProcessingFragment
 
 class SplashActivity : AppCompatActivity() {
 

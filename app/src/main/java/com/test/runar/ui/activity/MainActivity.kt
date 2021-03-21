@@ -1,15 +1,11 @@
 package com.test.runar.ui.activity
 
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
-import android.content.res.Configuration
+import android.content.*
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.test.runar.R
 import com.test.runar.RunarLogger
@@ -45,9 +41,7 @@ class MainActivity : AppCompatActivity(), Navigator {
         if (savedInstanceState == null) {
             initFragments()
         }
-
         this.registerReceiver(languageReceiver, IntentFilter("android.intent.action.LOCALE_CHANGED"))
-
 
         viewModel.identify()
         supportActionBar?.hide()
@@ -167,16 +161,17 @@ class MainActivity : AppCompatActivity(), Navigator {
         binding.bottomNavigationBar.isVisible = true
     }
 
-    fun forceBarHide(){
+    fun forceBarHide() {
         val topFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainer)
-        when(topFragment){
+        when (topFragment) {
             is LayoutFragment -> binding.bottomNavigationBar.isVisible = true
             is LibraryFragment -> binding.bottomNavigationBar.isVisible = true
-            else-> binding.bottomNavigationBar.isVisible = false
+            else -> binding.bottomNavigationBar.isVisible = false
         }
     }
 
     companion object {
         private const val KEY_TO_LAYOUT_FRAGMENT_BACK = "KEY_LAYOUT_FRAGMENT"
     }
+
 }

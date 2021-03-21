@@ -1,7 +1,11 @@
 package com.test.runar.ui.fragments
 
+import android.content.ComponentName
 import android.content.Context
+import android.content.Intent
+import android.content.ServiceConnection
 import android.os.Bundle
+import android.os.IBinder
 import android.util.TypedValue
 import android.view.View
 import androidx.core.os.bundleOf
@@ -14,6 +18,7 @@ import com.test.runar.presentation.viewmodel.ProcessingViewModel
 import com.test.runar.service.MediaService
 import com.test.runar.ui.Navigator
 import kotlinx.coroutines.delay
+import java.util.*
 
 class LayoutProcessingFragment : Fragment(R.layout.fragment_layout_processing) {
 
@@ -28,8 +33,6 @@ class LayoutProcessingFragment : Fragment(R.layout.fragment_layout_processing) {
 
     private val viewModel: ProcessingViewModel by viewModels()
 
-    private lateinit var mediaService: MediaService
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
         navigator = context as Navigator
@@ -39,7 +42,6 @@ class LayoutProcessingFragment : Fragment(R.layout.fragment_layout_processing) {
         super.onCreate(savedInstanceState)
         layoutId = requireArguments().getInt(KEY_ID)
         userLayout = requireArguments().getIntArray(KEY_USER_LAYOUT) ?: intArrayOf()
-        mediaService = MediaService()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -49,9 +51,9 @@ class LayoutProcessingFragment : Fragment(R.layout.fragment_layout_processing) {
         viewModel.layoutName.observe(viewLifecycleOwner) { name ->
             binding.descriptionHeaderFrame.text = name
         }
-        viewModel.fontSize.observe(viewLifecycleOwner){textSize->
-            val headerTextSize = (textSize*3).toFloat()
-            val buttonTextSize = (textSize*1.65).toFloat()
+        viewModel.fontSize.observe(viewLifecycleOwner) { textSize ->
+            val headerTextSize = (textSize * 3).toFloat()
+            val buttonTextSize = (textSize * 1.65).toFloat()
             val simpleTextSize = (textSize * 0.8).toFloat()
             val advertHeaderTextSize = (textSize * 1.2).toFloat()
             binding.descriptionHeaderFrame.setTextSize(TypedValue.COMPLEX_UNIT_PX, headerTextSize)
@@ -59,17 +61,31 @@ class LayoutProcessingFragment : Fragment(R.layout.fragment_layout_processing) {
             binding.textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, simpleTextSize)
             binding.textSongName.setTextSize(TypedValue.COMPLEX_UNIT_PX, simpleTextSize)
             binding.textGroupName.setTextSize(TypedValue.COMPLEX_UNIT_PX, advertHeaderTextSize)
-            if (mediaService.list.contains(R.raw.song1)) {
-                binding.textGroupName.text = "Лёд"
-            } else if (mediaService.list.contains(R.raw.song)) {
-                binding.textGroupName.text = "Лёд"
-            } else if (mediaService.list.contains(R.raw.song2)) {
-                binding.textGroupName.text = "Лёд"
-            } else {
-                binding.textGroupName.text = "Лёд"
-            }
-        }
+            var mediaService = MediaService()
+            when (mediaService.getRandArrayElement()) {
+                1 -> {
+                    binding.textGroupName.text = "stan"
+                    binding.textSongName.text = "Неведомо, Не страшно - Черная Ладья"
+                    binding.imageGroup.setImageResource(R.drawable.led_image)
+                }
+                2 -> {
+                    binding.textGroupName.text = "monster"
+                        binding.textSongName.text = "Мать моя сказала"
+                        binding.imageGroup.setImageResource(R.drawable.led_image)
+                    }
+                3 -> {
+                        binding.textGroupName.text = "not afraid"
+                        binding.textSongName.text = "Kala"
+                        binding.imageGroup.setImageResource(R.drawable.danheim_image)
+                    }
+                   4-> {
+                        binding.textGroupName.text = "lose yourself"
+                        binding.textSongName.text = "Runar"
+                        binding.imageGroup.setImageResource(R.drawable.danheim_image)
+                    }
+                }
 
+        }
         super.onViewCreated(view, savedInstanceState)
     }
 

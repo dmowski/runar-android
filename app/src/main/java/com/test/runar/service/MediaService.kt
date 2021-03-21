@@ -3,6 +3,7 @@ package com.test.runar.service
 import android.app.Service
 import android.content.Intent
 import android.media.MediaPlayer
+import android.os.Binder
 import android.os.IBinder
 import android.util.Log
 import com.test.runar.R
@@ -12,19 +13,24 @@ import java.util.*
 
 class MediaService : Service() {
 
-    var random = SecureRandom()
-    var list: MutableList<Int> = Arrays.asList(R.raw.song, R.raw.song1, R.raw.song2, R.raw.song3)
-    var randomSong = list.get(random.nextInt(list.size))
+    private val binder = LocalBinder()
+ private var list= arrayOf(
+        R.raw.lose_yourself, R.raw.monster, R.raw.not_afraid, R.raw.stan
+    )
 
+    companion object {
+        private var LOGCAT: String? = null
+    }
     private lateinit var mediaPlayer: MediaPlayer
 
-    override fun onBind(intent: Intent?): IBinder? {
-        TODO("Not yet implemented")
-    }
+    private val rand = Random()
 
+    fun getRandArrayElement(): Int {
+        return list.get(rand.nextInt(list.size))
+    }
     override fun onCreate() {
         super.onCreate()
-        mediaPlayer = MediaPlayer.create(applicationContext, randomSong)
+        mediaPlayer = MediaPlayer.create(applicationContext, getRandArrayElement())
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -51,7 +57,12 @@ class MediaService : Service() {
         mediaPlayer.release()
     }
 
-    companion object {
-        private var LOGCAT: String? = null
+    inner class LocalBinder : Binder() {
+        // Return this instance of LocalService so clients can call public methods
+        fun getService(): MediaService= this@MediaService
+    }
+
+    override fun onBind(intent: Intent): IBinder {
+        return binder
     }
 }
