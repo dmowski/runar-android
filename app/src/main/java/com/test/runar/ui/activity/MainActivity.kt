@@ -80,9 +80,6 @@ class MainActivity : AppCompatActivity(), Navigator {
             }
         }
     }
-
-
-
     override fun onResume() {
         forceBarHide()
         super.onResume()

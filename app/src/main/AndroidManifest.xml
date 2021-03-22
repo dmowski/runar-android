@@ -17,8 +17,7 @@
             android:name=".service.MediaService"
             android:enabled="true"
             android:stopWithTask="true"
-            android:exported="false"
-            android:process=":myBackgroundServiceProcess"/>
+            android:exported="false" />
         <activity
             android:name=".ui.activity.MainActivity"
             android:screenOrientation="portrait" />

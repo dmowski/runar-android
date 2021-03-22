@@ -13,18 +13,22 @@ import com.test.runar.R
 import com.test.runar.databinding.ActivitySplashBinding
 import com.test.runar.presentation.viewmodel.SplashViewModel
 import com.test.runar.service.MediaService
+import com.test.runar.service.RandomValue
 import com.test.runar.ui.fragments.LayoutProcessingFragment
+import kotlin.properties.Delegates
 
-class SplashActivity : AppCompatActivity() {
+class SplashActivity : AppCompatActivity(), RandomValue {
 
     private val viewModel: SplashViewModel by viewModels()
     private lateinit var binding: ActivitySplashBinding
+    private var mediaService  = MediaService()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySplashBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+        var fragment = LayoutProcessingFragment()
 
         playAudio(view)
         setupViewModel()
@@ -50,6 +54,10 @@ class SplashActivity : AppCompatActivity() {
         }
         startActivity(intent)
         finish()
+    }
+
+    override fun randomNumber(): Int {
+       return mediaService.randomNumber()
     }
 }
 

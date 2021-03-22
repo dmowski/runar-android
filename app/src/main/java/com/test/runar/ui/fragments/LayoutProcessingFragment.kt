@@ -1,11 +1,7 @@
 package com.test.runar.ui.fragments
 
-import android.content.ComponentName
 import android.content.Context
-import android.content.Intent
-import android.content.ServiceConnection
 import android.os.Bundle
-import android.os.IBinder
 import android.util.TypedValue
 import android.view.View
 import androidx.core.os.bundleOf
@@ -16,9 +12,10 @@ import com.test.runar.R
 import com.test.runar.databinding.FragmentLayoutProcessingBinding
 import com.test.runar.presentation.viewmodel.ProcessingViewModel
 import com.test.runar.service.MediaService
+import com.test.runar.service.RandomValue
 import com.test.runar.ui.Navigator
 import kotlinx.coroutines.delay
-import java.util.*
+
 
 class LayoutProcessingFragment : Fragment(R.layout.fragment_layout_processing) {
 
@@ -28,14 +25,21 @@ class LayoutProcessingFragment : Fragment(R.layout.fragment_layout_processing) {
     private var navigator: Navigator? = null
 
     private var _binding: FragmentLayoutProcessingBinding? = null
-    private val binding
+    val binding
         get() = _binding!!
 
     private val viewModel: ProcessingViewModel by viewModels()
 
+    private lateinit var randomValue:RandomValue
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         navigator = context as Navigator
+        try {
+            randomValue = context as RandomValue
+        }catch (e:ClassCastException){
+
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,25 +65,24 @@ class LayoutProcessingFragment : Fragment(R.layout.fragment_layout_processing) {
             binding.textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, simpleTextSize)
             binding.textSongName.setTextSize(TypedValue.COMPLEX_UNIT_PX, simpleTextSize)
             binding.textGroupName.setTextSize(TypedValue.COMPLEX_UNIT_PX, advertHeaderTextSize)
-            var mediaService = MediaService()
-            when (mediaService.getRandArrayElement()) {
-                1 -> {
-                    binding.textGroupName.text = "stan"
+            when (randomValue.randomNumber()) {
+                R.raw.led_chernaya_ladya -> {
+                    binding.textGroupName.text = "Лёдъ"
                     binding.textSongName.text = "Неведомо, Не страшно - Черная Ладья"
                     binding.imageGroup.setImageResource(R.drawable.led_image)
                 }
-                2 -> {
-                    binding.textGroupName.text = "monster"
+                R.raw.led_mat_moya_skazala -> {
+                    binding.textGroupName.text = "Лёдъ"
                         binding.textSongName.text = "Мать моя сказала"
                         binding.imageGroup.setImageResource(R.drawable.led_image)
                     }
-                3 -> {
-                        binding.textGroupName.text = "not afraid"
+                R.raw.danheim_kala -> {
+                        binding.textGroupName.text = "Danheim"
                         binding.textSongName.text = "Kala"
                         binding.imageGroup.setImageResource(R.drawable.danheim_image)
                     }
-                   4-> {
-                        binding.textGroupName.text = "lose yourself"
+                   R.raw.danheim_runar-> {
+                        binding.textGroupName.text = "Danheim"
                         binding.textSongName.text = "Runar"
                         binding.imageGroup.setImageResource(R.drawable.danheim_image)
                     }

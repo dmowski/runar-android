@@ -13,24 +13,27 @@ import java.util.*
 
 class MediaService : Service() {
 
-    private val binder = LocalBinder()
- private var list= arrayOf(
-        R.raw.lose_yourself, R.raw.monster, R.raw.not_afraid, R.raw.stan
+    private var list = arrayOf(
+        R.raw.danheim_kala, R.raw.danheim_runar, R.raw.led_chernaya_ladya, R.raw.led_mat_moya_skazala
     )
 
     companion object {
         private var LOGCAT: String? = null
     }
+
     private lateinit var mediaPlayer: MediaPlayer
 
-    private val rand = Random()
+    // Random number generator
+    private val mGenerator = Random()
 
-    fun getRandArrayElement(): Int {
-        return list.get(rand.nextInt(list.size))
+    /** method for clients  */
+    fun randomNumber(): Int {
+        var randomSong= list.get(mGenerator.nextInt(4))
+        return randomSong
     }
     override fun onCreate() {
         super.onCreate()
-        mediaPlayer = MediaPlayer.create(applicationContext, getRandArrayElement())
+        mediaPlayer = MediaPlayer.create(applicationContext, randomNumber())
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -57,12 +60,7 @@ class MediaService : Service() {
         mediaPlayer.release()
     }
 
-    inner class LocalBinder : Binder() {
-        // Return this instance of LocalService so clients can call public methods
-        fun getService(): MediaService= this@MediaService
-    }
-
-    override fun onBind(intent: Intent): IBinder {
-        return binder
+    override fun onBind(intent: Intent?): IBinder? {
+        TODO("Not yet implemented")
     }
 }
