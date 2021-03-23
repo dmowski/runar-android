@@ -15,6 +15,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.test.runar.R
+import com.test.runar.controllers.MusicController
 import com.test.runar.repository.DatabaseRepository
 import com.test.runar.repository.SharedDataRepository
 import com.test.runar.room.AppDB
@@ -84,20 +85,21 @@ class SettingsFragment : Fragment() {
         //      activity?.supportFragmentManager?.beginTransaction()?.detach(this)?.attach(this)?.commit()
         switchmusic?.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
-                activity?.applicationContext?.startService(
+                MusicController.startMusic()
+                /*activity?.applicationContext?.startService(
                     Intent(
                         activity?.applicationContext,
                         MediaService::class.java
                     )
-                )
+                )*/
             } else {
-
-                activity?.applicationContext?.stopService(
+                MusicController.stopMusic()
+                /*activity?.applicationContext?.stopService(
                     Intent(
                         activity?.applicationContext,
                         MediaService::class.java
                     )
-                )
+                )*/
             }
         }
         rateapp?.setOnClickListener {

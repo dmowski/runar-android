@@ -1,6 +1,7 @@
 package com.test.runar
 
 import android.app.Application
+import com.test.runar.controllers.MusicController
 import com.test.runar.repository.SharedDataRepository
 import com.test.runar.repository.SharedPreferencesRepository
 import com.test.runar.room.AppDB
@@ -13,5 +14,6 @@ class App : Application() {
         DataDB.init(this)
         SharedPreferencesRepository.init(this)
         SharedDataRepository.init(this)
+        MusicController.init(this)
     }
 }

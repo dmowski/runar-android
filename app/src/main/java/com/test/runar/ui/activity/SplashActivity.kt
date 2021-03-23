@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import com.test.runar.controllers.MusicController
 import com.test.runar.databinding.ActivitySplashBinding
 import com.test.runar.presentation.viewmodel.SplashViewModel
 import com.test.runar.service.MediaService
@@ -26,8 +27,9 @@ class SplashActivity : AppCompatActivity(){
     }
 
     fun playAudio(view: View?) {
-        val objIntent = Intent(this, MediaService::class.java)
-        startService(objIntent)
+        /*val objIntent = Intent(this, MediaService::class.java)
+        startService(objIntent)*/
+        MusicController.startMusic()
     }
 
     private fun setupViewModel() {
