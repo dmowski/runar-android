@@ -70,4 +70,6 @@
 
     <color name="lib_run_header">#EFCD93</color>
 
+    <color name="about_text_color">#DADADA</color>
+
 </resources>
