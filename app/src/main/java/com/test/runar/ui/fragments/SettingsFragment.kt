@@ -1,5 +1,6 @@
 package com.test.runar.ui.fragments
 
+import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.content.res.Configuration
@@ -18,6 +19,7 @@ import com.test.runar.repository.DatabaseRepository
 import com.test.runar.repository.SharedDataRepository
 import com.test.runar.repository.SharedPreferencesRepository
 import com.test.runar.room.AppDB
+import com.test.runar.ui.Navigator
 import java.util.*
 
 class SettingsFragment : Fragment() {
@@ -33,6 +35,18 @@ class SettingsFragment : Fragment() {
     private var musictxt: TextView? = null
     private var ratetxt: TextView? = null
     private var abouttxt: TextView? = null
+
+    private var navigator: Navigator? = null
+
+    override fun onAttach(context: Context) {
+        navigator = context as Navigator
+        super.onAttach(context)
+    }
+
+    override fun onDetach() {
+        navigator = null
+        super.onDetach()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -108,9 +122,7 @@ class SettingsFragment : Fragment() {
             startActivity(intent)
         }
         aboutapp?.setOnClickListener {
-            activity?.supportFragmentManager?.beginTransaction()
-                ?.replace(R.id.fragmentContainer, AboutAppFragment())?.addToBackStack(null)
-                ?.commit()
+            navigator?.navigateToAboutFragment()
         }
         return view
     }

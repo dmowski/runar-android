@@ -108,7 +108,10 @@ class MainActivity : AppCompatActivity(), Navigator {
         when (topFragment) {
             is LayoutFragment -> finishAndRemoveTask()
             is LibraryFragment -> RunarLogger.logDebug("todo")
+            is FavouriteFragment -> RunarLogger.logDebug("todo")
+            is SettingsFragment -> RunarLogger.logDebug("todo")
             is LayoutInterpretationFavFragment -> navigateToFavAndShowBottomNavBar()
+            is AboutAppFragment -> navigateToSettings()
             !is LayoutDescriptionFragment -> showDialog()
             else -> { navigateToDefaultAndShowBottomNavBar() }
         }
@@ -166,6 +169,14 @@ class MainActivity : AppCompatActivity(), Navigator {
         binding.bottomNavigationBar.isVisible = false
     }
 
+    override fun navigateToAboutFragment() {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragmentContainer, AboutAppFragment())
+            .addToBackStack(null)
+            .commit()
+        binding.bottomNavigationBar.isVisible = true
+    }
+
     override fun showDialog() {
         CancelDialog(this,fontSize).showDialog()
     }
@@ -187,12 +198,21 @@ class MainActivity : AppCompatActivity(), Navigator {
         binding.bottomNavigationBar.isVisible = true
     }
 
+    override fun navigateToSettings() {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragmentContainer, SettingsFragment())
+            .addToBackStack(null)
+            .commit()
+        binding.bottomNavigationBar.isVisible = true
+    }
+
     fun forceBarHide(){
         val topFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainer)
         when (topFragment) {
             is LayoutFragment -> binding.bottomNavigationBar.isVisible = true
             is LibraryFragment -> binding.bottomNavigationBar.isVisible = true
             is FavouriteFragment -> binding.bottomNavigationBar.isVisible = true
+            is SettingsFragment -> binding.bottomNavigationBar.isVisible = true
             else-> binding.bottomNavigationBar.isVisible = false
         }
     }
