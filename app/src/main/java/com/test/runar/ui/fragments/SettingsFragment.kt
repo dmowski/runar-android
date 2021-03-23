@@ -16,6 +16,7 @@ import com.google.android.material.switchmaterial.SwitchMaterial
 import com.test.runar.R
 import com.test.runar.controllers.MusicController
 import com.test.runar.repository.DatabaseRepository
+import com.test.runar.repository.LanguageRepository
 import com.test.runar.repository.SharedDataRepository
 import com.test.runar.repository.SharedPreferencesRepository
 import com.test.runar.room.AppDB
@@ -70,24 +71,37 @@ class SettingsFragment : Fragment() {
         ratetxt = view.findViewById(R.id.rate_app_txt)
         abouttxt = view.findViewById(R.id.about_txt)
 
+        radioGroup?.setOnCheckedChangeListener { _, checkedId ->
+            when (checkedId) {
+                R.id.radioButton_rus -> {
+                    setLocalRu()
+                    radioButtonRus?.buttonTintList = ColorStateList.valueOf(
+                        requireContext().getColor(R.color.settings_radio_button)
+                    )
+                    radioButtonEn?.buttonTintList = ColorStateList.valueOf(
+                        requireContext().getColor(R.color.arrow)
+                    )
+                }
+                R.id.radioButton_en -> {
+                    setLocalEn()
+                    radioButtonEn?.buttonTintList = ColorStateList.valueOf(
+                        requireContext().getColor(R.color.settings_radio_button)
+                    )
+                    radioButtonRus?.buttonTintList = ColorStateList.valueOf(
+                        requireContext().getColor(R.color.arrow)
+                    )
+                }
+            }
+        }
 
-        var locale: String = Locale.getDefault().language
-        if (locale.equals("ru")) {
-            radioButtonRus?.isChecked = true
-            radioButtonRus?.buttonTintList = ColorStateList.valueOf(
-                ContextCompat.getColor(
-                    requireContext(),
-                    R.color.settings_radio_button
-                )
-            )
-        } else {
-            radioButtonEn?.isChecked = true
-            radioButtonEn?.buttonTintList = ColorStateList.valueOf(
-                ContextCompat.getColor(
-                    requireContext(),
-                    R.color.settings_radio_button
-                )
-            )
+        val locale: String = Locale.getDefault().language
+        when(locale){
+            "ru"-> {
+                radioButtonRus?.isChecked = true
+            }
+            else->{
+                radioButtonEn?.isChecked = true
+            }
         }
 
         when(preferencesRepository.settingsMusic){
@@ -96,13 +110,6 @@ class SettingsFragment : Fragment() {
         }
 
 
-
-        radioGroup?.setOnCheckedChangeListener { _, checkedId ->
-            when (checkedId) {
-                R.id.radioButton_rus -> setLocalRu()
-                R.id.radioButton_en -> setLocalEn()
-            }
-        }
         switchmusic?.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
                 preferencesRepository.changeSettingsMusic(1)
@@ -129,50 +136,19 @@ class SettingsFragment : Fragment() {
 
 
     private fun setLocalRu() {
-        val locale = Locale("ru")
-        Locale.setDefault(locale)
-        val config: Configuration? = activity?.baseContext?.resources?.configuration
-        config?.locale = locale
-        activity?.baseContext?.resources?.updateConfiguration(
-            config,
-            activity?.baseContext?.resources?.displayMetrics
-        )
-        context?.let { AppDB.init(it) }
-        DatabaseRepository.reinit()
-        context?.let { SharedDataRepository.init(it) }
-
-        settingstxt?.setText(R.string.settings_layout)
-        languagetxt?.setText(R.string.settings_language)
-        musictxt?.setText(R.string.music_txt)
-        ratetxt?.setText(R.string.rate_app_txt)
-        abouttxt?.setText(R.string.about_app_txt)
-
-        radioButtonRus?.buttonTintList = ColorStateList.valueOf(
-            ContextCompat.getColor(
-                requireContext(),
-                R.color.settings_radio_button
-            )
-        )
-        radioButtonEn?.buttonTintList = ColorStateList.valueOf(
-            ContextCompat.getColor(
-                requireContext(),
-                R.color.arrow
-            )
-        )
+        LanguageRepository.changeLanguage(requireActivity(),"ru")
+        updateLanguage()
         radioButtonRus?.isChecked = true
-        radioButtonEn?.isChecked = false
     }
 
 
     private fun setLocalEn() {
-        val locale = Locale("en")
-        Locale.setDefault(locale)
-        val config: Configuration? = activity?.baseContext?.resources?.configuration
-        config?.locale = locale
-        activity?.baseContext?.resources?.updateConfiguration(
-            config,
-            activity?.baseContext?.resources?.displayMetrics
-        )
+        LanguageRepository.changeLanguage(requireActivity(),"en")
+        updateLanguage()
+        radioButtonEn?.isChecked = true
+    }
+
+    private fun updateLanguage(){
         context?.let { AppDB.init(it) }
         DatabaseRepository.reinit()
         context?.let { SharedDataRepository.init(it) }
@@ -182,19 +158,5 @@ class SettingsFragment : Fragment() {
         musictxt?.setText(R.string.music_txt)
         ratetxt?.setText(R.string.rate_app_txt)
         abouttxt?.setText(R.string.about_app_txt)
-        radioButtonEn?.buttonTintList = ColorStateList.valueOf(
-            ContextCompat.getColor(
-                requireContext(),
-                R.color.settings_radio_button
-            )
-        )
-        radioButtonRus?.buttonTintList = ColorStateList.valueOf(
-            ContextCompat.getColor(
-                requireContext(),
-                R.color.arrow
-            )
-        )
-        radioButtonEn?.isChecked = true
-        radioButtonRus?.isChecked = false
     }
 }
