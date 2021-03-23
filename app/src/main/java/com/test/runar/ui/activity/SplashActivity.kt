@@ -8,8 +8,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.test.runar.controllers.MusicController
 import com.test.runar.databinding.ActivitySplashBinding
 import com.test.runar.presentation.viewmodel.SplashViewModel
-import com.test.runar.service.MediaService
-import com.test.runar.ui.fragments.LayoutProcessingFragment
 
 class SplashActivity : AppCompatActivity(){
 

@@ -9,6 +9,7 @@ class SharedPreferencesRepository private constructor(context: Context) {
     private val preferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
 
     val userId: String
+    var settingsMusic: Int
 
     init {
         if (preferences.contains("Id")) {
@@ -19,6 +20,22 @@ class SharedPreferencesRepository private constructor(context: Context) {
             editor.putString("Id", userId)
             editor.apply()
         }
+
+        if (preferences.contains("Settings_music")) {
+            settingsMusic = preferences.getInt("Settings_music", 1)
+        } else {
+            val editor = preferences.edit()
+            settingsMusic = 1
+            editor.putInt("Settings_music", 1)
+            editor.apply()
+        }
+    }
+
+    fun changeSettingsMusic(n: Int){
+        val editor = preferences.edit()
+        settingsMusic = n
+        editor.putInt("Settings_music", n)
+        editor.apply()
     }
 
     companion object {
