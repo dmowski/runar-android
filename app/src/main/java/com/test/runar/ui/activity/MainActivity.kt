@@ -9,16 +9,13 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentManager
 import com.test.runar.R
 import com.test.runar.RunarLogger
+import com.test.runar.controllers.MusicController
 import com.test.runar.databinding.ActivityMainBinding
 import com.test.runar.presentation.viewmodel.MainViewModel
 import com.test.runar.receivers.LanguageBroadcastReceiver
 import com.test.runar.ui.Navigator
 import com.test.runar.ui.dialogs.CancelDialog
 import com.test.runar.ui.fragments.*
-import com.zeugmasolutions.localehelper.LocaleHelper
-import com.zeugmasolutions.localehelper.LocaleHelperActivityDelegate
-import com.zeugmasolutions.localehelper.LocaleHelperActivityDelegateImpl
-import java.util.*
 
 class MainActivity : AppCompatActivity(), Navigator {
 
@@ -90,8 +87,14 @@ class MainActivity : AppCompatActivity(), Navigator {
         }
     }
     override fun onResume() {
+        MusicController.startMusic()
         forceBarHide()
         super.onResume()
+    }
+
+    override fun onPause() {
+        MusicController.stopMusic()
+        super.onPause()
     }
 
     private fun initFragments() {
