@@ -3,13 +3,14 @@ package com.test.runar.repository
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.preference.PreferenceManager
-import java.util.UUID
+import java.util.*
 
 class SharedPreferencesRepository private constructor(context: Context) {
     private val preferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
 
     val userId: String
     var settingsMusic: Int
+    var language: String
 
     init {
         if (preferences.contains("Id")) {
@@ -27,6 +28,15 @@ class SharedPreferencesRepository private constructor(context: Context) {
             val editor = preferences.edit()
             settingsMusic = 1
             editor.putInt("Settings_music", 1)
+            editor.apply()
+        }
+
+        if (preferences.contains("language")) {
+            language = preferences.getString("language", "en").toString()
+        } else {
+            val editor = preferences.edit()
+            language = Locale.getDefault().language
+            editor.putString("language", language)
             editor.apply()
         }
     }
