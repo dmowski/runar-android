@@ -1,6 +1,6 @@
 package com.test.runar.ui.activity
 
-import android.content.IntentFilter
+import android.content.*
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.viewModels
@@ -15,6 +15,10 @@ import com.test.runar.receivers.LanguageBroadcastReceiver
 import com.test.runar.ui.Navigator
 import com.test.runar.ui.dialogs.CancelDialog
 import com.test.runar.ui.fragments.*
+import com.zeugmasolutions.localehelper.LocaleHelper
+import com.zeugmasolutions.localehelper.LocaleHelperActivityDelegate
+import com.zeugmasolutions.localehelper.LocaleHelperActivityDelegateImpl
+import java.util.*
 
 class MainActivity : AppCompatActivity(), Navigator {
 
@@ -37,9 +41,7 @@ class MainActivity : AppCompatActivity(), Navigator {
         if (savedInstanceState == null) {
             initFragments()
         }
-
         this.registerReceiver(languageReceiver, IntentFilter("android.intent.action.LOCALE_CHANGED"))
-
 
         viewModel.identify()
         supportActionBar?.hide()
@@ -66,6 +68,15 @@ class MainActivity : AppCompatActivity(), Navigator {
                     binding.bottomNavigationBar.isVisible = true
                     true
                 }
+
+                R.id.settingsFragment->{
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragmentContainer, SettingsFragment())
+                         .addToBackStack(null)
+                        .commit()
+                    binding.bottomNavigationBar.isVisible = true
+                    true
+                }
                 R.id.favFragment->{
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.fragmentContainer, FavouriteFragment())
@@ -77,9 +88,7 @@ class MainActivity : AppCompatActivity(), Navigator {
                 else-> false
             }
         }
-
     }
-
     override fun onResume() {
         forceBarHide()
         super.onResume()
@@ -177,7 +186,7 @@ class MainActivity : AppCompatActivity(), Navigator {
 
     fun forceBarHide(){
         val topFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainer)
-        when(topFragment){
+        when (topFragment) {
             is LayoutFragment -> binding.bottomNavigationBar.isVisible = true
             is LibraryFragment -> binding.bottomNavigationBar.isVisible = true
             is FavouriteFragment -> binding.bottomNavigationBar.isVisible = true
@@ -188,4 +197,5 @@ class MainActivity : AppCompatActivity(), Navigator {
     companion object {
         private const val KEY_TO_LAYOUT_FRAGMENT_BACK = "KEY_LAYOUT_FRAGMENT"
     }
+
 }

@@ -7,4 +7,8 @@
     <style name="BottomNavigationView.Active" parent="@style/TextAppearance.AppCompat.Caption">
         <item name="android:textSize">10sp</item>
     </style>
+
+    <style name="about_app_txt_style">
+        @import url(\'https://fonts.googleapis.com/css2?family=Inter:wght@100;400;600&amp;display=swap');
+    </style>
 </resources>

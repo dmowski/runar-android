@@ -36,7 +36,14 @@
 
     <string name="text_calculation_helper">The fame and popularity of this divination </string>
 
+    <string name="settings_layout">Settings</string>
+    <string name="settings_language">Language</string>
+    <string name="settings_language_rus">Russian</string>
+    <string name="settings_language_en">English</string>
+    <string name="music_txt">Music</string>
+    <string name="rate_app_txt">Rate the application</string>
+    <string name="about_app_txt">About</string>
+    <string name="about_txt">Application version 1.0</string>
     <string name="library_top_bar_header">Library</string>
-
     <string name="fav_dialog_text">Хотите удалить избранные расклады?</string>
 </resources>

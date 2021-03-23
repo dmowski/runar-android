@@ -31,6 +31,7 @@ abstract class AppDB : RoomDatabase() {
                 dataBaseFilePath = "database/en_layouts.db"
                 dataBaseName = "EN_DATABASE"
             }
+
             INSTANCE = Room.databaseBuilder(context, AppDB::class.java, dataBaseName)
                     .createFromAsset(dataBaseFilePath).build()
         }

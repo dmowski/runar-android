@@ -93,4 +93,7 @@ dependencies {
 
     implementation "io.coil-kt:coil:1.1.1"
     implementation "dev.chrisbanes.accompanist:accompanist-coil:0.6.1"
+
+    //for locale changed
+    implementation 'com.zeugmasolutions.localehelper:locale-helper-android:1.1.4'
 }
