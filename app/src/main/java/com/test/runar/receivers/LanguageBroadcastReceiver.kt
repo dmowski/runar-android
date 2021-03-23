@@ -6,7 +6,9 @@ import android.content.Intent
 import com.test.runar.RunarLogger
 import com.test.runar.repository.DatabaseRepository
 import com.test.runar.repository.SharedDataRepository
+import com.test.runar.repository.SharedPreferencesRepository
 import com.test.runar.room.AppDB
+import java.util.*
 
 class LanguageBroadcastReceiver: BroadcastReceiver() {
 
@@ -14,6 +16,8 @@ class LanguageBroadcastReceiver: BroadcastReceiver() {
         AppDB.init(context!!)
         DatabaseRepository.reinit()
         SharedDataRepository.init(context)
+        val spr = SharedPreferencesRepository.get()
+        spr.changeSettingsLanguage(Locale.getDefault().language)
         RunarLogger.logDebug("receive change language")
     }
 }

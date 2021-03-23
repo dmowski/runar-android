@@ -53,6 +53,7 @@ class SettingsFragment : Fragment() {
             when (checkedId) {
                 R.id.radioButton_rus -> {
                     updateLanguage("ru")
+                    preferencesRepository.changeSettingsLanguage("ru")
                     binding.radioButtonRus.buttonTintList = ColorStateList.valueOf(
                         requireContext().getColor(R.color.settings_radio_button)
                     )
@@ -62,6 +63,7 @@ class SettingsFragment : Fragment() {
                 }
                 R.id.radioButton_en -> {
                     updateLanguage("en")
+                    preferencesRepository.changeSettingsLanguage("en")
                     binding.radioButtonEn.buttonTintList = ColorStateList.valueOf(
                         requireContext().getColor(R.color.settings_radio_button)
                     )

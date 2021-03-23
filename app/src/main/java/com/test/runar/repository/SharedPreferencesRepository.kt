@@ -48,6 +48,15 @@ class SharedPreferencesRepository private constructor(context: Context) {
         editor.apply()
     }
 
+    fun changeSettingsLanguage(s: String){
+        var lang =s
+        if(lang!="ru") lang="en"
+        val editor = preferences.edit()
+        language = lang
+        editor.putString("language",language)
+        editor.apply()
+    }
+
     companion object {
 
         @Volatile
