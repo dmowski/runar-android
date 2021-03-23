@@ -25,15 +25,11 @@ class MediaService : Service() {
 
     // Random number generator
     private val mGenerator = Random()
+    var randomSong= list.get(mGenerator.nextInt(list.size))
 
-    /** method for clients  */
-    fun randomNumber(): Int {
-        var randomSong= list.get(mGenerator.nextInt(4))
-        return randomSong
-    }
     override fun onCreate() {
         super.onCreate()
-        mediaPlayer = MediaPlayer.create(applicationContext, randomNumber())
+        mediaPlayer = MediaPlayer.create(applicationContext, randomSong)
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {

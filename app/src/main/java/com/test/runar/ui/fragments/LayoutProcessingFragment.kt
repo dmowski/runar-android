@@ -12,7 +12,6 @@ import com.test.runar.R
 import com.test.runar.databinding.FragmentLayoutProcessingBinding
 import com.test.runar.presentation.viewmodel.ProcessingViewModel
 import com.test.runar.service.MediaService
-import com.test.runar.service.RandomValue
 import com.test.runar.ui.Navigator
 import kotlinx.coroutines.delay
 
@@ -30,16 +29,9 @@ class LayoutProcessingFragment : Fragment(R.layout.fragment_layout_processing) {
 
     private val viewModel: ProcessingViewModel by viewModels()
 
-    private lateinit var randomValue:RandomValue
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
         navigator = context as Navigator
-        try {
-            randomValue = context as RandomValue
-        }catch (e:ClassCastException){
-
-        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,7 +57,8 @@ class LayoutProcessingFragment : Fragment(R.layout.fragment_layout_processing) {
             binding.textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, simpleTextSize)
             binding.textSongName.setTextSize(TypedValue.COMPLEX_UNIT_PX, simpleTextSize)
             binding.textGroupName.setTextSize(TypedValue.COMPLEX_UNIT_PX, advertHeaderTextSize)
-            when (randomValue.randomNumber()) {
+            var mediaService = MediaService()
+            when (mediaService.randomSong) {
                 R.raw.led_chernaya_ladya -> {
                     binding.textGroupName.text = "Лёдъ"
                     binding.textSongName.text = "Неведомо, Не страшно - Черная Ладья"
