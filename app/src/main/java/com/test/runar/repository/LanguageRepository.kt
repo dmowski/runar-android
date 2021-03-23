@@ -2,6 +2,7 @@ package com.test.runar.repository
 
 import android.app.Activity
 import android.content.res.Configuration
+import com.test.runar.room.AppDB
 import java.util.*
 
 object LanguageRepository {
@@ -14,5 +15,8 @@ object LanguageRepository {
             config,
             activity.baseContext?.resources?.displayMetrics
         )
+        AppDB.init(activity)
+        DatabaseRepository.reinit()
+        SharedDataRepository.init(activity)
     }
 }
