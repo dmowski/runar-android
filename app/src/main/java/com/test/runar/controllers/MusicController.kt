@@ -14,14 +14,30 @@ object MusicController {
     )
     private lateinit var mediaPlayer: MediaPlayer
     var preferencesRepository = SharedPreferencesRepository.get()
+    var currentSongPos=0
 
     fun init(context: Context) {
-        mediaPlayer = MediaPlayer.create(context, getRandomSong())
+        currentSongPos = getRandomSongPos()
+        mediaPlayer = MediaPlayer.create(context, musicList[currentSongPos])
+
+        mediaPlayer.setOnCompletionListener {
+            var state = true
+            while(state){
+                val newSongPos = getRandomSongPos()
+                if(newSongPos== currentSongPos) continue
+                else {
+                    currentSongPos = newSongPos
+                    state = false
+                }
+            }
+            mediaPlayer = MediaPlayer.create(context, musicList[currentSongPos])
+            mediaPlayer.start()
+        }
     }
 
-    private fun getRandomSong() : Int{
+    private fun getRandomSongPos() : Int{
         val mGenerator = Random()
-        return musicList[mGenerator.nextInt(musicList.size)]
+        return mGenerator.nextInt(musicList.size)
     }
 
     fun startMusic(){

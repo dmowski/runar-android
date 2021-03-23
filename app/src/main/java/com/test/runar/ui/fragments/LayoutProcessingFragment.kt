@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.test.runar.R
+import com.test.runar.controllers.MusicController
 import com.test.runar.databinding.FragmentLayoutProcessingBinding
 import com.test.runar.presentation.viewmodel.ProcessingViewModel
 import com.test.runar.ui.Navigator
@@ -56,28 +57,28 @@ class LayoutProcessingFragment : Fragment(R.layout.fragment_layout_processing) {
             binding.textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, simpleTextSize)
             binding.textSongName.setTextSize(TypedValue.COMPLEX_UNIT_PX, simpleTextSize)
             binding.textGroupName.setTextSize(TypedValue.COMPLEX_UNIT_PX, advertHeaderTextSize)
-           /* when (mediaService.randomSong) {
-                R.raw.led_chernaya_ladya -> {
+            when (MusicController.currentSongPos) {
+                2 -> {
                     binding.textGroupName.text = "Лёдъ"
                     binding.textSongName.text = "Неведомо, Не страшно - Черная Ладья"
                     binding.imageGroup.setImageResource(R.drawable.led_image)
                 }
-                R.raw.led_mat_moya_skazala -> {
+                3 -> {
                     binding.textGroupName.text = "Лёдъ"
-                        binding.textSongName.text = "Мать моя сказала"
-                        binding.imageGroup.setImageResource(R.drawable.led_image)
-                    }
-                R.raw.danheim_kala -> {
-                        binding.textGroupName.text = "Danheim"
-                        binding.textSongName.text = "Kala"
-                        binding.imageGroup.setImageResource(R.drawable.danheim_image)
-                    }
-                   R.raw.danheim_runar-> {
-                        binding.textGroupName.text = "Danheim"
-                        binding.textSongName.text = "Runar"
-                        binding.imageGroup.setImageResource(R.drawable.danheim_image)
-                    }
-                }*/
+                    binding.textSongName.text = "Мать моя сказала"
+                    binding.imageGroup.setImageResource(R.drawable.led_image)
+                }
+                0 -> {
+                    binding.textGroupName.text = "Danheim"
+                    binding.textSongName.text = "Kala"
+                    binding.imageGroup.setImageResource(R.drawable.danheim_image)
+                }
+                1 -> {
+                    binding.textGroupName.text = "Danheim"
+                    binding.textSongName.text = "Runar"
+                    binding.imageGroup.setImageResource(R.drawable.danheim_image)
+                }
+            }
 
         }
         super.onViewCreated(view, savedInstanceState)
@@ -90,7 +91,7 @@ class LayoutProcessingFragment : Fragment(R.layout.fragment_layout_processing) {
 
     private fun progressBarAction() {
         lifecycleScope.launchWhenResumed {
-            for (i in 0..100){
+            for (i in 0..100) {
                 binding.progressOfLoadingView.progress = i
                 delay(15)
             }
