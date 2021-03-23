@@ -1,5 +1,6 @@
 package com.test.runar.ui.fragments
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -42,6 +43,7 @@ class SettingsFragment: Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         viewModel.updateMusicStatus()
+        viewModel.updateLocaleData()
         super.onCreate(savedInstanceState)
     }
 
@@ -75,15 +77,23 @@ private fun Bars(navigator: Navigator) {
     val fontSize by viewModel.fontSize.observeAsState()
     val musicStatus by viewModel.musicStatus.observeAsState()
     val languagePos by viewModel.selectedLanguagePos.observeAsState()
+    val headerUpdater by viewModel.headerUpdater.observeAsState()
+
+    var header = ""
+
+    header = if(headerUpdater!!) stringResource(id = R.string.settings_layout)
+    else stringResource(id = R.string.settings_layout)
 
     val context = LocalContext.current
+
+
 
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {
                     Text(
-                        text = stringResource(id = R.string.settings_layout),
+                        text = header,
                         color = colorResource(id = R.color.library_top_bar_header),
                         fontFamily = FontFamily(Font(R.font.roboto_medium)),
                         style = TextStyle(fontSize = with(LocalDensity.current) { ((fontSize!! * 1.35).toFloat()).toSp() })
@@ -263,6 +273,7 @@ private fun LangMenuItem(fontSize: Float, header: String,selectedPos:Int) {
 @Composable
 private fun LanguageItem(fontSize: Float,itemName: String,selected: Boolean,pos: Int){
     val viewModel: SettingsViewModel = viewModel()
+    val context = LocalContext.current
     Row(
         Modifier
             .fillMaxSize()
@@ -286,7 +297,7 @@ private fun LanguageItem(fontSize: Float,itemName: String,selected: Boolean,pos:
                 .fillMaxSize()
                 .weight(17f)
         )
-        RadioButton(selected = selected, onClick = { viewModel.changeLanguage(pos) })
+        RadioButton(selected = selected, onClick = { if(!selected) viewModel.changeLanguage(pos,(context as Activity)) })
         Box(
             Modifier
                 .fillMaxSize()

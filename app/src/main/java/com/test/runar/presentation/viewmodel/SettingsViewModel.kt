@@ -1,12 +1,15 @@
 package com.test.runar.presentation.viewmodel
 
+import android.app.Activity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.test.runar.controllers.MusicController
 import com.test.runar.model.FavUserLayoutModel
+import com.test.runar.repository.LanguageRepository
 import com.test.runar.repository.SharedDataRepository
 import com.test.runar.repository.SharedPreferencesRepository
+import java.util.*
 
 class SettingsViewModel: ViewModel() {
     private val preferencesRepository = SharedPreferencesRepository.get()
@@ -14,9 +17,21 @@ class SettingsViewModel: ViewModel() {
     val fontSize: LiveData<Float> = MutableLiveData(SharedDataRepository.fontSize)
     var musicStatus = MutableLiveData<Boolean>(true)
     var selectedLanguagePos = MutableLiveData(0)
+    var langOrder = arrayListOf("ru","en")
+    var headerUpdater = MutableLiveData(true)
 
-    fun changeLanguage(pos: Int){
+    fun updateLocaleData(){
+        when(Locale.getDefault().language){
+            "ru" -> selectedLanguagePos.postValue(0)
+            else -> selectedLanguagePos.postValue(1)
+        }
+    }
+
+    fun changeLanguage(pos: Int, activity: Activity){
+        LanguageRepository.changeLanguage(activity,langOrder[pos])
+        preferencesRepository.changeSettingsLanguage(langOrder[pos])
         selectedLanguagePos.postValue(pos)
+        headerUpdater.postValue(!headerUpdater.value!!)
     }
 
     fun updateMusicStatus(){
