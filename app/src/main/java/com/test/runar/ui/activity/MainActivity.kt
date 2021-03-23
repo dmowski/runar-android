@@ -213,6 +213,7 @@ class MainActivity : AppCompatActivity(), Navigator {
             is LibraryFragment -> binding.bottomNavigationBar.isVisible = true
             is FavouriteFragment -> binding.bottomNavigationBar.isVisible = true
             is SettingsFragment -> binding.bottomNavigationBar.isVisible = true
+            is AboutAppFragment -> binding.bottomNavigationBar.isVisible = true
             else-> binding.bottomNavigationBar.isVisible = false
         }
     }
