@@ -1,11 +1,8 @@
-package com.test.runar.CustomClasses
+package com.test.runar.customClasses
 
-import android.graphics.Paint
 import android.graphics.Typeface
 import android.text.TextPaint
 import android.text.style.MetricAffectingSpan
-import android.text.style.TypefaceSpan
-
 
 class CustomTypefaceSpan(val font: Typeface?) : MetricAffectingSpan() {
     override fun updateMeasureState(textPaint: TextPaint) = update(textPaint)

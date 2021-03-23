@@ -3,73 +3,118 @@ package com.test.runar.presentation.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.test.runar.R
 import com.test.runar.RunarLogger
 import com.test.runar.model.LibraryItemsModel
 import com.test.runar.repository.DatabaseRepository
 import com.test.runar.repository.SharedDataRepository
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.asCoroutineDispatcher
 import kotlinx.coroutines.launch
+import java.util.concurrent.Executors
 
 class LibraryViewModel : ViewModel() {
+    private val singleThread = Executors.newSingleThreadExecutor().asCoroutineDispatcher()
 
     val fontSize: LiveData<Float> = MutableLiveData(SharedDataRepository.fontSize)
     var dbList: List<LibraryItemsModel> = emptyList()
-    var _currentMenu = MutableLiveData<List<LibraryItemsModel>>(emptyList())
-    var currentMenu: LiveData<List<LibraryItemsModel>> = _currentMenu
-    var currentNav = MutableLiveData<MutableList<Int>>(mutableListOf())
+    var lastMenuHeader = MutableLiveData("Библиотека")
+
+    var menuData = MutableLiveData<Pair<List<LibraryItemsModel>, MutableList<String>>>(Pair(
+        emptyList(), mutableListOf()))
+
+    var menuNavData = mutableListOf<String>()
 
     fun getRuneDataFromDB() {
-        CoroutineScope(Dispatchers.IO).launch {
+        CoroutineScope(singleThread).launch {
             dbList = DatabaseRepository.getLibraryItemList()
         }
     }
 
-
-    fun setCurrentMenu(id: Int){
-        val newList = mutableListOf<LibraryItemsModel>()
-        for(item in dbList){
-            if(item.parentId==id) newList.add(item)
-        }
-        _currentMenu.postValue(newList)
-        currentNav.value?.add(id)
-    }
-    fun firstMenuDraw(){
-        if (currentMenu.value?.size==0) {
-            mainMenuDraw()
-        }
-        test()
-    }
-
-    fun mainMenuDraw(){
-        val newList = mutableListOf<LibraryItemsModel>()
-        for(item in dbList){
-            if(item.typeView=="root") newList.add(item)
-        }
-        _currentMenu.postValue(newList)
-        clearNavAction()
-        currentNav.value?.add(8688)
-    }
-    fun clearNavAction(){
-        currentNav.value?.clear()
-    }
-    fun test(){
-        RunarLogger.logDebug(currentNav.value.toString())
-    }
-    fun goBackInMenu(){
-        for(item in dbList){
-            if(item.id==currentNav.value?.last()) {
-                if(item.parentId!=null){
-                    setCurrentMenu(item.parentId!!)
-                    currentNav.value?.removeLast()
-                    currentNav.value?.removeLast()
-                }
-                else{
-                    mainMenuDraw()
-                }
+    fun firstMenuDataCheck() {
+        CoroutineScope(singleThread).launch {
+            if (menuData.value?.first?.size==0) {
+                updateMenuData()
             }
         }
     }
 
+    private fun updateMenuData() {
+        val newList = mutableListOf<LibraryItemsModel>()
+        for (item in dbList) {
+            if (item.type == "root") newList.add(item)
+        }
+        menuNavData.clear()
+        newList.sortBy{it.sortOrder}
+        menuData.postValue(Pair(newList, mutableListOf()))
+    }
+
+    fun updateMenuData(id: String){
+        RunarLogger.logDebug(id)
+        val newList = mutableListOf<LibraryItemsModel>()
+        var selectedItem = LibraryItemsModel()
+        for(curItem in dbList){
+            if(curItem.id==id) selectedItem = curItem
+        }
+
+        for (item in dbList) {
+            for(child in selectedItem.childs!!){
+                if (child == item.id){
+                    newList.add(item)
+                }
+            }
+        }
+
+        newList.sortBy{it.sortOrder}
+        if(newList.size==0) {
+            updateMenuData()
+            return
+        }
+
+        menuNavData.add(id)
+
+
+        val newRoute = mutableListOf<String>()
+        var routLength = 0
+        for (menuId in menuNavData) {
+            for (item in dbList) {
+                if (item.id == menuId) {
+                    val routeString = "> " + item.title + "  "
+                    newRoute.add(routeString)
+                    routLength += routeString.length
+                }
+            }
+        }
+        if (routLength > 45) {
+            newRoute.removeLast()
+            newRoute.add(">...")
+        }
+        menuData.postValue(Pair(newList, newRoute))
+    }
+
+    fun goBackInMenu() {
+        if(menuNavData.size>1){
+            menuNavData.removeLast()
+            val last = menuNavData.last()
+            menuNavData.removeLast()
+            updateMenuData(last)
+        }
+        else{
+            updateMenuData()
+        }
+    }
+
+    fun updateLastMenuHeader(header: String) {
+        var newHeader = header
+        var lastId: String? = null
+        if (menuNavData.size > 0) lastId = menuNavData.last()
+        if (lastId == null) newHeader = header
+        else {
+            for (item in dbList) {
+                if (item.id == lastId) {
+                    if (item.title != null) newHeader = item.title!!
+                }
+            }
+        }
+        lastMenuHeader.value = newHeader
+    }
 }

@@ -1,20 +1,15 @@
-package com.test.runar.CustomClasses
+package com.test.runar.customClasses
 
 import android.graphics.Typeface
 import android.text.Editable
 import android.text.Html
 import android.text.Spanned
-import android.text.style.AbsoluteSizeSpan
-import android.text.style.TypefaceSpan
 import org.xml.sax.XMLReader
 
-class InterTagHandler : Html.TagHandler {
+class InterTagHandler(typeface: Typeface) : Html.TagHandler {
     private var startIndex = 0;
     private var endIndex = 0;
-    private var font : Typeface? = null
-    constructor(typeface: Typeface){
-        this.font = typeface
-    }
+    private var font : Typeface? = typeface
 
 
     override fun handleTag(opening: Boolean, tag: String?, output: Editable?, xmlReader: XMLReader?) {

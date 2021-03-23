@@ -19,4 +19,10 @@ interface DataDAO {
 
     @Insert
     suspend fun addUserLayout(data: UserLayoutModel)
+
+    @Query("SELECT * FROM user_layouts")
+    fun getUserLayouts(): List<UserLayoutModel>
+
+    @Query("DELETE from user_layouts where id in (:idList)")
+    suspend fun removeUserLayoutsByIds(idList: List<Int>)
 }

@@ -7,7 +7,6 @@ import com.test.runar.RunarLogger
 import com.test.runar.repository.DatabaseRepository
 import com.test.runar.repository.SharedDataRepository
 import com.test.runar.room.AppDB
-import com.test.runar.room.DataDB
 
 class LanguageBroadcastReceiver: BroadcastReceiver() {
 

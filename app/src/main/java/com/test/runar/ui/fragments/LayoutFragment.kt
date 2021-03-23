@@ -2,16 +2,11 @@ package com.test.runar.ui.fragments
 
 import android.content.Context
 import android.os.Bundle
-import android.util.DisplayMetrics
 import android.util.TypedValue
 import android.view.View
-import android.widget.ScrollView
-import androidx.core.view.children
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.test.runar.R
-import com.test.runar.RunarLogger
 import com.test.runar.databinding.FragmentLayoutsBinding
 import com.test.runar.extensions.setOnCLickListenerForAll
 import com.test.runar.presentation.viewmodel.LayoutViewModel
@@ -36,7 +31,6 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
         _binding = FragmentLayoutsBinding.bind(view)
 
         setClickListenerOnRuneLayouts()
-        setupArrows()
 
         viewModel.fontSize.observe(viewLifecycleOwner){fontSize->
             val namesFontSize=(fontSize*1.6).toFloat()
@@ -74,37 +68,6 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
                 eightLayout
             )
             listOfView.setOnCLickListenerForAll(this@LayoutFragment)
-        }
-    }
-
-    private fun setupArrows() {
-        val metrics: DisplayMetrics = requireContext().resources.displayMetrics
-        val ratio = metrics.heightPixels.toFloat() / metrics.widthPixels.toFloat()
-
-        if (ratio >= 2.1) {
-            binding.arrowDown.isVisible = false
-        } else {
-            binding.arrowDown.isVisible = true
-
-            binding.arrowDown.setOnClickListener {
-                binding.scrollView.fullScroll(ScrollView.FOCUS_DOWN)
-            }
-
-            binding.scrollView.setOnScrollChangeListener { _, _, scrollY, _, _ ->
-                val isBottomReached = binding.scrollView.children.last().height - binding.scrollView.height - scrollY == 0
-                showUpAndHideDownButtons(isBottomReached)
-            }
-
-            binding.arrowUp.setOnClickListener {
-                binding.scrollView.fullScroll(ScrollView.FOCUS_UP)
-            }
-        }
-    }
-
-    private fun showUpAndHideDownButtons(state: Boolean) {
-        with(binding) {
-            arrowUp.isVisible = state
-            arrowDown.isVisible = !state
         }
     }
 

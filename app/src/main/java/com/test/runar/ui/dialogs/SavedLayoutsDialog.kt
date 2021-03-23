@@ -10,15 +10,15 @@ import android.view.WindowManager
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.test.runar.R
-import com.test.runar.ui.Navigator
 
-class CancelDialog(private val context: Context,private val fontSize:Float) {
+class SavedLayoutsDialog(private val context: Context, private val fontSize:Float, closeFunc : ()->Unit) {
 
+    var agree = closeFunc
     fun showDialog() {
         val dialog = Dialog(context, android.R.style.ThemeOverlay)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
-        dialog.setContentView(R.layout.cancel_dialog_layout)
+        dialog.setContentView(R.layout.saved_layouts_dialog)
         dialog.window?.setLayout(
             WindowManager.LayoutParams.MATCH_PARENT,
             WindowManager.LayoutParams.MATCH_PARENT
@@ -41,7 +41,7 @@ class CancelDialog(private val context: Context,private val fontSize:Float) {
         }
         dialog.findViewById<ConstraintLayout>(R.id.dialog_element_right).setOnClickListener {
             dialog.dismiss()
-            (context as Navigator).agreeWithDialog()
+            agree()
         }
     }
 }

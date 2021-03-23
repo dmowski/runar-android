@@ -26,15 +26,16 @@ import androidx.fragment.app.viewModels
 import com.test.runar.customClasses.InterTagHandler
 import com.test.runar.customClasses.OnSwipeTouchListener
 import com.test.runar.R
-import com.test.runar.databinding.FragmentLayoutInterpretationBinding
+import com.test.runar.RunarLogger
+import com.test.runar.databinding.FragmentLayoutInterpretationFavBinding
 import com.test.runar.extensions.setOnCLickListenerForAll
-import com.test.runar.presentation.viewmodel.InterpretationViewModel
+import com.test.runar.presentation.viewmodel.InterpretationFavViewModel
 import com.test.runar.ui.Navigator
 
-class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpretation),
+class LayoutInterpretationFavFragment : Fragment(R.layout.fragment_layout_interpretation_fav),
     View.OnClickListener {
 
-    private val viewModel: InterpretationViewModel by viewModels()
+    private val viewModel: InterpretationFavViewModel by viewModels()
     private var navigator: Navigator? = null
 
     private lateinit var bottomRunesNav: ConstraintLayout
@@ -56,7 +57,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
     private var currentRunePosition = 0
     private var newUserLayout = arrayListOf<Int>()
 
-    private var _binding: FragmentLayoutInterpretationBinding? = null
+    private var _binding: FragmentLayoutInterpretationFavBinding? = null
     private val binding
         get() = _binding!!
 
@@ -88,7 +89,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
 
 
         super.onViewCreated(view, savedInstanceState)
-        _binding = FragmentLayoutInterpretationBinding.bind(view)
+        _binding = FragmentLayoutInterpretationFavBinding.bind(view)
 
         //set necessary views
         headerFrame = binding.descriptionHeaderFrame
@@ -100,13 +101,9 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
 
                 fontSize = interpretation
                 val headerTextSize = (interpretation*3).toFloat()
-                val buttonTextSize = (interpretation*1.65).toFloat()
-                val checkboxTextSize = (interpretation*0.8).toFloat()
                 val runeNameTextSize = (interpretation*1.2).toFloat()
                 val littleTextSize = (interpretation*0.75).toFloat()
                 binding.descriptionHeaderFrame.setTextSize(TypedValue.COMPLEX_UNIT_PX, headerTextSize)
-                binding.descriptionButtonFrame.setTextSize(TypedValue.COMPLEX_UNIT_PX, buttonTextSize)
-                binding.checkboxText.setTextSize(TypedValue.COMPLEX_UNIT_PX, checkboxTextSize)
                 binding.text.setTextSize(TypedValue.COMPLEX_UNIT_PX, interpretation)
                 binding.runeName.setTextSize(TypedValue.COMPLEX_UNIT_PX, runeNameTextSize)
                 binding.runePosition.setTextSize(TypedValue.COMPLEX_UNIT_PX, littleTextSize)
@@ -321,19 +318,12 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                         //runes description**
                         viewModel.getAuspForCurrentLayout()
                         viewModel.currentAusp.observe(viewLifecycleOwner) { ausp ->
-                            binding.descriptionButtonFrame.setOnClickListener(this)
                             if (ausp != null) {
                                 binding.text.text = "${requireContext().resources.getString(R.string.layout_interpretation_ausf)} - $ausp %"
                                 if (ausp <= 50) {
                                     viewModel.getAffimForCurrentLayout(ausp)
                                 } else {
-                                    val pixelAusfMargin = (30*requireContext().resources.displayMetrics.density).toInt()
                                     binding.textAffim.visibility = View.GONE
-                                    val constraintsSet = ConstraintSet()
-                                    constraintsSet.clone(binding.interpretationLayout)
-                                    constraintsSet.clear(R.id.checkbox, ConstraintSet.TOP)
-                                    constraintsSet.connect(R.id.checkbox, ConstraintSet.TOP, R.id.interpretation_text, ConstraintSet.BOTTOM,pixelAusfMargin)
-                                    constraintsSet.applyTo(binding.interpretationLayout)
                                     viewModel.getInterpretation()
                                 }
                             }
@@ -372,33 +362,6 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                                             binding.interpretationLayout.layoutParams = backLayoutParams
                                             flag = true
                                         }
-                                        if (binding.bottomSupportFrame.bottom < screenHeight && flag) {
-                                            val pixelMargin = (15*requireContext().resources.displayMetrics.density).toInt()
-                                            val constraintsSet = ConstraintSet()
-                                            constraintsSet.clone(binding.interpretationLayout)
-                                            constraintsSet.clear(R.id.bottom_support_frame, ConstraintSet.TOP)
-                                            constraintsSet.connect(
-                                                R.id.bottom_support_frame,
-                                                ConstraintSet.BOTTOM,
-                                                ConstraintSet.PARENT_ID,
-                                                ConstraintSet.BOTTOM
-                                            )
-                                            constraintsSet.clear(R.id.description_button_frame, ConstraintSet.TOP)
-                                            constraintsSet.connect(
-                                                R.id.description_button_frame,
-                                                ConstraintSet.BOTTOM,
-                                                R.id.bottom_support_frame,
-                                                ConstraintSet.TOP
-                                            )
-                                            constraintsSet.clear(R.id.checkbox, ConstraintSet.TOP)
-                                            constraintsSet.connect(
-                                                R.id.checkbox,
-                                                ConstraintSet.BOTTOM,
-                                                R.id.description_button_frame,
-                                                ConstraintSet.TOP,pixelMargin
-                                            )
-                                            constraintsSet.applyTo(binding.interpretationLayout)
-                                        }
                                         baseSize = firstRune.bottom - binding.divider1.height
                                         binding.loadHelper.isVisible = false
                                     }
@@ -426,7 +389,6 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
             }
         }
 
-
         val swipeListener = object : OnSwipeTouchListener(requireContext()) {
             override fun onSwipeRight() {
                 if (currentRunePosition == runesViewList.size - 1) {
@@ -443,6 +405,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
             }
 
         }
+        binding.exitButtonMain.setOnClickListener(this)
         binding.runeDescriptionScroll.setOnTouchListener(swipeListener)
         binding.runeDescriptionBack.setOnTouchListener(swipeListener)
 
@@ -471,10 +434,10 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
         for (rune in runesViewList) runeIdList.add(rune.id)
         for (runeDot in runesDotsList) runeDotsIdList.add(runeDot.id)
        when (v?.id) {
-            R.id.description_button_frame -> {
-                if (binding.checkbox.isChecked) viewModel.saveUserLayout()
-                navigator?.navigateToDefaultAndShowBottomNavBar()
-            }
+           R.id.exit_button_main->{
+               RunarLogger.logDebug("click")
+               navigator?.navigateToFavAndShowBottomNavBar()
+           }
             in runeIdList -> {
                 showDescriptionOfSelectedRune(v)
             }
@@ -852,8 +815,8 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
         private const val KEY_LAYOUT_ID = "KEY_LAYOUT_ID"
         private const val KEY_USER_LAYOUT = "KEY_USER_LAYOUT"
 
-        fun newInstance(layoutId: Int, userLayout: IntArray): LayoutInterpretationFragment {
-            return LayoutInterpretationFragment().apply {
+        fun newInstance(layoutId: Int, userLayout: IntArray): LayoutInterpretationFavFragment {
+            return LayoutInterpretationFavFragment().apply {
                 arguments = bundleOf(
                     KEY_LAYOUT_ID to layoutId,
                     KEY_USER_LAYOUT to userLayout

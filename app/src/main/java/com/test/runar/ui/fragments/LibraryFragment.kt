@@ -29,7 +29,6 @@ import dev.chrisbanes.accompanist.coil.CoilImage
 
 class LibraryFragment : Fragment() {
     val viewModel: LibraryViewModel by viewModels()
-    var currentNav = mutableListOf<Int>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         viewModel.getRuneDataFromDB()
@@ -48,9 +47,6 @@ class LibraryFragment : Fragment() {
         }
         view.isFocusableInTouchMode = true
         view.requestFocus()
-        viewModel.currentNav.observe(viewLifecycleOwner) {
-            currentNav = it
-        }
 
         view.setOnKeyListener { _, keyCode, event ->
             if (event.action == KeyEvent.ACTION_DOWN) {
@@ -65,31 +61,55 @@ class LibraryFragment : Fragment() {
 }
 
 @Composable
-fun ItemData() {
+private fun ItemData() {
     val viewModel: LibraryViewModel = viewModel()
     val fontSize by viewModel.fontSize.observeAsState()
-    val currentMenu by viewModel.currentMenu.observeAsState()
-    viewModel.firstMenuDraw()
+    val menuData by viewModel.menuData.observeAsState()
 
-    if (currentMenu != null) {
-        for (item in currentMenu!!) {
-            when (item.typeView) {
-                "root" -> FirstMenuItem(
+    viewModel.updateLastMenuHeader(stringResource(id = R.string.library_top_bar_header))
+
+    viewModel.firstMenuDataCheck()
+
+    if (menuData?.second?.size!! > 0) {
+        NavigateItem(fontSize = fontSize!!, route = menuData!!.second)
+    }
+    if (menuData?.first != null) {
+        for (item in menuData?.first!!) {
+            when (item.type) {
+                "root" -> {
+                    /*var txt =" "
+                    if(item.content!=null) txt = item.content!!*/
+                    FirstMenuItem(
+                        fontSize = fontSize!!,
+                        header = item.title!!,
+                        text = item.content!!,
+                        imgLink = item.imageUrl!!,
+                        clickAction = {
+                            viewModel.updateMenuData(item.id!!)
+                        }
+                    )
+                }
+                "subMenu" -> SecondMenuItem(
                     fontSize = fontSize!!,
                     header = item.title!!,
-                    text = item.text!!,
-                    imgLink = item.icon!!,
-                    id = item.id!!
+                    clickAction = {
+                        viewModel.updateMenuData(item.id!!)
+                    }
                 )
-                "simpleMenu" -> SecondMenuItem(
+                "poem" -> ThirdMenuItem(
                     fontSize = fontSize!!,
-                    header = item.title!!,
-                    id = item.id!!
-                )
-                "fullText" -> ThirdMenuItem(
-                    fontSize = fontSize!!,
-                    text = item.text!!,
+                    text = item.content!!,
                     title = item.title!!
+                )
+                "plainText" -> SimpleTextItem(
+                    fontSize = fontSize!!,
+                    text = item.content!!
+                )
+                "rune" -> RuneDescription(
+                    fontSize = fontSize!!,
+                    header = item.title!!,
+                    text = item.content!!,
+                    imgLink = "test"
                 )
             }
         }
@@ -98,39 +118,40 @@ fun ItemData() {
 
 @Preview(showBackground = true)
 @Composable
-fun DefaultPreview() {
+private fun DefaultPreview() {
     ItemData()
 }
 
 @Composable
-fun Bars() {
+private fun Bars() {
+    val viewModel: LibraryViewModel = viewModel()
+    val fontSize by viewModel.fontSize.observeAsState()
+    val header by viewModel.lastMenuHeader.observeAsState()
+
+    var barColor = colorResource(id = R.color.library_top_bar_header)
+    var barFont = FontFamily(Font(R.font.roboto_medium))
+    var barFontSize = with(LocalDensity.current) { ((fontSize!! * 1.35).toFloat()).toSp() }
+    var navIcon :@Composable() (()-> Unit)? = null
+
+    if (header != stringResource(id = R.string.library_top_bar_header)) {
+        barColor = colorResource(id = R.color.library_top_bar_header_2)
+        barFont = FontFamily(Font(R.font.roboto_medium))
+        barFontSize = with(LocalDensity.current) { fontSize!!.toSp() }
+        navIcon = { TopBarIcon() }
+    }
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {
                     Text(
-                        text = "Библиотека",
-                        color = colorResource(id = R.color.library_top_bar_header)
+                        text = header!!,
+                        color = barColor,
+                        fontFamily = barFont,
+                        style = TextStyle(fontSize = barFontSize)
                     )
                 },
                 backgroundColor = colorResource(id = R.color.library_top_bar),
-                modifier = Modifier.aspectRatio(5.8f, false),
-                actions = {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_bell),
-                        tint = colorResource(id = R.color.library_top_bar_bell),
-                        contentDescription = "Звонок",
-                        modifier = Modifier
-                            .padding(end = 15.dp)
-                    )
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_bookmark_2),
-                        tint = colorResource(id = R.color.library_top_bar_fav),
-                        contentDescription = "Избранное",
-                        modifier = Modifier
-                            .padding(end = 10.dp)
-                    )
-                }
+                navigationIcon = navIcon
             )
         },
         backgroundColor = Color(0x73000000)
@@ -138,19 +159,29 @@ fun Bars() {
         val scrollState = rememberScrollState()
         Column(Modifier.verticalScroll(state = scrollState, enabled = true)) {
             ItemData()
+            Box(modifier = Modifier.aspectRatio(15f,true))
         }
     }
 }
 
 @Composable
-fun FirstMenuItem(fontSize: Float, header: String, text: String, imgLink: String, id: Int) {
+private fun TopBarIcon(){
     val viewModel: LibraryViewModel = viewModel()
+    IconButton(onClick = { viewModel.goBackInMenu() }) {
+        Icon(
+            painter = painterResource(id = R.drawable.ic_library_back_arrow_2),
+            tint = colorResource(id = R.color.library_top_bar_fav),
+            contentDescription = "arrow"
+        )
+    }
+}
+
+@Composable
+private fun FirstMenuItem(fontSize: Float, header: String, text: String, imgLink: String, clickAction : () -> Unit) {
     Row(
         Modifier
             .aspectRatio(3.8f, true)
-            .clickable {
-                viewModel.setCurrentMenu(id)
-            }
+            .clickable(onClick = clickAction)
     ) {
         Box(
             Modifier
@@ -173,7 +204,7 @@ fun FirstMenuItem(fontSize: Float, header: String, text: String, imgLink: String
                     .weight(62f), verticalAlignment = Alignment.CenterVertically
             ) {
                 CoilImage(
-                    data=imgLink,
+                    data = imgLink,
                     contentDescription = null,
                     modifier = Modifier
                         .background(Color(0x00000000))
@@ -188,9 +219,9 @@ fun FirstMenuItem(fontSize: Float, header: String, text: String, imgLink: String
                     Text(
                         text = header,
                         color = colorResource(id = R.color.library_item_header),
-                        fontFamily = FontFamily(Font(R.font.roboto_medium)),
+                        fontFamily = FontFamily(Font(R.font.roboto_regular)),
                         style = TextStyle(fontSize = with(LocalDensity.current) { fontSize.toSp() }),
-                        modifier = Modifier.padding(bottom = 1.dp)
+                        modifier = Modifier.padding(bottom = 2.dp)
                     )
                     Text(
                         text = text,
@@ -222,26 +253,50 @@ fun FirstMenuItem(fontSize: Float, header: String, text: String, imgLink: String
                     .fillMaxSize()
                     .weight(20f)
             )
-            Image(
-                painter = painterResource(id = R.drawable.ic_divider),
-                contentDescription = null,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .weight(1f)
+            Divider(
+                color = Color(0xA6545458)
             )
         }
     }
 }
 
 @Composable
-fun SecondMenuItem(fontSize: Float, header: String, id: Int) {
-    val viewModel: LibraryViewModel = viewModel()
+private fun NavigateItem(fontSize: Float, route: List<String>) {
+    Row(
+        Modifier
+            .aspectRatio(10f, true)
+    ) {
+        Box(
+            Modifier
+                .fillMaxSize()
+                .weight(16f)
+        )
+        Row(
+            Modifier
+                .fillMaxSize()
+                .weight(398f), verticalAlignment = Alignment.CenterVertically
+        ) {
+            for (item in route) {
+                var color = colorResource(id = R.color.library_nav_not_selected)
+                if (item == route.last()) color = colorResource(id = R.color.library_nav_selected)
+                Text(
+                    text = item,
+                    style = TextStyle(fontSize = with(LocalDensity.current) { ((fontSize * 0.7).toFloat()).toSp() }),
+                    color = color,
+                    fontFamily = FontFamily(Font(R.font.roboto_light)),
+                    modifier = Modifier.padding(end = 1.dp)
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun SecondMenuItem(fontSize: Float, header: String,clickAction : () -> Unit) {
     Row(
         Modifier
             .aspectRatio(6.3f, true)
-            .clickable {
-                viewModel.setCurrentMenu(id)
-            }
+            .clickable(onClick = clickAction)
     ) {
         Box(
             Modifier
@@ -261,7 +316,7 @@ fun SecondMenuItem(fontSize: Float, header: String, id: Int) {
                 Text(
                     text = header,
                     color = colorResource(id = R.color.library_item_header),
-                    fontFamily = FontFamily(Font(R.font.roboto_medium)),
+                    fontFamily = FontFamily(Font(R.font.roboto_regular)),
                     style = TextStyle(fontSize = with(LocalDensity.current) { fontSize.toSp() }),
                     modifier = Modifier
                         .weight(320f)
@@ -284,19 +339,16 @@ fun SecondMenuItem(fontSize: Float, header: String, id: Int) {
                         .weight(16f)
                 )
             }
-            Image(
-                painter = painterResource(id = R.drawable.ic_divider),
-                contentDescription = null,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .weight(1f)
+            Divider(
+                color = Color(0xA6545458)
             )
         }
     }
 }
 
 @Composable
-fun ThirdMenuItem(fontSize: Float, text: String, title: String) {
+private fun ThirdMenuItem(fontSize: Float, text: String, title: String) {
+    val newText = text.replace("\\n", "\n")
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Box(Modifier.aspectRatio(13.8f))
         Text(
@@ -306,7 +358,7 @@ fun ThirdMenuItem(fontSize: Float, text: String, title: String) {
             style = TextStyle(fontSize = with(LocalDensity.current) { ((fontSize * 0.9).toFloat()).toSp() })
         )
         Text(
-            text = text,
+            text = newText,
             color = colorResource(id = R.color.library_third_text),
             fontFamily = FontFamily(Font(R.font.roboto_light)),
             style = TextStyle(
@@ -315,5 +367,106 @@ fun ThirdMenuItem(fontSize: Float, text: String, title: String) {
                 lineHeight = with(LocalDensity.current) { ((fontSize * 1.4).toFloat()).toSp() }),
             modifier = Modifier.padding(top = 5.dp)
         )
+        Box(Modifier.aspectRatio(20f))
+    }
+}
+
+@Composable
+private fun SimpleTextItem(fontSize: Float, text: String) {
+    val newText = text.replace("\\n", "\n")
+    Row {
+        Box(
+            Modifier
+                .fillMaxSize()
+                .weight(16f)
+        )
+        Box(
+            Modifier
+                .fillMaxSize()
+                .weight(398f)
+        ) {
+            Text(
+                text = newText,
+                color = colorResource(id = R.color.library_simple_text),
+                fontFamily = FontFamily(Font(R.font.roboto_light)),
+                style = TextStyle(
+                    fontSize = with(LocalDensity.current) { ((fontSize * 0.95).toFloat()).toSp() },
+                    textAlign = TextAlign.Start,
+                    lineHeight = with(LocalDensity.current) { ((fontSize * 1.4).toFloat()).toSp() }),
+            )
+        }
+    }
+}
+
+@Composable
+private fun RuneDescription(fontSize: Float, header: String, text: String, imgLink: String) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Box(Modifier.aspectRatio(30f))
+        Text(
+            text = header,
+            color = colorResource(id = R.color.lib_run_header),
+            fontFamily = FontFamily(Font(R.font.roboto_regular)),
+            style = TextStyle(
+                fontSize = with(LocalDensity.current) { ((fontSize * 1.2).toFloat()).toSp() },
+                textAlign = TextAlign.Center,
+            ),
+        )
+        Box(Modifier.aspectRatio(30f))
+        Row {
+            Box(
+                Modifier
+                    .fillMaxSize()
+                    .weight(152f)
+            )
+            CoilImage(
+                data = R.drawable.test_rune,
+                contentDescription = null,
+                modifier = Modifier
+                    .background(Color(0x00000000))
+                    .weight(100f)
+            )
+            Box(
+                Modifier
+                    .fillMaxSize()
+                    .weight(152f)
+            )
+        }
+        Box(Modifier.aspectRatio(30f))
+        Row {
+            Box(
+                Modifier
+                    .fillMaxSize()
+                    .weight(24f)
+            )
+            Box(
+                Modifier
+                    .fillMaxSize()
+                    .weight(366f)
+            ) {
+                Column {
+                    Text(
+                        text = text,
+                        color = colorResource(id = R.color.library_third_text),
+                        fontFamily = FontFamily(Font(R.font.roboto_light)),
+                        style = TextStyle(
+                            fontSize = with(LocalDensity.current) { ((fontSize * 0.95).toFloat()).toSp() },
+                            textAlign = TextAlign.Start,
+                            lineHeight = with(LocalDensity.current) { ((fontSize * 1.4).toFloat()).toSp() }),
+                        modifier = Modifier.padding(top = 5.dp)
+                    )
+                    Box(Modifier.aspectRatio(12f))
+                    Divider(
+                        color = Color(0xA6545458)
+                    )
+                }
+            }
+            Box(
+                Modifier
+                    .fillMaxSize()
+                    .weight(24f)
+            )
+        }
     }
 }

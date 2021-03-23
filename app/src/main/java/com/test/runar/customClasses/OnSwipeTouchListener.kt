@@ -1,4 +1,4 @@
-package com.test.runar.CustomClasses
+package com.test.runar.customClasses
 
 import android.content.Context
 import android.view.GestureDetector

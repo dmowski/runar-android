@@ -19,12 +19,10 @@
 
     <string name="layout_init_button_text1">Вытянуть руну</string>
     <string name="layout_init_button_text2">Толковать</string>
-    <string name="layout_init_button_text3">Перейти на сайт</string>
     <string name="layout_init_button_text4">Расклад обрабатывается...</string>
     <string name="layout_init_processing">Магазин предметов скандинавской культуры и быта</string>
     <string name="layout_description_product">Описание товаров</string>
     <string name="layout_go_to_site">Перейти на сайт</string>
-    <string name="layout_init_description_button_text">Узнать о раскладе</string>
 
     <string name="info_popup_button_text">Ок</string>
 
@@ -35,7 +33,6 @@
     <string name="layout_interpretation_button">Завершить</string>
     <string name="layout_interpretation_ausf">Уровень удачи</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string name="text_calculation_helper">Простое гадание на рунах, однако оно</string>
 
@@ -60,4 +57,7 @@
     <string name="rate_app_txt">Оценить приложение</string>
     <string name="about_app_txt">О приложении</string>
     <string name="about_txt">Версия приложения 1.0</string>
+    <string name="library_top_bar_header">Библиотека</string>
+
+    <string name="fav_dialog_text">Хотите удалить избранные расклады?</string>
 </resources>

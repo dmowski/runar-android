@@ -68,9 +68,18 @@ class MainActivity : AppCompatActivity(), Navigator {
                     binding.bottomNavigationBar.isVisible = true
                     true
                 }
+
                 R.id.settingsFragment->{
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.fragmentContainer, SettingsFragment())
+                         .addToBackStack(null)
+                        .commit()
+                    binding.bottomNavigationBar.isVisible = true
+                    true
+                }
+                R.id.favFragment->{
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragmentContainer, FavouriteFragment())
                         .addToBackStack(null)
                         .commit()
                     binding.bottomNavigationBar.isVisible = true
@@ -96,6 +105,7 @@ class MainActivity : AppCompatActivity(), Navigator {
         when (topFragment) {
             is LayoutFragment -> finishAndRemoveTask()
             is LibraryFragment -> RunarLogger.logDebug("todo")
+            is LayoutInterpretationFavFragment -> navigateToFavAndShowBottomNavBar()
             !is LayoutDescriptionFragment -> showDialog()
             else -> { navigateToDefaultAndShowBottomNavBar() }
         }
@@ -145,6 +155,14 @@ class MainActivity : AppCompatActivity(), Navigator {
             .commit()
     }
 
+    override fun navigateToFavInterpretationFragment(layoutId: Int, userLayout: IntArray) {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragmentContainer, LayoutInterpretationFavFragment.newInstance(layoutId, userLayout))
+            .addToBackStack(null)
+            .commit()
+        binding.bottomNavigationBar.isVisible = false
+    }
+
     override fun showDialog() {
         CancelDialog(this,fontSize).showDialog()
     }
@@ -158,12 +176,21 @@ class MainActivity : AppCompatActivity(), Navigator {
         binding.bottomNavigationBar.isVisible = true
     }
 
-    fun forceBarHide() {
+    override fun navigateToFavAndShowBottomNavBar() {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragmentContainer, FavouriteFragment())
+            .addToBackStack(null)
+            .commit()
+        binding.bottomNavigationBar.isVisible = true
+    }
+
+    fun forceBarHide(){
         val topFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainer)
         when (topFragment) {
             is LayoutFragment -> binding.bottomNavigationBar.isVisible = true
             is LibraryFragment -> binding.bottomNavigationBar.isVisible = true
-            else -> binding.bottomNavigationBar.isVisible = false
+            is FavouriteFragment -> binding.bottomNavigationBar.isVisible = true
+            else-> binding.bottomNavigationBar.isVisible = false
         }
     }
 

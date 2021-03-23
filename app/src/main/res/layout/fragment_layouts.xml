@@ -3,21 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/l_b_guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.41" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/r_b_guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.59" />
-
     <ScrollView
         android:id="@+id/scroll_view"
         android:layout_width="match_parent"
@@ -25,7 +10,6 @@
         android:overScrollMode="never"
         android:scrollbars="none"
         android:fillViewport="true">
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -307,28 +291,4 @@
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
-
-    <ImageButton
-        android:id="@+id/arrow_down"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="5dp"
-        android:background="@drawable/arrow_down"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintDimensionRatio="H,3.2:1"
-        app:layout_constraintEnd_toStartOf="@+id/r_b_guideline"
-        app:layout_constraintStart_toEndOf="@id/l_b_guideline" />
-    <ImageButton
-        android:id="@+id/arrow_up"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="5dp"
-        android:background="@drawable/arrow_up"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintDimensionRatio="H,3.2:1"
-        app:layout_constraintEnd_toStartOf="@+id/r_b_guideline"
-        app:layout_constraintStart_toEndOf="@id/l_b_guideline" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

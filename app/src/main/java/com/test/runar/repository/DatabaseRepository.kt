@@ -1,5 +1,6 @@
 package com.test.runar.repository
 
+import com.test.runar.RunarLogger
 import com.test.runar.model.*
 import com.test.runar.room.AppDB
 import com.test.runar.room.DataDB
@@ -20,11 +21,15 @@ object DatabaseRepository {
         return appDao.getLayoutDetails(id)
     }
 
+    fun getAllLayouts(): List<LayoutDescriptionModel>{
+        return appDao.getAllLayoutDetails()
+    }
+
     suspend fun getShowStatus(id: Int): Int {
         return dataDao.getShowStatus(id)
     }
 
-    suspend fun getRunesList(): List<RuneDescriptionModel> {
+    fun getRunesList(): List<RuneDescriptionModel> {
         return appDao.getRunesDetails()
     }
 
@@ -36,6 +41,10 @@ object DatabaseRepository {
         return appDao.getTwoRunesInter(id)
     }
 
+    fun getAllTwoRunesInter(): List<TwoRunesInterModel>{
+        return appDao.getAllTwoRunesInter()
+    }
+
     suspend fun addUserLayout(data: UserLayoutModel) {
         dataDao.addUserLayout(data)
     }
@@ -44,7 +53,22 @@ object DatabaseRepository {
         return appDao.getLayoutName(id)
     }
 
-    suspend fun getLibraryItemList(): List<LibraryItemsModel> {
+    fun getLibraryItemList(): List<LibraryItemsModel> {
         return appDao.getLibraryItems()
+    }
+
+    suspend fun updateLibraryDB(list: List<LibraryItemsModel>){
+        appDao.clearLibrary()
+        RunarLogger.logDebug("library cleared")
+        appDao.insertLibraryData(list)
+        RunarLogger.logDebug("library data inserted")
+    }
+
+    fun getUserLayouts(): List<UserLayoutModel>{
+        return dataDao.getUserLayouts()
+    }
+
+    suspend fun deleteUserLayoutsByIds(ids: List<Int>){
+        dataDao.removeUserLayoutsByIds(ids)
     }
 }

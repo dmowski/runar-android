@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="bottom_nav_background_night">#1D1D1D</color>
     <color name="bottom_nav_selected">#EFCD93</color>
     <color name="bottom_nav_deselected">#828282</color>
     <color name="bottom_nav_text_deselected">#8E8E93</color>
@@ -27,7 +25,6 @@
     <color name="description_popup_text_color">#DEDEDE</color>
     <color name="cancel_popup_text_deselected">#EFCD93</color>
     <color name="cancel_popup_text_selected">#4B4842</color>
-    <color name="init_runes_number_color">#FFEACA</color>
 
     <color name="rune_number_color_deselected">#B3D2C4AD</color>
     <color name="rune_number_color_selected">#FFEACA</color>
@@ -35,22 +32,18 @@
     <color name="auf_text_color">#DADADA</color>
     <color name="affim_text_color">#D2C4AD</color>
 
-    <color name="interpretation_header_background">#B3000000</color>
-
     <color name="interpretation_runes_position">#A8A6A3</color>
 
 
-    <color name="library_background">#73000000</color>
     <color name="library_top_bar">#191919</color>
-    <color name="library_top_bar_header">#D2C4AD</color>
+    <color name="library_top_bar_header">#EFCD93</color>
+    <color name="library_top_bar_header_2">#FFFFFF</color>
     <color name="library_top_bar_fav">#EFCD93</color>
-    <color name="library_top_bar_bell">#DADADA</color>
     <color name="library_item_header">#DADADA</color>
     <color name="library_item_text">#99EBEBF5</color>
 
     <color name="library_third_id">#FFEACA</color>
     <color name="library_third_text">#DADADA</color>
-
 
     <color name="settings_header">#191919</color>
     <color name="settings_header_name">#EFCD93</color>
@@ -61,5 +54,20 @@
     <color name="switch_thumb">#d4cdcd</color>
     <color name="switch_track">#9A9A9A</color>
     <color name="arrow">#60EBEBF5</color>
+    <color name="library_nav_not_selected">#A8A6A3</color>
+    <color name="library_nav_selected">#EFCD93</color>
+
+    <color name="library_simple_text">#DADADA</color>
+
+    <color name="fav_time_text">#828282</color>
+    <color name="fav_inter_text">#BDBDBD</color>
+    <color name="fav_header_text">#D2C4AD</color>
+    
+    <color name="fav_checkbox_border">#979797</color>
+    <color name="fav_checkbox_selected">#EFCD93</color>
+    <color name="fav_checkbox_checkmark">#000000</color>
+    <color name="fav_top_bar_delete">#DADADA</color>
+
+    <color name="lib_run_header">#EFCD93</color>
 
 </resources>

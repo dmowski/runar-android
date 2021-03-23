@@ -3,8 +3,9 @@ package com.test.runar.presentation.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.test.runar.extensions.SingleLiveEvent
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -17,12 +18,19 @@ class SplashViewModel : ViewModel() {
     val progress: LiveData<Int> = _progress
 
     init {
-        viewModelScope.launch {
+        CoroutineScope(Dispatchers.IO).launch {
 
             delay(DELAY_BEFORE_START_LOADING)
-            repeat(4){
+            repeat(2){
                 delay(STEP_OF_LOADING)
                 _progress.postValue(25 * (it + 1))
+            }
+            /*val locale: String = Locale.getDefault().language
+            if (locale.equals("ru"))  BackendRepository.getLibraryData("ru")
+            else  BackendRepository.getLibraryData("en")*/
+            repeat(2){
+                delay(STEP_OF_LOADING)
+                _progress.postValue(25 * (it + 2))
             }
             _splashCommand.postValue(true)
         }
