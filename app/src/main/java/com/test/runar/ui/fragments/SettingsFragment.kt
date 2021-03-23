@@ -4,13 +4,11 @@ import android.content.Intent
 import android.content.res.ColorStateList
 import android.content.res.Configuration
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.compose.ui.graphics.Color
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.switchmaterial.SwitchMaterial
@@ -18,8 +16,8 @@ import com.test.runar.R
 import com.test.runar.controllers.MusicController
 import com.test.runar.repository.DatabaseRepository
 import com.test.runar.repository.SharedDataRepository
+import com.test.runar.repository.SharedPreferencesRepository
 import com.test.runar.room.AppDB
-import com.test.runar.service.MediaService
 import java.util.*
 
 class SettingsFragment : Fragment() {
@@ -42,6 +40,8 @@ class SettingsFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         var view = inflater.inflate(R.layout.fragment_settings, container, false)
+
+        var preferencesRepository = SharedPreferencesRepository.get()
 
         radioButtonRus = view.findViewById(R.id.radioButton_rus)
         radioButtonEn = view.findViewById(R.id.radioButton_en)
@@ -76,30 +76,26 @@ class SettingsFragment : Fragment() {
             )
         }
 
+        when(preferencesRepository.settingsMusic){
+            1->switchmusic?.isChecked=true
+            0->switchmusic?.isChecked=false
+        }
+
+
+
         radioGroup?.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
                 R.id.radioButton_rus -> setLocalRu()
                 R.id.radioButton_en -> setLocalEn()
             }
         }
-        //      activity?.supportFragmentManager?.beginTransaction()?.detach(this)?.attach(this)?.commit()
         switchmusic?.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
+                preferencesRepository.changeSettingsMusic(1)
                 MusicController.startMusic()
-                /*activity?.applicationContext?.startService(
-                    Intent(
-                        activity?.applicationContext,
-                        MediaService::class.java
-                    )
-                )*/
             } else {
+                preferencesRepository.changeSettingsMusic(0)
                 MusicController.stopMusic()
-                /*activity?.applicationContext?.stopService(
-                    Intent(
-                        activity?.applicationContext,
-                        MediaService::class.java
-                    )
-                )*/
             }
         }
         rateapp?.setOnClickListener {

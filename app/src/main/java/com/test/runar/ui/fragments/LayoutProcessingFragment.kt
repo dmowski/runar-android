@@ -11,7 +11,6 @@ import androidx.lifecycle.lifecycleScope
 import com.test.runar.R
 import com.test.runar.databinding.FragmentLayoutProcessingBinding
 import com.test.runar.presentation.viewmodel.ProcessingViewModel
-import com.test.runar.service.MediaService
 import com.test.runar.ui.Navigator
 import kotlinx.coroutines.delay
 
@@ -57,8 +56,7 @@ class LayoutProcessingFragment : Fragment(R.layout.fragment_layout_processing) {
             binding.textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, simpleTextSize)
             binding.textSongName.setTextSize(TypedValue.COMPLEX_UNIT_PX, simpleTextSize)
             binding.textGroupName.setTextSize(TypedValue.COMPLEX_UNIT_PX, advertHeaderTextSize)
-            var mediaService = MediaService()
-            when (mediaService.randomSong) {
+           /* when (mediaService.randomSong) {
                 R.raw.led_chernaya_ladya -> {
                     binding.textGroupName.text = "Лёдъ"
                     binding.textSongName.text = "Неведомо, Не страшно - Черная Ладья"
@@ -79,7 +77,7 @@ class LayoutProcessingFragment : Fragment(R.layout.fragment_layout_processing) {
                         binding.textSongName.text = "Runar"
                         binding.imageGroup.setImageResource(R.drawable.danheim_image)
                     }
-                }
+                }*/
 
         }
         super.onViewCreated(view, savedInstanceState)
