@@ -6,6 +6,7 @@ import com.test.runar.R
 import com.test.runar.RunarLogger
 import com.test.runar.repository.SharedPreferencesRepository
 import java.util.*
+import kotlin.math.ln
 
 object MusicController {
 
@@ -15,10 +16,13 @@ object MusicController {
     private lateinit var mediaPlayer: MediaPlayer
     var preferencesRepository = SharedPreferencesRepository.get()
     var currentSongPos=0
+    var log1 = 0.015f
 
     fun init(context: Context) {
+        RunarLogger.logDebug(log1.toString())
         currentSongPos = getRandomSongPos()
         mediaPlayer = MediaPlayer.create(context, musicList[currentSongPos])
+        mediaPlayer.setVolume(log1,log1)
 
         mediaPlayer.setOnCompletionListener {
             var state = true
@@ -31,6 +35,7 @@ object MusicController {
                 }
             }
             mediaPlayer = MediaPlayer.create(context, musicList[currentSongPos])
+            mediaPlayer.setVolume(log1,log1)
             mediaPlayer.start()
         }
     }
