@@ -2,27 +2,48 @@ package com.test.runar.ui.fragments
 
 import android.content.Context
 import android.content.Intent
-import android.content.res.ColorStateList
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.foundation.*
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.core.content.ContextCompat.startActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.test.runar.R
-import com.test.runar.controllers.MusicController
-import com.test.runar.databinding.FragmentSettingsBinding
-import com.test.runar.repository.LanguageRepository
-import com.test.runar.repository.SharedPreferencesRepository
+import com.test.runar.presentation.viewmodel.LibraryViewModel
+import com.test.runar.presentation.viewmodel.SettingsViewModel
 import com.test.runar.ui.Navigator
-import java.util.*
 
-class SettingsFragment : Fragment() {
+class SettingsFragment: Fragment() {
+
+    val viewModel: SettingsViewModel by viewModels()
     private var navigator: Navigator? = null
 
-    private var _binding: FragmentSettingsBinding? = null
-    private val binding
-        get() = _binding!!
+    override fun onCreate(savedInstanceState: Bundle?) {
+        viewModel.updateMusicStatus()
+        super.onCreate(savedInstanceState)
+    }
 
     override fun onAttach(context: Context) {
         navigator = context as Navigator
@@ -34,90 +55,250 @@ class SettingsFragment : Fragment() {
         super.onDetach()
     }
 
-    override fun onDestroyView() {
-        _binding = null
-        super.onDestroyView()
-    }
-
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_settings, container, false)
-
-        _binding = FragmentSettingsBinding.bind(view)
-
-        val preferencesRepository = SharedPreferencesRepository.get()
-        binding.radioGroup.setOnCheckedChangeListener { _, checkedId ->
-            when (checkedId) {
-                R.id.radioButton_rus -> {
-                    updateLanguage("ru")
-                    preferencesRepository.changeSettingsLanguage("ru")
-                    binding.radioButtonRus.buttonTintList = ColorStateList.valueOf(
-                        requireContext().getColor(R.color.settings_radio_button)
-                    )
-                    binding.radioButtonEn.buttonTintList = ColorStateList.valueOf(
-                        requireContext().getColor(R.color.arrow)
-                    )
-                }
-                R.id.radioButton_en -> {
-                    updateLanguage("en")
-                    preferencesRepository.changeSettingsLanguage("en")
-                    binding.radioButtonEn.buttonTintList = ColorStateList.valueOf(
-                        requireContext().getColor(R.color.settings_radio_button)
-                    )
-                    binding.radioButtonRus.buttonTintList = ColorStateList.valueOf(
-                        requireContext().getColor(R.color.arrow)
-                    )
-                }
+    ): View {
+        val view = ComposeView(requireContext()).apply {
+            setContent {
+                Bars(navigator!!)
             }
-        }
-
-        when(Locale.getDefault().language){
-            "ru"-> {
-                binding.radioButtonRus.isChecked = true
-            }
-            else->{
-                binding.radioButtonEn.isChecked = true
-            }
-        }
-
-        when(preferencesRepository.settingsMusic){
-            1->binding.switchMusic.isChecked=true
-            0->binding.switchMusic.isChecked=false
-        }
-
-        binding.switchMusic.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
-                preferencesRepository.changeSettingsMusic(1)
-                MusicController.startMusic()
-            } else {
-                preferencesRepository.changeSettingsMusic(0)
-                MusicController.stopMusic()
-            }
-        }
-        binding.imageRateApp.setOnClickListener {
-            val intent = Intent(Intent.ACTION_VIEW).apply {
-                data = Uri.parse(
-                    "https://play.google.com/store/apps/details?id=com.alexbernat.bookofchanges"
-                ) // here is the uri  app in google play
-                setPackage("com.android.vending")
-            }
-            startActivity(intent)
-        }
-        binding.imageAbout.setOnClickListener {
-            navigator?.navigateToAboutFragment()
         }
         return view
     }
+}
 
-    private fun updateLanguage(language: String){
-        LanguageRepository.changeLanguage(requireActivity(),language)
-        binding.settings.setText(R.string.settings_layout)
-        binding.settingLanguage.setText(R.string.settings_language)
-        binding.musicTxt.setText(R.string.music_txt)
-        binding.rateAppTxt.setText(R.string.rate_app_txt)
-        binding.aboutTxt.setText(R.string.about_app_txt)
+@Composable
+private fun Bars(navigator: Navigator) {
+    val viewModel: SettingsViewModel = viewModel()
+    val fontSize by viewModel.fontSize.observeAsState()
+    val musicStatus by viewModel.musicStatus.observeAsState()
+    val languagePos by viewModel.selectedLanguagePos.observeAsState()
+
+    val context = LocalContext.current
+
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    Text(
+                        text = stringResource(id = R.string.settings_layout),
+                        color = colorResource(id = R.color.library_top_bar_header),
+                        fontFamily = FontFamily(Font(R.font.roboto_medium)),
+                        style = TextStyle(fontSize = with(LocalDensity.current) { ((fontSize!! * 1.35).toFloat()).toSp() })
+                    )
+                },
+                backgroundColor = colorResource(id = R.color.library_top_bar)
+            )
+        },
+        backgroundColor = Color(0x73000000)
+    ) {
+        val scrollState = rememberScrollState()
+        Column(Modifier.verticalScroll(state = scrollState, enabled = true)) {
+            EmptyMenuItem()
+            LangMenuItem(fontSize = fontSize!!, header = stringResource(id = R.string.settings_language),selectedPos = languagePos!!)
+            SwitcherMenuItem(fontSize = fontSize!!, header = stringResource(id = R.string.music_txt), checkAction = { viewModel.changeMusicStatus(it) },state = musicStatus!!)
+            SimpleMenuItem(fontSize = fontSize!!, header = stringResource(id = R.string.rate_app_txt), clickAction = {
+                val intent = Intent(Intent.ACTION_VIEW).apply {
+                    data = Uri.parse(
+                        "https://play.google.com/store/apps/details?id=com.alexbernat.bookofchanges"
+                    ) // here is the uri  app in google play
+                    setPackage("com.android.vending")
+                }
+                context.startActivity(intent)
+            })
+            SimpleMenuItem(fontSize = fontSize!!, header = stringResource(id = R.string.about_app_txt), clickAction = { navigator.navigateToAboutFragment() })
+        }
     }
+}
+
+@Composable
+private fun SimpleMenuItem(fontSize: Float, header: String,clickAction : () -> Unit) {
+    Row(
+        Modifier
+            .aspectRatio(6.3f, true)
+            .clickable(onClick = clickAction)
+    ) {
+        Box(
+            Modifier
+                .fillMaxSize()
+                .weight(16f)
+        )
+        Column(
+            Modifier
+                .fillMaxSize()
+                .weight(398f)
+        ) {
+            Row(
+                Modifier
+                    .fillMaxSize()
+                    .weight(66f), verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = header,
+                    color = colorResource(id = R.color.library_item_header),
+                    fontFamily = FontFamily(Font(R.font.roboto_regular)),
+                    style = TextStyle(fontSize = with(LocalDensity.current) { fontSize.toSp() }),
+                    modifier = Modifier
+                        .weight(320f)
+                )
+                Box(
+                    Modifier
+                        .fillMaxSize()
+                        .weight(17f)
+                )
+                Image(
+                    painter = painterResource(id = R.drawable.ic_right),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .background(Color(0x00000000))
+                        .weight(10f)
+                )
+                Box(
+                    Modifier
+                        .fillMaxSize()
+                        .weight(16f)
+                )
+            }
+            Divider(
+                color = Color(0xA6545458)
+            )
+        }
+    }
+}
+
+@Composable
+private fun SwitcherMenuItem(fontSize: Float, header: String,checkAction : ((Boolean) -> Unit), state: Boolean) {
+    Row(
+        Modifier
+            .aspectRatio(6.3f, true)
+    ) {
+        Box(
+            Modifier
+                .fillMaxSize()
+                .weight(16f)
+        )
+        Column(
+            Modifier
+                .fillMaxSize()
+                .weight(398f)
+        ) {
+            Row(
+                Modifier
+                    .fillMaxSize()
+                    .weight(66f), verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = header,
+                    color = colorResource(id = R.color.library_item_header),
+                    fontFamily = FontFamily(Font(R.font.roboto_regular)),
+                    style = TextStyle(fontSize = with(LocalDensity.current) { fontSize.toSp() }),
+                    modifier = Modifier
+                        .weight(320f)
+                )
+                Box(
+                    Modifier
+                        .fillMaxSize()
+                        .weight(17f)
+                )
+                Switch(
+                    checked = state,
+                    onCheckedChange = checkAction
+                )
+                Box(
+                    Modifier
+                        .fillMaxSize()
+                        .weight(12f)
+                )
+            }
+            Divider(
+                color = Color(0xA6545458)
+            )
+        }
+    }
+}
+
+@Composable
+private fun LangMenuItem(fontSize: Float, header: String,selectedPos:Int) {
+    var langList = arrayListOf<String>(stringResource(id = R.string.settings_language_rus),stringResource(id = R.string.settings_language_en))
+    Row(
+        Modifier.fillMaxSize()
+    ){
+        Box(
+            Modifier
+                .fillMaxSize()
+                .weight(16f)
+        )
+        Column(
+            Modifier
+                .fillMaxSize()
+                .weight(398f)
+        ) {
+            Text(
+                text = header,
+                color = colorResource(id = R.color.settings_language_name),
+                fontFamily = FontFamily(Font(R.font.roboto_regular)),
+                style = TextStyle(fontSize = with(LocalDensity.current) { fontSize.toSp() })
+            )
+            for(i in 0 until langList.size){
+                if(i==selectedPos){
+                    LanguageItem(fontSize = fontSize, itemName = langList[i], selected = true, pos = i)
+                }
+                else{
+                    LanguageItem(fontSize = fontSize, itemName = langList[i], selected = false, pos =i)
+                }
+            }
+            Box(
+                Modifier
+                    .aspectRatio(35f, true)
+            )
+            Divider(
+                color = Color(0xA6545458)
+            )
+        }
+    }
+}
+
+@Composable
+private fun LanguageItem(fontSize: Float,itemName: String,selected: Boolean,pos: Int){
+    val viewModel: SettingsViewModel = viewModel()
+    Row(
+        Modifier
+            .fillMaxSize()
+            .aspectRatio(11f), verticalAlignment = Alignment.CenterVertically
+    ) {
+        Box(
+            Modifier
+                .fillMaxSize()
+                .weight(16f)
+        )
+        Text(
+            text = itemName,
+            color = colorResource(id = R.color.settings_language),
+            fontFamily = FontFamily(Font(R.font.roboto_regular)),
+            style = TextStyle(fontSize = with(LocalDensity.current) { ((fontSize * 0.8).toFloat()).toSp() }),
+            modifier = Modifier
+                .weight(320f)
+        )
+        Box(
+            Modifier
+                .fillMaxSize()
+                .weight(17f)
+        )
+        RadioButton(selected = selected, onClick = { viewModel.changeLanguage(pos) })
+        Box(
+            Modifier
+                .fillMaxSize()
+                .weight(12f)
+        )
+    }
+}
+
+@Composable
+private fun EmptyMenuItem(){
+    Box(
+        Modifier
+            .aspectRatio(14f, true)
+    )
 }
