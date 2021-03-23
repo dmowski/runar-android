@@ -2,6 +2,7 @@ package com.test.runar
 
 import android.app.Application
 import com.test.runar.controllers.MusicController
+import com.test.runar.repository.LanguageRepository
 import com.test.runar.repository.SharedDataRepository
 import com.test.runar.repository.SharedPreferencesRepository
 import com.test.runar.room.AppDB

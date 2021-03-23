@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.get
 import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentManager
 import com.test.runar.R
@@ -13,6 +14,7 @@ import com.test.runar.controllers.MusicController
 import com.test.runar.databinding.ActivityMainBinding
 import com.test.runar.presentation.viewmodel.MainViewModel
 import com.test.runar.receivers.LanguageBroadcastReceiver
+import com.test.runar.repository.LanguageRepository
 import com.test.runar.ui.Navigator
 import com.test.runar.ui.dialogs.CancelDialog
 import com.test.runar.ui.fragments.*
@@ -27,6 +29,7 @@ class MainActivity : AppCompatActivity(), Navigator {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        LanguageRepository.setSettingsLanguage(this)//set app language from settings
         // status bar color
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
@@ -216,6 +219,13 @@ class MainActivity : AppCompatActivity(), Navigator {
             is AboutAppFragment -> binding.bottomNavigationBar.isVisible = true
             else-> binding.bottomNavigationBar.isVisible = false
         }
+    }
+
+    fun reshowBar(){
+        binding.bottomNavigationBar.menu[0].title = getString(R.string.bottom_nav_layouts)
+        binding.bottomNavigationBar.menu[1].title = getString(R.string.bottom_nav_library)
+        binding.bottomNavigationBar.menu[2].title = getString(R.string.bottom_nav_favourites)
+        binding.bottomNavigationBar.menu[3].title = getString(R.string.bottom_nav_settings)
     }
 
     companion object {
