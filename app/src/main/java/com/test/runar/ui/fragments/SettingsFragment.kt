@@ -36,7 +36,7 @@ import com.test.runar.presentation.viewmodel.LibraryViewModel
 import com.test.runar.presentation.viewmodel.SettingsViewModel
 import com.test.runar.ui.Navigator
 
-class SettingsFragment: Fragment() {
+class SettingsFragment : Fragment() {
 
     val viewModel: SettingsViewModel by viewModels()
     private var navigator: Navigator? = null
@@ -81,7 +81,7 @@ private fun Bars(navigator: Navigator) {
 
     var header = ""
 
-    header = if(headerUpdater!!) stringResource(id = R.string.settings_layout)
+    header = if (headerUpdater!!) stringResource(id = R.string.settings_layout)
     else stringResource(id = R.string.settings_layout)
 
     val context = LocalContext.current
@@ -107,24 +107,39 @@ private fun Bars(navigator: Navigator) {
         val scrollState = rememberScrollState()
         Column(Modifier.verticalScroll(state = scrollState, enabled = true)) {
             EmptyMenuItem()
-            LangMenuItem(fontSize = fontSize!!, header = stringResource(id = R.string.settings_language),selectedPos = languagePos!!)
-            SwitcherMenuItem(fontSize = fontSize!!, header = stringResource(id = R.string.music_txt), checkAction = { viewModel.changeMusicStatus(it) },state = musicStatus!!)
-            SimpleMenuItem(fontSize = fontSize!!, header = stringResource(id = R.string.rate_app_txt), clickAction = {
-                val intent = Intent(Intent.ACTION_VIEW).apply {
-                    data = Uri.parse(
-                        "https://play.google.com/store/apps/details?id=com.alexbernat.bookofchanges"
-                    ) // here is the uri  app in google play
-                    setPackage("com.android.vending")
-                }
-                context.startActivity(intent)
-            })
-            SimpleMenuItem(fontSize = fontSize!!, header = stringResource(id = R.string.about_app_txt), clickAction = { navigator.navigateToAboutFragment() })
+            LangMenuItem(
+                fontSize = fontSize!!,
+                header = stringResource(id = R.string.settings_language),
+                selectedPos = languagePos!!
+            )
+            SwitcherMenuItem(
+                fontSize = fontSize!!,
+                header = stringResource(id = R.string.music_txt),
+                checkAction = { viewModel.changeMusicStatus(it) },
+                state = musicStatus!!
+            )
+            SimpleMenuItem(
+                fontSize = fontSize!!,
+                header = stringResource(id = R.string.rate_app_txt),
+                clickAction = {
+                    val intent = Intent(Intent.ACTION_VIEW).apply {
+                        data = Uri.parse(
+                            "https://play.google.com/store/apps/details?id=com.alexbernat.bookofchanges"
+                        ) // here is the uri  app in google play
+                        setPackage("com.android.vending")
+                    }
+                    context.startActivity(intent)
+                })
+            SimpleMenuItem(
+                fontSize = fontSize!!,
+                header = stringResource(id = R.string.about_app_txt),
+                clickAction = { navigator.navigateToAboutFragment() })
         }
     }
 }
 
 @Composable
-private fun SimpleMenuItem(fontSize: Float, header: String,clickAction : () -> Unit) {
+private fun SimpleMenuItem(fontSize: Float, header: String, clickAction: () -> Unit) {
     Row(
         Modifier
             .aspectRatio(6.3f, true)
@@ -179,7 +194,12 @@ private fun SimpleMenuItem(fontSize: Float, header: String,clickAction : () -> U
 }
 
 @Composable
-private fun SwitcherMenuItem(fontSize: Float, header: String,checkAction : ((Boolean) -> Unit), state: Boolean) {
+private fun SwitcherMenuItem(
+    fontSize: Float,
+    header: String,
+    checkAction: ((Boolean) -> Unit),
+    state: Boolean
+) {
     Row(
         Modifier
             .aspectRatio(6.3f, true)
@@ -214,7 +234,13 @@ private fun SwitcherMenuItem(fontSize: Float, header: String,checkAction : ((Boo
                 )
                 Switch(
                     checked = state,
-                    onCheckedChange = checkAction
+                    onCheckedChange = checkAction,
+                    colors = SwitchDefaults.colors(
+                        checkedThumbColor = colorResource(id = R.color.switcher_checked_thumb),
+                        checkedTrackColor = colorResource(id = R.color.switcher_checked_back),
+                        uncheckedThumbColor = colorResource(id = R.color.switcher_unchecked_thumb),
+                        uncheckedTrackColor = colorResource(id = R.color.switcher_unchecked_back),
+                    )
                 )
                 Box(
                     Modifier
@@ -230,11 +256,14 @@ private fun SwitcherMenuItem(fontSize: Float, header: String,checkAction : ((Boo
 }
 
 @Composable
-private fun LangMenuItem(fontSize: Float, header: String,selectedPos:Int) {
-    var langList = arrayListOf<String>(stringResource(id = R.string.settings_language_rus),stringResource(id = R.string.settings_language_en))
+private fun LangMenuItem(fontSize: Float, header: String, selectedPos: Int) {
+    var langList = arrayListOf<String>(
+        stringResource(id = R.string.settings_language_rus),
+        stringResource(id = R.string.settings_language_en)
+    )
     Row(
         Modifier.fillMaxSize()
-    ){
+    ) {
         Box(
             Modifier
                 .fillMaxSize()
@@ -251,12 +280,21 @@ private fun LangMenuItem(fontSize: Float, header: String,selectedPos:Int) {
                 fontFamily = FontFamily(Font(R.font.roboto_regular)),
                 style = TextStyle(fontSize = with(LocalDensity.current) { fontSize.toSp() })
             )
-            for(i in 0 until langList.size){
-                if(i==selectedPos){
-                    LanguageItem(fontSize = fontSize, itemName = langList[i], selected = true, pos = i)
-                }
-                else{
-                    LanguageItem(fontSize = fontSize, itemName = langList[i], selected = false, pos =i)
+            for (i in 0 until langList.size) {
+                if (i == selectedPos) {
+                    LanguageItem(
+                        fontSize = fontSize,
+                        itemName = langList[i],
+                        selected = true,
+                        pos = i
+                    )
+                } else {
+                    LanguageItem(
+                        fontSize = fontSize,
+                        itemName = langList[i],
+                        selected = false,
+                        pos = i
+                    )
                 }
             }
             Box(
@@ -271,7 +309,7 @@ private fun LangMenuItem(fontSize: Float, header: String,selectedPos:Int) {
 }
 
 @Composable
-private fun LanguageItem(fontSize: Float,itemName: String,selected: Boolean,pos: Int){
+private fun LanguageItem(fontSize: Float, itemName: String, selected: Boolean, pos: Int) {
     val viewModel: SettingsViewModel = viewModel()
     val context = LocalContext.current
     Row(
@@ -297,7 +335,14 @@ private fun LanguageItem(fontSize: Float,itemName: String,selected: Boolean,pos:
                 .fillMaxSize()
                 .weight(17f)
         )
-        RadioButton(selected = selected, onClick = { if(!selected) viewModel.changeLanguage(pos,(context as Activity)) })
+        RadioButton(
+            selected = selected,
+            onClick = { if (!selected) viewModel.changeLanguage(pos, (context as Activity)) },
+            colors = RadioButtonDefaults.colors(
+                selectedColor = colorResource(id = R.color.switcher_checked_thumb),
+                unselectedColor = colorResource(id = R.color.switcher_unchecked_thumb)
+            )
+        )
         Box(
             Modifier
                 .fillMaxSize()
@@ -307,7 +352,7 @@ private fun LanguageItem(fontSize: Float,itemName: String,selected: Boolean,pos:
 }
 
 @Composable
-private fun EmptyMenuItem(){
+private fun EmptyMenuItem() {
     Box(
         Modifier
             .aspectRatio(14f, true)

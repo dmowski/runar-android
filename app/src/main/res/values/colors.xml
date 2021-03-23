@@ -72,4 +72,9 @@
 
     <color name="about_text_color">#DADADA</color>
 
+    <color name="switcher_checked_thumb">#EFCD93</color>
+    <color name="switcher_checked_back">#40EFCD93</color>
+    <color name="switcher_unchecked_thumb">#9A9A9A</color>
+    <color name="switcher_unchecked_back">#409A9A9A</color>
+
 </resources>
