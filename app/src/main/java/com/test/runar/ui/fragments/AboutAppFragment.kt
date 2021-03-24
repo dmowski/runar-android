@@ -103,13 +103,20 @@ private fun TopBarIcon(navigator: Navigator) {
 private fun AboutText() {
     val viewModel: AboutViewModel = viewModel()
     val fontSize by viewModel.fontSize.observeAsState()
-    Text(
-        text = stringResource(id = R.string.about_txt),
-        color = colorResource(id = R.color.about_text_color),
-        fontFamily = FontFamily(Font(R.font.roboto_light)),
-        style = TextStyle(fontSize = with(LocalDensity.current) { ((fontSize!! * 0.95).toFloat()).toSp() }),
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(top = 20.dp, start = 10.dp),
-    )
+    Column{
+        Box(Modifier.aspectRatio(16f))
+        Row{
+            Box(Modifier.fillMaxSize().weight(24f))
+            Text(
+                text = stringResource(id = R.string.about_txt),
+                color = colorResource(id = R.color.about_text_color),
+                fontFamily = FontFamily(Font(R.font.roboto_light)),
+                style = TextStyle(fontSize = with(LocalDensity.current) { ((fontSize!! * 0.95).toFloat()).toSp() }),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .weight(366f)
+            )
+            Box(Modifier.fillMaxSize().weight(24f))
+        }
+    }
 }
