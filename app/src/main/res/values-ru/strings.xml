@@ -32,22 +32,9 @@
     <string name="layout_interpretation_checkbox">Сохранить результат</string>
     <string name="layout_interpretation_button">Завершить</string>
     <string name="layout_interpretation_ausf">Уровень удачи</string>
-    <!-- TODO: Remove or change this placeholder text -->
 
     <string name="text_calculation_helper">Простое гадание на рунах, однако оно</string>
 
-    <string name="library_bar_fav">Избранное</string>
-
-    <string name="library_item1_header">Описание рун</string>
-    <string name="library_item1_text">Письменность древних германцев, употреблявшаяся с I—II по XII век</string>
-    <string name="library_item2_header">История рун</string>
-    <string name="library_item2_text">Первые руны появились в дохристианском мире</string>
-    <string name="library_item3_header">Старшая Эдда</string>
-    <string name="library_item3_text">Сборник древнеисландских песен о богах и героях мифологии</string>
-    <string name="library_item4_header">Младшая Эдда</string>
-    <string name="library_item4_text">Прозаический трактат о поэтике скальдов</string>
-    <string name="library_item5_header">Скандинавские сказки</string>
-    <string name="library_item5_text">Сказки стран Норвегии, Дании, Швеции, Финляндии и Исландии</string>
 
     <string name="settings_layout">Настройки</string>
     <string name="settings_language">Язык</string>
@@ -60,4 +47,7 @@
     <string name="library_top_bar_header">Библиотека</string>
 
     <string name="fav_dialog_text">Хотите удалить избранные расклады?</string>
+
+    <string name="library_bar_fav">Избранное</string>
+    <string name="fav_checkbox_text">Выбрать всё</string>
 </resources>

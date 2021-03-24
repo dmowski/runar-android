@@ -91,12 +91,14 @@ class MainActivity : AppCompatActivity(), Navigator {
     }
     override fun onResume() {
         MusicController.startMusic()
+        RunarLogger.logDebug("main activivty start music")
         forceBarHide()
         super.onResume()
     }
 
     override fun onPause() {
         MusicController.stopMusic()
+        RunarLogger.logDebug("main activivty pause music")
         super.onPause()
     }
 
