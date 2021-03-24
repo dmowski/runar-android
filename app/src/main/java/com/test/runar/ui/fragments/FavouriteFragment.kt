@@ -94,16 +94,20 @@ private fun Bars(navigator: Navigator?) {
 
     if (existSelected!!) {
         barText = ""
-        navIcon = { TopBarIcon(clickAction = {
-            viewModel.changeAll(false)
-            checkedState.value = false
-        }) }
-        navActions = { TopBarActions(fontSize!!,
-            clickAction = {
-                viewModel.removeSelectedLayouts()
+        navIcon = {
+            TopBarIcon(clickAction = {
                 viewModel.changeAll(false)
                 checkedState.value = false
-            }) }
+            })
+        }
+        navActions = {
+            TopBarActions(fontSize!!,
+                clickAction = {
+                    viewModel.removeSelectedLayouts()
+                    viewModel.changeAll(false)
+                    checkedState.value = false
+                })
+        }
     }
 
     Scaffold(
@@ -128,13 +132,14 @@ private fun Bars(navigator: Navigator?) {
         val scrollState = rememberScrollState()
         Column(Modifier.verticalScroll(state = scrollState, enabled = true)) {
             if (favData != null) {
-                if(favData!!.isNotEmpty()){
+                if (favData!!.isNotEmpty()) {
                     checkboxItem(
                         state = checkedState.value,
                         checkAction = {
                             checkedState.value = it
                             viewModel.changeAll(it)
-                        }
+                        },
+                        fontSize = fontSize!!
                     )
                 }
                 for (item in favData!!) {
@@ -145,7 +150,10 @@ private fun Bars(navigator: Navigator?) {
                             text = item.content!!,
                             header = item.header!!,
                             clickAction = {
-                                navigator?.navigateToFavInterpretationFragment(layoutId = item.layoutId!!,userLayout = item.userData!!)
+                                navigator?.navigateToFavInterpretationFragment(
+                                    layoutId = item.layoutId!!,
+                                    userLayout = item.userData!!
+                                )
                             },
                             state = item.selected!!,
                             checkAction = {
@@ -171,10 +179,10 @@ private fun TopBarIcon(clickAction: () -> Unit) {
 }
 
 @Composable
-private fun TopBarActions(fontSize: Float,clickAction: () -> Unit) {
+private fun TopBarActions(fontSize: Float, clickAction: () -> Unit) {
     val context = LocalContext.current
     IconButton(onClick = {
-        SavedLayoutsDialog(context,fontSize,clickAction).showDialog()
+        SavedLayoutsDialog(context, fontSize, clickAction).showDialog()
     }) {
         Icon(
             painter = painterResource(id = R.drawable.ic_delete),
@@ -187,7 +195,8 @@ private fun TopBarActions(fontSize: Float,clickAction: () -> Unit) {
 @Composable
 private fun checkboxItem(
     state: Boolean,
-    checkAction: (Boolean) -> Unit
+    checkAction: (Boolean) -> Unit,
+    fontSize: Float
 ) {
     Box(
         Modifier
@@ -199,7 +208,21 @@ private fun checkboxItem(
             Box(
                 Modifier
                     .fillMaxSize()
-                    .weight(355f)
+                    .weight(258f)
+            )
+            Text(
+                modifier = Modifier
+                    .weight(100f),
+                text = stringResource(id = R.string.fav_checkbox_text),
+                textAlign = TextAlign.End,
+                color = colorResource(id = R.color.fav_checkbox_text),
+                fontFamily = FontFamily(Font(R.font.roboto_regular)),
+                style = TextStyle(fontSize = with(LocalDensity.current) { ((fontSize * 0.6).toFloat()).toSp() })
+            )
+            Box(
+                Modifier
+                    .fillMaxSize()
+                    .weight(21f)
             )
             Checkbox(
                 checked = state,
@@ -217,7 +240,7 @@ private fun checkboxItem(
             Box(
                 Modifier
                     .fillMaxSize()
-                    .weight(22f)
+                    .weight(25f)
             )
         }
     }
@@ -271,12 +294,12 @@ private fun FavItem(
                         .weight(318f)
                         .padding(end = 5.dp)
                 ) {
-                    Row(verticalAlignment = Alignment.Bottom){
+                    Row(verticalAlignment = Alignment.Bottom) {
                         Text(
                             text = header,
                             color = colorResource(id = R.color.fav_header_text),
                             fontFamily = FontFamily(Font(R.font.roboto_regular)),
-                            style = TextStyle(fontSize = with(LocalDensity.current) { fontSize.toSp()}),
+                            style = TextStyle(fontSize = with(LocalDensity.current) { fontSize.toSp() }),
                             modifier = Modifier
                                 .padding(bottom = 4.dp)
                                 .weight(10f),
@@ -323,7 +346,7 @@ private fun FavItem(
                 Box(
                     Modifier
                         .fillMaxSize()
-                        .weight(22f)
+                        .weight(23f)
                 )
             }
             //bottom space
