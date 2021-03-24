@@ -3,8 +3,10 @@ package com.test.runar.ui.activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.view.WindowManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import com.test.runar.R
 import com.test.runar.controllers.MusicController
 import com.test.runar.databinding.ActivitySplashBinding
 import com.test.runar.presentation.viewmodel.SplashViewModel
@@ -16,6 +18,11 @@ class SplashActivity : AppCompatActivity(){
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        window.statusBarColor = getColor(R.color.library_top_bar)
+
         binding = ActivitySplashBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
