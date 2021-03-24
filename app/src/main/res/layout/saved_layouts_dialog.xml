@@ -45,10 +45,23 @@
                 android:fontFamily="@font/roboto_regular"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/left_text_guideline"
+                app:layout_constraintEnd_toEndOf="@id/right_text_guideline"
                 android:gravity="center"
                 android:lineSpacingMultiplier="1.4"/>
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/left_text_guideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.05"/>
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/right_text_guideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.95"/>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"
