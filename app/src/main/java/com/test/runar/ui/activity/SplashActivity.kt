@@ -16,6 +16,7 @@ class SplashActivity : AppCompatActivity(){
 
     private val viewModel: SplashViewModel by viewModels()
     private lateinit var binding: ActivitySplashBinding
+    private var musicState = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,6 +32,11 @@ class SplashActivity : AppCompatActivity(){
         playAudio()
         supportActionBar?.hide()
         setupViewModel()
+    }
+
+    override fun onPause() {
+        if(musicState) MusicController.stopMusic()
+        super.onPause()
     }
 
     fun playAudio() {
@@ -50,6 +56,7 @@ class SplashActivity : AppCompatActivity(){
         val intent = Intent(this, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
         }
+        musicState = false
         startActivity(intent)
         finish()
     }

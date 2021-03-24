@@ -1,6 +1,8 @@
 package com.test.runar.ui.activity
 
 import android.content.*
+import android.media.AudioFocusRequest
+import android.media.AudioManager
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.viewModels
@@ -19,12 +21,13 @@ import com.test.runar.ui.Navigator
 import com.test.runar.ui.dialogs.CancelDialog
 import com.test.runar.ui.fragments.*
 
-class MainActivity : AppCompatActivity(), Navigator {
+class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusChangeListener {
 
     private val viewModel: MainViewModel by viewModels()
     private var fontSize: Float = 0f
     private var languageReceiver = LanguageBroadcastReceiver()
 
+    private lateinit var audioManager: AudioManager
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,6 +52,9 @@ class MainActivity : AppCompatActivity(), Navigator {
         viewModel.fontSize.observe(this){
             fontSize = it
         }
+
+        audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        audioManager.requestAudioFocus(this,AudioManager.STREAM_MUSIC,AudioManager.AUDIOFOCUS_GAIN)
 
         binding.bottomNavigationBar.setOnNavigationItemSelectedListener { item->
             when(item.itemId){
@@ -89,6 +95,16 @@ class MainActivity : AppCompatActivity(), Navigator {
             }
         }
     }
+
+    override fun onAudioFocusChange(focusChange: Int) {
+        if(focusChange<=0){
+            MusicController.stopMusic()
+        }
+        else{
+            MusicController.startMusic()
+        }
+    }
+
     override fun onResume() {
         MusicController.startMusic()
         RunarLogger.logDebug("main activivty start music")
