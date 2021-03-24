@@ -38,7 +38,7 @@
             android:background="@drawable/confirmation_dialog_background_top">
             <TextView
                 android:id="@+id/dialog_text"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/fav_dialog_text"
                 android:textColor="@color/description_popup_text_color"
