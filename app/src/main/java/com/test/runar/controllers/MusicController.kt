@@ -19,7 +19,6 @@ object MusicController {
     var log1 = 0.015f
 
     fun init(context: Context) {
-        RunarLogger.logDebug(log1.toString())
         currentSongPos = getRandomSongPos()
         mediaPlayer = MediaPlayer.create(context, musicList[currentSongPos])
         mediaPlayer.setVolume(log1,log1)
