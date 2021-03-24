@@ -86,7 +86,7 @@ private fun Bars(navigator: Navigator?) {
     val barColor = colorResource(id = R.color.library_top_bar_header)
     val barFont = FontFamily(Font(R.font.roboto_medium))
     val barFontSize = with(LocalDensity.current) { ((fontSize!! * 1.35).toFloat()).toSp() }
-    var barText = "Избранное"
+    var barText = stringResource(id = R.string.library_bar_fav)
     var navIcon: @Composable() (() -> Unit)? = null
     var navActions: @Composable RowScope.() -> Unit = {}
 
