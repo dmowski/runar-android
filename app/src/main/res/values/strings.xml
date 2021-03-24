@@ -60,4 +60,6 @@
     <string name="about_app_txt">О приложении</string>
     <string name="about_txt">Версия приложения 1.0</string>
     <string name="fav_dialog_text">Хотите удалить избранные расклады?</string>
+
+    <string name="fav_checkbox_text">Выбрать всё</string>
 </resources>

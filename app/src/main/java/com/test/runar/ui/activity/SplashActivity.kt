@@ -26,14 +26,12 @@ class SplashActivity : AppCompatActivity(){
         binding = ActivitySplashBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
-        playAudio(view)
+        playAudio()
         supportActionBar?.hide()
         setupViewModel()
     }
 
-    fun playAudio(view: View?) {
-        /*val objIntent = Intent(this, MediaService::class.java)
-        startService(objIntent)*/
+    fun playAudio() {
         MusicController.startMusic()
     }
 
