@@ -17,7 +17,7 @@ object MusicController {
     private lateinit var mediaPlayer: MediaPlayer
     var preferencesRepository = SharedPreferencesRepository.get()
     var currentSongPos=0
-    var log1 = 0.015f
+    var log1 = 0.25f
 
     fun init(context: Context) {
         currentSongPos = getRandomSongPos()
