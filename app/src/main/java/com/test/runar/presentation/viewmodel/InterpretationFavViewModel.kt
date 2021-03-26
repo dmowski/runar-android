@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.test.runar.RunarLogger
 import com.test.runar.extensions.SingleLiveEvent
 import com.test.runar.model.AffimDescriptionModel
 import com.test.runar.model.LayoutDescriptionModel
@@ -106,10 +107,8 @@ class InterpretationFavViewModel(application: Application) : AndroidViewModel(ap
                     return
                 }
                 in 40..50 -> {
-                    if (affirmElement.lvl4 != null || affirmElement.lvl4 != "") {
-                        _currentAffirm.postValue(affirmElement.lvl4)
-                        return
-                    }
+                    _currentAffirm.postValue(affirmElement.lvl4)
+                    return
                 }
             }
         }

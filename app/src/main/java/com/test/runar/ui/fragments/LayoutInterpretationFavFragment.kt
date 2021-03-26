@@ -26,7 +26,6 @@ import androidx.fragment.app.viewModels
 import com.test.runar.customClasses.InterTagHandler
 import com.test.runar.customClasses.OnSwipeTouchListener
 import com.test.runar.R
-import com.test.runar.RunarLogger
 import com.test.runar.databinding.FragmentLayoutInterpretationFavBinding
 import com.test.runar.extensions.setOnCLickListenerForAll
 import com.test.runar.presentation.viewmodel.InterpretationFavViewModel
@@ -435,7 +434,6 @@ class LayoutInterpretationFavFragment : Fragment(R.layout.fragment_layout_interp
         for (runeDot in runesDotsList) runeDotsIdList.add(runeDot.id)
        when (v?.id) {
            R.id.exit_button_main->{
-               RunarLogger.logDebug("click")
                navigator?.navigateToFavAndShowBottomNavBar()
            }
             in runeIdList -> {
