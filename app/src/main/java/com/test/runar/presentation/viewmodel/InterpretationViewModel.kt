@@ -131,10 +131,8 @@ class InterpretationViewModel(application: Application) : AndroidViewModel(appli
                     return
                 }
                 in 40..50 -> {
-                    if (affirmElement.lvl4 != null || affirmElement.lvl4 != "") {
-                        _currentAffirm.postValue(affirmElement.lvl4)
-                        return
-                    }
+                    _currentAffirm.postValue(affirmElement.lvl4)
+                    return
                 }
             }
         }
