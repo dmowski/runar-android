@@ -25,7 +25,6 @@ object MusicController {
         mediaPlayer.setVolume(log1,log1)
 
         mediaPlayer.setOnCompletionListener {
-            RunarLogger.logDebug("music done")
             var state = true
             while(state){
                 val newSongPos = getRandomSongPos()
@@ -37,7 +36,6 @@ object MusicController {
             }
             mediaPlayer.reset()
             val mediaPath = Uri.parse("android.resource://" + context.packageName + "/" + musicList[currentSongPos])
-            RunarLogger.logDebug("music pos: $currentSongPos")
             mediaPlayer.setDataSource(context,mediaPath)
             mediaPlayer.prepare()
             mediaPlayer.setVolume(log1,log1)
@@ -54,7 +52,6 @@ object MusicController {
         if(preferencesRepository.settingsMusic==1){
             if(!mediaPlayer.isLooping){
                 mediaPlayer.start()
-                RunarLogger.logDebug("Media Player started!")
             }
         }
     }
