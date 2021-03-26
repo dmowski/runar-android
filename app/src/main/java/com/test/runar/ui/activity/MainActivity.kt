@@ -57,11 +57,11 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
         audioManager.requestAudioFocus(this,AudioManager.STREAM_MUSIC,AudioManager.AUDIOFOCUS_GAIN)
 
         binding.bottomNavigationBar.setOnNavigationItemSelectedListener { item->
+            RunarLogger.logDebug("manager stack size: ${supportFragmentManager.backStackEntryCount}")
             when(item.itemId){
                 R.id.libraryFragment->{
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.fragmentContainer, LibraryFragment())
-                        .addToBackStack(null)
                         .commit()
                     binding.bottomNavigationBar.isVisible = true
                     true
@@ -69,7 +69,6 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
                 R.id.layoutFragment->{
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.fragmentContainer, LayoutFragment())
-                        .addToBackStack(null)
                         .commit()
                     binding.bottomNavigationBar.isVisible = true
                     true
@@ -78,7 +77,6 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
                 R.id.settingsFragment->{
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.fragmentContainer, SettingsFragment())
-                         .addToBackStack(null)
                         .commit()
                     binding.bottomNavigationBar.isVisible = true
                     true
@@ -86,7 +84,6 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
                 R.id.favFragment->{
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.fragmentContainer, FavouriteFragment())
-                        .addToBackStack(null)
                         .commit()
                     binding.bottomNavigationBar.isVisible = true
                     true
@@ -185,7 +182,7 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
     override fun navigateToFavInterpretationFragment(layoutId: Int, userLayout: IntArray) {
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragmentContainer, LayoutInterpretationFavFragment.newInstance(layoutId, userLayout))
-            .addToBackStack(null)
+            .addToBackStack(KEY_TO_FAV_FRAGMENT_BACK)
             .commit()
         binding.bottomNavigationBar.isVisible = false
     }
@@ -193,7 +190,6 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
     override fun navigateToAboutFragment() {
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragmentContainer, AboutAppFragment())
-            .addToBackStack(null)
             .commit()
         binding.bottomNavigationBar.isVisible = true
     }
@@ -212,17 +208,13 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
     }
 
     override fun navigateToFavAndShowBottomNavBar() {
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fragmentContainer, FavouriteFragment())
-            .addToBackStack(null)
-            .commit()
+        supportFragmentManager.popBackStack(KEY_TO_FAV_FRAGMENT_BACK, FragmentManager.POP_BACK_STACK_INCLUSIVE)
         binding.bottomNavigationBar.isVisible = true
     }
 
     override fun navigateToSettings() {
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragmentContainer, SettingsFragment())
-            .addToBackStack(null)
             .commit()
         binding.bottomNavigationBar.isVisible = true
     }
@@ -248,6 +240,8 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
 
     companion object {
         private const val KEY_TO_LAYOUT_FRAGMENT_BACK = "KEY_LAYOUT_FRAGMENT"
+        private const val KEY_TO_FAV_FRAGMENT_BACK = "KEY_FAV_FRAGMENT"
+        private const val KEY_TO_SETTINGS_FRAGMENT_BACK = "KEY_SETTINGS_FRAGMENT"
     }
 
 }
