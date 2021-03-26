@@ -2,6 +2,7 @@ package com.test.runar.controllers
 
 import android.content.Context
 import android.media.MediaPlayer
+import android.net.Uri
 import com.test.runar.R
 import com.test.runar.RunarLogger
 import com.test.runar.repository.SharedPreferencesRepository
@@ -24,6 +25,7 @@ object MusicController {
         mediaPlayer.setVolume(log1,log1)
 
         mediaPlayer.setOnCompletionListener {
+            RunarLogger.logDebug("music done")
             var state = true
             while(state){
                 val newSongPos = getRandomSongPos()
@@ -33,7 +35,11 @@ object MusicController {
                     state = false
                 }
             }
-            mediaPlayer = MediaPlayer.create(context, musicList[currentSongPos])
+            mediaPlayer.reset()
+            val mediaPath = Uri.parse("android.resource://" + context.packageName + "/" + musicList[currentSongPos])
+            RunarLogger.logDebug("music pos: $currentSongPos")
+            mediaPlayer.setDataSource(context,mediaPath)
+            mediaPlayer.prepare()
             mediaPlayer.setVolume(log1,log1)
             mediaPlayer.start()
         }
@@ -49,9 +55,6 @@ object MusicController {
             if(!mediaPlayer.isLooping){
                 mediaPlayer.start()
                 RunarLogger.logDebug("Media Player started!")
-                if (!mediaPlayer.isLooping) {
-                    RunarLogger.logDebug("Problem in Playing Audio")
-                }
             }
         }
     }
