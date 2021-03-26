@@ -49,7 +49,6 @@ class LibraryViewModel : ViewModel() {
     }
 
     fun updateMenuData(id: String){
-        RunarLogger.logDebug(id)
         val newList = mutableListOf<LibraryItemsModel>()
         var selectedItem = LibraryItemsModel()
         for(curItem in dbList){

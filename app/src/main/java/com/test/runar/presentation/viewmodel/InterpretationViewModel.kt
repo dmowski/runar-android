@@ -36,6 +36,8 @@ class InterpretationViewModel(application: Application) : AndroidViewModel(appli
     var currentInterpretation : LiveData<String> = _currentInterpretation
     var selectedRune : LiveData<RuneDescriptionModel> = _selectedRune
 
+    var affirmId =1
+
 
     fun getSelectedRuneData(id: Int) {
         val runeId = userLayout[id]
@@ -92,7 +94,7 @@ class InterpretationViewModel(application: Application) : AndroidViewModel(appli
                     userLayout[5],
                     userLayout[6],
                     userLayout[7],
-                    currentInterpretation.value
+                    affirmId
             )
             DatabaseRepository.addUserLayout(userLayout)
         }
@@ -117,6 +119,7 @@ class InterpretationViewModel(application: Application) : AndroidViewModel(appli
     fun getAffimForCurrentLayout(ausp: Int) {
         while (true) {
             val affirmElement = affirmData.random()
+            affirmId=affirmElement.id!!*100+ausp
             when (ausp) {
                 in 0..19 -> {
                     _currentAffirm.postValue(affirmElement.lvl1)

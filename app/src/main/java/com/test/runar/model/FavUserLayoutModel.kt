@@ -7,5 +7,6 @@ data class FavUserLayoutModel (
     var id: Int?,
     var selected: Boolean?,
     var layoutId: Int?,
-    var userData: IntArray?
+    var userData: IntArray?,
+    var affirmId: Int?
 )
