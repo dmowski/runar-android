@@ -49,6 +49,7 @@ class LayoutInterpretationFavFragment : Fragment(R.layout.fragment_layout_interp
     private var runeWidth: Int = 0
     private var fontSize: Float = 0f
     private var layoutId: Int = 0
+    private var affirmId: Int = 0
 
     private var defaultConstraintSet = ConstraintSet()
     private var baseSize = 0
@@ -77,6 +78,7 @@ class LayoutInterpretationFavFragment : Fragment(R.layout.fragment_layout_interp
         super.onCreate(savedInstanceState)
         layoutId = requireArguments().getInt(KEY_LAYOUT_ID)
         newUserLayout = (requireArguments().getIntArray(KEY_USER_LAYOUT)!!).toCollection(ArrayList())
+        affirmId = requireArguments().getInt(KEY_AFFIRM_ID)
         viewModel.setCurrentUserLayout(newUserLayout)
         viewModel.getLayoutDescription(layoutId)
         viewModel.getRuneDataFromDB()
@@ -320,7 +322,7 @@ class LayoutInterpretationFavFragment : Fragment(R.layout.fragment_layout_interp
                             if (ausp != null) {
                                 binding.text.text = "${requireContext().resources.getString(R.string.layout_interpretation_ausf)} - $ausp %"
                                 if (ausp <= 50) {
-                                    viewModel.getAffimForCurrentLayout(ausp)
+                                    viewModel.getAffimForCurrentLayout(affirmId)
                                 } else {
                                     binding.textAffim.visibility = View.GONE
                                     viewModel.getInterpretation()
@@ -812,12 +814,14 @@ class LayoutInterpretationFavFragment : Fragment(R.layout.fragment_layout_interp
     companion object {
         private const val KEY_LAYOUT_ID = "KEY_LAYOUT_ID"
         private const val KEY_USER_LAYOUT = "KEY_USER_LAYOUT"
+        private const val KEY_AFFIRM_ID = "KEY_AFFIRM_ID"
 
-        fun newInstance(layoutId: Int, userLayout: IntArray): LayoutInterpretationFavFragment {
+        fun newInstance(layoutId: Int, userLayout: IntArray, affirmId: Int): LayoutInterpretationFavFragment {
             return LayoutInterpretationFavFragment().apply {
                 arguments = bundleOf(
                     KEY_LAYOUT_ID to layoutId,
-                    KEY_USER_LAYOUT to userLayout
+                    KEY_USER_LAYOUT to userLayout,
+                    KEY_AFFIRM_ID to affirmId
                 )
             }
         }

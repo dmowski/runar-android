@@ -90,10 +90,12 @@ class InterpretationFavViewModel(application: Application) : AndroidViewModel(ap
         _currentAusp.postValue(ausp)
     }
 
-    fun getAffimForCurrentLayout(ausp: Int) {
+    fun getAffimForCurrentLayout(affirmId: Int) {
         while (true) {
-            val affirmElement = affirmData.random()
-            when (ausp) {
+            val affirmNumber = affirmId/100
+            val affirmLvl = affirmId%100
+            val affirmElement = getAffirmDataById(affirmNumber)
+            when (affirmLvl) {
                 in 0..19 -> {
                     _currentAffirm.postValue(affirmElement.lvl1)
                     return
@@ -112,6 +114,14 @@ class InterpretationFavViewModel(application: Application) : AndroidViewModel(ap
                 }
             }
         }
+    }
+
+    fun getAffirmDataById(id: Int): AffimDescriptionModel{
+        var result = affirmData[0]
+        for(item in affirmData){
+            if(item.id==id) result = item
+        }
+        return result
     }
 
     fun getSumOfAusp(ids: ArrayList<Int>): Int {

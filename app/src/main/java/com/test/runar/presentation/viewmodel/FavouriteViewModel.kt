@@ -44,7 +44,8 @@ class FavouriteViewModel: ViewModel() {
                 id = item.id,
                 selected = false,
                 layoutId = item.layoutId,
-                userData = data
+                userData = data,
+                affirmId = item.affirmId
             )
             correctData.add(correctItem)
             checkboxMap[item.id!!] = true
@@ -61,7 +62,6 @@ class FavouriteViewModel: ViewModel() {
                 }
             }
         }
-        RunarLogger.logDebug(idsList.size.toString())
         CoroutineScope(Dispatchers.IO).launch {
             DatabaseRepository.deleteUserLayoutsByIds(idsList)
             favList = DatabaseRepository.getUserLayouts()
@@ -85,7 +85,7 @@ class FavouriteViewModel: ViewModel() {
                 else newData.add(item)
             }
         }
-        if(shitExist) newData.add(FavUserLayoutModel(null,null,null,666999,null,null,null))
+        if(shitExist) newData.add(FavUserLayoutModel(null,null,null,666999,null,null,null,null))
         var selectedExist = false
         for(item in newData){
             if(item.selected==true) selectedExist = true
@@ -107,7 +107,7 @@ class FavouriteViewModel: ViewModel() {
                 else newData.add(item)
             }
         }
-        if(shitExist) newData.add(FavUserLayoutModel(null,null,null,666999,null,null,null))
+        if(shitExist) newData.add(FavUserLayoutModel(null,null,null,666999,null,null,null,null))
         var selectedExist = false
         for(item in newData){
             if(item.selected==true) selectedExist = true

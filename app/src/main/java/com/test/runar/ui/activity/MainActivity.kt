@@ -57,7 +57,6 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
         audioManager.requestAudioFocus(this,AudioManager.STREAM_MUSIC,AudioManager.AUDIOFOCUS_GAIN)
 
         binding.bottomNavigationBar.setOnNavigationItemSelectedListener { item->
-            RunarLogger.logDebug("manager stack size: ${supportFragmentManager.backStackEntryCount}")
             when(item.itemId){
                 R.id.libraryFragment->{
                     supportFragmentManager.beginTransaction()
@@ -104,14 +103,12 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
 
     override fun onResume() {
         MusicController.startMusic()
-        RunarLogger.logDebug("main activivty start music")
         forceBarHide()
         super.onResume()
     }
 
     override fun onPause() {
         MusicController.stopMusic()
-        RunarLogger.logDebug("main activivty pause music")
         super.onPause()
     }
 
@@ -179,9 +176,9 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
             .commit()
     }
 
-    override fun navigateToFavInterpretationFragment(layoutId: Int, userLayout: IntArray) {
+    override fun navigateToFavInterpretationFragment(layoutId: Int, userLayout: IntArray, affirmId: Int) {
         supportFragmentManager.beginTransaction()
-            .replace(R.id.fragmentContainer, LayoutInterpretationFavFragment.newInstance(layoutId, userLayout))
+            .replace(R.id.fragmentContainer, LayoutInterpretationFavFragment.newInstance(layoutId, userLayout, affirmId))
             .addToBackStack(KEY_TO_FAV_FRAGMENT_BACK)
             .commit()
         binding.bottomNavigationBar.isVisible = false

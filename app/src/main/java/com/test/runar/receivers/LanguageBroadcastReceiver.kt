@@ -18,6 +18,5 @@ class LanguageBroadcastReceiver: BroadcastReceiver() {
         SharedDataRepository.init(context)
         val spr = SharedPreferencesRepository.get()
         spr.changeSettingsLanguage(Locale.getDefault().language)
-        RunarLogger.logDebug("receive change language")
     }
 }

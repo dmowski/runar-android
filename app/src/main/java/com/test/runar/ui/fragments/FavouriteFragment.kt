@@ -152,7 +152,8 @@ private fun Bars(navigator: Navigator?) {
                             clickAction = {
                                 navigator?.navigateToFavInterpretationFragment(
                                     layoutId = item.layoutId!!,
-                                    userLayout = item.userData!!
+                                    userLayout = item.userData!!,
+                                    affirmId = item.affirmId!!
                                 )
                             },
                             state = item.selected!!,
