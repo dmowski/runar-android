@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -70,8 +71,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.65" />
+        app:layout_constraintGuide_percent="0.67" />
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/bottom_under_button_guidline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.76" />
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/top_text_guideline"
         android:layout_width="wrap_content"
@@ -129,11 +136,11 @@
         app:layout_constraintGuide_percent="0.72" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/bottom_under_button_guidline"
+        android:id="@+id/bottom_image_guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.79" />
+        app:layout_constraintGuide_percent="0.52" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/description_text_view"
@@ -152,13 +159,15 @@
             android:id="@+id/image_group"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginBottom="29dp"
-            android:layout_marginTop="29dp"
+            android:layout_marginLeft="60dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="60dp"
+            android:layout_marginBottom="30dp"
             app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toEndOf="@+id/progress_of_loading_view"
-            app:layout_constraintStart_toStartOf="@+id/progress_of_loading_view"
-            app:layout_constraintTop_toTopOf="@+id/progress_of_loading_view"
-            app:layout_constraintBottom_toBottomOf="@+id/progress_of_loading_view"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_view" />
         <ProgressBar
             android:id="@+id/progress_of_loading_view"
             style="?android:attr/progressBarStyleHorizontal"
