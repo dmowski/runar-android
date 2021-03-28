@@ -3,11 +3,14 @@ package com.test.runar.presentation.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.test.runar.RunarLogger
 import com.test.runar.extensions.SingleLiveEvent
+import com.test.runar.repository.BackendRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.util.*
 
 class SplashViewModel : ViewModel() {
 
@@ -19,15 +22,19 @@ class SplashViewModel : ViewModel() {
 
     init {
         CoroutineScope(Dispatchers.IO).launch {
+            val backendConnection = true
 
             delay(DELAY_BEFORE_START_LOADING)
             repeat(2){
                 delay(STEP_OF_LOADING)
                 _progress.postValue(25 * (it + 1))
             }
-            /*val locale: String = Locale.getDefault().language
-            if (locale.equals("ru"))  BackendRepository.getLibraryData("ru")
-            else  BackendRepository.getLibraryData("en")*/
+            if(backendConnection){
+                val locale: String = Locale.getDefault().language
+                RunarLogger.logDebug("language: $locale")
+                if (locale.equals("ru"))  BackendRepository.getLibraryData("ru")
+                else  BackendRepository.getLibraryData("en")
+            }
             repeat(2){
                 delay(STEP_OF_LOADING)
                 _progress.postValue(25 * (it + 2))

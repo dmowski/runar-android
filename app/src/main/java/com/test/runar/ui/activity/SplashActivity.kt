@@ -11,6 +11,7 @@ import com.test.runar.RunarLogger
 import com.test.runar.controllers.MusicController
 import com.test.runar.databinding.ActivitySplashBinding
 import com.test.runar.presentation.viewmodel.SplashViewModel
+import com.test.runar.repository.LanguageRepository
 
 class SplashActivity : AppCompatActivity(){
 
@@ -20,6 +21,8 @@ class SplashActivity : AppCompatActivity(){
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        LanguageRepository.setSettingsLanguage(this)
 
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
