@@ -28,19 +28,20 @@ class SplashActivity : AppCompatActivity(){
         binding = ActivitySplashBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
-        RunarLogger.logDebug("splash screen start music")
-        playAudio()
         supportActionBar?.hide()
         setupViewModel()
     }
 
-    override fun onPause() {
-        if(musicState) MusicController.stopMusic()
-        super.onPause()
+    override fun onResume() {
+        MusicController.splashStatus=true
+        MusicController.startMusic()
+        super.onResume()
     }
 
-    fun playAudio() {
-        MusicController.startMusic()
+    override fun onPause() {
+        MusicController.splashStatus=false
+        if(musicState) MusicController.stopMusic()
+        super.onPause()
     }
 
     private fun setupViewModel() {

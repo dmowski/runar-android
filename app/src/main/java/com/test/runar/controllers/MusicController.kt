@@ -19,6 +19,9 @@ object MusicController {
     var currentSongPos=0
     var log1 = 0.25f
 
+    var splashStatus = false
+    var mainStatus = false
+
     fun init(context: Context) {
         currentSongPos = getRandomSongPos()
         mediaPlayer = MediaPlayer.create(context, musicList[currentSongPos])
@@ -49,14 +52,16 @@ object MusicController {
     }
 
     fun startMusic(){
+        RunarLogger.logDebug("start: $splashStatus  $mainStatus")
         if(preferencesRepository.settingsMusic==1){
             if(!mediaPlayer.isLooping){
-                mediaPlayer.start()
+                if(splashStatus||mainStatus) mediaPlayer.start()
             }
         }
     }
 
     fun stopMusic(){
+        RunarLogger.logDebug("stop")
         mediaPlayer.pause()
     }
 }

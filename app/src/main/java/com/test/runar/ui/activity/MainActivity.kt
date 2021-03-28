@@ -102,12 +102,15 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
     }
 
     override fun onResume() {
+        MusicController.mainStatus = true
+        RunarLogger.logDebug("resumed")
         MusicController.startMusic()
         forceBarHide()
         super.onResume()
     }
 
     override fun onPause() {
+        MusicController.mainStatus = false
         MusicController.stopMusic()
         super.onPause()
     }
@@ -121,7 +124,10 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
     override fun onBackPressed() {
         val topFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainer)
         when (topFragment) {
-            is LayoutFragment -> finishAndRemoveTask()
+            is LayoutFragment -> {
+                finishAndRemoveTask()
+                System.exit(0)
+            }
             is LibraryFragment -> RunarLogger.logDebug("todo")
             is FavouriteFragment -> RunarLogger.logDebug("todo")
             is SettingsFragment -> RunarLogger.logDebug("todo")
