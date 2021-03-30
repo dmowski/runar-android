@@ -22,7 +22,7 @@ class SplashViewModel : ViewModel() {
 
     init {
         CoroutineScope(Dispatchers.IO).launch {
-            val backendConnection = true
+            val backendConnection = false
 
             delay(DELAY_BEFORE_START_LOADING)
             repeat(2){

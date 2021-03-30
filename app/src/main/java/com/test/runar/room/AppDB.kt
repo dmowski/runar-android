@@ -9,9 +9,11 @@ import java.util.*
 
 @Database(
     entities = [LayoutDescriptionModel::class, RuneDescriptionModel::class, AffimDescriptionModel::class, TwoRunesInterModel::class, LibraryItemsModel::class],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
+
+//убрать костыль с миграцие потом!
 abstract class AppDB : RoomDatabase() {
     abstract fun appDAO(): AppDAO
 
@@ -33,7 +35,7 @@ abstract class AppDB : RoomDatabase() {
             }
 
             INSTANCE = Room.databaseBuilder(context, AppDB::class.java, dataBaseName)
-                    .createFromAsset(dataBaseFilePath).build()
+                    .createFromAsset(dataBaseFilePath).fallbackToDestructiveMigration().build()
         }
 
         fun getLayoutDB(): AppDB {
