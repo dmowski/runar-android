@@ -8,9 +8,11 @@ import com.test.runar.model.*
 
 @Database(
     entities = [DescriptionStatusModel::class,UserLayoutModel::class],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
+
+//убрать костыль с миграцие потом!
 abstract class DataDB : RoomDatabase() {
     abstract fun dataDAO(): DataDAO
 
@@ -21,7 +23,7 @@ abstract class DataDB : RoomDatabase() {
         fun init(context: Context) {
             synchronized(this) {
                 INSTANCE = Room.databaseBuilder(context, DataDB::class.java, "LDD_DATABASE")
-                    .createFromAsset("database/app_data.db").build()
+                    .createFromAsset("database/app_data.db").fallbackToDestructiveMigration().build()
             }
         }
 
