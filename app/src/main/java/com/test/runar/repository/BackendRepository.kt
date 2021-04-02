@@ -45,7 +45,6 @@ object BackendRepository {
                     RunarLogger.logDebug("oldHash: $oldHash  newHash: $newHash")
                     if (newHash != null) {
                         if(oldHash!=newHash){
-                            spr.putLibHash(lang,newHash)
                             RunarLogger.logDebug("Accepted and started library updating")
                             val response = RetrofitClient.apiInterface.getLibraryData(lang)
                             if (response.isSuccessful) {
@@ -53,6 +52,8 @@ object BackendRepository {
                                 val convertedResult = DataClassConverters.libRespToItems(response.body()!!)
                                 RunarLogger.logDebug("Data Loaded and Converted")
                                 DatabaseRepository.updateLibraryDB(convertedResult)
+                                RunarLogger.logDebug("save new hash")
+                                spr.putLibHash(lang,newHash)
                                 RunarLogger.logDebug("work with library done")
                             } else {
                                 RunarLogger.logDebug("Library not success: " + response.code().toString())
