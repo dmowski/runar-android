@@ -13,6 +13,23 @@ class SharedPreferencesRepository private constructor(context: Context) {
     var language: String
 
     init {
+        val appVersion = context.packageManager.getPackageInfo(context.packageName, 0).versionCode
+        if (preferences.contains("version")) {
+            val oldVersion = preferences.getInt("version", 0).toString()
+            if(oldVersion!=""){
+                if(appVersion>oldVersion.toInt()){
+                    val editor = preferences.edit()
+                    editor.clear()
+                    editor.putInt("version",appVersion)
+                    editor.apply()
+
+                }
+            }
+        } else {
+            val editor = preferences.edit()
+            editor.putInt("version", appVersion)
+            editor.apply()
+        }
         if (preferences.contains("Id")) {
             userId = preferences.getString("Id", "").toString()
         } else {
@@ -39,6 +56,23 @@ class SharedPreferencesRepository private constructor(context: Context) {
             editor.putString("language", language)
             editor.apply()
         }
+    }
+
+    fun getLibHash(lng:String) : String{
+        return if (preferences.contains("${lng}_library_hash")) {
+            preferences.getString("${lng}_library_hash", "").toString()
+        } else {
+            val editor = preferences.edit()
+            editor.putString("${lng}_library_hash", "")
+            editor.apply()
+            ""
+        }
+    }
+
+    fun putLibHash(lng:String, hash: String){
+        val editor = preferences.edit()
+        editor.putString("${lng}_library_hash", hash)
+        editor.apply()
     }
 
     fun changeSettingsMusic(n: Int){
