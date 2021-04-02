@@ -68,10 +68,11 @@ class FavouriteFragment : Fragment() {
         view.setOnKeyListener { _, keyCode, event ->
             if (event.action == KeyEvent.ACTION_DOWN) {
                 if (keyCode == KeyEvent.KEYCODE_BACK) {
+                    true
                     //on future
                 }
             }
-            true
+            false
         }
         return view
     }
