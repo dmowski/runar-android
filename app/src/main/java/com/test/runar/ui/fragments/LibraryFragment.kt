@@ -26,6 +26,10 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.test.runar.R
 import com.test.runar.presentation.viewmodel.LibraryViewModel
 import dev.chrisbanes.accompanist.coil.CoilImage
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 
 class LibraryFragment : Fragment() {
     val viewModel: LibraryViewModel by viewModels()
@@ -61,7 +65,7 @@ class LibraryFragment : Fragment() {
 }
 
 @Composable
-private fun ItemData() {
+private fun ItemData(scrollState: ScrollState) {
     val viewModel: LibraryViewModel = viewModel()
     val fontSize by viewModel.fontSize.observeAsState()
     val menuData by viewModel.menuData.observeAsState()
@@ -85,6 +89,9 @@ private fun ItemData() {
                         text = item.content!!,
                         imgLink = item.imageUrl!!,
                         clickAction = {
+                            CoroutineScope(Dispatchers.IO).launch {
+                                scrollState.scrollTo(0)
+                            }
                             viewModel.updateMenuData(item.id!!)
                         }
                     )
@@ -93,6 +100,9 @@ private fun ItemData() {
                     fontSize = fontSize!!,
                     header = item.title!!,
                     clickAction = {
+                        CoroutineScope(Dispatchers.IO).launch {
+                            scrollState.scrollTo(0)
+                        }
                         viewModel.updateMenuData(item.id!!)
                     }
                 )
@@ -114,12 +124,6 @@ private fun ItemData() {
             }
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun DefaultPreview() {
-    ItemData()
 }
 
 @Composable
@@ -158,7 +162,7 @@ private fun Bars() {
     ) {
         val scrollState = rememberScrollState()
         Column(Modifier.verticalScroll(state = scrollState, enabled = true)) {
-            ItemData()
+            ItemData(scrollState)
             Box(modifier = Modifier.aspectRatio(15f,true))
         }
     }
