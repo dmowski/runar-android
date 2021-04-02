@@ -1,5 +1,6 @@
 package com.test.runar.retrofit
 
+import kotlinx.coroutines.Deferred
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -11,4 +12,7 @@ interface BackendApiInterface {
     suspend fun createUser(@Body user: UserInfo) : Response<UserResponse>
     @GET("library/{language}")
     suspend fun getLibraryData(@Path("language") language: String) : Response<List<LibraryResponse>>
+    @GET("library-hash/{language}")
+    suspend fun getLibraryHash(@Path("language") language: String) : Response<HashResponse>
+
 }

@@ -6,9 +6,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.test.runar.controllers.MusicController
 import com.test.runar.model.FavUserLayoutModel
+import com.test.runar.repository.BackendRepository
 import com.test.runar.repository.LanguageRepository
 import com.test.runar.repository.SharedDataRepository
 import com.test.runar.repository.SharedPreferencesRepository
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.util.*
 
 class SettingsViewModel: ViewModel() {
@@ -32,6 +36,9 @@ class SettingsViewModel: ViewModel() {
         preferencesRepository.changeSettingsLanguage(langOrder[pos])
         selectedLanguagePos.postValue(pos)
         headerUpdater.postValue(!headerUpdater.value!!)
+        CoroutineScope(Dispatchers.IO).launch {
+            BackendRepository.getLibraryData(langOrder[pos])
+        }
     }
 
     fun updateMusicStatus(){
