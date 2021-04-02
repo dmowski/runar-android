@@ -10,11 +10,12 @@ import com.test.runar.room.DataDB
 
 class App : Application() {
     override fun onCreate() {
-        super.onCreate()
+        SharedPreferencesRepository.init(this)
+        LanguageRepository.setInitialSettingsLanguage(this)
         AppDB.init(this)
         DataDB.init(this)
-        SharedPreferencesRepository.init(this)
         SharedDataRepository.init(this)
         MusicController.init(this)
+        super.onCreate()
     }
 }

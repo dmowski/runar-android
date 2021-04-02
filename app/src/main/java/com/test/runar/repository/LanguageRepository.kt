@@ -1,6 +1,7 @@
 package com.test.runar.repository
 
 import android.app.Activity
+import android.content.Context
 import android.content.res.Configuration
 import com.test.runar.room.AppDB
 import com.test.runar.ui.activity.MainActivity
@@ -35,5 +36,16 @@ object LanguageRepository {
         AppDB.init(activity)
         DatabaseRepository.reinit()
         SharedDataRepository.init(activity)
+    }
+    fun setInitialSettingsLanguage(context: Context){
+        val prefRep = SharedPreferencesRepository.get()
+        val locale = Locale(prefRep.language)
+        Locale.setDefault(locale)
+        val config: Configuration? = context.resources?.configuration
+        config?.locale = locale
+        context.resources?.updateConfiguration(
+            config,
+            context.resources?.displayMetrics
+        )
     }
 }
