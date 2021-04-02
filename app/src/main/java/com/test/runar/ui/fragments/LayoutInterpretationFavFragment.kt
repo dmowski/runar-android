@@ -425,7 +425,7 @@ class LayoutInterpretationFavFragment : Fragment(R.layout.fragment_layout_interp
                     }
                 }
             }
-            backBlock
+            false
         }
     }
 
