@@ -13,7 +13,6 @@ import java.util.*
     exportSchema = false
 )
 
-//убрать костыль с миграцие потом!
 abstract class AppDB : RoomDatabase() {
     abstract fun appDAO(): AppDAO
 
@@ -35,7 +34,7 @@ abstract class AppDB : RoomDatabase() {
             }
 
             INSTANCE = Room.databaseBuilder(context, AppDB::class.java, dataBaseName)
-                    .createFromAsset(dataBaseFilePath).fallbackToDestructiveMigration().build()
+                    .createFromAsset(dataBaseFilePath).build()
         }
 
         fun getLayoutDB(): AppDB {
