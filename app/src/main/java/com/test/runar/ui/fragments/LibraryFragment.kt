@@ -52,7 +52,6 @@ class LibraryFragment : Fragment() {
             if (event.action == KeyEvent.ACTION_DOWN) {
                 if (keyCode == KeyEvent.KEYCODE_BACK) {
                     viewModel.goBackInMenu()
-                    true
                 }
             }
             false

@@ -62,18 +62,6 @@ class FavouriteFragment : Fragment() {
                 Bars(navigator)
             }
         }
-        view.isFocusableInTouchMode = true
-        view.requestFocus()
-
-        view.setOnKeyListener { _, keyCode, event ->
-            if (event.action == KeyEvent.ACTION_DOWN) {
-                if (keyCode == KeyEvent.KEYCODE_BACK) {
-                    true
-                    //on future
-                }
-            }
-            false
-        }
         return view
     }
 }
