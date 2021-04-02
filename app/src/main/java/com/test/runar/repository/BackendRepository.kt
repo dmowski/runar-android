@@ -9,6 +9,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
+import java.util.*
 
 object BackendRepository {
 
@@ -50,10 +51,13 @@ object BackendRepository {
                             if (response.isSuccessful) {
                                 RunarLogger.logDebug("Library success: " + response.message().toString())
                                 val convertedResult = DataClassConverters.libRespToItems(response.body()!!)
-                                RunarLogger.logDebug("Data Loaded and Converted")
-                                DatabaseRepository.updateLibraryDB(convertedResult)
-                                RunarLogger.logDebug("save new hash")
-                                spr.putLibHash(lang,newHash)
+                                if(Locale.getDefault().language==lang){
+                                    RunarLogger.logDebug("Data Loaded and Converted")
+                                    DatabaseRepository.updateLibraryDB(convertedResult)
+                                    RunarLogger.logDebug("save new hash")
+                                    spr.putLibHash(lang,newHash)
+                                }
+                                else RunarLogger.logDebug("Language changed can't update db")
                                 RunarLogger.logDebug("work with library done")
                             } else {
                                 RunarLogger.logDebug("Library not success: " + response.code().toString())
