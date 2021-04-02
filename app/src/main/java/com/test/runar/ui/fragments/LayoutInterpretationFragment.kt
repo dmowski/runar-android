@@ -461,7 +461,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                     }
                 }
             }
-            backBlock
+            false
         }
     }
 
