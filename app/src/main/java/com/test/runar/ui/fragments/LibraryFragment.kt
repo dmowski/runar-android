@@ -387,7 +387,7 @@ private fun SimpleTextItem(fontSize: Float, text: String) {
         Box(
             Modifier
                 .fillMaxSize()
-                .weight(398f)
+                .weight(382f)
         ) {
             Text(
                 text = text,
@@ -399,6 +399,11 @@ private fun SimpleTextItem(fontSize: Float, text: String) {
                     lineHeight = with(LocalDensity.current) { ((fontSize * 1.4).toFloat()).toSp() }),
             )
         }
+        Box(
+            Modifier
+                .fillMaxSize()
+                .weight(16f)
+        )
     }
 }
 
