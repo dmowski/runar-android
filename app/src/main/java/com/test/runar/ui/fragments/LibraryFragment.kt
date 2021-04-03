@@ -352,9 +352,9 @@ private fun SecondMenuItem(fontSize: Float, header: String,clickAction : () -> U
 
 @Composable
 private fun ThirdMenuItem(fontSize: Float, text: String, title: String) {
-    val newText = text.replace("\\n", "\n")
+    //val newText = text.replace("\\n", "\n")
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        Box(Modifier.aspectRatio(13.8f))
+        Box(Modifier.aspectRatio(22f))
         Text(
             text = title,
             color = colorResource(id = R.color.library_third_id),
@@ -362,7 +362,7 @@ private fun ThirdMenuItem(fontSize: Float, text: String, title: String) {
             style = TextStyle(fontSize = with(LocalDensity.current) { ((fontSize * 0.9).toFloat()).toSp() })
         )
         Text(
-            text = newText,
+            text = text,
             color = colorResource(id = R.color.library_third_text),
             fontFamily = FontFamily(Font(R.font.roboto_light)),
             style = TextStyle(
@@ -371,13 +371,13 @@ private fun ThirdMenuItem(fontSize: Float, text: String, title: String) {
                 lineHeight = with(LocalDensity.current) { ((fontSize * 1.4).toFloat()).toSp() }),
             modifier = Modifier.padding(top = 5.dp)
         )
-        Box(Modifier.aspectRatio(20f))
+        Box(Modifier.aspectRatio(22f))
     }
 }
 
 @Composable
 private fun SimpleTextItem(fontSize: Float, text: String) {
-    val newText = text.replace("\\n", "\n")
+    //val newText = text.replace("\\n", "\n")
     Row {
         Box(
             Modifier
@@ -390,7 +390,7 @@ private fun SimpleTextItem(fontSize: Float, text: String) {
                 .weight(398f)
         ) {
             Text(
-                text = newText,
+                text = text,
                 color = colorResource(id = R.color.library_simple_text),
                 fontFamily = FontFamily(Font(R.font.roboto_light)),
                 style = TextStyle(
