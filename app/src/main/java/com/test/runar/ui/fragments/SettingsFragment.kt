@@ -257,7 +257,7 @@ private fun SwitcherMenuItem(
 
 @Composable
 private fun LangMenuItem(fontSize: Float, header: String, selectedPos: Int) {
-    var langList = arrayListOf<String>(
+    val langList = arrayListOf<String>(
         stringResource(id = R.string.settings_language_rus),
         stringResource(id = R.string.settings_language_en)
     )
@@ -317,18 +317,13 @@ private fun LanguageItem(fontSize: Float, itemName: String, selected: Boolean, p
             .fillMaxSize()
             .aspectRatio(11f), verticalAlignment = Alignment.CenterVertically
     ) {
-        Box(
-            Modifier
-                .fillMaxSize()
-                .weight(16f)
-        )
         Text(
             text = itemName,
             color = colorResource(id = R.color.settings_language),
             fontFamily = FontFamily(Font(R.font.roboto_regular)),
             style = TextStyle(fontSize = with(LocalDensity.current) { ((fontSize * 0.8).toFloat()).toSp() }),
             modifier = Modifier
-                .weight(320f)
+                .weight(336f)
         )
         Box(
             Modifier
