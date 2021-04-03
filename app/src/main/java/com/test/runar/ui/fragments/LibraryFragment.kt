@@ -81,8 +81,6 @@ private fun ItemData(scrollState: ScrollState) {
         for (item in menuData?.first!!) {
             when (item.type) {
                 "root" -> {
-                    /*var txt =" "
-                    if(item.content!=null) txt = item.content!!*/
                     FirstMenuItem(
                         fontSize = fontSize!!,
                         header = item.title!!,
@@ -115,12 +113,16 @@ private fun ItemData(scrollState: ScrollState) {
                     fontSize = fontSize!!,
                     text = item.content!!
                 )
-                "rune" -> RuneDescription(
-                    fontSize = fontSize!!,
-                    header = item.title!!,
-                    text = item.content!!,
-                    imgLink = "test"
-                )
+                "rune" -> {
+                    var imgUrl =" "
+                    if(item.imageUrl!=null) imgUrl = item.imageUrl!!
+                    RuneDescription(
+                        fontSize = fontSize!!,
+                        header = item.title!!,
+                        text = item.content!!,
+                        imgLink = imgUrl
+                    )
+                }
             }
         }
     }
@@ -430,7 +432,7 @@ private fun RuneDescription(fontSize: Float, header: String, text: String, imgLi
                     .weight(152f)
             )
             CoilImage(
-                data = R.drawable.test_rune,
+                data = imgLink,
                 contentDescription = null,
                 modifier = Modifier
                     .background(Color(0x00000000))
