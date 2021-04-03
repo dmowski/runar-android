@@ -356,7 +356,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                                 }
                                 else{
                                     binding.interpretationText.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
-                                    binding.interpretationText.text = Html.fromHtml(interpretation, null, InterTagHandler(secondFont!!))
+                                    binding.interpretationText.text = interpretation
                                 }
                                 val observer = binding.root.viewTreeObserver
                                 defaultConstraintSet.clone(runesLayout)
