@@ -37,6 +37,7 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         window.statusBarColor = getColor(R.color.library_top_bar)
+        window.navigationBarColor = getColor(R.color.library_top_bar)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)

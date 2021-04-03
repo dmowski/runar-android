@@ -27,6 +27,7 @@ class SplashActivity : AppCompatActivity(){
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         window.statusBarColor = getColor(R.color.library_top_bar)
+        window.navigationBarColor = getColor(R.color.library_top_bar)
 
         binding = ActivitySplashBinding.inflate(layoutInflater)
         val view = binding.root
