@@ -354,7 +354,7 @@ private fun SecondMenuItem(fontSize: Float, header: String,clickAction : () -> U
 private fun ThirdMenuItem(fontSize: Float, text: String, title: String) {
     //val newText = text.replace("\\n", "\n")
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        Box(Modifier.aspectRatio(22f))
+        Box(Modifier.aspectRatio(28f))
         Text(
             text = title,
             color = colorResource(id = R.color.library_third_id),
@@ -371,7 +371,7 @@ private fun ThirdMenuItem(fontSize: Float, text: String, title: String) {
                 lineHeight = with(LocalDensity.current) { ((fontSize * 1.4).toFloat()).toSp() }),
             modifier = Modifier.padding(top = 5.dp)
         )
-        Box(Modifier.aspectRatio(22f))
+        Box(Modifier.aspectRatio(28f))
     }
 }
 
