@@ -380,6 +380,11 @@ private fun ThirdMenuItem(fontSize: Float, text: String, title: String) {
 @Composable
 private fun SimpleTextItem(fontSize: Float, text: String) {
     //val newText = text.replace("\\n", "\n")
+    Box(
+        Modifier
+            .fillMaxSize()
+            .aspectRatio(70f)
+    )
     Row {
         Box(
             Modifier
@@ -407,6 +412,11 @@ private fun SimpleTextItem(fontSize: Float, text: String) {
                 .weight(16f)
         )
     }
+    Box(
+        Modifier
+            .fillMaxSize()
+            .aspectRatio(70f)
+    )
 }
 
 @Composable
