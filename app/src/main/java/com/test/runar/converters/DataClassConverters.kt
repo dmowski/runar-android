@@ -14,7 +14,9 @@ object DataClassConverters {
                 title = item.title,
                 imageUrl = item.imageUrl,
                 sortOrder = item.sortOrder,
-                type = item.type
+                type = item.type,
+                linkTitle = item.linkTitle,
+                linkUrl = item.linkUrl
             )
             resultList.add(itemModel)
         }

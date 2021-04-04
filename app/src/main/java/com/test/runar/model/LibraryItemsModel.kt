@@ -19,6 +19,10 @@ data class LibraryItemsModel(
     @ColumnInfo(name = "sort_order")
     var sortOrder: Int?,
     var type: String?,
+    @ColumnInfo(name = "link_title")
+    var linkTitle: String?,
+    @ColumnInfo(name = "link_url")
+    var linkUrl: String?
 ){
-    constructor() : this("null", listOf(),null,null,null,null,null)
+    constructor() : this("null", listOf(),null,null,null,null,null,null,null)
 }

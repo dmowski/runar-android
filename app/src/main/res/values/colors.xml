@@ -78,4 +78,6 @@
     <color name="switcher_unchecked_thumb">#9A9A9A</color>
     <color name="switcher_unchecked_back">#409A9A9A</color>
 
+    <color name="url_text_color">#9A9A9A</color>
+
 </resources>
