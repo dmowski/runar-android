@@ -119,6 +119,7 @@ class FavouriteViewModel: ViewModel() {
     private fun textCorrection(text: String?): String{
         var newText =""
         var complete = false
+        newText = text ?: "WTF"
         val maxStrSize = 37
         var curInd =newText.indexOf(" ")
         var prevInd =newText.indexOf(" ")
