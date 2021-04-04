@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.*
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -13,13 +14,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.platform.UriHandler
 import androidx.compose.ui.res.*
-import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.*
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -111,11 +116,13 @@ private fun ItemData(scrollState: ScrollState) {
                 )
                 "plainText" -> SimpleTextItem(
                     fontSize = fontSize!!,
-                    text = item.content!!
+                    text = item.content!!,
+                    urlTitle = item.linkTitle,
+                    urlLink = item.linkUrl
                 )
                 "rune" -> {
-                    var imgUrl =" "
-                    if(item.imageUrl!=null) imgUrl = item.imageUrl!!
+                    var imgUrl = " "
+                    if (item.imageUrl != null) imgUrl = item.imageUrl!!
                     RuneDescription(
                         fontSize = fontSize!!,
                         header = item.title!!,
@@ -137,7 +144,7 @@ private fun Bars() {
     var barColor = colorResource(id = R.color.library_top_bar_header)
     var barFont = FontFamily(Font(R.font.roboto_medium))
     var barFontSize = with(LocalDensity.current) { ((fontSize!! * 1.35).toFloat()).toSp() }
-    var navIcon :@Composable() (()-> Unit)? = null
+    var navIcon: @Composable() (() -> Unit)? = null
 
     if (header != stringResource(id = R.string.library_top_bar_header)) {
         barColor = colorResource(id = R.color.library_top_bar_header_2)
@@ -165,13 +172,13 @@ private fun Bars() {
         val scrollState = rememberScrollState()
         Column(Modifier.verticalScroll(state = scrollState, enabled = true)) {
             ItemData(scrollState)
-            Box(modifier = Modifier.aspectRatio(15f,true))
+            Box(modifier = Modifier.aspectRatio(15f, true))
         }
     }
 }
 
 @Composable
-private fun TopBarIcon(){
+private fun TopBarIcon() {
     val viewModel: LibraryViewModel = viewModel()
     IconButton(onClick = { viewModel.goBackInMenu() }) {
         Icon(
@@ -183,7 +190,13 @@ private fun TopBarIcon(){
 }
 
 @Composable
-private fun FirstMenuItem(fontSize: Float, header: String, text: String, imgLink: String, clickAction : () -> Unit) {
+private fun FirstMenuItem(
+    fontSize: Float,
+    header: String,
+    text: String,
+    imgLink: String,
+    clickAction: () -> Unit
+) {
     Row(
         Modifier
             .aspectRatio(3.8f, true)
@@ -298,7 +311,7 @@ private fun NavigateItem(fontSize: Float, route: List<String>) {
 }
 
 @Composable
-private fun SecondMenuItem(fontSize: Float, header: String,clickAction : () -> Unit) {
+private fun SecondMenuItem(fontSize: Float, header: String, clickAction: () -> Unit) {
     Row(
         Modifier
             .aspectRatio(6.3f, true)
@@ -378,7 +391,7 @@ private fun ThirdMenuItem(fontSize: Float, text: String, title: String) {
 }
 
 @Composable
-private fun SimpleTextItem(fontSize: Float, text: String) {
+private fun SimpleTextItem(fontSize: Float, text: String, urlTitle: String?, urlLink: String?) {
     //val newText = text.replace("\\n", "\n")
     Box(
         Modifier
@@ -391,7 +404,7 @@ private fun SimpleTextItem(fontSize: Float, text: String) {
                 .fillMaxSize()
                 .weight(16f)
         )
-        Box(
+        Column(
             Modifier
                 .fillMaxSize()
                 .weight(382f)
@@ -405,6 +418,45 @@ private fun SimpleTextItem(fontSize: Float, text: String) {
                     textAlign = TextAlign.Start,
                     lineHeight = with(LocalDensity.current) { ((fontSize * 1.4).toFloat()).toSp() }),
             )
+            if (!urlLink.isNullOrEmpty() && !urlTitle.isNullOrEmpty()) {
+                Box(
+                    Modifier
+                        .fillMaxSize()
+                        .aspectRatio(130f))
+
+                val annotatedLinkString: AnnotatedString = buildAnnotatedString {
+                    append(urlTitle)
+                    addStyle(
+                        style = SpanStyle(
+                            color = colorResource(id = R.color.url_text_color),
+                            fontSize = with(LocalDensity.current) { ((fontSize * 0.7).toFloat()).toSp() }
+                        ), start = 0, end = urlTitle.length
+                    )
+                    addStyle(
+                        style = ParagraphStyle(
+                            lineHeight = with(LocalDensity.current) { ((fontSize * 1.05).toFloat()).toSp() }
+                        ), start = 0, end = urlTitle.length
+                    )
+                    addStringAnnotation(
+                        tag = "URL",
+                        annotation = urlLink,
+                        start = 0,
+                        end = urlTitle.length
+                    )
+
+                }
+                val uriHandler = LocalUriHandler.current
+                ClickableText(
+                    text = annotatedLinkString,
+                    onClick = {
+                        annotatedLinkString
+                            .getStringAnnotations("URL", it, it)
+                            .firstOrNull()?.let { stringAnnotation ->
+                                uriHandler.openUri(stringAnnotation.item)
+                            }
+                    }
+                )
+            }
         }
         Box(
             Modifier

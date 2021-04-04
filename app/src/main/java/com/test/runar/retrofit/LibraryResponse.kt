@@ -7,5 +7,7 @@ data class LibraryResponse(
     val title: String? =null,
     val sortOrder: Int? = null,
     val content: String? =null,
-    val type: String? = null
+    val type: String? = null,
+    val linkTitle: String? =null,
+    val linkUrl: String? = null
 )
