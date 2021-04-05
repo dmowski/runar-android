@@ -47,11 +47,15 @@ class DescriptionDialog(description: String, header: String, fontSize: Float) :
         dialog.findViewById<ImageView>(com.test.runar.R.id.exit_button).setOnClickListener(this)
         dialog.findViewById<FrameLayout>(com.test.runar.R.id.description_button_frame)
             .setOnClickListener(this)
-        dialog.setOnKeyListener { dialog, keyCode, _ ->
-            if (keyCode == KeyEvent.KEYCODE_BACK) {
-                dialog.dismiss()
+        dialog.setOnKeyListener { _, keyCode, event ->
+            var consumed = false
+            if (event.action == KeyEvent.ACTION_DOWN) {
+                if (keyCode == KeyEvent.KEYCODE_BACK) {
+                    consumed = true
+                    dialog.dismiss()
+                }
             }
-            true
+            consumed
         }
     }
 
