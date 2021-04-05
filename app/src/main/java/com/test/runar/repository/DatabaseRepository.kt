@@ -59,9 +59,9 @@ object DatabaseRepository {
 
     suspend fun updateLibraryDB(list: List<LibraryItemsModel>){
         appDao.clearLibrary()
-        RunarLogger.logDebug("library cleared")
+        //RunarLogger.logDebug("library cleared")
         appDao.insertLibraryData(list)
-        RunarLogger.logDebug("library data inserted")
+        //RunarLogger.logDebug("library data inserted")
     }
 
     fun getUserLayouts(): List<UserLayoutModel>{

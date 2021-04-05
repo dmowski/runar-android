@@ -15,16 +15,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalUriHandler
-import androidx.compose.ui.platform.UriHandler
 import androidx.compose.ui.res.*
 import androidx.compose.ui.text.*
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextDecoration
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -33,7 +29,6 @@ import com.test.runar.presentation.viewmodel.LibraryViewModel
 import dev.chrisbanes.accompanist.coil.CoilImage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
 class LibraryFragment : Fragment() {
@@ -369,7 +364,6 @@ private fun SecondMenuItem(fontSize: Float, header: String, clickAction: () -> U
 
 @Composable
 private fun ThirdMenuItem(fontSize: Float, text: String, title: String) {
-    //val newText = text.replace("\\n", "\n")
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Box(Modifier.aspectRatio(28f))
         Text(
@@ -394,7 +388,6 @@ private fun ThirdMenuItem(fontSize: Float, text: String, title: String) {
 
 @Composable
 private fun SimpleTextItem(fontSize: Float, text: String, urlTitle: String?, urlLink: String?) {
-    //val newText = text.replace("\\n", "\n")
     Box(
         Modifier
             .fillMaxSize()

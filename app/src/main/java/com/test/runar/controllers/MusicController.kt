@@ -4,11 +4,9 @@ import android.content.Context
 import android.media.MediaPlayer
 import android.net.Uri
 import com.test.runar.R
-import com.test.runar.RunarLogger
 import com.test.runar.repository.SharedPreferencesRepository
 import kotlinx.coroutines.*
 import java.util.*
-import kotlin.math.ln
 
 object MusicController {
 
@@ -53,7 +51,6 @@ object MusicController {
     }
 
     fun startMusic(){
-        RunarLogger.logDebug("start: $splashStatus  $mainStatus")
         if(preferencesRepository.settingsMusic==1){
             if(!mediaPlayer.isLooping){
                 if(splashStatus||mainStatus) mediaPlayer.start()
@@ -62,7 +59,6 @@ object MusicController {
     }
 
     fun stopMusic(){
-        RunarLogger.logDebug("stop")
         mediaPlayer.pause()
     }
 

@@ -2,12 +2,10 @@ package com.test.runar.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import android.view.WindowManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.test.runar.R
-import com.test.runar.RunarLogger
 import com.test.runar.controllers.MusicController
 import com.test.runar.databinding.ActivitySplashBinding
 import com.test.runar.presentation.viewmodel.SplashViewModel

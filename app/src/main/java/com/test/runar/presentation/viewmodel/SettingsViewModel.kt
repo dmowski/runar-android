@@ -5,7 +5,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.test.runar.controllers.MusicController
-import com.test.runar.model.FavUserLayoutModel
 import com.test.runar.repository.BackendRepository
 import com.test.runar.repository.LanguageRepository
 import com.test.runar.repository.SharedDataRepository

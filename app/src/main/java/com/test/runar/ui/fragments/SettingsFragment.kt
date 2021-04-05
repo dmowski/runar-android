@@ -27,12 +27,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
-import androidx.core.content.ContextCompat.startActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.test.runar.R
-import com.test.runar.presentation.viewmodel.LibraryViewModel
 import com.test.runar.presentation.viewmodel.SettingsViewModel
 import com.test.runar.ui.Navigator
 

@@ -18,59 +18,60 @@ object BackendRepository {
             try {
                 val response = RetrofitClient.apiInterface.createUser(userInfo)
                 if (response.isSuccessful) {
-                    RunarLogger.logDebug("Identification success: " + response.message().toString())
+                    //RunarLogger.logDebug("Identification success: " + response.message().toString())
                 } else {
-                    RunarLogger.logDebug(
-                        "Identification not success: " + response.code().toString()
-                    )
+                    //RunarLogger.logDebug( "Identification not success: " + response.code().toString() )
                 }
             } catch (e: HttpException) {
-                RunarLogger.logDebug("Identification http error")
+                //RunarLogger.logDebug("Identification http error")
             } catch (e: Throwable) {
-                RunarLogger.logDebug("Identification some strange error")
+                //RunarLogger.logDebug("Identification some strange error")
             }
         }
     }
 
     suspend fun getLibraryData(lang: String) {
-        RunarLogger.logDebug("Start updating library")
+        //RunarLogger.logDebug("Start updating library")
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                RunarLogger.logDebug("Send hash request")
+                //RunarLogger.logDebug("Send hash request")
                 val hashResp = RetrofitClient.apiInterface.getLibraryHash(lang)
-                if(hashResp.isSuccessful){
-                    RunarLogger.logDebug("Hash GET!: ")
+                if (hashResp.isSuccessful) {
+                    //RunarLogger.logDebug("Hash GET!: ")
                     val spr = SharedPreferencesRepository.get()
                     val oldHash = spr.getLibHash(lang)
                     val newHash = hashResp.body()?.hash
-                    RunarLogger.logDebug("oldHash: $oldHash  newHash: $newHash")
+                    //RunarLogger.logDebug("oldHash: $oldHash  newHash: $newHash")
                     if (newHash != null) {
-                        if(oldHash!=newHash){
-                            RunarLogger.logDebug("Accepted and started library updating")
+                        if (oldHash != newHash) {
+                            //RunarLogger.logDebug("Accepted and started library updating")
                             val response = RetrofitClient.apiInterface.getLibraryData(lang)
                             if (response.isSuccessful) {
-                                RunarLogger.logDebug("Library success: " + response.message().toString())
-                                val convertedResult = DataClassConverters.libRespToItems(response.body()!!)
-                                if(Locale.getDefault().language==lang){
-                                    RunarLogger.logDebug("Data Loaded and Converted")
+                                //RunarLogger.logDebug("Library success: " + response.message().toString())
+                                val convertedResult =
+                                    DataClassConverters.libRespToItems(response.body()!!)
+                                if (Locale.getDefault().language == lang) {
+                                    //RunarLogger.logDebug("Data Loaded and Converted")
                                     DatabaseRepository.updateLibraryDB(convertedResult)
-                                    RunarLogger.logDebug("save new hash")
-                                    spr.putLibHash(lang,newHash)
+                                    //RunarLogger.logDebug("save new hash")
+                                    spr.putLibHash(lang, newHash)
+                                } else {
+                                    //RunarLogger.logDebug("Language changed can't update db")
                                 }
-                                else RunarLogger.logDebug("Language changed can't update db")
-                                RunarLogger.logDebug("work with library done")
+                                //RunarLogger.logDebug("work with library done")
                             } else {
-                                RunarLogger.logDebug("Library not success: " + response.code().toString())
+                                //RunarLogger.logDebug("Library not success: " + response.code().toString())
                             }
+                        } else {
+                            //RunarLogger.logDebug("Library Data is actual, not need to update")
                         }
-                        else RunarLogger.logDebug("Library Data is actual, not need to update")
                     }
                 }
             } catch (e: HttpException) {
-                RunarLogger.logDebug("Library http error")
+                //RunarLogger.logDebug("Library http error")
             } catch (e: Throwable) {
-                RunarLogger.logDebug("Library some strange error")
-                RunarLogger.logError("Library", e)
+                //RunarLogger.logDebug("Library some strange error")
+                //RunarLogger.logError("Library", e)
             }
         }
     }
