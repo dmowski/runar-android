@@ -460,6 +460,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                         backBlock = true
                     }
                 }
+                else backBlock = false
             }
             backBlock
         }

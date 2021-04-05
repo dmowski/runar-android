@@ -30,11 +30,15 @@ class CancelDialog(private val context: Context,private val fontSize:Float) {
         dialog.findViewById<TextView>(R.id.dialog_text).setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
         dialog.findViewById<TextView>(R.id.button_yes).setTextSize(TypedValue.COMPLEX_UNIT_PX,buttonsFontSize)
         dialog.findViewById<TextView>(R.id.button_no).setTextSize(TypedValue.COMPLEX_UNIT_PX, buttonsFontSize)
-        dialog.setOnKeyListener { _, keyCode, _ ->
-            if (keyCode == KeyEvent.KEYCODE_BACK) {
-                dialog.dismiss()
+        dialog.setOnKeyListener { _, keyCode, event ->
+            var consumed = false
+            if (event.action == KeyEvent.ACTION_DOWN) {
+                if (keyCode == KeyEvent.KEYCODE_BACK) {
+                    consumed = true
+                    dialog.dismiss()
+                }
             }
-            true
+            consumed
         }
         dialog.findViewById<ConstraintLayout>(R.id.dialog_element_left).setOnClickListener {
             dialog.dismiss()

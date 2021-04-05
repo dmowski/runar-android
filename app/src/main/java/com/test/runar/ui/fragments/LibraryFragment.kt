@@ -58,12 +58,14 @@ class LibraryFragment : Fragment() {
         view.requestFocus()
 
         view.setOnKeyListener { _, keyCode, event ->
+            var consumed = false
             if (event.action == KeyEvent.ACTION_DOWN) {
                 if (keyCode == KeyEvent.KEYCODE_BACK) {
                     viewModel.goBackInMenu()
+                    consumed = true
                 }
             }
-            true
+            consumed
         }
         return view
     }
