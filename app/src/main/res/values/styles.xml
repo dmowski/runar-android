@@ -8,12 +8,4 @@
         <item name="android:textSize">10sp</item>
     </style>
 
-    <style name="about_app_txt_style">
-        @import url(\'https://fonts.googleapis.com/css2?family=Inter:wght@100;400;600&amp;display=swap');
-    </style>
-
-    <style name="settings_toolbar_style">
-        <item name ="android:textSize">20sp</item>
-        <item name ="android:fontFamily">sans-serif</item>
-    </style>
 </resources>
