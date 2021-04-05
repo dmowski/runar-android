@@ -1,6 +1,8 @@
 package com.test.runar.ui.fragments
 
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.View
@@ -28,6 +30,8 @@ class LayoutProcessingFragment : Fragment(R.layout.fragment_layout_processing) {
         get() = _binding!!
 
     private val viewModel: ProcessingViewModel by viewModels()
+
+    private var link = "http://www.google.com"
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -69,11 +73,13 @@ class LayoutProcessingFragment : Fragment(R.layout.fragment_layout_processing) {
                     binding.imageGroup.setImageResource(R.drawable.led_image)
                 }
                 0 -> {
+                    link = "https://danheimmusic.com/"
                     binding.textGroupName.text = "Danheim"
                     binding.textSongName.text = "Kala"
                     binding.imageGroup.setImageResource(R.drawable.danheim_image)
                 }
                 1 -> {
+                    link ="https://lyod1.bandcamp.com/releases"
                     binding.textGroupName.text = "Danheim"
                     binding.textSongName.text = "Runar"
                     binding.imageGroup.setImageResource(R.drawable.danheim_image)
@@ -81,6 +87,13 @@ class LayoutProcessingFragment : Fragment(R.layout.fragment_layout_processing) {
             }
 
         }
+
+        binding.descriptionButtonFrame.setOnClickListener {
+            val uri = Uri.parse(link)
+            val intent = Intent(Intent.ACTION_VIEW, uri)
+            startActivity(intent)
+        }
+
         super.onViewCreated(view, savedInstanceState)
     }
 
@@ -93,7 +106,7 @@ class LayoutProcessingFragment : Fragment(R.layout.fragment_layout_processing) {
         lifecycleScope.launchWhenResumed {
             for (i in 0..100) {
                 binding.progressOfLoadingView.progress = i
-                delay(15)
+                delay(150)
             }
             navigator?.navigateToInterpretationFragment(layoutId, userLayout)
         }

@@ -41,7 +41,9 @@ object MusicController {
             mediaPlayer.setDataSource(context,mediaPath)
             mediaPlayer.prepare()
             mediaPlayer.setVolume(log1,log1)
-            mediaPlayer.start()
+            if(preferencesRepository.settingsMusic==1){
+                mediaPlayer.start()
+            }
         }
     }
 
