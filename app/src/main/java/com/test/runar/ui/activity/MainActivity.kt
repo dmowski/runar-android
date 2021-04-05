@@ -1,7 +1,6 @@
 package com.test.runar.ui.activity
 
 import android.content.*
-import android.media.AudioFocusRequest
 import android.media.AudioManager
 import android.os.Bundle
 import android.view.WindowManager
@@ -11,7 +10,6 @@ import androidx.core.view.get
 import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentManager
 import com.test.runar.R
-import com.test.runar.RunarLogger
 import com.test.runar.controllers.MusicController
 import com.test.runar.databinding.ActivityMainBinding
 import com.test.runar.presentation.viewmodel.MainViewModel
@@ -104,7 +102,6 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
 
     override fun onResume() {
         MusicController.mainStatus = true
-        RunarLogger.logDebug("resumed")
         MusicController.startMusic()
         forceBarHide()
         super.onResume()
@@ -129,9 +126,15 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
                 finishAndRemoveTask()
                 System.exit(0)
             }
-            is LibraryFragment -> RunarLogger.logDebug("todo")
-            is FavouriteFragment -> RunarLogger.logDebug("todo")
-            is SettingsFragment -> RunarLogger.logDebug("todo")
+            is LibraryFragment -> {
+                //RunarLogger.logDebug("todo")
+            }
+            is FavouriteFragment -> {
+                //RunarLogger.logDebug("todo")
+            }
+            is SettingsFragment -> {
+                //RunarLogger.logDebug("todo")
+            }
             is LayoutInterpretationFavFragment -> navigateToFavAndShowBottomNavBar()
             is AboutAppFragment -> navigateToSettings()
             !is LayoutDescriptionFragment -> showDialog()

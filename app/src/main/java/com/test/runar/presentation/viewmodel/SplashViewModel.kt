@@ -3,7 +3,6 @@ package com.test.runar.presentation.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.test.runar.RunarLogger
 import com.test.runar.extensions.SingleLiveEvent
 import com.test.runar.repository.BackendRepository
 import kotlinx.coroutines.CoroutineScope
@@ -31,7 +30,6 @@ class SplashViewModel : ViewModel() {
             }
             if(backendConnection){
                 val locale: String = Locale.getDefault().language
-                RunarLogger.logDebug("language: $locale")
                 if (locale.equals("ru"))  BackendRepository.getLibraryData("ru")
                 else  BackendRepository.getLibraryData("en")
             }

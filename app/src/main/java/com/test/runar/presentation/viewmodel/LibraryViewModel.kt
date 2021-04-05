@@ -3,7 +3,6 @@ package com.test.runar.presentation.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.test.runar.RunarLogger
 import com.test.runar.model.LibraryItemsModel
 import com.test.runar.repository.DatabaseRepository
 import com.test.runar.repository.SharedDataRepository
