@@ -112,7 +112,7 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
 
     override fun onPause() {
         MusicController.mainStatus = false
-        MusicController.stopMusic()
+        MusicController.softStopMusic()
         super.onPause()
     }
 

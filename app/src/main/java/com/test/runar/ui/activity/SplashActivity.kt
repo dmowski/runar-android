@@ -44,7 +44,7 @@ class SplashActivity : AppCompatActivity(){
 
     override fun onPause() {
         MusicController.splashStatus=false
-        if(musicState) MusicController.stopMusic()
+        MusicController.softStopMusic()
         super.onPause()
     }
 
