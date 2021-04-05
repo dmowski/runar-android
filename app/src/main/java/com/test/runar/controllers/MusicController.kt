@@ -6,6 +6,7 @@ import android.net.Uri
 import com.test.runar.R
 import com.test.runar.RunarLogger
 import com.test.runar.repository.SharedPreferencesRepository
+import kotlinx.coroutines.*
 import java.util.*
 import kotlin.math.ln
 
@@ -63,5 +64,14 @@ object MusicController {
     fun stopMusic(){
         RunarLogger.logDebug("stop")
         mediaPlayer.pause()
+    }
+
+    fun softStopMusic(){
+        CoroutineScope(Dispatchers.Default).launch {
+            delay(300L)
+            if(!splashStatus&&!mainStatus){
+                mediaPlayer.pause()
+            }
+        }
     }
 }
