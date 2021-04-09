@@ -316,7 +316,9 @@ private fun LanguageItem(fontSize: Float, itemName: String, selected: Boolean, p
     Row(
         Modifier
             .fillMaxSize()
-            .aspectRatio(11f), verticalAlignment = Alignment.CenterVertically
+            .aspectRatio(11f)
+            .clickable(onClick = { if (!selected) viewModel.changeLanguage(pos, (context as Activity)) })
+        , verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
             text = itemName,
@@ -333,7 +335,7 @@ private fun LanguageItem(fontSize: Float, itemName: String, selected: Boolean, p
         )
         RadioButton(
             selected = selected,
-            onClick = { if (!selected) viewModel.changeLanguage(pos, (context as Activity)) },
+            onClick = {},
             colors = RadioButtonDefaults.colors(
                 selectedColor = colorResource(id = R.color.switcher_checked_thumb),
                 unselectedColor = colorResource(id = R.color.switcher_unchecked_thumb)
