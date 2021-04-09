@@ -114,7 +114,8 @@ private fun Bars(navigator: Navigator) {
                 fontSize = fontSize!!,
                 header = stringResource(id = R.string.music_txt),
                 checkAction = { viewModel.changeMusicStatus(it) },
-                state = musicStatus!!
+                state = musicStatus!!,
+                clickAction = { viewModel.changeMusicStatus(!musicStatus!!) }
             )
             SimpleMenuItem(
                 fontSize = fontSize!!,
@@ -196,11 +197,13 @@ private fun SwitcherMenuItem(
     fontSize: Float,
     header: String,
     checkAction: ((Boolean) -> Unit),
-    state: Boolean
+    state: Boolean,
+    clickAction: () -> Unit
 ) {
     Row(
         Modifier
             .aspectRatio(6.3f, true)
+            .clickable(onClick = clickAction)
     ) {
         Box(
             Modifier
