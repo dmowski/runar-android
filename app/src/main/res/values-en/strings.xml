@@ -43,7 +43,7 @@
     <string name="music_txt">Music</string>
     <string name="rate_app_txt">Rate the application</string>
     <string name="about_app_txt">About</string>
-    <string name="about_txt">Application version 1.0</string>
+    <string name="about_txt">Application version 0.11–2</string>
     <string name="library_top_bar_header">Library</string>
     <string name="fav_dialog_text">Do you really want to delete your favorite layouts?</string>
 
