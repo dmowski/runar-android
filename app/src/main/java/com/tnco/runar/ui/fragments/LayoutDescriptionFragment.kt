@@ -61,6 +61,7 @@ class LayoutDescriptionFragment : Fragment(R.layout.fragment_layout_description)
                 }
             }
         }
+        binding.checkboxText.setOnClickListener(this)
     }
 
     override fun onDestroyView() {
@@ -69,15 +70,18 @@ class LayoutDescriptionFragment : Fragment(R.layout.fragment_layout_description)
     }
 
     override fun onClick(v: View?) {
-        if (binding.checkbox.isChecked) {
-            viewModel.notShowSelectedLayout(layoutId)
-        }
         when (v?.id) {
             R.id.exit_button -> {
                 requireActivity().onBackPressed()
             }
             R.id.description_button_frame -> {
+                if (binding.checkbox.isChecked) {
+                    viewModel.notShowSelectedLayout(layoutId)
+                }
                 navigator?.navigateToLayoutInitFragment(layoutId)
+            }
+            R.id.checkbox_text -> {
+                binding.checkbox.isChecked = !binding.checkbox.isChecked
             }
         }
     }
