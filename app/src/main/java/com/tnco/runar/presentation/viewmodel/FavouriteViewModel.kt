@@ -119,6 +119,7 @@ class FavouriteViewModel: ViewModel() {
         var newText =""
         var complete = false
         newText = text ?: "WTF"
+        newText = newText.replace("\n","")
         val maxStrSize = 37
         var curInd =newText.indexOf(" ")
         var prevInd =newText.indexOf(" ")
