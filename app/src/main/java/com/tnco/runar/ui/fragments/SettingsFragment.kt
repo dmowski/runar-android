@@ -335,7 +335,7 @@ private fun LanguageItem(fontSize: Float, itemName: String, selected: Boolean, p
         )
         RadioButton(
             selected = selected,
-            onClick = {},
+            onClick = { if (!selected) viewModel.changeLanguage(pos, (context as Activity)) },
             colors = RadioButtonDefaults.colors(
                 selectedColor = colorResource(id = R.color.switcher_checked_thumb),
                 unselectedColor = colorResource(id = R.color.switcher_unchecked_thumb)
