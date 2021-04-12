@@ -63,6 +63,8 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
     private var readyToReturn = true
     private var backBlock = true
 
+    private var affirmText = ""
+
     override fun onAttach(context: Context) {
         navigator = context as Navigator
         super.onAttach(context)
@@ -926,56 +928,45 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                             if (ausp != null) {
                                 binding.text.text =
                                     "${requireContext().resources.getString(R.string.layout_interpretation_ausf)} - $ausp %"
+                                val pixelAusfMargin =
+                                    (30 * requireContext().resources.displayMetrics.density).toInt()
+                                binding.textAffim.visibility = View.GONE
+                                val constraintsSet = ConstraintSet()
+                                constraintsSet.clone(binding.interpretationLayout)
+                                constraintsSet.clear(R.id.checkbox, ConstraintSet.TOP)
+                                constraintsSet.connect(
+                                    R.id.checkbox,
+                                    ConstraintSet.TOP,
+                                    R.id.interpretation_text,
+                                    ConstraintSet.BOTTOM,
+                                    pixelAusfMargin
+                                )
+                                constraintsSet.applyTo(binding.interpretationLayout)
                                 if (ausp <= 50) {
                                     viewModel.getAffimForCurrentLayout(ausp)
                                 } else {
-                                    val pixelAusfMargin =
-                                        (30 * requireContext().resources.displayMetrics.density).toInt()
-                                    binding.textAffim.visibility = View.GONE
-                                    val constraintsSet = ConstraintSet()
-                                    constraintsSet.clone(binding.interpretationLayout)
-                                    constraintsSet.clear(R.id.checkbox, ConstraintSet.TOP)
-                                    constraintsSet.connect(
-                                        R.id.checkbox,
-                                        ConstraintSet.TOP,
-                                        R.id.interpretation_text,
-                                        ConstraintSet.BOTTOM,
-                                        pixelAusfMargin
-                                    )
-                                    constraintsSet.applyTo(binding.interpretationLayout)
                                     viewModel.getInterpretation()
                                 }
                             }
                         }
                         viewModel.currentAffirm.observe(viewLifecycleOwner) { affirm ->
                             if (affirm.isNotBlank()) {
-                                binding.textAffim.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
-                                binding.textAffim.text = affirm
+                                affirmText = "\n" + affirm
                                 viewModel.getInterpretation()
                             }
                         }
                         viewModel.currentInterpretation.observe(viewLifecycleOwner) { interpretation ->
                             if (!interpretation.isNullOrBlank()) {
-                                val secondFont =
-                                    ResourcesCompat.getFont(requireContext(), R.font.roboto_regular)
-                                if (selectedLayout.layoutId == 1) {
-                                    val newFontSize = (fontSize * 0.95).toFloat()
-                                    binding.interpretationText.setTextSize(
-                                        TypedValue.COMPLEX_UNIT_PX,
-                                        newFontSize
-                                    )
-                                    binding.interpretationText.typeface = ResourcesCompat.getFont(
-                                        requireContext(),
-                                        R.font.roboto_light
-                                    )
-                                    binding.interpretationText.text = interpretation
-                                } else {
-                                    binding.interpretationText.setTextSize(
-                                        TypedValue.COMPLEX_UNIT_PX,
-                                        fontSize
-                                    )
-                                    binding.interpretationText.text = interpretation
-                                }
+                                val newFontSize = (fontSize * 0.95).toFloat()
+                                binding.interpretationText.setTextSize(
+                                    TypedValue.COMPLEX_UNIT_PX,
+                                    newFontSize
+                                )
+                                binding.interpretationText.typeface = ResourcesCompat.getFont(
+                                    requireContext(),
+                                    R.font.roboto_light
+                                )
+                                binding.interpretationText.text = interpretation + affirmText
                                 val observer = binding.root.viewTreeObserver
                                 defaultConstraintSet.clone(runesLayout)
                                 observer.addOnGlobalLayoutListener(object :
