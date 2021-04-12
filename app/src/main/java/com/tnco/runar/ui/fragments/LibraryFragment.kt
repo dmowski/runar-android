@@ -430,34 +430,41 @@ private fun SimpleTextItem(fontSize: Float, text: String, urlTitle: String?, url
                 Box(
                     Modifier
                         .fillMaxSize()
-                        .aspectRatio(130f)
+                        .aspectRatio(30f)
                 )
 
                 val annotatedLinkString: AnnotatedString = buildAnnotatedString {
-                    append(urlTitle)
+                    val text = "$urlTitle  $urlLink"
+                    append(text)
                     addStyle(
                         style = SpanStyle(
-                            color = colorResource(id = R.color.url_text_color),
-                            fontSize = with(LocalDensity.current) { ((fontSize * 0.7).toFloat()).toSp() },
-                            fontFamily = FontFamily(Font(R.font.roboto_light)),
-                        ), start = 0, end = urlTitle.length
+                            color = colorResource(id = R.color.url_text_about_color)
+                        ), start = urlTitle.length+1, end = text.length
                     )
                     addStyle(
                         style = ParagraphStyle(
                             lineHeight = with(LocalDensity.current) { ((fontSize * 1.05).toFloat()).toSp() }
-                        ), start = 0, end = urlTitle.length
+                        ), start = 0, end = text.length
                     )
                     addStringAnnotation(
                         tag = "URL",
                         annotation = urlLink,
-                        start = 0,
-                        end = urlTitle.length
+                        start = urlTitle.length+1,
+                        end = text.length
                     )
 
                 }
                 val uriHandler = LocalUriHandler.current
                 ClickableText(
                     text = annotatedLinkString,
+                    style = TextStyle(
+                        fontSize = with(LocalDensity.current) { ((fontSize * 0.7).toFloat()).toSp() },
+                        fontFamily = FontFamily(Font(R.font.roboto_light)),
+                        color = colorResource(
+                            id = R.color.url_text_color
+                        ),
+
+                    ),
                     onClick = {
                         annotatedLinkString
                             .getStringAnnotations("URL", it, it)
