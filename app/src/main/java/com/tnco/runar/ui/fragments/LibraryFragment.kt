@@ -404,15 +404,17 @@ private fun SimpleTextItem(fontSize: Float, text: String, urlTitle: String?, url
                 .fillMaxSize()
                 .weight(382f)
         ) {
-            Text(
-                text = text,
-                color = colorResource(id = R.color.library_simple_text),
-                fontFamily = FontFamily(Font(R.font.roboto_light)),
-                style = TextStyle(
-                    fontSize = with(LocalDensity.current) { ((fontSize * 0.95).toFloat()).toSp() },
-                    textAlign = TextAlign.Start,
-                    lineHeight = with(LocalDensity.current) { ((fontSize * 1.4).toFloat()).toSp() }),
-            )
+            if(text.isNotEmpty()){
+                Text(
+                    text = text,
+                    color = colorResource(id = R.color.library_simple_text),
+                    fontFamily = FontFamily(Font(R.font.roboto_light)),
+                    style = TextStyle(
+                        fontSize = with(LocalDensity.current) { ((fontSize * 0.95).toFloat()).toSp() },
+                        textAlign = TextAlign.Start,
+                        lineHeight = with(LocalDensity.current) { ((fontSize * 1.4).toFloat()).toSp() }),
+                )
+            }
             if (!urlLink.isNullOrEmpty() && !urlTitle.isNullOrEmpty()) {
                 Box(
                     Modifier
