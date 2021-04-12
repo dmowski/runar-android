@@ -208,7 +208,7 @@ private fun checkboxItem(
                 textAlign = TextAlign.End,
                 color = colorResource(id = R.color.fav_checkbox_text),
                 fontFamily = FontFamily(Font(R.font.roboto_regular)),
-                style = TextStyle(fontSize = with(LocalDensity.current) { ((fontSize * 0.6).toFloat()).toSp() })
+                style = TextStyle(fontSize = with(LocalDensity.current) { ((fontSize * 0.7).toFloat()).toSp() })
             )
             Box(
                 Modifier
