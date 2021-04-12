@@ -365,7 +365,7 @@ private fun SecondMenuItem(fontSize: Float, header: String, clickAction: () -> U
 @Composable
 private fun ThirdMenuItem(fontSize: Float, text: String, title: String) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        Box(Modifier.aspectRatio(28f))
+        Box(Modifier.aspectRatio(35f))
         Text(
             text = title,
             color = colorResource(id = R.color.library_third_id),
@@ -382,7 +382,7 @@ private fun ThirdMenuItem(fontSize: Float, text: String, title: String) {
                 lineHeight = with(LocalDensity.current) { ((fontSize * 1.4).toFloat()).toSp() }),
             modifier = Modifier.padding(top = 5.dp)
         )
-        Box(Modifier.aspectRatio(28f))
+        Box(Modifier.aspectRatio(35f))
     }
 }
 
