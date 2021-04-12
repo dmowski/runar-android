@@ -43,10 +43,13 @@
     <string name="music_txt">Music</string>
     <string name="rate_app_txt">Rate the application</string>
     <string name="about_app_txt">About</string>
-    <string name="about_txt">Application version 0.11–2</string>
+    <string name="about_txt">Application version 0.11–2\n\nRunar is an app for reading Scandinavian runes and studying mythology and fairy tales. Contains 8 types of rune layouts and runes interpretation. In the Library section you can read Scandinavian sagas and fairy tales.\n\nWith the permission of the copyright holders, the following musical compositions are used in the application:\n- Lyod (tracks \"Black rook\", \"My mother told\"), https://lyod1.bandcamp.com/releases \n- Danheim (tracks \"Runar\", \"Kala\"), https://danheimmusic.com</string>
     <string name="library_top_bar_header">Library</string>
     <string name="fav_dialog_text">Do you really want to delete your favorite layouts?</string>
 
     <string name="library_bar_fav">Favourites</string>
     <string name="fav_checkbox_text">Select all</string>
+
+    <string name="about_url1">https://lyod1.bandcamp.com/releases</string>
+    <string name="about_url2">https://danheimmusic.com/license-music/</string>
 </resources>
