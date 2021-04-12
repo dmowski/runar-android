@@ -72,5 +72,6 @@
     <color name="switcher_unchecked_back">#409A9A9A</color>
 
     <color name="url_text_color">#9A9A9A</color>
+    <color name="url_text_about_color">#D2C4AD</color>
 
 </resources>

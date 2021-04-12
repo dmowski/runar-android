@@ -426,7 +426,8 @@ private fun SimpleTextItem(fontSize: Float, text: String, urlTitle: String?, url
                     addStyle(
                         style = SpanStyle(
                             color = colorResource(id = R.color.url_text_color),
-                            fontSize = with(LocalDensity.current) { ((fontSize * 0.7).toFloat()).toSp() }
+                            fontSize = with(LocalDensity.current) { ((fontSize * 0.7).toFloat()).toSp() },
+                            fontFamily = FontFamily(Font(R.font.roboto_light)),
                         ), start = 0, end = urlTitle.length
                     )
                     addStyle(
