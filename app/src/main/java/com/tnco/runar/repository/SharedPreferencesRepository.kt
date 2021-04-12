@@ -3,6 +3,7 @@ package com.tnco.runar.repository
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.preference.PreferenceManager
+import com.tnco.runar.RunarLogger
 import java.util.*
 
 class SharedPreferencesRepository private constructor(context: Context) {
@@ -52,7 +53,13 @@ class SharedPreferencesRepository private constructor(context: Context) {
             language = preferences.getString("language", "en").toString()
         } else {
             val editor = preferences.edit()
-            language = Locale.getDefault().language
+            var androidLanguage = Locale.getDefault().language
+            language = if(androidLanguage!="ru"){
+                "en"
+            } else{
+                "ru"
+            }
+            RunarLogger.logDebug(language)
             editor.putString("language", language)
             editor.apply()
         }
