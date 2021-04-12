@@ -460,27 +460,6 @@
                         app:layout_constraintTop_toBottomOf="@id/interpretation_text"
                         app:layout_constraintDimensionRatio="H,20:1"/>
 
-                    <TextView
-                        android:id="@+id/text_affim"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_regular"
-                        android:gravity="start"
-                        android:letterSpacing="-0.02"
-                        android:lineSpacingMultiplier="1.4"
-                        android:textColor="@color/affim_text_color"
-                        app:layout_constraintEnd_toStartOf="@id/right_text_guideline"
-                        app:layout_constraintStart_toStartOf="@id/left_text_guideline"
-                        app:layout_constraintTop_toBottomOf="@id/divider6" />
-
-                    <FrameLayout
-                        android:id="@+id/bottom_support_frame"
-                        android:layout_width="match_parent"
-                        android:layout_height="25dp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/text_affim" />
-
                     <androidx.constraintlayout.widget.Guideline
                         android:id="@+id/auf_text_guideline"
                         android:layout_width="wrap_content"
