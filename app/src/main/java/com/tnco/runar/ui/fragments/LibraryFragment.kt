@@ -327,7 +327,7 @@ private fun SecondMenuItem(fontSize: Float, header: String, clickAction: () -> U
             Box(
                 Modifier
                     .fillMaxSize()
-                    .aspectRatio(19f, true)
+                    .aspectRatio(24f, true)
             )
             Row(
                 Modifier
