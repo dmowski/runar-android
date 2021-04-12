@@ -311,7 +311,7 @@ private fun NavigateItem(fontSize: Float, route: List<String>) {
 private fun SecondMenuItem(fontSize: Float, header: String, clickAction: () -> Unit) {
     Row(
         Modifier
-            .aspectRatio(6.3f, true)
+            .fillMaxSize()
             .clickable(onClick = clickAction)
     ) {
         Box(
@@ -324,18 +324,23 @@ private fun SecondMenuItem(fontSize: Float, header: String, clickAction: () -> U
                 .fillMaxSize()
                 .weight(398f)
         ) {
-            Row(
+            Box(
                 Modifier
                     .fillMaxSize()
-                    .weight(66f), verticalAlignment = Alignment.CenterVertically
+                    .aspectRatio(19f, true)
+            )
+            Row(
+                Modifier
+                    .fillMaxSize(), verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
                     text = header,
                     color = colorResource(id = R.color.library_item_header),
                     fontFamily = FontFamily(Font(R.font.roboto_regular)),
-                    style = TextStyle(fontSize = with(LocalDensity.current) { fontSize.toSp() }),
+                    style = TextStyle(fontSize = with(LocalDensity.current) { fontSize.toSp() }, lineHeight = with(LocalDensity.current) { ((fontSize * 1.4).toFloat()).toSp() }),
                     modifier = Modifier
                         .weight(320f)
+                        .fillMaxSize()
                 )
                 Box(
                     Modifier
@@ -347,6 +352,7 @@ private fun SecondMenuItem(fontSize: Float, header: String, clickAction: () -> U
                     contentDescription = null,
                     modifier = Modifier
                         .background(Color(0x00000000))
+                        .fillMaxSize()
                         .weight(10f)
                 )
                 Box(
@@ -355,6 +361,11 @@ private fun SecondMenuItem(fontSize: Float, header: String, clickAction: () -> U
                         .weight(16f)
                 )
             }
+            Box(
+                Modifier
+                    .fillMaxSize()
+                    .aspectRatio(19f, true)
+            )
             Divider(
                 color = Color(0xA6545458)
             )
@@ -404,7 +415,7 @@ private fun SimpleTextItem(fontSize: Float, text: String, urlTitle: String?, url
                 .fillMaxSize()
                 .weight(382f)
         ) {
-            if(text.isNotEmpty()){
+            if (text.isNotEmpty()) {
                 Text(
                     text = text,
                     color = colorResource(id = R.color.library_simple_text),
@@ -419,7 +430,8 @@ private fun SimpleTextItem(fontSize: Float, text: String, urlTitle: String?, url
                 Box(
                     Modifier
                         .fillMaxSize()
-                        .aspectRatio(130f))
+                        .aspectRatio(130f)
+                )
 
                 val annotatedLinkString: AnnotatedString = buildAnnotatedString {
                     append(urlTitle)
