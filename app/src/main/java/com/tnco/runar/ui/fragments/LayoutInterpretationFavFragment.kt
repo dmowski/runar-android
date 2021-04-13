@@ -389,16 +389,16 @@ class LayoutInterpretationFavFragment : Fragment(R.layout.fragment_layout_interp
 
         val swipeListener = object : OnSwipeTouchListener(requireContext()) {
             override fun onSwipeRight() {
-                if (currentRunePosition == runesViewList.size - 1) {
-                    showDescriptionOfSelectedRune(runesViewList[0])
-                } else showDescriptionOfSelectedRune(runesViewList[currentRunePosition + 1])
+                if (currentRunePosition == 0) {
+                    showDescriptionOfSelectedRune(runesViewList.last())
+                } else showDescriptionOfSelectedRune(runesViewList[currentRunePosition - 1])
                 super.onSwipeRight()
             }
 
             override fun onSwipeLeft() {
-                if (currentRunePosition == 0) {
-                    showDescriptionOfSelectedRune(runesViewList.last())
-                } else showDescriptionOfSelectedRune(runesViewList[currentRunePosition - 1])
+                if (currentRunePosition == runesViewList.size - 1) {
+                    showDescriptionOfSelectedRune(runesViewList[0])
+                } else showDescriptionOfSelectedRune(runesViewList[currentRunePosition + 1])
                 super.onSwipeLeft()
             }
 
