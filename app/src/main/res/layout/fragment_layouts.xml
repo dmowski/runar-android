@@ -50,7 +50,10 @@
                     android:text="@string/layout1"
                     android:gravity="center_horizontal|bottom"
                     android:textColor="@color/layout_text_selector"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1"
+                    app:autoSizeTextType="uniform"
+                    app:maxLines="1"
+                    app:autoSizeMinTextSize="5sp"/>
             </LinearLayout>
 
             <LinearLayout
@@ -86,7 +89,10 @@
                     android:text="@string/layout2"
                     android:gravity="center_horizontal|bottom"
                     android:textColor="@color/layout_text_selector"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1"
+                    app:autoSizeTextType="uniform"
+                    app:maxLines="1"
+                    app:autoSizeMinTextSize="5sp"/>
             </LinearLayout>
 
             <LinearLayout
@@ -122,7 +128,10 @@
                     android:text="@string/layout3"
                     android:gravity="center_horizontal|bottom"
                     android:textColor="@color/layout_text_selector"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1"
+                    app:autoSizeTextType="uniform"
+                    app:maxLines="1"
+                    app:autoSizeMinTextSize="5sp"/>
             </LinearLayout>
 
             <LinearLayout
@@ -156,7 +165,11 @@
                     android:text="@string/layout4"
                     android:gravity="center_horizontal|bottom"
                     android:textColor="@color/layout_text_selector"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1"
+                    app:autoSizeTextType="uniform"
+                    app:maxLines="1"
+                    app:autoSizeMinTextSize="5sp"
+                    />
             </LinearLayout>
 
             <LinearLayout
@@ -192,7 +205,10 @@
                     android:text="@string/layout5"
                     android:gravity="center_horizontal|bottom"
                     android:textColor="@color/layout_text_selector"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1"
+                    app:autoSizeTextType="uniform"
+                    app:maxLines="1"
+                    app:autoSizeMinTextSize="5sp"/>
             </LinearLayout>
 
             <LinearLayout
@@ -226,7 +242,10 @@
                     android:text="@string/layout6"
                     android:gravity="center_horizontal|bottom"
                     android:textColor="@color/layout_text_selector"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1"
+                    app:autoSizeTextType="uniform"
+                    app:maxLines="1"
+                    app:autoSizeMinTextSize="5sp"/>
             </LinearLayout>
 
             <LinearLayout
@@ -261,7 +280,10 @@
                     android:text="@string/layout7"
                     android:gravity="center_horizontal|bottom"
                     android:textColor="@color/layout_text_selector"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1"
+                    app:autoSizeTextType="uniform"
+                    app:maxLines="1"
+                    app:autoSizeMinTextSize="5sp"/>
             </LinearLayout>
 
             <LinearLayout
@@ -295,7 +317,10 @@
                     android:text="@string/layout8"
                     android:gravity="center_horizontal|bottom"
                     android:textColor="@color/layout_text_selector"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    app:autoSizeTextType="uniform"
+                    app:maxLines="1"
+                    app:autoSizeMinTextSize="5sp"/>
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
