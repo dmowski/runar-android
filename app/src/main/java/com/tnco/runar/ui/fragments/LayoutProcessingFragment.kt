@@ -64,26 +64,26 @@ class LayoutProcessingFragment : Fragment(R.layout.fragment_layout_processing) {
             when (MusicController.currentSongPos) {
                 2 -> {
                     link ="https://lyod1.bandcamp.com/releases"
-                    binding.textGroupName.text = "Лёдъ"
-                    binding.textSongName.text = "Неведомо, Не страшно - Черная Ладья"
+                    binding.textGroupName.text = getString(R.string.group1)
+                    binding.textSongName.text = getString(R.string.track1_1)
                     binding.imageGroup.setImageResource(R.drawable.led_image)
                 }
                 3 -> {
                     link ="https://lyod1.bandcamp.com/releases"
-                    binding.textGroupName.text = "Лёдъ"
-                    binding.textSongName.text = "Мать моя сказала"
+                    binding.textGroupName.text = getString(R.string.group1)
+                    binding.textSongName.text = getString(R.string.track1_2)
                     binding.imageGroup.setImageResource(R.drawable.led_image)
                 }
                 0 -> {
                     link = "https://danheimmusic.com/"
-                    binding.textGroupName.text = "Danheim"
-                    binding.textSongName.text = "Kala"
+                    binding.textGroupName.text = getString(R.string.group2)
+                    binding.textSongName.text = getString(R.string.track2_1)
                     binding.imageGroup.setImageResource(R.drawable.danheim_image)
                 }
                 1 -> {
                     link = "https://danheimmusic.com/"
-                    binding.textGroupName.text = "Danheim"
-                    binding.textSongName.text = "Runar"
+                    binding.textGroupName.text = getString(R.string.group2)
+                    binding.textSongName.text = getString(R.string.track2_2)
                     binding.imageGroup.setImageResource(R.drawable.danheim_image)
                 }
             }

@@ -52,4 +52,11 @@
 
     <string name="about_url1">https://lyod1.bandcamp.com/releases</string>
     <string name="about_url2">https://danheimmusic.com/license-music/</string>
+
+    <string name="group1">Lyod</string>
+    <string name="group2">Danheim</string>
+    <string name="track1_1">Black rook</string>
+    <string name="track1_2">My mother told</string>
+    <string name="track2_1">Kala</string>
+    <string name="track2_2">Runar</string>
 </resources>
