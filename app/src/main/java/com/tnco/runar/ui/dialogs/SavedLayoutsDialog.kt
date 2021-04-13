@@ -27,6 +27,7 @@ class SavedLayoutsDialog(private val context: Context, private val fontSize:Floa
         dialog.window?.setBackgroundDrawable(ColorDrawable(android.graphics.Color.TRANSPARENT))
         dialog.window?.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         dialog.window?.statusBarColor = context.getColor(R.color.library_top_bar)
+        dialog.window?.navigationBarColor = context.getColor(R.color.library_top_bar)
         dialog.show()
         val buttonsFontSize = (fontSize*0.85).toFloat()
         dialog.findViewById<TextView>(R.id.dialog_text).setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)

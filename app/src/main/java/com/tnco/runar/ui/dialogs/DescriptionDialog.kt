@@ -35,6 +35,7 @@ class DescriptionDialog(description: String, header: String, fontSize: Float) :
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.window?.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         dialog.window?.statusBarColor = activity.getColor(com.tnco.runar.R.color.library_top_bar)
+        dialog.window?.navigationBarColor = activity.getColor(com.tnco.runar.R.color.library_top_bar)
         val header = dialog.findViewById<FrameLayout>(com.tnco.runar.R.id.description_header_frame)
             .getChildAt(0) as TextView
         val description = dialog.findViewById<TextView>(com.tnco.runar.R.id.description_text_view)
