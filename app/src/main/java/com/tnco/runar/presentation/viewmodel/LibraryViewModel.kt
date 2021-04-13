@@ -16,7 +16,7 @@ class LibraryViewModel : ViewModel() {
 
     val fontSize: LiveData<Float> = MutableLiveData(SharedDataRepository.fontSize)
     var dbList: List<LibraryItemsModel> = emptyList()
-    var lastMenuHeader = MutableLiveData("Библиотека")
+    var lastMenuHeader = MutableLiveData("")
 
     var menuData = MutableLiveData<Pair<List<LibraryItemsModel>, MutableList<String>>>(Pair(
         emptyList(), mutableListOf()))
