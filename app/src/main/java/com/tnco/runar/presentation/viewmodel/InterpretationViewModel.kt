@@ -62,18 +62,18 @@ class InterpretationViewModel(application: Application) : AndroidViewModel(appli
                 return
             }
             3 -> result = String.format(selectedLayout.value?.interpretation!!,
-                    getMeaningForRune(userLayout[1]),getMeaningForRune(userLayout[2]),getMeaningForRune(userLayout[3]))
+                    getMeaningForRune(userLayout[1]),getMeaningForRune(userLayout[2]),getMeaningForRune(userLayout[3])).replace("\n","").replace("  "," ")
 
             4 -> result = String.format(selectedLayout.value?.interpretation!!,
-                    getMeaningForRune(userLayout[1]),getMeaningForRune(userLayout[2]),getMeaningForRune(userLayout[3]),getMeaningForRune(userLayout[4]))
+                    getMeaningForRune(userLayout[1]),getMeaningForRune(userLayout[2]),getMeaningForRune(userLayout[3]),getMeaningForRune(userLayout[4])).replace("\n","").replace("  "," ")
             5 -> result = String.format(selectedLayout.value?.interpretation!!,
-                    getMeaningForRune(userLayout[1]),getMeaningForRune(userLayout[2]),getMeaningForRune(userLayout[4]))
+                    getMeaningForRune(userLayout[1]),getMeaningForRune(userLayout[2]),getMeaningForRune(userLayout[4])).replace("\n","").replace("  "," ")
             6 -> result = String.format(selectedLayout.value?.interpretation!!,
-                    getMeaningForRune(userLayout[1]),getMeaningForRune(userLayout[2]),getMeaningForRune(userLayout[3]),getMeaningForRune(userLayout[5]),getMeaningForRune(userLayout[4]))
+                    getMeaningForRune(userLayout[1]),getMeaningForRune(userLayout[2]),getMeaningForRune(userLayout[3]),getMeaningForRune(userLayout[5]),getMeaningForRune(userLayout[4])).replace("\n","").replace("  "," ")
             7 -> result = String.format(selectedLayout.value?.interpretation!!,
-                    getMeaningForRune(userLayout[2]),getMeaningForRune(userLayout[1]),getMeaningForRune(userLayout[4]),getMeaningForRune(userLayout[3]),getMeaningForRune(userLayout[5]),getMeaningForRune(userLayout[6]))
+                    getMeaningForRune(userLayout[2]),getMeaningForRune(userLayout[1]),getMeaningForRune(userLayout[4]),getMeaningForRune(userLayout[3]),getMeaningForRune(userLayout[5]),getMeaningForRune(userLayout[6])).replace("\n","").replace("  "," ")
             8 -> result = String.format(selectedLayout.value?.interpretation!!,
-                    getMeaningForRune(userLayout[1]),getMeaningForRune(userLayout[2]),getMeaningForRune(userLayout[3]),getMeaningForRune(userLayout[4]),getMeaningForRune(userLayout[5]),getMeaningForRune(userLayout[6]),getMeaningForRune(userLayout[7]))
+                    getMeaningForRune(userLayout[1]),getMeaningForRune(userLayout[2]),getMeaningForRune(userLayout[3]),getMeaningForRune(userLayout[4]),getMeaningForRune(userLayout[5]),getMeaningForRune(userLayout[6]),getMeaningForRune(userLayout[7])).replace("\n","").replace("  "," ")
         }
         _currentInterpretation.postValue(result)
     }
@@ -156,7 +156,7 @@ class InterpretationViewModel(application: Application) : AndroidViewModel(appli
     private fun getMeaningForRune(id: Int): String {
         for (rune in runesData) {
             if (rune.runeId == id) {
-                return rune.meaning!!
+                return rune.meaning!!.toLowerCase()
             }
         }
         return ""
