@@ -82,7 +82,7 @@ class LibraryViewModel : ViewModel() {
                 }
             }
         }
-        if (routLength > 45) {
+        if (routLength > 55) {
             newRoute.removeLast()
             newRoute.add(">...")
         }
