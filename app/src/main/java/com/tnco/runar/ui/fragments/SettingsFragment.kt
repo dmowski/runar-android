@@ -113,9 +113,17 @@ private fun Bars(navigator: Navigator) {
             SwitcherMenuItem(
                 fontSize = fontSize!!,
                 header = stringResource(id = R.string.music_txt),
-                checkAction = { viewModel.changeMusicStatus(it) },
+                checkAction = {
+                    viewModel.changeMusicStatus(it)
+                    if (it) navigator.getAudioFocus()
+                    else navigator.dropAudioFocus()
+                },
                 state = musicStatus!!,
-                clickAction = { viewModel.changeMusicStatus(!musicStatus!!) }
+                clickAction = {
+                    viewModel.changeMusicStatus(!musicStatus!!)
+                    if(!musicStatus!!) navigator.getAudioFocus()
+                    else navigator.dropAudioFocus()
+                }
             )
             SimpleMenuItem(
                 fontSize = fontSize!!,
@@ -317,8 +325,12 @@ private fun LanguageItem(fontSize: Float, itemName: String, selected: Boolean, p
         Modifier
             .fillMaxSize()
             .aspectRatio(11f)
-            .clickable(onClick = { if (!selected) viewModel.changeLanguage(pos, (context as Activity)) })
-        , verticalAlignment = Alignment.CenterVertically
+            .clickable(onClick = {
+                if (!selected) viewModel.changeLanguage(
+                    pos,
+                    (context as Activity)
+                )
+            }), verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
             text = itemName,

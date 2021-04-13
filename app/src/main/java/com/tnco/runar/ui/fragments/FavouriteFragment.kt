@@ -28,7 +28,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.tnco.runar.R
-import com.tnco.runar.RunarLogger
 import com.tnco.runar.presentation.viewmodel.FavouriteViewModel
 import com.tnco.runar.ui.Navigator
 import com.tnco.runar.ui.dialogs.SavedLayoutsDialog
@@ -84,7 +83,6 @@ private fun Bars(navigator: Navigator?) {
     val checkedState = remember { mutableStateOf(false) }
 
     if (existSelected!! >= 1) {
-        RunarLogger.logDebug(existSelected.toString())
         barText = ""
         navIcon = {
             TopBarIcon(clickAction = {

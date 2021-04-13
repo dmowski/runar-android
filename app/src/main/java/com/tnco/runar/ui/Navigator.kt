@@ -12,4 +12,7 @@ interface Navigator {
     fun navigateToSettings()
     fun showDialog()
     fun agreeWithDialog()
+
+    fun getAudioFocus()
+    fun dropAudioFocus()
 }
