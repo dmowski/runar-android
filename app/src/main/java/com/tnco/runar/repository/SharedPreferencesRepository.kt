@@ -23,7 +23,6 @@ class SharedPreferencesRepository private constructor(context: Context) {
                     editor.clear()
                     editor.putInt("version",appVersion)
                     editor.apply()
-
                 }
             }
         } else {

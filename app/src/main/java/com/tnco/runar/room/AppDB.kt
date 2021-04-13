@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.tnco.runar.model.*
 import java.util.*
 
@@ -19,7 +21,6 @@ abstract class AppDB : RoomDatabase() {
     companion object {
         @Volatile
         private lateinit var INSTANCE: AppDB
-
         fun init(context: Context) {
             val locale: String = Locale.getDefault().language
             var dataBaseFilePath = ""
