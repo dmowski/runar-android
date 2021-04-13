@@ -33,7 +33,7 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
         setClickListenerOnRuneLayouts()
 
         viewModel.fontSize.observe(viewLifecycleOwner){fontSize->
-            val namesFontSize=(fontSize*1.6).toFloat()
+           /* val namesFontSize=(fontSize*1.6).toFloat()
             binding.firstLayoutTw.setTextSize(TypedValue.COMPLEX_UNIT_PX, namesFontSize)
             binding.secondLayoutTw.setTextSize(TypedValue.COMPLEX_UNIT_PX, namesFontSize)
             binding.thirdLayoutTw.setTextSize(TypedValue.COMPLEX_UNIT_PX, namesFontSize)
@@ -41,7 +41,7 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
             binding.fifthLayoutTw.setTextSize(TypedValue.COMPLEX_UNIT_PX, namesFontSize)
             binding.sixthLayoutTw.setTextSize(TypedValue.COMPLEX_UNIT_PX, namesFontSize)
             binding.seventhLayoutTw.setTextSize(TypedValue.COMPLEX_UNIT_PX, namesFontSize)
-            binding.eightLayoutTw.setTextSize(TypedValue.COMPLEX_UNIT_PX, namesFontSize)
+            binding.eightLayoutTw.setTextSize(TypedValue.COMPLEX_UNIT_PX, namesFontSize)*/
         }
     }
 
