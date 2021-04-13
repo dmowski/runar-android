@@ -22,6 +22,7 @@ abstract class AppDB : RoomDatabase() {
         @Volatile
         private lateinit var INSTANCE: AppDB
         fun init(context: Context) {
+
             val locale: String = Locale.getDefault().language
             var dataBaseFilePath = ""
             var dataBaseName =""
