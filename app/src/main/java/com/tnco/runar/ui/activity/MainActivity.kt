@@ -10,6 +10,7 @@ import androidx.core.view.get
 import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentManager
 import com.tnco.runar.R
+import com.tnco.runar.RunarLogger
 import com.tnco.runar.controllers.MusicController
 import com.tnco.runar.databinding.ActivityMainBinding
 import com.tnco.runar.presentation.viewmodel.MainViewModel
@@ -55,7 +56,9 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
         }
 
         audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
-        audioManager.requestAudioFocus(this,AudioManager.STREAM_MUSIC,AudioManager.AUDIOFOCUS_GAIN)
+        if (preferencesRepository.settingsMusic==1) getAudioFocus()
+
+
 
         binding.bottomNavigationBar.setOnNavigationItemSelectedListener { item->
             when(item.itemId){
@@ -94,13 +97,15 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
     }
 
     override fun onAudioFocusChange(focusChange: Int) {
+        RunarLogger.logDebug("Focus changed!")
         if(focusChange<=0){
             MusicController.stopMusic()
         }
         else{
-            if(preferencesRepository.settingsMusic==1) MusicController.startMusic()
+            MusicController.startMusic()
         }
     }
+
 
     override fun onResume() {
         MusicController.mainStatus = true
@@ -254,6 +259,13 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
         binding.bottomNavigationBar.menu[1].title = getString(R.string.bottom_nav_library)
         binding.bottomNavigationBar.menu[2].title = getString(R.string.bottom_nav_favourites)
         binding.bottomNavigationBar.menu[3].title = getString(R.string.bottom_nav_settings)
+    }
+
+    override fun getAudioFocus(){
+        audioManager.requestAudioFocus(this,AudioManager.STREAM_MUSIC,AudioManager.AUDIOFOCUS_GAIN)
+    }
+    override fun dropAudioFocus(){
+        audioManager.abandonAudioFocus (this)
     }
 
     companion object {
