@@ -3,6 +3,7 @@ package com.tnco.runar.presentation.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.tnco.runar.RunarLogger
 import com.tnco.runar.model.*
 import com.tnco.runar.repository.DatabaseRepository
 import com.tnco.runar.repository.SharedDataRepository
@@ -19,7 +20,7 @@ class FavouriteViewModel: ViewModel() {
     private var layoutsData: List<LayoutDescriptionModel> = emptyList()
     private var twoRunesInters: List<TwoRunesInterModel> = emptyList()
     var favData = MutableLiveData<List<FavUserLayoutModel>>()
-    var haveSelectedItem = MutableLiveData(false)
+    var haveSelectedItem = MutableLiveData(0) //0 - not exist, 1 - exist, 2 - something unchecked, 3 - selected all
 
     fun getUserLayoutsFromDB() {
         CoroutineScope(Dispatchers.IO).launch {
@@ -85,10 +86,16 @@ class FavouriteViewModel: ViewModel() {
             }
         }
         if(shitExist) newData.add(FavUserLayoutModel(null,null,null,666999,null,null,null,null))
-        var selectedExist = false
+        var selectedExist = 0
+        var selected =0
         for(item in newData){
-            if(item.selected==true) selectedExist = true
+            if(item.selected==true) selected++
         }
+        var dataSize = newData.size
+        if(shitExist) dataSize--
+        if(selected>0) selectedExist =1
+        if(selected in 1 until dataSize) selectedExist=2
+        if(selected==dataSize) selectedExist=3
         haveSelectedItem.postValue(selectedExist)
         favData.postValue(newData)
     }
@@ -107,10 +114,16 @@ class FavouriteViewModel: ViewModel() {
             }
         }
         if(shitExist) newData.add(FavUserLayoutModel(null,null,null,666999,null,null,null,null))
-        var selectedExist = false
+        var selectedExist = 0
+        var selected =0
         for(item in newData){
-            if(item.selected==true) selectedExist = true
+            if(item.selected==true) selected++
         }
+        var dataSize = newData.size
+        if(shitExist) dataSize--
+        if(selected>0) selectedExist =1
+        if(selected in 1 until dataSize) selectedExist=2
+        if(selected==dataSize) selectedExist=3
         haveSelectedItem.postValue(selectedExist)
         favData.postValue(newData)
     }

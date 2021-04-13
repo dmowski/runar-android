@@ -63,11 +63,13 @@ class LayoutProcessingFragment : Fragment(R.layout.fragment_layout_processing) {
             binding.textGroupName.setTextSize(TypedValue.COMPLEX_UNIT_PX, advertHeaderTextSize)
             when (MusicController.currentSongPos) {
                 2 -> {
+                    link ="https://lyod1.bandcamp.com/releases"
                     binding.textGroupName.text = "Лёдъ"
                     binding.textSongName.text = "Неведомо, Не страшно - Черная Ладья"
                     binding.imageGroup.setImageResource(R.drawable.led_image)
                 }
                 3 -> {
+                    link ="https://lyod1.bandcamp.com/releases"
                     binding.textGroupName.text = "Лёдъ"
                     binding.textSongName.text = "Мать моя сказала"
                     binding.imageGroup.setImageResource(R.drawable.led_image)
@@ -79,7 +81,7 @@ class LayoutProcessingFragment : Fragment(R.layout.fragment_layout_processing) {
                     binding.imageGroup.setImageResource(R.drawable.danheim_image)
                 }
                 1 -> {
-                    link ="https://lyod1.bandcamp.com/releases"
+                    link = "https://danheimmusic.com/"
                     binding.textGroupName.text = "Danheim"
                     binding.textSongName.text = "Runar"
                     binding.imageGroup.setImageResource(R.drawable.danheim_image)

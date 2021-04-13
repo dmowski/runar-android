@@ -15,6 +15,7 @@ import com.tnco.runar.databinding.ActivityMainBinding
 import com.tnco.runar.presentation.viewmodel.MainViewModel
 import com.tnco.runar.receivers.LanguageBroadcastReceiver
 import com.tnco.runar.repository.LanguageRepository
+import com.tnco.runar.repository.SharedPreferencesRepository
 import com.tnco.runar.ui.Navigator
 import com.tnco.runar.ui.dialogs.CancelDialog
 import com.tnco.runar.ui.fragments.*
@@ -24,6 +25,7 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
     private val viewModel: MainViewModel by viewModels()
     private var fontSize: Float = 0f
     private var languageReceiver = LanguageBroadcastReceiver()
+    var preferencesRepository = SharedPreferencesRepository.get()
 
     private lateinit var audioManager: AudioManager
     private lateinit var binding: ActivityMainBinding
@@ -96,7 +98,7 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
             MusicController.stopMusic()
         }
         else{
-            MusicController.startMusic()
+            if(preferencesRepository.settingsMusic==1) MusicController.startMusic()
         }
     }
 
@@ -127,13 +129,22 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
                 System.exit(0)
             }
             is LibraryFragment -> {
-                //RunarLogger.logDebug("todo")
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragmentContainer, LayoutFragment())
+                    .commit()
+                binding.bottomNavigationBar.selectedItemId = R.id.layoutFragment
             }
             is FavouriteFragment -> {
-                //RunarLogger.logDebug("todo")
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragmentContainer, LayoutFragment())
+                    .commit()
+                binding.bottomNavigationBar.selectedItemId = R.id.layoutFragment
             }
             is SettingsFragment -> {
-                //RunarLogger.logDebug("todo")
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragmentContainer, LayoutFragment())
+                    .commit()
+                binding.bottomNavigationBar.selectedItemId = R.id.layoutFragment
             }
             is LayoutInterpretationFavFragment -> navigateToFavAndShowBottomNavBar()
             is AboutAppFragment -> navigateToSettings()

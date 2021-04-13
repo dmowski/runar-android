@@ -49,6 +49,12 @@ class LibraryFragment : Fragment() {
                 Bars()
             }
         }
+        var header = getString(R.string.library_top_bar_header)
+        viewModel.lastMenuHeader.observe(viewLifecycleOwner){
+            header = it
+        }
+
+
         view.isFocusableInTouchMode = true
         view.requestFocus()
 
@@ -58,6 +64,7 @@ class LibraryFragment : Fragment() {
                 if (keyCode == KeyEvent.KEYCODE_BACK) {
                     viewModel.goBackInMenu()
                     consumed = true
+                    if(header == getString(R.string.library_top_bar_header)) consumed = false
                 }
             }
             consumed
