@@ -16,14 +16,16 @@ class SharedPreferencesRepository private constructor(context: Context) {
     init {
         val appVersion = context.packageManager.getPackageInfo(context.packageName, 0).versionCode
         if (preferences.contains("version")) {
-            val oldVersion = preferences.getInt("version", 0).toString()
-            if(oldVersion!=""){
-                if(appVersion>oldVersion.toInt()){
-                    val editor = preferences.edit()
-                    editor.clear()
-                    editor.putInt("version",appVersion)
-                    editor.apply()
-                }
+            val oldVersion = preferences.getInt("version", 0)
+            if(appVersion>oldVersion){
+                val editor = preferences.edit()
+                editor.clear()
+                editor.putInt("version",appVersion)
+                editor.apply()
+            }
+            if(oldVersion==1&&appVersion==2){
+                context.deleteDatabase("RU_DATABASE")
+                context.deleteDatabase("EN_DATABASE")
             }
         } else {
             val editor = preferences.edit()
