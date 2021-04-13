@@ -10,7 +10,6 @@ import androidx.core.view.get
 import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentManager
 import com.tnco.runar.R
-import com.tnco.runar.RunarLogger
 import com.tnco.runar.controllers.MusicController
 import com.tnco.runar.databinding.ActivityMainBinding
 import com.tnco.runar.presentation.viewmodel.MainViewModel
@@ -97,7 +96,6 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
     }
 
     override fun onAudioFocusChange(focusChange: Int) {
-        RunarLogger.logDebug("Focus changed!")
         if(focusChange<=0){
             MusicController.stopMusic()
         }
