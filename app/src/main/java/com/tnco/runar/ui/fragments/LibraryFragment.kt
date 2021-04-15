@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.*
 import androidx.compose.ui.text.*
@@ -23,12 +24,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.tnco.runar.R
+import com.tnco.runar.RunarLogger
 import com.tnco.runar.presentation.viewmodel.LibraryViewModel
 import dev.chrisbanes.accompanist.coil.CoilImage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class LibraryFragment : Fragment() {
@@ -50,7 +54,7 @@ class LibraryFragment : Fragment() {
             }
         }
         var header = getString(R.string.library_top_bar_header)
-        viewModel.lastMenuHeader.observe(viewLifecycleOwner){
+        viewModel.lastMenuHeader.observe(viewLifecycleOwner) {
             header = it
         }
 
@@ -64,7 +68,7 @@ class LibraryFragment : Fragment() {
                 if (keyCode == KeyEvent.KEYCODE_BACK) {
                     viewModel.goBackInMenu()
                     consumed = true
-                    if(header == getString(R.string.library_top_bar_header)) consumed = false
+                    if (header == getString(R.string.library_top_bar_header)) consumed = false
                 }
             }
             consumed
@@ -78,7 +82,6 @@ private fun ItemData(scrollState: ScrollState) {
     val viewModel: LibraryViewModel = viewModel()
     val fontSize by viewModel.fontSize.observeAsState()
     val menuData by viewModel.menuData.observeAsState()
-
     viewModel.updateLastMenuHeader(stringResource(id = R.string.library_top_bar_header))
 
     viewModel.firstMenuDataCheck()
@@ -96,6 +99,7 @@ private fun ItemData(scrollState: ScrollState) {
                         text = item.content!!,
                         imgLink = item.imageUrl!!,
                         clickAction = {
+                            viewModel.addScrollPositionHistory(scrollState.value)
                             CoroutineScope(Dispatchers.IO).launch {
                                 scrollState.scrollTo(0)
                             }
@@ -107,6 +111,7 @@ private fun ItemData(scrollState: ScrollState) {
                     fontSize = fontSize!!,
                     header = item.title!!,
                     clickAction = {
+                        viewModel.addScrollPositionHistory(scrollState.value)
                         CoroutineScope(Dispatchers.IO).launch {
                             scrollState.scrollTo(0)
                         }
@@ -137,6 +142,20 @@ private fun ItemData(scrollState: ScrollState) {
             }
         }
     }
+
+    viewModel.scrollPositionHistory.observe(LocalLifecycleOwner.current){
+        CoroutineScope(Dispatchers.IO).launch {
+            RunarLogger.logDebug(it.toString())
+            if (it.last()==9999) {
+                delay(50)
+                scrollState.scrollTo(it[it.size-2])
+                RunarLogger.logDebug("Move to: ${it[it.size-2]}")
+                viewModel.removeLastScrollPositionHistory()
+                viewModel.removeLastScrollPositionHistory()
+            }
+        }
+    }
+
 }
 
 @Composable
@@ -344,7 +363,9 @@ private fun SecondMenuItem(fontSize: Float, header: String, clickAction: () -> U
                     text = header,
                     color = colorResource(id = R.color.library_item_header),
                     fontFamily = FontFamily(Font(R.font.roboto_regular)),
-                    style = TextStyle(fontSize = with(LocalDensity.current) { fontSize.toSp() }, lineHeight = with(LocalDensity.current) { ((fontSize * 1.4).toFloat()).toSp() }),
+                    style = TextStyle(
+                        fontSize = with(LocalDensity.current) { fontSize.toSp() },
+                        lineHeight = with(LocalDensity.current) { ((fontSize * 1.4).toFloat()).toSp() }),
                     modifier = Modifier
                         .weight(320f)
                         .fillMaxSize()
@@ -446,7 +467,7 @@ private fun SimpleTextItem(fontSize: Float, text: String?, urlTitle: String?, ur
                     addStyle(
                         style = SpanStyle(
                             color = colorResource(id = R.color.url_text_about_color)
-                        ), start = urlTitle.length+1, end = text.length
+                        ), start = urlTitle.length + 1, end = text.length
                     )
                     addStyle(
                         style = ParagraphStyle(
@@ -456,7 +477,7 @@ private fun SimpleTextItem(fontSize: Float, text: String?, urlTitle: String?, ur
                     addStringAnnotation(
                         tag = "URL",
                         annotation = urlLink,
-                        start = urlTitle.length+1,
+                        start = urlTitle.length + 1,
                         end = text.length
                     )
 
@@ -471,7 +492,7 @@ private fun SimpleTextItem(fontSize: Float, text: String?, urlTitle: String?, ur
                             id = R.color.url_text_color
                         ),
 
-                    ),
+                        ),
                     onClick = {
                         annotatedLinkString
                             .getStringAnnotations("URL", it, it)
