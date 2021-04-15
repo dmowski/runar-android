@@ -24,10 +24,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.tnco.runar.R
-import com.tnco.runar.RunarLogger
 import com.tnco.runar.presentation.viewmodel.LibraryViewModel
 import dev.chrisbanes.accompanist.coil.CoilImage
 import kotlinx.coroutines.CoroutineScope
@@ -145,11 +143,9 @@ private fun ItemData(scrollState: ScrollState) {
 
     viewModel.scrollPositionHistory.observe(LocalLifecycleOwner.current){
         CoroutineScope(Dispatchers.IO).launch {
-            RunarLogger.logDebug(it.toString())
             if (it.last()==9999) {
                 delay(50)
                 scrollState.scrollTo(it[it.size-2])
-                RunarLogger.logDebug("Move to: ${it[it.size-2]}")
                 viewModel.removeLastScrollPositionHistory()
                 viewModel.removeLastScrollPositionHistory()
             }

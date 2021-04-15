@@ -3,7 +3,6 @@ package com.tnco.runar.presentation.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.tnco.runar.RunarLogger
 import com.tnco.runar.model.LibraryItemsModel
 import com.tnco.runar.repository.DatabaseRepository
 import com.tnco.runar.repository.SharedDataRepository
@@ -122,12 +121,10 @@ class LibraryViewModel : ViewModel() {
 
     fun addScrollPositionHistory(pos:Int){
         scrollPositionHistory.value?.add(pos)
-        RunarLogger.logDebug(scrollPositionHistory.value.toString())
     }
     fun removeLastScrollPositionHistory(){
         if(scrollPositionHistory.value?.size!!>1){
             scrollPositionHistory.value?.removeLast()
         }
-        RunarLogger.logDebug(scrollPositionHistory.value.toString())
     }
 }
