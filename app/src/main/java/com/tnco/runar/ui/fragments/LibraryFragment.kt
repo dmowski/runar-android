@@ -120,7 +120,7 @@ private fun ItemData(scrollState: ScrollState) {
                 )
                 "plainText" -> SimpleTextItem(
                     fontSize = fontSize!!,
-                    text = item.content!!,
+                    text = item.content,
                     urlTitle = item.linkTitle,
                     urlLink = item.linkUrl
                 )
@@ -405,7 +405,7 @@ private fun ThirdMenuItem(fontSize: Float, text: String, title: String) {
 }
 
 @Composable
-private fun SimpleTextItem(fontSize: Float, text: String, urlTitle: String?, urlLink: String?) {
+private fun SimpleTextItem(fontSize: Float, text: String?, urlTitle: String?, urlLink: String?) {
     Box(
         Modifier
             .fillMaxSize()
@@ -422,7 +422,7 @@ private fun SimpleTextItem(fontSize: Float, text: String, urlTitle: String?, url
                 .fillMaxSize()
                 .weight(382f)
         ) {
-            if (text.isNotEmpty()) {
+            if (!text.isNullOrEmpty()) {
                 Text(
                     text = text,
                     color = colorResource(id = R.color.library_simple_text),
