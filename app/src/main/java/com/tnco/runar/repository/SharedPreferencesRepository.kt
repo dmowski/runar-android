@@ -23,7 +23,7 @@ class SharedPreferencesRepository private constructor(context: Context) {
                 editor.putInt("version",appVersion)
                 editor.apply()
             }
-            if(oldVersion==1){
+            if(oldVersion==1&&(appVersion==2||appVersion==3)){
                 context.deleteDatabase("RU_DATABASE")
                 context.deleteDatabase("EN_DATABASE")
             }
