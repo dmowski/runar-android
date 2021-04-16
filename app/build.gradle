@@ -12,8 +12,8 @@ android {
         applicationId "com.tnco.runar"
         minSdkVersion 24
         targetSdkVersion 30
-        versionCode 2
-        versionName "0.11"
+        versionCode 3
+        versionName "0.12"
     }
 
     buildTypes {
@@ -38,6 +38,11 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
+    }
+    bundle{
+        language{
+            enableSplit = false
+        }
     }
 }
 
