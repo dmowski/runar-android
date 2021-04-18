@@ -458,23 +458,23 @@ private fun SimpleTextItem(fontSize: Float, text: String?, urlTitle: String?, ur
                 )
 
                 val annotatedLinkString: AnnotatedString = buildAnnotatedString {
-                    val text = "$urlTitle  $urlLink"
-                    append(text)
+                    val annotatedText = "$urlTitle  $urlLink"
+                    append(annotatedText)
                     addStyle(
                         style = SpanStyle(
                             color = colorResource(id = R.color.url_text_about_color)
-                        ), start = urlTitle.length + 1, end = text.length
+                        ), start = urlTitle.length + 1, end = annotatedText.length
                     )
                     addStyle(
                         style = ParagraphStyle(
                             lineHeight = with(LocalDensity.current) { ((fontSize * 1.05).toFloat()).toSp() }
-                        ), start = 0, end = text.length
+                        ), start = 0, end = annotatedText.length
                     )
                     addStringAnnotation(
                         tag = "URL",
                         annotation = urlLink,
                         start = urlTitle.length + 1,
-                        end = text.length
+                        end = annotatedText.length
                     )
 
                 }
