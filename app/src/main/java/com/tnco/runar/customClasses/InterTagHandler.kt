@@ -7,8 +7,8 @@ import android.text.Spanned
 import org.xml.sax.XMLReader
 
 class InterTagHandler(typeface: Typeface) : Html.TagHandler {
-    private var startIndex = 0;
-    private var endIndex = 0;
+    private var startIndex = 0
+    private var endIndex = 0
     private var font : Typeface? = typeface
 
 

@@ -101,7 +101,7 @@ private fun ItemData(scrollState: ScrollState) {
                             CoroutineScope(Dispatchers.IO).launch {
                                 scrollState.scrollTo(0)
                             }
-                            viewModel.updateMenuData(item.id!!)
+                            viewModel.updateMenuData(item.id)
                         }
                     )
                 }
@@ -113,7 +113,7 @@ private fun ItemData(scrollState: ScrollState) {
                         CoroutineScope(Dispatchers.IO).launch {
                             scrollState.scrollTo(0)
                         }
-                        viewModel.updateMenuData(item.id!!)
+                        viewModel.updateMenuData(item.id)
                     }
                 )
                 "poem" -> ThirdMenuItem(
