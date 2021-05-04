@@ -433,6 +433,20 @@
                         app:layout_constraintEnd_toEndOf="@id/auf_text_guideline"
                         app:layout_constraintStart_toStartOf="@id/left_text_guideline"
                         app:layout_constraintTop_toBottomOf="@id/divider0" />
+
+                    <TextView
+                        android:id="@+id/single_rune_name"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_regular"
+                        android:textAlignment="center"
+                        android:maxLines="1"
+                        android:textColor="@color/single_rune_text_color"
+                        app:layout_constraintEnd_toEndOf="@id/right_text_guideline"
+                        app:layout_constraintStart_toStartOf="@id/left_text_guideline"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+
                     <FrameLayout
                         android:id="@+id/divider4"
                         android:layout_width="0dp"

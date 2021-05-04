@@ -112,6 +112,7 @@ class LayoutInterpretationFavFragment : Fragment(R.layout.fragment_layout_interp
                 binding.runePosition.setTextSize(TypedValue.COMPLEX_UNIT_PX, littleTextSize)
                 binding.runeAusf.setTextSize(TypedValue.COMPLEX_UNIT_PX, littleTextSize)
                 binding.helperText.setTextSize(TypedValue.COMPLEX_UNIT_PX, littleTextSize)
+                binding.singleRuneName.setTextSize(TypedValue.COMPLEX_UNIT_PX, runeNameTextSize)
                 viewModel.selectedLayout.observe(viewLifecycleOwner) { selectedLayout ->
                     if (selectedLayout != null) {
                         runeHeight = runeHeightCalculator()
@@ -360,8 +361,15 @@ class LayoutInterpretationFavFragment : Fragment(R.layout.fragment_layout_interp
                                             val constraintsSet = ConstraintSet()
                                             constraintsSet.clone(binding.interpretationLayout)
                                             constraintsSet.clear(R.id.text, ConstraintSet.TOP)
-                                            constraintsSet.connect(R.id.text, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
+                                            constraintsSet.clear(R.id.divider4, ConstraintSet.TOP)
+                                            constraintsSet.connect(R.id.divider4, ConstraintSet.TOP, R.id.single_rune_name, ConstraintSet.BOTTOM)
+                                            constraintsSet.connect(R.id.text, ConstraintSet.TOP, R.id.single_rune_name, ConstraintSet.BOTTOM)
+                                            binding.singleRuneName.text = "test"
+                                            binding.text.isVisible = false
                                             constraintsSet.applyTo(binding.interpretationLayout)
+                                        }
+                                        else{
+                                            binding.singleRuneName.isVisible = true
                                         }
                                         screenHeight = binding.root.height
                                         val minSize = screenHeight - binding.interFrame.top
