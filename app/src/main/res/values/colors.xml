@@ -74,4 +74,6 @@
     <color name="url_text_color">#9A9A9A</color>
     <color name="url_text_about_color">#D2C4AD</color>
 
+    <color name="helper_text_color">#FFFFFF</color>
+
 </resources>

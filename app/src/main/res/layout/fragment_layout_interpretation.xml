@@ -369,6 +369,27 @@
                     app:layout_constraintTop_toBottomOf="@id/divider3">
 
                     <TextView
+                        android:id="@+id/helper_text"
+                        android:text="@string/helper_text"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_light"
+                        android:textAlignment="center"
+                        android:textColor="@color/helper_text_color"
+                        app:layout_constraintEnd_toEndOf="@id/right_text_guideline"
+                        app:layout_constraintStart_toStartOf="@id/left_text_guideline"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+                    <FrameLayout
+                        android:id="@+id/divider0"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/helper_text"
+                        app:layout_constraintDimensionRatio="H,8:1"/>
+
+                    <TextView
                         android:id="@+id/text"
                         android:layout_width="0dp"
                         android:layout_height="30dp"
@@ -378,7 +399,7 @@
                         android:textColor="@color/auf_text_color"
                         app:layout_constraintEnd_toEndOf="@id/auf_text_guideline"
                         app:layout_constraintStart_toStartOf="@id/left_text_guideline"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toBottomOf="@id/divider0" />
                     <FrameLayout
                         android:id="@+id/divider4"
                         android:layout_width="0dp"
