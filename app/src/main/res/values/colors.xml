@@ -75,5 +75,6 @@
     <color name="url_text_about_color">#D2C4AD</color>
 
     <color name="helper_text_color">#FFFFFF</color>
+    <color name="single_rune_text_color">#D2C4AD</color>
 
 </resources>
