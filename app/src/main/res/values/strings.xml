@@ -59,4 +59,6 @@
     <string name="track1_2">Мать моя сказала</string>
     <string name="track2_1">Kala</string>
     <string name="track2_2">Runar</string>
+
+    <string name="helper_text">Нажми на руны в раскладе,\n чтобы узнать полные значения рун.</string>
 </resources>

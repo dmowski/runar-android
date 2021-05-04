@@ -111,6 +111,7 @@ class LayoutInterpretationFavFragment : Fragment(R.layout.fragment_layout_interp
                 binding.runeName.setTextSize(TypedValue.COMPLEX_UNIT_PX, runeNameTextSize)
                 binding.runePosition.setTextSize(TypedValue.COMPLEX_UNIT_PX, littleTextSize)
                 binding.runeAusf.setTextSize(TypedValue.COMPLEX_UNIT_PX, littleTextSize)
+                binding.helperText.setTextSize(TypedValue.COMPLEX_UNIT_PX, littleTextSize)
                 viewModel.selectedLayout.observe(viewLifecycleOwner) { selectedLayout ->
                     if (selectedLayout != null) {
                         runeHeight = runeHeightCalculator()
@@ -353,6 +354,15 @@ class LayoutInterpretationFavFragment : Fragment(R.layout.fragment_layout_interp
                                 observer.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
                                     override fun onGlobalLayout() {
                                         observer.removeOnGlobalLayoutListener(this)
+                                        if(layoutId==1){
+                                            binding.helperText.isVisible = false
+                                            binding.divider0.isVisible = false
+                                            val constraintsSet = ConstraintSet()
+                                            constraintsSet.clone(binding.interpretationLayout)
+                                            constraintsSet.clear(R.id.text, ConstraintSet.TOP)
+                                            constraintsSet.connect(R.id.text, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
+                                            constraintsSet.applyTo(binding.interpretationLayout)
+                                        }
                                         screenHeight = binding.root.height
                                         val minSize = screenHeight - binding.interFrame.top
                                         if (minSize > binding.interFrame.height) {

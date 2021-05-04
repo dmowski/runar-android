@@ -59,4 +59,6 @@
     <string name="track1_2">My mother told</string>
     <string name="track2_1">Kala</string>
     <string name="track2_2">Runar</string>
+
+    <string name="helper_text">Tap on the runic draw,\n and learn the details about the runes</string>
 </resources>
