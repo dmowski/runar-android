@@ -21,6 +21,7 @@ class InterpretationFavViewModel(application: Application) : AndroidViewModel(ap
 
 
     private var _selectedRune = SingleLiveEvent<RuneDescriptionModel>()
+    private var _singleRune = SingleLiveEvent<String>()
     private var _currentAffirm = SingleLiveEvent<String>()
     private var _currentInterpretation = SingleLiveEvent<String>()
     private var  _currentAusp = SingleLiveEvent<Int>()
@@ -32,7 +33,15 @@ class InterpretationFavViewModel(application: Application) : AndroidViewModel(ap
     var currentAffirm : LiveData<String> = _currentAffirm
     var currentInterpretation : LiveData<String> = _currentInterpretation
     var selectedRune : LiveData<RuneDescriptionModel> = _selectedRune
+    var singleRune : LiveData<String> = _singleRune
 
+    fun getSingleRuneData(id: Int){
+        for (rune in runesData) {
+            if (rune.runeId == id) {
+                _singleRune.postValue(rune.runeName!!)
+            }
+        }
+    }
 
     fun getSelectedRuneData(id: Int) {
         val runeId = userLayout[id]

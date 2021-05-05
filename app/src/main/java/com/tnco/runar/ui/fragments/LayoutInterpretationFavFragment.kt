@@ -8,10 +8,7 @@ import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.text.Html
 import android.util.TypedValue
-import android.view.KeyEvent
-import android.view.View
-import android.view.ViewGroup
-import android.view.ViewTreeObserver
+import android.view.*
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
@@ -350,6 +347,15 @@ class LayoutInterpretationFavFragment : Fragment(R.layout.fragment_layout_interp
                                     R.font.roboto_light
                                 )
                                 binding.interpretationText.text = interpretation + affirmText
+                                if(layoutId==1){
+                                    viewModel.getSingleRuneData(newUserLayout[1])
+                                    viewModel.singleRune.observe(viewLifecycleOwner){
+                                        name->
+                                        binding.singleRuneName.text = name
+                                    }
+                                }
+
+
                                 val observer = binding.root.viewTreeObserver
                                 defaultConstraintSet.clone(runesLayout)
                                 observer.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
@@ -360,16 +366,21 @@ class LayoutInterpretationFavFragment : Fragment(R.layout.fragment_layout_interp
                                             binding.divider0.isVisible = false
                                             val constraintsSet = ConstraintSet()
                                             constraintsSet.clone(binding.interpretationLayout)
-                                            constraintsSet.clear(R.id.text, ConstraintSet.TOP)
                                             constraintsSet.clear(R.id.divider4, ConstraintSet.TOP)
-                                            constraintsSet.connect(R.id.divider4, ConstraintSet.TOP, R.id.single_rune_name, ConstraintSet.BOTTOM)
+                                            constraintsSet.clear(R.id.text, ConstraintSet.TOP)
+                                            constraintsSet.connect(R.id.divider4, ConstraintSet.TOP, R.id.text, ConstraintSet.BOTTOM)
                                             constraintsSet.connect(R.id.text, ConstraintSet.TOP, R.id.single_rune_name, ConstraintSet.BOTTOM)
-                                            binding.singleRuneName.text = "test"
+
+                                            constraintsSet.clear(R.id.text,ConstraintSet.END)
+                                            constraintsSet.connect(R.id.text,ConstraintSet.END,R.id.right_text_guideline,ConstraintSet.END)
+                                            binding.text.textAlignment = Gravity.CENTER
+                                            binding.text.gravity = Gravity.CENTER
+                                            binding.text.setTextSize(TypedValue.COMPLEX_UNIT_PX, littleTextSize)
                                             binding.text.isVisible = false
                                             constraintsSet.applyTo(binding.interpretationLayout)
                                         }
                                         else{
-                                            binding.singleRuneName.isVisible = true
+                                            binding.singleRuneName.isVisible = false
                                         }
                                         screenHeight = binding.root.height
                                         val minSize = screenHeight - binding.interFrame.top
