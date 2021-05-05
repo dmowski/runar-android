@@ -61,6 +61,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
     private var backBlock = true
 
     private var affirmText = ""
+    private var singleRuneAusp = 100
 
     override fun onAttach(context: Context) {
         navigator = context as Navigator
@@ -927,6 +928,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                             if (ausp != null) {
                                 binding.text.text =
                                     "${requireContext().resources.getString(R.string.layout_interpretation_ausf)} - $ausp %"
+                                singleRuneAusp = ausp
                                 val pixelAusfMargin =
                                     (30 * requireContext().resources.displayMetrics.density).toInt()
                                 binding.textAffim.visibility = View.GONE
@@ -994,6 +996,14 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                                             binding.text.textAlignment = Gravity.CENTER
                                             binding.text.gravity = Gravity.CENTER
                                             binding.text.setTextSize(TypedValue.COMPLEX_UNIT_PX, littleTextSize)
+
+                                            val secondFont = ResourcesCompat.getFont(requireContext(), R.font.roboto_medium)
+                                            binding.text.setTextColor(resources.getColor(R.color.interpretation_runes_position))
+                                            binding.text.text = Html.fromHtml(
+                                                "${requireContext().resources.getString(R.string.layout_interpretation_ausf)} - <bf>${singleRuneAusp} %</bf>",
+                                                null,
+                                                InterTagHandler(secondFont!!))
+
                                             binding.text.isVisible = false
                                             constraintsSet.applyTo(binding.interpretationLayout)
                                         }
