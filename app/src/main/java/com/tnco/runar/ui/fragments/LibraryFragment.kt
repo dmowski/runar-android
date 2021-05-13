@@ -105,6 +105,21 @@ private fun ItemData(scrollState: ScrollState) {
                         }
                     )
                 }
+                "runeMenu" -> {
+                    RuneMenuItem(
+                        fontSize = fontSize!!,
+                        header = item.title!!,
+                        imgLink = item.imageUrl!!,
+                        clickAction = {
+                            viewModel.addScrollPositionHistory(scrollState.value)
+                            CoroutineScope(Dispatchers.IO).launch {
+                                scrollState.scrollTo(0)
+                            }
+                            viewModel.updateMenuData(item.id)
+                        }
+                    )
+                }
+
                 "subMenu" -> SecondMenuItem(
                     fontSize = fontSize!!,
                     header = item.title!!,
@@ -290,6 +305,90 @@ private fun FirstMenuItem(
                 Modifier
                     .fillMaxSize()
                     .weight(20f)
+            )
+            Divider(
+                color = Color(0xA6545458)
+            )
+        }
+    }
+}
+
+@Composable
+private fun RuneMenuItem(
+    fontSize: Float,
+    header: String,
+    imgLink: String,
+    clickAction: () -> Unit
+) {
+    Row(
+        Modifier
+            .aspectRatio(3.8f, true)
+            .clickable(onClick = clickAction)
+    ) {
+        Box(
+            Modifier
+                .fillMaxSize()
+                .weight(4f)
+        )
+        Column(
+            Modifier
+                .fillMaxSize()
+                .weight(398f)
+        ) {
+            Box(
+                Modifier
+                    .fillMaxSize()
+                    .weight(1f)
+            )
+            Row(
+                Modifier
+                    .fillMaxSize()
+                    .weight(62f), verticalAlignment = Alignment.CenterVertically
+            ) {
+                CoilImage(
+                    data = imgLink,
+                    contentDescription = null,
+                    modifier = Modifier
+                        .background(Color(0x00000000))
+                        .padding(top = 5.dp, bottom = 5.dp)
+                )
+                Row(
+                    Modifier
+                        .fillMaxSize()
+                        .weight(277f)
+                        .padding(start = 15.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = header,
+                        color = colorResource(id = R.color.library_item_header),
+                        fontFamily = FontFamily(Font(R.font.roboto_regular)),
+                        style = TextStyle(fontSize = with(LocalDensity.current) { fontSize.toSp() }),
+                        modifier = Modifier.padding(bottom = 2.dp)
+                    )
+                }
+                Box(
+                    Modifier
+                        .fillMaxSize()
+                        .weight(17f)
+                )
+                Image(
+                    painter = painterResource(id = R.drawable.ic_right),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .background(Color(0x00000000))
+                        .weight(10f)
+                )
+                Box(
+                    Modifier
+                        .fillMaxSize()
+                        .weight(16f)
+                )
+            }
+            Box(
+                Modifier
+                    .fillMaxSize()
+                    .weight(1f)
             )
             Divider(
                 color = Color(0xA6545458)
