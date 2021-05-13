@@ -121,21 +121,27 @@
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <TextView
-        android:id="@+id/description_text_view"
+    <ScrollView
+        android:id="@+id/scroll_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="14dp"
-        android:layout_marginBottom="10dp"
-        android:fontFamily="@font/roboto_light"
-        android:lineSpacingMultiplier="@dimen/layout_description_line_spacing"
-        android:textColor="@color/layout_desc_text_color"
         app:layout_constraintBottom_toTopOf="@+id/checkbox"
         app:layout_constraintEnd_toStartOf="@id/right_guideline"
         app:layout_constraintStart_toEndOf="@id/left_guideline"
-        app:layout_constraintTop_toBottomOf="@id/description_header_frame"
-        tools:text="test" />
+        app:layout_constraintTop_toBottomOf="@id/description_header_frame">
 
+        <TextView
+            android:id="@+id/description_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:layout_marginBottom="10dp"
+            android:fontFamily="@font/roboto_light"
+            android:lineSpacingMultiplier="@dimen/layout_description_line_spacing"
+            android:textColor="@color/layout_desc_text_color"
+            tools:text="test" />
+
+    </ScrollView>
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/left_guideline"
         android:layout_width="wrap_content"
