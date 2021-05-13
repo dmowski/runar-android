@@ -89,6 +89,7 @@ private fun ItemData(scrollState: ScrollState) {
     }
     if (menuData?.first != null) {
         for (item in menuData?.first!!) {
+            if(item.imageUrl.isNullOrEmpty()) item.imageUrl=""
             when (item.type) {
                 "root" -> {
                     FirstMenuItem(
