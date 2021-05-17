@@ -34,8 +34,6 @@
         app:itemIconSize="21dp"
         android:background="@drawable/menu_background"
         app:itemIconTint="@color/bottom_nav_icon_selector"
-        app:itemTextAppearanceActive="@style/BottomNavigationView.Active"
-        app:itemTextAppearanceInactive="@style/BottomNavigationView"
         app:itemTextColor="@color/bottom_nav_text_selector"
         app:labelVisibilityMode="labeled"
         app:layout_constraintBottom_toBottomOf="parent"
