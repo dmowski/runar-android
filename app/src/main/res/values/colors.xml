@@ -77,4 +77,6 @@
     <color name="helper_text_color">#FFFFFF</color>
     <color name="single_rune_text_color">#D2C4AD</color>
 
+    <color name="bottom_bar_background">#1D1D1D</color>
+
 </resources>
