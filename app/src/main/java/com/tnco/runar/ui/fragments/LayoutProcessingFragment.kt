@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.tnco.runar.R
+import com.tnco.runar.controllers.AnalyticsHelper
 import com.tnco.runar.controllers.MusicController
 import com.tnco.runar.databinding.FragmentLayoutProcessingBinding
 import com.tnco.runar.presentation.viewmodel.ProcessingViewModel
@@ -91,6 +92,7 @@ class LayoutProcessingFragment : Fragment(R.layout.fragment_layout_processing) {
         }
 
         binding.descriptionButtonFrame.setOnClickListener {
+            AnalyticsHelper.musicLinkOpened(binding.textGroupName.text.toString(),binding.textSongName.text.toString())
             val uri = Uri.parse(link)
             val intent = Intent(Intent.ACTION_VIEW, uri)
             startActivity(intent)
@@ -110,6 +112,7 @@ class LayoutProcessingFragment : Fragment(R.layout.fragment_layout_processing) {
                 binding.progressOfLoadingView.progress = i
                 delay(150)
             }
+            AnalyticsHelper.interpretationViewed(layoutId)
             navigator?.navigateToInterpretationFragment(layoutId, userLayout)
         }
     }

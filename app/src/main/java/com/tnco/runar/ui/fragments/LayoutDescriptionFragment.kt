@@ -80,6 +80,7 @@ class LayoutDescriptionFragment : Fragment(R.layout.fragment_layout_description)
                 if (binding.checkbox.isChecked) {
                     viewModel.notShowSelectedLayout(layoutId)
                 }
+                AnalyticsHelper.drawsStarted(layoutId)
                 navigator?.navigateToLayoutInitFragment(layoutId)
             }
             R.id.checkbox_text -> {

@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.tnco.runar.R
+import com.tnco.runar.controllers.AnalyticsHelper
 import com.tnco.runar.databinding.FragmentLayoutInitBinding
 import com.tnco.runar.extensions.setOnCLickListenerForAll
 import com.tnco.runar.presentation.viewmodel.InitViewModel
@@ -167,6 +168,7 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
                 } else if (!result[0]) {
                     val userLayout = layoutTable.toIntArray()
                     if(userLayout[0]==itemsChecker(userLayout)){
+                        AnalyticsHelper.interpretationStarted(layoutId)
                         navigator?.navigateToLayoutProcessingFragment(layoutId, userLayout)
                     }
                 }
@@ -182,6 +184,9 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
     private fun slotChanger(): Array<Boolean> {
         var result = false
         var isLast = false //is exist slots to open
+
+
+
         for (i in 0..6) {
             if (runeTable[i][1] == 1) {
 
@@ -252,6 +257,7 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
     }
 
     private fun runeSetter(slot: ConstraintLayout, activeSlot: ConstraintLayout?, childNumber: Int) {
+        AnalyticsHelper.runeOpened()
         lifecycleScope.launch {
             threadCounter++
             blockButton(false)
