@@ -20,6 +20,10 @@ import com.tnco.runar.ui.Navigator
 import com.tnco.runar.ui.dialogs.CancelDialog
 import com.tnco.runar.ui.fragments.*
 
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.ktx.Firebase
+
 class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusChangeListener {
 
     private val viewModel: MainViewModel by viewModels()
@@ -30,8 +34,11 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
     private lateinit var audioManager: AudioManager
     private lateinit var binding: ActivityMainBinding
 
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        firebaseAnalytics = Firebase.analytics
         LanguageRepository.setSettingsLanguage(this)//set app language from settings
         // status bar color
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)

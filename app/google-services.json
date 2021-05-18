@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "867174385869",
+    "project_id": "runar-e62c2",
+    "storage_bucket": "runar-e62c2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:867174385869:android:0602dae6b10dd270530184",
+        "android_client_info": {
+          "package_name": "com.tnco.runar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "867174385869-ojrnmq86gfif18hno9s8mgp545j73l10.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tnco.runar",
+            "certificate_hash": "e48459d3e2d4e54ed3fc5be2477fde695722c94c"
+          }
+        },
+        {
+          "client_id": "867174385869-ajv8fsk0mbeimhfdpp01hkao2q49o6c2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyATz_N81-4M5I_wqxcJyJhK3Kh7GVkhOeM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "867174385869-ajv8fsk0mbeimhfdpp01hkao2q49o6c2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
