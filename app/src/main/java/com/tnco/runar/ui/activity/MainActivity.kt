@@ -158,7 +158,10 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
             }
             is LayoutInterpretationFavFragment -> navigateToFavAndShowBottomNavBar()
             is AboutAppFragment -> navigateToSettings()
-            !is LayoutDescriptionFragment -> showDialog()
+            is LayoutInitFragment -> showDialog("layout_init")
+            is LayoutInterpretationFragment -> showDialog("layout_interpretation")
+            is LayoutProcessingFragment -> showDialog("layout_processing")
+            !is LayoutDescriptionFragment -> showDialog("navigation_error")
             else -> { navigateToDefaultAndShowBottomNavBar() }
         }
     }
@@ -222,8 +225,8 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
         binding.bottomNavigationBar.isVisible = true
     }
 
-    override fun showDialog() {
-        CancelDialog(this,fontSize).showDialog()
+    override fun showDialog(page: String) {
+        CancelDialog(this,fontSize,page).showDialog()
     }
 
     override fun agreeWithDialog() {

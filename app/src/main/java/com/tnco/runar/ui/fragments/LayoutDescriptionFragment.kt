@@ -8,6 +8,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.tnco.runar.R
+import com.tnco.runar.controllers.AnalyticsHelper
 import com.tnco.runar.databinding.FragmentLayoutDescriptionBinding
 import com.tnco.runar.extensions.setOnCLickListenerForAll
 import com.tnco.runar.presentation.viewmodel.DescriptionViewModel
@@ -72,6 +73,7 @@ class LayoutDescriptionFragment : Fragment(R.layout.fragment_layout_description)
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.exit_button -> {
+                AnalyticsHelper.interruption("layout_description")
                 requireActivity().onBackPressed()
             }
             R.id.description_button_frame -> {
