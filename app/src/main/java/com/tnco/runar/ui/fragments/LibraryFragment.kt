@@ -20,6 +20,7 @@ import androidx.compose.ui.res.*
 import androidx.compose.ui.text.*
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
@@ -444,7 +445,7 @@ private fun SecondMenuItem(fontSize: Float, header: String, imgLink: String, cli
                             text = header,
                             color = colorResource(id = R.color.library_item_header),
                             fontFamily = FontFamily(Font(R.font.roboto_regular)),
-                            style = TextStyle(fontSize = with(LocalDensity.current) { fontSize.toSp() }),
+                            style = TextStyle(fontSize = with(LocalDensity.current) { fontSize.toSp() },fontWeight = FontWeight.Normal),
                             modifier = Modifier.padding(bottom = 2.dp)
                         )
                     }
