@@ -27,6 +27,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.tnco.runar.R
+import com.tnco.runar.controllers.AnalyticsHelper
 import com.tnco.runar.presentation.viewmodel.LibraryViewModel
 import dev.chrisbanes.accompanist.coil.CoilImage
 import kotlinx.coroutines.CoroutineScope
@@ -47,6 +48,7 @@ class LibraryFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        AnalyticsHelper.libraryOpened()
         val view = ComposeView(requireContext()).apply {
             setContent {
                 Bars()
@@ -99,6 +101,7 @@ private fun ItemData(scrollState: ScrollState) {
                         text = item.content!!,
                         imgLink = item.imageUrl!!,
                         clickAction = {
+                            AnalyticsHelper.librarySectionOpened(item.title!!)
                             viewModel.addScrollPositionHistory(scrollState.value)
                             CoroutineScope(Dispatchers.IO).launch {
                                 scrollState.scrollTo(0)

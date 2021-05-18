@@ -28,6 +28,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.tnco.runar.R
+import com.tnco.runar.controllers.AnalyticsHelper
 import com.tnco.runar.presentation.viewmodel.FavouriteViewModel
 import com.tnco.runar.ui.Navigator
 import com.tnco.runar.ui.dialogs.SavedLayoutsDialog
@@ -61,6 +62,7 @@ class FavouriteFragment : Fragment() {
                 Bars(navigator)
             }
         }
+        AnalyticsHelper.favouriteOpened()
         view.isFocusableInTouchMode = true
         view.requestFocus()
         return view
@@ -143,6 +145,7 @@ private fun Bars(navigator: Navigator?) {
                             text = item.content!!,
                             header = item.header!!,
                             clickAction = {
+                                AnalyticsHelper.favouriteDrawsOpened(item.layoutId!!)
                                 navigator?.navigateToFavInterpretationFragment(
                                     layoutId = item.layoutId!!,
                                     userLayout = item.userData!!,
