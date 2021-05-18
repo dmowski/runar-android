@@ -10,7 +10,7 @@ interface Navigator {
     fun navigateToDefaultAndShowBottomNavBar()
     fun navigateToFavAndShowBottomNavBar()
     fun navigateToSettings()
-    fun showDialog()
+    fun showDialog(page: String)
     fun agreeWithDialog()
 
     fun getAudioFocus()

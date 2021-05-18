@@ -1,6 +1,7 @@
 package com.tnco.runar
 
 import android.app.Application
+import com.tnco.runar.controllers.AnalyticsHelper
 import com.tnco.runar.controllers.MusicController
 import com.tnco.runar.repository.LanguageRepository
 import com.tnco.runar.repository.SharedDataRepository
@@ -16,6 +17,7 @@ class App : Application() {
         DataDB.init(this)
         SharedDataRepository.init(this)
         MusicController.init(this)
+        AnalyticsHelper.init()
         super.onCreate()
     }
 }

@@ -10,9 +10,10 @@ import android.view.WindowManager
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.tnco.runar.R
+import com.tnco.runar.controllers.AnalyticsHelper
 import com.tnco.runar.ui.Navigator
 
-class CancelDialog(private val context: Context,private val fontSize:Float) {
+class CancelDialog(private val context: Context,private val fontSize:Float,private val page:String) {
 
     fun showDialog() {
         val dialog = Dialog(context, android.R.style.ThemeOverlay)
@@ -48,6 +49,7 @@ class CancelDialog(private val context: Context,private val fontSize:Float) {
         }
         dialog.findViewById<ConstraintLayout>(R.id.dialog_element_right).setOnClickListener {
             dialog.dismiss()
+            AnalyticsHelper.interruption(page)
             (context as Navigator).agreeWithDialog()
         }
     }
