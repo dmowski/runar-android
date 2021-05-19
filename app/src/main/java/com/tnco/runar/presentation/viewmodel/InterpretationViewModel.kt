@@ -61,7 +61,7 @@ class InterpretationViewModel(application: Application) : AndroidViewModel(appli
         val layoutId = selectedLayout.value?.layoutId
         var result: String = ""
         when (layoutId) {
-            1 -> result = getFullDescriptionForRune(userLayout[1]) + "."
+            1 -> result = getFullDescriptionForRune(userLayout[1])
             2 -> {
                 CoroutineScope(IO).launch {
                     val index = userLayout[1] * 100 + userLayout[2]
