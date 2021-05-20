@@ -110,7 +110,7 @@ class LayoutProcessingFragment : Fragment(R.layout.fragment_layout_processing) {
         lifecycleScope.launchWhenResumed {
             for (i in 0..100) {
                 binding.progressOfLoadingView.progress = i
-                delay(150)
+                delay(50)
             }
             AnalyticsHelper.interpretationViewed(layoutId)
             navigator?.navigateToInterpretationFragment(layoutId, userLayout)
