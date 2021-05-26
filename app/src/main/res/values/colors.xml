@@ -79,4 +79,6 @@
 
     <color name="bottom_bar_background">#1D1D1D</color>
 
+    <color name="onboard_skip_color">#B3FFFFFF</color>
+
 </resources>

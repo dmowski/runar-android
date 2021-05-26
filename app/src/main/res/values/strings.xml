@@ -61,4 +61,6 @@
     <string name="track2_2">Runar</string>
 
     <string name="helper_text">Нажми на руны в раскладе,\n чтобы узнать полные значения рун.</string>
+
+    <string name="onboard_skip">Пропустить</string>
 </resources>

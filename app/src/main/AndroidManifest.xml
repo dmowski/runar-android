@@ -20,9 +20,13 @@
         <activity
             android:name="com.tnco.runar.ui.activity.MainActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name="com.tnco.runar.ui.activity.OnboardActivity"
+            android:screenOrientation="portrait" />
 
         <activity
             android:name="com.tnco.runar.ui.activity.SplashActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.Runar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

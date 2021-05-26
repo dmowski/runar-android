@@ -56,7 +56,7 @@ class SplashActivity : AppCompatActivity(){
     }
 
     private fun launchMainActivity() {
-        val intent = Intent(this, MainActivity::class.java).apply {
+        val intent = Intent(this, OnboardActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
         }
         musicState = false

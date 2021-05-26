@@ -61,4 +61,6 @@
     <string name="track2_2">Runar</string>
 
     <string name="helper_text">Tap on the runic draw,\n and learn the details about the runes</string>
+
+    <string name="onboard_skip">Skip</string>
 </resources>
