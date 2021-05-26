@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/root">
+    <com.tnco.runar.customView.OffsetImageView
+        android:id="@+id/offsetImageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/background_fire"
+        app:offsetScaleType="fitX"
+        app:verticalCropOffset="1"
+        app:verticalFitOffset="0" />
+</androidx.constraintlayout.widget.ConstraintLayout>
