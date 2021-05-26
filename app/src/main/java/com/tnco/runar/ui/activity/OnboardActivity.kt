@@ -1,21 +1,31 @@
 package com.tnco.runar.ui.activity
 
+import android.animation.ArgbEvaluator
 import android.content.Intent
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.util.TypedValue
 import android.view.WindowManager
+import android.widget.Adapter
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.viewpager.widget.ViewPager
 import com.tnco.runar.R
+import com.tnco.runar.adapters.OnboardViewPagerAdapter
 import com.tnco.runar.databinding.ActivityMainBinding
 import com.tnco.runar.databinding.ActivityOnboardBinding
+import com.tnco.runar.model.OnboardGuideElementModel
 import com.tnco.runar.presentation.viewmodel.OnboardViewModel
 import com.tnco.runar.repository.LanguageRepository
+import java.util.ArrayList
 
 class OnboardActivity : AppCompatActivity() {
     private val viewModel: OnboardViewModel by viewModels()
     private var fontSize: Float = 0f
+
+    lateinit var adapter: OnboardViewPagerAdapter
+    lateinit var models: ArrayList<OnboardGuideElementModel>
+    var argbEvaluator = ArgbEvaluator()
 
     private lateinit var binding: ActivityOnboardBinding
 
@@ -46,7 +56,27 @@ class OnboardActivity : AppCompatActivity() {
             binding.skipButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, (it * 0.7).toFloat())
         }
 
+        models = ArrayList<OnboardGuideElementModel>()
+        models.add(OnboardGuideElementModel(R.color.about_text_color))
+        models.add(OnboardGuideElementModel(R.color.ic_launcher_background))
+        models.add(OnboardGuideElementModel(R.color.black))
+        models.add(OnboardGuideElementModel(R.color.purple_200))
 
+        adapter = OnboardViewPagerAdapter(models,this)
+        binding.viewPager.adapter = adapter
+        binding.viewPager.setOnPageChangeListener(object : ViewPager.OnPageChangeListener{
+            override fun onPageScrolled(
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
+            ) {
+            }
 
+            override fun onPageSelected(position: Int) {
+            }
+
+            override fun onPageScrollStateChanged(state: Int) {
+            }
+        })
     }
 }
