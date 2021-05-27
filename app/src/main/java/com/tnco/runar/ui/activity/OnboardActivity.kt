@@ -1,21 +1,16 @@
 package com.tnco.runar.ui.activity
 
-import android.animation.ArgbEvaluator
 import android.content.Intent
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.util.TypedValue
 import android.view.WindowManager
-import android.widget.Adapter
 import android.widget.ImageView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.viewpager.widget.ViewPager
 import com.tnco.runar.R
-import com.tnco.runar.RunarLogger
 import com.tnco.runar.adapters.OnboardViewPagerAdapter
-import com.tnco.runar.databinding.ActivityMainBinding
 import com.tnco.runar.databinding.ActivityOnboardBinding
 import com.tnco.runar.model.OnboardGuideElementModel
 import com.tnco.runar.presentation.viewmodel.OnboardViewModel
@@ -76,7 +71,6 @@ class OnboardActivity : AppCompatActivity() {
 
             override fun onPageSelected(position: Int) {
                 viewModel.changeCurrentPosition(position)
-                RunarLogger.logDebug("pos: $position")
             }
 
             override fun onPageScrollStateChanged(state: Int) {
@@ -94,7 +88,7 @@ class OnboardActivity : AppCompatActivity() {
             }
         }
     }
-    fun closeActivity(){
+    private fun closeActivity(){
         val intent = Intent(this, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
         }

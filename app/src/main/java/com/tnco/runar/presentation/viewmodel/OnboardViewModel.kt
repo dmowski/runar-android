@@ -8,7 +8,6 @@ import com.tnco.runar.repository.SharedDataRepository
 import com.tnco.runar.repository.SharedPreferencesRepository
 
 class OnboardViewModel : ViewModel() {
-    var preferencesRepository = SharedPreferencesRepository.get()
     val fontSize: LiveData<Float> = MutableLiveData(SharedDataRepository.fontSize)
     private var _currentPosition = SingleLiveEvent<Int>()
     var currentPosition : LiveData<Int> = _currentPosition
