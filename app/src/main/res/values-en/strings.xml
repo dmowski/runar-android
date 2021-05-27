@@ -66,4 +66,15 @@
 
     <string name="onboard_begin">Начать</string>
     <string name="onboard_next">Далее</string>
+
+    <string name="onboard_header1">О чем приложение</string>
+    <string name="onboard_text1">Получай ответы на волнующие вопросы с помощью рун</string>
+    <string name="onboard_header2">Как гадать</string>
+    <string name="onboard_text2">Выбирай один из восьми раскладов и смотри толкование своей судьбы</string>
+    <string name="onboard_header3">Толкование</string>
+    <string name="onboard_text3">Смотри интерпретацию каждого расклада с указанием уровня удачи</string>
+    <string name="onboard_header4">Избранное</string>
+    <string name="onboard_text4">Сохраняй понравившиеся толкования и значения рун в Избранное</string>
+    <string name="onboard_header5">Библиотека</string>
+    <string name="onboard_text5">Заходи в Библиотеку знаний, изучай сказки, мифологию и историю рун</string>
 </resources>

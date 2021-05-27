@@ -55,11 +55,11 @@ class OnboardActivity : AppCompatActivity() {
             fontSize = it
             binding.skipButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, (it * 0.7).toFloat())
             models = ArrayList<OnboardGuideElementModel>()
-            models.add(OnboardGuideElementModel(getString(R.string.onboard_next)))
-            models.add(OnboardGuideElementModel(getString(R.string.onboard_next)))
-            models.add(OnboardGuideElementModel(getString(R.string.onboard_next)))
-            models.add(OnboardGuideElementModel(getString(R.string.onboard_next)))
-            models.add(OnboardGuideElementModel(getString(R.string.onboard_begin)))
+            models.add(OnboardGuideElementModel(getString(R.string.onboard_next),getString(R.string.onboard_header1),getString(R.string.onboard_text1),R.drawable.onboard_1))
+            models.add(OnboardGuideElementModel(getString(R.string.onboard_next),getString(R.string.onboard_header2),getString(R.string.onboard_text2),R.drawable.onboard_2))
+            models.add(OnboardGuideElementModel(getString(R.string.onboard_next),getString(R.string.onboard_header3),getString(R.string.onboard_text3),R.drawable.onboard_3))
+            models.add(OnboardGuideElementModel(getString(R.string.onboard_next),getString(R.string.onboard_header4),getString(R.string.onboard_text4),R.drawable.onboard_4))
+            models.add(OnboardGuideElementModel(getString(R.string.onboard_begin),getString(R.string.onboard_header5),getString(R.string.onboard_text5),R.drawable.onboard_5))
 
             adapter = OnboardViewPagerAdapter(models,this,it)
             binding.viewPager.adapter = adapter

@@ -83,4 +83,7 @@
 
     <color name="neutrals_gray_950">#141414</color>
 
+    <color name="onboard_header_color">#D2C4AD</color>
+    <color name="onboard_text_color">#E1E1E1</color>
+
 </resources>
