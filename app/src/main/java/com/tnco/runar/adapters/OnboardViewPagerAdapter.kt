@@ -42,7 +42,7 @@ class OnboardViewPagerAdapter(var models: List<OnboardGuideElementModel>,var con
 
         if(position==4) {
             cardButton.background = AppCompatResources.getDrawable(context,R.drawable.onboarding_button_background_selected)
-            cardButton.setTextColor(R.color.onboarding_button_text_selected_forever)
+            cardButton.setTextColor(context.getColor(R.color.onboarding_button_text_deselected))
         }
 
         cardButton.setOnClickListener {
