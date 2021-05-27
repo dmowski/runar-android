@@ -54,16 +54,16 @@ class OnboardActivity : AppCompatActivity() {
         viewModel.fontSize.observe(this){
             fontSize = it
             binding.skipButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, (it * 0.7).toFloat())
+            models = ArrayList<OnboardGuideElementModel>()
+            models.add(OnboardGuideElementModel(getString(R.string.onboard_next)))
+            models.add(OnboardGuideElementModel(getString(R.string.onboard_next)))
+            models.add(OnboardGuideElementModel(getString(R.string.onboard_next)))
+            models.add(OnboardGuideElementModel(getString(R.string.onboard_next)))
+            models.add(OnboardGuideElementModel(getString(R.string.onboard_begin)))
+
+            adapter = OnboardViewPagerAdapter(models,this,it)
+            binding.viewPager.adapter = adapter
         }
-
-        models = ArrayList<OnboardGuideElementModel>()
-        models.add(OnboardGuideElementModel(R.color.about_text_color))
-        models.add(OnboardGuideElementModel(R.color.ic_launcher_background))
-        models.add(OnboardGuideElementModel(R.color.black))
-        models.add(OnboardGuideElementModel(R.color.purple_200))
-
-        adapter = OnboardViewPagerAdapter(models,this)
-        binding.viewPager.adapter = adapter
         binding.viewPager.setOnPageChangeListener(object : ViewPager.OnPageChangeListener{
             override fun onPageScrolled(
                 position: Int,

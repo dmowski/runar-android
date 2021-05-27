@@ -63,4 +63,6 @@
     <string name="helper_text">Нажми на руны в раскладе,\n чтобы узнать полные значения рун.</string>
 
     <string name="onboard_skip">Пропустить</string>
+    <string name="onboard_begin">Начать</string>
+    <string name="onboard_next">Далее</string>
 </resources>

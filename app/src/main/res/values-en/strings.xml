@@ -63,4 +63,7 @@
     <string name="helper_text">Tap on the runic draw,\n and learn the details about the runes</string>
 
     <string name="onboard_skip">Skip</string>
+
+    <string name="onboard_begin">Начать</string>
+    <string name="onboard_next">Далее</string>
 </resources>
