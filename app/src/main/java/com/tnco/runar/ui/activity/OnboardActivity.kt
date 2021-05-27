@@ -20,6 +20,7 @@ import java.util.ArrayList
 class OnboardActivity : AppCompatActivity() {
     private val viewModel: OnboardViewModel by viewModels()
     private var fontSize: Float = 0f
+    private var currentPosition = 0
 
     lateinit var adapter: OnboardViewPagerAdapter
     lateinit var models: ArrayList<OnboardGuideElementModel>
@@ -71,6 +72,7 @@ class OnboardActivity : AppCompatActivity() {
 
             override fun onPageSelected(position: Int) {
                 viewModel.changeCurrentPosition(position)
+                currentPosition = position
             }
 
             override fun onPageScrollStateChanged(state: Int) {
@@ -88,6 +90,16 @@ class OnboardActivity : AppCompatActivity() {
             }
         }
     }
+
+    override fun onBackPressed() {
+        if(currentPosition in 1..4){
+            viewModel.changeCurrentPosition(currentPosition-1)
+        }
+        else{
+            super.onBackPressed()
+        }
+    }
+
     private fun closeActivity(){
         val intent = Intent(this, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_CLEAR_TOP

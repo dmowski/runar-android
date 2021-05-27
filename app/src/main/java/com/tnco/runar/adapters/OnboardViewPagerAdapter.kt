@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.viewpager.widget.PagerAdapter
 import com.tnco.runar.R
 import com.tnco.runar.RunarLogger
@@ -38,6 +39,11 @@ class OnboardViewPagerAdapter(var models: List<OnboardGuideElementModel>,var con
         header.text = models[position].headerText
         info.text = models[position].infoText
         img.setImageResource(models[position].imgId)
+
+        if(position==4) {
+            cardButton.background = AppCompatResources.getDrawable(context,R.drawable.onboarding_button_background_selected)
+            cardButton.setTextColor(R.color.onboarding_button_text_selected_forever)
+        }
 
         cardButton.setOnClickListener {
             if(position<models.size-1){
