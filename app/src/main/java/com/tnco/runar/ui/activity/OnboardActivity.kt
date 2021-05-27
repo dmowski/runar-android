@@ -7,6 +7,7 @@ import android.os.PersistableBundle
 import android.util.TypedValue
 import android.view.WindowManager
 import android.widget.Adapter
+import android.widget.ImageView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
@@ -84,6 +85,7 @@ class OnboardActivity : AppCompatActivity() {
 
         viewModel.currentPosition.observe(this){
             binding.viewPager.setCurrentItem(it,true)
+            changeSelectionCircle(it)
             binding.skipButton.isVisible = it != 4
         }
         viewModel.end.observe(this){
@@ -97,5 +99,11 @@ class OnboardActivity : AppCompatActivity() {
             flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
         }
         startActivity(intent)
+    }
+    private fun changeSelectionCircle(position:Int){
+        for(i in 0 until binding.circlesLayout.childCount){
+            (binding.circlesLayout.getChildAt(i) as ImageView).setImageResource(R.drawable.ic_point_deselected)
+        }
+        (binding.circlesLayout.getChildAt(position) as ImageView).setImageResource(R.drawable.ic_point_selected)
     }
 }
