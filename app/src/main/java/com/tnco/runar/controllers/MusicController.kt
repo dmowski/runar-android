@@ -20,6 +20,7 @@ object MusicController {
 
     var splashStatus = false
     var mainStatus = false
+    var onboardingStatus = false
 
     fun init(context: Context) {
         currentSongPos = getRandomSongPos()
@@ -55,7 +56,7 @@ object MusicController {
     fun startMusic(){
         if(preferencesRepository.settingsMusic==1){
             if(!mediaPlayer.isLooping){
-                if(splashStatus||mainStatus) mediaPlayer.start()
+                if(splashStatus||mainStatus|| onboardingStatus) mediaPlayer.start()
             }
         }
     }
@@ -66,8 +67,8 @@ object MusicController {
 
     fun softStopMusic(){
         CoroutineScope(Dispatchers.Default).launch {
-            delay(300L)
-            if(!splashStatus&&!mainStatus){
+            delay(500L)
+            if(!splashStatus&&!mainStatus&&!onboardingStatus){
                 mediaPlayer.pause()
             }
         }

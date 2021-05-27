@@ -11,6 +11,7 @@ import androidx.core.view.isVisible
 import androidx.viewpager.widget.ViewPager
 import com.tnco.runar.R
 import com.tnco.runar.adapters.OnboardViewPagerAdapter
+import com.tnco.runar.controllers.MusicController
 import com.tnco.runar.databinding.ActivityOnboardBinding
 import com.tnco.runar.model.OnboardGuideElementModel
 import com.tnco.runar.presentation.viewmodel.OnboardViewModel
@@ -111,5 +112,17 @@ class OnboardActivity : AppCompatActivity() {
             (binding.circlesLayout.getChildAt(i) as ImageView).setImageResource(R.drawable.ic_point_deselected)
         }
         (binding.circlesLayout.getChildAt(position) as ImageView).setImageResource(R.drawable.ic_point_selected)
+    }
+
+    override fun onResume() {
+        MusicController.onboardingStatus=true
+        MusicController.startMusic()
+        super.onResume()
+    }
+
+    override fun onPause() {
+        MusicController.onboardingStatus=false
+        MusicController.softStopMusic()
+        super.onPause()
     }
 }
