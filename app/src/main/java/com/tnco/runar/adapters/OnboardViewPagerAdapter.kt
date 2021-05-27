@@ -9,9 +9,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.viewpager.widget.PagerAdapter
 import com.tnco.runar.R
+import com.tnco.runar.RunarLogger
 import com.tnco.runar.model.OnboardGuideElementModel
+import com.tnco.runar.presentation.viewmodel.OnboardViewModel
 
-class OnboardViewPagerAdapter(var models: List<OnboardGuideElementModel>,var context:Context, var textSize: Float): PagerAdapter() {
+class OnboardViewPagerAdapter(var models: List<OnboardGuideElementModel>,var context:Context, var textSize: Float, var viewModel: OnboardViewModel): PagerAdapter() {
     lateinit var layoutInflater: LayoutInflater
 
     override fun getCount(): Int {
@@ -36,6 +38,16 @@ class OnboardViewPagerAdapter(var models: List<OnboardGuideElementModel>,var con
         header.text = models[position].headerText
         info.text = models[position].infoText
         img.setImageResource(models[position].imgId)
+
+        cardButton.setOnClickListener {
+            if(position<models.size-1){
+                viewModel.changeCurrentPosition(position+1)
+            }
+            else{
+                viewModel.nextActivity(true)
+            }
+        }
+
         container.addView(view,0)
 
         return view

@@ -9,8 +9,10 @@ import android.view.WindowManager
 import android.widget.Adapter
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.viewpager.widget.ViewPager
 import com.tnco.runar.R
+import com.tnco.runar.RunarLogger
 import com.tnco.runar.adapters.OnboardViewPagerAdapter
 import com.tnco.runar.databinding.ActivityMainBinding
 import com.tnco.runar.databinding.ActivityOnboardBinding
@@ -25,7 +27,6 @@ class OnboardActivity : AppCompatActivity() {
 
     lateinit var adapter: OnboardViewPagerAdapter
     lateinit var models: ArrayList<OnboardGuideElementModel>
-    var argbEvaluator = ArgbEvaluator()
 
     private lateinit var binding: ActivityOnboardBinding
 
@@ -44,11 +45,11 @@ class OnboardActivity : AppCompatActivity() {
 
         supportActionBar?.hide()
 
+        viewModel.changeCurrentPosition(0)
+        viewModel.nextActivity(false)
+
         binding.skipButton.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java).apply {
-                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-            }
-            startActivity(intent)
+            closeActivity()
         }
 
         viewModel.fontSize.observe(this){
@@ -61,7 +62,7 @@ class OnboardActivity : AppCompatActivity() {
             models.add(OnboardGuideElementModel(getString(R.string.onboard_next),getString(R.string.onboard_header4),getString(R.string.onboard_text4),R.drawable.onboard_4))
             models.add(OnboardGuideElementModel(getString(R.string.onboard_begin),getString(R.string.onboard_header5),getString(R.string.onboard_text5),R.drawable.onboard_5))
 
-            adapter = OnboardViewPagerAdapter(models,this,it)
+            adapter = OnboardViewPagerAdapter(models,this,it,viewModel)
             binding.viewPager.adapter = adapter
         }
         binding.viewPager.setOnPageChangeListener(object : ViewPager.OnPageChangeListener{
@@ -73,10 +74,28 @@ class OnboardActivity : AppCompatActivity() {
             }
 
             override fun onPageSelected(position: Int) {
+                viewModel.changeCurrentPosition(position)
+                RunarLogger.logDebug("pos: $position")
             }
 
             override fun onPageScrollStateChanged(state: Int) {
             }
         })
+
+        viewModel.currentPosition.observe(this){
+            binding.viewPager.setCurrentItem(it,true)
+            binding.skipButton.isVisible = it != 4
+        }
+        viewModel.end.observe(this){
+            if(it==true){
+                closeActivity()
+            }
+        }
+    }
+    fun closeActivity(){
+        val intent = Intent(this, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+        }
+        startActivity(intent)
     }
 }

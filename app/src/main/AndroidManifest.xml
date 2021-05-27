@@ -22,7 +22,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name="com.tnco.runar.ui.activity.OnboardActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:noHistory="true"/>
 
         <activity
             android:name="com.tnco.runar.ui.activity.SplashActivity"
