@@ -90,4 +90,6 @@
 
     <color name="onboarding_button_text_deselected">#2A2A2A</color>
 
+    <color name="ripple_color">#52FFFFFF</color>
+
 </resources>

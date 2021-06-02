@@ -29,6 +29,7 @@
                 android:gravity="center"
                 android:paddingBottom="8dp"
                 android:text="@string/onboard_next"
+                android:foreground="?android:attr/selectableItemBackgroundBorderless"
                 android:textColor="@color/onboarding_button_text_selector"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
