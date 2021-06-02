@@ -86,6 +86,8 @@
     <color name="onboard_header_color">#D2C4AD</color>
     <color name="onboard_text_color">#E1E1E1</color>
 
+    <color name="transparent">#0000</color>
+
     <color name="onboarding_button_text_deselected">#2A2A2A</color>
 
 </resources>

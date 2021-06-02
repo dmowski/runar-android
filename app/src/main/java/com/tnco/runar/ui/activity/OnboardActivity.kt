@@ -52,7 +52,7 @@ class OnboardActivity : AppCompatActivity() {
 
         viewModel.fontSize.observe(this){
             fontSize = it
-            binding.skipButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, (it * 0.7).toFloat())
+            binding.skipButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, (it * 0.7*1.2).toFloat())
             models = ArrayList<OnboardGuideElementModel>()
             models.add(OnboardGuideElementModel(getString(R.string.onboard_next),getString(R.string.onboard_header1),getString(R.string.onboard_text1),R.drawable.onboard_1))
             models.add(OnboardGuideElementModel(getString(R.string.onboard_next),getString(R.string.onboard_header2),getString(R.string.onboard_text2),R.drawable.onboard_2))

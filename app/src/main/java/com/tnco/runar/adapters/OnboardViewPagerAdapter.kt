@@ -32,9 +32,9 @@ class OnboardViewPagerAdapter(var models: List<OnboardGuideElementModel>,var con
         val header = view.findViewById<TextView>(R.id.header)
         val info = view.findViewById<TextView>(R.id.info)
         val img = view.findViewById<ImageView>(R.id.image)
-        cardButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, (textSize*1.4).toFloat()) //1.2 actually
-        header.setTextSize(TypedValue.COMPLEX_UNIT_PX, (textSize*1.8).toFloat())
-        info.setTextSize(TypedValue.COMPLEX_UNIT_PX, (textSize*0.8).toFloat())
+        cardButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, (textSize*1.4*1.2).toFloat()) //1.2 actually
+        header.setTextSize(TypedValue.COMPLEX_UNIT_PX, (textSize*1.8*1.2).toFloat())
+        info.setTextSize(TypedValue.COMPLEX_UNIT_PX, (textSize*0.8*1.2).toFloat())
         cardButton.text = models[position].buttonText
         header.text = models[position].headerText
         info.text = models[position].infoText
