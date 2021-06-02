@@ -19,6 +19,7 @@ class SettingsViewModel: ViewModel() {
 
     val fontSize: LiveData<Float> = MutableLiveData(SharedDataRepository.fontSize)
     var musicStatus = MutableLiveData<Boolean>(true)
+    var onboardingStatus = MutableLiveData<Boolean>(true)
     var selectedLanguagePos = MutableLiveData(0)
     var langOrder = arrayListOf("ru","en")
     var headerUpdater = MutableLiveData(true)
@@ -56,6 +57,23 @@ class SettingsViewModel: ViewModel() {
             preferencesRepository.changeSettingsMusic(0)
             MusicController.stopMusic()
             updateMusicStatus()
+        }
+    }
+
+    fun updateOnboardingStatus(){
+        val currentOnboardingStatus = preferencesRepository.settingsOnboarding
+        val state = currentOnboardingStatus==1
+        onboardingStatus.postValue(state)
+    }
+
+    fun changeOnboardingStatus(state: Boolean){
+        if(state){
+            preferencesRepository.changeSettingsOnboarding(1)
+            updateOnboardingStatus()
+        }
+        else{
+            preferencesRepository.changeSettingsOnboarding(0)
+            updateOnboardingStatus()
         }
     }
 }

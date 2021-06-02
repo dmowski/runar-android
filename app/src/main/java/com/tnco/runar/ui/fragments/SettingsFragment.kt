@@ -42,6 +42,7 @@ class SettingsFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         viewModel.updateMusicStatus()
         viewModel.updateLocaleData()
+        viewModel.updateOnboardingStatus()
         super.onCreate(savedInstanceState)
     }
 
@@ -74,6 +75,7 @@ private fun Bars(navigator: Navigator) {
     val viewModel: SettingsViewModel = viewModel()
     val fontSize by viewModel.fontSize.observeAsState()
     val musicStatus by viewModel.musicStatus.observeAsState()
+    val onboardingStatus by viewModel.onboardingStatus.observeAsState()
     val languagePos by viewModel.selectedLanguagePos.observeAsState()
     val headerUpdater by viewModel.headerUpdater.observeAsState()
 
@@ -123,6 +125,17 @@ private fun Bars(navigator: Navigator) {
                     viewModel.changeMusicStatus(!musicStatus!!)
                     if(!musicStatus!!) navigator.getAudioFocus()
                     else navigator.dropAudioFocus()
+                }
+            )
+            SwitcherMenuItem(
+                fontSize = fontSize!!,
+                header = stringResource(id = R.string.onboarding_txt),
+                checkAction = {
+                    viewModel.changeOnboardingStatus(it)
+                },
+                state = onboardingStatus!!,
+                clickAction = {
+                    viewModel.changeOnboardingStatus(!onboardingStatus!!)
                 }
             )
             SimpleMenuItem(

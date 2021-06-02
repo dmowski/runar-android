@@ -6,16 +6,19 @@ import android.view.WindowManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.tnco.runar.R
+import com.tnco.runar.RunarLogger
 import com.tnco.runar.controllers.MusicController
 import com.tnco.runar.databinding.ActivitySplashBinding
 import com.tnco.runar.presentation.viewmodel.SplashViewModel
 import com.tnco.runar.repository.LanguageRepository
+import com.tnco.runar.repository.SharedPreferencesRepository
 
 class SplashActivity : AppCompatActivity(){
 
     private val viewModel: SplashViewModel by viewModels()
     private lateinit var binding: ActivitySplashBinding
     private var musicState = true
+    var preferencesRepository = SharedPreferencesRepository.get()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,8 +59,16 @@ class SplashActivity : AppCompatActivity(){
     }
 
     private fun launchMainActivity() {
-        val intent = Intent(this, OnboardActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+        val intent: Intent
+        if(preferencesRepository.settingsOnboarding==1){
+            intent = Intent(this, OnboardActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+            }
+        }
+        else{
+            intent = Intent(this, MainActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+            }
         }
         musicState = false
         startActivity(intent)

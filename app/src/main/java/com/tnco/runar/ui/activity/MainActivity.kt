@@ -61,6 +61,10 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
             fontSize = it
         }
 
+        if(preferencesRepository.firstLaunch==1){
+            preferencesRepository.changeSettingsOnboarding(0)
+        }
+
         audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
         if (preferencesRepository.settingsMusic==1) getAudioFocus()
 

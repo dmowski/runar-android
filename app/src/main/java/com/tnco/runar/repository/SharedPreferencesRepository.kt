@@ -11,6 +11,8 @@ class SharedPreferencesRepository private constructor(context: Context) {
 
     val userId: String
     var settingsMusic: Int
+    var settingsOnboarding: Int
+    var firstLaunch: Int = 0
     var language: String
 
     init {
@@ -38,13 +40,22 @@ class SharedPreferencesRepository private constructor(context: Context) {
             editor.putString("Id", userId)
             editor.apply()
         }
-
         if (preferences.contains("Settings_music")) {
             settingsMusic = preferences.getInt("Settings_music", 1)
         } else {
             val editor = preferences.edit()
             settingsMusic = 1
             editor.putInt("Settings_music", 1)
+            editor.apply()
+        }
+
+        if (preferences.contains("Settings_onboarding")) {
+            settingsOnboarding = preferences.getInt("Settings_onboarding", 1)
+        } else {
+            firstLaunch = 1
+            val editor = preferences.edit()
+            settingsOnboarding = 1
+            editor.putInt("Settings_onboarding", 1)
             editor.apply()
         }
 
@@ -85,6 +96,13 @@ class SharedPreferencesRepository private constructor(context: Context) {
         val editor = preferences.edit()
         settingsMusic = n
         editor.putInt("Settings_music", n)
+        editor.apply()
+    }
+
+    fun changeSettingsOnboarding(n: Int){
+        val editor = preferences.edit()
+        settingsOnboarding = n
+        editor.putInt("Settings_onboarding", n)
         editor.apply()
     }
 
