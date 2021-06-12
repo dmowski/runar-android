@@ -94,6 +94,46 @@ object AnalyticsHelper {
         firebaseAnalytics.logEvent("library_section_opened", bundle)
     }
 
+    fun ob1(){
+        val bundle = Bundle()
+        firebaseAnalytics.logEvent("ob1_about_opened", bundle)
+    }
+
+    fun ob2(){
+        val bundle = Bundle()
+        firebaseAnalytics.logEvent("ob2_fortune_opened", bundle)
+    }
+
+    fun ob3(){
+        val bundle = Bundle()
+        firebaseAnalytics.logEvent("ob3_interpretation_opened", bundle)
+    }
+
+    fun ob4(){
+        val bundle = Bundle()
+        firebaseAnalytics.logEvent("ob4_favourites_opened", bundle)
+    }
+
+    fun ob5(){
+        val bundle = Bundle()
+        firebaseAnalytics.logEvent("ob5_library_opened", bundle)
+    }
+
+    fun obNext(){
+        val bundle = Bundle()
+        firebaseAnalytics.logEvent("ob_next", bundle)
+    }
+
+    fun obSkip(){
+        val bundle = Bundle()
+        firebaseAnalytics.logEvent("ob_skip", bundle)
+    }
+
+    fun obStart(){
+        val bundle = Bundle()
+        firebaseAnalytics.logEvent("ob_done_and_start", bundle)
+    }
+
 
     private fun convertLayoutIdToName(id:Int): String{
         val layoutName = when (id) {

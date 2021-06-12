@@ -65,8 +65,8 @@
 
     <string name="onboard_skip">Skip</string>
 
-    <string name="onboard_begin">Начать</string>
-    <string name="onboard_next">Далее</string>
+    <string name="onboard_begin">Start</string>
+    <string name="onboard_next">Next</string>
 
     <string name="onboard_header1">О чем приложение</string>
     <string name="onboard_text1">Получай ответы на волнующие вопросы с помощью рун</string>

@@ -11,6 +11,7 @@ import androidx.core.view.isVisible
 import androidx.viewpager.widget.ViewPager
 import com.tnco.runar.R
 import com.tnco.runar.adapters.OnboardViewPagerAdapter
+import com.tnco.runar.controllers.AnalyticsHelper
 import com.tnco.runar.controllers.MusicController
 import com.tnco.runar.databinding.ActivityOnboardBinding
 import com.tnco.runar.model.OnboardGuideElementModel
@@ -46,7 +47,10 @@ class OnboardActivity : AppCompatActivity() {
         viewModel.changeCurrentPosition(0)
         viewModel.nextActivity(false)
 
+        AnalyticsHelper.ob1()
+
         binding.skipButton.setOnClickListener {
+            AnalyticsHelper.obSkip()
             closeActivity()
         }
 
@@ -63,7 +67,7 @@ class OnboardActivity : AppCompatActivity() {
             adapter = OnboardViewPagerAdapter(models,this,it,viewModel)
             binding.viewPager.adapter = adapter
         }
-        binding.viewPager.setOnPageChangeListener(object : ViewPager.OnPageChangeListener{
+        binding.viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener{
             override fun onPageScrolled(
                 position: Int,
                 positionOffset: Float,
@@ -73,6 +77,13 @@ class OnboardActivity : AppCompatActivity() {
 
             override fun onPageSelected(position: Int) {
                 viewModel.changeCurrentPosition(position)
+                when(position){
+                    0-> AnalyticsHelper.ob1()
+                    1-> AnalyticsHelper.ob2()
+                    2-> AnalyticsHelper.ob3()
+                    3-> AnalyticsHelper.ob4()
+                    4-> AnalyticsHelper.ob5()
+                }
                 currentPosition = position
             }
 
