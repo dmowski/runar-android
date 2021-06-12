@@ -12,6 +12,7 @@ class SharedPreferencesRepository private constructor(context: Context) {
     val userId: String
     var settingsMusic: Int
     var settingsOnboarding: Int
+    var minRuneLvl: Int
     var firstLaunch: Int = 0
     var language: String
 
@@ -56,6 +57,15 @@ class SharedPreferencesRepository private constructor(context: Context) {
             val editor = preferences.edit()
             settingsOnboarding = 1
             editor.putInt("Settings_onboarding", 1)
+            editor.apply()
+        }
+
+        if (preferences.contains("Min_rune_lvl")) {
+            minRuneLvl = preferences.getInt("Min_rune_lvl", 0)
+        } else {
+            minRuneLvl = 50
+            val editor = preferences.edit()
+            editor.putInt("Min_rune_lvl", minRuneLvl)
             editor.apply()
         }
 

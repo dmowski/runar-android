@@ -14,10 +14,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.tnco.runar.R
+import com.tnco.runar.RunarLogger
 import com.tnco.runar.controllers.AnalyticsHelper
 import com.tnco.runar.databinding.FragmentLayoutInitBinding
 import com.tnco.runar.extensions.setOnCLickListenerForAll
 import com.tnco.runar.presentation.viewmodel.InitViewModel
+import com.tnco.runar.repository.SharedPreferencesRepository
 import com.tnco.runar.ui.Navigator
 import com.tnco.runar.ui.dialogs.DescriptionDialog
 import kotlinx.coroutines.delay
@@ -27,6 +29,9 @@ import kotlin.random.Random
 class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClickListener {
 
     private val viewModel: InitViewModel by viewModels()
+
+    var preferencesRepository = SharedPreferencesRepository.get()
+
     private lateinit var headerText: String
     private lateinit var descriptionText: String
     private lateinit var layoutFrame: ConstraintLayout
@@ -283,34 +288,36 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
     }
 
     private fun runesArrayInit() {
-        runesList[0] = arrayOf(1, 2)
-        runesList[1] = arrayOf(3, 4)
-        runesList[2] = arrayOf(5, 6)
-        runesList[3] = arrayOf(7, 8)
-        runesList[4] = arrayOf(9, 10)
-        runesList[5] = arrayOf(11, 12)
-        runesList[6] = arrayOf(13, 0)
-        runesList[7] = arrayOf(14, 15)
-        runesList[8] = arrayOf(16, 0)
-        runesList[9] = arrayOf(17, 18)
-        runesList[10] = arrayOf(19, 0)
-        runesList[11] = arrayOf(20, 0)
-        runesList[12] = arrayOf(21, 0)
-        runesList[13] = arrayOf(22, 23)
-        runesList[14] = arrayOf(24, 25)
-        runesList[15] = arrayOf(26, 0)
-        runesList[16] = arrayOf(27, 28)
-        runesList[17] = arrayOf(29, 30)
-        runesList[18] = arrayOf(31, 32)
-        runesList[19] = arrayOf(33, 34)
-        runesList[20] = arrayOf(35, 36)
-        runesList[21] = arrayOf(37, 0)
-        runesList[22] = arrayOf(38, 0)
-        runesList[23] = arrayOf(39, 40)
-        runesList[24] = arrayOf(41, 0)
+        runesList[0] = arrayOf(1, 2, 60, 30)
+        runesList[1] = arrayOf(3, 4, 80, 20)
+        runesList[2] = arrayOf(5, 6, 20, 40)
+        runesList[3] = arrayOf(7, 8, 70, 20)
+        runesList[4] = arrayOf(9, 10, 70, 40)
+        runesList[5] = arrayOf(11, 12, 80, 20)
+        runesList[6] = arrayOf(13, 0, 90, 0)
+        runesList[7] = arrayOf(14, 15, 70, 40)
+        runesList[8] = arrayOf(16, 0, 30, 0)
+        runesList[9] = arrayOf(17, 18, 20, 20)
+        runesList[10] = arrayOf(19, 0, 10, 0)
+        runesList[11] = arrayOf(20, 0, 80, 0)
+        runesList[12] = arrayOf(21, 0, 20, 0)
+        runesList[13] = arrayOf(22, 23, 50, 40)
+        runesList[14] = arrayOf(24, 25, 70, 40)
+        runesList[15] = arrayOf(26, 0, 90, 0)
+        runesList[16] = arrayOf(27, 28, 80, 10)
+        runesList[17] = arrayOf(29, 30, 70, 30)
+        runesList[18] = arrayOf(31, 32, 60, 40)
+        runesList[19] = arrayOf(33, 34, 40, 40)
+        runesList[20] = arrayOf(35, 36, 50, 30)
+        runesList[21] = arrayOf(37, 0, 70, 0)
+        runesList[22] = arrayOf(38, 0, 90, 0)
+        runesList[23] = arrayOf(39, 40, 50, 40)
+        runesList[24] = arrayOf(41, 0, 50, 0)
     }
 
     private fun getUniqueRune(): Int {
+        var minRuneLvl = preferencesRepository.minRuneLvl
+        RunarLogger.logDebug(minRuneLvl.toString())
         while (true) {
             val randomNumber = Random.nextInt(1, 42)
             if (layoutId == 2) {
