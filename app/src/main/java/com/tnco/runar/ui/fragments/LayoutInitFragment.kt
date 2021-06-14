@@ -387,7 +387,7 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
 
     private fun getUniqueRune(): Int {
         var minRuneLvl = preferencesRepository.minRuneLvl
-        var randomRunesList: Array<Array<Int>> = Array(4) { Array(6) { 0 } }
+        var randomRunesList: Array<Array<Int>> = Array(3) { Array(7) { 0 } }
         var randomRunesListSize = 0;
         RunarLogger.logDebug(minRuneLvl.toString())
         while (randomRunesListSize < 3) {
@@ -397,7 +397,7 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
                 for (i in 0..24) {
                     if (runesList[i][0] == randomNumber) {
                         randomRunesList[randomRunesListSize] =
-                            arrayOf(runesList[i][0], runesList[i][1], runesList[i][2], runesList[i][3], i, randomNumber)
+                            arrayOf(runesList[i][0], runesList[i][1], runesList[i][2], runesList[i][3], i, randomNumber, runesList[i][2])
                         randomRunesListSize++
                         runesList[i] = arrayOf(0, 0, 0, 0)
                         //RunarLogger.logDebug("found: $randomRunesListSize")
@@ -413,7 +413,7 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
                                 arrayOf(runesList[i][0],
                                     runesList[i][1],
                                     runesList[i][2],
-                                    runesList[i][3], i, randomNumber)
+                                    runesList[i][3], i, randomNumber, runesList[i][i2+2])
                             randomRunesListSize++
                             exit = true
                             runesList[i] = arrayOf(0, 0, 0, 0)
@@ -425,7 +425,11 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
                 }
             }
         }
-        val randomLvl = Random.nextInt(0, 3)
+        RunarLogger.logDebug(randomRunesList.contentDeepToString())
+        randomRunesList = randomRunesList.sortedWith(compareBy { it[6] }).toTypedArray()
+        RunarLogger.logDebug(randomRunesList.contentDeepToString())
+        var randomLvl = Random.nextInt(0, 3)
+        randomLvl = minRuneLvl
         var result =0
         for(n in 0..2){
             if(n==randomLvl){
