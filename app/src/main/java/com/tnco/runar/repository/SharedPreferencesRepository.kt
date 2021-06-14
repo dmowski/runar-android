@@ -63,7 +63,7 @@ class SharedPreferencesRepository private constructor(context: Context) {
         if (preferences.contains("Min_rune_lvl")) {
             minRuneLvl = preferences.getInt("Min_rune_lvl", 0)
         } else {
-            minRuneLvl = 50
+            minRuneLvl = 0
             val editor = preferences.edit()
             editor.putInt("Min_rune_lvl", minRuneLvl)
             editor.apply()

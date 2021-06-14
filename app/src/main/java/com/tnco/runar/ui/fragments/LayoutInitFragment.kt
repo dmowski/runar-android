@@ -36,8 +36,8 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
     private lateinit var descriptionText: String
     private lateinit var layoutFrame: ConstraintLayout
     private var fontSize: Float = 0f
-    private var runeTable: Array<Array<Int>> = Array(7) { Array(2) { 0 } }
-    private var runesList: Array<Array<Int>> = Array(25) { Array(2) { 0 } }
+    private var runeTable: Array<Array<Int>> = Array(7) { Array(3) { 0 } }
+    private var runesList: Array<Array<Int>> = Array(25) { Array(4) { 0 } }
     private var layoutTable: Array<Int> = Array(9) { 0 }
     private var layoutId: Int = 0
     private var threadCounter = 0
@@ -47,6 +47,7 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
     private var _binding: FragmentLayoutInitBinding? = null
     private val binding
         get() = _binding!!
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         navigator = context as Navigator
@@ -68,21 +69,22 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentLayoutInitBinding.bind(view)
 
-        val listOfView = listOf(binding.descriptionButtonFrame, binding.exitButton, binding.infoButton)
+        val listOfView =
+            listOf(binding.descriptionButtonFrame, binding.exitButton, binding.infoButton)
         listOfView.setOnCLickListenerForAll(this)
 
-        viewModel.fontSize.observe(viewLifecycleOwner) {textSize->
+        viewModel.fontSize.observe(viewLifecycleOwner) { textSize ->
             fontSize = textSize
-            val headerTextSize = (textSize*3).toFloat()
-            val buttonTextSize = (textSize*1.65).toFloat()
+            val headerTextSize = (textSize * 3).toFloat()
+            val buttonTextSize = (textSize * 1.65).toFloat()
             binding.descriptionHeaderFrame.setTextSize(TypedValue.COMPLEX_UNIT_PX, headerTextSize)
             binding.descriptionButtonFrame.setTextSize(TypedValue.COMPLEX_UNIT_PX, buttonTextSize)
         }
 
         viewModel.selectedLayout.observe(viewLifecycleOwner) {
-            when(it.layoutId){
-                1,2,3,4-> layoutTable[0] = it.layoutId!!
-                else-> layoutTable[0] = it.layoutId!!-1
+            when (it.layoutId) {
+                1, 2, 3, 4 -> layoutTable[0] = it.layoutId!!
+                else -> layoutTable[0] = it.layoutId!! - 1
             }
             binding.descriptionHeaderFrame.text = it.layoutName
             headerText = it.layoutName.toString()
@@ -96,7 +98,8 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
             binding.sixthRuneNumber.text = it.slot6.toString()
             binding.seventhRuneNumber.text = it.slot7.toString()
             for (i in 0..6) {
-                val currentNumber = (((layoutFrame.getChildAt(i) as ConstraintLayout).getChildAt(0) as TextView).text as String).toInt()
+                val currentNumber =
+                    (((layoutFrame.getChildAt(i) as ConstraintLayout).getChildAt(0) as TextView).text as String).toInt()
                 if (currentNumber == 0) {
                     (layoutFrame.getChildAt(i) as ConstraintLayout).visibility = View.INVISIBLE
                 }
@@ -108,8 +111,20 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
                     constraintsSet.clone(layoutFrame)
                     constraintsSet.clear(R.id.third_rune, ConstraintSet.START)
                     constraintsSet.clear(R.id.seventh_rune, ConstraintSet.START)
-                    constraintsSet.connect(R.id.third_rune, ConstraintSet.END, R.id.center_guideline, ConstraintSet.END, 0)
-                    constraintsSet.connect(R.id.seventh_rune, ConstraintSet.START, R.id.center_guideline, ConstraintSet.END, 0)
+                    constraintsSet.connect(
+                        R.id.third_rune,
+                        ConstraintSet.END,
+                        R.id.center_guideline,
+                        ConstraintSet.END,
+                        0
+                    )
+                    constraintsSet.connect(
+                        R.id.seventh_rune,
+                        ConstraintSet.START,
+                        R.id.center_guideline,
+                        ConstraintSet.END,
+                        0
+                    )
                     constraintsSet.applyTo(layoutFrame)
                 }
                 5 -> {
@@ -122,12 +137,48 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
                     constraintsSet.clear(R.id.seventh_rune, ConstraintSet.BOTTOM)
                     constraintsSet.clear(R.id.sixth_layout, ConstraintSet.TOP)
                     constraintsSet.clear(R.id.sixth_layout, ConstraintSet.BOTTOM)
-                    constraintsSet.connect(R.id.first_rune, ConstraintSet.TOP, R.id.support_top, ConstraintSet.BOTTOM, 0)
-                    constraintsSet.connect(R.id.fourth_rune, ConstraintSet.BOTTOM, R.id.support_bottom, ConstraintSet.TOP, 0)
-                    constraintsSet.connect(R.id.seventh_rune, ConstraintSet.TOP, R.id.support_big_top, ConstraintSet.BOTTOM, 0)
-                    constraintsSet.connect(R.id.seventh_rune, ConstraintSet.BOTTOM, R.id.support_big_bottom, ConstraintSet.TOP, 0)
-                    constraintsSet.connect(R.id.sixth_rune, ConstraintSet.TOP, R.id.seventh_rune, ConstraintSet.TOP, 0)
-                    constraintsSet.connect(R.id.sixth_rune, ConstraintSet.BOTTOM, R.id.seventh_rune, ConstraintSet.BOTTOM, 0)
+                    constraintsSet.connect(
+                        R.id.first_rune,
+                        ConstraintSet.TOP,
+                        R.id.support_top,
+                        ConstraintSet.BOTTOM,
+                        0
+                    )
+                    constraintsSet.connect(
+                        R.id.fourth_rune,
+                        ConstraintSet.BOTTOM,
+                        R.id.support_bottom,
+                        ConstraintSet.TOP,
+                        0
+                    )
+                    constraintsSet.connect(
+                        R.id.seventh_rune,
+                        ConstraintSet.TOP,
+                        R.id.support_big_top,
+                        ConstraintSet.BOTTOM,
+                        0
+                    )
+                    constraintsSet.connect(
+                        R.id.seventh_rune,
+                        ConstraintSet.BOTTOM,
+                        R.id.support_big_bottom,
+                        ConstraintSet.TOP,
+                        0
+                    )
+                    constraintsSet.connect(
+                        R.id.sixth_rune,
+                        ConstraintSet.TOP,
+                        R.id.seventh_rune,
+                        ConstraintSet.TOP,
+                        0
+                    )
+                    constraintsSet.connect(
+                        R.id.sixth_rune,
+                        ConstraintSet.BOTTOM,
+                        R.id.seventh_rune,
+                        ConstraintSet.BOTTOM,
+                        0
+                    )
                     constraintsSet.applyTo(layoutFrame)
                 }
                 7 -> {
@@ -136,8 +187,20 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
                     constraintsSet.clear(R.id.first_rune, ConstraintSet.TOP)
                     constraintsSet.clear(R.id.fourth_rune, ConstraintSet.BOTTOM)
                     constraintsSet.clear(R.id.fifth_rune, ConstraintSet.BOTTOM)
-                    constraintsSet.connect(R.id.first_rune, ConstraintSet.TOP, R.id.support_top, ConstraintSet.BOTTOM, 0)
-                    constraintsSet.connect(R.id.fourth_rune, ConstraintSet.BOTTOM, R.id.support_bottom, ConstraintSet.TOP, 0)
+                    constraintsSet.connect(
+                        R.id.first_rune,
+                        ConstraintSet.TOP,
+                        R.id.support_top,
+                        ConstraintSet.BOTTOM,
+                        0
+                    )
+                    constraintsSet.connect(
+                        R.id.fourth_rune,
+                        ConstraintSet.BOTTOM,
+                        R.id.support_bottom,
+                        ConstraintSet.TOP,
+                        0
+                    )
                     constraintsSet.applyTo(layoutFrame)
                 }
             }
@@ -150,10 +213,10 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
         super.onDestroyView()
     }
 
-    private fun itemsChecker(data: IntArray): Int{
-        var res =0
-        for(item in data){
-            if(item!=0) res++
+    private fun itemsChecker(data: IntArray): Int {
+        var res = 0
+        for (item in data) {
+            if (item != 0) res++
         }
         return --res
     }
@@ -169,10 +232,11 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
                 val result = slotChanger()
                 if (result[1]) {
                     binding.infoButton.isVisible = false
-                    binding.descriptionButtonFrame.text = getString(R.string.layout_init_button_text2)
+                    binding.descriptionButtonFrame.text =
+                        getString(R.string.layout_init_button_text2)
                 } else if (!result[0]) {
                     val userLayout = layoutTable.toIntArray()
-                    if(userLayout[0]==itemsChecker(userLayout)){
+                    if (userLayout[0] == itemsChecker(userLayout)) {
                         AnalyticsHelper.interpretationStarted(layoutId)
                         navigator?.navigateToLayoutProcessingFragment(layoutId, userLayout)
                     }
@@ -220,7 +284,8 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
                     activeSlot.setOnClickListener {
                         val result = slotChanger()
                         if (result[1]) {
-                            binding.descriptionButtonFrame.text = requireContext().resources.getString(R.string.layout_init_button_text2)
+                            binding.descriptionButtonFrame.text =
+                                requireContext().resources.getString(R.string.layout_init_button_text2)
                             binding.infoButton.isVisible = false
                         }
                     }
@@ -254,14 +319,19 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
             slot.setOnClickListener {
                 val result = slotChanger()
                 if (result[1]) {
-                    binding.descriptionButtonFrame.text = requireContext().resources.getString(R.string.layout_init_button_text2)
+                    binding.descriptionButtonFrame.text =
+                        requireContext().resources.getString(R.string.layout_init_button_text2)
                     binding.infoButton.isVisible = false
                 }
             }
         }
     }
 
-    private fun runeSetter(slot: ConstraintLayout, activeSlot: ConstraintLayout?, childNumber: Int) {
+    private fun runeSetter(
+        slot: ConstraintLayout,
+        activeSlot: ConstraintLayout?,
+        childNumber: Int
+    ) {
         AnalyticsHelper.runeOpened()
         lifecycleScope.launch {
             threadCounter++
@@ -276,8 +346,8 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
                 activeSlot.setBackgroundResource(R.drawable.slot_active)
                 context?.let { (activeSlot.getChildAt(0) as TextView).setTextColor(it.getColor(R.color.rune_number_color_selected)) }
             }
-            if(childNumber==10) layoutTable[layoutTable[0]] = runeId
-            else layoutTable[childNumber-1] = runeId
+            if (childNumber == 10) layoutTable[layoutTable[0]] = runeId
+            else layoutTable[childNumber - 1] = runeId
             blockButton(true)
             threadCounter--
         }
@@ -317,28 +387,55 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
 
     private fun getUniqueRune(): Int {
         var minRuneLvl = preferencesRepository.minRuneLvl
+        var randomRunesList: Array<Array<Int>> = Array(4) { Array(6) { 0 } }
+        var randomRunesListSize = 0;
         RunarLogger.logDebug(minRuneLvl.toString())
-        while (true) {
+        while (randomRunesListSize < 3) {
             val randomNumber = Random.nextInt(1, 42)
+            //RunarLogger.logDebug("rand: $randomNumber")
             if (layoutId == 2) {
                 for (i in 0..24) {
                     if (runesList[i][0] == randomNumber) {
-                        runesList[i] = arrayOf(0, 0)
-                        return randomNumber
+                        randomRunesList[randomRunesListSize] =
+                            arrayOf(runesList[i][0], runesList[i][1], runesList[i][2], runesList[i][3], i, randomNumber)
+                        randomRunesListSize++
+                        runesList[i] = arrayOf(0, 0, 0, 0)
+                        //RunarLogger.logDebug("found: $randomRunesListSize")
+                        break
                     }
                 }
             } else {
                 for (i in 0..24) {
+                    var exit = false
                     for (i2 in 0..1) {
                         if (runesList[i][i2] == randomNumber) {
-                            runesList[i] = arrayOf(0, 0)
-                            return randomNumber
+                            randomRunesList[randomRunesListSize] =
+                                arrayOf(runesList[i][0],
+                                    runesList[i][1],
+                                    runesList[i][2],
+                                    runesList[i][3], i, randomNumber)
+                            randomRunesListSize++
+                            exit = true
+                            runesList[i] = arrayOf(0, 0, 0, 0)
+                            //RunarLogger.logDebug("found: $randomRunesListSize")
+                            break
                         }
                     }
+                    if (exit) break
                 }
             }
-            continue
         }
+        val randomLvl = Random.nextInt(0, 3)
+        var result =0
+        for(n in 0..2){
+            if(n==randomLvl){
+                result = randomRunesList[n][5]
+            }
+            else{
+                runesList[randomRunesList[n][4]]= arrayOf(randomRunesList[n][0],randomRunesList[n][1],randomRunesList[n][2],randomRunesList[n][3])
+            }
+        }
+        return result
     }
 
     companion object {
