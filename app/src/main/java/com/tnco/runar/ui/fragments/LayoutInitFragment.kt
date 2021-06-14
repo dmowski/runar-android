@@ -389,7 +389,7 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
         var minRuneLvl = preferencesRepository.minRuneLvl
         var randomRunesList: Array<Array<Int>> = Array(3) { Array(7) { 0 } }
         var randomRunesListSize = 0;
-        RunarLogger.logDebug(minRuneLvl.toString())
+        //RunarLogger.logDebug(minRuneLvl.toString())
         while (randomRunesListSize < 3) {
             val randomNumber = Random.nextInt(1, 42)
             //RunarLogger.logDebug("rand: $randomNumber")
@@ -425,11 +425,10 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
                 }
             }
         }
-        RunarLogger.logDebug(randomRunesList.contentDeepToString())
+        //RunarLogger.logDebug(randomRunesList.contentDeepToString())
         randomRunesList = randomRunesList.sortedWith(compareBy { it[6] }).toTypedArray()
-        RunarLogger.logDebug(randomRunesList.contentDeepToString())
-        var randomLvl = Random.nextInt(0, 3)
-        randomLvl = minRuneLvl
+        //RunarLogger.logDebug(randomRunesList.contentDeepToString())
+        val randomLvl = minRuneLvl
         var result =0
         for(n in 0..2){
             if(n==randomLvl){
