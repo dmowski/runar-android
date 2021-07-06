@@ -78,4 +78,7 @@
     <string name="onboard_text4">Сохраняй понравившиеся толкования и значения рун в Избранное</string>
     <string name="onboard_header5">Библиотека</string>
     <string name="onboard_text5">Заходи в Библиотеку знаний, изучай сказки, мифологию и историю рун</string>
+
+    <string name="sacr_button_header">Принести жертву богам</string>
+    <string name="sacr_button_text">Активация и поддержка новых фичей, и креативных идей.</string>
 </resources>

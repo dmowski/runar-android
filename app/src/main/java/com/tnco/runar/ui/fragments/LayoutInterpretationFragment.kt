@@ -106,6 +106,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                 val checkboxTextSize = (interpretation * 0.8).toFloat()
                 val runeNameTextSize = (interpretation * 1.2).toFloat()
                 val littleTextSize = (interpretation * 0.75).toFloat()
+                val sacrTextSize = (interpretation * 0.6).toFloat()
                 binding.descriptionHeaderFrame.setTextSize(
                     TypedValue.COMPLEX_UNIT_PX,
                     headerTextSize
@@ -114,6 +115,9 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                     TypedValue.COMPLEX_UNIT_PX,
                     buttonTextSize
                 )
+                binding.sacrButtonHeader.setTextSize(TypedValue.COMPLEX_UNIT_PX, (runeNameTextSize*1.2).toFloat())
+                binding.sacrButtonText.setTextSize(TypedValue.COMPLEX_UNIT_PX, (sacrTextSize*1.2).toFloat())
+
                 binding.checkboxText.setTextSize(TypedValue.COMPLEX_UNIT_PX, checkboxTextSize)
                 binding.text.setTextSize(TypedValue.COMPLEX_UNIT_PX, interpretation)
                 binding.runeName.setTextSize(TypedValue.COMPLEX_UNIT_PX, runeNameTextSize)
@@ -121,6 +125,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                 binding.runeAusf.setTextSize(TypedValue.COMPLEX_UNIT_PX, littleTextSize)
                 binding.helperText.setTextSize(TypedValue.COMPLEX_UNIT_PX, littleTextSize)
                 binding.singleRuneName.setTextSize(TypedValue.COMPLEX_UNIT_PX, runeNameTextSize)
+
                 viewModel.selectedLayout.observe(viewLifecycleOwner) { selectedLayout ->
                     if (selectedLayout != null) {
                         runeHeight = runeHeightCalculator()

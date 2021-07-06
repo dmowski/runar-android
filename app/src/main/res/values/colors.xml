@@ -92,4 +92,9 @@
 
     <color name="ripple_color">#52FFFFFF</color>
 
+    <color name="neutrals_gray_100">#E1E1E1</color>
+    <color name="neutrals_gray_50">#F1F1F1</color>
+
+    <color name="sacr_big_button_ripple">#29D2C4AD</color>
+
 </resources>
