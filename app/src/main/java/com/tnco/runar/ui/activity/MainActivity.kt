@@ -229,6 +229,22 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
         binding.bottomNavigationBar.isVisible = true
     }
 
+    override fun navigateToSacrFragment1() {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragmentContainer, SacrFragment1())
+            .addToBackStack(KEY_TO_INTERPRETATION_FRAGMENT_BACK)
+            .commit()
+        binding.bottomNavigationBar.isVisible = false
+    }
+
+    override fun navigateToSacrFragment2() {
+        TODO("Not yet implemented")
+    }
+
+    override fun navigateToSacrFragment3() {
+        TODO("Not yet implemented")
+    }
+
     override fun showDialog(page: String) {
         CancelDialog(this,fontSize,page).showDialog()
     }
@@ -245,6 +261,10 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
     override fun navigateToFavAndShowBottomNavBar() {
         supportFragmentManager.popBackStack(KEY_TO_FAV_FRAGMENT_BACK, FragmentManager.POP_BACK_STACK_INCLUSIVE)
         binding.bottomNavigationBar.isVisible = true
+    }
+
+    fun navigateToInterpretation(){
+        supportFragmentManager.popBackStack(KEY_TO_INTERPRETATION_FRAGMENT_BACK, FragmentManager.POP_BACK_STACK_INCLUSIVE)
     }
 
     override fun navigateToSettings() {
@@ -282,6 +302,7 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
 
     companion object {
         private const val KEY_TO_LAYOUT_FRAGMENT_BACK = "KEY_LAYOUT_FRAGMENT"
+        private const val KEY_TO_INTERPRETATION_FRAGMENT_BACK = "KEY_INTERPRETATION_FRAGMENT"
         private const val KEY_TO_FAV_FRAGMENT_BACK = "KEY_FAV_FRAGMENT"
         private const val KEY_TO_SETTINGS_FRAGMENT_BACK = "KEY_SETTINGS_FRAGMENT"
     }

@@ -23,6 +23,7 @@ import androidx.fragment.app.viewModels
 import com.tnco.runar.customClasses.InterTagHandler
 import com.tnco.runar.customClasses.OnSwipeTouchListener
 import com.tnco.runar.R
+import com.tnco.runar.RunarLogger
 import com.tnco.runar.controllers.AnalyticsHelper
 import com.tnco.runar.databinding.FragmentLayoutInterpretationBinding
 import com.tnco.runar.extensions.setOnCLickListenerForAll
@@ -1114,6 +1115,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
         binding.runeDescriptionBack.setOnTouchListener(swipeListener)
 
         binding.checkboxText.setOnClickListener(this)
+        binding.sacrificeButtonImg.setOnClickListener(this)
 
         view.isFocusableInTouchMode = true
         view.requestFocus()
@@ -1167,6 +1169,9 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
             }
             R.id.checkbox_text -> {
                 binding.checkbox.isChecked = !binding.checkbox.isChecked
+            }
+            R.id.sacrifice_button_img ->{
+                navigator?.navigateToSacrFragment1()
             }
         }
     }

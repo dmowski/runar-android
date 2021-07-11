@@ -97,4 +97,12 @@
 
     <color name="sacr_big_button_ripple">#29D2C4AD</color>
 
+    <color name = "sacr_luck_text">#F8F8F8</color>
+    <color name = "sacr_main_text">#DADADA</color>
+
+    <color name = "sacr_button_type">#59101010</color>
+    <color name = "sacr_button_header">#D2C4AD</color>
+    <color name = "sacr_button_mini_button">#141414</color>
+    <color name = "sacr_button_price_text">#FBF4F4</color>
+
 </resources>

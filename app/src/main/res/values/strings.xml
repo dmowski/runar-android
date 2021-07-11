@@ -80,4 +80,13 @@
 
     <string name="sacr_button_header">Принести жертву богам</string>
     <string name="sacr_button_text">Активация и поддержка новых фичей, и креативных идей.</string>
+    <string name="sacr_header_1">Жертва Богам</string>
+    <string name="sacr_header_2">Свершилось</string>
+    <string name="sacr_sub_header">Принести в жертву</string>
+    <string name="sacr_text">Жертва Богам повышает ваш уровень удачи и увеличивает возможность благоприятного исхода ваших дел.\n\nДелая жертву Богам, сфокусируйте свой разум на проблеме или деяниях своих. И Боги обратят на вас свой взор, одаряя вас внутренней силой и упорством на пути к вашей цели.\nПосле чего сама Судьба проведёт вас за руку по тропе благополучия.</string>
+    <string name="sacr_item_1">Бить челом</string>
+    <string name="sacr_item_2">Кофе</string>
+    <string name="sacr_item_3">Эль</string>
+    <string name="sacr_button2_price">$2</string>
+    <string name="sacr_button3_price">$5</string>
 </resources>

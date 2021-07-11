@@ -10,6 +10,9 @@ interface Navigator {
     fun navigateToDefaultAndShowBottomNavBar()
     fun navigateToFavAndShowBottomNavBar()
     fun navigateToSettings()
+    fun navigateToSacrFragment1()
+    fun navigateToSacrFragment2()
+    fun navigateToSacrFragment3()
     fun showDialog(page: String)
     fun agreeWithDialog()
 

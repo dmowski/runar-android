@@ -5,6 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:src="@drawable/sacr_button_image"
+        android:layout_margin="16dp"
+
+        android:contentDescription="TODO" />
+
     <com.tnco.runar.customView.OffsetImageView
         android:id="@+id/back_image"
         android:layout_width="match_parent"
@@ -367,7 +378,6 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/divider3">
-
                     <TextView
                         android:id="@+id/helper_text"
                         android:text="@string/helper_text"
@@ -430,6 +440,7 @@
                         android:foreground="@drawable/bg_sacrifice_button_border"
                         app:layout_constraintDimensionRatio="H,3.28:1">
                         <com.google.android.material.imageview.ShapeableImageView
+                            android:id="@+id/sacrifice_button_img"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:src="@drawable/sacr_back_button"
