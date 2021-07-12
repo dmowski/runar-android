@@ -52,6 +52,10 @@ class SacrFragment1  : Fragment(R.layout.fragment_layout_sacr_1), View.OnClickLi
             binding.itemHeader3Tw.setTextSize(TypedValue.COMPLEX_UNIT_PX, luckTextSize)
             binding.sacrB2Price.setTextSize(TypedValue.COMPLEX_UNIT_PX, priceTextSize)
         }
+
+        binding.sacrificeButtonImg1.setOnClickListener(this)
+        binding.sacrificeButtonImg2.setOnClickListener(this)
+        binding.sacrificeButtonImg3.setOnClickListener(this)
     }
 
 
@@ -63,6 +67,10 @@ class SacrFragment1  : Fragment(R.layout.fragment_layout_sacr_1), View.OnClickLi
 
 
     override fun onClick(v: View?) {
-        TODO("Not yet implemented")
+        when (v?.id){
+            R.id.sacrifice_button_img_1-> navigator?.navigateToSacrFragment2(0)
+            R.id.sacrifice_button_img_2-> navigator?.navigateToSacrFragment2(2)
+            R.id.sacrifice_button_img_3-> navigator?.navigateToSacrFragment2(5)
+        }
     }
 }

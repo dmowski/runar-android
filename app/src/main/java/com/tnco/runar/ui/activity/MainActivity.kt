@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
 import androidx.core.view.get
 import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentManager
@@ -237,12 +238,24 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
         binding.bottomNavigationBar.isVisible = false
     }
 
-    override fun navigateToSacrFragment2() {
-        TODO("Not yet implemented")
+    override fun navigateToSacrFragment2(tipSize: Int) {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragmentContainer, SacrFragment2().apply {
+                arguments = bundleOf(
+                    "tip_size" to tipSize
+                )
+            })
+            .addToBackStack(KEY_TO_INTERPRETATION_FRAGMENT_BACK)
+            .commit()
+        binding.bottomNavigationBar.isVisible = false
     }
 
     override fun navigateToSacrFragment3() {
-        TODO("Not yet implemented")
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragmentContainer, SacrFragment3())
+            .addToBackStack(KEY_TO_INTERPRETATION_FRAGMENT_BACK)
+            .commit()
+        binding.bottomNavigationBar.isVisible = false
     }
 
     override fun showDialog(page: String) {

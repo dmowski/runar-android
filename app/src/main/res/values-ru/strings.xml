@@ -91,4 +91,8 @@
     <string name="sacr_item_3">Эль</string>
     <string name="sacr_button2_price">$2</string>
     <string name="sacr_button3_price">$5</string>
+    <string name="sacr_hint_text">You’ll be charged</string>
+    <string name="sacr_google_pay_text">You’ll be taken to a thank you page after the payment. By continuing, you agree to the terms and privacy police.</string>
+    <string name="sacr_last_button_text">Продолжить путь</string>
+    <string name="sacr_result_text">Жертва принесена, и Боги обратили на тебя свой взор. Теперь продолжи свой путь!</string>
 </resources>
