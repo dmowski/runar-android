@@ -1,71 +1,72 @@
 <resources>
     <string name="app_name">Runar</string>
-    <string name="bottom_nav_layouts">Расклады</string>
-    <string name="bottom_nav_library">Библиотека</string>
-    <string name="bottom_nav_favourites">Избранное</string>
-    <string name="bottom_nav_settings">Настройки</string>
+    <string name="bottom_nav_layouts">Runic Draws</string>
+    <string name="bottom_nav_library">Library</string>
+    <string name="bottom_nav_favourites">Favourites</string>
+    <string name="bottom_nav_settings">Settings</string>
 
-    <string name="layout1">Руна дня</string>
-    <string name="layout2">Расклад из 2 рун</string>
-    <string name="layout3">Норны</string>
-    <string name="layout4">Краткий прогноз</string>
-    <string name="layout5">Молот Тора</string>
-    <string name="layout6">Крест</string>
-    <string name="layout7">Крест стихий</string>
-    <string name="layout8">Кельтский крест</string>
+    <string name="layout1">RUNE OF THE DAY</string>
+    <string name="layout2">2 RUNES</string>
+    <string name="layout3">NORNS</string>
+    <string name="layout4">BRIEF PROPHECY</string>
+    <string name="layout5">THOR\'S HAMMER</string>
+    <string name="layout6">CROSS</string>
+    <string name="layout7">CROSS OF ELEMENTS</string>
+    <string name="layout8">CELTIC CROSS</string>
 
-    <string name="layout_description_checkbox">Больше не показывать</string>
-    <string name="layout_description_button">Начать расклад</string>
+    <string name="layout_description_checkbox">Do not show again</string>
+    <string name="layout_description_button">Start Runic Draw</string>
 
-    <string name="layout_init_button_text1">Вытянуть руну</string>
-    <string name="layout_init_button_text2">Толковать</string>
-    <string name="layout_init_button_text4">Расклад обрабатывается...</string>
-    <string name="layout_init_processing">Магазин предметов скандинавской культуры и быта</string>
-    <string name="layout_description_product">Описание товаров</string>
-    <string name="layout_go_to_site">Перейти на сайт</string>
+    <string name="layout_init_button_text1">Pull Out a Rune</string>
+    <string name="layout_init_button_text2">Get Interpretation</string>
+    <string name="layout_init_button_text4">Processing...</string>
+    <string name="layout_init_processing">Ravendark Guitars </string>
+    <string name="layout_description_product">Products description</string>
+    <string name="layout_go_to_site">Check the website</string>
 
     <string name="info_popup_button_text">Ок</string>
 
-    <string name="description_popup_text">Остановить расклад?</string>
-    <string name="description_popup_button1">Нет</string>
-    <string name="description_popup_button2">Да</string>
-    <string name="layout_interpretation_checkbox">Сохранить результат</string>
-    <string name="layout_interpretation_button">Завершить</string>
-    <string name="layout_interpretation_ausf">Уровень удачи</string>
+    <string name="description_popup_text">Do you really want to stop\nRunic Draw?</string>
+    <string name="description_popup_button1">No</string>
+    <string name="description_popup_button2">Yes</string>
+    <string name="layout_interpretation_checkbox">Save this draw</string>
+    <string name="layout_interpretation_button">Finish</string>
+    <string name="layout_interpretation_ausf">Luckiness</string>
     <!-- TODO: Remove or change this placeholder text -->
 
-    <string name="text_calculation_helper">Простое гадание на рунах, однако оно</string>
+    <string name="text_calculation_helper">The fame and popularity of this divination </string>
 
-    <string name="library_top_bar_header">Библиотека</string>
-
-    <string name="settings_layout">Настройки</string>
-    <string name="settings_language">Язык</string>
-    <string name="settings_language_rus">Русский</string>
+    <string name="settings_layout">Settings</string>
+    <string name="settings_language">Language</string>
+    <string name="settings_language_rus">Russian</string>
     <string name="settings_language_en">English</string>
-    <string name="music_txt">Музыка</string>
+    <string name="music_txt">Music</string>
     <string name="onboarding_txt">Показать стр. приветствия</string>
-    <string name="rate_app_txt">Оценить приложение</string>
-    <string name="about_app_txt">О приложении</string>
-    <string name="about_txt">Версия приложения 0.13–4\n\nRunar — это приложение для гадания на скандинавских рунах и изучения скандинавской мифологии и сказок. Содержит 8 видов рунных раскладов, толкования рун. В разделе Библиотека вы можете почитать скандинавские саги и сказки.\n\nС разрешения правообладателей, в приложении использованы следующие музыкальные композиции:\n- Лёдъ (использованы композиции - \"Черная Ладья\", \"Мать моя сказала\"), https://lyod1.bandcamp.com/releases \n- Danheim (использованы композиции - \"Runar\", \"Kala\"), https://danheimmusic.com</string>
-    <string name="fav_dialog_text">Хотите удалить избранные расклады?</string>
+    <string name="rate_app_txt">Rate the application</string>
+    <string name="about_app_txt">About</string>
+    <string name="about_txt">Application version 0.13–4\n\nRunar is an app for reading Scandinavian runes and studying mythology and fairy tales. Contains 8 types of rune layouts and runes interpretation. In the Library section you can read Scandinavian sagas and fairy tales.\n\nWith the permission of the copyright holders, the following musical compositions are used in the application:\n- Lyod (tracks \"Black rook\", \"My mother told\"), https://lyod1.bandcamp.com/releases \n- Danheim (tracks \"Runar\", \"Kala\"), https://danheimmusic.com</string>
+    <string name="library_top_bar_header">Library</string>
+    <string name="fav_dialog_text">Do you really want to delete your favorite layouts?</string>
 
+    <string name="library_bar_fav">Favourites</string>
+    <string name="fav_checkbox_text">Select all</string>
 
-    <string name="library_bar_fav">Избранное</string>
-    <string name="fav_checkbox_text">Выбрать всё</string>
     <string name="about_url1">https://lyod1.bandcamp.com/releases</string>
     <string name="about_url2">https://danheimmusic.com/license-music/</string>
-    <string name="group1">Лёдъ</string>
+
+    <string name="group1">Lyod</string>
     <string name="group2">Danheim</string>
-    <string name="track1_1">Неведомо, Не страшно - Черная Ладья</string>
-    <string name="track1_2">Мать моя сказала</string>
+    <string name="track1_1">Black rook</string>
+    <string name="track1_2">My mother told</string>
     <string name="track2_1">Kala</string>
     <string name="track2_2">Runar</string>
 
-    <string name="helper_text">Нажми на руны в раскладе,\n чтобы узнать полные значения рун.</string>
+    <string name="helper_text">Tap on the runic draw,\n and learn the details about the runes</string>
 
-    <string name="onboard_skip">Пропустить</string>
-    <string name="onboard_begin">Начать</string>
-    <string name="onboard_next">Далее</string>
+    <string name="onboard_skip">Skip</string>
+
+    <string name="onboard_begin">Start</string>
+    <string name="onboard_next">Next</string>
 
     <string name="onboard_header1">О чем приложение</string>
     <string name="onboard_text1">Получай ответы на волнующие вопросы с помощью рун</string>
