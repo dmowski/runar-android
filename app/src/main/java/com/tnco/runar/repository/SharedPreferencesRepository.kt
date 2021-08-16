@@ -17,7 +17,7 @@ class SharedPreferencesRepository private constructor(context: Context) {
     var minRuneLvl: Int
     var firstLaunch: Int = 0
     var language: String
-    var lastRunTime: Long
+    //var lastRunTime: Long
 
     init {
         val appVersion = context.packageManager.getPackageInfo(context.packageName, 0).versionCode
@@ -87,13 +87,13 @@ class SharedPreferencesRepository private constructor(context: Context) {
             editor.apply()
         }
 
-        val editor = preferences.edit()
+        /*val editor = preferences.edit()
         lastRunTime = System.currentTimeMillis()
         editor.putLong("last_run", lastRunTime)
         editor.apply()
         RunarLogger.logDebug("last_run $lastRunTime")
         RunarLogger.logDebug("start_service")
-        context.startService(Intent(context,NotifiactionChecker::class.java))
+        context.startService(Intent(context,NotifiactionChecker::class.java))*/
     }
 
     fun getLibHash(lng:String) : String{

@@ -26,10 +26,11 @@ import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewmodel.compose.viewModel
+import coil.compose.rememberImagePainter
 import com.tnco.runar.R
 import com.tnco.runar.controllers.AnalyticsHelper
 import com.tnco.runar.presentation.viewmodel.LibraryViewModel
-import dev.chrisbanes.accompanist.coil.CoilImage
+
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -248,12 +249,13 @@ private fun FirstMenuItem(
                     .fillMaxSize()
                     .weight(62f), verticalAlignment = Alignment.CenterVertically
             ) {
-                CoilImage(
-                    data = imgLink,
+                Image(
+                    painter = rememberImagePainter(imgLink),
                     contentDescription = null,
                     modifier = Modifier
                         .background(Color(0x00000000))
                         .padding(top = 5.dp, bottom = 5.dp)
+                        .fillMaxHeight()
                 )
                 Column(
                     Modifier
@@ -430,12 +432,13 @@ private fun SecondMenuItem(fontSize: Float, header: String, imgLink: String, cli
                         .fillMaxSize()
                         .weight(62f), verticalAlignment = Alignment.CenterVertically
                 ) {
-                    CoilImage(
-                        data = imgLink,
+                    Image(
+                        painter = rememberImagePainter(imgLink),
                         contentDescription = null,
                         modifier = Modifier
                             .background(Color(0x00000000))
                             .padding(top = 5.dp, bottom = 5.dp)
+                            .fillMaxHeight()
                     )
                     Row(
                         Modifier
@@ -620,12 +623,13 @@ private fun RuneDescription(fontSize: Float, header: String, text: String, imgLi
                     .fillMaxSize()
                     .weight(152f)
             )
-            CoilImage(
-                data = imgLink,
+            Image(
+                painter = rememberImagePainter(imgLink),
                 contentDescription = null,
                 modifier = Modifier
                     .background(Color(0x00000000))
                     .weight(100f)
+                    .fillMaxSize()
             )
             Box(
                 Modifier

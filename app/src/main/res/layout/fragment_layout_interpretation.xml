@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <!---<com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -14,7 +14,7 @@
         android:src="@drawable/sacr_button_image"
         android:layout_margin="16dp"
 
-        android:contentDescription="TODO" />
+        android:contentDescription="TODO" /> -->
 
     <com.tnco.runar.customView.OffsetImageView
         android:id="@+id/back_image"
@@ -428,8 +428,8 @@
                         android:layout_height="0dp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/text"
-                        app:layout_constraintDimensionRatio="H,18:1"/>
+                        app:layout_constraintTop_toBottomOf="@id/text" />
+                        <!-- app:layout_constraintDimensionRatio="H,18:1"/> -->
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/sacrifice_button_big"
                         android:layout_width="0dp"
@@ -437,8 +437,8 @@
                         app:layout_constraintTop_toBottomOf="@id/divider4"
                         app:layout_constraintStart_toStartOf="@id/sacr_button_start_guideline"
                         app:layout_constraintEnd_toEndOf="@id/sacr_button_end_guideline"
-                        android:foreground="@drawable/bg_sacrifice_button_border"
-                        app:layout_constraintDimensionRatio="H,3.28:1">
+                        android:foreground="@drawable/bg_sacrifice_button_border" >
+                        <!-- app:layout_constraintDimensionRatio="H,3.28:1" > -->
                         <com.google.android.material.imageview.ShapeableImageView
                             android:id="@+id/sacrifice_button_img"
                             android:layout_width="match_parent"

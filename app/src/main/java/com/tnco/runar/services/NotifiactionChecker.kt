@@ -10,7 +10,7 @@ import com.tnco.runar.repository.SharedPreferencesRepository
 import com.tnco.runar.ui.activity.SplashActivity
 
 class NotifiactionChecker: Service() {
-    private val preferencesRepository = SharedPreferencesRepository.get()
+    /*private val preferencesRepository = SharedPreferencesRepository.get()
 
     private val MILLISECS_PER_DAY = 86400000L
     private val MILLISECS_PER_MIN = 60000L
@@ -51,7 +51,7 @@ class NotifiactionChecker: Service() {
         notificationManager.notify(1995,notification)
         RunarLogger.logDebug("notification send")
     }
-
+*/
     override fun onBind(intent: Intent?): IBinder? {
         return null
     }
