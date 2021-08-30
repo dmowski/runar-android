@@ -27,6 +27,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberImagePainter
+import coil.size.OriginalSize
 import com.tnco.runar.R
 import com.tnco.runar.controllers.AnalyticsHelper
 import com.tnco.runar.presentation.viewmodel.LibraryViewModel
@@ -255,7 +256,8 @@ private fun FirstMenuItem(
                     modifier = Modifier
                         .background(Color(0x00000000))
                         .padding(top = 5.dp, bottom = 5.dp)
-                        .fillMaxHeight()
+                        .weight(60f)
+                        .fillMaxSize()
                 )
                 Column(
                     Modifier
@@ -438,7 +440,8 @@ private fun SecondMenuItem(fontSize: Float, header: String, imgLink: String, cli
                         modifier = Modifier
                             .background(Color(0x00000000))
                             .padding(top = 5.dp, bottom = 5.dp)
-                            .fillMaxHeight()
+                            .weight(60f)
+                            .fillMaxSize()
                     )
                     Row(
                         Modifier
@@ -624,12 +627,14 @@ private fun RuneDescription(fontSize: Float, header: String, text: String, imgLi
                     .weight(152f)
             )
             Image(
-                painter = rememberImagePainter(imgLink),
+                painter = rememberImagePainter(imgLink, builder = {
+                    size(OriginalSize)
+                }),
                 contentDescription = null,
                 modifier = Modifier
                     .background(Color(0x00000000))
-                    .weight(100f)
-                    .fillMaxSize()
+                    .weight(120f)
+                    .fillMaxWidth()
             )
             Box(
                 Modifier
