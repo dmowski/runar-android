@@ -24,6 +24,7 @@ import com.tnco.runar.ui.fragments.*
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.ktx.Firebase
+import kotlin.system.exitProcess
 
 class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusChangeListener {
 
@@ -137,11 +138,10 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
     }
 
     override fun onBackPressed() {
-        val topFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainer)
-        when (topFragment) {
+        when (supportFragmentManager.findFragmentById(R.id.fragmentContainer)) {
             is LayoutFragment -> {
                 finishAndRemoveTask()
-                System.exit(0)
+                exitProcess(0)
             }
             is LibraryFragment -> {
                 supportFragmentManager.beginTransaction()
@@ -181,8 +181,7 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
     }
 
     override fun navigateToLayoutInitFragment(layoutId: Int) {
-        val topFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainer)
-        when (topFragment) {
+        when (supportFragmentManager.findFragmentById(R.id.fragmentContainer)) {
             is LayoutFragment -> {
                 supportFragmentManager.beginTransaction()
                     .replace(R.id.fragmentContainer, LayoutInitFragment.newInstance(layoutId))
@@ -288,8 +287,7 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
     }
 
     fun forceBarHide(){
-        val topFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainer)
-        when (topFragment) {
+        when (supportFragmentManager.findFragmentById(R.id.fragmentContainer)) {
             is LayoutFragment -> binding.bottomNavigationBar.isVisible = true
             is LibraryFragment -> binding.bottomNavigationBar.isVisible = true
             is FavouriteFragment -> binding.bottomNavigationBar.isVisible = true
