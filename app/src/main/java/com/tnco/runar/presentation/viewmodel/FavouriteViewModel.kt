@@ -152,12 +152,11 @@ class FavouriteViewModel: ViewModel() {
     }
 
     private fun dateCorrection(time: Long?): String{
-        if(time!=null){
+        return if(time!=null){
             val sdf = SimpleDateFormat("dd.MM.yyyy   HH:mm")
             val netDate = Date(time*1000)
-            return sdf.format(netDate)
-        }
-        else return "WTF"
+            sdf.format(netDate)
+        } else "WTF"
     }
 
     private fun getHeader(layoutId: Int): String{
