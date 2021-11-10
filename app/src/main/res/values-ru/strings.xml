@@ -4,6 +4,9 @@
     <string name="bottom_nav_library">Библиотека</string>
     <string name="bottom_nav_favourites">Избранное</string>
     <string name="bottom_nav_settings">Настройки</string>
+    <string name="generator">Генератор</string>
+
+    <string name="pattern_generator">Генератор узоров</string>
 
     <string name="layout1">Руна дня</string>
     <string name="layout2">Расклад из 2 рун</string>

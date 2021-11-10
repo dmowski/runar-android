@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
         setContentView(binding.root)
 
         if (savedInstanceState == null) {
-            initFragments()
+            Companion.initFragments(this)
         }
         this.registerReceiver(languageReceiver, IntentFilter("android.intent.action.LOCALE_CHANGED"))
 
@@ -84,6 +84,14 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
                 R.id.layoutFragment->{
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.fragmentContainer, LayoutFragment())
+                        .commit()
+                    binding.bottomNavigationBar.isVisible = true
+                    true
+                }
+                // Generator menu bar
+                R.id.generatorFragment->{
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragmentContainer, GeneratorFragment())
                         .commit()
                     binding.bottomNavigationBar.isVisible = true
                     true
@@ -131,12 +139,6 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
         super.onPause()
     }
 
-    private fun initFragments() {
-        supportFragmentManager.beginTransaction()
-            .add(R.id.fragmentContainer, LayoutFragment())
-            .commit()
-    }
-
     override fun onBackPressed() {
         when (supportFragmentManager.findFragmentById(R.id.fragmentContainer)) {
             is LayoutFragment -> {
@@ -144,6 +146,13 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
                 exitProcess(0)
             }
             is LibraryFragment -> {
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragmentContainer, LayoutFragment())
+                    .commit()
+                binding.bottomNavigationBar.selectedItemId = R.id.layoutFragment
+            }
+            // Generator
+            is GeneratorFragment -> {
                 supportFragmentManager.beginTransaction()
                     .replace(R.id.fragmentContainer, LayoutFragment())
                     .commit()
@@ -293,6 +302,7 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
             is FavouriteFragment -> binding.bottomNavigationBar.isVisible = true
             is SettingsFragment -> binding.bottomNavigationBar.isVisible = true
             is AboutAppFragment -> binding.bottomNavigationBar.isVisible = true
+            is GeneratorFragment -> binding.bottomNavigationBar.isVisible = true
             else-> binding.bottomNavigationBar.isVisible = false
         }
     }
@@ -300,8 +310,9 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
     fun reshowBar(){
         binding.bottomNavigationBar.menu[0].title = getString(R.string.bottom_nav_layouts)
         binding.bottomNavigationBar.menu[1].title = getString(R.string.bottom_nav_library)
-        binding.bottomNavigationBar.menu[2].title = getString(R.string.bottom_nav_favourites)
-        binding.bottomNavigationBar.menu[3].title = getString(R.string.bottom_nav_settings)
+        binding.bottomNavigationBar.menu[2].title = getString(R.string.generator)
+        binding.bottomNavigationBar.menu[3].title = getString(R.string.bottom_nav_favourites)
+        binding.bottomNavigationBar.menu[4].title = getString(R.string.bottom_nav_settings)
     }
 
     override fun getAudioFocus(){
@@ -316,6 +327,11 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
         private const val KEY_TO_INTERPRETATION_FRAGMENT_BACK = "KEY_INTERPRETATION_FRAGMENT"
         private const val KEY_TO_FAV_FRAGMENT_BACK = "KEY_FAV_FRAGMENT"
         private const val KEY_TO_SETTINGS_FRAGMENT_BACK = "KEY_SETTINGS_FRAGMENT"
+        private fun initFragments(mainActivity: MainActivity) {
+            mainActivity.supportFragmentManager.beginTransaction()
+                .add(R.id.fragmentContainer, LayoutFragment())
+                .commit()
+        }
     }
 
 }
