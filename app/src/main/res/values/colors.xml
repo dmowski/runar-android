@@ -7,6 +7,8 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
+    <color name="white_f8">#FFF8F8F8</color>
+
     <color name="bottom_nav_selected">#EFCD93</color>
     <color name="bottom_nav_deselected">#828282</color>
     <color name="bottom_nav_text_deselected">#8E8E93</color>

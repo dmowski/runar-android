@@ -3,12 +3,18 @@ package com.tnco.runar.ui.activity
 import android.content.*
 import android.media.AudioManager
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import android.view.WindowManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.Popup
+import androidx.compose.ui.window.isPopupLayout
 import androidx.core.os.bundleOf
 import androidx.core.view.get
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.tnco.runar.R
 import com.tnco.runar.controllers.MusicController
@@ -333,5 +339,11 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
                 .commit()
         }
     }
-
+    fun generatorStart(view: View){
+        setContentView(R.layout.fragment_generator_start)
+    }
+    fun generatorStartBack(view: View){
+        setContentView(R.layout.activity_main)
+        startActivity(Intent(this, MainActivity::class.java))
+    }
 }

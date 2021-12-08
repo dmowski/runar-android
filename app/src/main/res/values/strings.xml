@@ -7,6 +7,15 @@
     <string name="generator">Generator</string>
 
     <string name="pattern_generator">Pattern generator</string>
+    <string name="run_pattern">Rune pattern</string>
+    <string name="formula">Formula</string>
+    <string name="stav">Stav</string>
+    <string name="coming_soon">Coming soon</string>
+    <string name="runes_selection">Runes selection</string>
+    <string name="runes_collect_formula">Collect your rune formula by choosing from 1 to 3 runes</string>
+    <string name="runes_random">Choose random runes</string>
+
+
 
     <string name="layout1">RUNE OF THE DAY</string>
     <string name="layout2">2 RUNES</string>

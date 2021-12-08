@@ -7,6 +7,13 @@
     <string name="generator">Генератор</string>
 
     <string name="pattern_generator">Генератор узоров</string>
+    <string name="run_pattern">Рунный узор</string>
+    <string name="formula">Формула</string>
+    <string name="stav">Став</string>
+    <string name="coming_soon">Скоро появится</string>
+    <string name="runes_selection">Выбор рун</string>
+    <string name="runes_collect_formula">Собери свою рунную формулу, выбрав от 1 до 3 рун</string>
+    <string name="runes_random">Выбрать случайные руны</string>
 
     <string name="layout1">Руна дня</string>
     <string name="layout2">Расклад из 2 рун</string>
