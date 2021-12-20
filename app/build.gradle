@@ -27,6 +27,7 @@ android {
 
     buildFeatures {
         viewBinding true
+        dataBinding true
         compose true
     }
 
@@ -107,4 +108,5 @@ dependencies {
     implementation 'com.google.firebase:firebase-crashlytics-ktx'
 
     implementation "androidx.cardview:cardview:1.0.0"
+
 }

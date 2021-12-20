@@ -1,20 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    >
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:background="@color/library_top_bar"
+        app:layout_constraintTop_toTopOf="parent"
         app:subtitleTextAppearance="@font/roboto_medium"
         app:title="@string/pattern_generator"
-        app:titleTextColor="@color/library_top_bar_header"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:titleTextColor="@color/library_top_bar_header" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/lineTop_1"
@@ -22,36 +20,42 @@
         android:layout_height="0dp"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.125" />
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/lineBottom_1"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.531" />
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/lineStart"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.138" />
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/lineEnd"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.862" />
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/lineCenterVertical"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.5" />
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/lineBottom"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.854" />
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/lineBottom_2"
         android:layout_width="0dp"
@@ -63,41 +67,39 @@
         android:id="@+id/generatorStav"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:background="@drawable/layout_item_selector_background"
+        app:layout_constraintBottom_toBottomOf="@+id/lineBottom_1"
         app:layout_constraintEnd_toEndOf="@+id/lineEnd"
         app:layout_constraintStart_toStartOf="@id/lineStart"
-        app:layout_constraintTop_toTopOf="@+id/lineTop_1"
-        app:layout_constraintBottom_toBottomOf="@+id/lineBottom_1"
-        android:background="@drawable/layout_item_selector_background"
-        android:onClick="generatorStart">
+        app:layout_constraintTop_toTopOf="@+id/lineTop_1">
 
         <TextView
-            app:maxLines="1"
-            app:autoSizeTextType="uniform"
-            app:autoSizeMinTextSize="5sp"
-            android:letterSpacing="@dimen/layout_text_letter_spacing"
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_marginTop="16dp"
             android:fontFamily="@font/amatic_sc_bold"
+            android:letterSpacing="@dimen/layout_text_letter_spacing"
             android:text="@string/run_pattern"
             android:textColor="@color/layout_desc_deselected"
             android:textSize="36sp"
+            app:autoSizeMinTextSize="5sp"
+            app:autoSizeTextType="uniform"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:maxLines="1" />
 
         <ImageView
-            android:adjustViewBounds="true"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:adjustViewBounds="true"
             android:src="@drawable/rune_patern"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -131,9 +133,9 @@
             app:maxLines="1" />
 
         <ImageView
-            android:adjustViewBounds="true"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:adjustViewBounds="true"
             android:src="@drawable/formula"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -147,12 +149,12 @@
         android:id="@+id/stav"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginStart="8dp"
         android:background="@drawable/layout_item_selector_background"
         app:layout_constraintBottom_toBottomOf="@id/lineBottom"
         app:layout_constraintEnd_toEndOf="@+id/lineEnd"
-        app:layout_constraintTop_toTopOf="@+id/lineBottom_2"
         app:layout_constraintStart_toStartOf="@id/lineCenterVertical"
-        android:layout_marginStart="8dp">
+        app:layout_constraintTop_toTopOf="@+id/lineBottom_2">
 
         <TextView
             android:id="@+id/stav_screen"
@@ -173,9 +175,9 @@
             app:maxLines="1" />
 
         <ImageView
-            android:adjustViewBounds="true"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:adjustViewBounds="true"
             android:src="@drawable/stav"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
