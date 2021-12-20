@@ -164,6 +164,13 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
                     .commit()
                 binding.bottomNavigationBar.selectedItemId = R.id.layoutFragment
             }
+            // GeneratorStart
+            is GeneratorStartFragment -> {
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragmentContainer, GeneratorFragment())
+                    .commit()
+                binding.bottomNavigationBar.selectedItemId = R.id.generatorFragment
+            }
             is FavouriteFragment -> {
                 supportFragmentManager.beginTransaction()
                     .replace(R.id.fragmentContainer, LayoutFragment())
@@ -338,12 +345,5 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
                 .add(R.id.fragmentContainer, LayoutFragment())
                 .commit()
         }
-    }
-    fun generatorStart(view: View){
-        setContentView(R.layout.fragment_generator_start)
-    }
-    fun generatorStartBack(view: View){
-        setContentView(R.layout.activity_main)
-        startActivity(Intent(this, MainActivity::class.java))
     }
 }

@@ -13,5 +13,6 @@ interface BackendApiInterface {
     suspend fun getLibraryData(@Path("language") language: String) : Response<List<LibraryResponse>>
     @GET("library-hash/{language}")
     suspend fun getLibraryHash(@Path("language") language: String) : Response<HashResponse>
-
+    @GET("runes")
+    suspend fun getRunes() : Response<List<RunesResponse>>
 }

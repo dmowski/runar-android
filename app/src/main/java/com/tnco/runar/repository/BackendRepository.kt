@@ -1,12 +1,17 @@
 package com.tnco.runar.repository
 
+import androidx.lifecycle.MutableLiveData
+import com.tnco.runar.RunarLogger
 import com.tnco.runar.converters.DataClassConverters
+import com.tnco.runar.model.RunesItemsModel
 import com.tnco.runar.retrofit.RetrofitClient
+import com.tnco.runar.retrofit.RunesResponse
 import com.tnco.runar.retrofit.UserInfo
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
+import retrofit2.Response
 import java.util.*
 
 object BackendRepository {
@@ -72,5 +77,11 @@ object BackendRepository {
                 //RunarLogger.logError("Library", e)
             }
         }
+    }
+
+
+    suspend fun getRunes(): List<RunesItemsModel> {
+        val response = RetrofitClient.apiInterfaceGenerator.getRunes()
+        return DataClassConverters.runesRespToItems(response.body()!!)
     }
 }

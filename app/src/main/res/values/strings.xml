@@ -16,7 +16,6 @@
     <string name="runes_random">Choose random runes</string>
 
 
-
     <string name="layout1">RUNE OF THE DAY</string>
     <string name="layout2">2 RUNES</string>
     <string name="layout3">NORNS</string>
@@ -106,5 +105,7 @@
     <string name="sacr_google_pay_text">You’ll be taken to a thank you page after the payment. By continuing, you agree to the terms and privacy police.</string>
     <string name="sacr_last_button_text">Продолжить путь</string>
     <string name="sacr_result_text">Жертва принесена, и Боги обратили на тебя свой взор. Теперь продолжи свой путь!</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
