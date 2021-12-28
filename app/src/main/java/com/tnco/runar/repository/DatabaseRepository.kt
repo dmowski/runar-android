@@ -3,6 +3,7 @@ package com.tnco.runar.repository
 import com.tnco.runar.model.*
 import com.tnco.runar.room.AppDB
 import com.tnco.runar.room.DataDB
+import kotlinx.coroutines.flow.Flow
 
 object DatabaseRepository {
     private var appDao = AppDB.getLayoutDB().appDAO()
@@ -69,5 +70,15 @@ object DatabaseRepository {
 
     suspend fun deleteUserLayoutsByIds(ids: List<Int>){
         dataDao.removeUserLayoutsByIds(ids)
+    }
+
+
+    fun getRunesGenerator(): Flow<List<RunesItemsModel>> {
+        return appDao.getRunesGenerator()
+    }
+
+    suspend fun updateRunesGeneratorDB(list: List<RunesItemsModel>){
+        appDao.clearRunesGenerator()
+        appDao.insertRunesGenerator(list)
     }
 }

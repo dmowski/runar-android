@@ -10,8 +10,8 @@ import com.tnco.runar.model.*
 import java.util.*
 
 @Database(
-    entities = [LayoutDescriptionModel::class, RuneDescriptionModel::class, AffimDescriptionModel::class, TwoRunesInterModel::class, LibraryItemsModel::class],
-    version = 2,
+    entities = [LayoutDescriptionModel::class, RuneDescriptionModel::class, AffimDescriptionModel::class, TwoRunesInterModel::class, LibraryItemsModel::class, RunesItemsModel::class],
+    version = 3,
     exportSchema = false
 )
 
@@ -25,7 +25,7 @@ abstract class AppDB : RoomDatabase() {
 
             val locale: String = Locale.getDefault().language
             var dataBaseFilePath = ""
-            var dataBaseName =""
+            var dataBaseName = ""
 
             if (locale.equals("ru")) {
                 dataBaseFilePath = "database/layouts.db"
@@ -36,11 +36,19 @@ abstract class AppDB : RoomDatabase() {
             }
 
             INSTANCE = Room.databaseBuilder(context, AppDB::class.java, dataBaseName)
-                    .createFromAsset(dataBaseFilePath).build()
+                .addMigrations(MIGRATION_2_3)
+                .createFromAsset(dataBaseFilePath).build()
         }
 
         fun getLayoutDB(): AppDB {
             return INSTANCE
+        }
+
+
+        private val MIGRATION_2_3 = object : Migration(2, 3) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("CREATE TABLE runes_generator (id INTEGER PRIMARY KEY NOT NULL, imgUrl TEXT, enTitle TEXT, ruTitle TEXT)")
+            }
         }
     }
 }

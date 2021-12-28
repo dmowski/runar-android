@@ -41,7 +41,6 @@ class RunesGeneratorAdapter: RecyclerView.Adapter<RunesGeneratorAdapter.RunesGen
 
     fun setData(list: List<RunesItemsModel>) {
         mListRunes = list
-        Log.i("TAG","${list[2].imgUrl} Adapter")
         notifyDataSetChanged()
     }
 }
