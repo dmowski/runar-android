@@ -2,8 +2,10 @@ package com.tnco.runar.room
 
 import androidx.room.Dao
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.tnco.runar.model.*
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface AppDAO {
@@ -37,5 +39,14 @@ interface AppDAO {
 
     @Insert
     suspend fun insertLibraryData(data: List<LibraryItemsModel>)
+
+    @Insert
+    suspend fun insertRunesGenerator(data: List<RunesItemsModel>)
+
+    @Query("SELECT * FROM runes_generator")
+    fun getRunesGenerator(): Flow<List<RunesItemsModel>>
+
+    @Query("DELETE FROM runes_generator")
+    suspend fun clearRunesGenerator()
 
 }

@@ -17,20 +17,12 @@ class BindingAdapters {
         @BindingAdapter("loadImageFromUrl")
         @JvmStatic
         fun loadImageFromUrl(imageView: ImageView, imageUrl: String?) {
+
             if (imageUrl != null) {
-//                Log.i("Image", imageUrl)
-               // val imageUrl2 = "http://runar-generator-api.herokuapp.com/img/runes/5.png"
                 imageView.load(imageUrl) {
                     crossfade(100)
                     error(R.drawable.rune39)
                 }
-
-//  val  imageUrl2 = "http://runar-generator-api.herokuapp.com/img/runes/38.png"
-//                Picasso.get()
-//                    .load(imageUrl2)
-//                    .fit()
-//                    .placeholder(R.drawable.rune39)
-//                    .into(imageView)
             }
         }
     }

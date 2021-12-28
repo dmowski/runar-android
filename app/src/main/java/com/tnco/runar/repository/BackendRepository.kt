@@ -82,6 +82,13 @@ object BackendRepository {
 
     suspend fun getRunes(): List<RunesItemsModel> {
         val response = RetrofitClient.apiInterfaceGenerator.getRunes()
-        return DataClassConverters.runesRespToItems(response.body()!!)
+        if (response.isSuccessful) {
+            val convertedResult =
+                DataClassConverters.runesRespToItems(response.body()!!)
+            DatabaseRepository.updateRunesGeneratorDB(convertedResult)
+            return convertedResult
+        }
+        return listOf(RunesItemsModel())
     }
+
 }
