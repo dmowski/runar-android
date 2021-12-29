@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.tnco.runar.databinding.RuneItemBinding
+import com.tnco.runar.extensions.RunesDiffUtil
 import com.tnco.runar.model.RunesItemsModel
 
 class RunesGeneratorAdapter: RecyclerView.Adapter<RunesGeneratorAdapter.RunesGeneratorHolder>() {
@@ -40,7 +41,9 @@ class RunesGeneratorAdapter: RecyclerView.Adapter<RunesGeneratorAdapter.RunesGen
     override fun getItemCount(): Int = mListRunes.size
 
     fun setData(list: List<RunesItemsModel>) {
+        val runesDiffUtil = RunesDiffUtil(mListRunes,list)
+        val diffUtilResult = DiffUtil.calculateDiff(runesDiffUtil)
         mListRunes = list
-        notifyDataSetChanged()
+        diffUtilResult.dispatchUpdatesTo(this)
     }
 }
