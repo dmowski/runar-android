@@ -14,6 +14,7 @@
     <string name="runes_selection">Выбор рун</string>
     <string name="runes_collect_formula">Собери свою рунную формулу, выбрав от 1 до 3 рун</string>
     <string name="runes_random">Выбрать случайные руны</string>
+    <string name="runes_generate">Сгенерировать</string>
 
     <string name="layout1">Руна дня</string>
     <string name="layout2">Расклад из 2 рун</string>

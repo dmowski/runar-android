@@ -14,6 +14,7 @@
     <string name="runes_selection">Runes selection</string>
     <string name="runes_collect_formula">Collect your rune formula by choosing from 1 to 3 runes</string>
     <string name="runes_random">Choose random runes</string>
+    <string name="runes_generate">Generate</string>
 
 
     <string name="layout1">RUNE OF THE DAY</string>

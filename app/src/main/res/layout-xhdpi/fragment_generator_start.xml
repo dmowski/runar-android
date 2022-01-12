@@ -69,14 +69,14 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.144" />
+        app:layout_constraintGuide_percent="0.12" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/lineEndText"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.856" />
+        app:layout_constraintGuide_percent="0.88" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/lineTopText"
@@ -90,28 +90,28 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.266" />
+        app:layout_constraintGuide_percent="0.22" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/lineBottomRune"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.4" />
+        app:layout_constraintGuide_percent="0.44" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/lineStartRune"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.22" />
+        app:layout_constraintGuide_percent="0.18" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/lineEndRune"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.77" />
+        app:layout_constraintGuide_percent="0.82" />
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -134,7 +134,6 @@
             android:textColor="@color/rune_number_color_deselected"
             android:textSize="50sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/tv_rune_2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -144,7 +143,6 @@
             android:layout_height="@dimen/generator_rune_height_xhdpi"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/rune_2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -157,8 +155,8 @@
             android:textSize="12sp"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/rune_2"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/rune_1"
+            app:layout_constraintStart_toStartOf="@id/rune_1"
             app:layout_constraintTop_toBottomOf="@id/rune_1" />
 
         <TextView
@@ -182,6 +180,7 @@
             android:layout_height="@dimen/generator_rune_height_xhdpi"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/rune_3"
             app:layout_constraintStart_toEndOf="@+id/rune_1"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -210,17 +209,15 @@
             android:textSize="50sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/tv_rune_2"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/rune_3"
             android:layout_width="@dimen/generator_rune_width_xhdpi"
             android:layout_height="@dimen/generator_rune_height_xhdpi"
-            android:visibility="gone"
+            android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/rune_2"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
@@ -232,10 +229,9 @@
             android:textSize="12sp"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/rune_3"
             app:layout_constraintStart_toStartOf="@id/rune_3"
             app:layout_constraintTop_toBottomOf="@id/rune_3" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

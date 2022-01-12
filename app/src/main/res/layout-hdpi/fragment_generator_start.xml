@@ -69,14 +69,14 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.144" />
+        app:layout_constraintGuide_percent="0.15" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/lineEndText"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.856" />
+        app:layout_constraintGuide_percent="0.85" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/lineTopText"
@@ -90,28 +90,28 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.266" />
+        app:layout_constraintGuide_percent="0.246" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/lineBottomRune"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.4" />
+        app:layout_constraintGuide_percent="0.45" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/lineStartRune"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.22" />
+        app:layout_constraintGuide_percent="0.20" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/lineEndRune"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.77" />
+        app:layout_constraintGuide_percent="0.8" />
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -125,14 +125,14 @@
 
         <TextView
             android:id="@+id/tv_rune_1"
-            android:layout_width="@dimen/generator_rune_width_xhdpi"
-            android:layout_height="@dimen/generator_rune_height_xhdpi"
+            android:layout_width="@dimen/generator_rune_width_hdpi"
+            android:layout_height="@dimen/generator_rune_height_hdpi"
             android:background="@drawable/slot_active"
             android:fontFamily="@font/amatic_sc_bold"
             android:gravity="center"
             android:text="1"
             android:textColor="@color/rune_number_color_deselected"
-            android:textSize="50sp"
+            android:textSize="40sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/tv_rune_2"
             app:layout_constraintStart_toStartOf="parent"
@@ -140,8 +140,8 @@
 
         <ImageView
             android:id="@+id/rune_1"
-            android:layout_width="@dimen/generator_rune_width_xhdpi"
-            android:layout_height="@dimen/generator_rune_height_xhdpi"
+            android:layout_width="@dimen/generator_rune_width_hdpi"
+            android:layout_height="@dimen/generator_rune_height_hdpi"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/rune_2"
@@ -154,7 +154,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto"
             android:textColor="#FFEACA"
-            android:textSize="12sp"
+            android:textSize="10sp"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/rune_2"
@@ -163,14 +163,14 @@
 
         <TextView
             android:id="@+id/tv_rune_2"
-            android:layout_width="@dimen/generator_rune_width_xhdpi"
-            android:layout_height="@dimen/generator_rune_height_xhdpi"
+            android:layout_width="@dimen/generator_rune_width_hdpi"
+            android:layout_height="@dimen/generator_rune_height_hdpi"
             android:background="@drawable/slot_active"
             android:fontFamily="@font/amatic_sc_bold"
             android:gravity="center"
             android:text="2"
             android:textColor="@color/rune_number_color_deselected"
-            android:textSize="50sp"
+            android:textSize="40sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/tv_rune_3"
             app:layout_constraintStart_toEndOf="@+id/tv_rune_1"
@@ -178,8 +178,8 @@
 
         <ImageView
             android:id="@+id/rune_2"
-            android:layout_width="@dimen/generator_rune_width_xhdpi"
-            android:layout_height="@dimen/generator_rune_height_xhdpi"
+            android:layout_width="@dimen/generator_rune_width_hdpi"
+            android:layout_height="@dimen/generator_rune_height_hdpi"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/rune_1"
@@ -191,7 +191,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto"
             android:textColor="#FFEACA"
-            android:textSize="12sp"
+            android:textSize="10sp"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/rune_2"
@@ -200,14 +200,14 @@
 
         <TextView
             android:id="@+id/tv_rune_3"
-            android:layout_width="@dimen/generator_rune_width_xhdpi"
-            android:layout_height="@dimen/generator_rune_height_xhdpi"
+            android:layout_width="@dimen/generator_rune_width_hdpi"
+            android:layout_height="@dimen/generator_rune_height_hdpi"
             android:background="@drawable/slot_active"
             android:fontFamily="@font/amatic_sc_bold"
             android:gravity="center"
             android:text="3"
             android:textColor="@color/rune_number_color_deselected"
-            android:textSize="50sp"
+            android:textSize="40sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/tv_rune_2"
@@ -215,8 +215,8 @@
 
         <ImageView
             android:id="@+id/rune_3"
-            android:layout_width="@dimen/generator_rune_width_xhdpi"
-            android:layout_height="@dimen/generator_rune_height_xhdpi"
+            android:layout_width="@dimen/generator_rune_width_hdpi"
+            android:layout_height="@dimen/generator_rune_height_hdpi"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -229,13 +229,12 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto"
             android:textColor="#FFEACA"
-            android:textSize="12sp"
+            android:textSize="10sp"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/rune_3"
             app:layout_constraintTop_toBottomOf="@id/rune_3" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -244,14 +243,14 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.472" />
+        app:layout_constraintGuide_percent="0.492" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/lineButtonGeneratorBottom"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.546" />
+        app:layout_constraintGuide_percent="0.569" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="0dp"
