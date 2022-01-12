@@ -1,26 +1,21 @@
 package com.tnco.runar.ui.fragments
 
-import android.graphics.drawable.GradientDrawable
+
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.lifecycle.Observer
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.tnco.runar.R
-import com.tnco.runar.RunarLogger
+import coil.load
 import com.tnco.runar.adapters.RunesGeneratorAdapter
 import com.tnco.runar.databinding.FragmentGeneratorStartBinding
 import com.tnco.runar.extensions.observeOnce
 import com.tnco.runar.presentation.viewmodel.GeneratorStartViewModel
-import com.tnco.runar.retrofit.RunesResponse
 import kotlinx.coroutines.launch
+import java.util.*
 
 
 class GeneratorStartFragment : Fragment() {
@@ -42,6 +37,7 @@ class GeneratorStartFragment : Fragment() {
 
         setupRecyclerView()
         readDatabase()
+
         return binding.root
     }
 
@@ -73,6 +69,45 @@ class GeneratorStartFragment : Fragment() {
 
         binding.runesRecyclerView.layoutManager = gridLayoutManager
         binding.runesRecyclerView.adapter = mAdapter
+
+        mAdapter.obsSelectedRunes.observe(viewLifecycleOwner, {
+            when (it.size) {
+                0 -> {
+                    binding.btnGenerate.visibility = View.GONE
+                    binding.btnRandom.visibility = View.VISIBLE
+                }
+                1 -> {
+                    binding.tvRune1.visibility = View.INVISIBLE
+                    binding.rune1.visibility = View.VISIBLE
+                    binding.tvDescRune1.visibility = View.VISIBLE
+                    binding.rune1.load(it[0].imgUrl)
+                    if (Locale.getDefault().language == "ru")
+                        binding.tvDescRune1.text = it[0].ruTitle
+                    else binding.tvDescRune1.text = it[0].enTitle
+                    binding.btnRandom.visibility = View.INVISIBLE
+                    binding.btnGenerate.visibility = View.VISIBLE
+                }
+                2 -> {
+                    binding.tvRune2.visibility = View.INVISIBLE
+                    binding.rune2.visibility = View.VISIBLE
+                    binding.rune2.load(it[1].imgUrl)
+                    binding.tvDescRune2.visibility = View.VISIBLE
+                    if (Locale.getDefault().language == "ru")
+                        binding.tvDescRune2.text = it[1].ruTitle
+                    else binding.tvDescRune2.text = it[1].enTitle
+                }
+                3 -> {
+                    binding.tvRune3.visibility = View.INVISIBLE
+                    binding.rune3.visibility = View.VISIBLE
+                    binding.rune3.load(it[2].imgUrl)
+                    binding.tvDescRune3.visibility = View.VISIBLE
+                    if (Locale.getDefault().language == "ru")
+                        binding.tvDescRune3.text = it[2].ruTitle
+                    else binding.tvDescRune3.text = it[2].enTitle
+                }
+            }
+        })
+
     }
 
 
