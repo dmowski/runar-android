@@ -2,9 +2,12 @@ package com.tnco.runar.ui.fragments
 
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -13,6 +16,7 @@ import coil.load
 import com.tnco.runar.adapters.RunesGeneratorAdapter
 import com.tnco.runar.databinding.FragmentGeneratorStartBinding
 import com.tnco.runar.extensions.observeOnce
+import com.tnco.runar.model.RunesItemsModel
 import com.tnco.runar.presentation.viewmodel.GeneratorStartViewModel
 import kotlinx.coroutines.launch
 import java.util.*
@@ -24,6 +28,7 @@ class GeneratorStartFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var mViewModel: GeneratorStartViewModel
     private val mAdapter: RunesGeneratorAdapter by lazy { RunesGeneratorAdapter() }
+    private var listId: MutableList<Int> = mutableListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,8 +43,17 @@ class GeneratorStartFragment : Fragment() {
         setupRecyclerView()
         readDatabase()
 
+        binding.btnRandom.setOnClickListener {
+            randomRunes()
+        }
+
+        binding.btnGenerate.setOnClickListener {
+            sentRunes()
+        }
+
         return binding.root
     }
+
 
     private fun readDatabase() { // доделать считывание
         lifecycleScope.launch {
@@ -72,43 +86,115 @@ class GeneratorStartFragment : Fragment() {
 
         mAdapter.obsSelectedRunes.observe(viewLifecycleOwner, {
             when (it.size) {
-                0 -> {
-                    binding.btnGenerate.visibility = View.GONE
-                    binding.btnRandom.visibility = View.VISIBLE
-                }
                 1 -> {
-                    binding.tvRune1.visibility = View.INVISIBLE
-                    binding.rune1.visibility = View.VISIBLE
-                    binding.tvDescRune1.visibility = View.VISIBLE
-                    binding.rune1.load(it[0].imgUrl)
-                    if (Locale.getDefault().language == "ru")
-                        binding.tvDescRune1.text = it[0].ruTitle
-                    else binding.tvDescRune1.text = it[0].enTitle
+                    showRunes(binding.tvRune1, binding.rune1, binding.tvDescRune1, it[0])
                     binding.btnRandom.visibility = View.INVISIBLE
                     binding.btnGenerate.visibility = View.VISIBLE
                 }
                 2 -> {
-                    binding.tvRune2.visibility = View.INVISIBLE
-                    binding.rune2.visibility = View.VISIBLE
-                    binding.rune2.load(it[1].imgUrl)
-                    binding.tvDescRune2.visibility = View.VISIBLE
-                    if (Locale.getDefault().language == "ru")
-                        binding.tvDescRune2.text = it[1].ruTitle
-                    else binding.tvDescRune2.text = it[1].enTitle
+                    showRunes(binding.tvRune2, binding.rune2, binding.tvDescRune2, it[1])
                 }
                 3 -> {
-                    binding.tvRune3.visibility = View.INVISIBLE
-                    binding.rune3.visibility = View.VISIBLE
-                    binding.rune3.load(it[2].imgUrl)
-                    binding.tvDescRune3.visibility = View.VISIBLE
-                    if (Locale.getDefault().language == "ru")
-                        binding.tvDescRune3.text = it[2].ruTitle
-                    else binding.tvDescRune3.text = it[2].enTitle
+                    showRunes(binding.tvRune3, binding.rune3, binding.tvDescRune3, it[2])
                 }
             }
         })
 
+        binding.rune1.setOnClickListener {
+            if (mAdapter.obsSelectedRunes.value?.size == 1) {
+                clearRune(binding.tvRune1, binding.rune1, binding.tvDescRune1, 0)
+                binding.btnGenerate.visibility = View.GONE
+                binding.btnRandom.visibility = View.VISIBLE
+            }
+        }
+
+        binding.rune2.setOnClickListener {
+            if (mAdapter.obsSelectedRunes.value?.size == 2)
+                clearRune(binding.tvRune2, binding.rune2, binding.tvDescRune2, 1)
+        }
+
+
+        binding.rune3.setOnClickListener {
+            if (mAdapter.obsSelectedRunes.value?.size == 3)
+                clearRune(binding.tvRune3, binding.rune3, binding.tvDescRune3, 2)
+        }
     }
 
+    private fun showRunes(
+        tvRune: TextView,
+        imgRune: ImageView,
+        tvDescRune: TextView,
+        runesItemsModel: RunesItemsModel
+    ) {
+        tvRune.visibility = View.INVISIBLE
+        imgRune.visibility = View.VISIBLE
+        imgRune.load(runesItemsModel.imgUrl)
+        tvDescRune.visibility = View.VISIBLE
+        if (Locale.getDefault().language == "ru")
+            tvDescRune.text = runesItemsModel.ruTitle
+        else tvDescRune.text = runesItemsModel.enTitle
+    }
+
+    private fun clearRune(
+        tvRune: TextView,
+        imgRune: ImageView,
+        tvDescRune: TextView,
+        index: Int
+    ) {
+        imgRune.visibility = View.INVISIBLE
+        tvDescRune.visibility = View.INVISIBLE
+        tvRune.visibility = View.VISIBLE
+        mAdapter.obsSelectedRunes.value?.removeAt(index)
+    }
+
+    // отправлять на другой фрагмент осортировав по возрастанию!!!
+
+    private fun randomRunes() {
+        val count = (1..3).random()
+        val listOfAll = mutableListOf(
+            1,
+            4,
+            5,
+            7,
+            9,
+            11,
+            13,
+            14,
+            16,
+            17,
+            19,
+            20,
+            21,
+            22,
+            24,
+            26,
+            27,
+            29,
+            31,
+            33,
+            35,
+            37,
+            38,
+            39
+        )
+        for (i in 0 until count) {
+            listId.add(i, listOfAll.random())
+            listOfAll.remove(listId[i])
+        }
+        listId.sort()
+        listId.forEach {
+            Log.i("TAG", "$count $it") // отправить в другой фрагмент
+        }
+    }
+
+    private fun sentRunes() {
+        mAdapter.obsSelectedRunes.value?.forEach {
+            listId.add(it.id)
+        }
+        listId.sort()
+        listId.forEach {
+            Log.i("TAG", "$it") // отправить в другой фрагмент
+        }
+    }
 
 }
