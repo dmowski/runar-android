@@ -29,6 +29,7 @@ class GeneratorStartFragment : Fragment() {
     private lateinit var mViewModel: GeneratorStartViewModel
     private val mAdapter: RunesGeneratorAdapter by lazy { RunesGeneratorAdapter() }
     private var listId: MutableList<Int> = mutableListOf()
+    private var listAllIds: MutableList<Int> = mutableListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -57,10 +58,12 @@ class GeneratorStartFragment : Fragment() {
 
     private fun readDatabase() { // доделать считывание
         lifecycleScope.launch {
-            mViewModel.readRunes.observeOnce(viewLifecycleOwner, {
-                if (it.isNotEmpty()) {
-                    mAdapter.setData(it)
-                    //Log.i("TAG", "DATABASE")
+            mViewModel.readRunes.observeOnce(viewLifecycleOwner, { listRunes ->
+                if (listRunes.isNotEmpty()) {
+                    mAdapter.setData(listRunes)
+                    listRunes.forEach {
+                        listAllIds.add(it.id)
+                    }
                 } else requestApiData()
             })
         }
@@ -69,10 +72,12 @@ class GeneratorStartFragment : Fragment() {
 
     private fun requestApiData() {
         mViewModel.getRunes()
-        mViewModel.runesResponse.observe(viewLifecycleOwner, {
-            if (it.isNotEmpty()) {
-                mAdapter.setData(it)
-                //Log.i("TAG", "SERVER")
+        mViewModel.runesResponse.observe(viewLifecycleOwner, { listRunes ->
+            if (listRunes.isNotEmpty()) {
+                mAdapter.setData(listRunes)
+                listRunes.forEach {
+                    listAllIds.add(it.id)
+                }
             }
         })
     }
@@ -147,39 +152,12 @@ class GeneratorStartFragment : Fragment() {
         mAdapter.obsSelectedRunes.value?.removeAt(index)
     }
 
-    // отправлять на другой фрагмент осортировав по возрастанию!!!
 
     private fun randomRunes() {
         val count = (1..3).random()
-        val listOfAll = mutableListOf(
-            1,
-            4,
-            5,
-            7,
-            9,
-            11,
-            13,
-            14,
-            16,
-            17,
-            19,
-            20,
-            21,
-            22,
-            24,
-            26,
-            27,
-            29,
-            31,
-            33,
-            35,
-            37,
-            38,
-            39
-        )
         for (i in 0 until count) {
-            listId.add(i, listOfAll.random())
-            listOfAll.remove(listId[i])
+            listId.add(i, listAllIds.random())
+            listAllIds.remove(listId[i])
         }
         listId.sort()
         listId.forEach {
