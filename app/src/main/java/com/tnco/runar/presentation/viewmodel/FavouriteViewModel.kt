@@ -130,9 +130,8 @@ class FavouriteViewModel: ViewModel() {
     }
 
     private fun textCorrection(text: String?): String{
-        var newText =""
         var complete = false
-        newText = text ?: "WTF"
+        var newText: String = text ?: "text error"
         newText = newText.replace("\n","")
         val maxStrSize = 37
         var curInd =newText.indexOf(" ")
@@ -156,7 +155,7 @@ class FavouriteViewModel: ViewModel() {
             val sdf = SimpleDateFormat("dd.MM.yyyy   HH:mm")
             val netDate = Date(time*1000)
             sdf.format(netDate)
-        } else "WTF"
+        } else "date not found"
     }
 
     private fun getHeader(layoutId: Int): String{
