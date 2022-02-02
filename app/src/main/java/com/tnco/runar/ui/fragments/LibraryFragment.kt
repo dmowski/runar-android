@@ -6,8 +6,7 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,6 +21,7 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -31,6 +31,7 @@ import coil.size.OriginalSize
 import com.tnco.runar.R
 import com.tnco.runar.controllers.AnalyticsHelper
 import com.tnco.runar.presentation.viewmodel.LibraryViewModel
+import com.tnco.runar.ui.activity.MainActivity
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -78,7 +79,14 @@ class LibraryFragment : Fragment() {
         }
         return view
     }
+
+    override fun onDestroy() {
+//        (requireActivity() as MainActivity).binding.appBar.visibility = View.GONE
+//        (requireActivity() as MainActivity).binding.viewPager.visibility = View.GONE
+        super.onDestroy()
+    }
 }
+
 
 @Composable
 private fun ItemData(scrollState: ScrollState) {
@@ -163,6 +171,7 @@ private fun ItemData(scrollState: ScrollState) {
 
 }
 
+
 @Composable
 private fun Bars() {
     val viewModel: LibraryViewModel = viewModel()
@@ -181,20 +190,20 @@ private fun Bars() {
         navIcon = { TopBarIcon() }
     }
     Scaffold(
-        topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        text = header!!,
-                        color = barColor,
-                        fontFamily = barFont,
-                        style = TextStyle(fontSize = barFontSize)
-                    )
-                },
-                backgroundColor = colorResource(id = R.color.library_top_bar),
-                navigationIcon = navIcon
-            )
-        },
+//        topBar = {
+//            TopAppBar(
+//                title = {
+//                    Text(
+//                        text = header!!,
+//                        color = barColor,
+//                        fontFamily = barFont,
+//                        style = TextStyle(fontSize = barFontSize)
+//                    )
+//                },
+//                backgroundColor = colorResource(id = R.color.library_top_bar),
+//                navigationIcon = navIcon
+//            )
+//        },
         backgroundColor = Color(0x73000000)
     ) {
         val scrollState = rememberScrollState()
@@ -204,6 +213,8 @@ private fun Bars() {
         }
     }
 }
+
+
 
 @Composable
 private fun TopBarIcon() {

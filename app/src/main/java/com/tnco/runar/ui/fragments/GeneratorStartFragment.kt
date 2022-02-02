@@ -174,5 +174,4 @@ class GeneratorStartFragment : Fragment() {
             Log.i("TAG", "$it") // отправить в другой фрагмент
         }
     }
-
 }
