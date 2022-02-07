@@ -9,10 +9,15 @@
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:background="@color/library_top_bar"
-        app:layout_constraintTop_toTopOf="parent"
-        app:subtitleTextAppearance="@font/roboto_medium"
-        app:title="@string/pattern_generator"
-        app:titleTextColor="@color/library_top_bar_header" />
+        app:layout_constraintTop_toTopOf="parent">
+        <TextView
+            android:id="@+id/tv_toolbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/pattern_generator"
+            android:textColor="@color/library_top_bar_header"
+            android:fontFamily="@font/roboto_medium"/>
+    </androidx.appcompat.widget.Toolbar>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/lineTop_1"
