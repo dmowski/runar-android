@@ -106,7 +106,10 @@
     <string name="sacr_google_pay_text">You’ll be taken to a thank you page after the payment. By continuing, you agree to the terms and privacy police.</string>
     <string name="sacr_last_button_text">Продолжить путь</string>
     <string name="sacr_result_text">Жертва принесена, и Боги обратили на тебя свой взор. Теперь продолжи свой путь!</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+    <string name="library_tab_books">Books</string>
+    <string name="library_tab_audio">Audio</string>
+
 
 </resources>

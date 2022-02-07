@@ -81,22 +81,13 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
         binding.bottomNavigationBar.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.libraryFragment -> {
-//                    supportFragmentManager.beginTransaction()
-//                        .replace(R.id.fragmentContainer, LibraryFragment())
-//                        .commit()
-                    supportFragmentManager.apply {
-                        for (fragment in fragments) {
-                            beginTransaction().remove(fragment).commit()
-                        }
-                        popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-                    }
-                    binding.layoutLibraryFragment.visibility = View.VISIBLE
-                    initLibraryPager()
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragmentContainer, SampleLibraryFragment())
+                        .commit()
                     binding.bottomNavigationBar.isVisible = true
                     true
                 }
                 R.id.layoutFragment -> {
-                    binding.layoutLibraryFragment.visibility = View.GONE
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.fragmentContainer, LayoutFragment())
                         .commit()
@@ -105,7 +96,6 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
                 }
                 // Generator menu bar
                 R.id.generatorFragment -> {
-                    binding.layoutLibraryFragment.visibility = View.GONE
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.fragmentContainer, GeneratorFragment())
                         .commit()
@@ -114,7 +104,6 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
                 }
 
                 R.id.settingsFragment -> {
-                    binding.layoutLibraryFragment.visibility = View.GONE
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.fragmentContainer, SettingsFragment())
                         .commit()
@@ -122,7 +111,6 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
                     true
                 }
                 R.id.favFragment -> {
-                    binding.layoutLibraryFragment.visibility = View.GONE
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.fragmentContainer, FavouriteFragment())
                         .commit()
@@ -163,7 +151,7 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
                 finishAndRemoveTask()
                 exitProcess(0)
             }
-            is LibraryFragment -> {
+            is SampleLibraryFragment -> {
                 supportFragmentManager.beginTransaction()
                     .replace(R.id.fragmentContainer, LayoutFragment())
                     .commit()
@@ -374,28 +362,6 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
 
     override fun dropAudioFocus() {
         audioManager.abandonAudioFocus(this)
-    }
-
-
-    private fun initLibraryPager() {
-
-        val fragments = ArrayList<Fragment>()
-        fragments.add(LibraryFragment())
-        fragments.add(AudioLibraryFragment())
-
-        val titles = ArrayList<String>()
-        titles.add("Книги")
-        titles.add("Аудио")
-
-        val pagerAdapter = PagerAdapter(fragments, this)
-
-        // binding.viewPager.isUserInputEnabled = false
-        binding.viewPager.apply {
-            adapter = pagerAdapter
-        }
-        TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
-            tab.text = titles[position]
-        }.attach()
     }
 
     companion object {
