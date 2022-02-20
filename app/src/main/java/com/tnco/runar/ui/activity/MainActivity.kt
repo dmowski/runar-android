@@ -4,21 +4,17 @@ import android.content.Context
 import android.content.IntentFilter
 import android.media.AudioManager
 import android.os.Bundle
-import android.view.View
 import android.view.WindowManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.core.view.get
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.ktx.Firebase
 import com.tnco.runar.R
-import com.tnco.runar.adapters.PagerAdapter
 import com.tnco.runar.controllers.MusicController
 import com.tnco.runar.databinding.ActivityMainBinding
 import com.tnco.runar.presentation.viewmodel.MainViewModel
@@ -82,7 +78,7 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
             when (item.itemId) {
                 R.id.libraryFragment -> {
                     supportFragmentManager.beginTransaction()
-                        .replace(R.id.fragmentContainer, SampleLibraryFragment())
+                        .replace(R.id.fragmentContainer, LibraryFragment())
                         .commit()
                     binding.bottomNavigationBar.isVisible = true
                     true
@@ -151,7 +147,7 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
                 finishAndRemoveTask()
                 exitProcess(0)
             }
-            is SampleLibraryFragment -> {
+            is LibraryFragment -> {
                 supportFragmentManager.beginTransaction()
                     .replace(R.id.fragmentContainer, LayoutFragment())
                     .commit()
