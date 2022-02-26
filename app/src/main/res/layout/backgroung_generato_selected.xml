@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout
+    android:id="@+id/background_framelayout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent"
+    android:layout_width="300dp"
+    android:background="@drawable/backround_background"
+    android:layout_marginStart="15dp"
+    >
+
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    app:cardCornerRadius="15dp"
+    android:layout_margin="1dp"
+    >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <ImageView
+            android:id="@+id/backgroundImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/background_fire" />
+        <ImageView
+            android:id="@+id/backgroundCheckBox"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/background_checkbox1"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_margin="20dp"
+            android:visibility="gone"
+            />
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>
+</FrameLayout>

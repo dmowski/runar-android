@@ -146,7 +146,7 @@ class InterpretationFavViewModel(application: Application) : AndroidViewModel(ap
     private fun getMeaningForRune(id: Int): String {
         for (rune in runesData) {
             if (rune.runeId == id) {
-                return rune.meaning!!.toLowerCase()
+                return rune.meaning!!.lowercase()
             }
         }
         return ""

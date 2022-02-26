@@ -13,7 +13,7 @@ class InterTagHandler(typeface: Typeface) : Html.TagHandler {
 
 
     override fun handleTag(opening: Boolean, tag: String?, output: Editable?, xmlReader: XMLReader?) {
-        if (tag?.toLowerCase().equals("bf")) {
+        if (tag?.lowercase().equals("bf")) {
             if (output != null) {
                 if (opening) {
                     startIndex = output.length

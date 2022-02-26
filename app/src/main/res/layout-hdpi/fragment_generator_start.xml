@@ -264,7 +264,7 @@
             android:id="@+id/btn_random"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="@drawable/description_button_background_selector"
+            android:background="@drawable/generator_start_button"
             android:fontFamily="@font/amatic_sc_bold"
             android:gravity="center"
             android:clickable="true"

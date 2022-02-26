@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="28"/>
     <supports-screens android:resizeable="false"
         android:smallScreens="false"
         android:normalScreens="true"
@@ -28,6 +29,7 @@
         <activity
             android:name="com.tnco.runar.ui.activity.SplashActivity"
             android:screenOrientation="portrait"
+            android:exported="true"
             android:theme="@style/Theme.Runar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

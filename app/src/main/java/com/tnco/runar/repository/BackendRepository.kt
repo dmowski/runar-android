@@ -1,17 +1,18 @@
 package com.tnco.runar.repository
 
-import androidx.lifecycle.MutableLiveData
-import com.tnco.runar.RunarLogger
 import com.tnco.runar.converters.DataClassConverters
 import com.tnco.runar.model.RunesItemsModel
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.util.Log
+import com.tnco.runar.retrofit.BackgroundInfo
 import com.tnco.runar.retrofit.RetrofitClient
-import com.tnco.runar.retrofit.RunesResponse
 import com.tnco.runar.retrofit.UserInfo
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
-import retrofit2.Response
+import java.lang.Exception
 import java.util.*
 
 object BackendRepository {
@@ -80,6 +81,7 @@ object BackendRepository {
     }
 
 
+
     suspend fun getRunes(): List<RunesItemsModel> {
         val response = RetrofitClient.apiInterfaceGenerator.getRunes()
         if (response.isSuccessful) {
@@ -91,4 +93,50 @@ object BackendRepository {
         return listOf(RunesItemsModel())
     }
 
+
+    suspend fun getBackgroundInfo(): List<BackgroundInfo> {
+        return RetrofitClient.apiInterface.getBackgroundInfo()
+    }
+
+    suspend fun getBackgroundImage(runePath: String,
+                                   imgPath: String,
+                                   stylePath: String,
+                                   width: Int,
+                                   height: Int
+                                   ): Bitmap?{
+
+        val imgResponse = RetrofitClient.apiInterface.getBackgroundImage(runePath, imgPath, stylePath,
+            width, height)
+            val conf = Bitmap.Config.ARGB_8888
+            val opt = BitmapFactory.Options()
+            opt.inPreferredConfig = conf
+            val img = BitmapFactory.decodeStream(imgResponse.byteStream(),null,opt)
+            return img
+    }
+
+    suspend fun getRunePattern(runesPath: String): List<String> {
+        return try {
+            val list = RetrofitClient.apiInterfaceGenerator.getRunePattern(runesPath)
+//            val list = RetrofitClient.apiInterfaceGenerator.getRunePatternString(runesPath)
+            list
+        } catch (e: Exception){
+            Log.d("!!! getRunePattern error", e.toString())
+            mutableListOf()
+        }
+    }
+
+    suspend fun getRuneImage(runePath: String,imgPath: String): Bitmap? {
+        return try {
+            val conf = Bitmap.Config.ARGB_8888
+            val opt = BitmapFactory.Options()
+            opt.inPreferredConfig = conf
+
+            val imgResponse = RetrofitClient.apiInterfaceGenerator.getRunePatternImage(runePath,imgPath)
+            val img = BitmapFactory.decodeStream(imgResponse.byteStream(),null,opt)
+            img
+        } catch (e: Exception){
+            Log.d("!!! getRuneImage error", e.toString())
+            null
+        }
+    }
 }

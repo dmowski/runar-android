@@ -346,4 +346,19 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
                 .commit()
         }
     }
+
+    fun generatorStart(view: View){
+        setContentView(R.layout.fragment_generator_start)
+    }
+    fun generatorStartBack(view: View){
+        setContentView(R.layout.activity_main)
+        startActivity(Intent(this, MainActivity::class.java))
+    }
+    fun hideBottomBar(){
+        binding.bottomNavigationBar.visibility = View.GONE
+    }
+
+    fun showBottomBar(){
+        binding.bottomNavigationBar.visibility = View.VISIBLE
+    }
 }

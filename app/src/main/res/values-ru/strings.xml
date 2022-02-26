@@ -14,7 +14,10 @@
     <string name="runes_selection">Выбор рун</string>
     <string name="runes_collect_formula">Собери свою рунную формулу, выбрав от 1 до 3 рун</string>
     <string name="runes_random">Выбрать случайные руны</string>
+
     <string name="runes_generate">Сгенерировать</string>
+
+
 
     <string name="layout1">Руна дня</string>
     <string name="layout2">Расклад из 2 рун</string>
@@ -106,4 +109,17 @@
     <string name="sacr_google_pay_text">You’ll be taken to a thank you page after the payment. By continuing, you agree to the terms and privacy police.</string>
     <string name="sacr_last_button_text">Продолжить путь</string>
     <string name="sacr_result_text">Жертва принесена, и Боги обратили на тебя свой взор. Теперь продолжи свой путь!</string>
+
+    <string name="generatorBackground">Выбор обоев</string>
+    <string name="text_magic_happens">Происходит магия</string>
+    <string name="fate_created">Создаётся судьба ...</string>
+    <string name="do_not_despair">Не отчаивайтесь, если сегодня руны вам не подскажут судьбу, но, далее вам необходимо будет выбрать .....</string>
+    <string name="runic_pattern">Рунический узор</string>
+    <string name="text_for_viking">Далее выбери фон для него, викинг</string>
+    <string name="pattern_created">Узор создан</string>
+    <string name="new_option">Новый вариант</string>
+    <string name="next">Далее</string>
+    <string name="background_generator">Для начала, выберите понравившуюся картинку</string>
+    <string name="image_saved">Изображение сохранено</string>
+    <string name="share_title">Классная руна из RunarApp</string>
 </resources>

@@ -8,6 +8,7 @@
     <color name="white">#FFFFFFFF</color>
 
     <color name="white_f8">#FFF8F8F8</color>
+    <color name="card_generator">#212121</color>
 
     <color name="bottom_nav_selected">#EFCD93</color>
     <color name="bottom_nav_deselected">#828282</color>
@@ -109,5 +110,6 @@
     <color name = "sacr_button_price_text">#FBF4F4</color>
 
     <color name = "sacr_hint_main">#6E6E6E</color>
+    <color name = "background_next">#171C1E</color>
 
 </resources>

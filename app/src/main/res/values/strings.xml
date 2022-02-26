@@ -14,6 +14,7 @@
     <string name="runes_selection">Runes selection</string>
     <string name="runes_collect_formula">Collect your rune formula by choosing from 1 to 3 runes</string>
     <string name="runes_random">Choose random runes</string>
+
     <string name="runes_generate">Generate</string>
 
 
@@ -32,7 +33,7 @@
     <string name="layout_init_button_text1">Pull Out a Rune</string>
     <string name="layout_init_button_text2">Get Interpretation</string>
     <string name="layout_init_button_text4">Processing...</string>
-    <string name="layout_init_processing">Ravendark Guitars </string>
+    <string name="layout_init_processing">Ravendark Guitars</string>
     <string name="layout_description_product">Products description</string>
     <string name="layout_go_to_site">Check the website</string>
 
@@ -107,6 +108,21 @@
     <string name="sacr_last_button_text">Продолжить путь</string>
     <string name="sacr_result_text">Жертва принесена, и Боги обратили на тебя свой взор. Теперь продолжи свой путь!</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+
+
+    <string name="generatorBackground">Select background</string>
+    <string name="text_magic_happens">Magic happens</string>
+    <string name="fate_created">Fate is being created ... </string>
+    <string name="do_not_despair">Do not despair if today the runes do not tell you fate, but then you will need to choose .....</string>
+    <string name="runic_pattern">Runic pattern</string>
+    <string name="text_for_viking">Next, choose a background for him, viking</string>
+    <string name="pattern_created">Pattern created</string>
+    <string name="new_option">New option</string>
+    <string name="next">Next</string>
+    <string name="background_generator">To get started, choose your favorite picture</string>
+    <string name="image_saved">Image saved</string>
+    <string name="share_title">Cool rune from RunarApp</string>
 
 </resources>
