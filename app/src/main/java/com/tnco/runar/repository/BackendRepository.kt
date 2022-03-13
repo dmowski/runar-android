@@ -34,7 +34,7 @@ object BackendRepository {
     }
 
     suspend fun getLibraryData(lang: String) {
-        //RunarLogger.logDebug("Start updating library")
+      //  RunarLogger.logDebug("Start updating library")
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 //RunarLogger.logDebug("Send hash request")
@@ -47,26 +47,26 @@ object BackendRepository {
                     //RunarLogger.logDebug("oldHash: $oldHash  newHash: $newHash")
                     if (newHash != null) {
                         if (oldHash != newHash) {
-                            //RunarLogger.logDebug("Accepted and started library updating")
+                          // RunarLogger.logDebug("Accepted and started library updating")
                             val response = RetrofitClient.apiInterface.getLibraryData(lang)
                             if (response.isSuccessful) {
-                                //RunarLogger.logDebug("Library success: " + response.message().toString())
+                               // RunarLogger.logDebug("Library success: " + response.message().toString())
                                 val convertedResult =
                                     DataClassConverters.libRespToItems(response.body()!!)
                                 if (Locale.getDefault().language == lang) {
-                                    //RunarLogger.logDebug("Data Loaded and Converted")
+                                   // RunarLogger.logDebug("Data Loaded and Converted")
                                     DatabaseRepository.updateLibraryDB(convertedResult)
-                                    //RunarLogger.logDebug("save new hash")
+                                  //  RunarLogger.logDebug("save new hash")
                                     spr.putLibHash(lang, newHash)
                                 } else {
-                                    //RunarLogger.logDebug("Language changed can't update db")
+                                   // RunarLogger.logDebug("Language changed can't update db")
                                 }
-                                //RunarLogger.logDebug("work with library done")
+                               // RunarLogger.logDebug("work with library done")
                             } else {
-                                //RunarLogger.logDebug("Library not success: " + response.code().toString())
+                              //  RunarLogger.logDebug("Library not success: " + response.code().toString())
                             }
                         } else {
-                            //RunarLogger.logDebug("Library Data is actual, not need to update")
+                           // RunarLogger.logDebug("Library Data is actual, not need to update")
                         }
                     }
                 }

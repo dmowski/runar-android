@@ -1,5 +1,6 @@
 package com.tnco.runar.repository
 
+import com.tnco.runar.RunarLogger
 import com.tnco.runar.model.*
 import com.tnco.runar.room.AppDB
 import com.tnco.runar.room.DataDB
@@ -59,9 +60,9 @@ object DatabaseRepository {
 
     suspend fun updateLibraryDB(list: List<LibraryItemsModel>){
         appDao.clearLibrary()
-        //RunarLogger.logDebug("library cleared")
+        RunarLogger.logDebug("library cleared")
         appDao.insertLibraryData(list)
-        //RunarLogger.logDebug("library data inserted")
+        RunarLogger.logDebug("library data inserted")
     }
 
     fun getUserLayouts(): List<UserLayoutModel>{

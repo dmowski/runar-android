@@ -6,9 +6,9 @@ import com.tnco.runar.retrofit.LibraryResponse
 import com.tnco.runar.retrofit.RunesResponse
 
 object DataClassConverters {
-    fun libRespToItems(respList: List<LibraryResponse>): List<LibraryItemsModel>{
+    fun libRespToItems(respList: List<LibraryResponse>): List<LibraryItemsModel> {
         val resultList: ArrayList<LibraryItemsModel> = arrayListOf()
-        for(item in respList){
+        for (item in respList) {
             val itemModel = LibraryItemsModel(
                 id = item._id!!,
                 childs = item.childIds,
@@ -18,16 +18,18 @@ object DataClassConverters {
                 sortOrder = item.sortOrder,
                 type = item.type,
                 linkTitle = item.linkTitle,
-                linkUrl = item.linkUrl
+                linkUrl = item.linkUrl,
+                audioUrl = item.audioUrl,
+                audioDuration = item.audioDuration
             )
             resultList.add(itemModel)
         }
         return resultList
     }
 
-    fun runesRespToItems(respList: List<RunesResponse>): List<RunesItemsModel>{
+    fun runesRespToItems(respList: List<RunesResponse>): List<RunesItemsModel> {
         val resultList: ArrayList<RunesItemsModel> = arrayListOf()
-        for(item in respList){
+        for (item in respList) {
             val itemModel = RunesItemsModel(
                 id = item.id!!,
                 imgUrl = item.imgUrl,

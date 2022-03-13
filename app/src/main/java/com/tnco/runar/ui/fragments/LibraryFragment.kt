@@ -44,8 +44,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+const val audioFeature = false
+
 class LibraryFragment : Fragment() {
     val viewModel: LibraryViewModel by viewModels()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         viewModel.getRuneDataFromDB()
@@ -217,7 +220,7 @@ private fun Bars() {
         backgroundColor = Color(0x73000000)
     ) {
         val scrollState = rememberScrollState()
-        if (tabsState.value)
+        if (tabsState.value && audioFeature)
             TabScreen(pagerState, scrollState, fontSize)
         else {
             Column(Modifier.verticalScroll(state = scrollState, enabled = true)) {
