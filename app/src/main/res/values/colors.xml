@@ -43,6 +43,10 @@
     <color name="library_top_bar_fav">#EFCD93</color>
     <color name="library_item_header">#DADADA</color>
     <color name="library_item_text">#99EBEBF5</color>
+    <color name="library_tab_text_selected">#D2C4AD</color>
+    <color name="library_tab_text_not_selected">#F8F8F8</color>
+    <color name="library_tab_divider">#292929</color>
+    <color name="library_tab_indicator">#D2C4AD</color>
 
     <color name="library_third_id">#FFEACA</color>
     <color name="library_third_text">#DADADA</color>

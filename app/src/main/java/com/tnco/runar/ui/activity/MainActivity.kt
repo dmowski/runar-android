@@ -1,21 +1,19 @@
 package com.tnco.runar.ui.activity
 
-import android.content.*
+import android.content.Context
+import android.content.IntentFilter
 import android.media.AudioManager
 import android.os.Bundle
-import android.util.Log
-import android.view.View
 import android.view.WindowManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.ui.window.Dialog
-import androidx.compose.ui.window.Popup
-import androidx.compose.ui.window.isPopupLayout
 import androidx.core.os.bundleOf
 import androidx.core.view.get
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.ktx.Firebase
 import com.tnco.runar.R
 import com.tnco.runar.controllers.MusicController
 import com.tnco.runar.databinding.ActivityMainBinding
@@ -26,10 +24,6 @@ import com.tnco.runar.repository.SharedPreferencesRepository
 import com.tnco.runar.ui.Navigator
 import com.tnco.runar.ui.dialogs.CancelDialog
 import com.tnco.runar.ui.fragments.*
-
-import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.firebase.analytics.ktx.analytics
-import com.google.firebase.ktx.Firebase
 import kotlin.system.exitProcess
 
 class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusChangeListener {
@@ -40,7 +34,7 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
     var preferencesRepository = SharedPreferencesRepository.get()
 
     private lateinit var audioManager: AudioManager
-    private lateinit var binding: ActivityMainBinding
+    lateinit var binding: ActivityMainBinding
 
     private lateinit var firebaseAnalytics: FirebaseAnalytics
 
@@ -60,34 +54,36 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
         if (savedInstanceState == null) {
             Companion.initFragments(this)
         }
-        this.registerReceiver(languageReceiver, IntentFilter("android.intent.action.LOCALE_CHANGED"))
+        this.registerReceiver(
+            languageReceiver,
+            IntentFilter("android.intent.action.LOCALE_CHANGED")
+        )
 
         viewModel.identify()
         supportActionBar?.hide()
 
-        viewModel.fontSize.observe(this){
+        viewModel.fontSize.observe(this) {
             fontSize = it
         }
 
-        if(preferencesRepository.firstLaunch==1){
+        if (preferencesRepository.firstLaunch == 1) {
             preferencesRepository.changeSettingsOnboarding(0)
         }
 
         audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
-        if (preferencesRepository.settingsMusic==1) getAudioFocus()
+        if (preferencesRepository.settingsMusic == 1) getAudioFocus()
 
 
-
-        binding.bottomNavigationBar.setOnNavigationItemSelectedListener { item->
-            when(item.itemId){
-                R.id.libraryFragment->{
+        binding.bottomNavigationBar.setOnNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.libraryFragment -> {
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.fragmentContainer, LibraryFragment())
                         .commit()
                     binding.bottomNavigationBar.isVisible = true
                     true
                 }
-                R.id.layoutFragment->{
+                R.id.layoutFragment -> {
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.fragmentContainer, LayoutFragment())
                         .commit()
@@ -95,7 +91,7 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
                     true
                 }
                 // Generator menu bar
-                R.id.generatorFragment->{
+                R.id.generatorFragment -> {
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.fragmentContainer, GeneratorFragment())
                         .commit()
@@ -103,30 +99,30 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
                     true
                 }
 
-                R.id.settingsFragment->{
+                R.id.settingsFragment -> {
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.fragmentContainer, SettingsFragment())
                         .commit()
                     binding.bottomNavigationBar.isVisible = true
                     true
                 }
-                R.id.favFragment->{
+                R.id.favFragment -> {
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.fragmentContainer, FavouriteFragment())
                         .commit()
                     binding.bottomNavigationBar.isVisible = true
                     true
                 }
-                else-> false
+                else -> false
             }
         }
+
     }
 
     override fun onAudioFocusChange(focusChange: Int) {
-        if(focusChange<=0){
+        if (focusChange <= 0) {
             MusicController.stopMusic()
-        }
-        else{
+        } else {
             MusicController.startMusic()
         }
     }
@@ -189,7 +185,9 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
             is LayoutInterpretationFragment -> showDialog("layout_interpretation")
             is LayoutProcessingFragment -> showDialog("layout_processing")
             !is LayoutDescriptionFragment -> showDialog("navigation_error")
-            else -> { navigateToDefaultAndShowBottomNavBar() }
+            else -> {
+                navigateToDefaultAndShowBottomNavBar()
+            }
         }
     }
 
@@ -224,21 +222,34 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
 
     override fun navigateToLayoutProcessingFragment(layoutId: Int, userLayout: IntArray) {
         supportFragmentManager.beginTransaction()
-            .replace(R.id.fragmentContainer, LayoutProcessingFragment.newInstance(layoutId, userLayout))
+            .replace(
+                R.id.fragmentContainer,
+                LayoutProcessingFragment.newInstance(layoutId, userLayout)
+            )
             .addToBackStack(null)
             .commit()
     }
 
     override fun navigateToInterpretationFragment(layoutId: Int, userLayout: IntArray) {
         supportFragmentManager.beginTransaction()
-            .replace(R.id.fragmentContainer, LayoutInterpretationFragment.newInstance(layoutId, userLayout))
+            .replace(
+                R.id.fragmentContainer,
+                LayoutInterpretationFragment.newInstance(layoutId, userLayout)
+            )
             .addToBackStack(null)
             .commit()
     }
 
-    override fun navigateToFavInterpretationFragment(layoutId: Int, userLayout: IntArray, affirmId: Int) {
+    override fun navigateToFavInterpretationFragment(
+        layoutId: Int,
+        userLayout: IntArray,
+        affirmId: Int
+    ) {
         supportFragmentManager.beginTransaction()
-            .replace(R.id.fragmentContainer, LayoutInterpretationFavFragment.newInstance(layoutId, userLayout, affirmId))
+            .replace(
+                R.id.fragmentContainer,
+                LayoutInterpretationFavFragment.newInstance(layoutId, userLayout, affirmId)
+            )
             .addToBackStack(KEY_TO_FAV_FRAGMENT_BACK)
             .commit()
         binding.bottomNavigationBar.isVisible = false
@@ -280,7 +291,7 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
     }
 
     override fun showDialog(page: String) {
-        CancelDialog(this,fontSize,page).showDialog()
+        CancelDialog(this, fontSize, page).showDialog()
     }
 
     override fun agreeWithDialog() {
@@ -288,17 +299,26 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
     }
 
     override fun navigateToDefaultAndShowBottomNavBar() {
-        supportFragmentManager.popBackStack(KEY_TO_LAYOUT_FRAGMENT_BACK, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+        supportFragmentManager.popBackStack(
+            KEY_TO_LAYOUT_FRAGMENT_BACK,
+            FragmentManager.POP_BACK_STACK_INCLUSIVE
+        )
         binding.bottomNavigationBar.isVisible = true
     }
 
     override fun navigateToFavAndShowBottomNavBar() {
-        supportFragmentManager.popBackStack(KEY_TO_FAV_FRAGMENT_BACK, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+        supportFragmentManager.popBackStack(
+            KEY_TO_FAV_FRAGMENT_BACK,
+            FragmentManager.POP_BACK_STACK_INCLUSIVE
+        )
         binding.bottomNavigationBar.isVisible = true
     }
 
-    fun navigateToInterpretation(){
-        supportFragmentManager.popBackStack(KEY_TO_INTERPRETATION_FRAGMENT_BACK, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+    fun navigateToInterpretation() {
+        supportFragmentManager.popBackStack(
+            KEY_TO_INTERPRETATION_FRAGMENT_BACK,
+            FragmentManager.POP_BACK_STACK_INCLUSIVE
+        )
     }
 
     override fun navigateToSettings() {
@@ -308,7 +328,7 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
         binding.bottomNavigationBar.isVisible = true
     }
 
-    fun forceBarHide(){
+    fun forceBarHide() {
         when (supportFragmentManager.findFragmentById(R.id.fragmentContainer)) {
             is LayoutFragment -> binding.bottomNavigationBar.isVisible = true
             is LibraryFragment -> binding.bottomNavigationBar.isVisible = true
@@ -316,11 +336,11 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
             is SettingsFragment -> binding.bottomNavigationBar.isVisible = true
             is AboutAppFragment -> binding.bottomNavigationBar.isVisible = true
             is GeneratorFragment -> binding.bottomNavigationBar.isVisible = true
-            else-> binding.bottomNavigationBar.isVisible = false
+            else -> binding.bottomNavigationBar.isVisible = false
         }
     }
 
-    fun reshowBar(){
+    fun reshowBar() {
         binding.bottomNavigationBar.menu[0].title = getString(R.string.bottom_nav_layouts)
         binding.bottomNavigationBar.menu[1].title = getString(R.string.bottom_nav_library)
         binding.bottomNavigationBar.menu[2].title = getString(R.string.generator)
@@ -328,11 +348,16 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
         binding.bottomNavigationBar.menu[4].title = getString(R.string.bottom_nav_settings)
     }
 
-    override fun getAudioFocus(){
-        audioManager.requestAudioFocus(this,AudioManager.STREAM_MUSIC,AudioManager.AUDIOFOCUS_GAIN)
+    override fun getAudioFocus() {
+        audioManager.requestAudioFocus(
+            this,
+            AudioManager.STREAM_MUSIC,
+            AudioManager.AUDIOFOCUS_GAIN
+        )
     }
-    override fun dropAudioFocus(){
-        audioManager.abandonAudioFocus (this)
+
+    override fun dropAudioFocus() {
+        audioManager.abandonAudioFocus(this)
     }
 
     companion object {

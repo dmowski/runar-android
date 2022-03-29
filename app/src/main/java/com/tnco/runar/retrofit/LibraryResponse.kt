@@ -9,5 +9,7 @@ data class LibraryResponse(
     val content: String? =null,
     val type: String? = null,
     val linkTitle: String? =null,
-    val linkUrl: String? = null
+    val linkUrl: String? = null,
+    val audioUrl: String? = null,
+    val audioDuration: Int? = null
 )

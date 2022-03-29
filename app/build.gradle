@@ -57,6 +57,8 @@ dependencies {
 
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.11.0'
+    implementation 'com.squareup.okhttp3:okhttp:3.14.9'
 
     implementation "androidx.preference:preference-ktx:$preference_version"
 
@@ -108,5 +110,9 @@ dependencies {
     implementation 'com.google.firebase:firebase-crashlytics-ktx'
 
     implementation "androidx.cardview:cardview:1.0.0"
+
+    // Paging Compose
+    implementation "com.google.accompanist:accompanist-pager:0.13.0"
+    implementation "com.google.accompanist:accompanist-pager-indicators:0.13.0"
 
 }

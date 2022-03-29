@@ -1,22 +1,29 @@
 package com.tnco.runar.ui.fragments
 
 import android.os.Bundle
-import android.view.*
+import android.view.KeyEvent
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.platform.LocalUriHandler
-import androidx.compose.ui.res.*
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.*
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -28,23 +35,27 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberImagePainter
 import coil.size.OriginalSize
+import com.google.accompanist.pager.*
 import com.tnco.runar.R
 import com.tnco.runar.controllers.AnalyticsHelper
 import com.tnco.runar.presentation.viewmodel.LibraryViewModel
-
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+const val audioFeature = false
+
 class LibraryFragment : Fragment() {
     val viewModel: LibraryViewModel by viewModels()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         viewModel.getRuneDataFromDB()
         super.onCreate(savedInstanceState)
     }
 
+    @ExperimentalPagerApi
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -78,8 +89,11 @@ class LibraryFragment : Fragment() {
         }
         return view
     }
+
 }
 
+
+@ExperimentalPagerApi
 @Composable
 private fun ItemData(scrollState: ScrollState) {
     val viewModel: LibraryViewModel = viewModel()
@@ -94,7 +108,7 @@ private fun ItemData(scrollState: ScrollState) {
     }
     if (menuData?.first != null) {
         for (item in menuData?.first!!) {
-            if(item.imageUrl.isNullOrEmpty()) item.imageUrl=""
+            if (item.imageUrl.isNullOrEmpty()) item.imageUrl = ""
             when (item.type) {
                 "root" -> {
                     FirstMenuItem(
@@ -150,11 +164,11 @@ private fun ItemData(scrollState: ScrollState) {
         }
     }
 
-    viewModel.scrollPositionHistory.observe(LocalLifecycleOwner.current){
+    viewModel.scrollPositionHistory.observe(LocalLifecycleOwner.current) {
         CoroutineScope(Dispatchers.IO).launch {
-            if (it.last()==9999) {
+            if (it.last() == 9999) {
                 delay(50)
-                scrollState.scrollTo(it[it.size-2])
+                scrollState.scrollTo(it[it.size - 2])
                 viewModel.removeLastScrollPositionHistory()
                 viewModel.removeLastScrollPositionHistory()
             }
@@ -163,11 +177,17 @@ private fun ItemData(scrollState: ScrollState) {
 
 }
 
+
+@ExperimentalPagerApi
 @Composable
 private fun Bars() {
     val viewModel: LibraryViewModel = viewModel()
     val fontSize by viewModel.fontSize.observeAsState()
     val header by viewModel.lastMenuHeader.observeAsState()
+    val tabsState = remember {
+        mutableStateOf(true)
+    }
+    val pagerState = rememberPagerState(pageCount = 2)
 
     var barColor = colorResource(id = R.color.library_top_bar_header)
     var barFont = FontFamily(Font(R.font.roboto_medium))
@@ -175,11 +195,12 @@ private fun Bars() {
     var navIcon: @Composable() (() -> Unit)? = null
 
     if (header != stringResource(id = R.string.library_top_bar_header)) {
+        tabsState.value = false
         barColor = colorResource(id = R.color.library_top_bar_header_2)
         barFont = FontFamily(Font(R.font.roboto_medium))
         barFontSize = with(LocalDensity.current) { fontSize!!.toSp() }
         navIcon = { TopBarIcon() }
-    }
+    } else tabsState.value = true
     Scaffold(
         topBar = {
             TopAppBar(
@@ -192,18 +213,24 @@ private fun Bars() {
                     )
                 },
                 backgroundColor = colorResource(id = R.color.library_top_bar),
-                navigationIcon = navIcon
+                navigationIcon = navIcon,
+                elevation = 0.dp
             )
         },
         backgroundColor = Color(0x73000000)
     ) {
         val scrollState = rememberScrollState()
-        Column(Modifier.verticalScroll(state = scrollState, enabled = true)) {
-            ItemData(scrollState)
-            Box(modifier = Modifier.aspectRatio(15f, true))
+        if (tabsState.value && audioFeature)
+            TabScreen(pagerState, scrollState, fontSize)
+        else {
+            Column(Modifier.verticalScroll(state = scrollState, enabled = true)) {
+                ItemData(scrollState)
+                Box(modifier = Modifier.aspectRatio(15f, true))
+            }
         }
     }
 }
+
 
 @Composable
 private fun TopBarIcon() {
@@ -217,6 +244,111 @@ private fun TopBarIcon() {
     }
 }
 
+
+@ExperimentalPagerApi
+@Composable
+private fun TabScreen(pagerState: PagerState, scrollState: ScrollState, fontSize: Float?) {
+    Column {
+        Tabs(pagerState = pagerState, fontSize = fontSize)
+        TabsContent(pagerState = pagerState, scrollState = scrollState)
+
+    }
+
+}
+
+@ExperimentalPagerApi
+@Composable
+fun TabsContent(pagerState: PagerState, scrollState: ScrollState) {
+    HorizontalPager(state = pagerState) { page ->
+        when (page) {
+            0 -> {
+                Column(
+                    Modifier
+                        .verticalScroll(state = scrollState, enabled = true)
+                        .fillMaxWidth()
+                ) {
+                    ItemData(scrollState)
+                    Box(modifier = Modifier.aspectRatio(15f, true))
+                }
+            }
+
+            1 -> {
+                // Audio Library fun will be here
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(text = "Audio", color = Color.White)
+                }
+            }
+        }
+    }
+
+}
+
+@ExperimentalPagerApi
+@Composable
+fun Tabs(pagerState: PagerState, fontSize: Float?) {
+    val list = listOf(R.string.library_tab_books, R.string.library_tab_audio)
+
+    val scope = rememberCoroutineScope()
+
+    TabRow(selectedTabIndex = pagerState.currentPage,
+        backgroundColor = colorResource(id = R.color.library_top_bar),
+        contentColor = colorResource(id = R.color.library_top_bar_header_2),
+        divider = {
+            TabRowDefaults.Divider(
+                thickness = 1.dp,
+                color = colorResource(id = R.color.library_tab_divider)
+            )
+        },
+        indicator = { tabPositions ->
+            TabRowDefaults.Indicator(
+                Modifier.pagerTabIndicatorOffset(
+                    pagerState = pagerState,
+                    tabPositions = tabPositions
+                ),
+                height = 1.dp,
+                color = colorResource(id = R.color.library_tab_indicator)
+            )
+        }) {
+        list.forEachIndexed { index, _ ->
+            Card(
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
+                shape = RoundedCornerShape(40.dp),
+                border = BorderStroke(
+                    width = 1.dp,
+                    color = if (pagerState.currentPage == index) colorResource(id = R.color.library_tab_text_selected)
+                    else colorResource(id = R.color.library_top_bar)
+                ),
+                backgroundColor = colorResource(id = R.color.library_top_bar),
+
+                ) {
+                Tab(modifier = Modifier.height(30.dp),
+                    text = {
+                        Text(
+                            text = stringResource(id = list[index]).uppercase(),
+                            fontFamily = FontFamily(Font(R.font.roboto_medium)),
+                            fontSize = with(LocalDensity.current) { ((fontSize!! * 0.8).toFloat()).toSp() },
+                            color = if (pagerState.currentPage == index) colorResource(id = R.color.library_tab_text_selected)
+                            else colorResource(id = R.color.library_tab_text_not_selected)
+                        )
+                    },
+                    selected = pagerState.currentPage == index,
+                    onClick = {
+                        scope.launch {
+                            pagerState.scrollToPage(index)
+                        }
+                    })
+            }
+        }
+        Spacer(modifier = Modifier.width(130.dp))
+    }
+}
+
+
+@ExperimentalPagerApi
 @Composable
 private fun FirstMenuItem(
     fontSize: Float,
@@ -341,8 +473,13 @@ private fun NavigateItem(fontSize: Float, route: List<String>) {
 }
 
 @Composable
-private fun SecondMenuItem(fontSize: Float, header: String, imgLink: String, clickAction: () -> Unit) {
-    if(imgLink.isEmpty()){
+private fun SecondMenuItem(
+    fontSize: Float,
+    header: String,
+    imgLink: String,
+    clickAction: () -> Unit
+) {
+    if (imgLink.isEmpty()) {
         Row(
             Modifier
                 .fillMaxSize()
@@ -407,8 +544,7 @@ private fun SecondMenuItem(fontSize: Float, header: String, imgLink: String, cli
                 )
             }
         }
-    }
-    else{
+    } else {
         Row(
             Modifier
                 .aspectRatio(3.8f, true)
@@ -454,7 +590,10 @@ private fun SecondMenuItem(fontSize: Float, header: String, imgLink: String, cli
                             text = header,
                             color = colorResource(id = R.color.library_item_header),
                             fontFamily = FontFamily(Font(R.font.roboto_regular)),
-                            style = TextStyle(fontSize = with(LocalDensity.current) { fontSize.toSp() },fontWeight = FontWeight.Normal),
+                            style = TextStyle(
+                                fontSize = with(LocalDensity.current) { fontSize.toSp() },
+                                fontWeight = FontWeight.Normal
+                            ),
                             modifier = Modifier.padding(bottom = 2.dp)
                         )
                     }

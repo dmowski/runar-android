@@ -1,17 +1,20 @@
 package com.tnco.runar.room
 
 import android.content.Context
+import android.util.Log
+import androidx.room.ColumnInfo
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.tnco.runar.RunarLogger
 import com.tnco.runar.model.*
 import java.util.*
 
 @Database(
     entities = [LayoutDescriptionModel::class, RuneDescriptionModel::class, AffimDescriptionModel::class, TwoRunesInterModel::class, LibraryItemsModel::class, RunesItemsModel::class],
-    version = 3,
+    version = 4,
     exportSchema = false
 )
 
@@ -34,9 +37,8 @@ abstract class AppDB : RoomDatabase() {
                 dataBaseFilePath = "database/en_layouts.db"
                 dataBaseName = "EN_DATABASE"
             }
-
             INSTANCE = Room.databaseBuilder(context, AppDB::class.java, dataBaseName)
-                .addMigrations(MIGRATION_2_3)
+                .addMigrations(MIGRATION_2_3, MIGRATION_3_4)
                 .createFromAsset(dataBaseFilePath).build()
         }
 
@@ -50,5 +52,13 @@ abstract class AppDB : RoomDatabase() {
                 database.execSQL("CREATE TABLE runes_generator (id INTEGER PRIMARY KEY NOT NULL, imgUrl TEXT, enTitle TEXT, ruTitle TEXT)")
             }
         }
+
+        private val MIGRATION_3_4 = object : Migration(3, 4) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("ALTER TABLE library ADD COLUMN audio_url TEXT")
+                database.execSQL("ALTER TABLE library ADD COLUMN audio_duration INTEGER")
+            }
+        }
+
     }
 }
