@@ -266,6 +266,7 @@
             android:background="@drawable/generator_start_button"
             android:clickable="true"
             android:focusable="true"
+            android:padding="2dp"
             android:fontFamily="@font/amatic_sc_bold"
             android:gravity="center"
             android:text="@string/runes_random"

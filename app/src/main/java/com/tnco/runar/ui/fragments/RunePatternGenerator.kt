@@ -41,19 +41,19 @@ class RunePatternGenerator: Fragment() {
 
         viewModel.runeImagesReady.observe(viewLifecycleOwner, Observer {
             if (it && !firstImageWasReady && viewModel.runesImages.size > 0){
-                imgRune?.setImageBitmap(viewModel.runesImages[0])
-                nextType?.visibility = View.VISIBLE
+                imgRune.setImageBitmap(viewModel.runesImages[0])
+                nextType.visibility = View.VISIBLE
             }
         })
 
         if(viewModel.runesImages.size > 0){
-            imgRune?.setImageBitmap(viewModel.runesImages[0])
-            nextType?.visibility = View.VISIBLE
+            imgRune.setImageBitmap(viewModel.runesImages[0])
+            nextType.visibility = View.VISIBLE
             firstImageWasReady = true
         } else {
             firstImageWasReady = false
-            nextType?.visibility = View.INVISIBLE
-            imgRune?.setImageResource(R.drawable.generator_hourglass)
+            nextType.visibility = View.INVISIBLE
+            imgRune.setImageResource(R.drawable.generator_hourglass)
         }
 
 

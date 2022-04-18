@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewmodel.compose.viewModel
+import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import coil.size.OriginalSize
 import com.tnco.runar.R
@@ -217,6 +218,7 @@ private fun TopBarIcon() {
     }
 }
 
+@ExperimentalCoilApi
 @Composable
 private fun FirstMenuItem(
     fontSize: Float,
@@ -340,6 +342,7 @@ private fun NavigateItem(fontSize: Float, route: List<String>) {
     }
 }
 
+@ExperimentalCoilApi
 @Composable
 private fun SecondMenuItem(fontSize: Float, header: String, imgLink: String, clickAction: () -> Unit) {
     if(imgLink.isEmpty()){
@@ -604,6 +607,7 @@ private fun SimpleTextItem(fontSize: Float, text: String?, urlTitle: String?, ur
     )
 }
 
+@ExperimentalCoilApi
 @Composable
 private fun RuneDescription(fontSize: Float, header: String, text: String, imgLink: String) {
     Column(

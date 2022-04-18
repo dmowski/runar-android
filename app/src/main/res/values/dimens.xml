@@ -6,6 +6,15 @@
     <dimen name="layout_description_line_spacing">1.5</dimen>
     <dimen name="layout_popup_line_spacing">1.35</dimen>
 
+    <dimen name="margin_2dp">2dp</dimen>
+    <dimen name="margin_4dp">4dp</dimen>
+    <dimen name="margin_8dp">8dp</dimen>
+    <dimen name="margin_12dp">12dp</dimen>
+    <dimen name="margin_16dp">16dp</dimen>
+    <dimen name="margin_20dp">20dp</dimen>
+    <dimen name="margin_24dp">24dp</dimen>
+    <dimen name="margin_32dp">32dp</dimen>
+    <dimen name="margin_40dp">40dp</dimen>
 
     <dimen name="generator_rune_width_hdpi">62dp</dimen>
     <dimen name="generator_rune_height_hdpi">74dp</dimen>
