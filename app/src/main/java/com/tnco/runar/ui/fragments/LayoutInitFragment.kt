@@ -83,8 +83,8 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
 
         viewModel.selectedLayout.observe(viewLifecycleOwner) {
             when (it.layoutId) {
-                1, 2, 3, 4 -> layoutTable[0] = it.layoutId
-                else -> layoutTable[0] = it.layoutId - 1
+                1, 2, 3, 4 -> layoutTable[0] = it.layoutId!!
+                else -> layoutTable[0] = it.layoutId!! - 1
             }
             binding.descriptionHeaderFrame.text = it.layoutName
             headerText = it.layoutName.toString()

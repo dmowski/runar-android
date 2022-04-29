@@ -1,17 +1,14 @@
 package com.tnco.runar.model
 
-import androidx.annotation.NonNull
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "layouts")
 data class LayoutDescriptionModel(
-
     @PrimaryKey
     @ColumnInfo(name = "layout_id")
-    var layoutId: Int,
-
+    var layoutId: Int?,
     @ColumnInfo(name = "layout_name")
     var layoutName: String?,
     @ColumnInfo(name = "layout_description")

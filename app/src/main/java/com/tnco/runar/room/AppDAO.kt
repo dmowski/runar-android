@@ -17,7 +17,7 @@ interface AppDAO {
     fun getAllLayoutDetails(): List<LayoutDescriptionModel>
 
     @Query("SELECT layout_name FROM layouts WHERE layout_id = :id")
-    suspend fun getLayoutName(id: Int): String
+    suspend fun getLayoutName(id: Int?): String
 
     @Query("SELECT * FROM runes")
     fun getRunesDetails(): List<RuneDescriptionModel>
@@ -26,7 +26,7 @@ interface AppDAO {
     suspend fun getAffirmations(): List<AffimDescriptionModel>
 
     @Query("SELECT text FROM two_runes WHERE id = :id")
-    suspend fun getTwoRunesInter(id: Int) : String
+    suspend fun getTwoRunesInter(id: Int?) : String
 
     @Query("SELECT * FROM two_runes")
     fun getAllTwoRunesInter() : List<TwoRunesInterModel>
@@ -38,7 +38,7 @@ interface AppDAO {
     suspend fun clearLibrary()
 
     @Insert
-    fun insertLibraryData(data: List<LibraryItemsModel>)
+    suspend fun insertLibraryData(data: List<LibraryItemsModel>)
 
     @Insert
     suspend fun insertRunesGenerator(data: List<RunesItemsModel>)
