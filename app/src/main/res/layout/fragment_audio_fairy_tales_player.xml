@@ -1,0 +1,428 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:menu="@menu/setting_player_tool_bar">
+
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbarPlayer"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@color/library_top_bar"
+        app:layout_constraintTop_toTopOf="parent"
+        app:subtitleTextAppearance="@font/roboto_medium"
+        app:subtitleTextColor="@color/white"
+        android:theme="@style/ToolBarPlayer"
+        app:titleTextColor="@color/library_top_bar_header"
+        tools:layout_editor_absoluteX="0dp">
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardViewInfoPlayer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:backgroundTint="#212121"
+        android:elevation="8dp"
+        android:foregroundGravity="center"
+        app:cardCornerRadius="30dp"
+        app:layout_constraintBottom_toTopOf="@+id/lineBottomCardView"
+        app:layout_constraintEnd_toStartOf="@+id/lineEndCardViewAndPlayer"
+        app:layout_constraintHorizontal_bias="0.125"
+        app:layout_constraintStart_toStartOf="@+id/lineStartCardViewAndPlayer"
+        app:layout_constraintTop_toTopOf="@+id/lineTopCardView">
+
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imageViewPlayer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/icon_player"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constLayInfo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="23dp"
+            android:layout_marginBottom="23dp"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/countryNameFairyTale"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:maxLines="1"
+                android:scrollHorizontally="true"
+                android:text="Народная албанская сказка"
+                android:textColor="#DADADA"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvSourceFairyTaleInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginTop="2dp"
+                android:text="@string/source_fairy_tale_info"
+                android:textColor="#918A8A"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="@+id/countryNameFairyTale"
+                app:layout_constraintTop_toBottomOf="@+id/countryNameFairyTale" />
+
+            <TextView
+                android:id="@+id/tvNameSourceFairyTales"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="2dp"
+                android:text="Pornhub.com"
+                android:textColor="#DADADA"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/tvSourceFairyTaleInfo"
+                app:layout_constraintTop_toBottomOf="@+id/countryNameFairyTale" />
+
+            <TextView
+                android:id="@+id/tvTitleFairyTalesInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/title_fairy_tales_info"
+                android:textColor="#918A8A"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvSourceFairyTaleInfo" />
+
+            <TextView
+                android:id="@+id/tvTitleNameFairyTales"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginTop="8dp"
+                android:text="Пряничек нагибатель"
+                android:textColor="#DADADA"
+                android:textSize="16sp"
+                android:maxLines="1"
+                android:scrollHorizontally="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/tvTitleFairyTalesInfo"
+                app:layout_constraintTop_toBottomOf="@+id/tvTitleFairyTalesInfo" />
+
+            <TextView
+                android:id="@+id/tvVoiceFairyTale"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginBottom="4dp"
+                android:text="@string/voice_fairy_tale_info"
+                android:textColor="#918A8A"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toTopOf="@+id/tvIGFairyTalesInfo"
+                app:layout_constraintEnd_toEndOf="@+id/tvTitleNameFairyTales"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/tvTitleNameFairyTales" />
+
+            <TextView
+                android:id="@+id/tvNameVoiceFairyTale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="Пряник Зефирный"
+                android:textColor="#DADADA"
+                android:textSize="16sp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:singleLine="true"
+                app:layout_constraintBottom_toBottomOf="@+id/tvVoiceFairyTale"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/tvVoiceFairyTale"
+                app:layout_constraintTop_toTopOf="@+id/tvVoiceFairyTale" />
+
+            <TextView
+                android:id="@+id/tvIGFairyTalesInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/ig_fairy_tale_info"
+                android:layout_marginBottom="4dp"
+                android:textColor="#918A8A"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toTopOf="@+id/tvFacebookFairyTales"
+                app:layout_constraintEnd_toEndOf="@+id/tvVoiceFairyTale"
+                app:layout_constraintHorizontal_bias="0.057"
+                app:layout_constraintStart_toStartOf="@+id/tvVoiceFairyTale" />
+
+            <TextView
+                android:id="@+id/tvNameIGFairyTales"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="pornhubIG"
+                android:textColor="#DADADA"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tvIGFairyTalesInfo"
+                app:layout_constraintStart_toEndOf="@+id/tvIGFairyTalesInfo"
+                app:layout_constraintTop_toTopOf="@+id/tvIGFairyTalesInfo" />
+
+            <TextView
+                android:id="@+id/tvFacebookFairyTales"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/facebook_fairy_tale_info"
+                android:textColor="#918A8A"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/tvIGFairyTalesInfo"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/tvIGFairyTalesInfo" />
+
+            <TextView
+                android:id="@+id/tvNameFacebookFairyTales"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="pornhubTV"
+                android:textColor="#DADADA"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tvFacebookFairyTales"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/tvFacebookFairyTales"
+                app:layout_constraintTop_toTopOf="@+id/tvFacebookFairyTales"
+                app:layout_constraintVertical_bias="0.833" />
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:backgroundTint="@color/white"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/lineBottomPlayer"
+        app:layout_constraintEnd_toStartOf="@+id/lineEndCardViewAndPlayer"
+        app:layout_constraintStart_toStartOf="@+id/lineStartCardViewAndPlayer"
+        app:layout_constraintTop_toTopOf="@+id/lineTopPlayer">
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/imBtFlashBack"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.8"
+            android:background="@color/transparent"
+            android:src="@drawable/ic_flash_back" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/imBtPrevious"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginEnd="2dp"
+            android:background="@color/transparent"
+            app:srcCompat="@drawable/ic_baseline_fast_rewind_24" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/imBtPlayAndStop"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/transparent"
+            app:srcCompat="@drawable/ic_player_play" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/imBtNext"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginStart="2dp"
+            android:background="@color/transparent"
+            app:srcCompat="@drawable/ic_baseline_fast_forward_24" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/imBtFlashForward"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.8"
+            android:background="@color/transparent"
+            app:srcCompat="@drawable/ic_flash_forward" />
+    </LinearLayout>
+
+    <SeekBar
+        android:id="@+id/seekBar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="62dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="62dp"
+        android:progress="22"
+        android:theme="@style/SeekBarColored"
+        android:progressBackgroundTint="#D2C4AD"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/currentTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:text="2:22"
+        android:textColor="#D2C4AD"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/seekBar"
+        app:layout_constraintEnd_toStartOf="@+id/seekBar"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/seekBar"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/totalTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="30dp"
+        android:text="5:52"
+        android:textColor="#D2C4AD"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/seekBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@id/seekBar"
+        app:layout_constraintTop_toTopOf="@+id/seekBar"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constLayBottomInformationBox"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/frame_308"
+        android:elevation="5dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline5"
+        app:layout_constraintEnd_toStartOf="@+id/guideline4"
+        app:layout_constraintStart_toStartOf="@+id/guideline3"
+        app:layout_constraintTop_toTopOf="@+id/guideline2">
+
+        <TextView
+            android:id="@+id/tvNameBottomInfoFairyTale"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/roboto"
+            android:gravity="center"
+            android:text="Сказака о хитром коварном пряничке"
+            android:textColor="@color/white_f8"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvNameCountryBottomInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:gravity="center"
+            android:text="Финские сказки"
+            android:textColor="@color/white_f8"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvNameBottomInfoFairyTale" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/lineTopCardView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.13" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/lineBottomCardView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.53" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/lineStartCardViewAndPlayer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.12" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/lineEndCardViewAndPlayer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.88" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/lineTopPlayer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.68" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/lineBottomPlayer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.78" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.89" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.045801528" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.9414758" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.98" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

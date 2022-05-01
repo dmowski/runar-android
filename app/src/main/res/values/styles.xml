@@ -23,4 +23,15 @@
         <item name="cornerSize">15dp</item>
     </style>
 
+    <style name="SeekBarColored"
+        parent="Widget.AppCompat.SeekBar">
+        <item name="colorAccent">#D2C4AD</item>
+    </style>
+    <style name="ToolBarPlayer">
+        <!--        <item name = "homeAsUpIndicator">@drawable/ic_library_back_arrow_2</item>-->
+        <item name="fontFamily">@font/roboto_regular</item>
+        <item name="colorControlNormal">#EFCD93</item>
+
+    </style>
+
 </resources>

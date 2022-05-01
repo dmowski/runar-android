@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/layoutFragment"
+        android:icon="@drawable/ic_layouts"
+        android:title="@string/bottom_nav_layouts" />
+    <item
+        android:id="@+id/libraryFragment"
+        android:icon="@drawable/ic_library"
+        android:title="@string/bottom_nav_library"/>
+    <item
+        android:id="@+id/generatorFragment"
+        android:icon="@drawable/generator_button"
+        android:title="@string/generator"/>
+    <item
+        android:id="@+id/favFragment"
+        android:icon="@drawable/ic_union"
+        android:title="@string/bottom_nav_favourites"/>
+    <item
+        android:id="@+id/settingsFragment"
+        android:icon="@drawable/ic_settings"
+        android:title="@string/bottom_nav_settings"/>
+</menu>

@@ -111,5 +111,11 @@
     <string name="library_tab_books">Books</string>
     <string name="library_tab_audio">Audio</string>
 
+    <string name="source_fairy_tale_info">Source:</string>
+    <string name="title_fairy_tales_info">Title:</string>
+    <string name="voice_fairy_tale_info">Voice acting:</string>
+    <string name="ig_fairy_tale_info" translatable="false">IG:</string>
+    <string name="facebook_fairy_tale_info" translatable="false">Facebook:</string>
+
 
 </resources>
