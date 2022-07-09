@@ -1,42 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.tnco.runar">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <supports-screens android:resizeable="false"
-        android:smallScreens="false"
-        android:normalScreens="true"
+
+    <supports-screens
         android:largeScreens="true"
-        android:xlargeScreens="false"/>
+        android:normalScreens="true"
+        android:resizeable="false"
+        android:smallScreens="false"
+        android:xlargeScreens="false" />
 
     <application
-        android:icon="@mipmap/ic_launcher"
-        android:roundIcon="@mipmap/ic_launcher_round"
-        android:label="@string/app_name"
-        android:supportsRtl="true"
         android:name="com.tnco.runar.App"
-        android:theme="@style/Theme.Runar">
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Runar"
+        tools:ignore="LockedOrientationActivity">
         <activity
             android:name="com.tnco.runar.ui.activity.MainActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.tnco.runar.ui.activity.OnboardActivity"
-            android:screenOrientation="portrait"
-            android:noHistory="true"/>
+            android:noHistory="true"
+            android:screenOrientation="portrait" />
 
         <activity
             android:name="com.tnco.runar.ui.activity.SplashActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.Runar">
+            android:theme="@style/Theme.Runar"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <service
-            android:name=".services.NotifiactionChecker">
-        </service>
+
+        <service android:name=".services.NotifiactionChecker"/>
     </application>
 </manifest>
