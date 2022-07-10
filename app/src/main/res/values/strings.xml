@@ -31,7 +31,7 @@
 
     <string name="layout_init_button_text1">Pull Out a Rune</string>
     <string name="layout_init_button_text2">Get Interpretation</string>
-    <string name="layout_init_button_text4">Processing...</string>
+    <string name="layout_init_button_text4">Processing…</string>
     <string name="layout_init_processing">Ravendark Guitars </string>
     <string name="layout_description_product">Products description</string>
     <string name="layout_go_to_site">Check the website</string>
@@ -111,5 +111,7 @@
     <string name="library_tab_books">Books</string>
     <string name="library_tab_audio">Audio</string>
 
-
+    <string name="value_1" translatable="false">1</string>
+    <string name="value_2" translatable="false">2</string>
+    <string name="value_3" translatable="false">3</string>
 </resources>

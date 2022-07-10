@@ -30,7 +30,7 @@
 
     <string name="layout_init_button_text1">Вытянуть руну</string>
     <string name="layout_init_button_text2">Толковать</string>
-    <string name="layout_init_button_text4">Расклад обрабатывается...</string>
+    <string name="layout_init_button_text4">Расклад обрабатывается…</string>
     <string name="layout_init_processing">Магазин предметов скандинавской культуры и быта</string>
     <string name="layout_description_product">Описание товаров</string>
     <string name="layout_go_to_site">Перейти на сайт</string>

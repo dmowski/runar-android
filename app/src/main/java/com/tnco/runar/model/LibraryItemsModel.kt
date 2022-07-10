@@ -4,7 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
-import com.tnco.runar.room.LibraryConverter
+import com.tnco.runar.data.local.LibraryConverter
 
 @Entity(tableName = "library")
 @TypeConverters(LibraryConverter::class)

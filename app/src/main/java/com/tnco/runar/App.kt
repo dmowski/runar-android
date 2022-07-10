@@ -1,13 +1,13 @@
 package com.tnco.runar
 
 import android.app.Application
-import com.tnco.runar.controllers.AnalyticsHelper
-import com.tnco.runar.controllers.MusicController
+import com.tnco.runar.analytics.AnalyticsHelper
+import com.tnco.runar.data.local.AppDB
+import com.tnco.runar.data.local.DataDB
+import com.tnco.runar.feature.MusicController
 import com.tnco.runar.repository.LanguageRepository
 import com.tnco.runar.repository.SharedDataRepository
 import com.tnco.runar.repository.SharedPreferencesRepository
-import com.tnco.runar.room.AppDB
-import com.tnco.runar.room.DataDB
 
 class App : Application() {
     override fun onCreate() {

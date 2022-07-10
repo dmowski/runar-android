@@ -1,9 +1,9 @@
 package com.tnco.runar.repository
 
 import com.tnco.runar.RunarLogger
+import com.tnco.runar.data.local.AppDB
+import com.tnco.runar.data.local.DataDB
 import com.tnco.runar.model.*
-import com.tnco.runar.room.AppDB
-import com.tnco.runar.room.DataDB
 import kotlinx.coroutines.flow.Flow
 
 object DatabaseRepository {

@@ -94,7 +94,7 @@
                 android:textColor="@color/layout_description_button_text_selector" />
         </FrameLayout>
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/exit_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

@@ -10,14 +10,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.viewpager.widget.ViewPager
 import com.tnco.runar.R
-import com.tnco.runar.adapters.OnboardViewPagerAdapter
-import com.tnco.runar.controllers.AnalyticsHelper
-import com.tnco.runar.controllers.MusicController
+import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.databinding.ActivityOnboardBinding
+import com.tnco.runar.feature.MusicController
 import com.tnco.runar.model.OnboardGuideElementModel
-import com.tnco.runar.presentation.viewmodel.OnboardViewModel
 import com.tnco.runar.repository.LanguageRepository
-import java.util.ArrayList
+import com.tnco.runar.ui.adapter.OnboardViewPagerAdapter
+import com.tnco.runar.ui.viewmodel.OnboardViewModel
 
 class OnboardActivity : AppCompatActivity() {
     private val viewModel: OnboardViewModel by viewModels()

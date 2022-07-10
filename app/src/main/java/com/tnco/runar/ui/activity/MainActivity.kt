@@ -15,15 +15,15 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.ktx.Firebase
 import com.tnco.runar.R
-import com.tnco.runar.controllers.MusicController
 import com.tnco.runar.databinding.ActivityMainBinding
-import com.tnco.runar.presentation.viewmodel.MainViewModel
+import com.tnco.runar.feature.MusicController
 import com.tnco.runar.receivers.LanguageBroadcastReceiver
 import com.tnco.runar.repository.LanguageRepository
 import com.tnco.runar.repository.SharedPreferencesRepository
 import com.tnco.runar.ui.Navigator
-import com.tnco.runar.ui.dialogs.CancelDialog
-import com.tnco.runar.ui.fragments.*
+import com.tnco.runar.ui.component.dialog.CancelDialog
+import com.tnco.runar.ui.fragment.*
+import com.tnco.runar.ui.viewmodel.MainViewModel
 import kotlin.system.exitProcess
 
 class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusChangeListener {

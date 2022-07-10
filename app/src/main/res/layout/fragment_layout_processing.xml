@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.tnco.runar.customView.OffsetImageView
+    <com.tnco.runar.ui.component.view.OffsetImageView
         android:id="@+id/offsetImageView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -155,7 +154,7 @@
         app:layout_constraintEnd_toStartOf="@id/right_guideline"
         app:layout_constraintStart_toEndOf="@id/left_guideline"
         app:layout_constraintTop_toBottomOf="@id/description_header_frame">
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/image_group"
             android:layout_width="0dp"
             android:layout_height="0dp"
