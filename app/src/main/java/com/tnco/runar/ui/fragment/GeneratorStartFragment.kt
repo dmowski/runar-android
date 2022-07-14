@@ -58,28 +58,28 @@ class GeneratorStartFragment : Fragment() {
 
     private fun readDatabase() { // доделать считывание
         lifecycleScope.launch {
-            mViewModel.readRunes.observeOnce(viewLifecycleOwner, { listRunes ->
+            mViewModel.readRunes.observeOnce(viewLifecycleOwner) { listRunes ->
                 if (listRunes.isNotEmpty()) {
                     mAdapter.setData(listRunes)
                     listRunes.forEach {
                         listAllIds.add(it.id)
                     }
                 } else requestApiData()
-            })
+            }
         }
     }
 
 
     private fun requestApiData() {
         mViewModel.getRunes()
-        mViewModel.runesResponse.observe(viewLifecycleOwner, { listRunes ->
+        mViewModel.runesResponse.observe(viewLifecycleOwner) { listRunes ->
             if (listRunes.isNotEmpty()) {
                 mAdapter.setData(listRunes)
                 listRunes.forEach {
                     listAllIds.add(it.id)
                 }
             }
-        })
+        }
     }
 
     private fun setupRecyclerView() {
@@ -89,7 +89,7 @@ class GeneratorStartFragment : Fragment() {
         binding.runesRecyclerView.layoutManager = gridLayoutManager
         binding.runesRecyclerView.adapter = mAdapter
 
-        mAdapter.obsSelectedRunes.observe(viewLifecycleOwner, {
+        mAdapter.obsSelectedRunes.observe(viewLifecycleOwner) {
             when (it.size) {
                 1 -> {
                     showRunes(binding.tvRune1, binding.rune1, binding.tvDescRune1, it[0])
@@ -103,7 +103,7 @@ class GeneratorStartFragment : Fragment() {
                     showRunes(binding.tvRune3, binding.rune3, binding.tvDescRune3, it[2])
                 }
             }
-        })
+        }
 
         binding.rune1.setOnClickListener {
             if (mAdapter.obsSelectedRunes.value?.size == 1) {

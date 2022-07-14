@@ -23,8 +23,8 @@ class OnboardActivity : AppCompatActivity() {
     private var fontSize: Float = 0f
     private var currentPosition = 0
 
-    lateinit var adapter: OnboardViewPagerAdapter
-    lateinit var models: ArrayList<OnboardGuideElementModel>
+    private lateinit var adapter: OnboardViewPagerAdapter
+    private lateinit var models: ArrayList<OnboardGuideElementModel>
 
     private lateinit var binding: ActivityOnboardBinding
 
@@ -33,7 +33,6 @@ class OnboardActivity : AppCompatActivity() {
 
         LanguageRepository.setSettingsLanguage(this)
 
-        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         window.statusBarColor = getColor(R.color.library_top_bar)
         window.navigationBarColor = getColor(R.color.library_top_bar)

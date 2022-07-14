@@ -54,7 +54,7 @@ class LayoutDescriptionFragment : Fragment(R.layout.fragment_layout_description)
                     binding.descriptionHeaderFrame.text = layoutDescriptionModel.layoutName
                     binding.descriptionTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize)
                     binding.descriptionTextView.text = layoutDescriptionModel.layoutDescription+"\n"
-                    val headerTextSize = (textSize*3).toFloat()
+                    val headerTextSize = (textSize*3.0).toFloat()
                     val buttonTextSize = (textSize*1.65).toFloat()
                     val checkBoxTextSize = (textSize*0.8).toFloat()
                     binding.descriptionHeaderFrame.setTextSize(TypedValue.COMPLEX_UNIT_PX, headerTextSize)
