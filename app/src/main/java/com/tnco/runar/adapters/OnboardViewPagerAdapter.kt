@@ -16,8 +16,8 @@ import com.tnco.runar.controllers.OB_START
 import com.tnco.runar.model.OnboardGuideElementModel
 import com.tnco.runar.presentation.viewmodel.OnboardViewModel
 
-class OnboardViewPagerAdapter(var models: List<OnboardGuideElementModel>,var context:Context, var textSize: Float, var viewModel: OnboardViewModel): PagerAdapter() {
-    lateinit var layoutInflater: LayoutInflater
+class OnboardViewPagerAdapter(private var models: List<OnboardGuideElementModel>, var context:Context, var textSize: Float, var viewModel: OnboardViewModel): PagerAdapter() {
+    private lateinit var layoutInflater: LayoutInflater
 
     override fun getCount(): Int {
         return models.size

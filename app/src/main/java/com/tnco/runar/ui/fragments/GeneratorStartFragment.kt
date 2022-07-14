@@ -64,28 +64,28 @@ class GeneratorStartFragment : Fragment() {
     private fun readDatabase() { // доделать считывание
         listAllIds.clear()
         lifecycleScope.launch {
-            mViewModel.readRunes.observeOnce(viewLifecycleOwner, { listRunes ->
+            mViewModel.readRunes.observeOnce(viewLifecycleOwner) { listRunes ->
                 if (listRunes.isNotEmpty()) {
                     mAdapter.setData(listRunes)
                     listRunes.forEach {
                         listAllIds.add(it.id)
                     }
                 } else requestApiData()
-            })
+            }
         }
     }
 
 
     private fun requestApiData() {
         mViewModel.getRunes()
-        mViewModel.runesResponse.observe(viewLifecycleOwner, { listRunes ->
+        mViewModel.runesResponse.observe(viewLifecycleOwner) { listRunes ->
             if (listRunes.isNotEmpty()) {
                 mAdapter.setData(listRunes)
                 listRunes.forEach {
                     listAllIds.add(it.id)
                 }
             }
-        })
+        }
     }
 
     private fun setupRecyclerView() {
@@ -95,7 +95,7 @@ class GeneratorStartFragment : Fragment() {
         binding.runesRecyclerView.layoutManager = gridLayoutManager
         binding.runesRecyclerView.adapter = mAdapter
 
-        mAdapter.obsSelectedRunes.observe(viewLifecycleOwner, {
+        mAdapter.obsSelectedRunes.observe(viewLifecycleOwner) {
             when (it.size) {
                 1 -> {
                     showRunes(binding.tvRune1, binding.rune1, binding.tvDescRune1, it[0])
@@ -109,7 +109,7 @@ class GeneratorStartFragment : Fragment() {
                     showRunes(binding.tvRune3, binding.rune3, binding.tvDescRune3, it[2])
                 }
             }
-        })
+        }
 
         binding.rune1.setOnClickListener {
             if (mAdapter.obsSelectedRunes.value?.size == 1) {
@@ -193,9 +193,8 @@ class GeneratorStartFragment : Fragment() {
         }
         listId.sort()
         var idsString = ""
-        val count = listId.count()
 
-        when (count) {
+        when (listId.count()) {
             1 -> {
                 idsString = listId[0].toString()
             }

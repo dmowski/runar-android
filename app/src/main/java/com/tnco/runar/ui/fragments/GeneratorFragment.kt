@@ -28,9 +28,9 @@ class GeneratorFragment : Fragment() {
     ): View {
         _binding = FragmerntLayoutGeneratorBinding.inflate(inflater, container, false)
 
-        viewModel.fontSize.observeOnce(this, {
+        viewModel.fontSize.observeOnce(this) {
             binding.tvToolbar.setTextSize(TypedValue.COMPLEX_UNIT_PX, (it * 1.35).toFloat())
-        })
+        }
 
         binding.generatorStav.setOnClickListener {
             activity?.supportFragmentManager?.beginTransaction()

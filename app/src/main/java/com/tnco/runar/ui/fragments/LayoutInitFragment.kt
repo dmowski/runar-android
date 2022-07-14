@@ -31,7 +31,7 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
 
     private val viewModel: InitViewModel by viewModels()
 
-    var preferencesRepository = SharedPreferencesRepository.get()
+    private var preferencesRepository = SharedPreferencesRepository.get()
 
     private lateinit var headerText: String
     private lateinit var descriptionText: String
@@ -76,7 +76,7 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
 
         viewModel.fontSize.observe(viewLifecycleOwner) { textSize ->
             fontSize = textSize
-            val headerTextSize = (textSize * 3).toFloat()
+            val headerTextSize = (textSize * 3.0).toFloat()
             val buttonTextSize = (textSize * 1.65).toFloat()
             binding.descriptionHeaderFrame.setTextSize(TypedValue.COMPLEX_UNIT_PX, headerTextSize)
             binding.descriptionButtonFrame.setTextSize(TypedValue.COMPLEX_UNIT_PX, buttonTextSize)
@@ -252,10 +252,7 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
     }
 
     private fun slotChanger(): Array<Boolean> {
-        var result = false
         var isLast = false //is exist slots to open
-
-
 
         for (i in 0..6) {
             if (runeTable[i][1] == 1) {
@@ -271,10 +268,10 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
                 runeTable[i][1] = 0
                 var minSlot = 10
                 var minValue = 10
-                for (i in 0..6) {
-                    if (runeTable[i][0] < minValue && runeTable[i][0] != 0) {
-                        minSlot = i
-                        minValue = runeTable[i][0]
+                for (j in 0..6) {
+                    if (runeTable[j][0] < minValue && runeTable[j][0] != 0) {
+                        minSlot = j
+                        minValue = runeTable[j][0]
                     }
                 }
                 var activeSlot: ConstraintLayout? = null
@@ -283,21 +280,19 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
                     activeSlot = layoutFrame.getChildAt(minSlot) as ConstraintLayout
 
                     activeSlot.setOnClickListener {
-                        val result = slotChanger()
-                        if (result[1]) {
+                        val array = slotChanger()
+                        if (array[1]) {
                             binding.descriptionButtonFrame.text =
                                 requireContext().resources.getString(R.string.layout_init_button_text2)
                             binding.infoButton.isVisible = false
                         }
                     }
                 } else isLast = true
-                result = true
                 runeSetter(slot, activeSlot, minValue)
-                return arrayOf(result, isLast)
+                return arrayOf(true, isLast)
             }
         }
-        result = false
-        return arrayOf(result, isLast)
+        return arrayOf(false, false)
     }
 
     private fun firstSlotOpener() {
@@ -341,7 +336,7 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
             val runeId = getUniqueRune()
             val ims = context?.assets?.open("runes/${runeId}.png")
             val runeImage = Drawable.createFromStream(ims, null)
-            slot.setBackgroundDrawable(runeImage)
+            slot.background = runeImage
             (slot.getChildAt(0) as TextView).visibility = View.INVISIBLE
             if (activeSlot != null) {
                 activeSlot.setBackgroundResource(R.drawable.slot_active)
@@ -387,7 +382,7 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
     }
 
     private fun getUniqueRune(): Int {
-        var minRuneLvl = preferencesRepository.minRuneLvl
+        val minRuneLvl = preferencesRepository.minRuneLvl
         var randomRunesList: Array<Array<Int>> = Array(3) { Array(7) { 0 } }
         var randomRunesListSize = 0
         //RunarLogger.logDebug(minRuneLvl.toString())
@@ -398,7 +393,15 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
                 for (i in 0..24) {
                     if (runesList[i][0] == randomNumber) {
                         randomRunesList[randomRunesListSize] =
-                            arrayOf(runesList[i][0], runesList[i][1], runesList[i][2], runesList[i][3], i, randomNumber, runesList[i][2])
+                            arrayOf(
+                                runesList[i][0],
+                                runesList[i][1],
+                                runesList[i][2],
+                                runesList[i][3],
+                                i,
+                                randomNumber,
+                                runesList[i][2]
+                            )
                         randomRunesListSize++
                         runesList[i] = arrayOf(0, 0, 0, 0)
                         //RunarLogger.logDebug("found: $randomRunesListSize")
@@ -411,10 +414,12 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
                     for (i2 in 0..1) {
                         if (runesList[i][i2] == randomNumber) {
                             randomRunesList[randomRunesListSize] =
-                                arrayOf(runesList[i][0],
+                                arrayOf(
+                                    runesList[i][0],
                                     runesList[i][1],
                                     runesList[i][2],
-                                    runesList[i][3], i, randomNumber, runesList[i][i2+2])
+                                    runesList[i][3], i, randomNumber, runesList[i][i2 + 2]
+                                )
                             randomRunesListSize++
                             exit = true
                             runesList[i] = arrayOf(0, 0, 0, 0)
@@ -429,14 +434,17 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
         //RunarLogger.logDebug(randomRunesList.contentDeepToString())
         randomRunesList = randomRunesList.sortedWith(compareBy { it[6] }).toTypedArray()
         //RunarLogger.logDebug(randomRunesList.contentDeepToString())
-        val randomLvl = minRuneLvl
-        var result =0
-        for(n in 0..2){
-            if(n==randomLvl){
+        var result = 0
+        for (n in 0..2) {
+            if (n == minRuneLvl) {
                 result = randomRunesList[n][5]
-            }
-            else{
-                runesList[randomRunesList[n][4]]= arrayOf(randomRunesList[n][0],randomRunesList[n][1],randomRunesList[n][2],randomRunesList[n][3])
+            } else {
+                runesList[randomRunesList[n][4]] = arrayOf(
+                    randomRunesList[n][0],
+                    randomRunesList[n][1],
+                    randomRunesList[n][2],
+                    randomRunesList[n][3]
+                )
             }
         }
         return result

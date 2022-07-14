@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -18,13 +17,13 @@ import com.tnco.runar.ui.activity.MainActivity
 
 class GeneratorBackground : Fragment() {
     private lateinit var viewModel: MainViewModel
-    lateinit var backgroundImgRecyclerView: RecyclerView
-    lateinit var progressBar: ProgressBar
-    lateinit var pointLayout: LinearLayout
-    lateinit var btn_next: TextView
-    lateinit var textSelectBackground: TextView
-    var hasSelected = false
-    val pointsList = mutableListOf<ImageView>()
+    private lateinit var backgroundImgRecyclerView: RecyclerView
+    private lateinit var progressBar: ProgressBar
+    private lateinit var pointLayout: LinearLayout
+    private lateinit var btn_next: TextView
+    private lateinit var textSelectBackground: TextView
+    private var hasSelected = false
+    private val pointsList = mutableListOf<ImageView>()
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -33,8 +32,8 @@ class GeneratorBackground : Fragment() {
 
         progressBar = view.findViewById(R.id.generatorProgressBar)
         pointLayout = view.findViewById(R.id.points)
-        btn_next = view.findViewById<TextView>(R.id.button_next)
-        textSelectBackground = view.findViewById<TextView>(R.id.textSelectBackground)
+        btn_next = view.findViewById(R.id.button_next)
+        textSelectBackground = view.findViewById(R.id.textSelectBackground)
         textSelectBackground.visibility = View.GONE
         btn_next.setOnClickListener {
             activity?.supportFragmentManager?.beginTransaction()
@@ -72,14 +71,14 @@ class GeneratorBackground : Fragment() {
         }
 
 
-        viewModel.backgroundInfo.observe(activity as MainActivity, Observer {
+        viewModel.backgroundInfo.observe(activity as MainActivity) {
             if (viewModel.backgroundInfo.value!!.isNotEmpty()) {
                 progressBar.visibility = View.GONE
                 textSelectBackground.visibility = if (!hasSelected) View.VISIBLE else View.GONE
                 pointsList.clear()
                 pointLayout.removeAllViews()
                 val inflater = LayoutInflater.from(view.context)
-                for (i in 0..viewModel.backgroundInfo.value!!.size - 1) {
+                for (i in 0 until viewModel.backgroundInfo.value!!.size) {
                     val point =
                         inflater.inflate(R.layout.point_image_view, pointLayout, false) as ImageView
                     if (!hasSelected) {
@@ -97,7 +96,7 @@ class GeneratorBackground : Fragment() {
 
             }
             backgroundImgRecyclerView.adapter?.notifyDataSetChanged()
-        })
+        }
         (activity as MainActivity).hideBottomBar()
     }
 
@@ -122,7 +121,7 @@ class GeneratorBackground : Fragment() {
             }
         }
 
-        hasSelected = data.filter { it.isSelected }.count() > 0
+        hasSelected = data.any { it.isSelected }
         if (hasSelected) {
             btn_next.visibility = View.VISIBLE
             textSelectBackground.visibility = View.GONE
@@ -132,7 +131,7 @@ class GeneratorBackground : Fragment() {
         }
 
 
-        viewModel.backgroundInfo.setValue(data)
+        viewModel.backgroundInfo.value = data
     }
 
 }

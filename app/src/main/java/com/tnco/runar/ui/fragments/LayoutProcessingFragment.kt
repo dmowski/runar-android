@@ -54,7 +54,7 @@ class LayoutProcessingFragment : Fragment(R.layout.fragment_layout_processing) {
             binding.descriptionHeaderFrame.text = name
         }
         viewModel.fontSize.observe(viewLifecycleOwner) { textSize ->
-            val headerTextSize = (textSize * 3).toFloat()
+            val headerTextSize = (textSize * 3.0).toFloat()
             val buttonTextSize = (textSize * 1.65).toFloat()
             val simpleTextSize = (textSize * 0.8).toFloat()
             val advertHeaderTextSize = (textSize * 1.2).toFloat()

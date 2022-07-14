@@ -81,7 +81,7 @@ private fun Bars(navigator: Navigator?) {
     val barFont = FontFamily(Font(R.font.roboto_medium))
     val barFontSize = with(LocalDensity.current) { ((fontSize!! * 1.35).toFloat()).toSp() }
     var barText = stringResource(id = R.string.library_bar_fav)
-    var navIcon: @Composable() (() -> Unit)? = null
+    var navIcon: @Composable (() -> Unit)? = null
     var navActions: @Composable RowScope.() -> Unit = {}
 
     val checkedState = remember { mutableStateOf(false) }
