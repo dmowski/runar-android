@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.tnco.runar.controllers.AnalyticsHelper
+import com.tnco.runar.controllers.FAVOURITE_DRAWS_DELETED
 import com.tnco.runar.model.*
 import com.tnco.runar.repository.DatabaseRepository
 import com.tnco.runar.repository.SharedDataRepository
@@ -59,7 +60,7 @@ class FavouriteViewModel: ViewModel() {
             if(item.selected!=null){
                 if(item.selected!!){
                     idsList.add(item.id!!)
-                    AnalyticsHelper.favouriteDrawsDeleted(item.layoutId!!)
+                    AnalyticsHelper.sendEventDraw(FAVOURITE_DRAWS_DELETED, item.layoutId!!)
                 }
             }
         }

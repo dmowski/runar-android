@@ -12,6 +12,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.tnco.runar.R
 import com.tnco.runar.controllers.AnalyticsHelper
+import com.tnco.runar.controllers.INTERPRETATION_VIEWED
 import com.tnco.runar.controllers.MusicController
 import com.tnco.runar.databinding.FragmentLayoutProcessingBinding
 import com.tnco.runar.presentation.viewmodel.ProcessingViewModel
@@ -112,7 +113,7 @@ class LayoutProcessingFragment : Fragment(R.layout.fragment_layout_processing) {
                 binding.progressOfLoadingView.progress = i
                 delay(50)
             }
-            AnalyticsHelper.interpretationViewed(layoutId)
+            AnalyticsHelper.sendEventDraw(INTERPRETATION_VIEWED, layoutId)
             navigator?.navigateToInterpretationFragment(layoutId, userLayout)
         }
     }
