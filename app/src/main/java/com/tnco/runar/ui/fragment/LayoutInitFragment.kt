@@ -15,6 +15,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.tnco.runar.R
 import com.tnco.runar.analytics.AnalyticsHelper
+import com.tnco.runar.analytics.INTERPRETATION_STARTED
+import com.tnco.runar.analytics.RUNE_OPENED
 import com.tnco.runar.databinding.FragmentLayoutInitBinding
 import com.tnco.runar.repository.SharedPreferencesRepository
 import com.tnco.runar.ui.Navigator
@@ -236,7 +238,7 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
                 } else if (!result[0]) {
                     val userLayout = layoutTable.toIntArray()
                     if (userLayout[0] == itemsChecker(userLayout)) {
-                        AnalyticsHelper.interpretationStarted(layoutId)
+                        AnalyticsHelper.sendEventDraw(INTERPRETATION_STARTED, layoutId)
                         navigator?.navigateToLayoutProcessingFragment(layoutId, userLayout)
                     }
                 }
@@ -331,7 +333,7 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
         activeSlot: ConstraintLayout?,
         childNumber: Int
     ) {
-        AnalyticsHelper.runeOpened()
+        AnalyticsHelper.sendEvent(RUNE_OPENED)
         lifecycleScope.launch {
             threadCounter++
             blockButton(false)
@@ -387,7 +389,7 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
     private fun getUniqueRune(): Int {
         var minRuneLvl = preferencesRepository.minRuneLvl
         var randomRunesList: Array<Array<Int>> = Array(3) { Array(7) { 0 } }
-        var randomRunesListSize = 0;
+        var randomRunesListSize = 0
         //RunarLogger.logDebug(minRuneLvl.toString())
         while (randomRunesListSize < 3) {
             val randomNumber = Random.nextInt(1, 42)

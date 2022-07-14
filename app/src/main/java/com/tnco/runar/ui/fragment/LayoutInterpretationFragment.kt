@@ -22,6 +22,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.tnco.runar.R
 import com.tnco.runar.analytics.AnalyticsHelper
+import com.tnco.runar.analytics.DRAWS_SAVED
+import com.tnco.runar.analytics.RUNE_VIEWED
 import com.tnco.runar.databinding.FragmentLayoutInterpretationBinding
 import com.tnco.runar.ui.Navigator
 import com.tnco.runar.ui.viewmodel.InterpretationViewModel
@@ -1143,7 +1145,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
         when (v?.id) {
             R.id.description_button_frame -> {
                 if (binding.checkbox.isChecked) {
-                    AnalyticsHelper.drawsSaved(layoutId)
+                    AnalyticsHelper.sendEventDraw(DRAWS_SAVED, layoutId)
                     viewModel.saveUserLayout()
                 }
                 navigator?.navigateToDefaultAndShowBottomNavBar()
@@ -1188,7 +1190,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
     }
 
     private fun showDescriptionOfSelectedRune(v: View?) {
-        AnalyticsHelper.runeView()
+        AnalyticsHelper.sendEvent(RUNE_VIEWED)
 
         readyToReturn = false
         defaultConstraintSet.applyTo(runesLayout)

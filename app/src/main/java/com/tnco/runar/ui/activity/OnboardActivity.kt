@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.viewpager.widget.ViewPager
 import com.tnco.runar.R
-import com.tnco.runar.analytics.AnalyticsHelper
+import com.tnco.runar.analytics.*
 import com.tnco.runar.databinding.ActivityOnboardBinding
 import com.tnco.runar.feature.MusicController
 import com.tnco.runar.model.OnboardGuideElementModel
@@ -46,10 +46,10 @@ class OnboardActivity : AppCompatActivity() {
         viewModel.changeCurrentPosition(0)
         viewModel.nextActivity(false)
 
-        AnalyticsHelper.ob1()
+        AnalyticsHelper.sendEvent(OB_ABOUT_OPENED)
 
         binding.skipButton.setOnClickListener {
-            AnalyticsHelper.obSkip()
+            AnalyticsHelper.sendEvent(OB_SKIP)
             closeActivity()
         }
 
@@ -77,11 +77,11 @@ class OnboardActivity : AppCompatActivity() {
             override fun onPageSelected(position: Int) {
                 viewModel.changeCurrentPosition(position)
                 when(position){
-                    0-> AnalyticsHelper.ob1()
-                    1-> AnalyticsHelper.ob2()
-                    2-> AnalyticsHelper.ob3()
-                    3-> AnalyticsHelper.ob4()
-                    4-> AnalyticsHelper.ob5()
+                    0-> AnalyticsHelper.sendEvent(OB_ABOUT_OPENED)
+                    1-> AnalyticsHelper.sendEvent(OB_FORTUNE_OPENED)
+                    2-> AnalyticsHelper.sendEvent(OB_INTERPRETATION_OPENED)
+                    3-> AnalyticsHelper.sendEvent(OB_FAVOURITES_OPENED)
+                    4-> AnalyticsHelper.sendEvent(OB_LIBRARY_OPENED)
                 }
                 currentPosition = position
             }

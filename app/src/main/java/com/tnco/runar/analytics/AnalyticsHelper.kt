@@ -5,7 +5,29 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.ktx.Firebase
 
+const val RUNE_OPENED = "rune_open"
+const val RUNE_VIEWED = "rune_viewed"
+const val FAVOURITE_OPENED = "favourite_opened"
+const val LIBRARY_OPENED = "library_opened"
+const val OB_ABOUT_OPENED = "ob1_about_opened"
+const val OB_FORTUNE_OPENED = "ob2_fortune_opened"
+const val OB_INTERPRETATION_OPENED = "ob3_interpretation_opened"
+const val OB_FAVOURITES_OPENED = "ob4_favourites_opened"
+const val OB_LIBRARY_OPENED = "ob5_library_opened"
+const val OB_NEXT = "ob_next"
+const val OB_SKIP = "ob_skip"
+const val OB_START = "ob_done_and_start"
+private const val DRAW = "draw"
+const val DRAWS_SELECTED = "draws_selected"
+const val DRAWS_STARTED = "draws_started"
+const val INTERPRETATION_STARTED = "interpretation_started"
+const val INTERPRETATION_VIEWED = "interpretation_viewed"
+const val DRAWS_SAVED = "draws_saved"
+const val FAVOURITE_DRAWS_OPENED = "favourite_draws_opened"
+const val FAVOURITE_DRAWS_DELETED = "favourite_draws_deleted"
+
 object AnalyticsHelper {
+
     private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     fun init() {
@@ -18,123 +40,31 @@ object AnalyticsHelper {
         firebaseAnalytics.logEvent("script_interruption", bundle)
     }
 
-    fun drawsSelected(type: Int) {
-        val bundle = Bundle()
-        bundle.putString("draw", convertLayoutIdToName(type))
-        firebaseAnalytics.logEvent("draws_selected", bundle)
-    }
-
-    fun drawsStarted(type: Int) {
-        val bundle = Bundle()
-        bundle.putString("draw", convertLayoutIdToName(type))
-        firebaseAnalytics.logEvent("draws_started", bundle)
-    }
-
-    fun runeOpened() {
-        val bundle = Bundle()
-        firebaseAnalytics.logEvent("rune_opened", bundle)
-    }
-
-    fun interpretationStarted(type: Int){
-        val bundle = Bundle()
-        bundle.putString("draw", convertLayoutIdToName(type))
-        firebaseAnalytics.logEvent("interpretation_started", bundle)
-    }
-
-    fun musicLinkOpened(group: String,trackName: String){
+    fun musicLinkOpened(group: String, trackName: String) {
         val bundle = Bundle()
         bundle.putString("group_name", group)
         bundle.putString("track_name", trackName)
         firebaseAnalytics.logEvent("music_link_opened", bundle)
     }
 
-    fun interpretationViewed(type: Int){
-        val bundle = Bundle()
-        bundle.putString("draw", convertLayoutIdToName(type))
-        firebaseAnalytics.logEvent("interpretation_viewed", bundle)
-    }
-
-    fun runeView(){
-        val bundle = Bundle()
-        firebaseAnalytics.logEvent("rune_viewed", bundle)
-    }
-
-    fun drawsSaved(type: Int){
-        val bundle = Bundle()
-        bundle.putString("draw", convertLayoutIdToName(type))
-        firebaseAnalytics.logEvent("draws_saved", bundle)
-    }
-
-    fun favouriteOpened(){
-        val bundle = Bundle()
-        firebaseAnalytics.logEvent("favourite_opened", bundle)
-    }
-
-    fun favouriteDrawsOpened(type: Int){
-        val bundle = Bundle()
-        bundle.putString("draw", convertLayoutIdToName(type))
-        firebaseAnalytics.logEvent("favourite_draws_opened", bundle)
-    }
-
-    fun favouriteDrawsDeleted(type: Int){
-        val bundle = Bundle()
-        bundle.putString("draw", convertLayoutIdToName(type))
-        firebaseAnalytics.logEvent("favourite_draws_deleted", bundle)
-    }
-
-    fun libraryOpened(){
-        val bundle = Bundle()
-        firebaseAnalytics.logEvent("library_opened", bundle)
-    }
-
-    fun librarySectionOpened(section: String){
+    fun librarySectionOpened(section: String) {
         val bundle = Bundle()
         bundle.putString("section", section)
         firebaseAnalytics.logEvent("library_section_opened", bundle)
     }
 
-    fun ob1(){
+    fun sendEvent(event: String) {
         val bundle = Bundle()
-        firebaseAnalytics.logEvent("ob1_about_opened", bundle)
+        firebaseAnalytics.logEvent(event, bundle)
     }
 
-    fun ob2(){
+    fun sendEventDraw(event: String, type: Int) {
         val bundle = Bundle()
-        firebaseAnalytics.logEvent("ob2_fortune_opened", bundle)
+        bundle.putString(DRAW, convertLayoutIdToName(type))
+        firebaseAnalytics.logEvent(event, bundle)
     }
 
-    fun ob3(){
-        val bundle = Bundle()
-        firebaseAnalytics.logEvent("ob3_interpretation_opened", bundle)
-    }
-
-    fun ob4(){
-        val bundle = Bundle()
-        firebaseAnalytics.logEvent("ob4_favourites_opened", bundle)
-    }
-
-    fun ob5(){
-        val bundle = Bundle()
-        firebaseAnalytics.logEvent("ob5_library_opened", bundle)
-    }
-
-    fun obNext(){
-        val bundle = Bundle()
-        firebaseAnalytics.logEvent("ob_next", bundle)
-    }
-
-    fun obSkip(){
-        val bundle = Bundle()
-        firebaseAnalytics.logEvent("ob_skip", bundle)
-    }
-
-    fun obStart(){
-        val bundle = Bundle()
-        firebaseAnalytics.logEvent("ob_done_and_start", bundle)
-    }
-
-
-    private fun convertLayoutIdToName(id:Int): String{
+    private fun convertLayoutIdToName(id: Int): String {
         val layoutName = when (id) {
             1 -> "rune_of_the_day"
             2 -> "two_runes"

@@ -5,16 +5,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -34,6 +29,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.tnco.runar.R
 import com.tnco.runar.analytics.AnalyticsHelper
+import com.tnco.runar.analytics.FAVOURITE_DRAWS_OPENED
+import com.tnco.runar.analytics.FAVOURITE_OPENED
 import com.tnco.runar.ui.Navigator
 import com.tnco.runar.ui.component.dialog.SavedLayoutsDialog
 import com.tnco.runar.ui.viewmodel.FavouriteViewModel
@@ -67,7 +64,7 @@ class FavouriteFragment : Fragment() {
                 Bars(navigator)
             }
         }
-        AnalyticsHelper.favouriteOpened()
+        AnalyticsHelper.sendEvent(FAVOURITE_OPENED)
         view.isFocusableInTouchMode = true
         view.requestFocus()
         return view
@@ -150,7 +147,7 @@ private fun Bars(navigator: Navigator?) {
                             text = item.content!!,
                             header = item.header!!,
                             clickAction = {
-                                AnalyticsHelper.favouriteDrawsOpened(item.layoutId!!)
+                                AnalyticsHelper.sendEventDraw(FAVOURITE_DRAWS_OPENED, item.layoutId!!)
                                 navigator?.navigateToFavInterpretationFragment(
                                     layoutId = item.layoutId!!,
                                     userLayout = item.userData!!,

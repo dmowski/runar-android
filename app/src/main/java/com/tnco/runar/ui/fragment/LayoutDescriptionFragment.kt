@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.tnco.runar.R
 import com.tnco.runar.analytics.AnalyticsHelper
+import com.tnco.runar.analytics.DRAWS_STARTED
 import com.tnco.runar.databinding.FragmentLayoutDescriptionBinding
 import com.tnco.runar.ui.Navigator
 import com.tnco.runar.ui.viewmodel.DescriptionViewModel
@@ -80,7 +81,7 @@ class LayoutDescriptionFragment : Fragment(R.layout.fragment_layout_description)
                 if (binding.checkbox.isChecked) {
                     viewModel.notShowSelectedLayout(layoutId)
                 }
-                AnalyticsHelper.drawsStarted(layoutId)
+                AnalyticsHelper.sendEventDraw(DRAWS_STARTED, layoutId)
                 navigator?.navigateToLayoutInitFragment(layoutId)
             }
             R.id.checkbox_text -> {

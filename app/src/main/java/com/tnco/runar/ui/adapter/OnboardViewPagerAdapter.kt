@@ -11,6 +11,8 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.viewpager.widget.PagerAdapter
 import com.tnco.runar.R
 import com.tnco.runar.analytics.AnalyticsHelper
+import com.tnco.runar.analytics.OB_NEXT
+import com.tnco.runar.analytics.OB_START
 import com.tnco.runar.model.OnboardGuideElementModel
 import com.tnco.runar.ui.viewmodel.OnboardViewModel
 
@@ -47,11 +49,11 @@ class OnboardViewPagerAdapter(var models: List<OnboardGuideElementModel>,var con
 
         cardButton.setOnClickListener {
             if(position<models.size-1){
-                AnalyticsHelper.obNext()
+                AnalyticsHelper.sendEvent(OB_NEXT)
                 viewModel.changeCurrentPosition(position+1)
             }
             else{
-                AnalyticsHelper.obStart()
+                AnalyticsHelper.sendEvent(OB_START)
                 viewModel.nextActivity(true)
             }
         }
