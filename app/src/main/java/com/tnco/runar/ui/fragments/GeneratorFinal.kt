@@ -11,7 +11,6 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,14 +19,15 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.tnco.runar.R
+import com.tnco.runar.controllers.AnalyticsHelper
+import com.tnco.runar.controllers.GENERATOR_PATTERN_SAVED
+import com.tnco.runar.controllers.GENERATOR_PATTERN_SHARED
 import com.tnco.runar.presentation.viewmodel.MainViewModel
 import com.tnco.runar.ui.activity.MainActivity
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
-import java.net.URI
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -66,6 +66,7 @@ class GeneratorFinal: Fragment() {
 //        instagram = view.findViewById(R.id.instagram)
 
         shareImg.setOnClickListener {
+            AnalyticsHelper.sendEvent(GENERATOR_PATTERN_SHARED)
             val bytes = ByteArrayOutputStream()
             val bmp = (imgFinal.drawable as BitmapDrawable).bitmap
             val title = resources.getString(R.string.share_title)
@@ -91,6 +92,7 @@ class GeneratorFinal: Fragment() {
 
 
         saveImg.setOnClickListener {
+            AnalyticsHelper.sendEvent(GENERATOR_PATTERN_SAVED)
             val fileName = generateFileName()
             val bmp = (imgFinal.drawable as BitmapDrawable).bitmap
             saveImg.visibility = View.INVISIBLE

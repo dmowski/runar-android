@@ -8,13 +8,15 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.tnco.runar.R
+import com.tnco.runar.controllers.AnalyticsHelper
+import com.tnco.runar.controllers.GENERATOR_OPENED
 import com.tnco.runar.databinding.FragmerntLayoutGeneratorBinding
 import com.tnco.runar.extensions.observeOnce
 import com.tnco.runar.presentation.viewmodel.MainViewModel
 import com.tnco.runar.ui.activity.MainActivity
 
 
-class GeneratorFragment : Fragment(){
+class GeneratorFragment : Fragment() {
     val viewModel: MainViewModel by viewModels()
 
     private var _binding: FragmerntLayoutGeneratorBinding? = null
@@ -22,10 +24,7 @@ class GeneratorFragment : Fragment(){
 
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmerntLayoutGeneratorBinding.inflate(inflater, container, false)
 
@@ -35,8 +34,7 @@ class GeneratorFragment : Fragment(){
 
         binding.generatorStav.setOnClickListener {
             activity?.supportFragmentManager?.beginTransaction()
-                ?.replace(R.id.fragmentContainer, GeneratorStartFragment())
-                ?.commit()
+                ?.replace(R.id.fragmentContainer, GeneratorStartFragment())?.commit()
         }
         return binding.root
     }
@@ -44,6 +42,7 @@ class GeneratorFragment : Fragment(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        AnalyticsHelper.sendEvent(GENERATOR_OPENED)
         (activity as MainActivity).showBottomBar()
     }
 }

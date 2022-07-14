@@ -25,6 +25,14 @@ const val INTERPRETATION_VIEWED = "interpretation_viewed"
 const val DRAWS_SAVED = "draws_saved"
 const val FAVOURITE_DRAWS_OPENED = "favourite_draws_opened"
 const val FAVOURITE_DRAWS_DELETED = "favourite_draws_deleted"
+const val GENERATOR_OPENED = "generator_opened"
+const val GENERATOR_PATTERN_SELECTED = "generator_pattern_selected"
+const val GENERATOR_PATTERN_RANDOM_RUNES = "generator_pattern_random_runes"
+const val GENERATOR_PATTERN_CREATED = "generator_pattern_created"
+const val GENERATOR_PATTERN_NEW_TYPE = "generator_pattern_new_type"
+const val GENERATOR_PATTERN_SELECTION_BACKGROUND = "generator_pattern_selection_background"
+const val GENERATOR_PATTERN_SAVED = "generator_pattern_saved"
+const val GENERATOR_PATTERN_SHARED = "generator_pattern_shared"
 
 object AnalyticsHelper {
 

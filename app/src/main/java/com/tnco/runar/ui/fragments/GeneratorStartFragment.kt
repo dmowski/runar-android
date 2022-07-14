@@ -2,11 +2,9 @@ package com.tnco.runar.ui.fragments
 
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -16,10 +14,12 @@ import androidx.recyclerview.widget.GridLayoutManager
 import coil.load
 import com.tnco.runar.R
 import com.tnco.runar.adapters.RunesGeneratorAdapter
+import com.tnco.runar.controllers.AnalyticsHelper
+import com.tnco.runar.controllers.GENERATOR_PATTERN_RANDOM_RUNES
+import com.tnco.runar.controllers.GENERATOR_PATTERN_SELECTED
 import com.tnco.runar.databinding.FragmentGeneratorStartBinding
 import com.tnco.runar.extensions.observeOnce
 import com.tnco.runar.model.RunesItemsModel
-import com.tnco.runar.presentation.viewmodel.GeneratorStartViewModel
 import com.tnco.runar.presentation.viewmodel.MainViewModel
 import com.tnco.runar.ui.activity.MainActivity
 import kotlinx.coroutines.launch
@@ -45,7 +45,7 @@ class GeneratorStartFragment : Fragment() {
             activity?.onBackPressed()
         }
         mViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
-
+        AnalyticsHelper.sendEvent(GENERATOR_PATTERN_SELECTED)
         setupRecyclerView()
         readDatabase()
 
@@ -160,7 +160,7 @@ class GeneratorStartFragment : Fragment() {
 
 
     private fun randomRunes() {
-
+        AnalyticsHelper.sendEvent(GENERATOR_PATTERN_RANDOM_RUNES)
         val count = (1..3).random()
         listId.clear()
         for (i in 0 until count) {
@@ -169,7 +169,7 @@ class GeneratorStartFragment : Fragment() {
         }
         listId.sort()
         var idsString = ""
-        when(count){
+        when (count) {
             1 -> {
                 idsString = listId[0].toString()
             }
@@ -195,7 +195,7 @@ class GeneratorStartFragment : Fragment() {
         var idsString = ""
         val count = listId.count()
 
-        when(count){
+        when (count) {
             1 -> {
                 idsString = listId[0].toString()
             }
