@@ -15,14 +15,15 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.tnco.runar.R
 import com.tnco.runar.controllers.AnalyticsHelper
-import com.tnco.runar.controllers.INTERPRETATION_STARTED
-import com.tnco.runar.controllers.RUNE_OPENED
 import com.tnco.runar.databinding.FragmentLayoutInitBinding
+import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.extensions.setOnCLickListenerForAll
 import com.tnco.runar.presentation.viewmodel.InitViewModel
 import com.tnco.runar.repository.SharedPreferencesRepository
 import com.tnco.runar.ui.Navigator
 import com.tnco.runar.ui.dialogs.DescriptionDialog
+import com.tnco.runar.utils.AnalyticsConstants
+import com.tnco.runar.utils.AnalyticsUtils
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.random.Random
@@ -76,8 +77,8 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
 
         viewModel.fontSize.observe(viewLifecycleOwner) { textSize ->
             fontSize = textSize
-            val headerTextSize = (textSize * 3.0).toFloat()
-            val buttonTextSize = (textSize * 1.65).toFloat()
+            val headerTextSize = (textSize * 3.0f)
+            val buttonTextSize = (textSize * 1.65f)
             binding.descriptionHeaderFrame.setTextSize(TypedValue.COMPLEX_UNIT_PX, headerTextSize)
             binding.descriptionButtonFrame.setTextSize(TypedValue.COMPLEX_UNIT_PX, buttonTextSize)
         }
@@ -238,7 +239,12 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
                 } else if (!result[0]) {
                     val userLayout = layoutTable.toIntArray()
                     if (userLayout[0] == itemsChecker(userLayout)) {
-                        AnalyticsHelper.sendEventDraw(INTERPRETATION_STARTED, layoutId)
+                        val layoutName = AnalyticsUtils.convertLayoutIdToName(layoutId)
+                        AnalyticsHelper.sendEvent(
+                            AnalyticsEvent.INTERPRETATION_STARTED, Pair(
+                                AnalyticsConstants.DRAW_RUNE_LAYOUT, layoutName
+                            )
+                        )
                         navigator?.navigateToLayoutProcessingFragment(layoutId, userLayout)
                     }
                 }
@@ -328,7 +334,7 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
         activeSlot: ConstraintLayout?,
         childNumber: Int
     ) {
-        AnalyticsHelper.sendEvent(RUNE_OPENED)
+        AnalyticsHelper.sendEvent(AnalyticsEvent.RUNE_OPENED)
         lifecycleScope.launch {
             threadCounter++
             blockButton(false)

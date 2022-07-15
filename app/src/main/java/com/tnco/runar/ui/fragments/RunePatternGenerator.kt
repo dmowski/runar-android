@@ -10,8 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.tnco.runar.R
 import com.tnco.runar.controllers.AnalyticsHelper
-import com.tnco.runar.controllers.GENERATOR_PATTERN_CREATED
-import com.tnco.runar.controllers.GENERATOR_PATTERN_NEW_TYPE
+import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.presentation.viewmodel.MainViewModel
 import com.tnco.runar.ui.activity.MainActivity
 
@@ -33,7 +32,7 @@ class RunePatternGenerator : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        AnalyticsHelper.sendEvent(GENERATOR_PATTERN_CREATED)
+        AnalyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_PATTERN_CREATED)
         (activity as MainActivity).hideBottomBar()
 
         imgRune = view.findViewById(R.id.imageRune)
@@ -58,7 +57,7 @@ class RunePatternGenerator : Fragment() {
 
 
         nextType.setOnClickListener {
-            AnalyticsHelper.sendEvent(GENERATOR_PATTERN_NEW_TYPE)
+            AnalyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_PATTERN_NEW_TYPE)
             viewModel.selectedRuneIndex += 1
             if (viewModel.selectedRuneIndex > viewModel.runesImages.size - 1) {
                 viewModel.selectedRuneIndex = 0

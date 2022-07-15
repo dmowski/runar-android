@@ -9,13 +9,16 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.tnco.runar.R
 import com.tnco.runar.controllers.AnalyticsHelper
-import com.tnco.runar.controllers.DRAWS_STARTED
 import com.tnco.runar.databinding.FragmentLayoutDescriptionBinding
+import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.extensions.setOnCLickListenerForAll
 import com.tnco.runar.presentation.viewmodel.DescriptionViewModel
 import com.tnco.runar.ui.Navigator
+import com.tnco.runar.utils.AnalyticsConstants
+import com.tnco.runar.utils.AnalyticsUtils
 
-class LayoutDescriptionFragment : Fragment(R.layout.fragment_layout_description), View.OnClickListener {
+class LayoutDescriptionFragment : Fragment(R.layout.fragment_layout_description),
+    View.OnClickListener {
 
     private val viewModel: DescriptionViewModel by viewModels()
     private var layoutId: Int = 0
@@ -53,12 +56,19 @@ class LayoutDescriptionFragment : Fragment(R.layout.fragment_layout_description)
                 if (layoutDescriptionModel != null) {
                     binding.descriptionHeaderFrame.text = layoutDescriptionModel.layoutName
                     binding.descriptionTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize)
-                    binding.descriptionTextView.text = layoutDescriptionModel.layoutDescription+"\n"
-                    val headerTextSize = (textSize*3.0).toFloat()
-                    val buttonTextSize = (textSize*1.65).toFloat()
-                    val checkBoxTextSize = (textSize*0.8).toFloat()
-                    binding.descriptionHeaderFrame.setTextSize(TypedValue.COMPLEX_UNIT_PX, headerTextSize)
-                    binding.descriptionButtonFrame.setTextSize(TypedValue.COMPLEX_UNIT_PX, buttonTextSize)
+                    binding.descriptionTextView.text =
+                        layoutDescriptionModel.layoutDescription + "\n"
+                    val headerTextSize = (textSize * 3.0f)
+                    val buttonTextSize = (textSize * 1.65f)
+                    val checkBoxTextSize = (textSize * 0.8f)
+                    binding.descriptionHeaderFrame.setTextSize(
+                        TypedValue.COMPLEX_UNIT_PX,
+                        headerTextSize
+                    )
+                    binding.descriptionButtonFrame.setTextSize(
+                        TypedValue.COMPLEX_UNIT_PX,
+                        buttonTextSize
+                    )
                     binding.checkboxText.setTextSize(TypedValue.COMPLEX_UNIT_PX, checkBoxTextSize)
                 }
             }
@@ -74,14 +84,21 @@ class LayoutDescriptionFragment : Fragment(R.layout.fragment_layout_description)
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.exit_button -> {
-                AnalyticsHelper.interruption("layout_description")
+                AnalyticsHelper.sendEvent(
+                    AnalyticsEvent.SCRIPT_INTERRUPTION,
+                    Pair(AnalyticsConstants.PAGE, "layout_description")
+                )
                 requireActivity().onBackPressed()
             }
             R.id.description_button_frame -> {
                 if (binding.checkbox.isChecked) {
                     viewModel.notShowSelectedLayout(layoutId)
                 }
-                AnalyticsHelper.sendEventDraw(DRAWS_STARTED, layoutId)
+                val layoutName = AnalyticsUtils.convertLayoutIdToName(layoutId)
+                AnalyticsHelper.sendEvent(
+                    AnalyticsEvent.DRAWS_STARTED,
+                    Pair(AnalyticsConstants.DRAW_RUNE_LAYOUT, layoutName)
+                )
                 navigator?.navigateToLayoutInitFragment(layoutId)
             }
             R.id.checkbox_text -> {

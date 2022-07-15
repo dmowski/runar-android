@@ -28,8 +28,9 @@ import coil.compose.rememberImagePainter
 import coil.size.OriginalSize
 import com.tnco.runar.R
 import com.tnco.runar.controllers.AnalyticsHelper
-import com.tnco.runar.controllers.LIBRARY_OPENED
+import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.presentation.viewmodel.LibraryViewModel
+import com.tnco.runar.utils.AnalyticsConstants
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -49,7 +50,7 @@ class LibraryFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        AnalyticsHelper.sendEvent(LIBRARY_OPENED)
+        AnalyticsHelper.sendEvent(AnalyticsEvent.LIBRARY_OPENED)
         val view = ComposeView(requireContext()).apply {
             setContent {
                 Bars()
@@ -93,7 +94,7 @@ private fun ItemData(scrollState: ScrollState) {
     }
     if (menuData?.first != null) {
         for (item in menuData?.first!!) {
-            if(item.imageUrl.isNullOrEmpty()) item.imageUrl=""
+            if (item.imageUrl.isNullOrEmpty()) item.imageUrl = ""
             when (item.type) {
                 "root" -> {
                     FirstMenuItem(
@@ -102,7 +103,10 @@ private fun ItemData(scrollState: ScrollState) {
                         text = item.content!!,
                         imgLink = item.imageUrl!!,
                         clickAction = {
-                            AnalyticsHelper.librarySectionOpened(item.title!!)
+                            AnalyticsHelper.sendEvent(
+                                AnalyticsEvent.LIBRARY_SECTION_OPENED,
+                                Pair(AnalyticsConstants.SECTION, item.title!!)
+                            )
                             viewModel.addScrollPositionHistory(scrollState.value)
                             CoroutineScope(Dispatchers.IO).launch {
                                 scrollState.scrollTo(0)
@@ -149,11 +153,11 @@ private fun ItemData(scrollState: ScrollState) {
         }
     }
 
-    viewModel.scrollPositionHistory.observe(LocalLifecycleOwner.current){
+    viewModel.scrollPositionHistory.observe(LocalLifecycleOwner.current) {
         CoroutineScope(Dispatchers.IO).launch {
-            if (it.last()==9999) {
+            if (it.last() == 9999) {
                 delay(50)
-                scrollState.scrollTo(it[it.size-2])
+                scrollState.scrollTo(it[it.size - 2])
                 viewModel.removeLastScrollPositionHistory()
                 viewModel.removeLastScrollPositionHistory()
             }
@@ -170,7 +174,7 @@ private fun Bars() {
 
     var barColor = colorResource(id = R.color.library_top_bar_header)
     var barFont = FontFamily(Font(R.font.roboto_medium))
-    var barFontSize = with(LocalDensity.current) { ((fontSize!! * 1.35).toFloat()).toSp() }
+    var barFontSize = with(LocalDensity.current) { ((fontSize!! * 1.35f)).toSp() }
     var navIcon: @Composable (() -> Unit)? = null
 
     if (header != stringResource(id = R.string.library_top_bar_header)) {
@@ -276,7 +280,8 @@ private fun FirstMenuItem(
                         text = text,
                         color = colorResource(id = R.color.library_item_text),
                         fontFamily = FontFamily(Font(R.font.roboto_regular)),
-                        style = TextStyle(fontSize = with(LocalDensity.current) { ((fontSize * 0.8).toFloat()).toSp() })
+                        style = TextStyle(fontSize = with(LocalDensity.current)
+                            { ((fontSize * 0.8f)).toSp() })
                     )
                 }
                 Box(
@@ -330,7 +335,8 @@ private fun NavigateItem(fontSize: Float, route: List<String>) {
                 if (item == route.last()) color = colorResource(id = R.color.library_nav_selected)
                 Text(
                     text = item,
-                    style = TextStyle(fontSize = with(LocalDensity.current) { ((fontSize * 0.7).toFloat()).toSp() }),
+                    style = TextStyle(fontSize = with(LocalDensity.current)
+                        { ((fontSize * 0.7f)).toSp() }),
                     color = color,
                     fontFamily = FontFamily(Font(R.font.roboto_light)),
                     modifier = Modifier.padding(end = 1.dp)
@@ -342,8 +348,13 @@ private fun NavigateItem(fontSize: Float, route: List<String>) {
 
 @ExperimentalCoilApi
 @Composable
-private fun SecondMenuItem(fontSize: Float, header: String, imgLink: String, clickAction: () -> Unit) {
-    if(imgLink.isEmpty()){
+private fun SecondMenuItem(
+    fontSize: Float,
+    header: String,
+    imgLink: String,
+    clickAction: () -> Unit
+) {
+    if (imgLink.isEmpty()) {
         Row(
             Modifier
                 .fillMaxSize()
@@ -374,7 +385,7 @@ private fun SecondMenuItem(fontSize: Float, header: String, imgLink: String, cli
                         fontFamily = FontFamily(Font(R.font.roboto_regular)),
                         style = TextStyle(
                             fontSize = with(LocalDensity.current) { fontSize.toSp() },
-                            lineHeight = with(LocalDensity.current) { ((fontSize * 1.4).toFloat()).toSp() }),
+                            lineHeight = with(LocalDensity.current) { ((fontSize * 1.4f)).toSp() }),
                         modifier = Modifier
                             .weight(320f)
                             .fillMaxSize()
@@ -408,8 +419,7 @@ private fun SecondMenuItem(fontSize: Float, header: String, imgLink: String, cli
                 )
             }
         }
-    }
-    else{
+    } else {
         Row(
             Modifier
                 .aspectRatio(3.8f, true)
@@ -455,7 +465,10 @@ private fun SecondMenuItem(fontSize: Float, header: String, imgLink: String, cli
                             text = header,
                             color = colorResource(id = R.color.library_item_header),
                             fontFamily = FontFamily(Font(R.font.roboto_regular)),
-                            style = TextStyle(fontSize = with(LocalDensity.current) { fontSize.toSp() },fontWeight = FontWeight.Normal),
+                            style = TextStyle(
+                                fontSize = with(LocalDensity.current) { fontSize.toSp() },
+                                fontWeight = FontWeight.Normal
+                            ),
                             modifier = Modifier.padding(bottom = 2.dp)
                         )
                     }
@@ -498,16 +511,16 @@ private fun ThirdMenuItem(fontSize: Float, text: String, title: String) {
             text = title,
             color = colorResource(id = R.color.library_third_id),
             fontFamily = FontFamily(Font(R.font.roboto_bold)),
-            style = TextStyle(fontSize = with(LocalDensity.current) { ((fontSize * 0.9).toFloat()).toSp() })
+            style = TextStyle(fontSize = with(LocalDensity.current) { ((fontSize * 0.9f)).toSp() })
         )
         Text(
             text = text,
             color = colorResource(id = R.color.library_third_text),
             fontFamily = FontFamily(Font(R.font.roboto_light)),
             style = TextStyle(
-                fontSize = with(LocalDensity.current) { ((fontSize * 0.95).toFloat()).toSp() },
+                fontSize = with(LocalDensity.current) { ((fontSize * 0.95f)).toSp() },
                 textAlign = TextAlign.Center,
-                lineHeight = with(LocalDensity.current) { ((fontSize * 1.4).toFloat()).toSp() }),
+                lineHeight = with(LocalDensity.current) { ((fontSize * 1.4f)).toSp() }),
             modifier = Modifier.padding(top = 5.dp)
         )
         Box(Modifier.aspectRatio(35f))
@@ -538,9 +551,9 @@ private fun SimpleTextItem(fontSize: Float, text: String?, urlTitle: String?, ur
                     color = colorResource(id = R.color.library_simple_text),
                     fontFamily = FontFamily(Font(R.font.roboto_light)),
                     style = TextStyle(
-                        fontSize = with(LocalDensity.current) { ((fontSize * 0.95).toFloat()).toSp() },
+                        fontSize = with(LocalDensity.current) { ((fontSize * 0.95f)).toSp() },
                         textAlign = TextAlign.Start,
-                        lineHeight = with(LocalDensity.current) { ((fontSize * 1.4).toFloat()).toSp() }),
+                        lineHeight = with(LocalDensity.current) { ((fontSize * 1.4f)).toSp() }),
                 )
             }
             if (!urlLink.isNullOrEmpty() && !urlTitle.isNullOrEmpty()) {
@@ -560,7 +573,7 @@ private fun SimpleTextItem(fontSize: Float, text: String?, urlTitle: String?, ur
                     )
                     addStyle(
                         style = ParagraphStyle(
-                            lineHeight = with(LocalDensity.current) { ((fontSize * 1.05).toFloat()).toSp() }
+                            lineHeight = with(LocalDensity.current) { ((fontSize * 1.05f)).toSp() }
                         ), start = 0, end = annotatedText.length
                     )
                     addStringAnnotation(
@@ -575,7 +588,7 @@ private fun SimpleTextItem(fontSize: Float, text: String?, urlTitle: String?, ur
                 ClickableText(
                     text = annotatedLinkString,
                     style = TextStyle(
-                        fontSize = with(LocalDensity.current) { ((fontSize * 0.7).toFloat()).toSp() },
+                        fontSize = with(LocalDensity.current) { ((fontSize * 0.7f)).toSp() },
                         fontFamily = FontFamily(Font(R.font.roboto_light)),
                         color = colorResource(
                             id = R.color.url_text_color
@@ -617,7 +630,7 @@ private fun RuneDescription(fontSize: Float, header: String, text: String, imgLi
             color = colorResource(id = R.color.lib_run_header),
             fontFamily = FontFamily(Font(R.font.roboto_regular)),
             style = TextStyle(
-                fontSize = with(LocalDensity.current) { ((fontSize * 1.2).toFloat()).toSp() },
+                fontSize = with(LocalDensity.current) { ((fontSize * 1.2f)).toSp() },
                 textAlign = TextAlign.Center,
             ),
         )
@@ -662,9 +675,9 @@ private fun RuneDescription(fontSize: Float, header: String, text: String, imgLi
                         color = colorResource(id = R.color.library_third_text),
                         fontFamily = FontFamily(Font(R.font.roboto_light)),
                         style = TextStyle(
-                            fontSize = with(LocalDensity.current) { ((fontSize * 0.95).toFloat()).toSp() },
+                            fontSize = with(LocalDensity.current) { ((fontSize * 0.95f)).toSp() },
                             textAlign = TextAlign.Start,
-                            lineHeight = with(LocalDensity.current) { ((fontSize * 1.4).toFloat()).toSp() }),
+                            lineHeight = with(LocalDensity.current) { ((fontSize * 1.4f)).toSp() }),
                         modifier = Modifier.padding(top = 5.dp)
                     )
                     Box(Modifier.aspectRatio(12f))

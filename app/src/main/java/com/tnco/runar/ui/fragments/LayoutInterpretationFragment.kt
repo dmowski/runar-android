@@ -25,12 +25,13 @@ import com.tnco.runar.customClasses.InterTagHandler
 import com.tnco.runar.customClasses.OnSwipeTouchListener
 import com.tnco.runar.R
 import com.tnco.runar.controllers.AnalyticsHelper
-import com.tnco.runar.controllers.DRAWS_SAVED
-import com.tnco.runar.controllers.RUNE_VIEWED
 import com.tnco.runar.databinding.FragmentLayoutInterpretationBinding
+import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.extensions.setOnCLickListenerForAll
 import com.tnco.runar.presentation.viewmodel.InterpretationViewModel
 import com.tnco.runar.ui.Navigator
+import com.tnco.runar.utils.AnalyticsConstants
+import com.tnco.runar.utils.AnalyticsUtils
 
 class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpretation),
     View.OnClickListener {
@@ -104,12 +105,12 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
             if (interpretation != null) {
 
                 fontSize = interpretation
-                val headerTextSize = (interpretation * 3.0).toFloat()
-                val buttonTextSize = (interpretation * 1.65).toFloat()
-                val checkboxTextSize = (interpretation * 0.8).toFloat()
-                val runeNameTextSize = (interpretation * 1.2).toFloat()
-                val littleTextSize = (interpretation * 0.75).toFloat()
-                val sacrTextSize = (interpretation * 0.6).toFloat()
+                val headerTextSize = (interpretation * 3.0f)
+                val buttonTextSize = (interpretation * 1.65f)
+                val checkboxTextSize = (interpretation * 0.8f)
+                val runeNameTextSize = (interpretation * 1.2f)
+                val littleTextSize = (interpretation * 0.75f)
+                val sacrTextSize = (interpretation * 0.6f)
                 binding.descriptionHeaderFrame.setTextSize(
                     TypedValue.COMPLEX_UNIT_PX,
                     headerTextSize
@@ -120,11 +121,11 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                 )
                 binding.sacrButtonHeader.setTextSize(
                     TypedValue.COMPLEX_UNIT_PX,
-                    (runeNameTextSize * 1.2).toFloat()
+                    (runeNameTextSize * 1.2f)
                 )
                 binding.sacrButtonText.setTextSize(
                     TypedValue.COMPLEX_UNIT_PX,
-                    (sacrTextSize * 1.2).toFloat()
+                    (sacrTextSize * 1.2f)
                 )
 
                 binding.checkboxText.setTextSize(TypedValue.COMPLEX_UNIT_PX, checkboxTextSize)
@@ -973,7 +974,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                         }
                         viewModel.currentInterpretation.observe(viewLifecycleOwner) { interpretation ->
                             if (!interpretation.isNullOrBlank()) {
-                                val newFontSize = (fontSize * 0.95).toFloat()
+                                val newFontSize = (fontSize * 0.95f)
                                 binding.interpretationText.setTextSize(
                                     TypedValue.COMPLEX_UNIT_PX,
                                     newFontSize
@@ -1178,7 +1179,11 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
         when (v?.id) {
             R.id.description_button_frame -> {
                 if (binding.checkbox.isChecked) {
-                    AnalyticsHelper.sendEventDraw(DRAWS_SAVED, layoutId)
+                    val layoutName = AnalyticsUtils.convertLayoutIdToName(layoutId)
+                    AnalyticsHelper.sendEvent(
+                        AnalyticsEvent.DRAWS_SAVED,
+                        Pair(AnalyticsConstants.DRAW_RUNE_LAYOUT, layoutName)
+                    )
                     viewModel.saveUserLayout()
                 }
                 navigator?.navigateToDefaultAndShowBottomNavBar()
@@ -1223,7 +1228,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
     }
 
     private fun showDescriptionOfSelectedRune(v: View?) {
-        AnalyticsHelper.sendEvent(RUNE_VIEWED)
+        AnalyticsHelper.sendEvent(AnalyticsEvent.RUNE_VIEWED)
 
         readyToReturn = false
         defaultConstraintSet.applyTo(runesLayout)

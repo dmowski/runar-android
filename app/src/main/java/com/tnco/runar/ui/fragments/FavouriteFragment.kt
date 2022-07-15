@@ -29,11 +29,12 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.tnco.runar.R
 import com.tnco.runar.controllers.AnalyticsHelper
-import com.tnco.runar.controllers.FAVOURITE_DRAWS_OPENED
-import com.tnco.runar.controllers.FAVOURITE_OPENED
+import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.presentation.viewmodel.FavouriteViewModel
 import com.tnco.runar.ui.Navigator
 import com.tnco.runar.ui.dialogs.SavedLayoutsDialog
+import com.tnco.runar.utils.AnalyticsConstants
+import com.tnco.runar.utils.AnalyticsUtils
 
 class FavouriteFragment : Fragment() {
     val viewModel: FavouriteViewModel by viewModels()
@@ -64,7 +65,7 @@ class FavouriteFragment : Fragment() {
                 Bars(navigator)
             }
         }
-        AnalyticsHelper.sendEvent(FAVOURITE_OPENED)
+        AnalyticsHelper.sendEvent(AnalyticsEvent.FAVOURITE_OPENED)
         view.isFocusableInTouchMode = true
         view.requestFocus()
         return view
@@ -79,7 +80,7 @@ private fun Bars(navigator: Navigator?) {
     val existSelected by viewModel.haveSelectedItem.observeAsState()
     val barColor = colorResource(id = R.color.library_top_bar_header)
     val barFont = FontFamily(Font(R.font.roboto_medium))
-    val barFontSize = with(LocalDensity.current) { ((fontSize!! * 1.35).toFloat()).toSp() }
+    val barFontSize = with(LocalDensity.current) { ((fontSize!! * 1.35f)).toSp() }
     var barText = stringResource(id = R.string.library_bar_fav)
     var navIcon: @Composable (() -> Unit)? = null
     var navActions: @Composable RowScope.() -> Unit = {}
@@ -102,10 +103,9 @@ private fun Bars(navigator: Navigator?) {
                     checkedState.value = false
                 })
         }
-        if(existSelected==2) checkedState.value = false
-        else if(existSelected==3) checkedState.value = true
-    }
-    else checkedState.value = false
+        if (existSelected == 2) checkedState.value = false
+        else if (existSelected == 3) checkedState.value = true
+    } else checkedState.value = false
 
     Scaffold(
         topBar = {
@@ -147,7 +147,11 @@ private fun Bars(navigator: Navigator?) {
                             text = item.content!!,
                             header = item.header!!,
                             clickAction = {
-                                AnalyticsHelper.sendEventDraw(FAVOURITE_DRAWS_OPENED, item.layoutId!!)
+                                val layoutName = AnalyticsUtils.convertLayoutIdToName(item.layoutId!!)
+                                AnalyticsHelper.sendEvent(
+                                    AnalyticsEvent.FAVOURITE_DRAWS_OPENED,
+                                    Pair(AnalyticsConstants.DRAW_RUNE_LAYOUT, layoutName)
+                                )
                                 navigator?.navigateToFavInterpretationFragment(
                                     layoutId = item.layoutId!!,
                                     userLayout = item.userData!!,
@@ -216,7 +220,7 @@ private fun CheckboxItem(
                 textAlign = TextAlign.End,
                 color = colorResource(id = R.color.fav_checkbox_text),
                 fontFamily = FontFamily(Font(R.font.roboto_regular)),
-                style = TextStyle(fontSize = with(LocalDensity.current) { ((fontSize * 0.7).toFloat()).toSp() })
+                style = TextStyle(fontSize = with(LocalDensity.current) { ((fontSize * 0.7f)).toSp() })
             )
             Box(
                 Modifier
@@ -307,7 +311,7 @@ private fun FavItem(
                             text = time,
                             color = colorResource(id = R.color.fav_time_text),
                             fontFamily = FontFamily(Font(R.font.roboto_regular)),
-                            style = TextStyle(fontSize = with(LocalDensity.current) { ((fontSize * 0.7).toFloat()).toSp() }),
+                            style = TextStyle(fontSize = with(LocalDensity.current) { ((fontSize * 0.7f)).toSp() }),
                             modifier = Modifier
                                 .padding(bottom = 4.dp)
                                 .weight(7f),
@@ -318,7 +322,7 @@ private fun FavItem(
                         text = text,
                         color = colorResource(id = R.color.fav_inter_text),
                         fontFamily = FontFamily(Font(R.font.roboto_light)),
-                        style = TextStyle(fontSize = with(LocalDensity.current) { ((fontSize * 0.8).toFloat()).toSp() })
+                        style = TextStyle(fontSize = with(LocalDensity.current) { ((fontSize * 0.8f)).toSp() })
                     )
                 }
                 //space between text and end img

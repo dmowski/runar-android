@@ -15,9 +15,8 @@ import coil.load
 import com.tnco.runar.R
 import com.tnco.runar.adapters.RunesGeneratorAdapter
 import com.tnco.runar.controllers.AnalyticsHelper
-import com.tnco.runar.controllers.GENERATOR_PATTERN_RANDOM_RUNES
-import com.tnco.runar.controllers.GENERATOR_PATTERN_SELECTED
 import com.tnco.runar.databinding.FragmentGeneratorStartBinding
+import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.extensions.observeOnce
 import com.tnco.runar.model.RunesItemsModel
 import com.tnco.runar.presentation.viewmodel.MainViewModel
@@ -45,7 +44,7 @@ class GeneratorStartFragment : Fragment() {
             activity?.onBackPressed()
         }
         mViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
-        AnalyticsHelper.sendEvent(GENERATOR_PATTERN_SELECTED)
+        AnalyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_PATTERN_SELECTED)
         setupRecyclerView()
         readDatabase()
 
@@ -160,7 +159,7 @@ class GeneratorStartFragment : Fragment() {
 
 
     private fun randomRunes() {
-        AnalyticsHelper.sendEvent(GENERATOR_PATTERN_RANDOM_RUNES)
+        AnalyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_PATTERN_RANDOM_RUNES)
         val count = (1..3).random()
         listId.clear()
         for (i in 0 until count) {

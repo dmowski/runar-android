@@ -9,8 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.tnco.runar.R
 import com.tnco.runar.controllers.AnalyticsHelper
-import com.tnco.runar.controllers.GENERATOR_OPENED
 import com.tnco.runar.databinding.FragmerntLayoutGeneratorBinding
+import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.extensions.observeOnce
 import com.tnco.runar.presentation.viewmodel.MainViewModel
 import com.tnco.runar.ui.activity.MainActivity
@@ -24,12 +24,14 @@ class GeneratorFragment : Fragment() {
 
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
         _binding = FragmerntLayoutGeneratorBinding.inflate(inflater, container, false)
 
         viewModel.fontSize.observeOnce(this) {
-            binding.tvToolbar.setTextSize(TypedValue.COMPLEX_UNIT_PX, (it * 1.35).toFloat())
+            binding.tvToolbar.setTextSize(TypedValue.COMPLEX_UNIT_PX, (it * 1.35f))
         }
 
         binding.generatorStav.setOnClickListener {
@@ -42,7 +44,7 @@ class GeneratorFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        AnalyticsHelper.sendEvent(GENERATOR_OPENED)
+        AnalyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_OPENED)
         (activity as MainActivity).showBottomBar()
     }
 }

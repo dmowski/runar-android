@@ -21,8 +21,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.tnco.runar.R
 import com.tnco.runar.controllers.AnalyticsHelper
-import com.tnco.runar.controllers.GENERATOR_PATTERN_SAVED
-import com.tnco.runar.controllers.GENERATOR_PATTERN_SHARED
+import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.presentation.viewmodel.MainViewModel
 import com.tnco.runar.ui.activity.MainActivity
 import java.io.ByteArrayOutputStream
@@ -66,7 +65,7 @@ class GeneratorFinal : Fragment() {
 //        instagram = view.findViewById(R.id.instagram)
 
         shareImg.setOnClickListener {
-            AnalyticsHelper.sendEvent(GENERATOR_PATTERN_SHARED)
+            AnalyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_PATTERN_SHARED)
             val bytes = ByteArrayOutputStream()
             val bmp = (imgFinal.drawable as BitmapDrawable).bitmap
             val title = resources.getString(R.string.share_title)
@@ -93,7 +92,7 @@ class GeneratorFinal : Fragment() {
 
 
         saveImg.setOnClickListener {
-            AnalyticsHelper.sendEvent(GENERATOR_PATTERN_SAVED)
+            AnalyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_PATTERN_SAVED)
             val fileName = generateFileName()
             val bmp = (imgFinal.drawable as BitmapDrawable).bitmap
             saveImg.visibility = View.INVISIBLE
@@ -112,12 +111,11 @@ class GeneratorFinal : Fragment() {
                 val msg = resources.getString(R.string.image_saved)
                 Toast.makeText(requireContext(), msg, Toast.LENGTH_LONG).show()
             } else {
-                if (ContextCompat.checkSelfPermission(
-                        requireActivity(),
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE
-                    )
-                    != PackageManager.PERMISSION_GRANTED
-                ) {
+                val hasWriteExternalStoragePermission = ContextCompat.checkSelfPermission(
+                    requireActivity(),
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+                )
+                if (hasWriteExternalStoragePermission != PackageManager.PERMISSION_GRANTED) {
                     requestPermissions(Array(1) {
                         Manifest.permission.WRITE_EXTERNAL_STORAGE
                     }, REQUEST_PERMISSION_CODE)
