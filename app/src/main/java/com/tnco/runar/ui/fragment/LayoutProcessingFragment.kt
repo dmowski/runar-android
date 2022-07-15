@@ -12,7 +12,9 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.tnco.runar.R
 import com.tnco.runar.analytics.AnalyticsHelper
-import com.tnco.runar.analytics.INTERPRETATION_VIEWED
+import com.tnco.runar.enums.AnalyticsEvent
+import com.tnco.runar.utils.AnalyticsConstants
+import com.tnco.runar.utils.AnalyticsUtils
 import com.tnco.runar.databinding.FragmentLayoutProcessingBinding
 import com.tnco.runar.feature.MusicController
 import com.tnco.runar.ui.Navigator
@@ -54,10 +56,10 @@ class LayoutProcessingFragment : Fragment(R.layout.fragment_layout_processing) {
             binding.descriptionHeaderFrame.text = name
         }
         viewModel.fontSize.observe(viewLifecycleOwner) { textSize ->
-            val headerTextSize = (textSize * 3.0).toFloat()
-            val buttonTextSize = (textSize * 1.65).toFloat()
-            val simpleTextSize = (textSize * 0.8).toFloat()
-            val advertHeaderTextSize = (textSize * 1.2).toFloat()
+            val headerTextSize = (textSize * 3.0f)
+            val buttonTextSize = (textSize * 1.65f)
+            val simpleTextSize = (textSize * 0.8f)
+            val advertHeaderTextSize = (textSize * 1.2f)
             binding.descriptionHeaderFrame.setTextSize(TypedValue.COMPLEX_UNIT_PX, headerTextSize)
             binding.descriptionButtonFrame.setTextSize(TypedValue.COMPLEX_UNIT_PX, buttonTextSize)
             binding.textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, simpleTextSize)
@@ -65,13 +67,13 @@ class LayoutProcessingFragment : Fragment(R.layout.fragment_layout_processing) {
             binding.textGroupName.setTextSize(TypedValue.COMPLEX_UNIT_PX, advertHeaderTextSize)
             when (MusicController.currentSongPos) {
                 2 -> {
-                    link ="https://lyod1.bandcamp.com/releases"
+                    link = "https://lyod1.bandcamp.com/releases"
                     binding.textGroupName.text = getString(R.string.group1)
                     binding.textSongName.text = getString(R.string.track1_1)
                     binding.imageGroup.setImageResource(R.drawable.led_image)
                 }
                 3 -> {
-                    link ="https://lyod1.bandcamp.com/releases"
+                    link = "https://lyod1.bandcamp.com/releases"
                     binding.textGroupName.text = getString(R.string.group1)
                     binding.textSongName.text = getString(R.string.track1_2)
                     binding.imageGroup.setImageResource(R.drawable.led_image)
@@ -93,7 +95,11 @@ class LayoutProcessingFragment : Fragment(R.layout.fragment_layout_processing) {
         }
 
         binding.descriptionButtonFrame.setOnClickListener {
-            AnalyticsHelper.musicLinkOpened(binding.textGroupName.text.toString(),binding.textSongName.text.toString())
+            AnalyticsHelper.sendEvent(
+                AnalyticsEvent.MUSIC_LINK_OPENED,
+                Pair(AnalyticsConstants.GROUP_NAME, binding.textGroupName.text.toString()),
+                Pair(AnalyticsConstants.TRACK_NAME, binding.textSongName.text.toString())
+            )
             val uri = Uri.parse(link)
             val intent = Intent(Intent.ACTION_VIEW, uri)
             startActivity(intent)
@@ -113,7 +119,11 @@ class LayoutProcessingFragment : Fragment(R.layout.fragment_layout_processing) {
                 binding.progressOfLoadingView.progress = i
                 delay(50)
             }
-            AnalyticsHelper.sendEventDraw(INTERPRETATION_VIEWED, layoutId)
+            val layoutName = AnalyticsUtils.convertLayoutIdToName(layoutId)
+            AnalyticsHelper.sendEvent(
+                AnalyticsEvent.INTERPRETATION_VIEWED,
+                Pair(AnalyticsConstants.DRAW_RUNE_LAYOUT, layoutName)
+            )
             navigator?.navigateToInterpretationFragment(layoutId, userLayout)
         }
     }
