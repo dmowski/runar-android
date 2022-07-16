@@ -3,7 +3,6 @@ package com.tnco.runar.ui.fragments
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,29 +10,25 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.tnco.runar.R
 import com.tnco.runar.controllers.AnalyticsHelper
 import com.tnco.runar.controllers.MusicController
+import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.presentation.viewmodel.MainViewModel
-import com.tnco.runar.retrofit.RetrofitClient
 import com.tnco.runar.ui.activity.MainActivity
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import com.tnco.runar.utils.AnalyticsConstants
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 class GeneratorMagicRune : Fragment() {
     private lateinit var viewModel: MainViewModel
-    lateinit var progressBar: ProgressBar
+    private lateinit var progressBar: ProgressBar
     private var link = ""
     private lateinit var textGroupName: TextView
     private lateinit var textSongName: TextView
     private lateinit var imageGroup: ImageView
     private lateinit var sendLink: TextView
-
 
 
     override fun onCreateView(
@@ -56,7 +51,11 @@ class GeneratorMagicRune : Fragment() {
         sendLink = view.findViewById(R.id.generator_description_button_frame)
         progressBarAction()
         sendLink.setOnClickListener {
-            AnalyticsHelper.musicLinkOpened(textGroupName.text.toString(), textSongName.text.toString())
+            AnalyticsHelper.sendEvent(
+                AnalyticsEvent.MUSIC_LINK_OPENED,
+                Pair(AnalyticsConstants.GROUP_NAME, textGroupName.text.toString()),
+                Pair(AnalyticsConstants.TRACK_NAME, textSongName.text.toString())
+            )
             val uri = Uri.parse(link)
             val intent = Intent(Intent.ACTION_VIEW, uri)
             startActivity(intent)
@@ -71,13 +70,13 @@ class GeneratorMagicRune : Fragment() {
                 delay(70)
                 when (MusicController.currentSongPos) {
                     2 -> {
-                        link ="https://lyod1.bandcamp.com/releases"
+                        link = "https://lyod1.bandcamp.com/releases"
                         textGroupName.text = getString(R.string.group1)
                         textSongName.text = getString(R.string.track1_1)
                         imageGroup.setImageResource(R.drawable.led_image)
                     }
                     3 -> {
-                        link ="https://lyod1.bandcamp.com/releases"
+                        link = "https://lyod1.bandcamp.com/releases"
                         textGroupName.text = getString(R.string.group1)
                         textSongName.text = getString(R.string.track1_2)
                         imageGroup.setImageResource(R.drawable.led_image)

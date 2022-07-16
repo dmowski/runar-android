@@ -2,16 +2,18 @@ package com.tnco.runar.ui.fragments
 
 import android.content.Context
 import android.os.Bundle
-import android.util.TypedValue
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.tnco.runar.R
 import com.tnco.runar.controllers.AnalyticsHelper
 import com.tnco.runar.databinding.FragmentLayoutsBinding
+import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.extensions.setOnCLickListenerForAll
 import com.tnco.runar.presentation.viewmodel.LayoutViewModel
 import com.tnco.runar.ui.Navigator
+import com.tnco.runar.utils.AnalyticsConstants
+import com.tnco.runar.utils.AnalyticsUtils
 
 class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener {
 
@@ -84,7 +86,11 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
             else -> 8
         }
         viewModel.checkDescriptionStatus(idOfRune)
-        AnalyticsHelper.drawsSelected(idOfRune)
+        val layoutName = AnalyticsUtils.convertLayoutIdToName(idOfRune)
+        AnalyticsHelper.sendEvent(
+            AnalyticsEvent.DRAWS_SELECTED,
+            Pair(AnalyticsConstants.DRAW_RUNE_LAYOUT, layoutName)
+        )
         viewModel.showStatus.observe(viewLifecycleOwner) { needShowDescription ->
             if (needShowDescription) {
                 navigator?.navigateToLayoutDescriptionFragment(idOfRune)

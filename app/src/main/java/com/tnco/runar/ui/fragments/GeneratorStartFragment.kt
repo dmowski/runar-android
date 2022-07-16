@@ -2,11 +2,9 @@ package com.tnco.runar.ui.fragments
 
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -16,10 +14,11 @@ import androidx.recyclerview.widget.GridLayoutManager
 import coil.load
 import com.tnco.runar.R
 import com.tnco.runar.adapters.RunesGeneratorAdapter
+import com.tnco.runar.controllers.AnalyticsHelper
 import com.tnco.runar.databinding.FragmentGeneratorStartBinding
+import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.extensions.observeOnce
 import com.tnco.runar.model.RunesItemsModel
-import com.tnco.runar.presentation.viewmodel.GeneratorStartViewModel
 import com.tnco.runar.presentation.viewmodel.MainViewModel
 import com.tnco.runar.ui.activity.MainActivity
 import kotlinx.coroutines.launch
@@ -45,7 +44,7 @@ class GeneratorStartFragment : Fragment() {
             activity?.onBackPressed()
         }
         mViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
-
+        AnalyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_PATTERN_SELECTED)
         setupRecyclerView()
         readDatabase()
 
@@ -64,28 +63,28 @@ class GeneratorStartFragment : Fragment() {
     private fun readDatabase() { // доделать считывание
         listAllIds.clear()
         lifecycleScope.launch {
-            mViewModel.readRunes.observeOnce(viewLifecycleOwner, { listRunes ->
+            mViewModel.readRunes.observeOnce(viewLifecycleOwner) { listRunes ->
                 if (listRunes.isNotEmpty()) {
                     mAdapter.setData(listRunes)
                     listRunes.forEach {
                         listAllIds.add(it.id)
                     }
                 } else requestApiData()
-            })
+            }
         }
     }
 
 
     private fun requestApiData() {
         mViewModel.getRunes()
-        mViewModel.runesResponse.observe(viewLifecycleOwner, { listRunes ->
+        mViewModel.runesResponse.observe(viewLifecycleOwner) { listRunes ->
             if (listRunes.isNotEmpty()) {
                 mAdapter.setData(listRunes)
                 listRunes.forEach {
                     listAllIds.add(it.id)
                 }
             }
-        })
+        }
     }
 
     private fun setupRecyclerView() {
@@ -95,7 +94,7 @@ class GeneratorStartFragment : Fragment() {
         binding.runesRecyclerView.layoutManager = gridLayoutManager
         binding.runesRecyclerView.adapter = mAdapter
 
-        mAdapter.obsSelectedRunes.observe(viewLifecycleOwner, {
+        mAdapter.obsSelectedRunes.observe(viewLifecycleOwner) {
             when (it.size) {
                 1 -> {
                     showRunes(binding.tvRune1, binding.rune1, binding.tvDescRune1, it[0])
@@ -109,7 +108,7 @@ class GeneratorStartFragment : Fragment() {
                     showRunes(binding.tvRune3, binding.rune3, binding.tvDescRune3, it[2])
                 }
             }
-        })
+        }
 
         binding.rune1.setOnClickListener {
             if (mAdapter.obsSelectedRunes.value?.size == 1) {
@@ -160,7 +159,7 @@ class GeneratorStartFragment : Fragment() {
 
 
     private fun randomRunes() {
-
+        AnalyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_PATTERN_RANDOM_RUNES)
         val count = (1..3).random()
         listId.clear()
         for (i in 0 until count) {
@@ -169,7 +168,7 @@ class GeneratorStartFragment : Fragment() {
         }
         listId.sort()
         var idsString = ""
-        when(count){
+        when (count) {
             1 -> {
                 idsString = listId[0].toString()
             }
@@ -193,9 +192,8 @@ class GeneratorStartFragment : Fragment() {
         }
         listId.sort()
         var idsString = ""
-        val count = listId.count()
 
-        when(count){
+        when (listId.count()) {
             1 -> {
                 idsString = listId[0].toString()
             }

@@ -11,9 +11,15 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.tnco.runar.R
 import com.tnco.runar.controllers.AnalyticsHelper
+import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.ui.Navigator
+import com.tnco.runar.utils.AnalyticsConstants
 
-class CancelDialog(private val context: Context,private val fontSize:Float,private val page:String) {
+class CancelDialog(
+    private val context: Context,
+    private val fontSize: Float,
+    private val page: String
+) {
 
     fun showDialog() {
         val dialog = Dialog(context, android.R.style.ThemeOverlay)
@@ -30,10 +36,13 @@ class CancelDialog(private val context: Context,private val fontSize:Float,priva
         dialog.window?.statusBarColor = context.getColor(R.color.library_top_bar)
         dialog.window?.navigationBarColor = context.getColor(R.color.library_top_bar)
         dialog.show()
-        val buttonsFontSize = (fontSize*0.85).toFloat()
-        dialog.findViewById<TextView>(R.id.dialog_text).setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
-        dialog.findViewById<TextView>(R.id.button_yes).setTextSize(TypedValue.COMPLEX_UNIT_PX,buttonsFontSize)
-        dialog.findViewById<TextView>(R.id.button_no).setTextSize(TypedValue.COMPLEX_UNIT_PX, buttonsFontSize)
+        val buttonsFontSize = (fontSize * 0.85f)
+        dialog.findViewById<TextView>(R.id.dialog_text)
+            .setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
+        dialog.findViewById<TextView>(R.id.button_yes)
+            .setTextSize(TypedValue.COMPLEX_UNIT_PX, buttonsFontSize)
+        dialog.findViewById<TextView>(R.id.button_no)
+            .setTextSize(TypedValue.COMPLEX_UNIT_PX, buttonsFontSize)
         dialog.setOnKeyListener { _, keyCode, event ->
             var consumed = false
             if (event.action == KeyEvent.ACTION_DOWN) {
@@ -49,7 +58,10 @@ class CancelDialog(private val context: Context,private val fontSize:Float,priva
         }
         dialog.findViewById<ConstraintLayout>(R.id.dialog_element_right).setOnClickListener {
             dialog.dismiss()
-            AnalyticsHelper.interruption(page)
+            AnalyticsHelper.sendEvent(
+                AnalyticsEvent.SCRIPT_INTERRUPTION,
+                Pair(AnalyticsConstants.PAGE, page)
+            )
             (context as Navigator).agreeWithDialog()
         }
     }

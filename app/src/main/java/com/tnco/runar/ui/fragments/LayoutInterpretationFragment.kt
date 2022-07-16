@@ -6,7 +6,6 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.text.Html
 import android.util.TypedValue
 import android.view.*
 import android.widget.FrameLayout
@@ -17,18 +16,22 @@ import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.os.bundleOf
+import androidx.core.text.HtmlCompat
+import androidx.core.text.HtmlCompat.FROM_HTML_MODE_LEGACY
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.tnco.runar.customClasses.InterTagHandler
 import com.tnco.runar.customClasses.OnSwipeTouchListener
 import com.tnco.runar.R
-import com.tnco.runar.RunarLogger
 import com.tnco.runar.controllers.AnalyticsHelper
 import com.tnco.runar.databinding.FragmentLayoutInterpretationBinding
+import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.extensions.setOnCLickListenerForAll
 import com.tnco.runar.presentation.viewmodel.InterpretationViewModel
 import com.tnco.runar.ui.Navigator
+import com.tnco.runar.utils.AnalyticsConstants
+import com.tnco.runar.utils.AnalyticsUtils
 
 class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpretation),
     View.OnClickListener {
@@ -102,12 +105,12 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
             if (interpretation != null) {
 
                 fontSize = interpretation
-                val headerTextSize = (interpretation * 3).toFloat()
-                val buttonTextSize = (interpretation * 1.65).toFloat()
-                val checkboxTextSize = (interpretation * 0.8).toFloat()
-                val runeNameTextSize = (interpretation * 1.2).toFloat()
-                val littleTextSize = (interpretation * 0.75).toFloat()
-                val sacrTextSize = (interpretation * 0.6).toFloat()
+                val headerTextSize = (interpretation * 3.0f)
+                val buttonTextSize = (interpretation * 1.65f)
+                val checkboxTextSize = (interpretation * 0.8f)
+                val runeNameTextSize = (interpretation * 1.2f)
+                val littleTextSize = (interpretation * 0.75f)
+                val sacrTextSize = (interpretation * 0.6f)
                 binding.descriptionHeaderFrame.setTextSize(
                     TypedValue.COMPLEX_UNIT_PX,
                     headerTextSize
@@ -116,8 +119,14 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                     TypedValue.COMPLEX_UNIT_PX,
                     buttonTextSize
                 )
-                binding.sacrButtonHeader.setTextSize(TypedValue.COMPLEX_UNIT_PX, (runeNameTextSize*1.2).toFloat())
-                binding.sacrButtonText.setTextSize(TypedValue.COMPLEX_UNIT_PX, (sacrTextSize*1.2).toFloat())
+                binding.sacrButtonHeader.setTextSize(
+                    TypedValue.COMPLEX_UNIT_PX,
+                    (runeNameTextSize * 1.2f)
+                )
+                binding.sacrButtonText.setTextSize(
+                    TypedValue.COMPLEX_UNIT_PX,
+                    (sacrTextSize * 1.2f)
+                )
 
                 binding.checkboxText.setTextSize(TypedValue.COMPLEX_UNIT_PX, checkboxTextSize)
                 binding.text.setTextSize(TypedValue.COMPLEX_UNIT_PX, interpretation)
@@ -156,7 +165,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                                 firstRune.id = View.generateViewId()
                                 val ims = context?.assets?.open("runes/${newUserLayout[1]}.png")
                                 val firstRuneImage = Drawable.createFromStream(ims, null)
-                                firstRune.setBackgroundDrawable(firstRuneImage)
+                                firstRune.background = firstRuneImage
                                 val firstRuneLayoutParams =
                                     ConstraintLayout.LayoutParams(runeWidth, runeHeight)
                                 firstRune.layoutParams = firstRuneLayoutParams
@@ -965,7 +974,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                         }
                         viewModel.currentInterpretation.observe(viewLifecycleOwner) { interpretation ->
                             if (!interpretation.isNullOrBlank()) {
-                                val newFontSize = (fontSize * 0.95).toFloat()
+                                val newFontSize = (fontSize * 0.95f)
                                 binding.interpretationText.setTextSize(
                                     TypedValue.COMPLEX_UNIT_PX,
                                     newFontSize
@@ -975,10 +984,9 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                                     R.font.roboto_light
                                 )
                                 binding.interpretationText.text = interpretation + affirmText
-                                if(layoutId==1){
+                                if (layoutId == 1) {
                                     viewModel.getSingleRuneData(newUserLayout[1])
-                                    viewModel.singleRune.observe(viewLifecycleOwner){
-                                            name->
+                                    viewModel.singleRune.observe(viewLifecycleOwner) { name ->
                                         binding.singleRuneName.text = name
                                     }
                                 }
@@ -988,33 +996,60 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                                     ViewTreeObserver.OnGlobalLayoutListener {
                                     override fun onGlobalLayout() {
                                         observer.removeOnGlobalLayoutListener(this)
-                                        if(layoutId==1){
+                                        if (layoutId == 1) {
                                             binding.helperText.isVisible = false
                                             binding.divider0.isVisible = false
                                             val constraintsSet = ConstraintSet()
                                             constraintsSet.clone(binding.interpretationLayout)
                                             constraintsSet.clear(R.id.divider4, ConstraintSet.TOP)
                                             constraintsSet.clear(R.id.text, ConstraintSet.TOP)
-                                            constraintsSet.connect(R.id.divider4, ConstraintSet.TOP, R.id.text, ConstraintSet.BOTTOM)
-                                            constraintsSet.connect(R.id.text, ConstraintSet.TOP, R.id.single_rune_name, ConstraintSet.BOTTOM)
+                                            constraintsSet.connect(
+                                                R.id.divider4,
+                                                ConstraintSet.TOP,
+                                                R.id.text,
+                                                ConstraintSet.BOTTOM
+                                            )
+                                            constraintsSet.connect(
+                                                R.id.text,
+                                                ConstraintSet.TOP,
+                                                R.id.single_rune_name,
+                                                ConstraintSet.BOTTOM
+                                            )
 
-                                            constraintsSet.clear(R.id.text,ConstraintSet.END)
-                                            constraintsSet.connect(R.id.text,ConstraintSet.END,R.id.right_text_guideline,ConstraintSet.END)
+                                            constraintsSet.clear(R.id.text, ConstraintSet.END)
+                                            constraintsSet.connect(
+                                                R.id.text,
+                                                ConstraintSet.END,
+                                                R.id.right_text_guideline,
+                                                ConstraintSet.END
+                                            )
                                             binding.text.textAlignment = Gravity.CENTER
                                             binding.text.gravity = Gravity.CENTER
-                                            binding.text.setTextSize(TypedValue.COMPLEX_UNIT_PX, littleTextSize)
+                                            binding.text.setTextSize(
+                                                TypedValue.COMPLEX_UNIT_PX,
+                                                littleTextSize
+                                            )
 
-                                            val secondFont = ResourcesCompat.getFont(requireContext(), R.font.roboto_medium)
-                                            binding.text.setTextColor(resources.getColor(R.color.interpretation_runes_position))
-                                            binding.text.text = Html.fromHtml(
+                                            val secondFont = ResourcesCompat.getFont(
+                                                requireContext(),
+                                                R.font.roboto_medium
+                                            )
+                                            binding.text.setTextColor(
+                                                ContextCompat.getColor(
+                                                    requireContext(),
+                                                    R.color.interpretation_runes_position
+                                                )
+                                            )
+                                            binding.text.text = HtmlCompat.fromHtml(
                                                 "${requireContext().resources.getString(R.string.layout_interpretation_ausf)} - <bf>${singleRuneAusp} %</bf>",
+                                                FROM_HTML_MODE_LEGACY,
                                                 null,
-                                                InterTagHandler(secondFont!!))
+                                                InterTagHandler(secondFont!!)
+                                            )
 
                                             binding.text.isVisible = false
                                             constraintsSet.applyTo(binding.interpretationLayout)
-                                        }
-                                        else{
+                                        } else {
                                             binding.singleRuneName.isVisible = false
                                         }
                                         screenHeight = binding.root.height
@@ -1084,8 +1119,9 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                         binding.runeDescription.text = "\n" + it.fullDescription + "\n"
                         val secondFont =
                             ResourcesCompat.getFont(requireContext(), R.font.roboto_medium)
-                        binding.runeAusf.text = Html.fromHtml(
+                        binding.runeAusf.text = HtmlCompat.fromHtml(
                             "${requireContext().resources.getString(R.string.layout_interpretation_ausf)} - <bf>${it.ausp} %</bf>",
+                            FROM_HTML_MODE_LEGACY,
                             null,
                             InterTagHandler(secondFont!!)
                         )
@@ -1143,7 +1179,11 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
         when (v?.id) {
             R.id.description_button_frame -> {
                 if (binding.checkbox.isChecked) {
-                    AnalyticsHelper.drawsSaved(layoutId)
+                    val layoutName = AnalyticsUtils.convertLayoutIdToName(layoutId)
+                    AnalyticsHelper.sendEvent(
+                        AnalyticsEvent.DRAWS_SAVED,
+                        Pair(AnalyticsConstants.DRAW_RUNE_LAYOUT, layoutName)
+                    )
                     viewModel.saveUserLayout()
                 }
                 navigator?.navigateToDefaultAndShowBottomNavBar()
@@ -1170,7 +1210,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
             R.id.checkbox_text -> {
                 binding.checkbox.isChecked = !binding.checkbox.isChecked
             }
-            R.id.sacrifice_button_img ->{
+            R.id.sacrifice_button_img -> {
                 navigator?.navigateToSacrFragment1()
             }
         }
@@ -1188,7 +1228,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
     }
 
     private fun showDescriptionOfSelectedRune(v: View?) {
-        AnalyticsHelper.runeView()
+        AnalyticsHelper.sendEvent(AnalyticsEvent.RUNE_VIEWED)
 
         readyToReturn = false
         defaultConstraintSet.applyTo(runesLayout)
@@ -1566,7 +1606,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
         runes.forEachIndexed { index, element ->
             val i = context?.assets?.open("runes/${newUserLayout[index + 1]}.png")
             val runeImage = Drawable.createFromStream(i, null)
-            element.setBackgroundDrawable(runeImage)
+            element.background = runeImage
         }
     }
 
