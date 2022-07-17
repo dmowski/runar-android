@@ -4,7 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
-import com.tnco.runar.room.LibraryConverter
+import com.tnco.runar.data.local.LibraryConverter
 
 @Entity(tableName = "library")
 @TypeConverters(LibraryConverter::class)
@@ -22,7 +22,17 @@ data class LibraryItemsModel(
     @ColumnInfo(name = "link_title")
     var linkTitle: String?,
     @ColumnInfo(name = "link_url")
-    var linkUrl: String?
-){
-    constructor() : this("null", listOf(),null,null,null,null,null,null,null)
+    var linkUrl: String?,
+    @ColumnInfo(name = "audio_url")
+    var audioUrl: String?,
+    @ColumnInfo(name = "audio_duration")
+    var audioDuration: Int?
+) {
+    constructor() : this("null", listOf(), null, null, null, null, null, null, null,null,null)
+
+    override fun toString(): String {
+        return "LibraryItemsModel(title=$title, audioUrl=$audioUrl, audioDuration=$audioDuration)"
+    }
+
+
 }

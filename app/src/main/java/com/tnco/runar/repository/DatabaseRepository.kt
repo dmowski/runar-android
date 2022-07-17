@@ -1,8 +1,9 @@
 package com.tnco.runar.repository
 
+import com.tnco.runar.RunarLogger
+import com.tnco.runar.data.local.AppDB
+import com.tnco.runar.data.local.DataDB
 import com.tnco.runar.model.*
-import com.tnco.runar.room.AppDB
-import com.tnco.runar.room.DataDB
 import kotlinx.coroutines.flow.Flow
 
 object DatabaseRepository {
@@ -13,11 +14,11 @@ object DatabaseRepository {
         dataDao = DataDB.getDataDB().dataDAO()
     }
 
-    suspend fun notShow(id: Int) {
+    fun notShow(id: Int) {
         dataDao.notShow(id)
     }
 
-    suspend fun getLayoutDetails(id: Int): LayoutDescriptionModel {
+    fun getLayoutDetails(id: Int): LayoutDescriptionModel {
         return appDao.getLayoutDetails(id)
     }
 
@@ -25,7 +26,7 @@ object DatabaseRepository {
         return appDao.getAllLayoutDetails()
     }
 
-    suspend fun getShowStatus(id: Int): Int {
+    fun getShowStatus(id: Int): Int {
         return dataDao.getShowStatus(id)
     }
 
@@ -33,11 +34,11 @@ object DatabaseRepository {
         return appDao.getRunesDetails()
     }
 
-    suspend fun getAffirmList(): List<AffimDescriptionModel> {
+    fun getAffirmList(): List<AffimDescriptionModel> {
         return appDao.getAffirmations()
     }
 
-    suspend fun getTwoRunesInterpretation(id: Int): String {
+    fun getTwoRunesInterpretation(id: Int): String {
         return appDao.getTwoRunesInter(id)
     }
 
@@ -45,11 +46,11 @@ object DatabaseRepository {
         return appDao.getAllTwoRunesInter()
     }
 
-    suspend fun addUserLayout(data: UserLayoutModel) {
+    fun addUserLayout(data: UserLayoutModel) {
         dataDao.addUserLayout(data)
     }
 
-    suspend fun getLayoutName(id: Int): String{
+    fun getLayoutName(id: Int): String{
         return appDao.getLayoutName(id)
     }
 
@@ -57,18 +58,18 @@ object DatabaseRepository {
         return appDao.getLibraryItems()
     }
 
-    suspend fun updateLibraryDB(list: List<LibraryItemsModel>){
+    fun updateLibraryDB(list: List<LibraryItemsModel>){
         appDao.clearLibrary()
-        //RunarLogger.logDebug("library cleared")
+        RunarLogger.logDebug("library cleared")
         appDao.insertLibraryData(list)
-        //RunarLogger.logDebug("library data inserted")
+        RunarLogger.logDebug("library data inserted")
     }
 
     fun getUserLayouts(): List<UserLayoutModel>{
         return dataDao.getUserLayouts()
     }
 
-    suspend fun deleteUserLayoutsByIds(ids: List<Int>){
+    fun deleteUserLayoutsByIds(ids: List<Int>){
         dataDao.removeUserLayoutsByIds(ids)
     }
 
@@ -77,7 +78,7 @@ object DatabaseRepository {
         return appDao.getRunesGenerator()
     }
 
-    suspend fun updateRunesGeneratorDB(list: List<RunesItemsModel>){
+    fun updateRunesGeneratorDB(list: List<RunesItemsModel>){
         appDao.clearRunesGenerator()
         appDao.insertRunesGenerator(list)
     }

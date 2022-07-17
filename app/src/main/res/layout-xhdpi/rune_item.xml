@@ -13,7 +13,7 @@
         android:layout_width="@dimen/generator_rune_width_xhdpi"
         android:layout_height="@dimen/generator_rune_height_xhdpi">
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/runeItem"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

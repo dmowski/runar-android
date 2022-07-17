@@ -3,7 +3,7 @@ package com.tnco.runar.repository
 import android.app.Activity
 import android.content.Context
 import android.content.res.Configuration
-import com.tnco.runar.room.AppDB
+import com.tnco.runar.data.local.AppDB
 import com.tnco.runar.ui.activity.MainActivity
 import java.util.*
 

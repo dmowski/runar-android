@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <com.tnco.runar.customView.OffsetImageView
+    <com.tnco.runar.ui.component.view.OffsetImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:src="@drawable/background_fire"
@@ -39,7 +39,7 @@
                 app:layout_constraintEnd_toStartOf="@id/right_header_guideline"
                 app:layout_constraintStart_toEndOf="@id/left_header_guideline"
                 app:layout_constraintTop_toTopOf="parent" />
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/sacr_main_img"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -56,27 +56,27 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/sacr_main_img"
                 android:orientation="horizontal">
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:layout_width="22dp"
                     android:layout_height="22dp"
                     android:layout_margin="10dp"
                     android:src="@drawable/ic_star_empty"/>
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:layout_width="22dp"
                     android:layout_height="22dp"
                     android:layout_margin="10dp"
                     android:src="@drawable/ic_star_empty"/>
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:layout_width="22dp"
                     android:layout_height="22dp"
                     android:layout_margin="10dp"
                     android:src="@drawable/ic_star_empty"/>
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:layout_width="22dp"
                     android:layout_height="22dp"
                     android:layout_margin="10dp"
                     android:src="@drawable/ic_star_empty"/>
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:layout_width="22dp"
                     android:layout_height="22dp"
                     android:layout_margin="10dp"
@@ -104,7 +104,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/sacr_luck_tw"
                 app:layout_constraintDimensionRatio="H,24:1"/>
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/spliter"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -184,7 +184,7 @@
                     android:textColor="@color/sacr_button_header"
                     android:gravity="center_horizontal|bottom"
                     android:lineSpacingMultiplier="1.19" />
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:layout_marginTop="5dp"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -305,7 +305,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     app:layout_constraintGuide_percent="0.73" />
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toTopOf="parent"
@@ -403,7 +403,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     app:layout_constraintGuide_percent="0.73" />
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toTopOf="parent"

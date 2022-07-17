@@ -14,10 +14,7 @@
     <string name="runes_selection">Выбор рун</string>
     <string name="runes_collect_formula">Собери свою рунную формулу, выбрав от 1 до 3 рун</string>
     <string name="runes_random">Выбрать случайные руны</string>
-
     <string name="runes_generate">Сгенерировать</string>
-
-
 
     <string name="layout1">Руна дня</string>
     <string name="layout2">Расклад из 2 рун</string>
@@ -33,7 +30,7 @@
 
     <string name="layout_init_button_text1">Вытянуть руну</string>
     <string name="layout_init_button_text2">Толковать</string>
-    <string name="layout_init_button_text4">Расклад обрабатывается...</string>
+    <string name="layout_init_button_text4">Расклад обрабатывается…</string>
     <string name="layout_init_processing">Магазин предметов скандинавской культуры и быта</string>
     <string name="layout_description_product">Описание товаров</string>
     <string name="layout_go_to_site">Перейти на сайт</string>
@@ -122,4 +119,7 @@
     <string name="background_generator">Для начала, выберите понравившуюся картинку</string>
     <string name="image_saved">Изображение сохранено</string>
     <string name="share_title">Классная руна из RunarApp</string>
+
+    <string name="library_tab_books">Книги</string>
+    <string name="library_tab_audio">Аудио</string>
 </resources>

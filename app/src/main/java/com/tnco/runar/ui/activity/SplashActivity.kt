@@ -6,14 +6,13 @@ import android.view.WindowManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.tnco.runar.R
-import com.tnco.runar.RunarLogger
-import com.tnco.runar.controllers.MusicController
 import com.tnco.runar.databinding.ActivitySplashBinding
-import com.tnco.runar.presentation.viewmodel.SplashViewModel
+import com.tnco.runar.feature.MusicController
 import com.tnco.runar.repository.LanguageRepository
 import com.tnco.runar.repository.SharedPreferencesRepository
+import com.tnco.runar.ui.viewmodel.SplashViewModel
 
-class SplashActivity : AppCompatActivity(){
+class SplashActivity : AppCompatActivity() {
 
     private val viewModel: SplashViewModel by viewModels()
     private lateinit var binding: ActivitySplashBinding
@@ -38,20 +37,20 @@ class SplashActivity : AppCompatActivity(){
     }
 
     override fun onResume() {
-        MusicController.splashStatus=true
+        MusicController.splashStatus = true
         MusicController.startMusic()
         super.onResume()
     }
 
     override fun onPause() {
-        MusicController.splashStatus=false
+        MusicController.splashStatus = false
         MusicController.softStopMusic()
         super.onPause()
     }
 
     private fun setupViewModel() {
-        viewModel.progress.observe(this, { progress -> updateProgress(progress) })
-        viewModel.splashCommand.observe(this, { launchMainActivity() })
+        viewModel.progress.observe(this) { progress -> updateProgress(progress) }
+        viewModel.splashCommand.observe(this) { launchMainActivity() }
     }
 
     private fun updateProgress(progress: Int) {
@@ -60,12 +59,11 @@ class SplashActivity : AppCompatActivity(){
 
     private fun launchMainActivity() {
         val intent: Intent
-        if(preferencesRepository.settingsOnboarding==1){
+        if (preferencesRepository.settingsOnboarding == 1) {
             intent = Intent(this, OnboardActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
             }
-        }
-        else{
+        } else {
             intent = Intent(this, MainActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
             }

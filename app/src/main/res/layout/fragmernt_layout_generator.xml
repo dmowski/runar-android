@@ -98,7 +98,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:maxLines="1" />
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:adjustViewBounds="true"
@@ -141,7 +141,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:maxLines="1" />
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="2dp"
@@ -186,7 +186,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:maxLines="1" />
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:adjustViewBounds="true"
