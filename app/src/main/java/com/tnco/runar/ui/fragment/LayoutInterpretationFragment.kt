@@ -6,7 +6,6 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.text.Html
 import android.util.TypedValue
 import android.view.*
 import android.widget.FrameLayout
@@ -31,8 +30,8 @@ import com.tnco.runar.ui.viewmodel.InterpretationViewModel
 import com.tnco.runar.util.InterTagHandler
 import com.tnco.runar.util.OnSwipeTouchListener
 import com.tnco.runar.util.setOnCLickListenerForAll
-import com.tnco.runar.utils.AnalyticsConstants
-import com.tnco.runar.utils.AnalyticsUtils
+import com.tnco.runar.util.AnalyticsConstants
+import com.tnco.runar.util.AnalyticsUtils
 
 class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpretation),
     View.OnClickListener {

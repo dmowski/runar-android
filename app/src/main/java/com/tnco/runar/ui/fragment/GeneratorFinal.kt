@@ -1,4 +1,4 @@
-package com.tnco.runar.ui.fragments
+package com.tnco.runar.ui.fragment
 
 import android.Manifest
 import android.content.ContentValues
@@ -20,10 +20,10 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.tnco.runar.R
-import com.tnco.runar.controllers.AnalyticsHelper
+import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.enums.AnalyticsEvent
-import com.tnco.runar.presentation.viewmodel.MainViewModel
 import com.tnco.runar.ui.activity.MainActivity
+import com.tnco.runar.ui.viewmodel.MainViewModel
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream

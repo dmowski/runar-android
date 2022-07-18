@@ -22,8 +22,8 @@ import com.tnco.runar.ui.viewmodel.InitViewModel
 import com.tnco.runar.repository.SharedPreferencesRepository
 import com.tnco.runar.ui.Navigator
 import com.tnco.runar.ui.component.dialog.DescriptionDialog
-import com.tnco.runar.utils.AnalyticsConstants
-import com.tnco.runar.utils.AnalyticsUtils
+import com.tnco.runar.util.AnalyticsConstants
+import com.tnco.runar.util.AnalyticsUtils
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.random.Random

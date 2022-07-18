@@ -12,8 +12,8 @@ import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.util.setOnCLickListenerForAll
 import com.tnco.runar.ui.viewmodel.LayoutViewModel
 import com.tnco.runar.ui.Navigator
-import com.tnco.runar.utils.AnalyticsConstants
-import com.tnco.runar.utils.AnalyticsUtils
+import com.tnco.runar.util.AnalyticsConstants
+import com.tnco.runar.util.AnalyticsUtils
 
 class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener {
 

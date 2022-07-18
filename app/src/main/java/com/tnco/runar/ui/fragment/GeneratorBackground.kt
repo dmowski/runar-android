@@ -1,4 +1,4 @@
-package com.tnco.runar.ui.fragments
+package com.tnco.runar.ui.fragment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -10,10 +10,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.tnco.runar.R
-import com.tnco.runar.controllers.*
+import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.enums.AnalyticsEvent
-import com.tnco.runar.presentation.viewmodel.MainViewModel
 import com.tnco.runar.ui.activity.MainActivity
+import com.tnco.runar.ui.adapter.BackgroundAdapter
+import com.tnco.runar.ui.viewmodel.MainViewModel
 
 
 class GeneratorBackground : Fragment() {

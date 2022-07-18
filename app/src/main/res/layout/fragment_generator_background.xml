@@ -5,9 +5,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragments.GeneratorBackground">
+    tools:context=".ui.fragment.GeneratorBackground">
 
-    <com.tnco.runar.customView.OffsetImageView
+    <com.tnco.runar.ui.component.view.OffsetImageView
         android:id="@+id/offsetImageView3"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

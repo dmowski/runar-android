@@ -2,11 +2,9 @@ package com.tnco.runar.repository.backend
 
 import com.tnco.runar.repository.DatabaseRepository
 import com.tnco.runar.repository.SharedPreferencesRepository
-import com.tnco.runar.converters.DataClassConverters
 import com.tnco.runar.model.RunesItemsModel
 import com.tnco.runar.data.remote.RetrofitClient
 import com.tnco.runar.data.remote.BackgroundInfo
-import com.tnco.runar.data.remote.RunesResponse
 import com.tnco.runar.data.remote.UserInfo
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -15,7 +13,6 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import retrofit2.HttpException
 import java.lang.Exception
-import retrofit2.Response
 import android.util.Log
 import java.util.*
 
