@@ -32,8 +32,8 @@ class MainViewModel : ViewModel() {
 
     var shareURL = ""
 
-    fun getRunes() = viewModelScope.launch {
-        runesResponse.value = BackendRepository.getRunes()
+    fun getRunes() = CoroutineScope(Dispatchers.IO).launch {
+        runesResponse.postValue(BackendRepository.getRunes())
     }
 
     var runesSelected: String = ""
