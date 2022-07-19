@@ -1,4 +1,4 @@
-package com.tnco.runar.utils
+package com.tnco.runar.util
 
 object AnalyticsConstants {
 

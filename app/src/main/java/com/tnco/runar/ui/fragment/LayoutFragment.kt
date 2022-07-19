@@ -10,8 +10,8 @@ import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.databinding.FragmentLayoutsBinding
 import com.tnco.runar.ui.Navigator
-import com.tnco.runar.utils.AnalyticsConstants
-import com.tnco.runar.utils.AnalyticsUtils
+import com.tnco.runar.util.AnalyticsConstants
+import com.tnco.runar.util.AnalyticsUtils
 import com.tnco.runar.ui.viewmodel.LayoutViewModel
 import com.tnco.runar.util.setOnCLickListenerForAll
 
