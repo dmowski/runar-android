@@ -8,37 +8,45 @@ import android.content.Intent
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import com.google.firebase.messaging.FirebaseMessagingService
-import com.google.firebase.messaging.RemoteMessage
 import com.tnco.runar.R
 import com.tnco.runar.RunarLogger
 import com.tnco.runar.repository.SharedPreferencesRepository
 import com.tnco.runar.ui.activity.MainActivity
+import java.time.LocalDate
 
 
 class PushService : FirebaseMessagingService() {
 
-//    private val preferencesRepository = SharedPreferencesRepository.get()
+    private val preferencesRepository = SharedPreferencesRepository.get()
 
     override fun onNewToken(token: String) {
         RunarLogger.logDebug("Refreshed token: $token")
         super.onNewToken(token)
     }
 
-
-    override fun onMessageReceived(message: RemoteMessage) {
-        RunarLogger.logDebug("From: ${message.from}")
-//        val title = message.data["title"]
-//        val text = message.data["body_loc_key"]
-//        sendNotification(text)
+    override fun handleIntent(intent: Intent?) {
+        RunarLogger.logDebug("received message from server")
+        //crutch, for some reason the notification comes on the first start
+        //if I open just only once, it will be problem
+        if (preferencesRepository.firstLaunch != 1 && isShouldSend()) {
+            sendNotification()
+        }
     }
 
-    override fun handleIntent(intent: Intent?) {
-        RunarLogger.logDebug("received message from server")//заходит при первой установке
-//        if(preferencesRepository.lastRunTime<System.currentTimeMillis()){
-//            sendNotification()
-//        }
-        sendNotification()
-
+    private fun isShouldSend(): Boolean {
+        var isShouldSend = false
+        val monday = "MONDAY"
+        val currentDay = LocalDate.now().dayOfWeek.name
+        val currentTime = System.currentTimeMillis()
+        val lastRunTime = preferencesRepository.lastRunTime
+        val startTimeNotification = 11
+        val oneHour = 3600000L
+        val difference = oneHour * startTimeNotification
+        val isOk = currentTime - lastRunTime > difference
+        if (currentDay == monday && isOk) {
+            isShouldSend = true
+        }
+        return isShouldSend
     }
 
     private fun sendNotification() {
@@ -51,21 +59,20 @@ class PushService : FirebaseMessagingService() {
         val channelId = getString(R.string.push_general_notification_channel_id)
         val builder = NotificationCompat.Builder(this, channelId)
             .setSmallIcon(R.drawable.notif_icon_white)
-//            .setContentTitle(getString(R.string.title_push_general_notification))
-            .setContentText(getString(R.string.title_push_general_notification))
-//            .setContentText(getString(R.string.push_general_notification))
-            .setAutoCancel(true)//автоматом удалит нотификацию после открытия
-//            .setStyle()//create
+            .setContentTitle(getString(R.string.title_push_general_notification))
+            .setContentText(getString(R.string.push_general_notification))
+            .setAutoCancel(true)
+//            .setStyle()//create style for day and night mode
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setContentIntent(pendingIntent)
 
-        val notificationManager: NotificationManager =
-            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-        createNotificationChannel(notificationManager)
-        notificationManager.notify(0, builder.build())
+        createNotificationChannel(manager)
+        manager.notify(0, builder.build())
     }
 
+    //settings still empty
     private fun createNotificationChannel(notificationManager: NotificationManager) {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
