@@ -11,10 +11,13 @@ import androidx.core.os.bundleOf
 import androidx.core.view.get
 import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentManager
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.FirebaseMessaging
 import com.tnco.runar.R
+import com.tnco.runar.RunarLogger
 import com.tnco.runar.databinding.ActivityMainBinding
 import com.tnco.runar.feature.MusicController
 import com.tnco.runar.receivers.LanguageBroadcastReceiver
@@ -116,6 +119,18 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
                 else -> false
             }
         }
+
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                RunarLogger.logDebug("Fetching FCM registration token failed")
+                return@OnCompleteListener
+            }
+
+            // Get new FCM registration token
+            val token = task.result
+            println("token: $token")
+
+        })
 
     }
 
