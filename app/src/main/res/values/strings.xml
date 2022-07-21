@@ -114,4 +114,10 @@
     <string name="value_1" translatable="false">1</string>
     <string name="value_2" translatable="false">2</string>
     <string name="value_3" translatable="false">3</string>
+
+    <string name="title_push_general_notification" translatable="false">Runar App</string>
+    <string name="push_general_notification">Just open Runar and find out what’s the rune of the day</string>
+    <string name="push_general_notification_channel_id" translatable="false">Reminders</string>
+    <string name="push_general_notification_channel_name" translatable="false">Reminders</string>
+
 </resources>
