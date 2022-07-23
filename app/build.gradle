@@ -15,7 +15,7 @@ android {
         minSdkVersion 24
         targetSdkVersion 32
         versionCode 7
-        versionName "0.17"
+        versionName "0.18"
     }
 
     buildTypes {
@@ -107,6 +107,7 @@ dependencies {
     implementation platform('com.google.firebase:firebase-bom:30.2.0')
     implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation 'com.google.firebase:firebase-crashlytics-ktx'
+    implementation 'com.google.firebase:firebase-messaging-ktx'
 
     implementation "androidx.cardview:cardview:1.0.0"
 
