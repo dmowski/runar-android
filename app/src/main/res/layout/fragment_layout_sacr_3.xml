@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <com.tnco.runar.customView.OffsetImageView
+    <com.tnco.runar.ui.component.view.OffsetImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:src="@drawable/background_fire"
@@ -29,7 +29,7 @@
         app:layout_constraintStart_toEndOf="@id/left_header_guideline"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/sacr_main_img"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

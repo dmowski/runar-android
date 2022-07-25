@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <com.tnco.runar.customView.OffsetImageView
+    <com.tnco.runar.ui.component.view.OffsetImageView
         android:id="@+id/offsetImageView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -32,7 +32,7 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.74" />
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:src="@drawable/loading_image"

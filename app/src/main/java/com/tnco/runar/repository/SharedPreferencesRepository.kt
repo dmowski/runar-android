@@ -1,15 +1,14 @@
 package com.tnco.runar.repository
 
 import android.content.Context
-import android.content.Intent
 import android.content.SharedPreferences
 import androidx.preference.PreferenceManager
 import com.tnco.runar.RunarLogger
 import java.util.*
-import com.tnco.runar.services.NotifiactionChecker
 
 class SharedPreferencesRepository private constructor(context: Context) {
-    private val preferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+    private val preferences: SharedPreferences =
+        PreferenceManager.getDefaultSharedPreferences(context)
 
     val userId: String
     var settingsMusic: Int
@@ -17,16 +16,16 @@ class SharedPreferencesRepository private constructor(context: Context) {
     var minRuneLvl: Int
     var firstLaunch: Int = 0
     var language: String
-    //var lastRunTime: Long
+    var lastRunTime: Long
 
     init {
         val appVersion = context.packageManager.getPackageInfo(context.packageName, 0).versionCode
         if (preferences.contains("version")) {
             val oldVersion = preferences.getInt("version", 0)
-            if(appVersion>oldVersion){
+            if (appVersion > oldVersion) {
                 val editor = preferences.edit()
                 editor.clear()
-                editor.putInt("version",appVersion)
+                editor.putInt("version", appVersion)
                 editor.apply()
                 context.deleteDatabase("RU_DATABASE")
                 context.deleteDatabase("EN_DATABASE")
@@ -76,10 +75,10 @@ class SharedPreferencesRepository private constructor(context: Context) {
             language = preferences.getString("language", "en").toString()
         } else {
             val editor = preferences.edit()
-            var androidLanguage = Locale.getDefault().language
-            language = if(androidLanguage!="ru"){
+            val androidLanguage = Locale.getDefault().language
+            language = if (androidLanguage != "ru") {
                 "en"
-            } else{
+            } else {
                 "ru"
             }
             RunarLogger.logDebug(language)
@@ -87,16 +86,14 @@ class SharedPreferencesRepository private constructor(context: Context) {
             editor.apply()
         }
 
-        /*val editor = preferences.edit()
+        val editor = preferences.edit()
         lastRunTime = System.currentTimeMillis()
         editor.putLong("last_run", lastRunTime)
         editor.apply()
         RunarLogger.logDebug("last_run $lastRunTime")
-        RunarLogger.logDebug("start_service")
-        context.startService(Intent(context,NotifiactionChecker::class.java))*/
     }
 
-    fun getLibHash(lng:String) : String{
+    fun getLibHash(lng: String): String {
         return if (preferences.contains("${lng}_library_hash")) {
             preferences.getString("${lng}_library_hash", "").toString()
         } else {
@@ -107,32 +104,32 @@ class SharedPreferencesRepository private constructor(context: Context) {
         }
     }
 
-    fun putLibHash(lng:String, hash: String){
+    fun putLibHash(lng: String, hash: String) {
         val editor = preferences.edit()
         editor.putString("${lng}_library_hash", hash)
         editor.apply()
     }
 
-    fun changeSettingsMusic(n: Int){
+    fun changeSettingsMusic(n: Int) {
         val editor = preferences.edit()
         settingsMusic = n
         editor.putInt("Settings_music", n)
         editor.apply()
     }
 
-    fun changeSettingsOnboarding(n: Int){
+    fun changeSettingsOnboarding(n: Int) {
         val editor = preferences.edit()
         settingsOnboarding = n
         editor.putInt("Settings_onboarding", n)
         editor.apply()
     }
 
-    fun changeSettingsLanguage(s: String){
-        var lang =s
-        if(lang!="ru") lang="en"
+    fun changeSettingsLanguage(s: String) {
+        var lang = s
+        if (lang != "ru") lang = "en"
         val editor = preferences.edit()
         language = lang
-        editor.putString("language",language)
+        editor.putString("language", language)
         editor.apply()
     }
 
