@@ -6,6 +6,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.tnco.runar.R
@@ -21,11 +22,13 @@ class PushService : FirebaseMessagingService() {
 
     override fun onNewToken(token: String) {
         RunarLogger.logDebug("Refreshed token: $token")
+        Log.d("KEYKAK", "enter new token method")
         super.onNewToken(token)
     }
 
     override fun handleIntent(intent: Intent?) {
         RunarLogger.logDebug("received message from server")
+        Log.d("KEYKAK", "enter handle intent method")
         //crutch, for some reason the notification comes on the first start
         //if I open just only once, it will be problem
         if (preferencesRepository.firstLaunch != 1 && isShouldSend()) {
@@ -59,7 +62,6 @@ class PushService : FirebaseMessagingService() {
         val channelId = getString(R.string.push_general_notification_channel_id)
         val builder = NotificationCompat.Builder(this, channelId)
             .setSmallIcon(R.drawable.notif_icon_white)
-            .setContentTitle(getString(R.string.title_push_general_notification))
             .setContentText(getString(R.string.push_general_notification))
             .setAutoCancel(true)
 //            .setStyle()//create style for day and night mode
