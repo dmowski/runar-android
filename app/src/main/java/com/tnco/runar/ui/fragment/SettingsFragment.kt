@@ -2,6 +2,7 @@ package com.tnco.runar.ui.fragment
 
 import android.app.Activity
 import android.content.Context
+import android.content.ContextWrapper
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -32,7 +33,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.tnco.runar.R
 import com.tnco.runar.ui.Navigator
 import com.tnco.runar.ui.viewmodel.SettingsViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SettingsFragment : Fragment() {
 
     val viewModel: SettingsViewModel by viewModels()
@@ -330,7 +333,7 @@ private fun LangMenuItem(fontSize: Float, header: String, selectedPos: Int) {
 @Composable
 private fun LanguageItem(fontSize: Float, itemName: String, selected: Boolean, pos: Int) {
     val viewModel: SettingsViewModel = viewModel()
-    val context = LocalContext.current
+    val activityContext = (LocalContext.current as ContextWrapper).baseContext as Activity
     Row(
         Modifier
             .fillMaxSize()
@@ -338,7 +341,7 @@ private fun LanguageItem(fontSize: Float, itemName: String, selected: Boolean, p
             .clickable(onClick = {
                 if (!selected) viewModel.changeLanguage(
                     pos,
-                    (context as Activity)
+                    activityContext
                 )
             }), verticalAlignment = Alignment.CenterVertically
     ) {
@@ -357,7 +360,7 @@ private fun LanguageItem(fontSize: Float, itemName: String, selected: Boolean, p
         )
         RadioButton(
             selected = selected,
-            onClick = { if (!selected) viewModel.changeLanguage(pos, (context as Activity)) },
+            onClick = { if (!selected) viewModel.changeLanguage(pos, activityContext) },
             colors = RadioButtonDefaults.colors(
                 selectedColor = colorResource(id = R.color.switcher_checked_thumb),
                 unselectedColor = colorResource(id = R.color.switcher_unchecked_thumb)

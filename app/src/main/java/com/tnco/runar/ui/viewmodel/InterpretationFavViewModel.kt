@@ -1,41 +1,46 @@
 package com.tnco.runar.ui.viewmodel
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.tnco.runar.model.AffimDescriptionModel
 import com.tnco.runar.model.LayoutDescriptionModel
 import com.tnco.runar.model.RuneDescriptionModel
 import com.tnco.runar.repository.DatabaseRepository
 import com.tnco.runar.repository.SharedDataRepository
 import com.tnco.runar.util.SingleLiveEvent
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class InterpretationFavViewModel(application: Application) : AndroidViewModel(application) {
-    val fontSize: LiveData<Float> = MutableLiveData(SharedDataRepository.fontSize)
-    var runesData: List<RuneDescriptionModel> = emptyList()
-    var affirmData: List<AffimDescriptionModel> = emptyList()
+@HiltViewModel
+class InterpretationFavViewModel @Inject constructor(
+    private val databaseRepository: DatabaseRepository,
+    sharedDataRepository: SharedDataRepository
+) : ViewModel() {
+    val fontSize: LiveData<Float> = MutableLiveData(sharedDataRepository.fontSize)
+    private var runesData: List<RuneDescriptionModel> = emptyList()
+    private var affirmData: List<AffimDescriptionModel> = emptyList()
 
 
     private var _selectedRune = SingleLiveEvent<RuneDescriptionModel>()
     private var _singleRune = SingleLiveEvent<String>()
     private var _currentAffirm = SingleLiveEvent<String>()
     private var _currentInterpretation = SingleLiveEvent<String>()
-    private var  _currentAusp = SingleLiveEvent<Int>()
+    private var _currentAusp = SingleLiveEvent<Int>()
     private var _selectedLayout = SingleLiveEvent<LayoutDescriptionModel>()
     private var userLayout = arrayListOf<Int>()
 
-    var currentAusp : LiveData<Int> = _currentAusp
+    var currentAusp: LiveData<Int> = _currentAusp
     val selectedLayout: LiveData<LayoutDescriptionModel> = _selectedLayout
-    var currentAffirm : LiveData<String> = _currentAffirm
-    var currentInterpretation : LiveData<String> = _currentInterpretation
-    var selectedRune : LiveData<RuneDescriptionModel> = _selectedRune
-    var singleRune : LiveData<String> = _singleRune
+    var currentAffirm: LiveData<String> = _currentAffirm
+    var currentInterpretation: LiveData<String> = _currentInterpretation
+    var selectedRune: LiveData<RuneDescriptionModel> = _selectedRune
+    var singleRune: LiveData<String> = _singleRune
 
-    fun getSingleRuneData(id: Int){
+    fun getSingleRuneData(id: Int) {
         for (rune in runesData) {
             if (rune.runeId == id) {
                 _singleRune.postValue(rune.runeName!!)
@@ -51,32 +56,67 @@ class InterpretationFavViewModel(application: Application) : AndroidViewModel(ap
             }
         }
     }
+
     fun getInterpretation() {
         val layoutId = selectedLayout.value?.layoutId
-        var result: String = ""
+        var result = ""
         when (layoutId) {
             1 -> result = getFullDescriptionForRune(userLayout[1]) + "."
             2 -> {
                 CoroutineScope(IO).launch {
                     val index = userLayout[1] * 100 + userLayout[2]
-                    val inter = DatabaseRepository.getTwoRunesInterpretation(index)
-                    val res = String.format(selectedLayout.value?.interpretation!!,inter)
+                    val inter = databaseRepository.getTwoRunesInterpretation(index)
+                    val res = String.format(selectedLayout.value?.interpretation!!, inter)
                     _currentInterpretation.postValue(res)
                 }
                 return
             }
-            3 -> result = String.format(selectedLayout.value?.interpretation!!,
-                    getMeaningForRune(userLayout[1]),getMeaningForRune(userLayout[2]),getMeaningForRune(userLayout[3]))
-            4 -> result = String.format(selectedLayout.value?.interpretation!!,
-                    getMeaningForRune(userLayout[1]),getMeaningForRune(userLayout[2]),getMeaningForRune(userLayout[3]),getMeaningForRune(userLayout[4]))
-            5 -> result = String.format(selectedLayout.value?.interpretation!!,
-                    getMeaningForRune(userLayout[1]),getMeaningForRune(userLayout[2]),getMeaningForRune(userLayout[4]))
-            6 -> result = String.format(selectedLayout.value?.interpretation!!,
-                    getMeaningForRune(userLayout[1]),getMeaningForRune(userLayout[2]),getMeaningForRune(userLayout[3]),getMeaningForRune(userLayout[5]),getMeaningForRune(userLayout[4]))
-            7 -> result = String.format(selectedLayout.value?.interpretation!!,
-                    getMeaningForRune(userLayout[2]),getMeaningForRune(userLayout[1]),getMeaningForRune(userLayout[4]),getMeaningForRune(userLayout[3]),getMeaningForRune(userLayout[5]),getMeaningForRune(userLayout[6]))
-            8 -> result = String.format(selectedLayout.value?.interpretation!!,
-                    getMeaningForRune(userLayout[1]),getMeaningForRune(userLayout[2]),getMeaningForRune(userLayout[3]),getMeaningForRune(userLayout[4]),getMeaningForRune(userLayout[5]),getMeaningForRune(userLayout[6]),getMeaningForRune(userLayout[7]))
+            3 -> result = String.format(
+                selectedLayout.value?.interpretation!!,
+                getMeaningForRune(userLayout[1]),
+                getMeaningForRune(userLayout[2]),
+                getMeaningForRune(userLayout[3])
+            )
+            4 -> result = String.format(
+                selectedLayout.value?.interpretation!!,
+                getMeaningForRune(userLayout[1]),
+                getMeaningForRune(userLayout[2]),
+                getMeaningForRune(userLayout[3]),
+                getMeaningForRune(userLayout[4])
+            )
+            5 -> result = String.format(
+                selectedLayout.value?.interpretation!!,
+                getMeaningForRune(userLayout[1]),
+                getMeaningForRune(userLayout[2]),
+                getMeaningForRune(userLayout[4])
+            )
+            6 -> result = String.format(
+                selectedLayout.value?.interpretation!!,
+                getMeaningForRune(userLayout[1]),
+                getMeaningForRune(userLayout[2]),
+                getMeaningForRune(userLayout[3]),
+                getMeaningForRune(userLayout[5]),
+                getMeaningForRune(userLayout[4])
+            )
+            7 -> result = String.format(
+                selectedLayout.value?.interpretation!!,
+                getMeaningForRune(userLayout[2]),
+                getMeaningForRune(userLayout[1]),
+                getMeaningForRune(userLayout[4]),
+                getMeaningForRune(userLayout[3]),
+                getMeaningForRune(userLayout[5]),
+                getMeaningForRune(userLayout[6])
+            )
+            8 -> result = String.format(
+                selectedLayout.value?.interpretation!!,
+                getMeaningForRune(userLayout[1]),
+                getMeaningForRune(userLayout[2]),
+                getMeaningForRune(userLayout[3]),
+                getMeaningForRune(userLayout[4]),
+                getMeaningForRune(userLayout[5]),
+                getMeaningForRune(userLayout[6]),
+                getMeaningForRune(userLayout[7])
+            )
         }
         _currentInterpretation.postValue(result)
     }
@@ -86,21 +126,21 @@ class InterpretationFavViewModel(application: Application) : AndroidViewModel(ap
         var ausp = 0
         when (layoutId) {
             1 -> ausp = getSumOfAusp(arrayListOf(1))
-            2 -> ausp = getSumOfAusp(arrayListOf(1,2)) / 2
+            2 -> ausp = getSumOfAusp(arrayListOf(1, 2)) / 2
             3 -> ausp = getSumOfAusp(arrayListOf(3))
-            4 -> ausp = getSumOfAusp(arrayListOf(3,4)) / 2
-            5 -> ausp = getSumOfAusp(arrayListOf(2,3,4))/ 3
-            6 -> ausp =getSumOfAusp(arrayListOf(3,4,5))/ 3
-            7 -> ausp =getSumOfAusp(arrayListOf(3,5,6))/ 3
-            8 -> ausp =getSumOfAusp(arrayListOf(3,4,6,7))/ 4
+            4 -> ausp = getSumOfAusp(arrayListOf(3, 4)) / 2
+            5 -> ausp = getSumOfAusp(arrayListOf(2, 3, 4)) / 3
+            6 -> ausp = getSumOfAusp(arrayListOf(3, 4, 5)) / 3
+            7 -> ausp = getSumOfAusp(arrayListOf(3, 5, 6)) / 3
+            8 -> ausp = getSumOfAusp(arrayListOf(3, 4, 6, 7)) / 4
         }
         _currentAusp.postValue(ausp)
     }
 
     fun getAffimForCurrentLayout(affirmId: Int) {
         while (true) {
-            val affirmNumber = affirmId/100
-            val affirmLvl = affirmId%100
+            val affirmNumber = affirmId / 100
+            val affirmLvl = affirmId % 100
             val affirmElement = getAffirmDataById(affirmNumber)
             when (affirmLvl) {
                 in 0..19 -> {
@@ -123,20 +163,20 @@ class InterpretationFavViewModel(application: Application) : AndroidViewModel(ap
         }
     }
 
-    fun getAffirmDataById(id: Int): AffimDescriptionModel{
+    private fun getAffirmDataById(id: Int): AffimDescriptionModel {
         var result = affirmData[0]
-        for(item in affirmData){
-            if(item.id==id) result = item
+        for (item in affirmData) {
+            if (item.id == id) result = item
         }
         return result
     }
 
-    fun getSumOfAusp(ids: ArrayList<Int>): Int {
-        var sum =0
-        for(runePos in ids){
+    private fun getSumOfAusp(ids: ArrayList<Int>): Int {
+        var sum = 0
+        for (runePos in ids) {
             for (rune in runesData) {
                 if (rune.runeId == userLayout[runePos]) {
-                    sum+= rune.ausp!!
+                    sum += rune.ausp!!
                 }
             }
         }
@@ -146,7 +186,7 @@ class InterpretationFavViewModel(application: Application) : AndroidViewModel(ap
     private fun getMeaningForRune(id: Int): String {
         for (rune in runesData) {
             if (rune.runeId == id) {
-                return rune.meaning!!.toLowerCase()
+                return rune.meaning!!.lowercase()
             }
         }
         return ""
@@ -163,19 +203,19 @@ class InterpretationFavViewModel(application: Application) : AndroidViewModel(ap
 
     fun getRuneDataFromDB() {
         CoroutineScope(IO).launch {
-            runesData = DatabaseRepository.getRunesList()
+            runesData = databaseRepository.getRunesList()
         }
     }
 
     fun getAffirmationsDataFromDB() {
         CoroutineScope(IO).launch {
-            affirmData = DatabaseRepository.getAffirmList()
+            affirmData = databaseRepository.getAffirmList()
         }
     }
 
     fun getLayoutDescription(id: Int) {
         CoroutineScope(IO).launch {
-            _selectedLayout.postValue(DatabaseRepository.getLayoutDetails(id))
+            _selectedLayout.postValue(databaseRepository.getLayoutDetails(id))
         }
     }
 

@@ -5,11 +5,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.foundation.*
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -35,7 +40,9 @@ import com.tnco.runar.ui.component.dialog.SavedLayoutsDialog
 import com.tnco.runar.ui.viewmodel.FavouriteViewModel
 import com.tnco.runar.util.AnalyticsConstants
 import com.tnco.runar.util.AnalyticsUtils
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class FavouriteFragment : Fragment() {
     val viewModel: FavouriteViewModel by viewModels()
     private var navigator: Navigator? = null
@@ -147,7 +154,8 @@ private fun Bars(navigator: Navigator?) {
                             text = item.content!!,
                             header = item.header!!,
                             clickAction = {
-                                val layoutName = AnalyticsUtils.convertLayoutIdToName(item.layoutId!!)
+                                val layoutName =
+                                    AnalyticsUtils.convertLayoutIdToName(item.layoutId!!)
                                 AnalyticsHelper.sendEvent(
                                     AnalyticsEvent.FAVOURITE_DRAWS_OPENED,
                                     Pair(AnalyticsConstants.DRAW_RUNE_LAYOUT, layoutName)

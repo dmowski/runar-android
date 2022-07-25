@@ -5,20 +5,13 @@ import androidx.databinding.BindingAdapter
 import coil.load
 import com.tnco.runar.R
 
-class BindingAdapters {
+@BindingAdapter("loadImageFromUrl")
+fun loadImageFromUrl(imageView: ImageView, imageUrl: String?) {
 
-    companion object {
-
-        @BindingAdapter("loadImageFromUrl")
-        @JvmStatic
-        fun loadImageFromUrl(imageView: ImageView, imageUrl: String?) {
-
-            if (imageUrl != null) {
-                imageView.load(imageUrl) {
-                    crossfade(100)
-                    error(R.drawable.rune39)
-                }
-            }
+    if (imageUrl != null) {
+        imageView.load(imageUrl) {
+            crossfade(100)
+            error(R.drawable.rune39)
         }
     }
 }

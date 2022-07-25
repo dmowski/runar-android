@@ -17,22 +17,19 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.os.bundleOf
 import androidx.core.text.HtmlCompat
-import androidx.core.text.HtmlCompat.FROM_HTML_MODE_LEGACY
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.tnco.runar.R
 import com.tnco.runar.analytics.AnalyticsHelper
-import com.tnco.runar.enums.AnalyticsEvent
-import com.tnco.runar.util.AnalyticsConstants
-import com.tnco.runar.util.AnalyticsUtils
 import com.tnco.runar.databinding.FragmentLayoutInterpretationBinding
+import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.ui.Navigator
 import com.tnco.runar.ui.viewmodel.InterpretationViewModel
-import com.tnco.runar.util.InterTagHandler
-import com.tnco.runar.util.OnSwipeTouchListener
-import com.tnco.runar.util.setOnCLickListenerForAll
+import com.tnco.runar.util.*
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpretation),
     View.OnClickListener {
 
@@ -105,12 +102,12 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
             if (interpretation != null) {
 
                 fontSize = interpretation
-                val headerTextSize = (interpretation * 3.0f)
-                val buttonTextSize = (interpretation * 1.65f)
-                val checkboxTextSize = (interpretation * 0.8f)
-                val runeNameTextSize = (interpretation * 1.2f)
-                val littleTextSize = (interpretation * 0.75f)
-                val sacrTextSize = (interpretation * 0.6f)
+                val headerTextSize = interpretation * 3f
+                val buttonTextSize = interpretation * 1.65f
+                val checkboxTextSize = interpretation * 0.8f
+                val runeNameTextSize = interpretation * 1.2f
+                val littleTextSize = interpretation * 0.75f
+                val sacrTextSize = interpretation * 0.6f
                 binding.descriptionHeaderFrame.setTextSize(
                     TypedValue.COMPLEX_UNIT_PX,
                     headerTextSize
@@ -1042,7 +1039,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                                             )
                                             binding.text.text = HtmlCompat.fromHtml(
                                                 "${requireContext().resources.getString(R.string.layout_interpretation_ausf)} - <bf>${singleRuneAusp} %</bf>",
-                                                FROM_HTML_MODE_LEGACY,
+                                                HtmlCompat.FROM_HTML_MODE_COMPACT,
                                                 null,
                                                 InterTagHandler(secondFont!!)
                                             )
@@ -1121,7 +1118,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                             ResourcesCompat.getFont(requireContext(), R.font.roboto_medium)
                         binding.runeAusf.text = HtmlCompat.fromHtml(
                             "${requireContext().resources.getString(R.string.layout_interpretation_ausf)} - <bf>${it.ausp} %</bf>",
-                            FROM_HTML_MODE_LEGACY,
+                            HtmlCompat.FROM_HTML_MODE_COMPACT,
                             null,
                             InterTagHandler(secondFont!!)
                         )

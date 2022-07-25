@@ -10,7 +10,9 @@ import com.tnco.runar.R
 import com.tnco.runar.databinding.FragmentLayoutSacr1Binding
 import com.tnco.runar.ui.Navigator
 import com.tnco.runar.ui.viewmodel.Sacr1ViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SacrFragment1 : Fragment(R.layout.fragment_layout_sacr_1), View.OnClickListener {
 
     private val viewModel: Sacr1ViewModel by viewModels()

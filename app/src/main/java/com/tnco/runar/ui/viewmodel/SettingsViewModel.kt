@@ -9,15 +9,24 @@ import com.tnco.runar.repository.LanguageRepository
 import com.tnco.runar.repository.SharedDataRepository
 import com.tnco.runar.repository.SharedPreferencesRepository
 import com.tnco.runar.repository.backend.BackendRepository
+import com.tnco.runar.ui.activity.MainActivity
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.*
+import javax.inject.Inject
 
-class SettingsViewModel : ViewModel() {
-    private val preferencesRepository = SharedPreferencesRepository.get()
+@HiltViewModel
+class SettingsViewModel @Inject constructor(
+    private val preferencesRepository: SharedPreferencesRepository,
+    private val backendRepository: BackendRepository,
+    private val languageRepository: LanguageRepository,
+    private val musicController: MusicController,
+    sharedDataRepository: SharedDataRepository
+) : ViewModel() {
 
-    val fontSize: LiveData<Float> = MutableLiveData(SharedDataRepository.fontSize)
+    val fontSize: LiveData<Float> = MutableLiveData(sharedDataRepository.fontSize)
     val musicStatus: MutableLiveData<Boolean> = MutableLiveData(true)
     val onboardingStatus: MutableLiveData<Boolean> = MutableLiveData(true)
     val selectedLanguagePos: MutableLiveData<Int> = MutableLiveData(0)
@@ -32,12 +41,13 @@ class SettingsViewModel : ViewModel() {
     }
 
     fun changeLanguage(pos: Int, activity: Activity) {
-        LanguageRepository.changeLanguage(activity, langOrder[pos])
+        languageRepository.changeLanguageAndUpdateRepo(activity, langOrder[pos])
         preferencesRepository.changeSettingsLanguage(langOrder[pos])
+        (activity as MainActivity).reshowBar()
         selectedLanguagePos.postValue(pos)
         headerUpdater.postValue(!headerUpdater.value!!)
         CoroutineScope(Dispatchers.IO).launch {
-            BackendRepository.getLibraryData(langOrder[pos])
+            backendRepository.getLibraryData(langOrder[pos])
         }
     }
 
@@ -50,11 +60,11 @@ class SettingsViewModel : ViewModel() {
     fun changeMusicStatus(state: Boolean) {
         if (state) {
             preferencesRepository.changeSettingsMusic(1)
-            MusicController.startMusic()
+            musicController.startMusic()
             updateMusicStatus()
         } else {
             preferencesRepository.changeSettingsMusic(0)
-            MusicController.stopMusic()
+            musicController.stopMusic()
             updateMusicStatus()
         }
     }

@@ -14,7 +14,9 @@ import com.tnco.runar.util.AnalyticsConstants
 import com.tnco.runar.util.AnalyticsUtils
 import com.tnco.runar.ui.viewmodel.LayoutViewModel
 import com.tnco.runar.util.setOnCLickListenerForAll
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener {
 
     private val viewModel: LayoutViewModel by viewModels()

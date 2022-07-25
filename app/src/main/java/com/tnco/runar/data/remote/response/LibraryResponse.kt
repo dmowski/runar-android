@@ -1,4 +1,4 @@
-package com.tnco.runar.data.remote
+package com.tnco.runar.data.remote.response
 
 data class LibraryResponse(
     val childIds : List<String>? = null,

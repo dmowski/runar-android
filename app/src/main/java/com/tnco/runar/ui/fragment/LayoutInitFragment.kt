@@ -15,24 +15,27 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.tnco.runar.R
 import com.tnco.runar.analytics.AnalyticsHelper
-import com.tnco.runar.enums.AnalyticsEvent
-import com.tnco.runar.util.AnalyticsConstants
-import com.tnco.runar.util.AnalyticsUtils
 import com.tnco.runar.databinding.FragmentLayoutInitBinding
+import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.repository.SharedPreferencesRepository
 import com.tnco.runar.ui.Navigator
 import com.tnco.runar.ui.component.dialog.DescriptionDialog
 import com.tnco.runar.ui.viewmodel.InitViewModel
+import com.tnco.runar.util.AnalyticsConstants
+import com.tnco.runar.util.AnalyticsUtils
 import com.tnco.runar.util.setOnCLickListenerForAll
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.*
+import javax.inject.Inject
 import kotlin.random.Random
 
+@AndroidEntryPoint
 class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClickListener {
 
     private val viewModel: InitViewModel by viewModels()
 
-    private var preferencesRepository = SharedPreferencesRepository.get()
+    @Inject
+    lateinit var preferencesRepository: SharedPreferencesRepository
 
     private lateinit var headerText: String
     private lateinit var descriptionText: String
@@ -77,8 +80,8 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
 
         viewModel.fontSize.observe(viewLifecycleOwner) { textSize ->
             fontSize = textSize
-            val headerTextSize = (textSize * 3.0f)
-            val buttonTextSize = (textSize * 1.65f)
+            val headerTextSize = textSize * 3.0f
+            val buttonTextSize = textSize * 1.65f
             binding.descriptionHeaderFrame.setTextSize(TypedValue.COMPLEX_UNIT_PX, headerTextSize)
             binding.descriptionButtonFrame.setTextSize(TypedValue.COMPLEX_UNIT_PX, buttonTextSize)
         }

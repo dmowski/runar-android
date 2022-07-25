@@ -10,14 +10,20 @@ import com.tnco.runar.repository.DatabaseRepository
 import com.tnco.runar.repository.SharedDataRepository
 import com.tnco.runar.util.AnalyticsConstants
 import com.tnco.runar.util.AnalyticsUtils
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
+import javax.inject.Inject
 
-class FavouriteViewModel : ViewModel() {
-    val fontSize: LiveData<Float> = MutableLiveData(SharedDataRepository.fontSize)
+@HiltViewModel
+class FavouriteViewModel @Inject constructor(
+    private val databaseRepository: DatabaseRepository,
+    sharedDataRepository: SharedDataRepository
+) : ViewModel() {
+    val fontSize: LiveData<Float> = MutableLiveData(sharedDataRepository.fontSize)
     private var favList: List<UserLayoutModel> = emptyList()
     private var runesData: List<RuneDescriptionModel> = emptyList()
     private var layoutsData: List<LayoutDescriptionModel> = emptyList()
@@ -28,10 +34,10 @@ class FavouriteViewModel : ViewModel() {
 
     fun getUserLayoutsFromDB() {
         CoroutineScope(Dispatchers.IO).launch {
-            favList = DatabaseRepository.getUserLayouts().asReversed().take(500)
-            runesData = DatabaseRepository.getRunesList()
-            layoutsData = DatabaseRepository.getAllLayouts()
-            twoRunesInters = DatabaseRepository.getAllTwoRunesInter()
+            favList = databaseRepository.getUserLayouts().asReversed().take(500)
+            runesData = databaseRepository.getRunesList()
+            layoutsData = databaseRepository.getAllLayouts()
+            twoRunesInters = databaseRepository.getAllTwoRunesInter()
             getCorrectUserData()
         }
     }
@@ -82,8 +88,8 @@ class FavouriteViewModel : ViewModel() {
             }
         }
         CoroutineScope(Dispatchers.IO).launch {
-            DatabaseRepository.deleteUserLayoutsByIds(idsList)
-            favList = DatabaseRepository.getUserLayouts()
+            databaseRepository.deleteUserLayoutsByIds(idsList)
+            favList = databaseRepository.getUserLayouts()
             getCorrectUserData()
         }
     }

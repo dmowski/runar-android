@@ -5,7 +5,9 @@ import android.os.Bundle
 import android.text.Html
 import android.util.TypedValue
 import android.view.View
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.text.HtmlCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.tnco.runar.R
@@ -13,7 +15,9 @@ import com.tnco.runar.databinding.FragmentLayoutSacr2Binding
 import com.tnco.runar.ui.Navigator
 import com.tnco.runar.ui.viewmodel.Sacr2ViewModel
 import com.tnco.runar.util.InterTagHandler
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SacrFragment2 : Fragment(R.layout.fragment_layout_sacr_2), View.OnClickListener {
 
     private val viewModel: Sacr2ViewModel by viewModels()
@@ -49,10 +53,11 @@ class SacrFragment2 : Fragment(R.layout.fragment_layout_sacr_2), View.OnClickLis
             binding.descriptionHeaderFrame.setTextSize(TypedValue.COMPLEX_UNIT_PX, headerTextSize)
             binding.hintTw.setTextSize(TypedValue.COMPLEX_UNIT_PX, hintTextSize)
             binding.gpTw.setTextSize(TypedValue.COMPLEX_UNIT_PX, gpTextSize)
-            binding.hintTw.setTextColor(resources.getColor(R.color.sacr_hint_main))
+            binding.hintTw.setTextColor(requireContext().getColor(R.color.sacr_hint_main))
             val secondFont = ResourcesCompat.getFont(requireContext(), R.font.roboto_bold)
-            binding.hintTw.text = Html.fromHtml(
+            binding.hintTw.text = HtmlCompat.fromHtml(
                 "${requireContext().resources.getString(R.string.sacr_hint_text)} <font color='#DADADA'><bf>$${tipSize}</bf></font>",
+                HtmlCompat.FROM_HTML_MODE_COMPACT,
                 null,
                 InterTagHandler(secondFont!!)
             )

@@ -1,7 +1,7 @@
 package com.tnco.runar.repository.backend
 
-import com.tnco.runar.data.remote.LibraryResponse
-import com.tnco.runar.data.remote.RunesResponse
+import com.tnco.runar.data.remote.response.LibraryResponse
+import com.tnco.runar.data.remote.response.RunesResponse
 import com.tnco.runar.model.LibraryItemsModel
 import com.tnco.runar.model.RunesItemsModel
 

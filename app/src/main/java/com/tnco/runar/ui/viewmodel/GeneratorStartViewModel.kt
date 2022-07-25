@@ -1,21 +1,30 @@
 package com.tnco.runar.ui.viewmodel
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import com.tnco.runar.model.RunesItemsModel
 import com.tnco.runar.repository.DatabaseRepository
-import com.tnco.runar.repository.backend.BackendRepository
+import com.tnco.runar.repository.GeneratorRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class GeneratorStartViewModel : ViewModel() {
+@HiltViewModel
+class GeneratorStartViewModel @Inject constructor(
+    private val generatorRepository: GeneratorRepository,
+    databaseRepository: DatabaseRepository
+): ViewModel() {
 
-    var readRunes: LiveData<List<RunesItemsModel>> =
-        DatabaseRepository.getRunesGenerator().asLiveData()
+    val readRunes: LiveData<List<RunesItemsModel>> =
+        databaseRepository.getRunesGenerator().asLiveData()
 
-    var runesResponse: MutableLiveData<List<RunesItemsModel>> = MutableLiveData()
+    val runesResponse: MutableLiveData<List<RunesItemsModel>> = MutableLiveData()
 
     fun getRunes() = CoroutineScope(Dispatchers.IO).launch {
-        runesResponse.postValue(BackendRepository.getRunes())
+        runesResponse.postValue(generatorRepository.getRunes())
     }
 }

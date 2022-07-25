@@ -12,20 +12,25 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.tnco.runar.R
 import com.tnco.runar.analytics.AnalyticsHelper
-import com.tnco.runar.enums.AnalyticsEvent
-import com.tnco.runar.util.AnalyticsConstants
-import com.tnco.runar.util.AnalyticsUtils
 import com.tnco.runar.databinding.FragmentLayoutProcessingBinding
+import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.feature.MusicController
 import com.tnco.runar.ui.Navigator
 import com.tnco.runar.ui.viewmodel.ProcessingViewModel
+import com.tnco.runar.util.AnalyticsConstants
+import com.tnco.runar.util.AnalyticsUtils
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
+import javax.inject.Inject
 
-
+@AndroidEntryPoint
 class LayoutProcessingFragment : Fragment(R.layout.fragment_layout_processing) {
 
     private var layoutId: Int = 0
     private var userLayout = intArrayOf()
+
+    @Inject
+    lateinit var musicController: MusicController
 
     private var navigator: Navigator? = null
 
@@ -65,19 +70,7 @@ class LayoutProcessingFragment : Fragment(R.layout.fragment_layout_processing) {
             binding.textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, simpleTextSize)
             binding.textSongName.setTextSize(TypedValue.COMPLEX_UNIT_PX, simpleTextSize)
             binding.textGroupName.setTextSize(TypedValue.COMPLEX_UNIT_PX, advertHeaderTextSize)
-            when (MusicController.currentSongPos) {
-                2 -> {
-                    link = "https://lyod1.bandcamp.com/releases"
-                    binding.textGroupName.text = getString(R.string.group1)
-                    binding.textSongName.text = getString(R.string.track1_1)
-                    binding.imageGroup.setImageResource(R.drawable.led_image)
-                }
-                3 -> {
-                    link = "https://lyod1.bandcamp.com/releases"
-                    binding.textGroupName.text = getString(R.string.group1)
-                    binding.textSongName.text = getString(R.string.track1_2)
-                    binding.imageGroup.setImageResource(R.drawable.led_image)
-                }
+            when (musicController.currentSongPos) {
                 0 -> {
                     link = "https://danheimmusic.com/"
                     binding.textGroupName.text = getString(R.string.group2)
@@ -89,6 +82,18 @@ class LayoutProcessingFragment : Fragment(R.layout.fragment_layout_processing) {
                     binding.textGroupName.text = getString(R.string.group2)
                     binding.textSongName.text = getString(R.string.track2_2)
                     binding.imageGroup.setImageResource(R.drawable.danheim_image)
+                }
+                2 -> {
+                    link = "https://lyod1.bandcamp.com/releases"
+                    binding.textGroupName.text = getString(R.string.group1)
+                    binding.textSongName.text = getString(R.string.track1_1)
+                    binding.imageGroup.setImageResource(R.drawable.led_image)
+                }
+                3 -> {
+                    link = "https://lyod1.bandcamp.com/releases"
+                    binding.textGroupName.text = getString(R.string.group1)
+                    binding.textSongName.text = getString(R.string.track1_2)
+                    binding.imageGroup.setImageResource(R.drawable.led_image)
                 }
             }
 

@@ -18,11 +18,20 @@ import com.tnco.runar.model.OnboardGuideElementModel
 import com.tnco.runar.repository.LanguageRepository
 import com.tnco.runar.ui.adapter.OnboardViewPagerAdapter
 import com.tnco.runar.ui.viewmodel.OnboardViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class OnboardActivity : AppCompatActivity() {
     private val viewModel: OnboardViewModel by viewModels()
     private var fontSize: Float = 0f
     private var currentPosition = 0
+
+    @Inject
+    lateinit var languageRepository: LanguageRepository
+
+    @Inject
+    lateinit var musicController: MusicController
 
     private lateinit var adapter: OnboardViewPagerAdapter
     private lateinit var models: ArrayList<OnboardGuideElementModel>
@@ -31,8 +40,6 @@ class OnboardActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        LanguageRepository.setSettingsLanguage(this)
 
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         window.statusBarColor = getColor(R.color.library_top_bar)
@@ -162,14 +169,14 @@ class OnboardActivity : AppCompatActivity() {
     }
 
     override fun onResume() {
-        MusicController.onboardingStatus = true
-        MusicController.startMusic()
+        musicController.onboardingStatus = true
+        musicController.startMusic()
         super.onResume()
     }
 
     override fun onPause() {
-        MusicController.onboardingStatus = false
-        MusicController.softStopMusic()
+        musicController.onboardingStatus = false
+        musicController.softStopMusic()
         super.onPause()
     }
 }

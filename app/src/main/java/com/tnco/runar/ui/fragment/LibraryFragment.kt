@@ -23,14 +23,17 @@ import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewmodel.compose.viewModel
+import coil.compose.rememberAsyncImagePainter
 import coil.compose.rememberImagePainter
-import coil.size.OriginalSize
+import coil.request.ImageRequest
+import coil.size.Size
 import com.google.accompanist.pager.*
 import com.tnco.runar.R
 import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.util.AnalyticsConstants
 import com.tnco.runar.ui.viewmodel.LibraryViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -38,6 +41,7 @@ import kotlinx.coroutines.launch
 
 const val audioFeature = false
 
+@AndroidEntryPoint
 class LibraryFragment : Fragment() {
     val viewModel: LibraryViewModel by viewModels()
 
@@ -378,7 +382,7 @@ private fun FirstMenuItem(
                     .weight(62f), verticalAlignment = Alignment.CenterVertically
             ) {
                 Image(
-                    painter = rememberImagePainter(imgLink),
+                    painter = rememberAsyncImagePainter(imgLink),
                     contentDescription = null,
                     modifier = Modifier
                         .background(Color(0x00000000))
@@ -568,7 +572,7 @@ private fun SecondMenuItem(
                         .weight(62f), verticalAlignment = Alignment.CenterVertically
                 ) {
                     Image(
-                        painter = rememberImagePainter(imgLink),
+                        painter = rememberAsyncImagePainter(imgLink),
                         contentDescription = null,
                         modifier = Modifier
                             .background(Color(0x00000000))
@@ -763,9 +767,11 @@ private fun RuneDescription(fontSize: Float, header: String, text: String, imgLi
                     .weight(152f)
             )
             Image(
-                painter = rememberImagePainter(imgLink, builder = {
-                    size(OriginalSize)
-                }),
+                painter = rememberAsyncImagePainter(
+                    ImageRequest.Builder(LocalContext.current).data(imgLink).apply(block = fun ImageRequest.Builder.() {
+                        size(Size.ORIGINAL)
+                    }).build()
+                ),
                 contentDescription = null,
                 modifier = Modifier
                     .background(Color(0x00000000))

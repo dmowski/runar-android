@@ -11,18 +11,27 @@ import com.tnco.runar.feature.MusicController
 import com.tnco.runar.repository.LanguageRepository
 import com.tnco.runar.repository.SharedPreferencesRepository
 import com.tnco.runar.ui.viewmodel.SplashViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class SplashActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var preferencesRepository: SharedPreferencesRepository
+
+    @Inject
+    lateinit var languageRepository: LanguageRepository
+
+    @Inject
+    lateinit var musicController: MusicController
 
     private val viewModel: SplashViewModel by viewModels()
     private lateinit var binding: ActivitySplashBinding
     private var musicState = true
-    var preferencesRepository = SharedPreferencesRepository.get()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        LanguageRepository.setSettingsLanguage(this)
 
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
@@ -37,14 +46,14 @@ class SplashActivity : AppCompatActivity() {
     }
 
     override fun onResume() {
-        MusicController.splashStatus = true
-        MusicController.startMusic()
+        musicController.splashStatus = true
+        musicController.startMusic()
         super.onResume()
     }
 
     override fun onPause() {
-        MusicController.splashStatus = false
-        MusicController.softStopMusic()
+        musicController.splashStatus = false
+        musicController.softStopMusic()
         super.onPause()
     }
 

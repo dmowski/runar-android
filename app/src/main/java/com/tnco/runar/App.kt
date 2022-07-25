@@ -7,17 +7,28 @@ import com.tnco.runar.data.local.DataDB
 import com.tnco.runar.feature.MusicController
 import com.tnco.runar.repository.LanguageRepository
 import com.tnco.runar.repository.SharedDataRepository
-import com.tnco.runar.repository.SharedPreferencesRepository
+import dagger.hilt.android.HiltAndroidApp
+import javax.inject.Inject
 
+@HiltAndroidApp
 class App : Application() {
+
+    @Inject
+    lateinit var languageRepository: LanguageRepository
+
+    @Inject
+    lateinit var musicController: MusicController
+
+    @Inject
+    lateinit var sharedDataRepository: SharedDataRepository
+
     override fun onCreate() {
-        SharedPreferencesRepository.init(this)
-        LanguageRepository.setInitialSettingsLanguage(this)
         AppDB.init(this)
         DataDB.init(this)
-        SharedDataRepository.init(this)
-        MusicController.init(this)
-        AnalyticsHelper.init()
         super.onCreate()
+        languageRepository.setInitialSettingsLanguage(this)
+        musicController.init(this)
+        sharedDataRepository.init(this)
+        AnalyticsHelper.init()
     }
 }

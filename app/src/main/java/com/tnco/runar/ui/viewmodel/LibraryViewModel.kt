@@ -6,34 +6,43 @@ import androidx.lifecycle.ViewModel
 import com.tnco.runar.model.LibraryItemsModel
 import com.tnco.runar.repository.DatabaseRepository
 import com.tnco.runar.repository.SharedDataRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.asCoroutineDispatcher
 import kotlinx.coroutines.launch
 import java.util.concurrent.Executors
+import javax.inject.Inject
 
-class LibraryViewModel : ViewModel() {
+@HiltViewModel
+class LibraryViewModel @Inject constructor(
+    private val databaseRepository: DatabaseRepository,
+    sharedDataRepository: SharedDataRepository
+) : ViewModel() {
     private val singleThread = Executors.newSingleThreadExecutor().asCoroutineDispatcher()
 
-    val fontSize: LiveData<Float> = MutableLiveData(SharedDataRepository.fontSize)
+    val fontSize: LiveData<Float> = MutableLiveData(sharedDataRepository.fontSize)
     var dbList: List<LibraryItemsModel> = emptyList()
     var lastMenuHeader = MutableLiveData("")
 
     var scrollPositionHistory = MutableLiveData(mutableListOf(0))
 
-    var menuData = MutableLiveData<Pair<List<LibraryItemsModel>, MutableList<String>>>(Pair(
-        emptyList(), mutableListOf()))
+    var menuData = MutableLiveData<Pair<List<LibraryItemsModel>, MutableList<String>>>(
+        Pair(
+            emptyList(), mutableListOf()
+        )
+    )
 
     var menuNavData = mutableListOf<String>()
 
     fun getRuneDataFromDB() {
         CoroutineScope(singleThread).launch {
-            dbList = DatabaseRepository.getLibraryItemList()
+            dbList = databaseRepository.getLibraryItemList()
         }
     }
 
     fun firstMenuDataCheck() {
         CoroutineScope(singleThread).launch {
-            if (menuData.value?.first?.size==0) {
+            if (menuData.value?.first?.size == 0) {
                 updateMenuData()
             }
         }
@@ -45,27 +54,27 @@ class LibraryViewModel : ViewModel() {
             if (item.type == "root") newList.add(item)
         }
         menuNavData.clear()
-        newList.sortBy{it.sortOrder}
+        newList.sortBy { it.sortOrder }
         menuData.postValue(Pair(newList, mutableListOf()))
     }
 
-    fun updateMenuData(id: String){
+    fun updateMenuData(id: String) {
         val newList = mutableListOf<LibraryItemsModel>()
         var selectedItem = LibraryItemsModel()
-        for(curItem in dbList){
-            if(curItem.id==id) selectedItem = curItem
+        for (curItem in dbList) {
+            if (curItem.id == id) selectedItem = curItem
         }
 
         for (item in dbList) {
-            for(child in selectedItem.childs!!){
-                if (child == item.id){
+            for (child in selectedItem.childs!!) {
+                if (child == item.id) {
                     newList.add(item)
                 }
             }
         }
 
-        newList.sortBy{it.sortOrder}
-        if(newList.size==0) {
+        newList.sortBy { it.sortOrder }
+        if (newList.size == 0) {
             updateMenuData()
             return
         }
@@ -92,13 +101,12 @@ class LibraryViewModel : ViewModel() {
     }
 
     fun goBackInMenu() {
-        if(menuNavData.size>1){
+        if (menuNavData.size > 1) {
             menuNavData.removeLast()
             val last = menuNavData.last()
             menuNavData.removeLast()
             updateMenuData(last)
-        }
-        else{
+        } else {
             updateMenuData()
         }
         addScrollPositionHistory(9999)
@@ -119,11 +127,12 @@ class LibraryViewModel : ViewModel() {
         lastMenuHeader.value = newHeader
     }
 
-    fun addScrollPositionHistory(pos:Int){
+    fun addScrollPositionHistory(pos: Int) {
         scrollPositionHistory.value?.add(pos)
     }
-    fun removeLastScrollPositionHistory(){
-        if(scrollPositionHistory.value?.size!!>1){
+
+    fun removeLastScrollPositionHistory() {
+        if (scrollPositionHistory.value?.size!! > 1) {
             scrollPositionHistory.value?.removeLast()
         }
     }

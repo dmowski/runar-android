@@ -1,8 +1,7 @@
 package com.tnco.runar.repository.backend
 
-import com.tnco.runar.data.remote.RetrofitClient
-import com.tnco.runar.data.remote.UserInfo
-import com.tnco.runar.model.RunesItemsModel
+import com.tnco.runar.data.remote.BackendApi
+import com.tnco.runar.data.remote.request.UserInfo
 import com.tnco.runar.repository.DatabaseRepository
 import com.tnco.runar.repository.SharedPreferencesRepository
 import kotlinx.coroutines.CoroutineScope
@@ -10,60 +9,57 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.util.*
+import javax.inject.Inject
 
-object BackendRepository {
+class BackendRepository @Inject constructor(
+    private val preferencesRepository: SharedPreferencesRepository,
+    private val databaseRepository: DatabaseRepository,
+    private val backendApi: BackendApi
+) {
 
     fun identify(userInfo: UserInfo) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = RetrofitClient.apiInterface.createUser(userInfo)
-                if (response.isSuccessful) {
-                    //RunarLogger.logDebug("Identification success: " + response.message().toString())
-                } else {
-                    //RunarLogger.logDebug( "Identification not success: " + response.code().toString() )
-                }
-            } catch (e: HttpException) {
-                //RunarLogger.logDebug("Identification http error")
-            } catch (e: Throwable) {
-                //RunarLogger.logDebug("Identification some strange error")
+                backendApi.createUser(userInfo)
+            } catch (t: Throwable) {
+                t.printStackTrace()
             }
         }
     }
 
     suspend fun getLibraryData(lang: String) {
-      //  RunarLogger.logDebug("Start updating library")
+        //  RunarLogger.logDebug("Start updating library")
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 //RunarLogger.logDebug("Send hash request")
-                val hashResp = RetrofitClient.apiInterface.getLibraryHash(lang)
+                val hashResp = backendApi.getLibraryHash(lang)
                 if (hashResp.isSuccessful) {
                     //RunarLogger.logDebug("Hash GET!: ")
-                    val spr = SharedPreferencesRepository.get()
-                    val oldHash = spr.getLibHash(lang)
+                    val oldHash = preferencesRepository.getLibHash(lang)
                     val newHash = hashResp.body()?.hash
                     //RunarLogger.logDebug("oldHash: $oldHash  newHash: $newHash")
                     if (newHash != null) {
                         if (oldHash != newHash) {
-                          // RunarLogger.logDebug("Accepted and started library updating")
-                            val response = RetrofitClient.apiInterface.getLibraryData(lang)
+                            // RunarLogger.logDebug("Accepted and started library updating")
+                            val response = backendApi.getLibraryData(lang)
                             if (response.isSuccessful) {
-                               // RunarLogger.logDebug("Library success: " + response.message().toString())
+                                // RunarLogger.logDebug("Library success: " + response.message().toString())
                                 val convertedResult =
                                     DataClassConverters.libRespToItems(response.body()!!)
                                 if (Locale.getDefault().language == lang) {
-                                   // RunarLogger.logDebug("Data Loaded and Converted")
-                                    DatabaseRepository.updateLibraryDB(convertedResult)
-                                  //  RunarLogger.logDebug("save new hash")
-                                    spr.putLibHash(lang, newHash)
+                                    // RunarLogger.logDebug("Data Loaded and Converted")
+                                    databaseRepository.updateLibraryDB(convertedResult)
+                                    //  RunarLogger.logDebug("save new hash")
+                                    preferencesRepository.putLibHash(lang, newHash)
                                 } else {
-                                   // RunarLogger.logDebug("Language changed can't update db")
+                                    // RunarLogger.logDebug("Language changed can't update db")
                                 }
-                               // RunarLogger.logDebug("work with library done")
+                                // RunarLogger.logDebug("work with library done")
                             } else {
-                              //  RunarLogger.logDebug("Library not success: " + response.code().toString())
+                                //  RunarLogger.logDebug("Library not success: " + response.code().toString())
                             }
                         } else {
-                           // RunarLogger.logDebug("Library Data is actual, not need to update")
+                            // RunarLogger.logDebug("Library Data is actual, not need to update")
                         }
                     }
                 }
@@ -75,17 +71,4 @@ object BackendRepository {
             }
         }
     }
-
-
-    suspend fun getRunes(): List<RunesItemsModel> {
-        val response = RetrofitClient.apiInterfaceGenerator.getRunes()
-        if (response.isSuccessful) {
-            val convertedResult =
-                DataClassConverters.runesRespToItems(response.body()!!)
-            DatabaseRepository.updateRunesGeneratorDB(convertedResult)
-            return convertedResult
-        }
-        return listOf(RunesItemsModel())
-    }
-
 }

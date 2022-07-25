@@ -1,14 +1,11 @@
 package com.tnco.runar.model
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.PrimaryKey
-import androidx.room.TypeConverters
+import androidx.room.*
 import com.tnco.runar.data.local.LibraryConverter
 
 @Entity(tableName = "library")
 @TypeConverters(LibraryConverter::class)
-data class LibraryItemsModel(
+data class LibraryItemsModel constructor(
     @PrimaryKey
     var id: String,
     var childs: List<String>?,
@@ -28,7 +25,8 @@ data class LibraryItemsModel(
     @ColumnInfo(name = "audio_duration")
     var audioDuration: Int?
 ) {
-    constructor() : this("null", listOf(), null, null, null, null, null, null, null,null,null)
+    @Ignore
+    constructor() : this("null", listOf(), null, null, null, null, null, null, null, null, null)
 
     override fun toString(): String {
         return "LibraryItemsModel(title=$title, audioUrl=$audioUrl, audioDuration=$audioDuration)"

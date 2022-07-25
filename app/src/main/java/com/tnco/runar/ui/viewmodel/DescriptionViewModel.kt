@@ -7,28 +7,32 @@ import com.tnco.runar.model.LayoutDescriptionModel
 import com.tnco.runar.repository.DatabaseRepository
 import com.tnco.runar.repository.SharedDataRepository
 import com.tnco.runar.util.SingleLiveEvent
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class DescriptionViewModel : ViewModel() {
+@HiltViewModel
+class DescriptionViewModel @Inject constructor(
+    private val databaseRepository: DatabaseRepository,
+    sharedDataRepository: SharedDataRepository
+) : ViewModel() {
 
     private var _selectedLayout = SingleLiveEvent<LayoutDescriptionModel>()
 
     val selectedLayout: LiveData<LayoutDescriptionModel> = _selectedLayout
-    val fontSize: LiveData<Float> = MutableLiveData(SharedDataRepository.fontSize)
+    val fontSize: LiveData<Float> = MutableLiveData(sharedDataRepository.fontSize)
 
     fun getLayoutDescription(id: Int) {
         CoroutineScope(Dispatchers.IO).launch {
-            _selectedLayout.postValue(DatabaseRepository.getLayoutDetails(id))
+            _selectedLayout.postValue(databaseRepository.getLayoutDetails(id))
         }
     }
 
     fun notShowSelectedLayout(id: Int) {
         CoroutineScope(Dispatchers.IO).launch {
-            DatabaseRepository.notShow(id)
+            databaseRepository.notShow(id)
         }
     }
-
-
 }
