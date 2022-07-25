@@ -41,7 +41,7 @@ class PushService : FirebaseMessagingService() {
         val monday = "MONDAY"
         val currentDay = LocalDate.now().dayOfWeek.name
         val currentTime = System.currentTimeMillis()
-        val lastRunTime = preferencesRepository.lastRunTime
+        val lastRunTime = preferencesRepository.lastDivination
         val startTimeNotification = 11
         val oneHour = 3600000L
         val difference = oneHour * startTimeNotification
