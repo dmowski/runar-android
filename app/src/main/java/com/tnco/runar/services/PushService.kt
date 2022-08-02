@@ -5,9 +5,11 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import androidx.core.graphics.drawable.toBitmap
 import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
+import androidx.core.content.res.ResourcesCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.tnco.runar.R
 import com.tnco.runar.RunarLogger
@@ -46,7 +48,9 @@ class PushService : FirebaseMessagingService() {
         val oneHour = 3600000L
         val difference = oneHour * startTimeNotification
         val isOk = currentTime - lastRunTime > difference
+        Log.d("KEYKAK", "$difference, $currentDay, ${currentTime - lastRunTime}")
         if (currentDay == monday && isOk) {
+            Log.d("KEYKAK", "isOk=true")
             isShouldSend = true
         }
         return isShouldSend
@@ -58,13 +62,24 @@ class PushService : FirebaseMessagingService() {
         }
         val pendingIntent: PendingIntent =
             PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE)
-
+        val largeIcon = ResourcesCompat.getDrawable(resources, R.drawable.large_icon, null)
+        val bigLargeIcon = ResourcesCompat.getDrawable(resources, R.drawable.big_large_icon, null)
         val channelId = getString(R.string.push_general_notification_channel_id)
         val builder = NotificationCompat.Builder(this, channelId)
             .setSmallIcon(R.drawable.notif_icon_white)
             .setContentText(getString(R.string.push_general_notification))
             .setAutoCancel(true)
-//            .setStyle()//create style for day and night mode
+            .setLargeIcon(largeIcon?.toBitmap(R.dimen.large_icon_width, R.dimen.large_icon_height))
+            .setStyle(
+                NotificationCompat.BigPictureStyle()
+                    .bigPicture(
+                        bigLargeIcon?.toBitmap(
+                            R.dimen.big_large_icon_width,
+                            R.dimen.big_large_icon_height
+                        )
+                    )
+                    .bigLargeIcon(null)
+            )
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setContentIntent(pendingIntent)
 
@@ -74,10 +89,7 @@ class PushService : FirebaseMessagingService() {
         manager.notify(0, builder.build())
     }
 
-    //settings still empty
     private fun createNotificationChannel(notificationManager: NotificationManager) {
-        // Create the NotificationChannel, but only on API 26+ because
-        // the NotificationChannel class is new and not in the support library
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channelId = getString(R.string.push_general_notification_channel_id)
             val name = getString(R.string.push_general_notification_channel_name)
