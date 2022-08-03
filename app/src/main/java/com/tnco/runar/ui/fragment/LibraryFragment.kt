@@ -41,7 +41,6 @@ const val audioFeature = false
 class LibraryFragment : Fragment() {
     val viewModel: LibraryViewModel by viewModels()
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         viewModel.getRuneDataFromDB()
         super.onCreate(savedInstanceState)
@@ -81,9 +80,7 @@ class LibraryFragment : Fragment() {
         }
         return view
     }
-
 }
-
 
 @ExperimentalPagerApi
 @Composable
@@ -169,9 +166,7 @@ private fun ItemData(scrollState: ScrollState) {
             }
         }
     }
-
 }
-
 
 @ExperimentalPagerApi
 @Composable
@@ -212,7 +207,7 @@ private fun Bars() {
                 elevation = 0.dp
             )
         },
-        backgroundColor = Color(0x73000000)
+        backgroundColor = colorResource(id = R.color.library_top_bar_2)
     ) {
         val scrollState = rememberScrollState()
         if (tabsState.value && audioFeature)
@@ -226,7 +221,6 @@ private fun Bars() {
     }
 }
 
-
 @Composable
 private fun TopBarIcon() {
     val viewModel: LibraryViewModel = viewModel()
@@ -239,16 +233,13 @@ private fun TopBarIcon() {
     }
 }
 
-
 @ExperimentalPagerApi
 @Composable
 private fun TabScreen(pagerState: PagerState, scrollState: ScrollState, fontSize: Float?) {
     Column {
         Tabs(pagerState = pagerState, fontSize = fontSize)
         TabsContent(pagerState = pagerState, scrollState = scrollState)
-
     }
-
 }
 
 @ExperimentalPagerApi
@@ -279,7 +270,6 @@ fun TabsContent(pagerState: PagerState, scrollState: ScrollState) {
             }
         }
     }
-
 }
 
 @ExperimentalPagerApi
@@ -342,7 +332,6 @@ fun Tabs(pagerState: PagerState, fontSize: Float?) {
     }
 }
 
-
 @ExperimentalPagerApi
 @Composable
 private fun FirstMenuItem(
@@ -404,7 +393,7 @@ private fun FirstMenuItem(
                         color = colorResource(id = R.color.library_item_text),
                         fontFamily = FontFamily(Font(R.font.roboto_regular)),
                         style = TextStyle(fontSize = with(LocalDensity.current)
-                            { ((fontSize * 0.8f)).toSp() })
+                        { ((fontSize * 0.8f)).toSp() })
                     )
                 }
                 Box(
@@ -431,7 +420,7 @@ private fun FirstMenuItem(
                     .weight(20f)
             )
             Divider(
-                color = Color(0xA6545458)
+                color = colorResource(id = R.color.divider)
             )
         }
     }
@@ -459,7 +448,7 @@ private fun NavigateItem(fontSize: Float, route: List<String>) {
                 Text(
                     text = item,
                     style = TextStyle(fontSize = with(LocalDensity.current)
-                        { ((fontSize * 0.7f)).toSp() }),
+                    { ((fontSize * 0.7f)).toSp() }),
                     color = color,
                     fontFamily = FontFamily(Font(R.font.roboto_light)),
                     modifier = Modifier.padding(end = 1.dp)
@@ -618,7 +607,7 @@ private fun SecondMenuItem(
                         .weight(1f)
                 )
                 Divider(
-                    color = Color(0xA6545458)
+                    color = colorResource(id = R.color.divider)
                 )
             }
         }

@@ -35,9 +35,10 @@
     <color name="affim_text_color">#D2C4AD</color>
 
     <color name="interpretation_runes_position">#A8A6A3</color>
-
+    <color name="divider">#A6545458</color>
 
     <color name="library_top_bar">#191919</color>
+    <color name="library_top_bar_2">#73000000</color>
     <color name="library_top_bar_header">#EFCD93</color>
     <color name="library_top_bar_header_2">#FFFFFF</color>
     <color name="library_top_bar_fav">#EFCD93</color>
@@ -62,7 +63,7 @@
     <color name="fav_inter_text">#BDBDBD</color>
     <color name="fav_header_text">#D2C4AD</color>
     <color name="fav_checkbox_text">#979797</color>
-    
+
     <color name="fav_checkbox_border">#979797</color>
     <color name="fav_checkbox_selected">#EFCD93</color>
     <color name="fav_checkbox_checkmark">#000000</color>
@@ -104,14 +105,14 @@
 
     <color name="sacr_big_button_ripple">#29D2C4AD</color>
 
-    <color name = "sacr_luck_text">#F8F8F8</color>
-    <color name = "sacr_main_text">#DADADA</color>
+    <color name="sacr_luck_text">#F8F8F8</color>
+    <color name="sacr_main_text">#DADADA</color>
 
-    <color name = "sacr_button_type">#59101010</color>
-    <color name = "sacr_button_header">#D2C4AD</color>
-    <color name = "sacr_button_mini_button">#141414</color>
-    <color name = "sacr_button_price_text">#FBF4F4</color>
+    <color name="sacr_button_type">#59101010</color>
+    <color name="sacr_button_header">#D2C4AD</color>
+    <color name="sacr_button_mini_button">#141414</color>
+    <color name="sacr_button_price_text">#FBF4F4</color>
 
-    <color name = "sacr_hint_main">#6E6E6E</color>
+    <color name="sacr_hint_main">#6E6E6E</color>
 
 </resources>
