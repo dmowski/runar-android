@@ -117,7 +117,6 @@
 
     <string name="title_push_general_notification" translatable="false">Runar App</string>
     <string name="push_general_notification">Just open Runar and find out what’s the rune of the day</string>
-    <string name="push_general_notification_channel_id" translatable="false">Reminders</string>
-    <string name="push_general_notification_channel_name" translatable="false">Reminders</string>
+    <string name="push_general_notification_channel_name">Reminders</string>
 
 </resources>

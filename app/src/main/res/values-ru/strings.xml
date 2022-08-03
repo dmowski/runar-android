@@ -110,4 +110,5 @@
     <string name="library_tab_books">Книги</string>
     <string name="library_tab_audio">Аудио</string>
     <string name="push_general_notification">Заходи в Runar и узнай, какая руна дня сегодня</string>
+    <string name="push_general_notification_channel_name">Напоминания</string>
 </resources>
