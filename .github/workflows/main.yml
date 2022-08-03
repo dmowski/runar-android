@@ -1,17 +1,17 @@
 name: Android Build
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
-    
+    branches: [main]
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
       - uses: actions/checkout@v1
-      
+
       - name: Setup JDK
       - uses: actions/setup-java@v3.4.1
         with:
@@ -19,9 +19,3 @@ jobs:
 
       - name: Build with Grandle
         run: ./grablew build
-
-      - name: Upload APK
-        uses: actions/upload-artifact@v3.1.0
-        with:
-          name: app
-          path: app/build/outputs/apk/debug/app-debug.apk
