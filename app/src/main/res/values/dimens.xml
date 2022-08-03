@@ -15,4 +15,6 @@
 
     <dimen name="settings_padding_left">16dp</dimen>
     <dimen name="settings_padding_top">16dp</dimen>
+
+    <dimen name="about_app_padding">24dp</dimen>
 </resources>
