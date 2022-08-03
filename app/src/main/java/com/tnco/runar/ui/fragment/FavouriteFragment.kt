@@ -12,7 +12,6 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
@@ -78,10 +77,12 @@ private fun Bars(navigator: Navigator?) {
     val fontSize by viewModel.fontSize.observeAsState()
     val favData by viewModel.favData.observeAsState()
     val existSelected by viewModel.haveSelectedItem.observeAsState()
+
     val barColor = colorResource(id = R.color.library_top_bar_header)
     val barFont = FontFamily(Font(R.font.roboto_medium))
     val barFontSize = with(LocalDensity.current) { ((fontSize!! * 1.35f)).toSp() }
     var barText = stringResource(id = R.string.library_bar_fav)
+
     var navIcon: @Composable (() -> Unit)? = null
     var navActions: @Composable RowScope.() -> Unit = {}
 
@@ -123,10 +124,10 @@ private fun Bars(navigator: Navigator?) {
                 actions = navActions
             )
         },
-        backgroundColor = Color(0x73000000)
+        backgroundColor = colorResource(id = R.color.library_top_bar_2)
     ) {
-
         val scrollState = rememberScrollState()
+
         Column(Modifier.verticalScroll(state = scrollState, enabled = true)) {
             if (favData != null) {
                 if (favData!!.isNotEmpty()) {
@@ -147,7 +148,8 @@ private fun Bars(navigator: Navigator?) {
                             text = item.content!!,
                             header = item.header!!,
                             clickAction = {
-                                val layoutName = AnalyticsUtils.convertLayoutIdToName(item.layoutId!!)
+                                val layoutName =
+                                    AnalyticsUtils.convertLayoutIdToName(item.layoutId!!)
                                 AnalyticsHelper.sendEvent(
                                     AnalyticsEvent.FAVOURITE_DRAWS_OPENED,
                                     Pair(AnalyticsConstants.DRAW_RUNE_LAYOUT, layoutName)
@@ -220,7 +222,11 @@ private fun CheckboxItem(
                 textAlign = TextAlign.End,
                 color = colorResource(id = R.color.fav_checkbox_text),
                 fontFamily = FontFamily(Font(R.font.roboto_regular)),
-                style = TextStyle(fontSize = with(LocalDensity.current) { ((fontSize * 0.7f)).toSp() })
+                style = TextStyle(
+                    fontSize = with(LocalDensity.current) {
+                        ((fontSize * 0.7f)).toSp()
+                    }
+                )
             )
             Box(
                 Modifier
@@ -287,7 +293,9 @@ private fun FavItem(
             Row(
                 Modifier
                     .fillMaxSize()
-                    .weight(66f), verticalAlignment = Alignment.CenterVertically
+                    .weight(66f),
+
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 //first img
                 //space between first img and text
@@ -302,7 +310,11 @@ private fun FavItem(
                             text = header,
                             color = colorResource(id = R.color.fav_header_text),
                             fontFamily = FontFamily(Font(R.font.roboto_regular)),
-                            style = TextStyle(fontSize = with(LocalDensity.current) { fontSize.toSp() }),
+                            style = TextStyle(
+                                fontSize = with(LocalDensity.current) {
+                                    fontSize.toSp()
+                                }
+                            ),
                             modifier = Modifier
                                 .padding(bottom = 4.dp)
                                 .weight(10f),
@@ -311,7 +323,11 @@ private fun FavItem(
                             text = time,
                             color = colorResource(id = R.color.fav_time_text),
                             fontFamily = FontFamily(Font(R.font.roboto_regular)),
-                            style = TextStyle(fontSize = with(LocalDensity.current) { ((fontSize * 0.7f)).toSp() }),
+                            style = TextStyle(
+                                fontSize = with(LocalDensity.current) {
+                                    ((fontSize * 0.7f)).toSp()
+                                }
+                            ),
                             modifier = Modifier
                                 .padding(bottom = 4.dp)
                                 .weight(7f),
@@ -322,7 +338,11 @@ private fun FavItem(
                         text = text,
                         color = colorResource(id = R.color.fav_inter_text),
                         fontFamily = FontFamily(Font(R.font.roboto_light)),
-                        style = TextStyle(fontSize = with(LocalDensity.current) { ((fontSize * 0.8f)).toSp() })
+                        style = TextStyle(
+                            fontSize = with(LocalDensity.current) {
+                                ((fontSize * 0.8f)).toSp()
+                            }
+                        )
                     )
                 }
                 //space between text and end img
@@ -360,7 +380,7 @@ private fun FavItem(
             )
             //bottom divider
             Divider(
-                color = Color(0xA6545458)
+                color = colorResource(id = R.color.divider)
             )
         }
     }
