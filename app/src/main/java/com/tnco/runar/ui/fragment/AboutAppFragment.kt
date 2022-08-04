@@ -15,11 +15,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.*
@@ -80,10 +80,14 @@ private fun Bars(navigator: Navigator) {
                 navigationIcon = { TopBarIcon(navigator) }
             )
         },
-        backgroundColor = Color(0x73000000)
+        backgroundColor = colorResource(id = R.color.settings_top_app_bar)
     ) {
         val scrollState = rememberScrollState()
-        Column(Modifier.verticalScroll(state = scrollState, enabled = true)) {
+        Column(
+            Modifier
+                .verticalScroll(state = scrollState, enabled = true)
+                .padding(all = dimensionResource(id = R.dimen.about_app_padding))
+        ) {
             AboutText()
         }
     }
@@ -104,78 +108,61 @@ private fun TopBarIcon(navigator: Navigator) {
 private fun AboutText() {
     val viewModel: AboutViewModel = viewModel()
     val fontSize by viewModel.fontSize.observeAsState()
-    Column {
-        Box(Modifier.aspectRatio(16f))
-        Row {
-
-            val annotatedLinkString: AnnotatedString = buildAnnotatedString {
-                val string = stringResource(id = R.string.about_txt)
-                val first = string.indexOf("https")
-                val second = string.indexOf("https", first + 1)
-                append(string)
-                addStyle(
-                    style = SpanStyle(
-                        color = colorResource(id = R.color.url_text_about_color)
-                    ), start = first, end = first + 35
-                )
-                addStyle(
-                    style = SpanStyle(
-                        color = colorResource(id = R.color.url_text_about_color)
-                    ), start = second, end = string.length
-                )
-
-                addStyle(
-                    style = ParagraphStyle(
-                        lineHeight = with(LocalDensity.current) { ((fontSize!! * 1.4).toFloat()).toSp() }
-                    ), start = 0, end = string.length
-                )
-
-                addStringAnnotation(
-                    tag = "URL",
-                    annotation = stringResource(id = R.string.about_url1),
-                    start = first,
-                    end = first + 35
-                )
-
-                addStringAnnotation(
-                    tag = "URL",
-                    annotation = stringResource(id = R.string.about_url2),
-                    start = second,
-                    end = string.length
-                )
-            }
-            val uriHandler = LocalUriHandler.current
-
-            Box(
-                Modifier
-                    .fillMaxSize()
-                    .weight(24f)
+    Box {
+        val annotatedLinkString: AnnotatedString = buildAnnotatedString {
+            val string = stringResource(id = R.string.about_txt)
+            val first = string.indexOf("https")
+            val second = string.indexOf("https", first + 1)
+            append(string)
+            addStyle(
+                style = SpanStyle(
+                    color = colorResource(id = R.color.url_text_about_color)
+                ), start = first, end = first + 35
             )
-            ClickableText(
-                text = annotatedLinkString,
-                style = TextStyle(
-                    fontSize = with(LocalDensity.current) { ((fontSize!! * 0.95).toFloat()).toSp() },
-                    fontFamily = FontFamily(Font(R.font.roboto_light)),
-                    color = colorResource(
-                        id = R.color.about_text_color
-                    )
-                ),
-                modifier = Modifier
-                    .fillMaxSize()
-                    .weight(366f),
-                onClick = {
-                    annotatedLinkString
-                        .getStringAnnotations("URL", it, it)
-                        .firstOrNull()?.let { stringAnnotation ->
-                            uriHandler.openUri(stringAnnotation.item)
-                        }
-                }
+            addStyle(
+                style = SpanStyle(
+                    color = colorResource(id = R.color.url_text_about_color)
+                ), start = second, end = string.length
             )
-            Box(
-                Modifier
-                    .fillMaxSize()
-                    .weight(24f)
+
+            addStyle(
+                style = ParagraphStyle(
+                    lineHeight = with(LocalDensity.current) { ((fontSize!! * 1.57).toFloat()).toSp() }
+                ), start = 0, end = string.length
+            )
+
+            addStringAnnotation(
+                tag = "URL",
+                annotation = stringResource(id = R.string.about_url1),
+                start = first,
+                end = first + 35
+            )
+
+            addStringAnnotation(
+                tag = "URL",
+                annotation = stringResource(id = R.string.about_url2),
+                start = second,
+                end = string.length
             )
         }
+        val uriHandler = LocalUriHandler.current
+
+        ClickableText(
+            text = annotatedLinkString,
+            style = TextStyle(
+                fontSize = with(LocalDensity.current) { fontSize!!.toSp() },
+                fontFamily = FontFamily(Font(R.font.roboto_light)),
+                color = colorResource(
+                    id = R.color.about_text_color
+                )
+            ),
+            onClick = {
+                annotatedLinkString
+                    .getStringAnnotations("URL", it, it)
+                    .firstOrNull()?.let { stringAnnotation ->
+                        uriHandler.openUri(stringAnnotation.item)
+                    }
+            }
+        )
     }
 }

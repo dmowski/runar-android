@@ -54,6 +54,8 @@
 
     <color name="settings_language_name">#DADADA</color>
     <color name="settings_language">#9A9A9A</color>
+    <color name="settings_divider">#A6545458</color>
+    <color name="settings_top_app_bar">#73000000</color>
     <color name="library_nav_not_selected">#A8A6A3</color>
     <color name="library_nav_selected">#EFCD93</color>
 
