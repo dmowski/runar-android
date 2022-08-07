@@ -196,7 +196,7 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
             }
             is LayoutInterpretationFavFragment -> navigateToFavAndShowBottomNavBar()
             is AboutAppFragment -> navigateToSettings()
-            is LayoutInitFragment -> showDialog("layout_init")
+            is LayoutInitFragment -> navigateToDefaultAndShowBottomNavBar()
             is LayoutInterpretationFragment -> showDialog("layout_interpretation")
             is LayoutProcessingFragment -> showDialog("layout_processing")
             !is LayoutDescriptionFragment -> showDialog("navigation_error")

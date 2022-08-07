@@ -228,7 +228,7 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
 
         when (v?.id) {
             R.id.exit_button -> {
-                navigator?.showDialog("layout_init")
+                navigator?.navigateToDefaultAndShowBottomNavBar()
             }
             R.id.description_button_frame -> {
                 val result = slotChanger()
