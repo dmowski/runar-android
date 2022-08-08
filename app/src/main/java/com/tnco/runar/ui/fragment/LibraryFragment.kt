@@ -730,7 +730,12 @@ private fun SimpleTextItem(fontSize: Float, text: String?, urlTitle: String?, ur
 }
 
 @Composable
-private fun RuneDescription(fontSize: Float, header: String, text: String, imgLink: String) {
+private fun RuneDescription(
+    fontSize: Float,
+    header: String,
+    text: String,
+    imgLink: String
+) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -767,6 +772,28 @@ private fun RuneDescription(fontSize: Float, header: String, text: String, imgLi
                     .weight(152f)
             )
         }
+        Box(Modifier.aspectRatio(30f))
+        Text(
+            text = "Tag 123456789",
+            style = TextStyle(
+                color = colorResource(R.color.lib_rune_tag_text),
+                fontWeight = FontWeight.Normal,
+                textAlign = TextAlign.Center
+            ),
+            modifier = Modifier
+                .wrapContentSize(Alignment.Center)
+                .padding(12.dp, 6.dp)
+                .border(
+                    width = 1.dp,
+                    color = colorResource(R.color.lib_rune_tag_border),
+                    shape = RoundedCornerShape(10.dp)
+                )
+                .background(
+                    color = Color.Black.copy(alpha = 0.7f),
+                    shape = RoundedCornerShape(10.dp)
+                )
+                .padding(12.dp, 6.dp)
+        )
         Box(Modifier.aspectRatio(30f))
         Row {
             Box(
