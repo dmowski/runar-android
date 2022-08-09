@@ -27,6 +27,7 @@ import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.util.AnalyticsConstants
 import com.tnco.runar.util.AnalyticsUtils
 import com.tnco.runar.databinding.FragmentLayoutInterpretationBinding
+import com.tnco.runar.repository.SharedPreferencesRepository
 import com.tnco.runar.ui.Navigator
 import com.tnco.runar.ui.viewmodel.InterpretationViewModel
 import com.tnco.runar.util.InterTagHandler
@@ -46,6 +47,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
     private var runesViewList: ArrayList<FrameLayout> = arrayListOf()
     private var runesPositionsList: ArrayList<String?> = arrayListOf()
     private var runesDotsList: ArrayList<ImageView> = arrayListOf()
+    private val preferencesRepository = SharedPreferencesRepository.get()
 
     private var runeHeight: Int = 0
     private var runeWidth: Int = 0
@@ -95,7 +97,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
 
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentLayoutInterpretationBinding.bind(view)
-
+        preferencesRepository.putLastTimeDivination(System.currentTimeMillis())
         //set necessary views
         headerFrame = binding.descriptionHeaderFrame
         runesLayout = binding.runesLayout

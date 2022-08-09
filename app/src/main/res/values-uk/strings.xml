@@ -2,4 +2,5 @@
 <resources>
     <string name="app_name">Runar</string>
     <string name="push_general_notification">Заходь у Runar і дізнайся, яка руна дня сьогодні</string>
+    <string name="push_general_notification_channel_name">Нагадування</string>
 </resources>

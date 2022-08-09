@@ -17,6 +17,7 @@ class SharedPreferencesRepository private constructor(context: Context) {
     var firstLaunch: Int = 0
     var language: String
     var lastRunTime: Long
+    var lastDivination: Long = 0
 
     init {
         val appVersion = context.packageManager.getPackageInfo(context.packageName, 0).versionCode
@@ -107,6 +108,13 @@ class SharedPreferencesRepository private constructor(context: Context) {
     fun putLibHash(lng: String, hash: String) {
         val editor = preferences.edit()
         editor.putString("${lng}_library_hash", hash)
+        editor.apply()
+    }
+
+    fun putLastTimeDivination(time: Long) {
+        val editor = preferences.edit()
+        lastDivination = time
+        editor.putLong("lastDivination", lastDivination)
         editor.apply()
     }
 
