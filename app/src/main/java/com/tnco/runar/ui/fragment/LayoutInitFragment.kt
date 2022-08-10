@@ -79,6 +79,7 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
             fontSize = textSize
             val headerTextSize = (textSize * 3.0f)
             val buttonTextSize = (textSize * 1.65f)
+
             binding.descriptionHeaderFrame.setTextSize(TypedValue.COMPLEX_UNIT_PX, headerTextSize)
             binding.descriptionButtonFrame.setTextSize(TypedValue.COMPLEX_UNIT_PX, buttonTextSize)
         }
@@ -88,17 +89,23 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
                 1, 2, 3, 4 -> layoutTable[0] = it.layoutId!!
                 else -> layoutTable[0] = it.layoutId!! - 1
             }
+
             binding.descriptionHeaderFrame.text = it.layoutName
             headerText = it.layoutName.toString()
             descriptionText = it.layoutDescription.toString()
             layoutFrame = binding.layoutFrame
-            binding.firstRuneNumber.text = it.slot1.toString()
-            binding.secondRuneNumber.text = it.slot2.toString()
-            binding.thirdRuneNumber.text = it.slot3.toString()
-            binding.fourthRuneNumber.text = it.slot4.toString()
-            binding.fifthRuneNumber.text = it.slot5.toString()
-            binding.sixthRuneNumber.text = it.slot6.toString()
-            binding.seventhRuneNumber.text = it.slot7.toString()
+
+            with(binding) {
+                firstRuneNumber.text = it.slot1.toString()
+                secondRuneNumber.text = it.slot2.toString()
+                thirdRuneNumber.text = it.slot3.toString()
+                fourthRuneNumber.text = it.slot4.toString()
+                fifthRuneNumber.text = it.slot5.toString()
+                sixthRuneNumber.text = it.slot6.toString()
+
+                seventhRuneNumber.text = it.slot7.toString()
+            }
+
             for (i in 0..6) {
                 val currentNumber =
                     (((layoutFrame.getChildAt(i) as ConstraintLayout).getChildAt(0) as TextView).text as String).toInt()
@@ -210,11 +217,6 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
         }
     }
 
-    override fun onDestroyView() {
-        _binding = null
-        super.onDestroyView()
-    }
-
     private fun itemsChecker(data: IntArray): Int {
         var res = 0
         for (item in data) {
@@ -222,7 +224,6 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
         }
         return --res
     }
-
 
     override fun onClick(v: View?) {
 
@@ -267,7 +268,10 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
 
                 slot.setOnClickListener(null)
                 slot.setBackgroundResource(R.drawable.slot_active_big)
-                context?.let { (slot.getChildAt(0) as TextView).setTextColor(it.getColor(R.color.rune_number_color_selected)) }
+                context?.let {
+                    (slot.getChildAt(0) as TextView)
+                        .setTextColor(it.getColor(R.color.rune_number_color_selected))
+                }
 
                 //open it with animation
                 runeTable[i][0] = 0
@@ -316,7 +320,10 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
             lifecycleScope.launch {
                 runeTable[minElement][1] = 1
                 slot.setBackgroundResource(R.drawable.slot_active)
-                context?.let { (slot.getChildAt(0) as TextView).setTextColor(it.getColor(R.color.rune_number_color_selected)) }
+                context?.let {
+                    (slot.getChildAt(0) as TextView)
+                        .setTextColor(it.getColor(R.color.rune_number_color_selected))
+                }
             }
             slot.setOnClickListener {
                 val result = slotChanger()
@@ -339,15 +346,22 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
             threadCounter++
             blockButton(false)
             delay(500L)
+
             val runeId = getUniqueRune()
             val ims = context?.assets?.open("runes/${runeId}.png")
             val runeImage = Drawable.createFromStream(ims, null)
+
             slot.background = runeImage
             (slot.getChildAt(0) as TextView).visibility = View.INVISIBLE
+
             if (activeSlot != null) {
                 activeSlot.setBackgroundResource(R.drawable.slot_active)
-                context?.let { (activeSlot.getChildAt(0) as TextView).setTextColor(it.getColor(R.color.rune_number_color_selected)) }
+                context?.let {
+                    (activeSlot.getChildAt(0) as TextView)
+                        .setTextColor(it.getColor(R.color.rune_number_color_selected))
+                }
             }
+
             if (childNumber == 10) layoutTable[layoutTable[0]] = runeId
             else layoutTable[childNumber - 1] = runeId
             blockButton(true)
@@ -445,15 +459,17 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
             if (n == minRuneLvl) {
                 result = randomRunesList[n][5]
             } else {
-                runesList[randomRunesList[n][4]] = arrayOf(
-                    randomRunesList[n][0],
-                    randomRunesList[n][1],
-                    randomRunesList[n][2],
-                    randomRunesList[n][3]
-                )
+                for (i in 0..3) {
+                    runesList[randomRunesList[n][4]][i] = randomRunesList[n][i]
+                }
             }
         }
         return result
+    }
+
+    override fun onDestroyView() {
+        _binding = null
+        super.onDestroyView()
     }
 
     companion object {
