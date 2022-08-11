@@ -26,6 +26,7 @@ import com.tnco.runar.ui.viewmodel.InitViewModel
 import com.tnco.runar.util.setOnCLickListenerForAll
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.util.ArrayList
 import kotlin.random.Random
 
 class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClickListener {
@@ -49,6 +50,9 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
     private var _binding: FragmentLayoutInitBinding? = null
     private val binding
         get() = _binding!!
+
+    private lateinit var views: Array<TextView>
+    private lateinit var slots: Array<Int?>
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -96,24 +100,27 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
             layoutFrame = binding.layoutFrame
 
             with(binding) {
-                firstRuneNumber.text = it.slot1.toString()
-                secondRuneNumber.text = it.slot2.toString()
-                thirdRuneNumber.text = it.slot3.toString()
-                fourthRuneNumber.text = it.slot4.toString()
-                fifthRuneNumber.text = it.slot5.toString()
-                sixthRuneNumber.text = it.slot6.toString()
+                views = arrayOf(
+                    firstRuneNumber, secondRuneNumber, thirdRuneNumber, fourthRuneNumber, fifthRuneNumber, sixthRuneNumber, seventhRuneNumber
+                )
+            }
+            slots = arrayOf(it.slot1, it.slot2, it.slot3, it.slot4, it.slot5, it.slot6, it.slot7)
 
-                seventhRuneNumber.text = it.slot7.toString()
+            for (v in views.indices) {
+                views[v].text = slots[v].toString()
             }
 
             for (i in 0..6) {
                 val currentNumber =
-                    (((layoutFrame.getChildAt(i) as ConstraintLayout).getChildAt(0) as TextView).text as String).toInt()
+                    (((layoutFrame.getChildAt(i) as ConstraintLayout)
+                        .getChildAt(0) as TextView).text as String)
+                        .toInt()
                 if (currentNumber == 0) {
                     (layoutFrame.getChildAt(i) as ConstraintLayout).visibility = View.INVISIBLE
                 }
                 runeTable[i][0] = currentNumber
             }
+
             when (it.layoutId) {
                 2, 4 -> {
                     val constraintsSet = ConstraintSet()
