@@ -101,7 +101,13 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
 
             with(binding) {
                 views = arrayOf(
-                    firstRuneNumber, secondRuneNumber, thirdRuneNumber, fourthRuneNumber, fifthRuneNumber, sixthRuneNumber, seventhRuneNumber
+                    firstRuneNumber,
+                    secondRuneNumber,
+                    thirdRuneNumber,
+                    fourthRuneNumber,
+                    fifthRuneNumber,
+                    sixthRuneNumber,
+                    seventhRuneNumber
                 )
             }
             slots = arrayOf(it.slot1, it.slot2, it.slot3, it.slot4, it.slot5, it.slot6, it.slot7)
