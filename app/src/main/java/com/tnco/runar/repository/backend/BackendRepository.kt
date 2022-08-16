@@ -1,6 +1,6 @@
 package com.tnco.runar.repository.backend
 
-import com.tnco.runar.data.remote.RetrofitClient
+import com.tnco.runar.data.remote.retrofit.RetrofitClient
 import com.tnco.runar.data.remote.UserInfo
 import com.tnco.runar.model.RunesItemsModel
 import com.tnco.runar.repository.DatabaseRepository

@@ -1,8 +1,9 @@
-package com.tnco.runar.data.remote
+package com.tnco.runar.data.remote.retrofit
 
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.util.concurrent.TimeUnit
 
 object RetrofitClient {
@@ -17,17 +18,19 @@ object RetrofitClient {
         .build()
 
     private val retrofitClient: Retrofit = Retrofit.Builder()
-        .baseUrl(MainServer+"api/v1/")
+        .baseUrl(MainServer +"api/v1/")
         .client(client)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
     private val retrofitClientGenerator: Retrofit = Retrofit.Builder()
-        .baseUrl(GeneratorServer+"api/v1/")
+        .baseUrl(GeneratorServer +"api/v1/")
         .client(client)
         .addConverterFactory(GsonConverterFactory.create())
+        .addConverterFactory(ScalarsConverterFactory.create())
         .build()
 
     val apiInterface: BackendApiInterface = retrofitClient.create(BackendApiInterface::class.java)
-    val apiInterfaceGenerator: BackendApiInterface = retrofitClientGenerator.create(BackendApiInterface::class.java)
+    val apiInterfaceGenerator: BackendApiInterface = retrofitClientGenerator.create(
+        BackendApiInterface::class.java)
 }
