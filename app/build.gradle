@@ -39,9 +39,11 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
     kotlinOptions {
         jvmTarget = '11'
     }
+
     bundle{
         language{
             enableSplit = false
@@ -55,26 +57,38 @@ dependencies {
     def preference_version = '1.2.0'
     def retrofit_version = "2.9.0"
 
+    //retrofit
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    //optional - Scalars support for Retrofit
+    implementation "com.squareup.retrofit2:converter-scalars:$retrofit_version"
+
+    //okhttp
     implementation 'com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.10'
     implementation 'com.squareup.okhttp3:okhttp:5.0.0-alpha.10'
 
+    //shared preferences
     implementation "androidx.preference:preference-ktx:$preference_version"
 
+    //room
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
+    // optional - RxJava2 support for Room
+    implementation "androidx.room:room-rxjava2:$room_version"
 
+    //xml dependencies
     implementation 'androidx.core:core-ktx:1.8.0'
     implementation 'com.google.android.material:material:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 
+    //livedata
     implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.0'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.5.0'
     implementation 'androidx.lifecycle:lifecycle-common-java8:2.5.0'
 
+    //compose
     implementation 'androidx.compose.ui:ui:1.3.0-alpha01'
     // Tooling support (Previews, etc.)
     implementation 'androidx.compose.ui:ui-tooling:1.3.0-alpha01'
@@ -93,8 +107,7 @@ dependencies {
     implementation 'androidx.compose.runtime:runtime-livedata:1.3.0-alpha01'
     implementation 'androidx.compose.runtime:runtime-rxjava2:1.3.0-alpha01'
 
-    implementation 'io.coil-kt:coil:2.1.0'
-    //implementation "dev.chrisbanes.accompanist:accompanist-coil:0.6.2"
+    //coil
     implementation('io.coil-kt:coil-compose:2.1.0')
 
     implementation 'androidx.fragment:fragment-ktx:1.5.0'
@@ -115,5 +128,4 @@ dependencies {
     // Paging Compose
     implementation "com.google.accompanist:accompanist-pager:0.13.0"
     implementation "com.google.accompanist:accompanist-pager-indicators:0.13.0"
-
 }
