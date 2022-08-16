@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -13,11 +14,14 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import coil.load
+import com.tnco.runar.R
 import com.tnco.runar.adapters.RunesGeneratorAdapter
 import com.tnco.runar.databinding.FragmentGeneratorStartBinding
 import com.tnco.runar.extensions.observeOnce
 import com.tnco.runar.model.RunesItemsModel
 import com.tnco.runar.presentation.viewmodel.GeneratorStartViewModel
+import com.tnco.runar.presentation.viewmodel.MainViewModel
+import com.tnco.runar.ui.activity.MainActivity
 import kotlinx.coroutines.launch
 import java.util.*
 
@@ -26,7 +30,7 @@ class GeneratorStartFragment : Fragment() {
 
     private var _binding: FragmentGeneratorStartBinding? = null
     private val binding get() = _binding!!
-    private lateinit var mViewModel: GeneratorStartViewModel
+    private lateinit var mViewModel: MainViewModel
     private val mAdapter: RunesGeneratorAdapter by lazy { RunesGeneratorAdapter() }
     private var listId: MutableList<Int> = mutableListOf()
     private var listAllIds: MutableList<Int> = mutableListOf()
@@ -35,11 +39,12 @@ class GeneratorStartFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        (activity as MainActivity).hideBottomBar()
         _binding = FragmentGeneratorStartBinding.inflate(inflater, container, false)
         binding.arrowBack.setOnClickListener {
             activity?.onBackPressed()
         }
-        mViewModel = ViewModelProvider(requireActivity()).get(GeneratorStartViewModel::class.java)
+        mViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
 
         setupRecyclerView()
         readDatabase()
@@ -57,6 +62,7 @@ class GeneratorStartFragment : Fragment() {
 
 
     private fun readDatabase() { // доделать считывание
+        listAllIds.clear()
         lifecycleScope.launch {
             mViewModel.readRunes.observeOnce(viewLifecycleOwner, { listRunes ->
                 if (listRunes.isNotEmpty()) {
@@ -154,25 +160,58 @@ class GeneratorStartFragment : Fragment() {
 
 
     private fun randomRunes() {
+
         val count = (1..3).random()
+        listId.clear()
         for (i in 0 until count) {
             listId.add(i, listAllIds.random())
             listAllIds.remove(listId[i])
         }
         listId.sort()
-        listId.forEach {
-            Log.i("TAG", "$count $it") // отправить в другой фрагмент
+        var idsString = ""
+        when(count){
+            1 -> {
+                idsString = listId[0].toString()
+            }
+            2 -> {
+                idsString = "${listId[0]}_${listId[1]}"
+            }
+            3 -> {
+                idsString = "${listId[0]}_${listId[1]}_${listId[2]}"
+            }
         }
+        mViewModel.runesSelected = idsString
+        activity?.supportFragmentManager?.beginTransaction()
+            ?.replace(R.id.fragmentContainer, GeneratorMagicRune())
+            ?.commit()
     }
 
     private fun sentRunes() {
+        listId.clear()
         mAdapter.obsSelectedRunes.value?.forEach {
             listId.add(it.id)
         }
         listId.sort()
-        listId.forEach {
-            Log.i("TAG", "$it") // отправить в другой фрагмент
+        var idsString = ""
+        val count = listId.count()
+
+        when(count){
+            1 -> {
+                idsString = listId[0].toString()
+            }
+            2 -> {
+                idsString = "${listId[0]}_${listId[1]}"
+            }
+            3 -> {
+                idsString = "${listId[0]}_${listId[1]}_${listId[2]}"
+            }
         }
+
+        mViewModel.runesSelected = idsString
+        activity?.supportFragmentManager?.beginTransaction()
+            ?.replace(R.id.fragmentContainer, GeneratorMagicRune())
+            ?.commit()
+
     }
 
 }
