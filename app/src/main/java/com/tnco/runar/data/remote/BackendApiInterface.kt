@@ -20,18 +20,10 @@ interface BackendApiInterface {
     @GET("empty-wallpapers/{stringPath}")
     suspend fun getRunePattern(@Path("stringPath") stringPath: String): List<String>
 
-//    @GET("empty-wallpapers/{stringPath}")
-//    suspend fun getRunePatternString(@Path("stringPath") stringPath: String): String
-
-//    @GET("empty-wallpapers/{imgPath}")
-//    suspend fun getRunePatternImage(@Path("imgPath") imgPath: String
-//    ) : ResponseBody
-
     @GET("empty-wallpapers/{numberPath}/{imgPath}")
     suspend fun getRunePatternImage(@Path("numberPath") numberPath: String,
                                     @Path("imgPath") imgPath: String
     ) : ResponseBody
-
 
     // Берём список фонов
     @GET("https://runar-generator-api.herokuapp.com/api/v1/wallpapersStyles")
@@ -44,13 +36,4 @@ interface BackendApiInterface {
                                    @Query("width") width: Int,
                                    @Query("height") height: Int
                                    ) : ResponseBody
-
-//    @GET("https://runar-generator-api.herokuapp.com/api/v1/wallpapers/5_11_29/9d971d050689afe2a657c7e867c923a6.png?style=blackHorizontal&width=180&height=320")
-//    suspend fun getBackgroundImage() : ResponseBody
-
-
-
-//    @GET("https://runar-generator-api.herokuapp.com/img/bg/blackHorizontal_verticalTemplate.png")
-//    suspend fun getBackgroundImage() : ResponseBody
-
 }
