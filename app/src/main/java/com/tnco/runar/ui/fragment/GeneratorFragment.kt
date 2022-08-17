@@ -11,11 +11,14 @@ import com.tnco.runar.R
 import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.databinding.FragmerntLayoutGeneratorBinding
-import com.tnco.runar.ui.viewmodel.GeneratorViewModel
 import com.tnco.runar.util.observeOnce
+import com.tnco.runar.ui.activity.MainActivity
+import com.tnco.runar.ui.viewmodel.MainViewModel
 
-class GeneratorFragment : Fragment() {
-    val viewModel: GeneratorViewModel by viewModels()
+
+class GeneratorFragment : Fragment(){
+    val viewModel: MainViewModel by viewModels()
+
     private var _binding: FragmerntLayoutGeneratorBinding? = null
     private val binding get() = _binding!!
 
@@ -39,5 +42,10 @@ class GeneratorFragment : Fragment() {
         return binding.root
     }
 
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        (activity as MainActivity).showBottomBar()
+    }
 }
 

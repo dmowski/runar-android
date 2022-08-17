@@ -1,9 +1,11 @@
 package com.tnco.runar.ui.activity
 
 import android.content.Context
+import android.content.Intent
 import android.content.IntentFilter
 import android.media.AudioManager
 import android.os.Bundle
+import android.view.View
 import android.view.WindowManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -385,5 +387,20 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
                 .add(R.id.fragmentContainer, LayoutFragment())
                 .commit()
         }
+    }
+
+    fun generatorStart(view: View){
+        setContentView(R.layout.fragment_generator_start)
+    }
+    fun generatorStartBack(view: View){
+        setContentView(R.layout.activity_main)
+        startActivity(Intent(this, MainActivity::class.java))
+    }
+    fun hideBottomBar(){
+        binding.bottomNavigationBar.visibility = View.GONE
+    }
+
+    fun showBottomBar(){
+        binding.bottomNavigationBar.visibility = View.VISIBLE
     }
 }
