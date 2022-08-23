@@ -137,5 +137,8 @@
     <string name="title_push_general_notification" translatable="false">Runar App</string>
     <string name="push_general_notification">Just open Runar and find out what’s the rune of the day</string>
     <string name="push_general_notification_channel_name">Reminders</string>
+    <string name="heading">Heading</string>
+    <string name="some_description">Some Description</string>
+    <string name="some_text">Some text</string>
 
 </resources>
