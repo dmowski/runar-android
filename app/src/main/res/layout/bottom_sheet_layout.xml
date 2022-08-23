@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="480dp"
+    android:layout_height="418dp"
+    android:background="@drawable/bottom_sheet_shape">
+
+    <ImageButton
+        android:id="@+id/crossButton"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="414dp"
+        android:layout_marginTop="30dp"
+        android:background="@color/bottom_sheet"
+        android:src="@drawable/cross_selector"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <ImageView
+        android:layout_width="74dp"
+        android:layout_height="93dp"
+        android:layout_marginStart="26dp"
+        android:layout_marginTop="32dp"
+        android:src="@drawable/stav"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/heading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="136dp"
+        android:layout_marginTop="60dp"
+        android:fontFamily="@font/amatic_sc_bold"
+        android:text="@string/heading"
+        android:textColor="@color/bottom_sheet_heading"
+        android:textSize="42sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/description"
+        android:layout_width="394dp"
+        android:layout_height="160dp"
+        android:layout_marginStart="42dp"
+        android:layout_marginTop="140dp"
+        android:textSize="18sp"
+        android:fontFamily="@font/roboto"
+        android:textColor="@color/bottom_sheet_text"
+        android:text="@string/some_description"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/button"
+        android:layout_width="208dp"
+        android:layout_height="64dp"
+        android:layout_marginStart="136dp"
+        android:layout_marginTop="333dp"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:fontFamily="@font/amatic_sc_bold"
+        android:textSize="32sp"
+        app:strokeWidth="0.6dp"
+        app:cornerRadius="10dp"
+        android:text="@string/some_text"
+        android:textColor="@color/bottom_sheet_text"
+        app:strokeColor="@color/bottom_sheet_text"
+        app:backgroundTint="@color/bottom_sheet_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
