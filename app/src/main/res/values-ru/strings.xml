@@ -8,11 +8,13 @@
 
     <string name="pattern_generator">Генератор узоров</string>
     <string name="run_pattern">Рунный узор</string>
-    <string name="formula">Формула</string>
-    <string name="stav">Став</string>
+    <string name="formula">Рунная Формула</string>
+    <string name="popup_runic_formula">В скором времени ты сможешь сам составлять рунные формулы. Рунную формулу можно использовать как талисман или оберег.</string>
+    <string name="stav">Рунный Став</string>
+    <string name="popup_runic_staves">В скором времени ты можешь сам составлять рунные ставы. Рунный став можно использовать как талисман или оберег. </string>
     <string name="coming_soon">Скоро появится</string>
     <string name="runes_selection">Выбор рун</string>
-    <string name="runes_collect_formula">Собери свою рунную формулу, выбрав от 1 до 3 рун</string>
+    <string name="runes_collect_formula">Собери свой рунный узор, выбрав от 1 до 3 рун</string>
     <string name="runes_random">Выбрать случайные руны</string>
 
     <string name="runes_generate">Сгенерировать</string>
@@ -112,15 +114,15 @@
 
     <string name="generatorBackground">Выбор обоев</string>
     <string name="text_magic_happens">Происходит магия</string>
-    <string name="fate_created">Создаётся судьба …</string>
+    <string name="fate_created">Создаётся узор …</string>
     <string name="do_not_despair">Не отчаивайтесь, если сегодня руны вам не подскажут судьбу, но, далее вам необходимо будет выбрать .....</string>
     <string name="runic_pattern">Рунический узор</string>
     <string name="text_for_viking">Далее выбери фон для него, викинг</string>
     <string name="pattern_created">Узор создан</string>
-    <string name="new_option">Новый вариант</string>
+    <string name="new_option">Смотреть еще</string>
     <string name="next">Далее</string>
     <string name="background_generator">Для начала, выберите понравившуюся картинку</string>
-    <string name="image_saved">Изображение сохранено</string>
+    <string name="image_saved">Рунный узор сохранен</string>
     <string name="share_title">Классная руна из RunarApp</string>
 
     <string name="library_tab_books">Книги</string>

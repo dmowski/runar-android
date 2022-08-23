@@ -8,11 +8,13 @@
 
     <string name="pattern_generator">Pattern generator</string>
     <string name="run_pattern">Rune pattern</string>
-    <string name="formula">Formula</string>
-    <string name="stav">Stav</string>
+    <string name="formula">Runic Formula</string>
+    <string name="popup_runic_formula">Choose a few runes, and we will offer runic formulas which are made from them. Runic formula can be used as a mascot or a guard.</string>
+    <string name="stav">Runic Staves</string>
+    <string name="popup_runic_staves">Choose a few runes, and we will offer runic staves which are made from them. Runic staves can be used as a mascot or a guard.</string>
     <string name="coming_soon">Coming soon</string>
     <string name="runes_selection">Runes selection</string>
-    <string name="runes_collect_formula">Collect your rune formula by choosing from 1 to 3 runes</string>
+    <string name="runes_collect_formula">Select 1 to 3 runes and collect your rune draw</string>
     <string name="runes_random">Choose random runes</string>
 
     <string name="runes_generate">Generate</string>
@@ -114,15 +116,15 @@
 
     <string name="generatorBackground">Select background</string>
     <string name="text_magic_happens">Magic happens</string>
-    <string name="fate_created">Fate is being created … </string>
+    <string name="fate_created">Template is created … </string>
     <string name="do_not_despair">Do not despair if today the runes do not tell you fate, but then you will need to choose .....</string>
     <string name="runic_pattern">Runic pattern</string>
     <string name="text_for_viking">Next, choose a background for him, viking</string>
     <string name="pattern_created">Pattern created</string>
-    <string name="new_option">New option</string>
+    <string name="new_option">See more</string>
     <string name="next">Next</string>
     <string name="background_generator">To get started, choose your favorite picture</string>
-    <string name="image_saved">Image saved</string>
+    <string name="image_saved">Runic pattern is saved</string>
     <string name="share_title">Cool rune from RunarApp</string>
 
     <string name="library_tab_books">Books</string>
