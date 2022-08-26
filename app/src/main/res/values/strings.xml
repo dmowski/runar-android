@@ -140,5 +140,6 @@
     <string name="heading">Heading</string>
     <string name="some_description">Some Description</string>
     <string name="some_text">Some text</string>
+    <string name="select">Select</string>
 
 </resources>

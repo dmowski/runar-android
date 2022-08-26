@@ -1,75 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="418dp"
-    android:background="@drawable/bottom_sheet_shape">
+    android:background="@color/black">
 
-    <ImageButton
-        android:id="@+id/crossButton"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginEnd="25dp"
-        android:background="@color/bottom_sheet"
-        android:src="@drawable/cross_selector"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="418dp"
+        android:id="@+id/bottom_sheet"
+        android:background="@drawable/bottom_sheet_shape"
+        tools:ignore="MissingConstraints">
 
-    <ImageView
-        android:layout_width="74dp"
-        android:layout_height="93dp"
-        android:layout_marginStart="26dp"
-        android:layout_marginTop="32dp"
-        android:src="@drawable/stav"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <ImageButton
+            android:id="@+id/crossButton"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="25dp"
+            android:background="@color/bottom_sheet"
+            android:src="@drawable/cross_selector"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="MissingConstraints" />
 
-    <TextView
-        android:id="@+id/heading"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="120dp"
-        android:layout_marginTop="60dp"
-        android:fontFamily="@font/amatic_sc_bold"
-        android:text="@string/heading"
-        android:textColor="@color/bottom_sheet_heading"
-        android:textSize="42sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints" />
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="74dp"
+            android:layout_height="93dp"
+            android:layout_marginStart="26dp"
+            android:layout_marginTop="32dp"
+            android:src="@drawable/stav"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/description"
-        android:layout_width="333dp"
-        android:layout_height="160dp"
-        android:layout_marginStart="42dp"
-        android:layout_marginTop="140dp"
-        android:fontFamily="@font/roboto"
-        android:text="@string/some_description"
-        android:textColor="@color/bottom_sheet_text"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/heading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="120dp"
+            android:layout_marginTop="54dp"
+            android:fontFamily="@font/amatic_sc_bold"
+            android:text="@string/heading"
+            android:textColor="@color/bottom_sheet_heading"
+            android:textSize="42sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="MissingConstraints" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/button"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-        android:layout_width="208dp"
-        android:layout_height="64dp"
-        android:layout_marginTop="323dp"
-        android:fontFamily="@font/amatic_sc_bold"
-        android:text="@string/some_text"
-        android:textColor="@color/bottom_sheet_text"
-        android:textSize="32sp"
-        app:backgroundTint="@color/bottom_sheet_button"
-        app:cornerRadius="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:strokeColor="@color/bottom_sheet_text"
-        app:strokeWidth="0.6dp" />
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="333dp"
+            android:layout_height="160dp"
+            android:layout_marginStart="33dp"
+            android:layout_marginTop="140dp"
+            android:fontFamily="@font/roboto"
+            android:text="@string/some_description"
+            android:textColor="@color/bottom_sheet_text"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/navigateButton"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="210dp"
+            android:layout_height="64dp"
+            android:layout_marginTop="260dp"
+            android:fontFamily="@font/amatic_sc_bold"
+            android:text="@string/some_text"
+            android:textColor="@color/bottom_sheet_text"
+            android:textSize="30sp"
+            app:backgroundTint="@color/bottom_sheet_button"
+            app:cornerRadius="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:strokeColor="@color/bottom_sheet_text"
+            app:strokeWidth="0.6dp" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
