@@ -10,7 +10,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.tnco.runar.databinding.BottomSheetLayoutBinding
 
 class BottomSheetFragment(
-    private val tFragment: Fragment?,
     private val tHeading: String,
     private val tDescription: String,
     private val tDrawable: Drawable,
@@ -42,11 +41,7 @@ class BottomSheetFragment(
             navigateButton.text = bText
 
             navigateButton.setOnClickListener {
-                if (tFragment != null) {
-                    requireActivity().supportFragmentManager.beginTransaction()
-                        .replace(this@BottomSheetFragment.id, tFragment)
-                        .commit()
-                }
+                onDestroyView()
             }
 
             crossButton.setOnClickListener {

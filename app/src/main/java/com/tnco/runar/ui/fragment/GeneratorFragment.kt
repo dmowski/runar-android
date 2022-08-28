@@ -23,7 +23,11 @@ class GeneratorFragment : Fragment(){
 
     private var _binding: FragmerntLayoutGeneratorBinding? = null
     private val binding get() = _binding!!
-
+    private fun openRunPatternView() {
+        activity?.supportFragmentManager?.beginTransaction()
+            ?.replace(R.id.fragmentContainer, GeneratorStartFragment())
+            ?.commit()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,35 +49,11 @@ class GeneratorFragment : Fragment(){
 
         with(binding) {
             generatorStav.setOnClickListener {
-                activity?.supportFragmentManager?.beginTransaction()
-                    ?.replace(R.id.fragmentContainer, GeneratorStartFragment())
-                    ?.commit()
+                openRunPatternView()
             }
 
-            generatorStav.setOnClickListener {
-                activity?.supportFragmentManager?.beginTransaction()
-                    ?.replace(R.id.fragmentContainer, GeneratorStartFragment())
-                    ?.commit()
-            }
-
-            generatorStav.setOnLongClickListener {
+            formula.setOnClickListener {
                 val bottomSheetFragment = BottomSheetFragment(
-                    GeneratorStartFragment(),
-                    getString(R.string.run_pattern),
-                    getString(R.string.runes_collect_formula),
-                    ContextCompat.getDrawable(requireContext(), R.drawable.rune_patern)!!,
-                    getString(R.string.select)
-                )
-                bottomSheetFragment.show(
-                    requireActivity().supportFragmentManager,
-                    BottomSheetFragment.TAG
-                )
-                true
-            }
-
-            formula.setOnLongClickListener {
-                val bottomSheetFragment = BottomSheetFragment(
-                    null,
                     getString(R.string.formula),
                     getString(R.string.popup_runic_formula),
                     ContextCompat.getDrawable(requireContext(), R.drawable.formula)!!,
@@ -86,9 +66,8 @@ class GeneratorFragment : Fragment(){
                 true
             }
 
-            stav.setOnLongClickListener {
+            stav.setOnClickListener {
                 val bottomSheetFragment = BottomSheetFragment(
-                    null,
                     getString(R.string.stav),
                     getString(R.string.popup_runic_staves),
                     ContextCompat.getDrawable(requireContext(), R.drawable.stav)!!,
