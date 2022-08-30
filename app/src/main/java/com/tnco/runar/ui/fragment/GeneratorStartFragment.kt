@@ -1,6 +1,5 @@
 package com.tnco.runar.ui.fragment
 
-
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -24,7 +23,6 @@ import com.tnco.runar.ui.viewmodel.MainViewModel
 import kotlinx.coroutines.launch
 import java.util.*
 
-
 class GeneratorStartFragment : Fragment() {
 
     private var _binding: FragmentGeneratorStartBinding? = null
@@ -43,22 +41,47 @@ class GeneratorStartFragment : Fragment() {
         binding.arrowBack.setOnClickListener {
             activity?.onBackPressed()
         }
-        mViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
+
         AnalyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_PATTERN_SELECTED)
+        mViewModel = ViewModelProvider(requireActivity())[MainViewModel::class.java]
         setupRecyclerView()
         readDatabase()
 
-        binding.btnRandom.setOnClickListener {
-            randomRunes()
-        }
+        with(binding) {
+            btnRandom.setOnClickListener {
+                randomRunes()
+            }
 
-        binding.btnGenerate.setOnClickListener {
-            sentRunes()
-        }
+            btnGenerate.setOnClickListener {
+                sentRunes()
+            }
 
+           /* tvRune1.setOnLongClickListener {
+                BottomSheetFragment(tvDescRune1, descRune, rune1).show(
+                    requireActivity().supportFragmentManager,
+                    BottomSheetFragment.TAG
+                )
+                true
+            }
+
+            tvRune2.setOnLongClickListener {
+                BottomSheetFragment(tvDescRune1, descRune, rune1).show(
+                    requireActivity().supportFragmentManager,
+                    BottomSheetFragment.TAG
+                )
+                true
+            }
+
+            tvRune3.setOnLongClickListener {
+                BottomSheetFragment(tvDescRune1, descRune, rune1).show(
+                    requireActivity().supportFragmentManager,
+                    BottomSheetFragment.TAG
+                )
+                true
+            }*/
+        }
         return binding.root
     }
-
 
     private fun readDatabase() { // доделать считывание
         listAllIds.clear()
@@ -73,7 +96,6 @@ class GeneratorStartFragment : Fragment() {
             }
         }
     }
-
 
     private fun requestApiData() {
         mViewModel.getRunes()
@@ -91,42 +113,43 @@ class GeneratorStartFragment : Fragment() {
         val gridLayoutManager =
             GridLayoutManager(requireContext(), 3, GridLayoutManager.HORIZONTAL, false)
 
-        binding.runesRecyclerView.layoutManager = gridLayoutManager
-        binding.runesRecyclerView.adapter = mAdapter
+        with(binding) {
+            runesRecyclerView.layoutManager = gridLayoutManager
+            runesRecyclerView.adapter = mAdapter
 
-        mAdapter.obsSelectedRunes.observe(viewLifecycleOwner) {
-            when (it.size) {
-                1 -> {
-                    showRunes(binding.tvRune1, binding.rune1, binding.tvDescRune1, it[0])
-                    binding.btnRandom.visibility = View.INVISIBLE
-                    binding.btnGenerate.visibility = View.VISIBLE
-                }
-                2 -> {
-                    showRunes(binding.tvRune2, binding.rune2, binding.tvDescRune2, it[1])
-                }
-                3 -> {
-                    showRunes(binding.tvRune3, binding.rune3, binding.tvDescRune3, it[2])
+            mAdapter.obsSelectedRunes.observe(viewLifecycleOwner) {
+                when (it.size) {
+                    1 -> {
+                        showRunes(tvRune1, rune1, tvDescRune1, it[0])
+                        btnRandom.visibility = View.INVISIBLE
+                        btnGenerate.visibility = View.VISIBLE
+                    }
+                    2 -> {
+                        showRunes(tvRune2, rune2, tvDescRune2, it[1])
+                    }
+                    3 -> {
+                        showRunes(tvRune3, rune3, tvDescRune3, it[2])
+                    }
                 }
             }
-        }
 
-        binding.rune1.setOnClickListener {
-            if (mAdapter.obsSelectedRunes.value?.size == 1) {
-                clearRune(binding.tvRune1, binding.rune1, binding.tvDescRune1, 0)
-                binding.btnGenerate.visibility = View.GONE
-                binding.btnRandom.visibility = View.VISIBLE
+            rune1.setOnClickListener {
+                if (mAdapter.obsSelectedRunes.value?.size == 1) {
+                    clearRune(tvRune1, rune1, tvDescRune1, 0)
+                    btnGenerate.visibility = View.GONE
+                    btnRandom.visibility = View.VISIBLE
+                }
             }
-        }
 
-        binding.rune2.setOnClickListener {
-            if (mAdapter.obsSelectedRunes.value?.size == 2)
-                clearRune(binding.tvRune2, binding.rune2, binding.tvDescRune2, 1)
-        }
+            rune2.setOnClickListener {
+                if (mAdapter.obsSelectedRunes.value?.size == 2)
+                    clearRune(tvRune2, rune2, tvDescRune2, 1)
+            }
 
-
-        binding.rune3.setOnClickListener {
-            if (mAdapter.obsSelectedRunes.value?.size == 3)
-                clearRune(binding.tvRune3, binding.rune3, binding.tvDescRune3, 2)
+            rune3.setOnClickListener {
+                if (mAdapter.obsSelectedRunes.value?.size == 3)
+                    clearRune(tvRune3, rune3, tvDescRune3, 2)
+            }
         }
     }
 
@@ -157,16 +180,17 @@ class GeneratorStartFragment : Fragment() {
         mAdapter.obsSelectedRunes.value?.removeAt(index)
     }
 
-
     private fun randomRunes() {
         AnalyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_PATTERN_RANDOM_RUNES)
         val count = (1..3).random()
         listId.clear()
+
         for (i in 0 until count) {
             listId.add(i, listAllIds.random())
             listAllIds.remove(listId[i])
         }
         listId.sort()
+
         var idsString = ""
         when (count) {
             1 -> {
