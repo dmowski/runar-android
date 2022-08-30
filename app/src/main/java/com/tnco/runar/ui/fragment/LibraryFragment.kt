@@ -25,6 +25,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberImagePainter
 import coil.size.OriginalSize
+import com.google.accompanist.flowlayout.FlowRow
 import com.google.accompanist.pager.*
 import com.tnco.runar.R
 import com.tnco.runar.analytics.AnalyticsHelper
@@ -149,7 +150,8 @@ private fun ItemData(scrollState: ScrollState) {
                         fontSize = fontSize!!,
                         header = item.title!!,
                         text = item.content!!,
-                        imgLink = imgUrl
+                        imgLink = imgUrl,
+                        runeTags = item.runeTags!!
                     )
                 }
             }
@@ -734,7 +736,8 @@ private fun RuneDescription(
     fontSize: Float,
     header: String,
     text: String,
-    imgLink: String
+    imgLink: String,
+    runeTags: List<String>
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
@@ -773,27 +776,33 @@ private fun RuneDescription(
             )
         }
         Box(Modifier.aspectRatio(30f))
-        Text(
-            text = "Tag 123456789",
-            style = TextStyle(
-                color = colorResource(R.color.lib_rune_tag_text),
-                fontWeight = FontWeight.Normal,
-                textAlign = TextAlign.Center
-            ),
-            modifier = Modifier
-                .wrapContentSize(Alignment.Center)
-                .padding(12.dp, 6.dp)
-                .border(
-                    width = 1.dp,
-                    color = colorResource(R.color.lib_rune_tag_border),
-                    shape = RoundedCornerShape(10.dp)
-                )
-                .background(
-                    color = Color.Black.copy(alpha = 0.7f),
-                    shape = RoundedCornerShape(10.dp)
-                )
-                .padding(12.dp, 6.dp)
-        )
+        FlowRow {
+            for (tag in runeTags) {
+                if (tag.isNotEmpty()) {
+                    Text(
+                        text = tag,
+                        style = TextStyle(
+                            color = colorResource(R.color.lib_rune_tag_text),
+                            fontWeight = FontWeight.Normal,
+                            textAlign = TextAlign.Center
+                        ),
+                        modifier = Modifier
+                            .wrapContentSize(Alignment.Center)
+                            .padding(12.dp, 6.dp)
+                            .border(
+                                width = 1.dp,
+                                color = colorResource(R.color.lib_rune_tag_border),
+                                shape = RoundedCornerShape(10.dp)
+                            )
+                            .background(
+                                color = Color.Black.copy(alpha = 0.7f),
+                                shape = RoundedCornerShape(10.dp)
+                            )
+                            .padding(12.dp, 6.dp)
+                    )
+                }
+            }
+        }
         Box(Modifier.aspectRatio(30f))
         Row {
             Box(
