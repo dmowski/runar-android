@@ -56,31 +56,88 @@ class GeneratorStartFragment : Fragment() {
                 sentRunes()
             }
 
-           /* tvRune1.setOnLongClickListener {
-                BottomSheetFragment(tvDescRune1, descRune, rune1).show(
-                    requireActivity().supportFragmentManager,
-                    BottomSheetFragment.TAG
-                )
-                true
-            }
-
-            tvRune2.setOnLongClickListener {
-                BottomSheetFragment(tvDescRune1, descRune, rune1).show(
-                    requireActivity().supportFragmentManager,
-                    BottomSheetFragment.TAG
-                )
-                true
-            }
-
-            tvRune3.setOnLongClickListener {
-                BottomSheetFragment(tvDescRune1, descRune, rune1).show(
-                    requireActivity().supportFragmentManager,
-                    BottomSheetFragment.TAG
-                )
-                true
-            }*/
+            makePopUps()
         }
         return binding.root
+    }
+
+    private fun makePopUps() {
+        mAdapter.obsSelectedRunes.observe(viewLifecycleOwner) {
+            val titles: MutableList<String?>? = null
+            val descs: MutableList<String?>? = null
+            val imageUrls: MutableList<String?>? = null
+
+            with(binding) {
+                if (Locale.getDefault().language == "ru") {
+                    when {
+                        rune1.visibility == View.VISIBLE -> {
+                            titles?.set(0, it[0].ruTitle)
+                            descs?.set(0, it[0].ruDesc)
+                            imageUrls?.set(0, it[0].imgUrl)
+                        }
+                        rune2.visibility == View.VISIBLE -> {
+                            titles?.set(1, it[1].ruTitle)
+                            descs?.set(1, it[1].ruDesc)
+                        }
+                        rune3.visibility == View.VISIBLE -> {
+                            titles?.set(2, it[2].ruTitle)
+                            descs?.set(2, it[2].ruDesc)
+                        }
+                        else -> {
+                            return@observe
+                        }
+                    }
+                } else if (Locale.getDefault().language == "en") {
+                    when {
+                        rune1.visibility == View.VISIBLE -> {
+                            titles?.set(0, it[0].enTitle)
+                            descs?.set(0, it[0].enDesc)
+                        }
+                        rune2.visibility == View.VISIBLE -> {
+                            titles?.set(1, it[1].enTitle)
+                            descs?.set(1, it[1].enDesc)
+                        }
+                        rune3.visibility == View.VISIBLE -> {
+                            titles?.set(2, it[2].enTitle)
+                            descs?.set(2, it[2].enDesc)
+                        }
+                        else -> {
+                            return@observe
+                        }
+                    }
+                }
+
+                tvRune1.setOnLongClickListener {
+                    if (titles?.get(0) != null) {
+                        BottomSheetFragment(titles[0], descs?.get(0), imageUrls?.get(0)).show(
+                            requireActivity().supportFragmentManager,
+                            BottomSheetFragment.TAG
+                        )
+                    }
+                    true
+                }
+
+                tvRune2.setOnLongClickListener {
+                    if (titles?.get(1) != null) {
+                        BottomSheetFragment(titles[1], descs?.get(1), imageUrls?.get(1)).show(
+                            requireActivity().supportFragmentManager,
+                            BottomSheetFragment.TAG
+                        )
+                    }
+                    true
+                }
+
+                tvRune3.setOnLongClickListener {
+                    if (titles?.get(2) != null) {
+                        BottomSheetFragment(titles[2], descs?.get(2), imageUrls?.get(2)).show(
+                            requireActivity().supportFragmentManager,
+                            BottomSheetFragment.TAG
+                        )
+                    }
+                    true
+                }
+            }
+        }
     }
 
     private fun readDatabase() { // доделать считывание

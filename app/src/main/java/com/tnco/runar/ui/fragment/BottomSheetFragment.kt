@@ -1,17 +1,17 @@
 package com.tnco.runar.ui.fragment
 
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import coil.load
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.tnco.runar.databinding.BottomSheetLayoutBinding
 
 class BottomSheetFragment(
-    private val tHeading: String,
-    private val tDescription: String,
-    private val tDrawable: Drawable
+    private val tHeading: String?,
+    private val tDescription: String?,
+    private val tImageUrl: String?
 ) : BottomSheetDialogFragment() {
 
     private var _binding: BottomSheetLayoutBinding? = null
@@ -35,7 +35,7 @@ class BottomSheetFragment(
         with(binding) {
             heading.text = tHeading
             description.text = tDescription
-            image.setImageDrawable(tDrawable)
+            image.load(tImageUrl)
 
             crossButton.setOnClickListener {
                 onDestroyView()

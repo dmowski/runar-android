@@ -15,7 +15,6 @@ class RunesGeneratorAdapter : RecyclerView.Adapter<RunesGeneratorAdapter.RunesGe
     private val selectedRunes: MutableList<RunesItemsModel> = mutableListOf()
     var obsSelectedRunes: MutableLiveData<MutableList<RunesItemsModel>> = MutableLiveData()
     private var mListRunes = emptyList<RunesItemsModel>()
-
     class RunesGeneratorHolder(private val binding: RuneItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
