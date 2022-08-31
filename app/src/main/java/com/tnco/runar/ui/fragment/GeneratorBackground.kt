@@ -24,7 +24,7 @@ class GeneratorBackground : Fragment() {
     lateinit var textSelectBackground: TextView
     var hasSelected = false
     val pointsList = mutableListOf<ImageView>()
-    val adapter = BackgroundAdapter(::selectBackground)
+    val adapter by lazy { BackgroundAdapter(::selectBackground) }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
