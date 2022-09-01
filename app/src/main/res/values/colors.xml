@@ -77,6 +77,10 @@
 
     <color name="lib_run_header">#EFCD93</color>
 
+    <color name="lib_rune_tag_text">#D2C4AD</color>
+    <color name="lib_rune_tag_border">#696257</color>
+
+
     <color name="about_text_color">#DADADA</color>
 
     <color name="switcher_checked_thumb">#EFCD93</color>

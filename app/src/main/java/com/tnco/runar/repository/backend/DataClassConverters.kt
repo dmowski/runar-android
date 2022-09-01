@@ -20,7 +20,8 @@ object DataClassConverters {
                 linkTitle = item.linkTitle,
                 linkUrl = item.linkUrl,
                 audioUrl = item.audioUrl,
-                audioDuration = item.audioDuration
+                audioDuration = item.audioDuration,
+                runeTags = item.tags
             )
             resultList.add(itemModel)
         }

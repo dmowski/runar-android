@@ -10,11 +10,14 @@ import com.tnco.runar.model.*
 import java.util.*
 
 @Database(
-    entities = [LayoutDescriptionModel::class, RuneDescriptionModel::class, AffimDescriptionModel::class, TwoRunesInterModel::class, LibraryItemsModel::class, RunesItemsModel::class],
-    version = 4,
+    entities = [
+        LayoutDescriptionModel::class, RuneDescriptionModel::class,
+        AffimDescriptionModel::class, TwoRunesInterModel::class,
+        LibraryItemsModel::class, RunesItemsModel::class
+    ],
+    version = 5,
     exportSchema = false
 )
-
 abstract class AppDB : RoomDatabase() {
     abstract fun appDAO(): AppDAO
 
@@ -24,10 +27,10 @@ abstract class AppDB : RoomDatabase() {
         fun init(context: Context) {
 
             val locale: String = Locale.getDefault().language
-            var dataBaseFilePath = ""
-            var dataBaseName = ""
+            val dataBaseFilePath: String
+            val dataBaseName: String
 
-            if (locale.equals("ru")) {
+            if (locale == "ru") {
                 dataBaseFilePath = "database/layouts.db"
                 dataBaseName = "RU_DATABASE"
             } else {
@@ -35,8 +38,9 @@ abstract class AppDB : RoomDatabase() {
                 dataBaseName = "EN_DATABASE"
             }
             INSTANCE = Room.databaseBuilder(context, AppDB::class.java, dataBaseName)
-                .addMigrations(MIGRATION_2_3, MIGRATION_3_4)
-                .createFromAsset(dataBaseFilePath).build()
+                .createFromAsset(dataBaseFilePath)
+                .addMigrations(MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5)
+                .build()
         }
 
         fun getLayoutDB(): AppDB {
@@ -54,6 +58,12 @@ abstract class AppDB : RoomDatabase() {
             override fun migrate(database: SupportSQLiteDatabase) {
                 database.execSQL("ALTER TABLE library ADD COLUMN audio_url TEXT")
                 database.execSQL("ALTER TABLE library ADD COLUMN audio_duration INTEGER")
+            }
+        }
+
+        private val MIGRATION_4_5 = object : Migration(4, 5) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("ALTER TABLE library ADD COLUMN rune_tags TEXT")
             }
         }
 
