@@ -78,47 +78,34 @@ class GeneratorStartFragment : Fragment() {
                 val descs: MutableList<String?>? = null
                 val imageUrls: MutableList<String?>? = null
 
-                if (Locale.getDefault().language == "ru") {
-                    when {
-                        rune1.visibility == View.VISIBLE -> {
-                            titles?.set(0, it[0].ruTitle)
-                            descs?.set(0, it[0].ruDesc)
-                            imageUrls?.set(0, it[0].imgUrl)
-                        }
-                        rune2.visibility == View.VISIBLE -> {
-                            titles?.set(1, it[1].ruTitle)
-                            descs?.set(1, it[1].ruDesc)
-                            imageUrls?.set(1, it[1].imgUrl)
-                        }
-                        rune3.visibility == View.VISIBLE -> {
-                            titles?.set(2, it[2].ruTitle)
-                            descs?.set(2, it[2].ruDesc)
-                            imageUrls?.set(2, it[2].imgUrl)
-                        }
-                        else -> {
-                            return@observe
-                        }
+                val isRus = Locale.getDefault().language == "ru"
+                val title1 = if (isRus) it[0].ruTitle else it[0].enTitle
+                val desc1 = if (isRus) it[0].ruDesc else it[0].enDesc
+
+                val title2 = if (isRus) it[1].ruTitle else it[1].enTitle
+                val desc2 = if (isRus) it[1].ruDesc else it[1].enDesc
+
+                val title3 = if (isRus) it[2].ruTitle else it[2].enTitle
+                val desc3 = if (isRus) it[2].ruDesc else it[2].enDesc
+
+                when {
+                    rune1.visibility == View.VISIBLE -> {
+                        titles?.set(0, title1)
+                        descs?.set(0, desc1)
+                        imageUrls?.set(0, it[0].imgUrl)
                     }
-                } else if (Locale.getDefault().language == "en") {
-                    when {
-                        rune1.visibility == View.VISIBLE -> {
-                            titles?.set(0, it[0].enTitle)
-                            descs?.set(0, it[0].enDesc)
-                            imageUrls?.set(0, it[0].imgUrl)
-                        }
-                        rune2.visibility == View.VISIBLE -> {
-                            titles?.set(1, it[1].enTitle)
-                            descs?.set(1, it[1].enDesc)
-                            imageUrls?.set(1, it[1].imgUrl)
-                        }
-                        rune3.visibility == View.VISIBLE -> {
-                            titles?.set(2, it[2].enTitle)
-                            descs?.set(2, it[2].enDesc)
-                            imageUrls?.set(2, it[2].imgUrl)
-                        }
-                        else -> {
-                            return@observe
-                        }
+                    rune2.visibility == View.VISIBLE -> {
+                        titles?.set(1, title2)
+                        descs?.set(1, desc2)
+                        imageUrls?.set(1, it[1].imgUrl)
+                    }
+                    rune3.visibility == View.VISIBLE -> {
+                        titles?.set(2, title3)
+                        descs?.set(2, desc3)
+                        imageUrls?.set(2, it[2].imgUrl)
+                    }
+                    else -> {
+                        return@observe
                     }
                 }
 
