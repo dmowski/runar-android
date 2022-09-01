@@ -46,6 +46,11 @@ class GeneratorStartFragment : Fragment() {
         mViewModel = ViewModelProvider(requireActivity())[MainViewModel::class.java]
         setupRecyclerView()
         readDatabase()
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         with(binding) {
             btnRandom.setOnClickListener {
@@ -55,19 +60,24 @@ class GeneratorStartFragment : Fragment() {
             btnGenerate.setOnClickListener {
                 sentRunes()
             }
-
-            makePopUps()
         }
-        return binding.root
+
+        makeBottomSheet()
     }
 
-    private fun makePopUps() {
-        mAdapter.obsSelectedRunes.observe(viewLifecycleOwner) {
-            val titles: MutableList<String?>? = null
-            val descs: MutableList<String?>? = null
-            val imageUrls: MutableList<String?>? = null
+    private fun makeBottomSheet() {
+        val gridLayoutManager =
+            GridLayoutManager(requireContext(), 3, GridLayoutManager.HORIZONTAL, false)
 
-            with(binding) {
+        with(binding) {
+            runesRecyclerView.layoutManager = gridLayoutManager
+            runesRecyclerView.adapter = mAdapter
+
+            mAdapter.obsSelectedRunes.observe(viewLifecycleOwner) {
+                val titles: MutableList<String?>? = null
+                val descs: MutableList<String?>? = null
+                val imageUrls: MutableList<String?>? = null
+
                 if (Locale.getDefault().language == "ru") {
                     when {
                         rune1.visibility == View.VISIBLE -> {
