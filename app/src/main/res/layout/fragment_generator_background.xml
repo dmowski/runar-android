@@ -34,8 +34,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/generatorBackground"
-            android:textColor="@color/white_f8"
             android:fontFamily="@font/roboto_medium"
+            android:textColor="@color/gray"
             android:textSize="20sp"/>
     </androidx.appcompat.widget.Toolbar>
 
@@ -45,9 +45,10 @@
         android:layout_height="wrap_content"
         android:id="@+id/textSelectBackground"
         android:visibility="visible"
-        android:textSize="18sp"
-        android:textColor="@color/white_f8"
+        android:textSize="24sp"
+        android:textColor="@color/white"
         android:text="@string/background_generator"
+        android:fontFamily="@font/amatic_sc_bold"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

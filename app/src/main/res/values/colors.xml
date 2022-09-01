@@ -7,7 +7,9 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="white_f8">#FFF8F8F8</color>
+    <color name="white_f8">#F8F8F8</color>
+    <color name="white_transparent70">#B3F8F8F8</color>
+    <color name="gray">#DADADA</color>
     <color name="card_generator">#212121</color>
 
     <color name="bottom_nav_selected">#EFCD93</color>
@@ -17,6 +19,7 @@
     <color name="layout_text_selected">#FCC874</color>
     <color name="layout_desc_deselected">#D2C4AD</color>
     <color name="layout_desc_processing">#F2F2F2</color>
+    <color name="layout_text_processing">#80F2F2F2</color>
     <color name="layout_desc_selected">#4B4842</color>
     <color name="checkbox">#A8A6A3</color>
     <color name="checkbox_color_unchecked">#A8A6A3</color>
