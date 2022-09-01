@@ -54,15 +54,15 @@ class MainViewModel : ViewModel() {
         CoroutineScope(Dispatchers.IO).launch {
             val info = BackendRepository.getBackgroundInfo()
             for (i in info.indices){
-                val bmp = BackendRepository.getBackgroundImage(runesSelected,runePattern[selectedRuneIndex],
-                info[i].name,720,1280)
+                val bmp = BackendRepository.getBackgroundImage(
+                    runesSelected,
+                    runePattern[selectedRuneIndex],
+                    info[i].name,
+                    720,
+                    1280
+                )
                 info[i].img = bmp
-            }
-            withContext(Dispatchers.Main){
-               val data = backgroundInfo.value!!
-               data.clear()
-               data.addAll(info)
-               backgroundInfo.setValue(data)
+                backgroundInfo.postValue(info.toMutableList())
             }
         }
     }

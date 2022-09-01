@@ -1,7 +1,6 @@
 package com.tnco.runar.ui.fragments
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -25,6 +24,7 @@ class GeneratorBackground : Fragment() {
     lateinit var textSelectBackground: TextView
     var hasSelected = false
     val pointsList = mutableListOf<ImageView>()
+    val adapter by lazy { BackgroundAdapter(::selectBackground) }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -44,7 +44,6 @@ class GeneratorBackground : Fragment() {
             viewModel.getBackgroundInfo()
         }
         backgroundImgRecyclerView = view.findViewById(R.id.backgroundImgRecyclerView)
-        val adapter = BackgroundAdapter(viewModel.backgroundInfo.value!!,this)
         val layoutManager = LinearLayoutManager(requireActivity())
         layoutManager.orientation = RecyclerView.HORIZONTAL
         backgroundImgRecyclerView.adapter = adapter
@@ -91,9 +90,8 @@ class GeneratorBackground : Fragment() {
                     pointsList.add(point)
                     pointLayout.invalidate()
                 }
-
+                adapter.updateData(it)
             }
-            backgroundImgRecyclerView.adapter?.notifyDataSetChanged()
         })
         (activity as MainActivity).hideBottomBar()
     }
@@ -107,7 +105,7 @@ class GeneratorBackground : Fragment() {
         return inflater.inflate(R.layout.fragment_generator_background, container, false)
     }
 
-    fun selectBackground(position: Int){
+    private fun selectBackground(position: Int){
         val data = viewModel.backgroundInfo.value!!
 
 
@@ -129,7 +127,7 @@ class GeneratorBackground : Fragment() {
         }
 
 
-        viewModel.backgroundInfo.setValue(data)
+        viewModel.backgroundInfo.value = data
     }
 
 }
