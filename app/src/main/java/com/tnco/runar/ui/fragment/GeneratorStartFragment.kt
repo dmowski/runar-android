@@ -88,10 +88,12 @@ class GeneratorStartFragment : Fragment() {
                         rune2.visibility == View.VISIBLE -> {
                             titles?.set(1, it[1].ruTitle)
                             descs?.set(1, it[1].ruDesc)
+                            imageUrls?.set(1, it[1].imgUrl)
                         }
                         rune3.visibility == View.VISIBLE -> {
                             titles?.set(2, it[2].ruTitle)
                             descs?.set(2, it[2].ruDesc)
+                            imageUrls?.set(2, it[2].imgUrl)
                         }
                         else -> {
                             return@observe
@@ -102,14 +104,17 @@ class GeneratorStartFragment : Fragment() {
                         rune1.visibility == View.VISIBLE -> {
                             titles?.set(0, it[0].enTitle)
                             descs?.set(0, it[0].enDesc)
+                            imageUrls?.set(0, it[0].imgUrl)
                         }
                         rune2.visibility == View.VISIBLE -> {
                             titles?.set(1, it[1].enTitle)
                             descs?.set(1, it[1].enDesc)
+                            imageUrls?.set(1, it[1].imgUrl)
                         }
                         rune3.visibility == View.VISIBLE -> {
                             titles?.set(2, it[2].enTitle)
                             descs?.set(2, it[2].enDesc)
+                            imageUrls?.set(2, it[2].imgUrl)
                         }
                         else -> {
                             return@observe
@@ -117,7 +122,7 @@ class GeneratorStartFragment : Fragment() {
                     }
                 }
 
-                tvRune1.setOnLongClickListener {
+                rune1.setOnLongClickListener {
                     if (titles?.get(0) != null) {
                         BottomSheetFragment(titles[0], descs?.get(0), imageUrls?.get(0)).show(
                             requireActivity().supportFragmentManager,
@@ -127,7 +132,7 @@ class GeneratorStartFragment : Fragment() {
                     true
                 }
 
-                tvRune2.setOnLongClickListener {
+                rune2.setOnLongClickListener {
                     if (titles?.get(1) != null) {
                         BottomSheetFragment(titles[1], descs?.get(1), imageUrls?.get(1)).show(
                             requireActivity().supportFragmentManager,
@@ -137,7 +142,7 @@ class GeneratorStartFragment : Fragment() {
                     true
                 }
 
-                tvRune3.setOnLongClickListener {
+                rune3.setOnLongClickListener {
                     if (titles?.get(2) != null) {
                         BottomSheetFragment(titles[2], descs?.get(2), imageUrls?.get(2)).show(
                             requireActivity().supportFragmentManager,
