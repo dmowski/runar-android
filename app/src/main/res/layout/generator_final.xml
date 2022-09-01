@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_medium"
             android:text="@string/runic_pattern"
-            android:textColor="@color/white_f8"
+            android:textColor="@color/gray"
             android:textSize="20sp" />
     </androidx.appcompat.widget.Toolbar>
 

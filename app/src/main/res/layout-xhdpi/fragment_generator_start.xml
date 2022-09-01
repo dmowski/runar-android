@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_medium"
             android:text="@string/runes_selection"
-            android:textColor="@color/white_f8"
+            android:textColor="@color/gray"
             android:textSize="20sp" />
     </androidx.appcompat.widget.Toolbar>
 
@@ -43,6 +43,7 @@
         android:layout_width="0dp"
         android:layout_height="48dp"
         android:text="@string/runes_collect_formula"
+        android:fontFamily="@font/roboto_light"
         android:textAlignment="center"
         android:textColor="@color/white_f8"
         android:textSize="18sp"
