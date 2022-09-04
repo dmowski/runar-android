@@ -9,6 +9,6 @@
         />
     <stroke
         android:width="2dp"
-        android:color="@color/bottom_sheet_text"
+        android:color="@color/bottom_sheet"
         />
 </shape>

@@ -16,6 +16,7 @@ import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.databinding.FragmentGeneratorStartBinding
 import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.model.RunesItemsModel
+import com.tnco.runar.repository.SharedPreferencesRepository
 import com.tnco.runar.ui.adapter.RunesGeneratorAdapter
 import com.tnco.runar.util.observeOnce
 import com.tnco.runar.ui.activity.MainActivity
@@ -31,6 +32,7 @@ class GeneratorStartFragment : Fragment() {
     private val mAdapter: RunesGeneratorAdapter by lazy { RunesGeneratorAdapter() }
     private var listId: MutableList<Int> = mutableListOf()
     private var listAllIds: MutableList<Int> = mutableListOf()
+    private val sharedPreferences by lazy { SharedPreferencesRepository.get() }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -73,87 +75,52 @@ class GeneratorStartFragment : Fragment() {
             runesRecyclerView.layoutManager = gridLayoutManager
             runesRecyclerView.adapter = mAdapter
 
-            mAdapter.obsSelectedRunes.observe(viewLifecycleOwner) {
-                val titles: MutableList<String?>? = null
-                val descs: MutableList<String?>? = null
-                val imageUrls: MutableList<String?>? = null
-
-                val isRus = Locale.getDefault().language == "ru"
-                val title1 = if (isRus) it[0].ruTitle else it[0].enTitle
-                val desc1 = if (isRus) it[0].ruDesc else it[0].enDesc
-
-                val title2 = if (isRus) it[1].ruTitle else it[1].enTitle
-                val desc2 = if (isRus) it[1].ruDesc else it[1].enDesc
-
-                val title3 = if (isRus) it[2].ruTitle else it[2].enTitle
-                val desc3 = if (isRus) it[2].ruDesc else it[2].enDesc
-
-                when {
-                    rune1.visibility == View.VISIBLE -> {
-                        titles?.set(0, title1)
-                        descs?.set(0, desc1)
-                        imageUrls?.set(0, it[0].imgUrl)
+            mAdapter.obsSelectedRunes.observe(viewLifecycleOwner) { runes ->
+                when (runes.size) {
+                    1 -> {
+                        rune1.setOnLongClickListener {
+                            onShowBottomSheet(runes[0])
+                            true
+                        }
                     }
-                    rune2.visibility == View.VISIBLE -> {
-                        titles?.set(1, title2)
-                        descs?.set(1, desc2)
-                        imageUrls?.set(1, it[1].imgUrl)
+                    2 -> {
+                        rune2.setOnLongClickListener {
+                            onShowBottomSheet(runes[1])
+                            true
+                        }
                     }
-                    rune3.visibility == View.VISIBLE -> {
-                        titles?.set(2, title3)
-                        descs?.set(2, desc3)
-                        imageUrls?.set(2, it[2].imgUrl)
+                    3 -> {
+                        rune3.setOnLongClickListener {
+                            onShowBottomSheet(runes[2])
+                            true
+                        }
                     }
-                    else -> {
-                        return@observe
-                    }
-                }
-
-                rune1.setOnLongClickListener {
-                    if (titles?.get(0) != null) {
-                        BottomSheetFragment(titles[0], descs?.get(0), imageUrls?.get(0)).show(
-                            requireActivity().supportFragmentManager,
-                            BottomSheetFragment.TAG
-                        )
-                    }
-                    true
-                }
-
-                rune2.setOnLongClickListener {
-                    if (titles?.get(1) != null) {
-                        BottomSheetFragment(titles[1], descs?.get(1), imageUrls?.get(1)).show(
-                            requireActivity().supportFragmentManager,
-                            BottomSheetFragment.TAG
-                        )
-                    }
-                    true
-                }
-
-                rune3.setOnLongClickListener {
-                    if (titles?.get(2) != null) {
-                        BottomSheetFragment(titles[2], descs?.get(2), imageUrls?.get(2)).show(
-                            requireActivity().supportFragmentManager,
-                            BottomSheetFragment.TAG
-                        )
-                    }
-                    true
                 }
             }
         }
     }
 
-    private fun readDatabase() { // доделать считывание
-        listAllIds.clear()
-        lifecycleScope.launch {
-            mViewModel.readRunes.observeOnce(viewLifecycleOwner) { listRunes ->
-                if (listRunes.isNotEmpty()) {
-                    mAdapter.setData(listRunes)
-                    listRunes.forEach {
-                        listAllIds.add(it.id)
-                    }
-                } else requestApiData()
-            }
+    private fun onShowBottomSheet(rune: RunesItemsModel) {
+        var title = ""
+        var desc = ""
+
+        if (sharedPreferences.language == "ru") {
+            title = rune.ruTitle.toString()
+            desc = rune.ruDesc.toString()
+        } else if (sharedPreferences.language == "en") {
+            title = rune.enTitle.toString()
+            desc = rune.enDesc.toString()
         }
+
+        BottomSheetFragment(title, desc, rune.imgUrl).show(
+            requireActivity().supportFragmentManager,
+            BottomSheetFragment.TAG
+        )
+    }
+
+    private fun readDatabase() {
+        listAllIds.clear()
+        requestApiData()
     }
 
     private fun requestApiData() {
