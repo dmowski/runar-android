@@ -1,4 +1,4 @@
-package com.tnco.runar.ui.fragments
+package com.tnco.runar.ui.fragment
 
 import android.Manifest
 import android.content.ContentValues
@@ -20,8 +20,9 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.tnco.runar.R
+import com.tnco.runar.analytics.AnalyticsHelper
+import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.ui.activity.MainActivity
-import com.tnco.runar.ui.fragment.GeneratorFragment
 import com.tnco.runar.ui.viewmodel.MainViewModel
 import java.io.ByteArrayOutputStream
 import java.io.File
@@ -29,7 +30,7 @@ import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
 
-class GeneratorFinal: Fragment() {
+class GeneratorFinal : Fragment() {
     val REQUEST_PERMISSION_CODE = 111
     private lateinit var viewModel: MainViewModel
     lateinit var saveImg: ImageView
@@ -64,11 +65,13 @@ class GeneratorFinal: Fragment() {
 //        instagram = view.findViewById(R.id.instagram)
 
         shareImg.setOnClickListener {
+            AnalyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_PATTERN_SHARED)
             val bytes = ByteArrayOutputStream()
             val bmp = (imgFinal.drawable as BitmapDrawable).bitmap
             val title = resources.getString(R.string.share_title)
             bmp.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
-            val path = MediaStore.Images.Media.insertImage(context?.contentResolver, bmp, title, null)
+            val path =
+                MediaStore.Images.Media.insertImage(context?.contentResolver, bmp, title, null)
             val uri = Uri.parse(path.toString())
             val shareIntent: Intent = Intent().apply {
                 action = Intent.ACTION_SEND
@@ -89,38 +92,44 @@ class GeneratorFinal: Fragment() {
 
 
         saveImg.setOnClickListener {
+            AnalyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_PATTERN_SAVED)
             val fileName = generateFileName()
             val bmp = (imgFinal.drawable as BitmapDrawable).bitmap
             saveImg.visibility = View.INVISIBLE
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 val contentValues = ContentValues().apply {
                     put(MediaStore.MediaColumns.DISPLAY_NAME, fileName)
                     put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg")
                     put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS)
                 }
                 val resolver = activity!!.contentResolver
-                val uri = resolver.insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI,contentValues)
+                val uri = resolver.insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, contentValues)
                 if (uri != null) {
-                    bmp.compress(Bitmap.CompressFormat.JPEG,100,resolver.openOutputStream(uri))
+                    bmp.compress(Bitmap.CompressFormat.JPEG, 100, resolver.openOutputStream(uri))
                 }
                 saveImg.visibility = View.VISIBLE
                 val msg = resources.getString(R.string.image_saved)
-                Toast.makeText(requireContext(),msg,Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(), msg, Toast.LENGTH_LONG).show()
             } else {
-                if (ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                    != PackageManager.PERMISSION_GRANTED){
+                if (ContextCompat.checkSelfPermission(
+                        requireActivity(),
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE
+                    )
+                    != PackageManager.PERMISSION_GRANTED
+                ) {
                     requestPermissions(Array(1) {
                         Manifest.permission.WRITE_EXTERNAL_STORAGE
-                    },REQUEST_PERMISSION_CODE)
+                    }, REQUEST_PERMISSION_CODE)
                 } else {
-                    val path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-                    val filePath = File(path,fileName)
+                    val path =
+                        Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+                    val filePath = File(path, fileName)
                     val os = FileOutputStream(filePath)
-                    bmp.compress(Bitmap.CompressFormat.JPEG,100,os)
+                    bmp.compress(Bitmap.CompressFormat.JPEG, 100, os)
                     os.close()
                     saveImg.visibility = View.VISIBLE
                     val msg = resources.getString(R.string.image_saved)
-                    Toast.makeText(requireContext(),msg,Toast.LENGTH_LONG).show()
+                    Toast.makeText(requireContext(), msg, Toast.LENGTH_LONG).show()
                 }
 
             }
@@ -134,28 +143,30 @@ class GeneratorFinal: Fragment() {
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == REQUEST_PERMISSION_CODE){
-            if (grantResults.get(0) == PackageManager.PERMISSION_GRANTED){
+        if (requestCode == REQUEST_PERMISSION_CODE) {
+            if (grantResults.get(0) == PackageManager.PERMISSION_GRANTED) {
                 val fileName = generateFileName()
                 val bmp = (imgFinal.drawable as BitmapDrawable).bitmap
-                val path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-                val filePath = File(path,fileName)
+                val path =
+                    Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+                val filePath = File(path, fileName)
                 val os = FileOutputStream(filePath)
-                bmp.compress(Bitmap.CompressFormat.JPEG,100,os)
+                bmp.compress(Bitmap.CompressFormat.JPEG, 100, os)
                 os.close()
                 saveImg.visibility = View.VISIBLE
                 val msg = resources.getString(R.string.image_saved)
-                Toast.makeText(requireContext(),msg,Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(), msg, Toast.LENGTH_LONG).show()
             }
         }
     }
 
-    fun generateFileName(): String{
-       val time = System.currentTimeMillis()
-       val formatter = SimpleDateFormat("dd:MM:yyyy_HH:mm:ss", Locale.getDefault())
-       val date = formatter.format(time)
-       return "rune_$date.jpg"
+    fun generateFileName(): String {
+        val time = System.currentTimeMillis()
+        val formatter = SimpleDateFormat("dd:MM:yyyy_HH:mm:ss", Locale.getDefault())
+        val date = formatter.format(time)
+        return "rune_$date.jpg"
     }
+
     override fun onDestroyView() {
         super.onDestroyView()
         (activity as MainActivity).showBottomBar()

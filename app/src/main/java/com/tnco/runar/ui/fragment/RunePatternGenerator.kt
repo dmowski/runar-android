@@ -1,4 +1,4 @@
-package com.tnco.runar.ui.fragments
+package com.tnco.runar.ui.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,10 +10,12 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.tnco.runar.R
+import com.tnco.runar.analytics.AnalyticsHelper
+import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.ui.activity.MainActivity
 import com.tnco.runar.ui.viewmodel.MainViewModel
 
-class RunePatternGenerator: Fragment() {
+class RunePatternGenerator : Fragment() {
     private lateinit var viewModel: MainViewModel
     lateinit var sendBtn: TextView
     lateinit var nextType: TextView
@@ -31,20 +33,20 @@ class RunePatternGenerator: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        AnalyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_PATTERN_CREATED)
         (activity as MainActivity).hideBottomBar()
 
         imgRune = view.findViewById(R.id.imageRune)
         nextType = view.findViewById(R.id.next_type)
 
         viewModel.runeImagesReady.observe(viewLifecycleOwner, Observer {
-            if (it && !firstImageWasReady && viewModel.runesImages.size > 0){
+            if (it && !firstImageWasReady && viewModel.runesImages.size > 0) {
                 imgRune?.setImageBitmap(viewModel.runesImages[0])
                 nextType?.visibility = View.VISIBLE
             }
         })
 
-        if(viewModel.runesImages.size > 0){
+        if (viewModel.runesImages.size > 0) {
             imgRune?.setImageBitmap(viewModel.runesImages[0])
             nextType?.visibility = View.VISIBLE
             firstImageWasReady = true
@@ -56,10 +58,11 @@ class RunePatternGenerator: Fragment() {
 
 
         nextType.setOnClickListener {
-           viewModel.selectedRuneIndex += 1
-           if (viewModel.selectedRuneIndex > viewModel.runesImages.size - 1){
-               viewModel.selectedRuneIndex = 0
-           }
+            AnalyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_PATTERN_NEW_TYPE)
+            viewModel.selectedRuneIndex += 1
+            if (viewModel.selectedRuneIndex > viewModel.runesImages.size - 1) {
+                viewModel.selectedRuneIndex = 0
+            }
             imgRune.setImageBitmap(viewModel.runesImages[viewModel.selectedRuneIndex])
         }
 

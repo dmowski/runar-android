@@ -1,4 +1,4 @@
-package com.tnco.runar.ui.fragments
+package com.tnco.runar.ui.fragment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -11,6 +11,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.tnco.runar.R
+import com.tnco.runar.analytics.AnalyticsHelper
+import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.ui.activity.MainActivity
 import com.tnco.runar.ui.viewmodel.MainViewModel
 
@@ -29,10 +31,11 @@ class GeneratorBackground : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        AnalyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_PATTERN_SELECTION_BACKGROUND)
         progressBar = view.findViewById(R.id.generatorProgressBar)
         pointLayout = view.findViewById(R.id.points)
         btn_next = view.findViewById<TextView>(R.id.button_next)
-        textSelectBackground  = view.findViewById<TextView>(R.id.textSelectBackground)
+        textSelectBackground = view.findViewById<TextView>(R.id.textSelectBackground)
         textSelectBackground.visibility = View.GONE
         btn_next.setOnClickListener {
             activity?.supportFragmentManager?.beginTransaction()
@@ -40,7 +43,7 @@ class GeneratorBackground : Fragment() {
                 ?.commit()
         }
 
-        if (viewModel.backgroundInfo.value!!.isEmpty()){
+        if (viewModel.backgroundInfo.value!!.isEmpty()) {
             viewModel.getBackgroundInfo()
         }
         backgroundImgRecyclerView = view.findViewById(R.id.backgroundImgRecyclerView)
@@ -50,38 +53,39 @@ class GeneratorBackground : Fragment() {
         backgroundImgRecyclerView.layoutManager = layoutManager
         backgroundImgRecyclerView.setOnScrollChangeListener { _, _, _, _, _ ->
 
-           var pos = layoutManager.findFirstCompletelyVisibleItemPosition()
+            var pos = layoutManager.findFirstCompletelyVisibleItemPosition()
 
-                if (hasSelected){
-                    pos = viewModel.backgroundInfo.value!!.indexOfFirst { it.isSelected }
+            if (hasSelected) {
+                pos = viewModel.backgroundInfo.value!!.indexOfFirst { it.isSelected }
+            }
+
+            if (pos >= 0) {
+                for (i in pointsList.indices) {
+                    pointsList[i].setImageResource(
+                        if (i == pos) R.drawable.ic_point_selected
+                        else R.drawable.ic_point_deselected
+                    )
                 }
-
-           if (pos >= 0) {
-               for (i in pointsList.indices) {
-                   pointsList[i].setImageResource(
-                       if (i == pos) R.drawable.ic_point_selected
-                       else R.drawable.ic_point_deselected
-                   )
-               }
-               pointLayout.invalidate()
-           }
+                pointLayout.invalidate()
+            }
 
         }
 
 
         viewModel.backgroundInfo.observe(activity as MainActivity, Observer {
-            if (viewModel.backgroundInfo.value!!.isNotEmpty()){
+            if (viewModel.backgroundInfo.value!!.isNotEmpty()) {
                 progressBar.visibility = View.GONE
                 textSelectBackground.visibility = if (!hasSelected) View.VISIBLE else View.GONE
                 pointsList.clear()
                 pointLayout.removeAllViews()
                 val inflater = LayoutInflater.from(view.context)
-                for (i in 0..viewModel.backgroundInfo.value!!.size - 1){
-                    val point = inflater.inflate(R.layout.point_image_view,pointLayout,false) as ImageView
-                    if (!hasSelected){
+                for (i in 0..viewModel.backgroundInfo.value!!.size - 1) {
+                    val point =
+                        inflater.inflate(R.layout.point_image_view, pointLayout, false) as ImageView
+                    if (!hasSelected) {
                         var pos = layoutManager.findFirstCompletelyVisibleItemPosition()
-                        if (pos < 0) pos =0
-                        point.setImageResource(if (i==pos) R.drawable.ic_point_selected else R.drawable.ic_point_deselected)
+                        if (pos < 0) pos = 0
+                        point.setImageResource(if (i == pos) R.drawable.ic_point_selected else R.drawable.ic_point_deselected)
                     } else {
                         point.setImageResource(if (viewModel.backgroundInfo.value!![i].isSelected) R.drawable.ic_point_selected else R.drawable.ic_point_deselected)
                     }
@@ -105,12 +109,12 @@ class GeneratorBackground : Fragment() {
         return inflater.inflate(R.layout.fragment_generator_background, container, false)
     }
 
-    private fun selectBackground(position: Int){
+    private fun selectBackground(position: Int) {
         val data = viewModel.backgroundInfo.value!!
 
 
-        for (i in data.indices){
-            if (i != position){
+        for (i in data.indices) {
+            if (i != position) {
                 data[i].isSelected = false
             } else {
                 data[position].isSelected = !data[position].isSelected
@@ -118,7 +122,7 @@ class GeneratorBackground : Fragment() {
         }
 
         hasSelected = data.filter { it.isSelected }.count() > 0
-        if (hasSelected){
+        if (hasSelected) {
             btn_next.visibility = View.VISIBLE
             textSelectBackground.visibility = View.GONE
         } else {

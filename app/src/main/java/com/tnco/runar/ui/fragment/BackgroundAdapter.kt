@@ -1,4 +1,4 @@
-package com.tnco.runar.ui.fragments
+package com.tnco.runar.ui.fragment
 
 import android.view.LayoutInflater
 import android.view.View
@@ -18,7 +18,7 @@ class BackgroundAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BackgroundViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val itemView = inflater.inflate(R.layout.backgroung_generato_selected,parent,false)
+        val itemView = inflater.inflate(R.layout.backgroung_generato_selected, parent, false)
         val holder = BackgroundViewHolder(itemView)
         itemView.setOnClickListener {
             selectBackground(holder.adapterPosition)
@@ -35,8 +35,10 @@ class BackgroundAdapter(
         progressBar.visibility = if (list[position].img != null) View.GONE else View.VISIBLE
         img.setImageBitmap(list[position].img)
         checkBox.visibility = if (list[position].isSelected) View.VISIBLE else View.GONE
-        frameLayout.setBackgroundResource(if (list[position].isSelected) R.drawable.backround_background_selected
-                                                      else R.drawable.backround_background)
+        frameLayout.setBackgroundResource(
+            if (list[position].isSelected) R.drawable.backround_background_selected
+            else R.drawable.backround_background
+        )
     }
 
     fun updateData(list: List<BackgroundInfo>) {

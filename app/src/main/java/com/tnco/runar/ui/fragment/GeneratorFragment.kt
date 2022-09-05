@@ -16,7 +16,7 @@ import com.tnco.runar.ui.activity.MainActivity
 import com.tnco.runar.ui.viewmodel.MainViewModel
 
 
-class GeneratorFragment : Fragment(){
+class GeneratorFragment : Fragment() {
     val viewModel: MainViewModel by viewModels()
 
     private var _binding: FragmerntLayoutGeneratorBinding? = null
@@ -29,7 +29,6 @@ class GeneratorFragment : Fragment(){
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmerntLayoutGeneratorBinding.inflate(inflater, container, false)
-        AnalyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_OPENED)
         viewModel.fontSize.observeOnce(this) {
             binding.tvToolbar.setTextSize(TypedValue.COMPLEX_UNIT_PX, (it * 1.35f))
         }
@@ -45,6 +44,7 @@ class GeneratorFragment : Fragment(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        AnalyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_OPENED)
         (activity as MainActivity).showBottomBar()
     }
 }
