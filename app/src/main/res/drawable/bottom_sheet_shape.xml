@@ -2,13 +2,9 @@
 <shape
     android:shape="rectangle"
     xmlns:android="http://schemas.android.com/apk/res/android">
-    <solid android:color="@color/bottom_sheet"/>
+    <solid android:color="@color/bottom_sheet_background"/>
     <corners
         android:topRightRadius="28dp"
         android:topLeftRadius="28dp"
-        />
-    <stroke
-        android:width="2dp"
-        android:color="@color/bottom_sheet"
         />
 </shape>

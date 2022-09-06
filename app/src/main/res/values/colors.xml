@@ -129,6 +129,6 @@
     <color name="bottom_sheet_heading">#D2C4AD</color>
     <color name="bottom_sheet_text">#E1E1E1</color>
     <color name="bottom_sheet_button">#6A6A6A5C</color>
-    <color name="bottom_sheet">#CB2B2A2A</color>
+    <color name="bottom_sheet_background">#BF000000</color>
 
 </resources>

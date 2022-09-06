@@ -8,7 +8,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import coil.load
 import com.tnco.runar.R
@@ -17,11 +16,9 @@ import com.tnco.runar.databinding.FragmentGeneratorStartBinding
 import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.model.RunesItemsModel
 import com.tnco.runar.repository.SharedPreferencesRepository
-import com.tnco.runar.ui.adapter.RunesGeneratorAdapter
-import com.tnco.runar.util.observeOnce
 import com.tnco.runar.ui.activity.MainActivity
+import com.tnco.runar.ui.adapter.RunesGeneratorAdapter
 import com.tnco.runar.ui.viewmodel.MainViewModel
-import kotlinx.coroutines.launch
 import java.util.*
 
 class GeneratorStartFragment : Fragment() {
@@ -29,7 +26,7 @@ class GeneratorStartFragment : Fragment() {
     private var _binding: FragmentGeneratorStartBinding? = null
     private val binding get() = _binding!!
     private lateinit var mViewModel: MainViewModel
-    private val mAdapter: RunesGeneratorAdapter by lazy { RunesGeneratorAdapter() }
+    private val mAdapter: RunesGeneratorAdapter by lazy { RunesGeneratorAdapter(::onShowBottomSheet) }
     private var listId: MutableList<Int> = mutableListOf()
     private var listAllIds: MutableList<Int> = mutableListOf()
     private val sharedPreferences by lazy { SharedPreferencesRepository.get() }
@@ -47,7 +44,8 @@ class GeneratorStartFragment : Fragment() {
         AnalyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_PATTERN_SELECTED)
         mViewModel = ViewModelProvider(requireActivity())[MainViewModel::class.java]
         setupRecyclerView()
-        readDatabase()
+        //readDatabase()
+        requestApiData()
         return binding.root
     }
 
@@ -68,13 +66,7 @@ class GeneratorStartFragment : Fragment() {
     }
 
     private fun makeBottomSheet() {
-        val gridLayoutManager =
-            GridLayoutManager(requireContext(), 3, GridLayoutManager.HORIZONTAL, false)
-
         with(binding) {
-            runesRecyclerView.layoutManager = gridLayoutManager
-            runesRecyclerView.adapter = mAdapter
-
             mAdapter.obsSelectedRunes.observe(viewLifecycleOwner) { runes ->
                 when (runes.size) {
                     1 -> {
@@ -124,6 +116,7 @@ class GeneratorStartFragment : Fragment() {
     }
 
     private fun requestApiData() {
+        listAllIds.clear()
         mViewModel.getRunes()
         mViewModel.runesResponse.observe(viewLifecycleOwner) { listRunes ->
             if (listRunes.isNotEmpty()) {

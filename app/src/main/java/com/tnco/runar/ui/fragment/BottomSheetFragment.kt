@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import coil.load
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.tnco.runar.R
 import com.tnco.runar.databinding.BottomSheetLayoutBinding
 
 class BottomSheetFragment(
@@ -16,6 +17,11 @@ class BottomSheetFragment(
 
     private var _binding: BottomSheetLayoutBinding? = null
     private val binding get() = requireNotNull(_binding)
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setStyle(STYLE_NORMAL, R.style.CustomBottomSheetDialogTheme);
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

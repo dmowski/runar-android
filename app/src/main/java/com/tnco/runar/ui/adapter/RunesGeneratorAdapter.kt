@@ -9,7 +9,9 @@ import com.tnco.runar.databinding.RuneItemBinding
 import com.tnco.runar.model.RunesItemsModel
 import com.tnco.runar.util.RunesDiffUtil
 
-class RunesGeneratorAdapter : RecyclerView.Adapter<RunesGeneratorAdapter.RunesGeneratorHolder>() {
+class RunesGeneratorAdapter(
+    private val onShowBottomSheet: (RunesItemsModel) -> Unit
+) : RecyclerView.Adapter<RunesGeneratorAdapter.RunesGeneratorHolder>() {
 
 
     private val selectedRunes: MutableList<RunesItemsModel> = mutableListOf()
@@ -46,6 +48,10 @@ class RunesGeneratorAdapter : RecyclerView.Adapter<RunesGeneratorAdapter.RunesGe
             obsSelectedRunes.value = selectedRunes
         }
 
+        holder.itemView.setOnLongClickListener {
+            onShowBottomSheet(currentRune)
+            true
+        }
     }
 
     override fun getItemCount(): Int = mListRunes.size
