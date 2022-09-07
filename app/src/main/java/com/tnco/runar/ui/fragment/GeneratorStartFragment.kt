@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import coil.load
 import com.tnco.runar.R
@@ -19,6 +20,8 @@ import com.tnco.runar.repository.SharedPreferencesRepository
 import com.tnco.runar.ui.activity.MainActivity
 import com.tnco.runar.ui.adapter.RunesGeneratorAdapter
 import com.tnco.runar.ui.viewmodel.MainViewModel
+import com.tnco.runar.util.observeOnce
+import kotlinx.coroutines.launch
 import java.util.*
 
 class GeneratorStartFragment : Fragment() {
@@ -110,9 +113,18 @@ class GeneratorStartFragment : Fragment() {
         )
     }
 
-    private fun readDatabase() {
+    private fun readDatabase() { // доделать считывание
         listAllIds.clear()
-        requestApiData()
+        lifecycleScope.launch {
+            mViewModel.readRunes.observeOnce(viewLifecycleOwner) { listRunes ->
+                if (listRunes.isNotEmpty()) {
+                    mAdapter.setData(listRunes)
+                    listRunes.forEach {
+                        listAllIds.add(it.id)
+                    }
+                } else requestApiData()
+            }
+        }
     }
 
     private fun requestApiData() {
