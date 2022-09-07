@@ -1,4 +1,4 @@
-package com.tnco.runar.ui.fragments
+package com.tnco.runar.ui.fragment
 
 import android.content.Intent
 import android.net.Uri
@@ -13,9 +13,12 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.tnco.runar.R
+import com.tnco.runar.analytics.AnalyticsHelper
+import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.feature.MusicController
 import com.tnco.runar.ui.activity.MainActivity
 import com.tnco.runar.ui.viewmodel.MainViewModel
+import com.tnco.runar.util.AnalyticsConstants
 import kotlinx.coroutines.delay
 
 class GeneratorMagicRune : Fragment() {
@@ -47,6 +50,11 @@ class GeneratorMagicRune : Fragment() {
         sendLink = view.findViewById(R.id.generator_description_button_frame)
         progressBarAction()
         sendLink.setOnClickListener {
+            AnalyticsHelper.sendEvent(
+                AnalyticsEvent.MUSIC_LINK_OPENED,
+                Pair(AnalyticsConstants.GROUP_NAME, textGroupName.text.toString()),
+                Pair(AnalyticsConstants.TRACK_NAME, textSongName.text.toString())
+            )
             val uri = Uri.parse(link)
             val intent = Intent(Intent.ACTION_VIEW, uri)
             startActivity(intent)
@@ -61,13 +69,13 @@ class GeneratorMagicRune : Fragment() {
                 delay(70)
                 when (MusicController.currentSongPos) {
                     2 -> {
-                        link ="https://lyod1.bandcamp.com/releases"
+                        link = "https://lyod1.bandcamp.com/releases"
                         textGroupName.text = getString(R.string.group1)
                         textSongName.text = getString(R.string.track1_1)
                         imageGroup.setImageResource(R.drawable.led_image)
                     }
                     3 -> {
-                        link ="https://lyod1.bandcamp.com/releases"
+                        link = "https://lyod1.bandcamp.com/releases"
                         textGroupName.text = getString(R.string.group1)
                         textSongName.text = getString(R.string.track1_2)
                         imageGroup.setImageResource(R.drawable.led_image)

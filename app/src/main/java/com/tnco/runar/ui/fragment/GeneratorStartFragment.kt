@@ -13,14 +13,13 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import coil.load
 import com.tnco.runar.R
-
+import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.databinding.FragmentGeneratorStartBinding
+import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.model.RunesItemsModel
 import com.tnco.runar.ui.adapter.RunesGeneratorAdapter
 import com.tnco.runar.util.observeOnce
-
 import com.tnco.runar.ui.activity.MainActivity
-import com.tnco.runar.ui.fragments.GeneratorMagicRune
 import com.tnco.runar.ui.viewmodel.MainViewModel
 import kotlinx.coroutines.launch
 import java.util.*
@@ -45,7 +44,7 @@ class GeneratorStartFragment : Fragment() {
             activity?.onBackPressed()
         }
         mViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
-
+        AnalyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_PATTERN_SELECTED)
         setupRecyclerView()
         readDatabase()
 
@@ -160,7 +159,7 @@ class GeneratorStartFragment : Fragment() {
 
 
     private fun randomRunes() {
-
+        AnalyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_PATTERN_RANDOM_RUNES)
         val count = (1..3).random()
         listId.clear()
         for (i in 0 until count) {
@@ -169,7 +168,7 @@ class GeneratorStartFragment : Fragment() {
         }
         listId.sort()
         var idsString = ""
-        when(count){
+        when (count) {
             1 -> {
                 idsString = listId[0].toString()
             }
@@ -195,7 +194,7 @@ class GeneratorStartFragment : Fragment() {
         var idsString = ""
         val count = listId.count()
 
-        when(count){
+        when (count) {
             1 -> {
                 idsString = listId[0].toString()
             }
