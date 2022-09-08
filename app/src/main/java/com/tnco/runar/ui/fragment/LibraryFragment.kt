@@ -93,11 +93,8 @@ private fun ItemData(scrollState: ScrollState) {
 
     viewModel.firstMenuDataCheck()
 
-    if (menuData?.second?.size!! > 0) {
-        NavigateItem(fontSize = fontSize!!, route = menuData!!.second)
-    }
-    if (menuData?.first != null) {
-        for (item in menuData?.first!!) {
+    if (menuData != null) {
+        for (item in menuData!!) {
             if (item.imageUrl.isNullOrEmpty()) item.imageUrl = ""
             when (item.type) {
                 "root" -> {
@@ -424,38 +421,6 @@ private fun FirstMenuItem(
             Divider(
                 color = colorResource(id = R.color.divider)
             )
-        }
-    }
-}
-
-@Composable
-private fun NavigateItem(fontSize: Float, route: List<String>) {
-    Row(
-        Modifier
-            .aspectRatio(10f, true)
-    ) {
-        Box(
-            Modifier
-                .fillMaxSize()
-                .weight(16f)
-        )
-        Row(
-            Modifier
-                .fillMaxSize()
-                .weight(398f), verticalAlignment = Alignment.CenterVertically
-        ) {
-            for (item in route) {
-                var color = colorResource(id = R.color.library_nav_not_selected)
-                if (item == route.last()) color = colorResource(id = R.color.library_nav_selected)
-                Text(
-                    text = item,
-                    style = TextStyle(fontSize = with(LocalDensity.current)
-                    { ((fontSize * 0.7f)).toSp() }),
-                    color = color,
-                    fontFamily = FontFamily(Font(R.font.roboto_light)),
-                    modifier = Modifier.padding(end = 1.dp)
-                )
-            }
         }
     }
 }
