@@ -129,4 +129,8 @@
     <string name="library_tab_audio">Аудио</string>
     <string name="push_general_notification">Заходи в Runar и узнай, какая руна дня сегодня</string>
     <string name="push_general_notification_channel_name">Напоминания</string>
+    <string name="luck_next_time">В следующий раз точно повезет</string>
+    <string name="luck_is_close">Удача близка</string>
+    <string name="today_your_day">Сегодня твой день</string>
+    <string name="lucky">Везение на пределе</string>
 </resources>
