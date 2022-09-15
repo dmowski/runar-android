@@ -14,6 +14,7 @@ import com.tnco.runar.repository.LanguageRepository
 import com.tnco.runar.repository.SharedDataRepository
 import com.tnco.runar.repository.SharedPreferencesRepository
 import com.tnco.runar.services.PushService.Companion.REMINDER_CHANNEL_ID
+import com.tnco.runar.util.NetworkMonitor
 
 class App : Application() {
     override fun onCreate() {
@@ -25,6 +26,7 @@ class App : Application() {
         MusicController.init(this)
         AnalyticsHelper.init()
         createNotificationChannel()
+        NetworkMonitor.init(this)
         super.onCreate()
     }
 

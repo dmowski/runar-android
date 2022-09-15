@@ -141,4 +141,7 @@
     <string name="some_description">Some Description</string>
     <string name="some_text">Some text</string>
 
+    <string name="retry">Retry</string>
+    <string name="internet_conn_error">Please check your network connection and try again</string>
+
 </resources>
