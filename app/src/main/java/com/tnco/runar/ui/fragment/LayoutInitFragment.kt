@@ -26,7 +26,6 @@ import com.tnco.runar.ui.viewmodel.InitViewModel
 import com.tnco.runar.util.setOnCLickListenerForAll
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.util.ArrayList
 import kotlin.random.Random
 
 class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClickListener {
@@ -387,13 +386,13 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
     }
 
     private fun runesArrayInit() {
-        runesList[0] = arrayOf(1, 2, 60, 30)
+        runesList[0] = arrayOf(1, 2, 60, 30)//первые два столбца id рун вторые двух их процент удачи соответсвенно
         runesList[1] = arrayOf(3, 4, 80, 20)
         runesList[2] = arrayOf(5, 6, 20, 40)
         runesList[3] = arrayOf(7, 8, 70, 20)
         runesList[4] = arrayOf(9, 10, 70, 40)
         runesList[5] = arrayOf(11, 12, 80, 20)
-        runesList[6] = arrayOf(13, 0, 90, 0)
+        runesList[6] = arrayOf(13, 0, 90, 0)//0 когда нет обратной руны
         runesList[7] = arrayOf(14, 15, 70, 40)
         runesList[8] = arrayOf(16, 0, 30, 0)
         runesList[9] = arrayOf(17, 18, 20, 20)
@@ -416,14 +415,12 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
 
     private fun getUniqueRune(): Int {
         val minRuneLvl = preferencesRepository.minRuneLvl
-        var randomRunesList: Array<Array<Int>> = Array(3) { Array(7) { 0 } }
+        var randomRunesList: Array<Array<Int>> = Array(3) { Array(6) { 0 } }
         var randomRunesListSize = 0
-        //RunarLogger.logDebug(minRuneLvl.toString())
         while (randomRunesListSize < 3) {
             val randomNumber = Random.nextInt(1, 42)
-            //RunarLogger.logDebug("rand: $randomNumber")
             if (layoutId == 2) {
-                for (i in 0..24) {
+                for (i in 0..runesList.lastIndex) {
                     if (runesList[i][0] == randomNumber) {
                         randomRunesList[randomRunesListSize] =
                             arrayOf(
@@ -432,31 +429,30 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
                                 runesList[i][2],
                                 runesList[i][3],
                                 i,
-                                randomNumber,
-                                runesList[i][2]
+                                randomNumber
                             )
                         randomRunesListSize++
                         runesList[i] = arrayOf(0, 0, 0, 0)
-                        //RunarLogger.logDebug("found: $randomRunesListSize")
                         break
                     }
                 }
             } else {
-                for (i in 0..24) {
+                for (i in 0..runesList.lastIndex) {
                     var exit = false
-                    for (i2 in 0..1) {
-                        if (runesList[i][i2] == randomNumber) {
+                    for (j in 0..1) {
+                        if (runesList[i][j] == randomNumber) {
                             randomRunesList[randomRunesListSize] =
                                 arrayOf(
                                     runesList[i][0],
                                     runesList[i][1],
                                     runesList[i][2],
-                                    runesList[i][3], i, randomNumber, runesList[i][i2 + 2]
+                                    runesList[i][3],
+                                    i,
+                                    randomNumber
                                 )
                             randomRunesListSize++
                             exit = true
                             runesList[i] = arrayOf(0, 0, 0, 0)
-                            //RunarLogger.logDebug("found: $randomRunesListSize")
                             break
                         }
                     }
@@ -464,9 +460,6 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
                 }
             }
         }
-        //RunarLogger.logDebug(randomRunesList.contentDeepToString())
-        randomRunesList = randomRunesList.sortedWith(compareBy { it[6] }).toTypedArray()
-        //RunarLogger.logDebug(randomRunesList.contentDeepToString())
         var result = 0
         for (n in 0..2) {
             if (n == minRuneLvl) {
