@@ -962,11 +962,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                                     pixelAusfMargin
                                 )
                                 constraintsSet.applyTo(binding.interpretationLayout)
-                                if (auspiciousness <= 50) {
-                                    viewModel.getAffimForCurrentLayout(auspiciousness)
-                                } else {
-                                    viewModel.getInterpretation()
-                                }
+                                viewModel.getAffimForCurrentLayout(auspiciousness)
                             }
                         }
                         viewModel.currentAffirm.observe(viewLifecycleOwner) { affirm ->
