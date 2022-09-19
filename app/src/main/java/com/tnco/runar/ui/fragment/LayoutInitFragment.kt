@@ -20,7 +20,6 @@ import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.util.AnalyticsConstants
 import com.tnco.runar.util.AnalyticsUtils
 import com.tnco.runar.databinding.FragmentLayoutInitBinding
-import com.tnco.runar.repository.SharedPreferencesRepository
 import com.tnco.runar.ui.Navigator
 import com.tnco.runar.ui.component.dialog.DescriptionDialog
 import com.tnco.runar.ui.viewmodel.InitViewModel
@@ -32,8 +31,6 @@ import kotlin.random.Random
 class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClickListener {
 
     private val viewModel: InitViewModel by viewModels()
-
-    private var preferencesRepository = SharedPreferencesRepository.get()
 
     private lateinit var headerText: String
     private lateinit var descriptionText: String
@@ -415,22 +412,24 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
     }
 
     private fun getUniqueRune(): Int {
-        var randomRunesList: Array<Array<Int>> = Array(3) { Array(4) { 0 } }
-        var randomRunesListSize = 0
-        while (randomRunesListSize < 3) {
-            val randomNumber = Random.nextInt(1, 42)
+        var randomRunesList: Array<Int> //заменить на число result
+        var size = 0
+        var result = 0
+        while (size <= 1) {//делать проверку есть ли хоть 1 массив
+            val randomNumber = getRandomRune()
             if (layoutId == 2) {
                 for (i in 0..runesList.lastIndex) {
                     if (runesList[i][0] == randomNumber) {//проверяет только из первого столбца руны,
                         // т.к. обратные руны не сочитаются по докам 1,3,5,7,9,11,13,14,16,17,19,20,21,22,24,26,27,29,31,33,35,37,38,39,41
-                        randomRunesList[randomRunesListSize] =
+                        randomRunesList =
                             arrayOf(
                                 runesList[i][0],
                                 runesList[i][1],
                                 i,
                                 randomNumber
                             )
-                        randomRunesListSize++
+                        size++
+                        result = randomRunesList[3]
                         runesList[i] = arrayOf(0, 0)
                         break
                     }
@@ -440,15 +439,16 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
                     var exit = false
                     for (j in 0..1) {
                         if (runesList[i][j] == randomNumber) {
-                            randomRunesList[randomRunesListSize] =
+                            randomRunesList =
                                 arrayOf(
                                     runesList[i][0],
                                     runesList[i][1],
                                     i,//номер массива runesList[i]
                                     randomNumber
                                 )
-                            randomRunesListSize++
                             exit = true
+                            size++
+                            result = randomRunesList[3]
                             runesList[i] = arrayOf(0, 0)
                             break
                         }
@@ -457,19 +457,11 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
                 }
             }
         }
-        var result = 0
-        for (n in 0..2) {//перебор 3 массивов выбранных рандомно
-            if (n == 0) {//берется первый массив
-                result = randomRunesList[n][3]//=randomNumber из массива randomRunesList
-            } else {
-                for (i in 0..1) {// i- первый и второй символ массива runesList[][]
-                    runesList[randomRunesList[n][2]][i] = randomRunesList[n][i]//сетается обратно те же значения в массивы которые не использовались
-                }           //randomRunesList[n][2] = номер массива runesList[k]
-            }
-        }
-        Log.d("KEYKAK", "rune ID = $result")
+         Log.d("KEYKAK", "rune ID = $result")
         return result
     }
+
+    private fun getRandomRune() = Random.nextInt(1, 42)
 
     override fun onDestroyView() {
         _binding = null
