@@ -218,8 +218,4 @@
         app:layout_constraintTop_toTopOf="@+id/lineBottom_1"
         app:maxLines="1" />
 
-    <include
-        android:id="@+id/errorLayout"
-        layout="@layout/error_layout"/>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
