@@ -383,6 +383,10 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
         binding.descriptionButtonFrame.isClickable = state
     }
 
+    /**
+     * Method of filling an array with rune IDs
+     * if there is no reverse rune, then 0
+     */
     private fun runesArrayInit() {
         runesList[0] = arrayOf(1, 2)
         runesList[1] = arrayOf(3, 4)
@@ -390,7 +394,7 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
         runesList[3] = arrayOf(7, 8)
         runesList[4] = arrayOf(9, 10)
         runesList[5] = arrayOf(11, 12)
-        runesList[6] = arrayOf(13, 0)//0 когда нет обратной руны
+        runesList[6] = arrayOf(13, 0)
         runesList[7] = arrayOf(14, 15)
         runesList[8] = arrayOf(16, 0)
         runesList[9] = arrayOf(17, 18)
@@ -412,56 +416,42 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
     }
 
     private fun getUniqueRune(): Int {
-        var randomRunesList: Array<Int> //заменить на число result
-        var size = 0
         var result = 0
-        while (size <= 1) {//делать проверку есть ли хоть 1 массив
-            val randomNumber = getRandomRune()
-            if (layoutId == 2) {
-                for (i in 0..runesList.lastIndex) {
-                    if (runesList[i][0] == randomNumber) {//проверяет только из первого столбца руны,
-                        // т.к. обратные руны не сочитаются по докам 1,3,5,7,9,11,13,14,16,17,19,20,21,22,24,26,27,29,31,33,35,37,38,39,41
-                        randomRunesList =
-                            arrayOf(
-                                runesList[i][0],
-                                runesList[i][1],
-                                i,
-                                randomNumber
-                            )
-                        size++
-                        result = randomRunesList[3]
-                        runesList[i] = arrayOf(0, 0)
-                        break
-                    }
-                }
+        while (result == 0) {
+            val randomNumber = getRandomValueFromNumberRunes()
+            result = if (layoutId == 2) {
+                getRuneIdForNonReversedRunes(randomNumber)
             } else {
-                for (i in 0..runesList.lastIndex) {
-                    var exit = false
-                    for (j in 0..1) {
-                        if (runesList[i][j] == randomNumber) {
-                            randomRunesList =
-                                arrayOf(
-                                    runesList[i][0],
-                                    runesList[i][1],
-                                    i,//номер массива runesList[i]
-                                    randomNumber
-                                )
-                            exit = true
-                            size++
-                            result = randomRunesList[3]
-                            runesList[i] = arrayOf(0, 0)
-                            break
-                        }
-                    }
-                    if (exit) break
-                }
+                getRuneId(randomNumber)
             }
         }
-         Log.d("KEYKAK", "rune ID = $result")
+        Log.d("KEYKAK", "rune ID = $result")
         return result
     }
 
-    private fun getRandomRune() = Random.nextInt(1, 42)
+    private fun getRuneIdForNonReversedRunes(randomNumber : Int) : Int {
+        for (i in 0..runesList.lastIndex) {
+            if (runesList[i][0] == randomNumber) {
+                runesList[i] = arrayOf(0, 0)
+                return randomNumber
+            }
+        }
+        return 0
+    }
+
+    private fun getRuneId(randomNumber : Int) : Int {
+        for (i in 0..runesList.lastIndex) {
+            for (j in 0..1) {
+                if (runesList[i][j] == randomNumber) {
+                    runesList[i] = arrayOf(0, 0)
+                    return randomNumber
+                }
+            }
+        }
+        return 0
+    }
+
+    private fun getRandomValueFromNumberRunes() = Random.nextInt(1, 42)
 
     override fun onDestroyView() {
         _binding = null
