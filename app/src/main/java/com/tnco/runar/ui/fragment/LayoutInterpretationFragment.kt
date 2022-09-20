@@ -1171,13 +1171,16 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
         }
     }
 
+    /**
+     * Percentage intervals are based on runes having luck between 10 and 90
+     */
     private fun getLuckLevel(percent: Int): String {
         var luckLevel = ""
         when (percent) {
-            in 0..19 -> luckLevel = requireContext().resources.getString(R.string.luck_next_time)
-            in 20..40 -> luckLevel = requireContext().resources.getString(R.string.luck_is_close)
-            in 41..69 -> luckLevel = requireContext().resources.getString(R.string.today_your_day)
-            in 70..100 -> luckLevel = requireContext().resources.getString(R.string.lucky)
+            in 10..29 -> luckLevel = requireContext().resources.getString(R.string.luck_next_time)
+            in 30..49 -> luckLevel = requireContext().resources.getString(R.string.luck_is_close)
+            in 50..69 -> luckLevel = requireContext().resources.getString(R.string.today_your_day)
+            in 70..90 -> luckLevel = requireContext().resources.getString(R.string.lucky)
         }
         return luckLevel
     }
