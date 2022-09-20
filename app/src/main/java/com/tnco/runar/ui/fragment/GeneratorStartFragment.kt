@@ -40,6 +40,9 @@ class GeneratorStartFragment : Fragment() {
     ): View {
         (activity as MainActivity).hideBottomBar()
         _binding = FragmentGeneratorStartBinding.inflate(inflater, container, false)
+
+        binding.shimmerLayout?.startShimmer()
+
         binding.arrowBack.setOnClickListener {
             activity?.onBackPressed()
         }
@@ -145,6 +148,9 @@ class GeneratorStartFragment : Fragment() {
             GridLayoutManager(requireContext(), 3, GridLayoutManager.HORIZONTAL, false)
 
         with(binding) {
+            shimmerLayout?.stopShimmer()
+            shimmerLayout?.visibility = View.GONE
+
             runesRecyclerView.layoutManager = gridLayoutManager
             runesRecyclerView.adapter = mAdapter
 
