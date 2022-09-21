@@ -251,7 +251,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.546" />
+        app:layout_constraintGuide_begin="262dp" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="0dp"
@@ -329,12 +329,14 @@
 
     <com.facebook.shimmer.ShimmerFrameLayout
         android:id="@+id/shimmerLayout"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:animateLayoutChanges="true"
         android:animationCache="true"
-        app:layout_constraintStart_toStartOf="@+id/lineStart"
-        app:layout_constraintTop_toBottomOf="@+id/lineRunesTop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/lineStartText"
+        app:layout_constraintTop_toBottomOf="@+id/lineButtonGeneratorBottom"
         app:shimmer_repeat_mode="restart"
         app:shimmer_shape="radial">
 

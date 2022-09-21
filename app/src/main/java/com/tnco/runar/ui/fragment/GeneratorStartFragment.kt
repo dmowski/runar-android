@@ -41,7 +41,7 @@ class GeneratorStartFragment : Fragment() {
         (activity as MainActivity).hideBottomBar()
         _binding = FragmentGeneratorStartBinding.inflate(inflater, container, false)
 
-        binding.shimmerLayout?.startShimmer()
+        onStartShimmering()
 
         binding.arrowBack.setOnClickListener {
             activity?.onBackPressed()
@@ -116,6 +116,22 @@ class GeneratorStartFragment : Fragment() {
         )
     }
 
+    private fun onStartShimmering() {
+        with(binding) {
+            runesRecyclerView.visibility = View.GONE
+            shimmerLayout.visibility = View.VISIBLE
+            shimmerLayout.startShimmer()
+        }
+    }
+
+    private fun onStopShimmering() {
+        with(binding) {
+            shimmerLayout.stopShimmer()
+            shimmerLayout.visibility = View.GONE
+            runesRecyclerView.visibility = View.VISIBLE
+        }
+    }
+
     private fun readDatabase() { // доделать считывание
         listAllIds.clear()
         lifecycleScope.launch {
@@ -135,6 +151,7 @@ class GeneratorStartFragment : Fragment() {
         mViewModel.getRunes()
         mViewModel.runesResponse.observe(viewLifecycleOwner) { listRunes ->
             if (listRunes.isNotEmpty()) {
+                onStopShimmering()
                 mAdapter.setData(listRunes)
                 listRunes.forEach {
                     listAllIds.add(it.id)
@@ -148,9 +165,6 @@ class GeneratorStartFragment : Fragment() {
             GridLayoutManager(requireContext(), 3, GridLayoutManager.HORIZONTAL, false)
 
         with(binding) {
-            shimmerLayout?.stopShimmer()
-            shimmerLayout?.visibility = View.GONE
-
             runesRecyclerView.layoutManager = gridLayoutManager
             runesRecyclerView.adapter = mAdapter
 
