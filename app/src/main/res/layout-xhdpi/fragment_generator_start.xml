@@ -157,8 +157,7 @@
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/rune_1"
-            app:layout_constraintStart_toStartOf="@id/rune_1"
-            app:layout_constraintTop_toBottomOf="@id/rune_1" />
+            app:layout_constraintStart_toStartOf="@id/rune_1" />
 
         <TextView
             android:id="@+id/tv_rune_2"
@@ -195,8 +194,7 @@
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/rune_2"
-            app:layout_constraintStart_toStartOf="@id/rune_2"
-            app:layout_constraintTop_toBottomOf="@id/rune_2" />
+            app:layout_constraintStart_toStartOf="@id/rune_2" />
 
         <TextView
             android:id="@+id/tv_rune_3"
@@ -231,8 +229,7 @@
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/rune_3"
-            app:layout_constraintStart_toStartOf="@id/rune_3"
-            app:layout_constraintTop_toBottomOf="@id/rune_3" />
+            app:layout_constraintStart_toStartOf="@id/rune_3" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
