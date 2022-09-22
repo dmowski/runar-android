@@ -12,7 +12,7 @@
         android:id="@+id/offsetImageView2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/background_main"
+        android:src="@drawable/background_fire"
         app:offsetScaleType="fitX"
         app:verticalCropOffset="1"
         app:verticalFitOffset="0" />
