@@ -335,8 +335,8 @@
         android:animationCache="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/lineStartText"
-        app:layout_constraintTop_toBottomOf="@+id/lineButtonGeneratorBottom"
+        app:layout_constraintStart_toStartOf="@+id/lineStart"
+        app:layout_constraintTop_toBottomOf="@+id/lineRunesTop"
         app:shimmer_repeat_mode="restart"
         app:shimmer_shape="radial">
 
