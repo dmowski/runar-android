@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -45,8 +44,8 @@
         android:id="@+id/text_inform"
         android:layout_width="0dp"
         android:layout_height="48dp"
-        android:text="@string/runes_collect_formula"
         android:fontFamily="@font/roboto_light"
+        android:text="@string/runes_collect_formula"
         android:textAlignment="center"
         android:textColor="@color/white_f8"
         android:textSize="18sp"
@@ -94,7 +93,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.266" />
+        app:layout_constraintGuide_begin="128dp" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/lineBottomRune"
@@ -252,7 +251,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.546" />
+        app:layout_constraintGuide_begin="262dp" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="0dp"
@@ -319,7 +318,6 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.862" />
 
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/runes_recycler_view"
         android:layout_width="0dp"
@@ -328,5 +326,31 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/lineStart"
         app:layout_constraintTop_toBottomOf="@+id/lineRunesTop" />
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmerLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:animateLayoutChanges="true"
+        android:animationCache="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/lineStart"
+        app:layout_constraintTop_toBottomOf="@+id/lineRunesTop"
+        app:shimmer_repeat_mode="restart"
+        app:shimmer_shape="radial">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <include layout="@layout/shimmer_layout" />
+
+            <include layout="@layout/shimmer_layout" />
+
+            <include layout="@layout/shimmer_layout" />
+        </LinearLayout>
+    </com.facebook.shimmer.ShimmerFrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
