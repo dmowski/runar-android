@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <com.tnco.runar.ui.component.view.OffsetImageView
@@ -64,25 +65,27 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="H,5.5:1"
         android:layout_marginBottom="40dp">
+
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/gp_button_img"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="@drawable/ripple_sacr_button_big"
+            android:scaleType="centerCrop"
             android:src="@color/sacr_button_header"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:scaleType="centerCrop"
             app:shapeAppearanceOverlay="@style/roundedImageView"
-            android:clickable="true"
-            android:focusable="true"
-            android:foreground="@drawable/ripple_sacr_button_big"/>
+            tools:ignore="SpeakableTextPresentCheck" />
+
         <TextView
             android:id="@+id/card_button"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fontFamily="@font/amatic_sc_bold"
             android:gravity="center"
-            android:paddingBottom="8dp"
             android:text="@string/sacr_last_button_text"
             android:textColor="@color/onboarding_button_text_deselected"
             app:layout_constraintBottom_toBottomOf="parent"
