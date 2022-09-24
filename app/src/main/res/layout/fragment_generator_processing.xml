@@ -149,15 +149,16 @@
         android:id="@+id/generator_description_text_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="0dp"
         android:layout_marginBottom="10dp"
         android:fontFamily="@font/roboto_light"
         android:lineSpacingMultiplier="@dimen/layout_description_line_spacing"
         android:textColor="@color/layout_desc_text_color"
         app:layout_constraintBottom_toTopOf="@+id/generator_description_button_frame"
         app:layout_constraintEnd_toStartOf="@id/generator_right_guideline"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@id/generator_left_guideline"
-        app:layout_constraintTop_toBottomOf="@id/generator_description_header_frame">
+        app:layout_constraintTop_toBottomOf="@id/generator_description_header_frame"
+        app:layout_constraintVertical_bias="1.0">
 
         <ImageView
             android:id="@+id/generator_image_group"
@@ -172,6 +173,7 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/generator_text_view" />
+
         <ProgressBar
             android:id="@+id/generator_progress_of_loading_view"
             style="?android:attr/progressBarStyleHorizontal"
@@ -197,9 +199,9 @@
             android:layout_marginTop="0dp"
             android:fontFamily="@font/roboto_regular"
             android:text="@string/fate_created"
-            android:textSize="14sp"
             android:textAlignment="center"
             android:textColor="@color/layout_text_processing"
+            android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -245,7 +247,7 @@
         android:background="@drawable/arrow_button_selector"
         android:fontFamily="@font/amatic_sc_bold"
         android:gravity="center"
-        android:paddingBottom="8dp"
+        android:paddingBottom="4dp"
         android:text="@string/layout_go_to_site"
         android:textColor="@color/layout_description_button_text_selector"
         android:textSize="24sp"
