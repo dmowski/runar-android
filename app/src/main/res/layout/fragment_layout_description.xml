@@ -69,7 +69,7 @@
         android:background="@drawable/description_button_background_selector"
         android:fontFamily="@font/amatic_sc_bold"
         android:gravity="center"
-        android:paddingBottom="8dp"
+        android:paddingBottom="3dp"
         android:text="@string/layout_description_button"
         android:textColor="@color/layout_description_button_text_selector"
         app:layout_constraintBottom_toBottomOf="parent"
