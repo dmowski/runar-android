@@ -41,6 +41,7 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
     private var layoutTable: Array<Int> = Array(9) { 0 }
     private var layoutId: Int = 0
     private var threadCounter = 0
+    private val totalRune = 41
 
     private var navigator: Navigator? = null
 
@@ -451,7 +452,7 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
         return 0
     }
 
-    private fun getRandomValueFromNumberRunes() = Random.nextInt(1, 42)
+    private fun getRandomValueFromNumberRunes() = Random.nextInt(1, totalRune + 1)
 
     override fun onDestroyView() {
         _binding = null
