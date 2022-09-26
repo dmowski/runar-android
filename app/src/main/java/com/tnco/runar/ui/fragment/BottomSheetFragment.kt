@@ -4,19 +4,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import coil.load
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.tnco.runar.R
 import com.tnco.runar.databinding.BottomSheetLayoutBinding
 
-class BottomSheetFragment(
-    private val tHeading: String?,
-    private val tDescription: String?,
-    private val tImageUrl: String?
-) : BottomSheetDialogFragment() {
+class BottomSheetFragment : BottomSheetDialogFragment() {
 
     private var _binding: BottomSheetLayoutBinding? = null
     private val binding get() = requireNotNull(_binding)
+    private val args: BottomSheetFragmentArgs by navArgs()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,12 +38,12 @@ class BottomSheetFragment(
         super.onViewCreated(view, savedInstanceState)
 
         with(binding) {
-            heading.text = tHeading
-            description.text = tDescription
-            image.load(tImageUrl)
+            heading.text = args.tHeading
+            description.text = args.tDescription
+            image.load(args.tImageUrl)
 
             crossButton.setOnClickListener {
-                onDestroyView()
+                findNavController().popBackStack()
             }
         }
     }
@@ -52,9 +51,5 @@ class BottomSheetFragment(
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    companion object {
-        const val TAG = "BottomSheetFragment"
     }
 }

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.tnco.runar.R
 import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.databinding.FragmentLayoutGeneratorBinding
@@ -50,21 +51,20 @@ class GeneratorFragment : Fragment() {
     }
 
     private fun moveToNextStep() {
-        activity?.supportFragmentManager?.beginTransaction()
-            ?.replace(R.id.fragmentContainer, GeneratorStartFragment())
-            ?.commit()
+        val direction = GeneratorFragmentDirections
+            .actionGeneratorFragmentToGeneratorStartFragment()
+        findNavController().navigate(direction)
     }
 
     private fun showInternetConnectionError() {
-        activity?.supportFragmentManager?.beginTransaction()
-            ?.replace(R.id.fragmentContainer, ConnectivityErrorFragment())
-            ?.commit()
+        val direction = GeneratorFragmentDirections
+            .actionGlobalConnectivityErrorFragment(R.id.generatorFragment)
+        findNavController().navigate(direction)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         AnalyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_OPENED)
-        (activity as MainActivity).showBottomBar()
     }
 
     override fun onDestroyView() {

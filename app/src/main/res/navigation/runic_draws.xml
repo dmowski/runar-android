@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/runic_draws"
+    app:startDestination="@id/layoutFragment">
+
+    <fragment
+        android:id="@+id/layoutFragment"
+        android:name="com.tnco.runar.ui.fragment.LayoutFragment"
+        android:label="LayoutFragment"
+        tools:layout="@layout/fragment_layouts">
+        <action
+            android:id="@+id/action_layoutFragment_to_layoutDescriptionFragment"
+            app:destination="@id/layoutDescriptionFragment" />
+        <action
+            android:id="@+id/action_layoutFragment_to_layoutInitFragment"
+            app:destination="@id/layoutInitFragment" />
+    </fragment>
+
+    <action
+        android:id="@+id/action_global_layoutFragment"
+        app:destination="@id/layoutFragment"
+        app:popUpTo="@id/layoutFragment"
+        app:popUpToInclusive="true"/>
+
+    <fragment
+        android:id="@+id/layoutDescriptionFragment"
+        android:name="com.tnco.runar.ui.fragment.LayoutDescriptionFragment"
+        android:label="LayoutDescriptionFragment"
+        tools:layout="@layout/fragment_layout_description">
+        <argument
+            android:name="layoutId"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_layoutDescriptionFragment_to_layoutInitFragment"
+            app:destination="@id/layoutInitFragment"/>
+    </fragment>
+    <fragment
+        android:id="@+id/layoutInitFragment"
+        android:name="com.tnco.runar.ui.fragment.LayoutInitFragment"
+        android:label="LayoutInitFragment"
+        tools:layout="@layout/fragment_layout_init">
+        <argument
+            android:name="layoutId"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_layoutInitFragment_to_layoutProcessingFragment"
+            app:destination="@id/layoutProcessingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/layoutProcessingFragment"
+        android:name="com.tnco.runar.ui.fragment.LayoutProcessingFragment"
+        android:label="LayoutProcessingFragment"
+        tools:layout="@layout/fragment_layout_processing">
+        <argument
+            android:name="layoutId"
+            app:argType="integer" />
+        <argument
+            android:name="userLayout"
+            app:argType="integer[]" />
+        <action
+            android:id="@+id/action_layoutProcessingFragment_to_layoutInterpretationFragment"
+            app:destination="@id/layoutInterpretationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/layoutInterpretationFragment"
+        android:name="com.tnco.runar.ui.fragment.LayoutInterpretationFragment"
+        android:label="LayoutInterpretationFragment"
+        tools:layout="@layout/fragment_layout_interpretation">
+        <argument
+            android:name="layoutId"
+            app:argType="integer" />
+        <argument
+            android:name="userLayout"
+            app:argType="integer[]" />
+        <action
+            android:id="@+id/action_layoutInterpretationFragment_to_sacrFragment1"
+            app:destination="@id/sacrFragment1" />
+    </fragment>
+    <fragment
+        android:id="@+id/sacrFragment1"
+        android:name="com.tnco.runar.ui.fragment.SacrFragment1"
+        android:label="SacrFragment1"
+        tools:layout="@layout/fragment_layout_sacr_1">
+        <action
+            android:id="@+id/action_sacrFragment1_to_sacrFragment2"
+            app:destination="@id/sacrFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/sacrFragment2"
+        android:name="com.tnco.runar.ui.fragment.SacrFragment2"
+        android:label="SacrFragment2"
+        tools:layout="@layout/fragment_layout_sacr_2">
+        <argument
+            android:name="tipSize"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_sacrFragment2_to_sacrFragment3"
+            app:destination="@id/sacrFragment3" />
+    </fragment>
+    <fragment
+        android:id="@+id/sacrFragment3"
+        android:name="com.tnco.runar.ui.fragment.SacrFragment3"
+        android:label="SacrFragment3"
+        tools:layout="@layout/fragment_layout_sacr_3"/>
+
+</navigation>

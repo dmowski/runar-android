@@ -6,8 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.activity.addCallback
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.tnco.runar.R
@@ -24,10 +26,19 @@ class GeneratorBackground : Fragment() {
     lateinit var pointLayout: LinearLayout
     lateinit var btn_next: TextView
     lateinit var textSelectBackground: TextView
+    lateinit var backArrow: ImageView
     var hasSelected = false
     val pointsList = mutableListOf<ImageView>()
     val adapter by lazy { BackgroundAdapter(::selectBackground) }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        requireActivity().onBackPressedDispatcher.addCallback(this) {
+            val direction = GeneratorBackgroundDirections.actionGlobalGeneratorFragment()
+            findNavController().navigate(direction)
+        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -36,11 +47,18 @@ class GeneratorBackground : Fragment() {
         pointLayout = view.findViewById(R.id.points)
         btn_next = view.findViewById<TextView>(R.id.button_next)
         textSelectBackground = view.findViewById<TextView>(R.id.textSelectBackground)
+        backArrow = view.findViewById(R.id.backArrow)
         textSelectBackground.visibility = View.GONE
         btn_next.setOnClickListener {
-            activity?.supportFragmentManager?.beginTransaction()
-                ?.replace(R.id.fragmentContainer, GeneratorFinal())
-                ?.commit()
+            val direction = GeneratorBackgroundDirections
+                .actionGeneratorBackgroundToGeneratorFinal()
+            findNavController().navigate(direction)
+        }
+
+        backArrow.setOnClickListener {
+            val direction = GeneratorBackgroundDirections
+                .actionGlobalGeneratorFragment()
+            findNavController().navigate(direction)
         }
 
         if (viewModel.backgroundInfo.value!!.isEmpty()) {
@@ -97,7 +115,6 @@ class GeneratorBackground : Fragment() {
                 adapter.updateData(it)
             }
         })
-        (activity as MainActivity).hideBottomBar()
     }
 
     override fun onCreateView(

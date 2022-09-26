@@ -32,8 +32,6 @@ class WebShareFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        (activity as MainActivity).hideBottomBar()
-
         webView = view.findViewById(R.id.web_share)
         webHeader = view.findViewById(R.id.web_header)
 
@@ -42,10 +40,5 @@ class WebShareFragment: Fragment() {
         webView.settings.javaScriptEnabled = true
         webView.settings.loadWithOverviewMode = true
         webView.loadUrl(viewModel.shareURL)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        (activity as MainActivity).showBottomBar()
     }
 }

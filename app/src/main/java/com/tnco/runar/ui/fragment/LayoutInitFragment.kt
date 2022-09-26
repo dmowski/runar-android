@@ -7,6 +7,7 @@ import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.widget.TextView
+import androidx.activity.addCallback
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.os.bundleOf
@@ -14,13 +15,14 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.tnco.runar.R
 import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.util.AnalyticsConstants
 import com.tnco.runar.util.AnalyticsUtils
 import com.tnco.runar.databinding.FragmentLayoutInitBinding
-import com.tnco.runar.ui.Navigator
 import com.tnco.runar.ui.component.dialog.DescriptionDialog
 import com.tnco.runar.ui.viewmodel.InitViewModel
 import com.tnco.runar.util.setOnCLickListenerForAll
@@ -43,30 +45,24 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
     private var threadCounter = 0
     private val totalRune = 41
 
-    private var navigator: Navigator? = null
-
     private var _binding: FragmentLayoutInitBinding? = null
     private val binding
         get() = _binding!!
 
     private lateinit var views: Array<TextView>
     private lateinit var slots: Array<Int?>
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        navigator = context as Navigator
-    }
+    private val args: LayoutInitFragmentArgs by navArgs()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        layoutId = requireArguments().getInt(KEY_ID)
+        layoutId = args.layoutId
         viewModel.getLayoutDescription(layoutId)
         runesArrayInit()
-    }
 
-    override fun onDetach() {
-        navigator = null
-        super.onDetach()
+        requireActivity().onBackPressedDispatcher.addCallback(this) {
+            val direction = LayoutInitFragmentDirections.actionGlobalLayoutFragment()
+            findNavController().navigate(direction)
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -240,7 +236,8 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
 
         when (v?.id) {
             R.id.exit_button -> {
-                navigator?.navigateToDefaultAndShowBottomNavBar()
+                val destination = LayoutInitFragmentDirections.actionGlobalLayoutFragment()
+                findNavController().navigate(destination)
             }
             R.id.description_button_frame -> {
                 val result = slotChanger()
@@ -257,7 +254,9 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
                                 AnalyticsConstants.DRAW_RUNE_LAYOUT, layoutName
                             )
                         )
-                        navigator?.navigateToLayoutProcessingFragment(layoutId, userLayout)
+                        val direction = LayoutInitFragmentDirections
+                            .actionLayoutInitFragmentToLayoutProcessingFragment(layoutId, userLayout)
+                        findNavController().navigate(direction)
                     }
                 }
 
@@ -457,13 +456,5 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
     override fun onDestroyView() {
         _binding = null
         super.onDestroyView()
-    }
-
-    companion object {
-        private const val KEY_ID = "KEY_ID"
-
-        fun newInstance(id: Int): LayoutInitFragment {
-            return LayoutInitFragment().apply { arguments = bundleOf(KEY_ID to id) }
-        }
     }
 }
