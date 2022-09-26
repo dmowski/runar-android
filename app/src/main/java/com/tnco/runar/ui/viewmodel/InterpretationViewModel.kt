@@ -27,11 +27,11 @@ class InterpretationViewModel(application: Application) : AndroidViewModel(appli
     private var _singleRune = SingleLiveEvent<String>()
     private var _currentAffirm = SingleLiveEvent<String>()
     private var _currentInterpretation = SingleLiveEvent<String>()
-    private var  _currentAusp = SingleLiveEvent<Int>()
+    private var _currentAuspiciousness = SingleLiveEvent<Int>()
     private var _selectedLayout = SingleLiveEvent<LayoutDescriptionModel>()
     private var userLayout = arrayListOf<Int>()
 
-    var currentAusp : LiveData<Int> = _currentAusp
+    var currentAuspiciousness : LiveData<Int> = _currentAuspiciousness
     val selectedLayout: LiveData<LayoutDescriptionModel> = _selectedLayout
     var currentAffirm : LiveData<String> = _currentAffirm
     var currentInterpretation : LiveData<String> = _currentInterpretation
@@ -59,7 +59,7 @@ class InterpretationViewModel(application: Application) : AndroidViewModel(appli
 
     fun getInterpretation() {
         val layoutId = selectedLayout.value?.layoutId
-        var result: String = ""
+        var result = ""
         when (layoutId) {
             1 -> result = getFullDescriptionForRune(userLayout[1])
             2 -> {
@@ -110,20 +110,20 @@ class InterpretationViewModel(application: Application) : AndroidViewModel(appli
         }
     }
 
-    fun getAuspForCurrentLayout() {
+    fun getLuckPercentForCurrentLayout() {
         val layoutId = selectedLayout.value?.layoutId
-        var ausp = 0
+        var luckPercent = 0
         when (layoutId) {
-            1 -> ausp = getSumOfAusp(arrayListOf(1))
-            2 -> ausp = getSumOfAusp(arrayListOf(1,2)) / 2
-            3 -> ausp = getSumOfAusp(arrayListOf(3))
-            4 -> ausp = getSumOfAusp(arrayListOf(3,4)) / 2
-            5 -> ausp = getSumOfAusp(arrayListOf(2,3,4))/ 3
-            6 -> ausp =getSumOfAusp(arrayListOf(3,4,5))/ 3
-            7 -> ausp =getSumOfAusp(arrayListOf(3,5,6))/ 3
-            8 -> ausp =getSumOfAusp(arrayListOf(3,4,6,7))/ 4
+            1 -> luckPercent = getSumOfAusp(arrayListOf(1))
+            2 -> luckPercent = getSumOfAusp(arrayListOf(1,2)) / 2
+            3 -> luckPercent = getSumOfAusp(arrayListOf(3))
+            4 -> luckPercent = getSumOfAusp(arrayListOf(3,4)) / 2
+            5 -> luckPercent = getSumOfAusp(arrayListOf(2,3,4))/ 3
+            6 -> luckPercent =getSumOfAusp(arrayListOf(3,4,5))/ 3
+            7 -> luckPercent =getSumOfAusp(arrayListOf(3,5,6))/ 3
+            8 -> luckPercent =getSumOfAusp(arrayListOf(3,4,6,7))/ 4
         }
-        _currentAusp.postValue(ausp)
+        _currentAuspiciousness.postValue(luckPercent)
     }
 
     fun getAffimForCurrentLayout(ausp: Int) {
@@ -135,15 +135,15 @@ class InterpretationViewModel(application: Application) : AndroidViewModel(appli
                     _currentAffirm.postValue(affirmElement.lvl1!!)
                     return
                 }
-                in 20..29 -> {
+                in 20..40 -> {
                     _currentAffirm.postValue(affirmElement.lvl2!!)
                     return
                 }
-                in 30..39 -> {
+                in 41..69 -> {
                     _currentAffirm.postValue(affirmElement.lvl3!!)
                     return
                 }
-                in 40..50 -> {
+                in 70..100 -> {
                     _currentAffirm.postValue(affirmElement.lvl4!!)
                     return
                 }

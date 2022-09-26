@@ -421,12 +421,12 @@
                     <TextView
                         android:id="@+id/text"
                         android:layout_width="0dp"
-                        android:layout_height="30dp"
+                        android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_light"
                         android:gravity="start"
                         android:maxLines="1"
                         android:textColor="@color/auf_text_color"
-                        app:layout_constraintEnd_toEndOf="@id/auf_text_guideline"
+                        app:layout_constraintEnd_toStartOf="@+id/sacr_button_end_guideline"
                         app:layout_constraintStart_toStartOf="@id/left_text_guideline"
                         app:layout_constraintTop_toBottomOf="@id/divider0" />
 

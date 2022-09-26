@@ -3,6 +3,7 @@ package com.tnco.runar.ui.fragment
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.widget.TextView
@@ -19,31 +20,28 @@ import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.util.AnalyticsConstants
 import com.tnco.runar.util.AnalyticsUtils
 import com.tnco.runar.databinding.FragmentLayoutInitBinding
-import com.tnco.runar.repository.SharedPreferencesRepository
 import com.tnco.runar.ui.Navigator
 import com.tnco.runar.ui.component.dialog.DescriptionDialog
 import com.tnco.runar.ui.viewmodel.InitViewModel
 import com.tnco.runar.util.setOnCLickListenerForAll
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.util.ArrayList
 import kotlin.random.Random
 
 class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClickListener {
 
     private val viewModel: InitViewModel by viewModels()
 
-    private var preferencesRepository = SharedPreferencesRepository.get()
-
     private lateinit var headerText: String
     private lateinit var descriptionText: String
     private lateinit var layoutFrame: ConstraintLayout
     private var fontSize: Float = 0f
     private var runeTable: Array<Array<Int>> = Array(7) { Array(3) { 0 } }
-    private var runesList: Array<Array<Int>> = Array(25) { Array(4) { 0 } }
+    private var runesList: Array<Array<Int>> = Array(25) { Array(2) { 0 } }
     private var layoutTable: Array<Int> = Array(9) { 0 }
     private var layoutId: Int = 0
     private var threadCounter = 0
+    private val totalRune = 41
 
     private var navigator: Navigator? = null
 
@@ -386,99 +384,75 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
         binding.descriptionButtonFrame.isClickable = state
     }
 
+    /**
+     * Method of filling an array with rune IDs
+     * if there is no reverse rune, then 0
+     */
     private fun runesArrayInit() {
-        runesList[0] = arrayOf(1, 2, 60, 30)
-        runesList[1] = arrayOf(3, 4, 80, 20)
-        runesList[2] = arrayOf(5, 6, 20, 40)
-        runesList[3] = arrayOf(7, 8, 70, 20)
-        runesList[4] = arrayOf(9, 10, 70, 40)
-        runesList[5] = arrayOf(11, 12, 80, 20)
-        runesList[6] = arrayOf(13, 0, 90, 0)
-        runesList[7] = arrayOf(14, 15, 70, 40)
-        runesList[8] = arrayOf(16, 0, 30, 0)
-        runesList[9] = arrayOf(17, 18, 20, 20)
-        runesList[10] = arrayOf(19, 0, 10, 0)
-        runesList[11] = arrayOf(20, 0, 80, 0)
-        runesList[12] = arrayOf(21, 0, 20, 0)
-        runesList[13] = arrayOf(22, 23, 50, 40)
-        runesList[14] = arrayOf(24, 25, 70, 40)
-        runesList[15] = arrayOf(26, 0, 90, 0)
-        runesList[16] = arrayOf(27, 28, 80, 10)
-        runesList[17] = arrayOf(29, 30, 70, 30)
-        runesList[18] = arrayOf(31, 32, 60, 40)
-        runesList[19] = arrayOf(33, 34, 40, 40)
-        runesList[20] = arrayOf(35, 36, 50, 30)
-        runesList[21] = arrayOf(37, 0, 70, 0)
-        runesList[22] = arrayOf(38, 0, 90, 0)
-        runesList[23] = arrayOf(39, 40, 50, 40)
-        runesList[24] = arrayOf(41, 0, 50, 0)
+        runesList[0] = arrayOf(1, 2)
+        runesList[1] = arrayOf(3, 4)
+        runesList[2] = arrayOf(5, 6)
+        runesList[3] = arrayOf(7, 8)
+        runesList[4] = arrayOf(9, 10)
+        runesList[5] = arrayOf(11, 12)
+        runesList[6] = arrayOf(13, 0)
+        runesList[7] = arrayOf(14, 15)
+        runesList[8] = arrayOf(16, 0)
+        runesList[9] = arrayOf(17, 18)
+        runesList[10] = arrayOf(19, 0)
+        runesList[11] = arrayOf(20, 0)
+        runesList[12] = arrayOf(21, 0)
+        runesList[13] = arrayOf(22, 23)
+        runesList[14] = arrayOf(24, 25)
+        runesList[15] = arrayOf(26, 0)
+        runesList[16] = arrayOf(27, 28)
+        runesList[17] = arrayOf(29, 30)
+        runesList[18] = arrayOf(31, 32)
+        runesList[19] = arrayOf(33, 34)
+        runesList[20] = arrayOf(35, 36)
+        runesList[21] = arrayOf(37, 0)
+        runesList[22] = arrayOf(38, 0)
+        runesList[23] = arrayOf(39, 40)
+        runesList[24] = arrayOf(41, 0)
     }
 
     private fun getUniqueRune(): Int {
-        val minRuneLvl = preferencesRepository.minRuneLvl
-        var randomRunesList: Array<Array<Int>> = Array(3) { Array(7) { 0 } }
-        var randomRunesListSize = 0
-        //RunarLogger.logDebug(minRuneLvl.toString())
-        while (randomRunesListSize < 3) {
-            val randomNumber = Random.nextInt(1, 42)
-            //RunarLogger.logDebug("rand: $randomNumber")
-            if (layoutId == 2) {
-                for (i in 0..24) {
-                    if (runesList[i][0] == randomNumber) {
-                        randomRunesList[randomRunesListSize] =
-                            arrayOf(
-                                runesList[i][0],
-                                runesList[i][1],
-                                runesList[i][2],
-                                runesList[i][3],
-                                i,
-                                randomNumber,
-                                runesList[i][2]
-                            )
-                        randomRunesListSize++
-                        runesList[i] = arrayOf(0, 0, 0, 0)
-                        //RunarLogger.logDebug("found: $randomRunesListSize")
-                        break
-                    }
-                }
-            } else {
-                for (i in 0..24) {
-                    var exit = false
-                    for (i2 in 0..1) {
-                        if (runesList[i][i2] == randomNumber) {
-                            randomRunesList[randomRunesListSize] =
-                                arrayOf(
-                                    runesList[i][0],
-                                    runesList[i][1],
-                                    runesList[i][2],
-                                    runesList[i][3], i, randomNumber, runesList[i][i2 + 2]
-                                )
-                            randomRunesListSize++
-                            exit = true
-                            runesList[i] = arrayOf(0, 0, 0, 0)
-                            //RunarLogger.logDebug("found: $randomRunesListSize")
-                            break
-                        }
-                    }
-                    if (exit) break
-                }
-            }
-        }
-        //RunarLogger.logDebug(randomRunesList.contentDeepToString())
-        randomRunesList = randomRunesList.sortedWith(compareBy { it[6] }).toTypedArray()
-        //RunarLogger.logDebug(randomRunesList.contentDeepToString())
         var result = 0
-        for (n in 0..2) {
-            if (n == minRuneLvl) {
-                result = randomRunesList[n][5]
+        while (result == 0) {
+            val randomNumber = getRandomValueFromNumberRunes()
+            result = if (layoutId == 2) {
+                getRuneIdForNonReversedRunes(randomNumber)
             } else {
-                for (i in 0..3) {
-                    runesList[randomRunesList[n][4]][i] = randomRunesList[n][i]
-                }
+                getRuneId(randomNumber)
             }
         }
+        Log.d("KEYKAK", "rune ID = $result")
         return result
     }
+
+    private fun getRuneIdForNonReversedRunes(randomNumber : Int) : Int {
+        for (i in 0..runesList.lastIndex) {
+            if (runesList[i][0] == randomNumber) {
+                runesList[i] = arrayOf(0, 0)
+                return randomNumber
+            }
+        }
+        return 0
+    }
+
+    private fun getRuneId(randomNumber : Int) : Int {
+        for (i in 0..runesList.lastIndex) {
+            for (j in 0..1) {
+                if (runesList[i][j] == randomNumber) {
+                    runesList[i] = arrayOf(0, 0)
+                    return randomNumber
+                }
+            }
+        }
+        return 0
+    }
+
+    private fun getRandomValueFromNumberRunes() = Random.nextInt(1, totalRune + 1)
 
     override fun onDestroyView() {
         _binding = null

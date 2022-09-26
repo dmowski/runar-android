@@ -68,7 +68,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
     private var backBlock = true
 
     private var affirmText = ""
-    private var singleRuneAusp = 100
+    private var singleRuneAuspiciousness = 100
 
     override fun onAttach(context: Context) {
         navigator = context as Navigator
@@ -940,13 +940,14 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                         runesDotsList.setOnCLickListenerForAll(this)
 
                         //runes description**
-                        viewModel.getAuspForCurrentLayout()
-                        viewModel.currentAusp.observe(viewLifecycleOwner) { ausp ->
+                        viewModel.getLuckPercentForCurrentLayout()
+                        viewModel.currentAuspiciousness.observe(viewLifecycleOwner) { auspiciousness ->
                             binding.descriptionButtonFrame.setOnClickListener(this)
-                            if (ausp != null) {
+                            if (auspiciousness != null) {
+                                val fortune = getLuckLevel(auspiciousness)
                                 binding.text.text =
-                                    "${requireContext().resources.getString(R.string.layout_interpretation_ausf)} - $ausp %"
-                                singleRuneAusp = ausp
+                                    "${requireContext().resources.getString(R.string.layout_interpretation_ausf)} - $fortune"
+                                singleRuneAuspiciousness = auspiciousness
                                 val pixelAusfMargin =
                                     (30 * requireContext().resources.displayMetrics.density).toInt()
                                 binding.textAffim.visibility = View.GONE
@@ -961,11 +962,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                                     pixelAusfMargin
                                 )
                                 constraintsSet.applyTo(binding.interpretationLayout)
-                                if (ausp <= 50) {
-                                    viewModel.getAffimForCurrentLayout(ausp)
-                                } else {
-                                    viewModel.getInterpretation()
-                                }
+                                viewModel.getAffimForCurrentLayout(auspiciousness)
                             }
                         }
                         viewModel.currentAffirm.observe(viewLifecycleOwner) { affirm ->
@@ -1042,8 +1039,9 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                                                     R.color.interpretation_runes_position
                                                 )
                                             )
+                                            val fortune = getLuckLevel(singleRuneAuspiciousness)
                                             binding.text.text = HtmlCompat.fromHtml(
-                                                "${requireContext().resources.getString(R.string.layout_interpretation_ausf)} - <bf>${singleRuneAusp} %</bf>",
+                                                "${requireContext().resources.getString(R.string.layout_interpretation_ausf)} - $fortune",
                                                 FROM_HTML_MODE_LEGACY,
                                                 null,
                                                 InterTagHandler(secondFont!!)
@@ -1118,15 +1116,15 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                             TypedValue.COMPLEX_UNIT_PX,
                             fontSize - 3f
                         )
-                        binding.runeDescription.text = "\n" + it.fullDescription + "\n"
-                        val secondFont =
-                            ResourcesCompat.getFont(requireContext(), R.font.roboto_medium)
-                        binding.runeAusf.text = HtmlCompat.fromHtml(
-                            "${requireContext().resources.getString(R.string.layout_interpretation_ausf)} - <bf>${it.ausp} %</bf>",
-                            FROM_HTML_MODE_LEGACY,
-                            null,
-                            InterTagHandler(secondFont!!)
-                        )
+                        binding.runeDescription.text = "\n" + it.fullDescription
+//                        val secondFont =
+//                            ResourcesCompat.getFont(requireContext(), R.font.roboto_medium)
+//                        binding.runeAusf.text = HtmlCompat.fromHtml(
+//                            "${requireContext().resources.getString(R.string.layout_interpretation_ausf)} - <bf>${it.ausp} %</bf>",
+//                            FROM_HTML_MODE_LEGACY,
+//                            null,
+//                            InterTagHandler(secondFont!!)
+//                        )
                     }
                 }
             }
@@ -1171,6 +1169,20 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
             }
             backBlock
         }
+    }
+
+    /**
+     * Percentage intervals are based on runes having luck between 0 and 100
+     */
+    private fun getLuckLevel(percent: Int): String {
+        var luckLevel = ""
+        when (percent) {
+            in 0..19 -> luckLevel = requireContext().resources.getString(R.string.luck_next_time)
+            in 20..40 -> luckLevel = requireContext().resources.getString(R.string.luck_is_close)
+            in 41..69 -> luckLevel = requireContext().resources.getString(R.string.today_your_day)
+            in 70..100 -> luckLevel = requireContext().resources.getString(R.string.lucky)
+        }
+        return luckLevel
     }
 
     override fun onClick(v: View?) {
