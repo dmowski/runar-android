@@ -145,4 +145,7 @@
     <string name="lucky">"Luck to the limit "</string>
     <string name="luck_next_time">Next time you\'ll definitely be lucky</string>
 
+    <string name="retry">Retry</string>
+    <string name="internet_conn_error">Please check your network connection and try again</string>
+
 </resources>
