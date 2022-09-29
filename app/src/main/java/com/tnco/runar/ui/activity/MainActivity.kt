@@ -1,7 +1,6 @@
 package com.tnco.runar.ui.activity
 
 import android.content.Context
-import android.content.Intent
 import android.content.IntentFilter
 import android.media.AudioManager
 import android.os.Bundle
@@ -9,7 +8,6 @@ import android.view.View
 import android.view.WindowManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.os.bundleOf
 import androidx.core.view.get
 import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentManager
@@ -30,9 +28,7 @@ import com.tnco.runar.repository.LanguageRepository
 import com.tnco.runar.repository.SharedPreferencesRepository
 import com.tnco.runar.ui.Navigator
 import com.tnco.runar.ui.component.dialog.CancelDialog
-import com.tnco.runar.ui.fragment.*
 import com.tnco.runar.ui.viewmodel.MainViewModel
-import kotlin.system.exitProcess
 
 class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusChangeListener {
 
@@ -137,8 +133,6 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
 
 //    override fun onBackPressed() {
 //        when (supportFragmentManager.findFragmentById(R.id.fragmentContainer)) {
-//            is LayoutInterpretationFavFragment -> navigateToFavAndShowBottomNavBar()
-//            is AboutAppFragment -> navigateToSettings()
 //            is LayoutInterpretationFragment -> showDialog("layout_interpretation")
 //            is LayoutProcessingFragment -> showDialog("layout_processing")
 //            !is LayoutDescriptionFragment -> showDialog("navigation_error")
@@ -147,28 +141,6 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
 //            }
 //        }
 //    }
-
-    override fun navigateToFavInterpretationFragment(
-        layoutId: Int,
-        userLayout: IntArray,
-        affirmId: Int
-    ) {
-        supportFragmentManager.beginTransaction()
-            .replace(
-                R.id.fragmentContainer,
-                LayoutInterpretationFavFragment.newInstance(layoutId, userLayout, affirmId)
-            )
-            .addToBackStack(KEY_TO_FAV_FRAGMENT_BACK)
-            .commit()
-        binding.bottomNavigationBar.isVisible = false
-    }
-
-    override fun navigateToAboutFragment() {
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fragmentContainer, AboutAppFragment())
-            .commit()
-        binding.bottomNavigationBar.isVisible = true
-    }
 
     override fun showDialog(page: String) {
         CancelDialog(this, fontSize, page).showDialog()
@@ -183,21 +155,6 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
             KEY_TO_LAYOUT_FRAGMENT_BACK,
             FragmentManager.POP_BACK_STACK_INCLUSIVE
         )
-        binding.bottomNavigationBar.isVisible = true
-    }
-
-    override fun navigateToFavAndShowBottomNavBar() {
-        supportFragmentManager.popBackStack(
-            KEY_TO_FAV_FRAGMENT_BACK,
-            FragmentManager.POP_BACK_STACK_INCLUSIVE
-        )
-        binding.bottomNavigationBar.isVisible = true
-    }
-
-    override fun navigateToSettings() {
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fragmentContainer, SettingsFragment())
-            .commit()
         binding.bottomNavigationBar.isVisible = true
     }
 
@@ -223,6 +180,5 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
 
     companion object {
         private const val KEY_TO_LAYOUT_FRAGMENT_BACK = "KEY_LAYOUT_FRAGMENT"
-        private const val KEY_TO_FAV_FRAGMENT_BACK = "KEY_FAV_FRAGMENT"
     }
 }

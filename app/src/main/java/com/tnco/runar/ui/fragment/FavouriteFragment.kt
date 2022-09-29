@@ -1,15 +1,19 @@
 package com.tnco.runar.ui.fragment
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.foundation.*
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
@@ -26,10 +30,11 @@ import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
 import com.tnco.runar.R
 import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.enums.AnalyticsEvent
-import com.tnco.runar.ui.Navigator
 import com.tnco.runar.ui.component.dialog.SavedLayoutsDialog
 import com.tnco.runar.ui.viewmodel.FavouriteViewModel
 import com.tnco.runar.util.AnalyticsConstants
@@ -37,21 +42,10 @@ import com.tnco.runar.util.AnalyticsUtils
 
 class FavouriteFragment : Fragment() {
     val viewModel: FavouriteViewModel by viewModels()
-    private var navigator: Navigator? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         viewModel.getUserLayoutsFromDB()
         super.onCreate(savedInstanceState)
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        navigator = context as Navigator
-    }
-
-    override fun onDetach() {
-        navigator = null
-        super.onDetach()
     }
 
     override fun onCreateView(
@@ -61,7 +55,7 @@ class FavouriteFragment : Fragment() {
     ): View {
         val view = ComposeView(requireContext()).apply {
             setContent {
-                Bars(navigator)
+                Bars(findNavController())
             }
         }
         AnalyticsHelper.sendEvent(AnalyticsEvent.FAVOURITE_OPENED)
@@ -72,7 +66,7 @@ class FavouriteFragment : Fragment() {
 }
 
 @Composable
-private fun Bars(navigator: Navigator?) {
+private fun Bars(navController: NavController) {
     val viewModel: FavouriteViewModel = viewModel()
     val fontSize by viewModel.fontSize.observeAsState()
     val favData by viewModel.favData.observeAsState()
@@ -125,7 +119,7 @@ private fun Bars(navigator: Navigator?) {
             )
         },
         backgroundColor = colorResource(id = R.color.library_top_bar_2)
-    ) {
+    ) { paddingValues ->
         val scrollState = rememberScrollState()
 
         Column(Modifier.verticalScroll(state = scrollState, enabled = true)) {
@@ -154,11 +148,11 @@ private fun Bars(navigator: Navigator?) {
                                     AnalyticsEvent.FAVOURITE_DRAWS_OPENED,
                                     Pair(AnalyticsConstants.DRAW_RUNE_LAYOUT, layoutName)
                                 )
-                                navigator?.navigateToFavInterpretationFragment(
-                                    layoutId = item.layoutId!!,
-                                    userLayout = item.userData!!,
-                                    affirmId = item.affirmId!!
-                                )
+                                val direction = FavouriteFragmentDirections
+                                    .actionFavouriteFragmentToLayoutInterpretationFavFragment(
+                                        item.layoutId!!, item.userData!!, item.affirmId!!
+                                    )
+                                navController.navigate(direction)
                             },
                             state = item.selected!!,
                             checkAction = {

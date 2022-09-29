@@ -1,12 +1,13 @@
 package com.tnco.runar.ui.fragment
 
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.verticalScroll
@@ -27,23 +28,12 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
 import com.tnco.runar.R
-import com.tnco.runar.ui.Navigator
 import com.tnco.runar.ui.viewmodel.AboutViewModel
 
 class AboutAppFragment : Fragment() {
-
-    private var navigator: Navigator? = null
-
-    override fun onAttach(context: Context) {
-        navigator = context as Navigator
-        super.onAttach(context)
-    }
-
-    override fun onDetach() {
-        navigator = null
-        super.onDetach()
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -52,7 +42,7 @@ class AboutAppFragment : Fragment() {
     ): View {
         val view = ComposeView(requireContext()).apply {
             setContent {
-                Bars(navigator!!)
+                Bars(findNavController())
             }
         }
         return view
@@ -61,7 +51,7 @@ class AboutAppFragment : Fragment() {
 
 
 @Composable
-private fun Bars(navigator: Navigator) {
+private fun Bars(navController: NavController) {
     val viewModel: AboutViewModel = viewModel()
     val fontSize by viewModel.fontSize.observeAsState()
 
@@ -77,11 +67,11 @@ private fun Bars(navigator: Navigator) {
                     )
                 },
                 backgroundColor = colorResource(id = R.color.library_top_bar),
-                navigationIcon = { TopBarIcon(navigator) }
+                navigationIcon = { TopBarIcon(navController) }
             )
         },
         backgroundColor = colorResource(id = R.color.settings_top_app_bar)
-    ) {
+    ) { paddingValues ->
         val scrollState = rememberScrollState()
         Column(
             Modifier
@@ -94,8 +84,8 @@ private fun Bars(navigator: Navigator) {
 }
 
 @Composable
-private fun TopBarIcon(navigator: Navigator) {
-    IconButton(onClick = { navigator.navigateToSettings() }) {
+private fun TopBarIcon(navController: NavController) {
+    IconButton(onClick = { navController.popBackStack() }) {
         Icon(
             painter = painterResource(id = R.drawable.ic_library_back_arrow_2),
             tint = colorResource(id = R.color.library_top_bar_fav),

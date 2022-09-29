@@ -29,6 +29,8 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
 import com.tnco.runar.R
 import com.tnco.runar.ui.Navigator
 import com.tnco.runar.ui.viewmodel.SettingsViewModel
@@ -62,7 +64,7 @@ class SettingsFragment : Fragment() {
     ): View {
         val view = ComposeView(requireContext()).apply {
             setContent {
-                Bars(navigator!!)
+                Bars(navigator!!, findNavController())
             }
         }
         return view
@@ -70,7 +72,7 @@ class SettingsFragment : Fragment() {
 }
 
 @Composable
-private fun Bars(navigator: Navigator) {
+private fun Bars(navigator: Navigator, navController: NavController) {
     val viewModel: SettingsViewModel = viewModel()
     val fontSize by viewModel.fontSize.observeAsState()
     val musicStatus by viewModel.musicStatus.observeAsState()
@@ -100,7 +102,7 @@ private fun Bars(navigator: Navigator) {
             )
         },
         backgroundColor = colorResource(id = R.color.settings_top_app_bar)
-    ) {
+    ) { paddingValues ->
         val scrollState = rememberScrollState()
         Column(
             modifier = Modifier
@@ -160,7 +162,12 @@ private fun Bars(navigator: Navigator) {
             SimpleMenuItem(
                 fontSize = fontSize!!,
                 header = stringResource(id = R.string.about_app_txt),
-                clickAction = { navigator.navigateToAboutFragment() })
+                clickAction = {
+                    val direction = SettingsFragmentDirections
+                        .actionSettingsFragmentToAboutAppFragment()
+                    navController.navigate(direction)
+                }
+            )
             DividerItem()
         }
     }

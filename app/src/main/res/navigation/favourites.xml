@@ -7,6 +7,24 @@
     <fragment
         android:id="@+id/favouriteFragment"
         android:name="com.tnco.runar.ui.fragment.FavouriteFragment"
-        android:label="FavouriteFragment" />
+        android:label="FavouriteFragment" >
+        <action
+            android:id="@+id/action_favouriteFragment_to_layoutInterpretationFavFragment"
+            app:destination="@id/layoutInterpretationFavFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/layoutInterpretationFavFragment"
+        android:name="com.tnco.runar.ui.fragment.LayoutInterpretationFavFragment"
+        android:label="LayoutInterpretationFavFragment" >
+        <argument
+            android:name="layoutId"
+            app:argType="integer" />
+        <argument
+            android:name="userLayout"
+            app:argType="integer[]" />
+        <argument
+            android:name="affirmId"
+            app:argType="integer" />
+    </fragment>
 
 </navigation>
