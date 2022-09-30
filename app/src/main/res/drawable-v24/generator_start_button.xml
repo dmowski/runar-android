@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<shape
-    xmlns:android="http://schemas.android.com/apk/res/android">
-  <solid android:color="#80101010" />
-  <corners
-      android:radius="10dp"/>
-  <stroke android:color="#D2C4AD" android:width="1dp"/>
-
-</shape>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_focused="true" android:drawable="@drawable/description_button_background_selected"/>
+    <item android:state_pressed="true" android:drawable="@drawable/description_button_background_selected" />
+    <item android:drawable="@drawable/description_button_background_deselected" />
+</selector>
