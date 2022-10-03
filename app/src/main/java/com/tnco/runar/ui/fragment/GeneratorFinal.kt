@@ -20,13 +20,11 @@ import androidx.activity.addCallback
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.navOptions
 import com.tnco.runar.R
 import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.enums.AnalyticsEvent
-import com.tnco.runar.ui.activity.MainActivity
+import com.tnco.runar.ui.component.dialog.CancelDialog
 import com.tnco.runar.ui.viewmodel.MainViewModel
 import java.io.ByteArrayOutputStream
 import java.io.File
@@ -49,8 +47,7 @@ class GeneratorFinal : Fragment() {
         super.onCreate(savedInstanceState)
 
         requireActivity().onBackPressedDispatcher.addCallback(this) {
-            val direction = GeneratorFinalDirections.actionGlobalGeneratorFragment()
-            findNavController().navigate(direction)
+            showCancelDialog()
         }
     }
 
@@ -95,8 +92,7 @@ class GeneratorFinal : Fragment() {
         imgFinal.setImageBitmap(viewModel.backgroundInfo.value!!.first { it.isSelected }.img!!)
 
         finalBack.setOnClickListener {
-            val direction = GeneratorFinalDirections.actionGlobalGeneratorFragment()
-            findNavController().navigate(direction)
+            showCancelDialog()
         }
 
 
@@ -174,5 +170,18 @@ class GeneratorFinal : Fragment() {
         val formatter = SimpleDateFormat("dd:MM:yyyy_HH:mm:ss", Locale.getDefault())
         val date = formatter.format(time)
         return "rune_$date.jpg"
+    }
+
+    private fun showCancelDialog() {
+        CancelDialog(
+            requireContext(),
+            viewModel.fontSize.value!!,
+            "generator_final",
+            getString(R.string.description_generator_popup)
+        ) {
+            val direction = GeneratorFinalDirections.actionGlobalGeneratorFragment()
+            findNavController().navigate(direction)
+        }
+            .showDialog()
     }
 }

@@ -1,7 +1,6 @@
 package com.tnco.runar.ui.fragment
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
@@ -16,7 +15,6 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.os.bundleOf
 import androidx.core.text.HtmlCompat
 import androidx.core.text.HtmlCompat.FROM_HTML_MODE_LEGACY
 import androidx.core.view.isVisible
@@ -26,15 +24,12 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.tnco.runar.R
 import com.tnco.runar.analytics.AnalyticsHelper
-import com.tnco.runar.enums.AnalyticsEvent
-import com.tnco.runar.util.AnalyticsConstants
-import com.tnco.runar.util.AnalyticsUtils
 import com.tnco.runar.databinding.FragmentLayoutInterpretationBinding
+import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.repository.SharedPreferencesRepository
+import com.tnco.runar.ui.component.dialog.CancelDialog
 import com.tnco.runar.ui.viewmodel.InterpretationViewModel
-import com.tnco.runar.util.InterTagHandler
-import com.tnco.runar.util.OnSwipeTouchListener
-import com.tnco.runar.util.setOnCLickListenerForAll
+import com.tnco.runar.util.*
 
 class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpretation),
     View.OnClickListener {
@@ -82,9 +77,16 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
         viewModel.getAffirmationsDataFromDB()
 
         requireActivity().onBackPressedDispatcher.addCallback(this) {
-            val direction = LayoutInterpretationFragmentDirections
-                .actionGlobalLayoutFragment()
-            findNavController().navigate(direction)
+            CancelDialog(
+                requireContext(),
+                viewModel.fontSize.value!!,
+                "layout_interpretation",
+                getString(R.string.description_runic_draws_popup)
+            ) {
+                val direction = LayoutInterpretationFragmentDirections.actionGlobalLayoutFragment()
+                findNavController().navigate(direction)
+            }
+                .showDialog()
         }
     }
 

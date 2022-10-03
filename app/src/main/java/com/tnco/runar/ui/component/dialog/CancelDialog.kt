@@ -12,13 +12,14 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.tnco.runar.R
 import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.enums.AnalyticsEvent
-import com.tnco.runar.ui.Navigator
 import com.tnco.runar.util.AnalyticsConstants
 
 class CancelDialog(
     private val context: Context,
     private val fontSize: Float,
-    private val page: String
+    private val page: String,
+    private val dialogText: String,
+    private val onAgreeClick: () -> Unit
 ) {
 
     fun showDialog() {
@@ -37,8 +38,10 @@ class CancelDialog(
         dialog.window?.navigationBarColor = context.getColor(R.color.library_top_bar)
         dialog.show()
         val buttonsFontSize = (fontSize * 0.85f)
-        dialog.findViewById<TextView>(R.id.dialog_text)
-            .setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
+        dialog.findViewById<TextView>(R.id.dialog_text).apply {
+            setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
+            text = dialogText
+        }
         dialog.findViewById<TextView>(R.id.button_yes)
             .setTextSize(TypedValue.COMPLEX_UNIT_PX, buttonsFontSize)
         dialog.findViewById<TextView>(R.id.button_no)
@@ -62,7 +65,7 @@ class CancelDialog(
                 AnalyticsEvent.SCRIPT_INTERRUPTION,
                 Pair(AnalyticsConstants.PAGE, page)
             )
-            (context as Navigator).agreeWithDialog()
+            onAgreeClick()
         }
     }
 }

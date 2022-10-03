@@ -9,8 +9,6 @@ import android.view.WindowManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.get
-import androidx.core.view.isVisible
-import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
@@ -27,13 +25,11 @@ import com.tnco.runar.receivers.LanguageBroadcastReceiver
 import com.tnco.runar.repository.LanguageRepository
 import com.tnco.runar.repository.SharedPreferencesRepository
 import com.tnco.runar.ui.Navigator
-import com.tnco.runar.ui.component.dialog.CancelDialog
 import com.tnco.runar.ui.viewmodel.MainViewModel
 
 class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusChangeListener {
 
     private val viewModel: MainViewModel by viewModels()
-    private var fontSize: Float = 0f
     private var languageReceiver = LanguageBroadcastReceiver()
     var preferencesRepository = SharedPreferencesRepository.get()
     private lateinit var navController: NavController
@@ -63,10 +59,6 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
 
         viewModel.identify()
         supportActionBar?.hide()
-
-        viewModel.fontSize.observe(this) {
-            fontSize = it
-        }
 
         if (preferencesRepository.firstLaunch == 1) {
             preferencesRepository.changeSettingsOnboarding(0)
@@ -131,33 +123,6 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
         return navController.navigateUp() || super.onSupportNavigateUp()
     }
 
-//    override fun onBackPressed() {
-//        when (supportFragmentManager.findFragmentById(R.id.fragmentContainer)) {
-//            is LayoutInterpretationFragment -> showDialog("layout_interpretation")
-//            is LayoutProcessingFragment -> showDialog("layout_processing")
-//            !is LayoutDescriptionFragment -> showDialog("navigation_error")
-//            else -> {
-//                navigateToDefaultAndShowBottomNavBar()
-//            }
-//        }
-//    }
-
-    override fun showDialog(page: String) {
-        CancelDialog(this, fontSize, page).showDialog()
-    }
-
-    override fun agreeWithDialog() {
-        navigateToDefaultAndShowBottomNavBar()
-    }
-
-    override fun navigateToDefaultAndShowBottomNavBar() {
-        supportFragmentManager.popBackStack(
-            KEY_TO_LAYOUT_FRAGMENT_BACK,
-            FragmentManager.POP_BACK_STACK_INCLUSIVE
-        )
-        binding.bottomNavigationBar.isVisible = true
-    }
-
     fun reshowBar() {
         binding.bottomNavigationBar.menu[0].title = getString(R.string.bottom_nav_layouts)
         binding.bottomNavigationBar.menu[1].title = getString(R.string.bottom_nav_library)
@@ -176,9 +141,5 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
 
     override fun dropAudioFocus() {
         audioManager.abandonAudioFocus(this)
-    }
-
-    companion object {
-        private const val KEY_TO_LAYOUT_FRAGMENT_BACK = "KEY_LAYOUT_FRAGMENT"
     }
 }

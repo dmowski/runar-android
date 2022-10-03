@@ -18,7 +18,7 @@ import com.tnco.runar.R
 import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.feature.MusicController
-import com.tnco.runar.ui.activity.MainActivity
+import com.tnco.runar.ui.component.dialog.CancelDialog
 import com.tnco.runar.ui.viewmodel.MainViewModel
 import com.tnco.runar.util.AnalyticsConstants
 import kotlinx.coroutines.delay
@@ -36,8 +36,16 @@ class GeneratorMagicRune : Fragment() {
         super.onCreate(savedInstanceState)
 
         requireActivity().onBackPressedDispatcher.addCallback(this) {
-            val direction = GeneratorMagicRuneDirections.actionGlobalGeneratorFragment()
-            findNavController().navigate(direction)
+            CancelDialog(
+                requireContext(),
+                viewModel.fontSize.value!!,
+                "generator_processing",
+                getString(R.string.description_generator_popup)
+            ) {
+                val direction = GeneratorMagicRuneDirections.actionGlobalGeneratorFragment()
+                findNavController().navigate(direction)
+            }
+                .showDialog()
         }
     }
 

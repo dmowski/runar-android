@@ -14,7 +14,7 @@ import androidx.navigation.fragment.findNavController
 import com.tnco.runar.R
 import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.enums.AnalyticsEvent
-import com.tnco.runar.ui.activity.MainActivity
+import com.tnco.runar.ui.component.dialog.CancelDialog
 import com.tnco.runar.ui.viewmodel.MainViewModel
 
 class RunePatternGenerator : Fragment() {
@@ -28,8 +28,16 @@ class RunePatternGenerator : Fragment() {
         super.onCreate(savedInstanceState)
 
         requireActivity().onBackPressedDispatcher.addCallback(this) {
-            val direction = RunePatternGeneratorDirections.actionGlobalGeneratorFragment()
-            findNavController().navigate(direction)
+            CancelDialog(
+                requireContext(),
+                viewModel.fontSize.value!!,
+                "rune_pattern_generator",
+                getString(R.string.description_generator_popup)
+            ) {
+                val direction = RunePatternGeneratorDirections.actionGlobalGeneratorFragment()
+                findNavController().navigate(direction)
+            }
+                .showDialog()
         }
     }
 

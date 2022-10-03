@@ -16,6 +16,7 @@ import com.tnco.runar.R
 import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.ui.activity.MainActivity
+import com.tnco.runar.ui.component.dialog.CancelDialog
 import com.tnco.runar.ui.viewmodel.MainViewModel
 
 
@@ -35,8 +36,7 @@ class GeneratorBackground : Fragment() {
         super.onCreate(savedInstanceState)
 
         requireActivity().onBackPressedDispatcher.addCallback(this) {
-            val direction = GeneratorBackgroundDirections.actionGlobalGeneratorFragment()
-            findNavController().navigate(direction)
+            showCancelDialog()
         }
     }
 
@@ -56,9 +56,7 @@ class GeneratorBackground : Fragment() {
         }
 
         backArrow.setOnClickListener {
-            val direction = GeneratorBackgroundDirections
-                .actionGlobalGeneratorFragment()
-            findNavController().navigate(direction)
+            showCancelDialog()
         }
 
         if (viewModel.backgroundInfo.value!!.isEmpty()) {
@@ -151,4 +149,16 @@ class GeneratorBackground : Fragment() {
         viewModel.backgroundInfo.value = data
     }
 
+    private fun showCancelDialog() {
+        CancelDialog(
+            requireContext(),
+            viewModel.fontSize.value!!,
+            "generator_background",
+            getString(R.string.description_generator_popup)
+        ) {
+            val direction = GeneratorBackgroundDirections.actionGlobalGeneratorFragment()
+            findNavController().navigate(direction)
+        }
+            .showDialog()
+    }
 }

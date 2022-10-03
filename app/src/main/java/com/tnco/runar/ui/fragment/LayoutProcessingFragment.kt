@@ -1,6 +1,5 @@
 package com.tnco.runar.ui.fragment
 
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -14,12 +13,13 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.tnco.runar.R
 import com.tnco.runar.analytics.AnalyticsHelper
+import com.tnco.runar.databinding.FragmentLayoutProcessingBinding
 import com.tnco.runar.enums.AnalyticsEvent
+import com.tnco.runar.feature.MusicController
+import com.tnco.runar.ui.component.dialog.CancelDialog
+import com.tnco.runar.ui.viewmodel.ProcessingViewModel
 import com.tnco.runar.util.AnalyticsConstants
 import com.tnco.runar.util.AnalyticsUtils
-import com.tnco.runar.databinding.FragmentLayoutProcessingBinding
-import com.tnco.runar.feature.MusicController
-import com.tnco.runar.ui.viewmodel.ProcessingViewModel
 import kotlinx.coroutines.delay
 
 
@@ -43,9 +43,16 @@ class LayoutProcessingFragment : Fragment(R.layout.fragment_layout_processing) {
         userLayout = args.userLayout
 
         requireActivity().onBackPressedDispatcher.addCallback(this) {
-            val direction = LayoutInterpretationFragmentDirections
-                .actionGlobalLayoutFragment()
-            findNavController().navigate(direction)
+            CancelDialog(
+                requireContext(),
+                viewModel.fontSize.value!!,
+                "layout_processing",
+                getString(R.string.description_runic_draws_popup)
+            ) {
+                val direction = LayoutProcessingFragmentDirections.actionGlobalLayoutFragment()
+                findNavController().navigate(direction)
+            }
+                .showDialog()
         }
     }
 
