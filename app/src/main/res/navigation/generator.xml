@@ -65,19 +65,6 @@
         android:name="com.tnco.runar.ui.fragment.GeneratorFinal"
         android:label="GeneratorFinal"
         tools:layout="@layout/generator_final"/>
-    <fragment
-        android:id="@+id/connectivityErrorFragment"
-        android:name="com.tnco.runar.ui.fragment.ConnectivityErrorFragment"
-        android:label="ConnectivityErrorFragment"
-        tools:layout="@layout/connectivity_error_layout">
-        <argument
-            android:name="fragmentIdToRetry"
-            app:argType="integer" />
-    </fragment>
-
-    <action
-        android:id="@+id/action_global_connectivityErrorFragment"
-        app:destination="@id/connectivityErrorFragment"/>
 
     <dialog
         android:id="@+id/bottomSheetFragment"

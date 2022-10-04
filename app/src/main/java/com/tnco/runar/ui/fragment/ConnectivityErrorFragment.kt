@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import androidx.navigation.navOptions
 import com.tnco.runar.databinding.ConnectivityErrorLayoutBinding
 
 class ConnectivityErrorFragment : Fragment() {
@@ -27,15 +26,7 @@ class ConnectivityErrorFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.btnRetry.setOnClickListener {
-            findNavController().navigate(
-                args.fragmentIdToRetry,
-                null,
-                navOptions {
-                    popUpTo(args.fragmentIdToRetry) {
-                        inclusive = true
-                    }
-                }
-            )
+            findNavController().popBackStack(args.topMostDestinationToRetry, false)
         }
     }
 

@@ -11,4 +11,17 @@
     <include app:graph="@navigation/favourites"/>
     <include app:graph="@navigation/settings"/>
 
+    <fragment
+        android:id="@+id/connectivityErrorFragment"
+        android:name="com.tnco.runar.ui.fragment.ConnectivityErrorFragment"
+        android:label="ConnectivityErrorFragment"
+        tools:layout="@layout/connectivity_error_layout">
+        <deepLink
+            android:id="@+id/deepLinkConnectivityErrorFragment"
+            app:uri="runar-android://ConnectivityErrorFragment/{topMostDestinationToRetry}" />
+        <argument
+            android:name="topMostDestinationToRetry"
+            app:argType="integer" />
+    </fragment>
+
 </navigation>
