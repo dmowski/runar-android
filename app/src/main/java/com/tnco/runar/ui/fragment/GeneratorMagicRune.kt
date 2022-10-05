@@ -9,14 +9,16 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.tnco.runar.R
 import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.feature.MusicController
-import com.tnco.runar.ui.activity.MainActivity
+import com.tnco.runar.ui.component.dialog.CancelDialog
 import com.tnco.runar.ui.viewmodel.MainViewModel
 import com.tnco.runar.util.AnalyticsConstants
 import kotlinx.coroutines.delay
@@ -30,6 +32,23 @@ class GeneratorMagicRune : Fragment() {
     private lateinit var imageGroup: ImageView
     private lateinit var sendLink: TextView
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        requireActivity().onBackPressedDispatcher.addCallback(this) {
+            CancelDialog(
+                requireContext(),
+                viewModel.fontSize.value!!,
+                "generator_processing",
+                getString(R.string.description_generator_popup)
+            ) {
+                val direction = GeneratorMagicRuneDirections.actionGlobalGeneratorFragment()
+                findNavController().navigate(direction)
+            }
+                .showDialog()
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -42,7 +61,6 @@ class GeneratorMagicRune : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (activity as MainActivity).hideBottomBar()
         progressBar = view.findViewById(R.id.generator_progress_of_loading_view)
         textGroupName = view.findViewById(R.id.generator_text_group_name)
         textSongName = view.findViewById(R.id.generator_text_song_name)
@@ -94,10 +112,10 @@ class GeneratorMagicRune : Fragment() {
                     }
                 }
             }
-            activity?.supportFragmentManager?.beginTransaction()
-                ?.replace(R.id.fragmentContainer, RunePatternGenerator())
-                ?.commit()
 
+            val direction = GeneratorMagicRuneDirections
+                .actionGeneratorMagicRuneToRunePatternGenerator()
+            findNavController().navigate(direction)
         }
     }
 }

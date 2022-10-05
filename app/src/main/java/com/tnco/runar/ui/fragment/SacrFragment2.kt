@@ -8,19 +8,19 @@ import android.view.View
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.tnco.runar.R
 import com.tnco.runar.databinding.FragmentLayoutSacr2Binding
-import com.tnco.runar.ui.Navigator
 import com.tnco.runar.ui.viewmodel.Sacr2ViewModel
 import com.tnco.runar.util.InterTagHandler
 
 class SacrFragment2 : Fragment(R.layout.fragment_layout_sacr_2), View.OnClickListener {
 
     private val viewModel: Sacr2ViewModel by viewModels()
+    private val args: SacrFragment2Args by navArgs()
 
     private var tipSize = 2
-
-    private var navigator: Navigator? = null
 
     private var fontSize: Float = 0f
 
@@ -28,13 +28,8 @@ class SacrFragment2 : Fragment(R.layout.fragment_layout_sacr_2), View.OnClickLis
     private val binding
         get() = _binding!!
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        navigator = context as Navigator
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
-        tipSize = requireArguments().getInt("tip_size")
+        tipSize = args.tipSize
         super.onCreate(savedInstanceState)
     }
 
@@ -61,17 +56,11 @@ class SacrFragment2 : Fragment(R.layout.fragment_layout_sacr_2), View.OnClickLis
         }
     }
 
-
-    override fun onDetach() {
-        navigator = null
-        super.onDetach()
-    }
-
-
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.gp_button_img -> {
-                navigator?.navigateToSacrFragment3()
+                val direction = SacrFragment2Directions.actionSacrFragment2ToSacrFragment3()
+                findNavController().navigate(direction)
             }
         }
     }

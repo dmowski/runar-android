@@ -207,7 +207,7 @@ private fun Bars() {
             )
         },
         backgroundColor = colorResource(id = R.color.library_top_bar_2)
-    ) {
+    ) { paddingValues ->
         val scrollState = rememberScrollState()
         if (tabsState.value && audioFeature)
             TabScreen(pagerState, scrollState, fontSize)

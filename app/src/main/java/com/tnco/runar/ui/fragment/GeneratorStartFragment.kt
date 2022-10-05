@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import coil.load
 import com.tnco.runar.R
@@ -38,13 +39,12 @@ class GeneratorStartFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        (activity as MainActivity).hideBottomBar()
         _binding = FragmentGeneratorStartBinding.inflate(inflater, container, false)
 
         onStartShimmering()
 
         binding.arrowBack.setOnClickListener {
-            activity?.onBackPressed()
+            findNavController().popBackStack()
         }
 
         AnalyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_PATTERN_SELECTED)
@@ -110,10 +110,9 @@ class GeneratorStartFragment : Fragment() {
             desc = rune.enDesc.toString()
         }
 
-        BottomSheetFragment(title, desc, rune.imgUrl).show(
-            requireActivity().supportFragmentManager,
-            BottomSheetFragment.TAG
-        )
+        val direction = GeneratorStartFragmentDirections
+            .actionGeneratorStartFragmentToBottomSheetFragment(title, desc, rune.imgUrl)
+        findNavController().navigate(direction)
     }
 
     private fun onStartShimmering() {
@@ -255,9 +254,10 @@ class GeneratorStartFragment : Fragment() {
             }
         }
         mViewModel.runesSelected = idsString
-        activity?.supportFragmentManager?.beginTransaction()
-            ?.replace(R.id.fragmentContainer, GeneratorMagicRune())
-            ?.commit()
+
+        val direction = GeneratorStartFragmentDirections
+            .actionGeneratorStartFragmentToGeneratorMagicRune()
+        findNavController().navigate(direction)
     }
 
     private fun sentRunes() {
@@ -282,9 +282,9 @@ class GeneratorStartFragment : Fragment() {
         }
 
         mViewModel.runesSelected = idsString
-        activity?.supportFragmentManager?.beginTransaction()
-            ?.replace(R.id.fragmentContainer, GeneratorMagicRune())
-            ?.commit()
 
+        val direction = GeneratorStartFragmentDirections
+            .actionGeneratorStartFragmentToGeneratorMagicRune()
+        findNavController().navigate(direction)
     }
 }

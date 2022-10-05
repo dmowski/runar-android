@@ -1,7 +1,6 @@
 package com.tnco.runar.ui.fragment
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
@@ -16,13 +15,13 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.tnco.runar.R
 import com.tnco.runar.databinding.FragmentLayoutInterpretationFavBinding
-import com.tnco.runar.ui.Navigator
 import com.tnco.runar.ui.viewmodel.InterpretationFavViewModel
 import com.tnco.runar.util.InterTagHandler
 import com.tnco.runar.util.OnSwipeTouchListener
@@ -32,7 +31,7 @@ class LayoutInterpretationFavFragment : Fragment(R.layout.fragment_layout_interp
     View.OnClickListener {
 
     private val viewModel: InterpretationFavViewModel by viewModels()
-    private var navigator: Navigator? = null
+    private val args: LayoutInterpretationFavFragmentArgs by navArgs()
 
     private lateinit var bottomRunesNav: ConstraintLayout
     private lateinit var headerFrame: TextView
@@ -64,21 +63,11 @@ class LayoutInterpretationFavFragment : Fragment(R.layout.fragment_layout_interp
     private var affirmText = ""
     private var singleRuneAusp = 100
 
-    override fun onAttach(context: Context) {
-        navigator = context as Navigator
-        super.onAttach(context)
-    }
-
-    override fun onDetach() {
-        navigator = null
-        super.onDetach()
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        layoutId = requireArguments().getInt(KEY_LAYOUT_ID)
-        newUserLayout = (requireArguments().getIntArray(KEY_USER_LAYOUT)!!).toCollection(ArrayList())
-        affirmId = requireArguments().getInt(KEY_AFFIRM_ID)
+        layoutId = args.layoutId
+        newUserLayout = args.userLayout.toCollection(ArrayList())
+        affirmId = args.affirmId
         viewModel.setCurrentUserLayout(newUserLayout)
         viewModel.getLayoutDescription(layoutId)
         viewModel.getRuneDataFromDB()
@@ -474,7 +463,7 @@ class LayoutInterpretationFavFragment : Fragment(R.layout.fragment_layout_interp
         for (runeDot in runesDotsList) runeDotsIdList.add(runeDot.id)
        when (v?.id) {
            R.id.exit_button_main->{
-               navigator?.navigateToFavAndShowBottomNavBar()
+               findNavController().popBackStack()
            }
             in runeIdList -> {
                 showDescriptionOfSelectedRune(v)
@@ -847,21 +836,5 @@ class LayoutInterpretationFavFragment : Fragment(R.layout.fragment_layout_interp
     override fun onDestroyView() {
         _binding = null
         super.onDestroyView()
-    }
-
-    companion object {
-        private const val KEY_LAYOUT_ID = "KEY_LAYOUT_ID"
-        private const val KEY_USER_LAYOUT = "KEY_USER_LAYOUT"
-        private const val KEY_AFFIRM_ID = "KEY_AFFIRM_ID"
-
-        fun newInstance(layoutId: Int, userLayout: IntArray, affirmId: Int): LayoutInterpretationFavFragment {
-            return LayoutInterpretationFavFragment().apply {
-                arguments = bundleOf(
-                    KEY_LAYOUT_ID to layoutId,
-                    KEY_USER_LAYOUT to userLayout,
-                    KEY_AFFIRM_ID to affirmId
-                )
-            }
-        }
     }
 }

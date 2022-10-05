@@ -6,13 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.tnco.runar.R
 import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.enums.AnalyticsEvent
-import com.tnco.runar.ui.activity.MainActivity
+import com.tnco.runar.ui.component.dialog.CancelDialog
 import com.tnco.runar.ui.viewmodel.MainViewModel
 
 class RunePatternGenerator : Fragment() {
@@ -21,6 +23,23 @@ class RunePatternGenerator : Fragment() {
     lateinit var nextType: TextView
     lateinit var imgRune: ImageView
     private var firstImageWasReady = false
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        requireActivity().onBackPressedDispatcher.addCallback(this) {
+            CancelDialog(
+                requireContext(),
+                viewModel.fontSize.value!!,
+                "rune_pattern_generator",
+                getString(R.string.description_generator_popup)
+            ) {
+                val direction = RunePatternGeneratorDirections.actionGlobalGeneratorFragment()
+                findNavController().navigate(direction)
+            }
+                .showDialog()
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,7 +53,6 @@ class RunePatternGenerator : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         AnalyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_PATTERN_CREATED)
-        (activity as MainActivity).hideBottomBar()
 
         imgRune = view.findViewById(R.id.imageRune)
         nextType = view.findViewById(R.id.next_type)
@@ -68,9 +86,9 @@ class RunePatternGenerator : Fragment() {
 
         sendBtn = view.findViewById(R.id.button_select)
         sendBtn.setOnClickListener {
-            activity?.supportFragmentManager?.beginTransaction()
-                ?.replace(R.id.fragmentContainer, GeneratorBackground())
-                ?.commit()
+            val direction = RunePatternGeneratorDirections
+                .actionRunePatternGeneratorToGeneratorBackground()
+            findNavController().navigate(direction)
         }
     }
 }

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/favourites"
+    app:startDestination="@id/favouriteFragment">
+
+    <fragment
+        android:id="@+id/favouriteFragment"
+        android:name="com.tnco.runar.ui.fragment.FavouriteFragment"
+        android:label="FavouriteFragment" >
+        <action
+            android:id="@+id/action_favouriteFragment_to_layoutInterpretationFavFragment"
+            app:destination="@id/layoutInterpretationFavFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/layoutInterpretationFavFragment"
+        android:name="com.tnco.runar.ui.fragment.LayoutInterpretationFavFragment"
+        android:label="LayoutInterpretationFavFragment" >
+        <argument
+            android:name="layoutId"
+            app:argType="integer" />
+        <argument
+            android:name="userLayout"
+            app:argType="integer[]" />
+        <argument
+            android:name="affirmId"
+            app:argType="integer" />
+    </fragment>
+
+</navigation>

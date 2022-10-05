@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/generator"
+    app:startDestination="@id/generatorFragment">
+
+    <fragment
+        android:id="@+id/generatorFragment"
+        android:name="com.tnco.runar.ui.fragment.GeneratorFragment"
+        android:label="@string/pattern_generator"
+        tools:layout="@layout/fragment_layout_generator">
+        <action
+            android:id="@+id/action_generatorFragment_to_generatorStartFragment"
+            app:destination="@id/generatorStartFragment" />
+    </fragment>
+
+    <action
+        android:id="@+id/action_global_generatorFragment"
+        app:destination="@id/generatorFragment"
+        app:popUpTo="@id/generatorFragment"
+        app:popUpToInclusive="true"/>
+
+    <fragment
+        android:id="@+id/generatorStartFragment"
+        android:name="com.tnco.runar.ui.fragment.GeneratorStartFragment"
+        android:label="GeneratorStartFragment"
+        tools:layout="@layout/fragment_generator_start">
+        <action
+            android:id="@+id/action_generatorStartFragment_to_generatorMagicRune"
+            app:destination="@id/generatorMagicRune" />
+        <action
+            android:id="@+id/action_generatorStartFragment_to_bottomSheetFragment"
+            app:destination="@id/bottomSheetFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/generatorMagicRune"
+        android:name="com.tnco.runar.ui.fragment.GeneratorMagicRune"
+        android:label="GeneratorMagicRune"
+        tools:layout="@layout/fragment_generator_processing">
+        <action
+            android:id="@+id/action_generatorMagicRune_to_runePatternGenerator"
+            app:destination="@id/runePatternGenerator" />
+    </fragment>
+    <fragment
+        android:id="@+id/runePatternGenerator"
+        android:name="com.tnco.runar.ui.fragment.RunePatternGenerator"
+        android:label="RunePatternGenerator"
+        tools:layout="@layout/rune_pattern_generator">
+        <action
+            android:id="@+id/action_runePatternGenerator_to_generatorBackground"
+            app:destination="@id/generatorBackground" />
+    </fragment>
+    <fragment
+        android:id="@+id/generatorBackground"
+        android:name="com.tnco.runar.ui.fragment.GeneratorBackground"
+        android:label="GeneratorBackground"
+        tools:layout="@layout/fragment_generator_background">
+        <action
+            android:id="@+id/action_generatorBackground_to_generatorFinal"
+            app:destination="@id/generatorFinal" />
+    </fragment>
+    <fragment
+        android:id="@+id/generatorFinal"
+        android:name="com.tnco.runar.ui.fragment.GeneratorFinal"
+        android:label="GeneratorFinal"
+        tools:layout="@layout/generator_final"/>
+
+    <dialog
+        android:id="@+id/bottomSheetFragment"
+        android:name="com.tnco.runar.ui.fragment.BottomSheetFragment"
+        android:label="BottomSheetFragment"
+        tools:layout="@layout/bottom_sheet_layout">
+        <argument
+            android:name="tHeading"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="tDescription"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="tImageUrl"
+            app:argType="string"
+            app:nullable="true" />
+    </dialog>
+
+</navigation>

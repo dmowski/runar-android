@@ -25,11 +25,11 @@
         app:titleTextColor="@color/library_top_bar_header"
         app:layout_constraintTop_toTopOf="parent">
         <ImageView
+            android:id="@+id/backArrow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_library_back_arrow_2"
-            android:padding="10dp"
-            android:onClick="generatorStartBack"/>
+            android:padding="10dp"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -8,25 +8,17 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.tnco.runar.R
 import com.tnco.runar.databinding.FragmentLayoutSacr3Binding
-import com.tnco.runar.ui.Navigator
 import com.tnco.runar.ui.viewmodel.Sacr3ViewModel
 
 class SacrFragment3 : Fragment(R.layout.fragment_layout_sacr_3), View.OnClickListener {
 
     private val viewModel: Sacr3ViewModel by viewModels()
 
-    private var navigator: Navigator? = null
-
     private var fontSize: Float = 0f
 
     private var _binding: FragmentLayoutSacr3Binding? = null
     private val binding
         get() = _binding!!
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        navigator = context as Navigator
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -45,13 +37,6 @@ class SacrFragment3 : Fragment(R.layout.fragment_layout_sacr_3), View.OnClickLis
             )
         }
     }
-
-
-    override fun onDetach() {
-        navigator = null
-        super.onDetach()
-    }
-
 
     override fun onClick(v: View?) {
         TODO("Not yet implemented")

@@ -1,7 +1,6 @@
 package com.tnco.runar.ui.fragment
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
@@ -11,34 +10,32 @@ import android.view.*
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.activity.addCallback
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.os.bundleOf
 import androidx.core.text.HtmlCompat
 import androidx.core.text.HtmlCompat.FROM_HTML_MODE_LEGACY
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.tnco.runar.R
 import com.tnco.runar.analytics.AnalyticsHelper
-import com.tnco.runar.enums.AnalyticsEvent
-import com.tnco.runar.util.AnalyticsConstants
-import com.tnco.runar.util.AnalyticsUtils
 import com.tnco.runar.databinding.FragmentLayoutInterpretationBinding
+import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.repository.SharedPreferencesRepository
-import com.tnco.runar.ui.Navigator
+import com.tnco.runar.ui.component.dialog.CancelDialog
 import com.tnco.runar.ui.viewmodel.InterpretationViewModel
-import com.tnco.runar.util.InterTagHandler
-import com.tnco.runar.util.OnSwipeTouchListener
-import com.tnco.runar.util.setOnCLickListenerForAll
+import com.tnco.runar.util.*
 
 class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpretation),
     View.OnClickListener {
 
     private val viewModel: InterpretationViewModel by viewModels()
-    private var navigator: Navigator? = null
+    private val args: LayoutInterpretationFragmentArgs by navArgs()
 
     private lateinit var bottomRunesNav: ConstraintLayout
     private lateinit var headerFrame: TextView
@@ -70,25 +67,27 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
     private var affirmText = ""
     private var singleRuneAuspiciousness = 100
 
-    override fun onAttach(context: Context) {
-        navigator = context as Navigator
-        super.onAttach(context)
-    }
-
-    override fun onDetach() {
-        navigator = null
-        super.onDetach()
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        layoutId = requireArguments().getInt(KEY_LAYOUT_ID)
-        newUserLayout =
-            (requireArguments().getIntArray(KEY_USER_LAYOUT)!!).toCollection(ArrayList())
+        layoutId = args.layoutId
+        newUserLayout = args.userLayout.toCollection(ArrayList())
         viewModel.setCurrentUserLayout(newUserLayout)
         viewModel.getLayoutDescription(layoutId)
         viewModel.getRuneDataFromDB()
         viewModel.getAffirmationsDataFromDB()
+
+        requireActivity().onBackPressedDispatcher.addCallback(this) {
+            CancelDialog(
+                requireContext(),
+                viewModel.fontSize.value!!,
+                "layout_interpretation",
+                getString(R.string.description_runic_draws_popup)
+            ) {
+                val direction = LayoutInterpretationFragmentDirections.actionGlobalLayoutFragment()
+                findNavController().navigate(direction)
+            }
+                .showDialog()
+        }
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -1200,7 +1199,9 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                     )
                     viewModel.saveUserLayout()
                 }
-                navigator?.navigateToDefaultAndShowBottomNavBar()
+                val direction = LayoutInterpretationFragmentDirections
+                    .actionGlobalLayoutFragment()
+                findNavController().navigate(direction)
             }
             in runeIdList -> {
                 showDescriptionOfSelectedRune(v)
@@ -1225,7 +1226,9 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                 binding.checkbox.isChecked = !binding.checkbox.isChecked
             }
             R.id.sacrifice_button_img -> {
-                navigator?.navigateToSacrFragment1()
+                val direction = LayoutInterpretationFragmentDirections
+                    .actionLayoutInterpretationFragmentToSacrFragment1()
+                findNavController().navigate(direction)
             }
         }
     }
@@ -1789,19 +1792,5 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
     override fun onDestroyView() {
         _binding = null
         super.onDestroyView()
-    }
-
-    companion object {
-        private const val KEY_LAYOUT_ID = "KEY_LAYOUT_ID"
-        private const val KEY_USER_LAYOUT = "KEY_USER_LAYOUT"
-
-        fun newInstance(layoutId: Int, userLayout: IntArray): LayoutInterpretationFragment {
-            return LayoutInterpretationFragment().apply {
-                arguments = bundleOf(
-                    KEY_LAYOUT_ID to layoutId,
-                    KEY_USER_LAYOUT to userLayout
-                )
-            }
-        }
     }
 }

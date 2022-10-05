@@ -16,13 +16,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.tnco.runar.R
 import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.enums.AnalyticsEvent
-import com.tnco.runar.ui.activity.MainActivity
+import com.tnco.runar.ui.component.dialog.CancelDialog
 import com.tnco.runar.ui.viewmodel.MainViewModel
 import java.io.ByteArrayOutputStream
 import java.io.File
@@ -41,6 +43,13 @@ class GeneratorFinal : Fragment() {
     lateinit var facebook: ImageView
     lateinit var instagram: ImageView
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        requireActivity().onBackPressedDispatcher.addCallback(this) {
+            showCancelDialog()
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -53,8 +62,6 @@ class GeneratorFinal : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        (activity as MainActivity).hideBottomBar()
 
         saveImg = view.findViewById(R.id.save)
         shareImg = view.findViewById(R.id.share)
@@ -85,9 +92,7 @@ class GeneratorFinal : Fragment() {
         imgFinal.setImageBitmap(viewModel.backgroundInfo.value!!.first { it.isSelected }.img!!)
 
         finalBack.setOnClickListener {
-            activity?.supportFragmentManager?.beginTransaction()
-                ?.replace(R.id.fragmentContainer, GeneratorFragment())
-                ?.commit()
+            showCancelDialog()
         }
 
 
@@ -102,7 +107,7 @@ class GeneratorFinal : Fragment() {
                     put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg")
                     put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS)
                 }
-                val resolver = activity!!.contentResolver
+                val resolver = requireActivity().contentResolver
                 val uri = resolver.insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, contentValues)
                 if (uri != null) {
                     bmp.compress(Bitmap.CompressFormat.JPEG, 100, resolver.openOutputStream(uri))
@@ -167,8 +172,16 @@ class GeneratorFinal : Fragment() {
         return "rune_$date.jpg"
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        (activity as MainActivity).showBottomBar()
+    private fun showCancelDialog() {
+        CancelDialog(
+            requireContext(),
+            viewModel.fontSize.value!!,
+            "generator_final",
+            getString(R.string.description_generator_popup)
+        ) {
+            val direction = GeneratorFinalDirections.actionGlobalGeneratorFragment()
+            findNavController().navigate(direction)
+        }
+            .showDialog()
     }
 }
