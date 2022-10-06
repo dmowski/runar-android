@@ -20,13 +20,13 @@
 #### Project structure
 1. manifests(contains the preliminary information required to launch the application, such as the name, version, icons, permissions, registers all activity classes, services, etc)
 2. java  
-  -analytics(contains app measurement solution, available at no charge, that provides insight on app usage and user engagement)  
+  -analytics(contains classes which support send ivents for google analytic)  
   -data(contains database classes)  
   -emuns(contains enums of our project)  
   -feature(this package contains features of our project)  
-  -model(contains entities of database)  
-  -receivers(contains components that responds to system-wide broadcast announcements)  
-  -repository(contains classes which isolate the data and other parts of the application)  
+  -model(contains models of our project)  
+  -receivers(contains a broadcast receiver, is a component that enables the system to deliver events to the app outside of a regular user flow, allowing the app to respond to system-wide broadcast announcements)  
+  -repository(contains files that implement the logic of getting data from database and web service, and caching them.)  
   -services(contains components which are needed to perform long-term operations in the background)  
   -ui(contains classes of UI elements as fragments, activitys and other)  
   -util(consist of supportive methods and classes)  
