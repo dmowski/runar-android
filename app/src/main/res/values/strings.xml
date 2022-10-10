@@ -117,7 +117,7 @@
 
     <string name="generatorBackground">Select background</string>
     <string name="text_magic_happens">Magic happens</string>
-    <string name="fate_created">Template is created … </string>
+    <string name="fate_created">Template is creating … </string>
     <string name="do_not_despair">Do not despair if today the runes do not tell you fate, but then you will need to choose .....</string>
     <string name="runic_pattern">Runic pattern</string>
     <string name="text_for_viking">Next, choose a background for it, viking</string>
