@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.tnco.runar.R
 import com.tnco.runar.analytics.AnalyticsHelper
+import com.tnco.runar.databinding.FragmentGeneratorBackgroundBinding
 import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.ui.activity.MainActivity
 import com.tnco.runar.ui.component.dialog.CancelDialog
@@ -21,13 +22,11 @@ import com.tnco.runar.ui.viewmodel.MainViewModel
 
 
 class GeneratorBackground : Fragment() {
+
+    private var _binding: FragmentGeneratorBackgroundBinding? = null
+    private val binding get() = _binding!!
     private lateinit var viewModel: MainViewModel
     lateinit var backgroundImgRecyclerView: RecyclerView
-    lateinit var progressBar: ProgressBar
-    lateinit var pointLayout: LinearLayout
-    lateinit var btn_next: TextView
-    lateinit var textSelectBackground: TextView
-    lateinit var backArrow: ImageView
     var hasSelected = false
     val pointsList = mutableListOf<ImageView>()
     val adapter by lazy { BackgroundAdapter(::selectBackground) }
@@ -43,19 +42,14 @@ class GeneratorBackground : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         AnalyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_PATTERN_SELECTION_BACKGROUND)
-        progressBar = view.findViewById(R.id.generatorProgressBar)
-        pointLayout = view.findViewById(R.id.points)
-        btn_next = view.findViewById<TextView>(R.id.button_next)
-        textSelectBackground = view.findViewById<TextView>(R.id.textSelectBackground)
-        backArrow = view.findViewById(R.id.backArrow)
-        textSelectBackground.visibility = View.GONE
-        btn_next.setOnClickListener {
+        binding.textSelectBackground.visibility = View.GONE
+        binding.buttonNext.setOnClickListener {
             val direction = GeneratorBackgroundDirections
                 .actionGeneratorBackgroundToGeneratorFinal()
             findNavController().navigate(direction)
         }
 
-        backArrow.setOnClickListener {
+        binding.backArrow.setOnClickListener {
             showCancelDialog()
         }
 
@@ -82,22 +76,23 @@ class GeneratorBackground : Fragment() {
                         else R.drawable.ic_point_deselected
                     )
                 }
-                pointLayout.invalidate()
+                binding.points.invalidate()
             }
 
         }
 
-
         viewModel.backgroundInfo.observe(activity as MainActivity, Observer {
             if (viewModel.backgroundInfo.value!!.isNotEmpty()) {
-                progressBar.visibility = View.GONE
-                textSelectBackground.visibility = if (!hasSelected) View.VISIBLE else View.GONE
+                with(binding) {
+                    generatorProgressBar.visibility = View.GONE
+                    textSelectBackground.visibility = if (!hasSelected) View.VISIBLE else View.GONE
+                    points.removeAllViews()
+                }
                 pointsList.clear()
-                pointLayout.removeAllViews()
                 val inflater = LayoutInflater.from(view.context)
                 for (i in 0..viewModel.backgroundInfo.value!!.size - 1) {
                     val point =
-                        inflater.inflate(R.layout.point_image_view, pointLayout, false) as ImageView
+                        inflater.inflate(R.layout.point_image_view, binding.points, false) as ImageView
                     if (!hasSelected) {
                         var pos = layoutManager.findFirstCompletelyVisibleItemPosition()
                         if (pos < 0) pos = 0
@@ -106,9 +101,9 @@ class GeneratorBackground : Fragment() {
                         point.setImageResource(if (viewModel.backgroundInfo.value!![i].isSelected) R.drawable.ic_point_selected else R.drawable.ic_point_deselected)
                     }
 
-                    pointLayout.addView(point)
+                    binding.points.addView(point)
                     pointsList.add(point)
-                    pointLayout.invalidate()
+                    binding.points.invalidate()
                 }
                 adapter.updateData(it)
             }
@@ -119,9 +114,10 @@ class GeneratorBackground : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        _binding = FragmentGeneratorBackgroundBinding.inflate(inflater, container, false)
         // Inflate the layout for this fragment
         viewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
-        return inflater.inflate(R.layout.fragment_generator_background, container, false)
+        return binding.root
     }
 
     private fun selectBackground(position: Int) {
@@ -138,11 +134,15 @@ class GeneratorBackground : Fragment() {
 
         hasSelected = data.filter { it.isSelected }.count() > 0
         if (hasSelected) {
-            btn_next.visibility = View.VISIBLE
-            textSelectBackground.visibility = View.GONE
+            with(binding) {
+                buttonNext.visibility = View.VISIBLE
+                textSelectBackground.visibility = View.GONE
+            }
         } else {
-            btn_next.visibility = View.GONE
-            textSelectBackground.visibility = View.VISIBLE
+            with(binding) {
+                buttonNext.visibility = View.GONE
+                textSelectBackground.visibility = View.VISIBLE
+            }
         }
 
 

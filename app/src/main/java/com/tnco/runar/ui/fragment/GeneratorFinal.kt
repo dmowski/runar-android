@@ -23,6 +23,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.tnco.runar.R
 import com.tnco.runar.analytics.AnalyticsHelper
+import com.tnco.runar.databinding.GeneratorFinalBinding
 import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.ui.component.dialog.CancelDialog
 import com.tnco.runar.ui.viewmodel.MainViewModel
@@ -33,12 +34,11 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class GeneratorFinal : Fragment() {
+
+    private var _binding: GeneratorFinalBinding? = null
+    private val binding get() = _binding!!
     val REQUEST_PERMISSION_CODE = 111
     private lateinit var viewModel: MainViewModel
-    lateinit var saveImg: ImageView
-    lateinit var shareImg: ImageView
-    lateinit var imgFinal: ImageView
-    lateinit var finalBack: ImageView
     lateinit var twitter: ImageView
     lateinit var facebook: ImageView
     lateinit var instagram: ImageView
@@ -56,25 +56,22 @@ class GeneratorFinal : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        _binding = GeneratorFinalBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
-        return inflater.inflate(R.layout.generator_final, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        saveImg = view.findViewById(R.id.save)
-        shareImg = view.findViewById(R.id.share)
-        imgFinal = view.findViewById(R.id.img_final)
-        finalBack = view.findViewById(R.id.final_back)
 //        twitter =view.findViewById(R.id.twitter)
 //        facebook = view.findViewById(R.id.facebook)
 //        instagram = view.findViewById(R.id.instagram)
 
-        shareImg.setOnClickListener {
+        binding.share.setOnClickListener {
             AnalyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_PATTERN_SHARED)
             val bytes = ByteArrayOutputStream()
-            val bmp = (imgFinal.drawable as BitmapDrawable).bitmap
+            val bmp = (binding.imgFinal.drawable as BitmapDrawable).bitmap
             val title = resources.getString(R.string.share_title)
             bmp.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
             val path =
@@ -89,18 +86,17 @@ class GeneratorFinal : Fragment() {
             startActivity(Intent.createChooser(shareIntent, null))
         }
 
-        imgFinal.setImageBitmap(viewModel.backgroundInfo.value!!.first { it.isSelected }.img!!)
+        binding.imgFinal.setImageBitmap(viewModel.backgroundInfo.value!!.first { it.isSelected }.img!!)
 
-        finalBack.setOnClickListener {
+        binding.finalBack.setOnClickListener {
             showCancelDialog()
         }
 
-
-        saveImg.setOnClickListener {
+        binding.save.setOnClickListener {
             AnalyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_PATTERN_SAVED)
             val fileName = generateFileName()
-            val bmp = (imgFinal.drawable as BitmapDrawable).bitmap
-            saveImg.visibility = View.INVISIBLE
+            val bmp = (binding.imgFinal.drawable as BitmapDrawable).bitmap
+            binding.save.visibility = View.INVISIBLE
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 val contentValues = ContentValues().apply {
                     put(MediaStore.MediaColumns.DISPLAY_NAME, fileName)
@@ -112,7 +108,7 @@ class GeneratorFinal : Fragment() {
                 if (uri != null) {
                     bmp.compress(Bitmap.CompressFormat.JPEG, 100, resolver.openOutputStream(uri))
                 }
-                saveImg.visibility = View.VISIBLE
+                binding.save.visibility = View.VISIBLE
                 val msg = resources.getString(R.string.image_saved)
                 Toast.makeText(requireContext(), msg, Toast.LENGTH_LONG).show()
             } else {
@@ -132,7 +128,7 @@ class GeneratorFinal : Fragment() {
                     val os = FileOutputStream(filePath)
                     bmp.compress(Bitmap.CompressFormat.JPEG, 100, os)
                     os.close()
-                    saveImg.visibility = View.VISIBLE
+                    binding.save.visibility = View.VISIBLE
                     val msg = resources.getString(R.string.image_saved)
                     Toast.makeText(requireContext(), msg, Toast.LENGTH_LONG).show()
                 }
@@ -151,14 +147,14 @@ class GeneratorFinal : Fragment() {
         if (requestCode == REQUEST_PERMISSION_CODE) {
             if (grantResults.get(0) == PackageManager.PERMISSION_GRANTED) {
                 val fileName = generateFileName()
-                val bmp = (imgFinal.drawable as BitmapDrawable).bitmap
+                val bmp = (binding.imgFinal.drawable as BitmapDrawable).bitmap
                 val path =
                     Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
                 val filePath = File(path, fileName)
                 val os = FileOutputStream(filePath)
                 bmp.compress(Bitmap.CompressFormat.JPEG, 100, os)
                 os.close()
-                saveImg.visibility = View.VISIBLE
+                binding.save.visibility = View.VISIBLE
                 val msg = resources.getString(R.string.image_saved)
                 Toast.makeText(requireContext(), msg, Toast.LENGTH_LONG).show()
             }
