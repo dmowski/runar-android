@@ -131,11 +131,11 @@ class InterpretationViewModel(application: Application) : AndroidViewModel(appli
             val affirmElement = affirmData.random()
             affirmId=affirmElement.id!!*100+ausp
             when (ausp) {
-                in 0..19 -> {
+                in 0..20 -> {
                     _currentAffirm.postValue(affirmElement.lvl1!!)
                     return
                 }
-                in 20..40 -> {
+                in 21..40 -> {
                     _currentAffirm.postValue(affirmElement.lvl2!!)
                     return
                 }
