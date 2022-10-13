@@ -945,7 +945,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                             if (auspiciousness != null) {
                                 val fortune = getLuckLevel(auspiciousness)
                                 binding.text.text =
-                                    "${requireContext().resources.getString(R.string.layout_interpretation_ausf)} - $fortune"
+                                    "${requireContext().resources.getString(R.string.layout_interpretation_ausf)}: $fortune"
                                 singleRuneAuspiciousness = auspiciousness
                                 val pixelAusfMargin =
                                     (30 * requireContext().resources.displayMetrics.density).toInt()
@@ -1040,7 +1040,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                                             )
                                             val fortune = getLuckLevel(singleRuneAuspiciousness)
                                             binding.text.text = HtmlCompat.fromHtml(
-                                                "${requireContext().resources.getString(R.string.layout_interpretation_ausf)} - $fortune",
+                                                "${requireContext().resources.getString(R.string.layout_interpretation_ausf)}: $fortune",
                                                 FROM_HTML_MODE_LEGACY,
                                                 null,
                                                 InterTagHandler(secondFont!!)
@@ -1176,8 +1176,8 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
     private fun getLuckLevel(percent: Int): String {
         var luckLevel = ""
         when (percent) {
-            in 0..19 -> luckLevel = requireContext().resources.getString(R.string.luck_next_time)
-            in 20..40 -> luckLevel = requireContext().resources.getString(R.string.luck_is_close)
+            in 0..20 -> luckLevel = requireContext().resources.getString(R.string.luck_next_time)
+            in 21..40 -> luckLevel = requireContext().resources.getString(R.string.luck_is_close)
             in 41..69 -> luckLevel = requireContext().resources.getString(R.string.today_your_day)
             in 70..100 -> luckLevel = requireContext().resources.getString(R.string.lucky)
         }
