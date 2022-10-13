@@ -43,9 +43,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <service android:name=".services.NotifiactionChecker"/>
-
         <service
             android:name=".services.PushService"
             android:exported="false"
@@ -54,6 +51,5 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
     </application>
 </manifest>
