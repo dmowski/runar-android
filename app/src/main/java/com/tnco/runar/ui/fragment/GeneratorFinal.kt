@@ -17,6 +17,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.addCallback
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -31,6 +32,7 @@ import java.io.File
 import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
+
 
 class GeneratorFinal : Fragment() {
     val REQUEST_PERMISSION_CODE = 111
@@ -77,8 +79,19 @@ class GeneratorFinal : Fragment() {
             val bmp = (imgFinal.drawable as BitmapDrawable).bitmap
             val title = resources.getString(R.string.share_title)
             bmp.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
+
+            if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA) !=
+                PackageManager.PERMISSION_GRANTED
+            ) {
+                ActivityCompat.requestPermissions(
+                    requireActivity(),
+                    arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                    0
+                )
+            }
+
             val path =
-                MediaStore.Images.Media.insertImage(context?.contentResolver, bmp, title, null)
+                MediaStore.Images.Media.insertImage(requireContext().contentResolver, bmp, title, null)
             val uri = Uri.parse(path.toString())
             val shareIntent: Intent = Intent().apply {
                 action = Intent.ACTION_SEND
