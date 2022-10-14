@@ -41,17 +41,18 @@ class SacrFragment2 : Fragment(R.layout.fragment_layout_sacr_2), View.OnClickLis
             val headerTextSize = (textSize * 3)
             val hintTextSize = (textSize * 0.6 * 1.2).toFloat()
             val gpTextSize = (textSize * 0.5 * 1.2).toFloat()
-            binding.descriptionHeaderFrame.setTextSize(TypedValue.COMPLEX_UNIT_PX, headerTextSize)
-            binding.hintTw.setTextSize(TypedValue.COMPLEX_UNIT_PX, hintTextSize)
-            binding.gpTw.setTextSize(TypedValue.COMPLEX_UNIT_PX, gpTextSize)
-            binding.hintTw.setTextColor(resources.getColor(R.color.sacr_hint_main))
-            val secondFont = ResourcesCompat.getFont(requireContext(), R.font.roboto_bold)
-            binding.hintTw.text = Html.fromHtml(
-                "${requireContext().resources.getString(R.string.sacr_hint_text)} <font color='#DADADA'><bf>$${tipSize}</bf></font>",
-                null,
-                InterTagHandler(secondFont!!)
-            )
-
+            with(binding) {
+                binding.descriptionHeaderFrame.setTextSize(TypedValue.COMPLEX_UNIT_PX, headerTextSize)
+                binding.hintTw.setTextSize(TypedValue.COMPLEX_UNIT_PX, hintTextSize)
+                binding.gpTw.setTextSize(TypedValue.COMPLEX_UNIT_PX, gpTextSize)
+                binding.hintTw.setTextColor(resources.getColor(R.color.sacr_hint_main))
+                val secondFont = ResourcesCompat.getFont(requireContext(), R.font.roboto_bold)
+                binding.hintTw.text = Html.fromHtml(
+                    "${requireContext().resources.getString(R.string.sacr_hint_text)} <font color='#DADADA'><bf>$${tipSize}</bf></font>",
+                    null,
+                    InterTagHandler(secondFont!!)
+                )
+            }
             binding.gpButtonImg.setOnClickListener(this)
         }
     }

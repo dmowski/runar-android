@@ -30,16 +30,17 @@ class SacrFragment1 : Fragment(R.layout.fragment_layout_sacr_1), View.OnClickLis
             val luckTextSize = (textSize * 0.8 * 1.2).toFloat()
             val firstTextSize = (textSize * 1.2).toFloat()
             val priceTextSize = (textSize * 0.7 * 1.2).toFloat()
-            binding.descriptionHeaderFrame.setTextSize(TypedValue.COMPLEX_UNIT_PX, headerTextSize)
-            binding.sacrLuckTw.setTextSize(TypedValue.COMPLEX_UNIT_PX, luckTextSize)
-            binding.sacrFirstTw.setTextSize(TypedValue.COMPLEX_UNIT_PX, firstTextSize)
-            binding.mainText.setTextSize(TypedValue.COMPLEX_UNIT_PX, luckTextSize)
-            binding.itemHeader1Tw.setTextSize(TypedValue.COMPLEX_UNIT_PX, luckTextSize)
-            binding.itemHeader2Tw.setTextSize(TypedValue.COMPLEX_UNIT_PX, luckTextSize)
-            binding.itemHeader3Tw.setTextSize(TypedValue.COMPLEX_UNIT_PX, luckTextSize)
-            binding.sacrB2Price.setTextSize(TypedValue.COMPLEX_UNIT_PX, priceTextSize)
+            with(binding) {
+                descriptionHeaderFrame.setTextSize(TypedValue.COMPLEX_UNIT_PX, headerTextSize)
+                sacrLuckTw.setTextSize(TypedValue.COMPLEX_UNIT_PX, luckTextSize)
+                sacrFirstTw.setTextSize(TypedValue.COMPLEX_UNIT_PX, firstTextSize)
+                mainText.setTextSize(TypedValue.COMPLEX_UNIT_PX, luckTextSize)
+                itemHeader1Tw.setTextSize(TypedValue.COMPLEX_UNIT_PX, luckTextSize)
+                itemHeader2Tw.setTextSize(TypedValue.COMPLEX_UNIT_PX, luckTextSize)
+                itemHeader3Tw.setTextSize(TypedValue.COMPLEX_UNIT_PX, luckTextSize)
+                sacrB2Price.setTextSize(TypedValue.COMPLEX_UNIT_PX, priceTextSize)
+            }
         }
-
         binding.sacrificeButtonImg1.setOnClickListener(this)
         binding.sacrificeButtonImg2.setOnClickListener(this)
         binding.sacrificeButtonImg3.setOnClickListener(this)
