@@ -346,11 +346,11 @@
             android:layout_gravity="center"
             android:orientation="vertical">
 
-            <include layout="@layout/shimmer_layout_tablets" />
+            <include layout="@layout/shimmer_layout" />
 
-            <include layout="@layout/shimmer_layout_tablets" />
+            <include layout="@layout/shimmer_layout" />
 
-            <include layout="@layout/shimmer_layout_tablets" />
+            <include layout="@layout/shimmer_layout" />
 
         </LinearLayout>
     </com.facebook.shimmer.ShimmerFrameLayout>
