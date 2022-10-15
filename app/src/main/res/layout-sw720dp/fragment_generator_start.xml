@@ -312,14 +312,21 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.862" />
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/lineBottomRunes"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.95" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/runes_recycler_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/lineBottomRunes"
         app:layout_constraintEnd_toStartOf="@+id/lineEndText"
         app:layout_constraintStart_toStartOf="@+id/lineStartText"
-        app:layout_constraintTop_toBottomOf="@+id/lineRunesTop" />
+        app:layout_constraintTop_toTopOf="@+id/lineRunesTop1" />
 
     <com.facebook.shimmer.ShimmerFrameLayout
         android:id="@+id/shimmerLayout"
@@ -327,47 +334,25 @@
         android:layout_height="wrap_content"
         android:animateLayoutChanges="true"
         android:animationCache="true"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/lineEndText"
         app:layout_constraintStart_toStartOf="@+id/lineStartText"
-        app:layout_constraintTop_toBottomOf="@+id/lineRunesTop"
+        app:layout_constraintTop_toTopOf="@+id/lineRunesTop1"
         app:shimmer_repeat_mode="restart"
         app:shimmer_shape="radial">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="633dp"
-            android:layout_height="529dp"
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:orientation="vertical">
 
-            <include
-                android:id="@+id/include4"
-                layout="@layout/shimmer_layout_tablets"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+            <include layout="@layout/shimmer_layout_tablets" />
 
-            <include
-                layout="@layout/shimmer_layout_tablets"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toTopOf="@+id/include5"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/include4" />
+            <include layout="@layout/shimmer_layout_tablets" />
 
-            <include
-                android:id="@+id/include5"
-                layout="@layout/shimmer_layout_tablets"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+            <include layout="@layout/shimmer_layout_tablets" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
     </com.facebook.shimmer.ShimmerFrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
