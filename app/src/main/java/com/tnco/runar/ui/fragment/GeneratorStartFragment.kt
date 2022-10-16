@@ -60,11 +60,13 @@ class GeneratorStartFragment : Fragment() {
 
         with(binding) {
             btnRandom.setOnClickListener {
-                randomRunes()
+                if (shimmerLayout.visibility == View.GONE)
+                    randomRunes()
             }
 
             btnGenerate.setOnClickListener {
-                sentRunes()
+                if (shimmerLayout.visibility == View.GONE)
+                    sentRunes()
             }
         }
 

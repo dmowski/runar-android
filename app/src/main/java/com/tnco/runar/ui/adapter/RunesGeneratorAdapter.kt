@@ -20,7 +20,6 @@ class RunesGeneratorAdapter(
     class RunesGeneratorHolder(private val binding: RuneItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-
         fun bind(rune: RunesItemsModel) {
             binding.rune = rune
             binding.executePendingBindings()

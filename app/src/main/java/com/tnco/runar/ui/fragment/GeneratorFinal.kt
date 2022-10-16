@@ -88,18 +88,18 @@ class GeneratorFinal : Fragment() {
                     arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE),
                     0
                 )
-            }
+            } else {
+                val path =
+                    MediaStore.Images.Media.insertImage(requireContext().contentResolver, bmp, title, null)
+                val uri = Uri.parse(path.toString())
+                val shareIntent: Intent = Intent().apply {
+                    action = Intent.ACTION_SEND
+                    putExtra(Intent.EXTRA_STREAM, uri)
 
-            val path =
-                MediaStore.Images.Media.insertImage(requireContext().contentResolver, bmp, title, null)
-            val uri = Uri.parse(path.toString())
-            val shareIntent: Intent = Intent().apply {
-                action = Intent.ACTION_SEND
-                putExtra(Intent.EXTRA_STREAM, uri)
-
-                type = "image/jpeg"
+                    type = "image/jpeg"
+                }
+                startActivity(Intent.createChooser(shareIntent, null))
             }
-            startActivity(Intent.createChooser(shareIntent, null))
         }
 
         imgFinal.setImageBitmap(viewModel.backgroundInfo.value!!.first { it.isSelected }.img!!)
