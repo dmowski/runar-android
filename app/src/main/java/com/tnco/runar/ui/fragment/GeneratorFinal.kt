@@ -180,4 +180,9 @@ class GeneratorFinal : Fragment() {
         }
             .showDialog()
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

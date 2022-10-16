@@ -46,4 +46,9 @@ class SacrFragment3 : Fragment(R.layout.fragment_layout_sacr_3), View.OnClickLis
     override fun onClick(v: View?) {
         TODO("Not yet implemented")
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

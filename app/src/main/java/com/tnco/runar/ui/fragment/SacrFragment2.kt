@@ -65,4 +65,9 @@ class SacrFragment2 : Fragment(R.layout.fragment_layout_sacr_2), View.OnClickLis
             }
         }
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

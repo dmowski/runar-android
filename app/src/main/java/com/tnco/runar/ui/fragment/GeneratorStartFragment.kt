@@ -287,4 +287,9 @@ class GeneratorStartFragment : Fragment() {
             .actionGeneratorStartFragmentToGeneratorMagicRune()
         findNavController().navigate(direction)
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

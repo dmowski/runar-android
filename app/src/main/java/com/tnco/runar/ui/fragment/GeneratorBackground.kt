@@ -161,4 +161,9 @@ class GeneratorBackground : Fragment() {
         }
             .showDialog()
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

@@ -1045,7 +1045,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                                             val fortune = getLuckLevel(singleRuneAuspiciousness)
                                             with(binding) {
                                                 text.text = HtmlCompat.fromHtml(
-                                                    "${requireContext().resources.getString(R.string.layout_interpretation_ausf)} - $fortune",
+                                                    "${requireContext().resources.getString(R.string.layout_interpretation_ausf)} : $fortune",
                                                     FROM_HTML_MODE_LEGACY,
                                                     null,
                                                     InterTagHandler(secondFont!!)

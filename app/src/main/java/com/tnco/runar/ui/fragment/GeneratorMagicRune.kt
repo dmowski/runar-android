@@ -121,4 +121,9 @@ class GeneratorMagicRune : Fragment() {
             findNavController().navigate(direction)
         }
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

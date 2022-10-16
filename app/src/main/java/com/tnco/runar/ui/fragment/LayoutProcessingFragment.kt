@@ -142,5 +142,10 @@ class LayoutProcessingFragment : Fragment(R.layout.fragment_layout_processing) {
             findNavController().navigate(direction)
         }
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }
 

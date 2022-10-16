@@ -43,4 +43,8 @@ class WebShareFragment: Fragment() {
             webShare.loadUrl(viewModel.shareURL)
         }
     }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

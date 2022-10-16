@@ -86,7 +86,6 @@ private fun Bars(navigator: Navigator, navController: NavController) {
     val context = LocalContext.current
 
 
-
     Scaffold(
         topBar = {
             TopAppBar(
