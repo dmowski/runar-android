@@ -4,6 +4,7 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import androidx.core.graphics.drawable.toBitmap
 import android.util.Log
 import androidx.core.app.NotificationCompat
@@ -13,7 +14,9 @@ import com.tnco.runar.R
 import com.tnco.runar.RunarLogger
 import com.tnco.runar.repository.SharedPreferencesRepository
 import com.tnco.runar.ui.activity.MainActivity
+import java.text.SimpleDateFormat
 import java.time.LocalDate
+import java.util.*
 
 
 class PushService : FirebaseMessagingService() {
@@ -39,8 +42,8 @@ class PushService : FirebaseMessagingService() {
 
     private fun isShouldSend(): Boolean {
         var isShouldSend = false
-        val monday = "MONDAY"
-        val currentDay = LocalDate.now().dayOfWeek.name
+        val monday = "monday"
+        val currentDay = getCurrentDay()
         val currentTime = System.currentTimeMillis()
         val lastRunTime = preferencesRepository.lastDivination
         val startTimeNotification = 11
@@ -53,6 +56,18 @@ class PushService : FirebaseMessagingService() {
             isShouldSend = true
         }
         return isShouldSend
+    }
+
+    private fun getCurrentDay(): String {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            Log.d("KEYKAK", "build version: greater than O")
+            LocalDate.now().dayOfWeek.name.lowercase()
+        } else {
+            Log.d("KEYKAK", "build version: less than O")
+            val format = SimpleDateFormat("EEEE", Locale.ENGLISH)
+            val date = Date()
+            format.format(date).lowercase()
+        }
     }
 
     private fun sendNotification() {

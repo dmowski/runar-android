@@ -141,10 +141,10 @@
     <string name="heading">Heading</string>
     <string name="some_description">Some Description</string>
     <string name="some_text">Some text</string>
-    <string name="luck_is_close">Fortune is close</string>
-    <string name="today_your_day">Today is your day</string>
-    <string name="lucky">"Luck to the limit "</string>
-    <string name="luck_next_time">Next time you\'ll definitely be lucky</string>
+    <string name="luck_is_close">A little more, and you\'ll catch up the luck!</string>
+    <string name="today_your_day">Hey, it\'s your lucky day!</string>
+    <string name="lucky">The gods favor you!</string>
+    <string name="luck_next_time">Better luck next time!</string>
 
     <string name="retry">Retry</string>
     <string name="internet_conn_error">Please check your network connection and try again</string>
