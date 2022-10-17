@@ -68,35 +68,45 @@ class LayoutProcessingFragment : Fragment(R.layout.fragment_layout_processing) {
             val buttonTextSize = (textSize * 1.65f)
             val simpleTextSize = (textSize * 0.8f)
             val advertHeaderTextSize = (textSize * 1.2f)
-            binding.descriptionHeaderFrame.setTextSize(TypedValue.COMPLEX_UNIT_PX, headerTextSize)
-            binding.descriptionButtonFrame.setTextSize(TypedValue.COMPLEX_UNIT_PX, buttonTextSize)
-            binding.textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, simpleTextSize)
-            binding.textSongName.setTextSize(TypedValue.COMPLEX_UNIT_PX, simpleTextSize)
-            binding.textGroupName.setTextSize(TypedValue.COMPLEX_UNIT_PX, advertHeaderTextSize)
+            with(binding) {
+                descriptionHeaderFrame.setTextSize(TypedValue.COMPLEX_UNIT_PX, headerTextSize)
+                descriptionButtonFrame.setTextSize(TypedValue.COMPLEX_UNIT_PX, buttonTextSize)
+                textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, simpleTextSize)
+                textSongName.setTextSize(TypedValue.COMPLEX_UNIT_PX, simpleTextSize)
+                textGroupName.setTextSize(TypedValue.COMPLEX_UNIT_PX, advertHeaderTextSize)
+            }
             when (MusicController.currentSongPos) {
                 2 -> {
                     link = "https://lyod1.bandcamp.com/releases"
-                    binding.textGroupName.text = getString(R.string.group1)
-                    binding.textSongName.text = getString(R.string.track1_1)
-                    binding.imageGroup.setImageResource(R.drawable.led_image)
+                    with(binding) {
+                        textGroupName.text = getString(R.string.group1)
+                        textSongName.text = getString(R.string.track1_1)
+                        imageGroup.setImageResource(R.drawable.led_image)
+                    }
                 }
                 3 -> {
                     link = "https://lyod1.bandcamp.com/releases"
-                    binding.textGroupName.text = getString(R.string.group1)
-                    binding.textSongName.text = getString(R.string.track1_2)
-                    binding.imageGroup.setImageResource(R.drawable.led_image)
+                    with(binding) {
+                        textGroupName.text = getString(R.string.group1)
+                        textSongName.text = getString(R.string.track1_2)
+                        imageGroup.setImageResource(R.drawable.led_image)
+                    }
                 }
                 0 -> {
                     link = "https://danheimmusic.com/"
-                    binding.textGroupName.text = getString(R.string.group2)
-                    binding.textSongName.text = getString(R.string.track2_1)
-                    binding.imageGroup.setImageResource(R.drawable.danheim_image)
+                    with(binding) {
+                        textGroupName.text = getString(R.string.group2)
+                        textSongName.text = getString(R.string.track2_1)
+                        imageGroup.setImageResource(R.drawable.danheim_image)
+                    }
                 }
                 1 -> {
                     link = "https://danheimmusic.com/"
-                    binding.textGroupName.text = getString(R.string.group2)
-                    binding.textSongName.text = getString(R.string.track2_2)
-                    binding.imageGroup.setImageResource(R.drawable.danheim_image)
+                    with(binding) {
+                        textGroupName.text = getString(R.string.group2)
+                        textSongName.text = getString(R.string.track2_2)
+                        imageGroup.setImageResource(R.drawable.danheim_image)
+                    }
                 }
             }
 
@@ -131,6 +141,11 @@ class LayoutProcessingFragment : Fragment(R.layout.fragment_layout_processing) {
                 .actionLayoutProcessingFragmentToLayoutInterpretationFragment(layoutId, userLayout)
             findNavController().navigate(direction)
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
 
