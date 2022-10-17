@@ -1025,7 +1025,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                                                 ConstraintSet.END
                                             )
                                             with(binding) {
-                                                text.textAlignment = Gravity.CENTER
+                                                text.textAlignment = View.TEXT_ALIGNMENT_CENTER
                                                 text.gravity = Gravity.CENTER
                                                 text.setTextSize(
                                                     TypedValue.COMPLEX_UNIT_PX,
