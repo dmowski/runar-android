@@ -6,9 +6,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.ProgressBar
-import android.widget.TextView
 import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -41,6 +38,7 @@ class GeneratorMagicRune : Fragment() {
                 "generator_processing",
                 getString(R.string.description_generator_popup)
             ) {
+                viewModel.cancelChildrenCoroutines()
                 val direction = GeneratorMagicRuneDirections.actionGlobalGeneratorFragment()
                 findNavController().navigate(direction)
             }
