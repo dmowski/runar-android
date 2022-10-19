@@ -4,8 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -35,6 +33,7 @@ class RunePatternGenerator : Fragment() {
                 "rune_pattern_generator",
                 getString(R.string.description_generator_popup)
             ) {
+                viewModel.cancelChildrenCoroutines()
                 val direction = RunePatternGeneratorDirections.actionGlobalGeneratorFragment()
                 findNavController().navigate(direction)
             }
@@ -84,6 +83,7 @@ class RunePatternGenerator : Fragment() {
         }
 
         binding.buttonSelect.setOnClickListener {
+            viewModel.cancelChildrenCoroutines()
             val direction = RunePatternGeneratorDirections
                 .actionRunePatternGeneratorToGeneratorBackground()
             findNavController().navigate(direction)

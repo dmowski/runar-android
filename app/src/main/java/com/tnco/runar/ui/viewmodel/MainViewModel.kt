@@ -15,10 +15,7 @@ import com.tnco.runar.repository.SharedDataRepository
 import com.tnco.runar.repository.SharedPreferencesRepository
 import com.tnco.runar.retrofit.BackgroundInfo
 import com.tnco.runar.util.NetworkMonitor
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 
 class MainViewModel : ViewModel() {
 
@@ -40,7 +37,7 @@ class MainViewModel : ViewModel() {
 
     var shareURL = ""
 
-    fun getRunes() = CoroutineScope(Dispatchers.IO).launch {
+    fun getRunes() = viewModelScope.launch(Dispatchers.IO) {
         runesResponse.postValue(BackendRepository.getRunes())
     }
 
@@ -54,8 +51,8 @@ class MainViewModel : ViewModel() {
         BackendRepository.identify(UserInfo(userId,timeStamp,androidVersion))
     }
 
-    fun getBackgroundInfo(){
-        CoroutineScope(Dispatchers.IO).launch {
+    fun getBackgroundInfo() = viewModelScope.launch(Dispatchers.IO) {
+            backgroundInfo.value?.clear()
             val info = BackendRepository.getBackgroundInfo()
             for (i in info.indices){
                 val bmp = BackendRepository.getBackgroundImage(
@@ -69,9 +66,8 @@ class MainViewModel : ViewModel() {
                 backgroundInfo.postValue(info.toMutableList())
             }
         }
-    }
-    fun getRunePattern() {
-        CoroutineScope(Dispatchers.IO).launch {
+
+    fun getRunePattern() = viewModelScope.launch(Dispatchers.IO) {
             runePattern.clear()
             runesImages.clear()
             backgroundInfo.value?.clear()
@@ -92,6 +88,6 @@ class MainViewModel : ViewModel() {
             Log.d("!!! runesImages",runesImages.toString())
         }
 
-    }
+    fun cancelChildrenCoroutines() = viewModelScope.coroutineContext.cancelChildren()
 
 }

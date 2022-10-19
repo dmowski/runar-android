@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.activity.addCallback
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,7 +15,6 @@ import com.tnco.runar.R
 import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.databinding.FragmentGeneratorBackgroundBinding
 import com.tnco.runar.enums.AnalyticsEvent
-import com.tnco.runar.ui.activity.MainActivity
 import com.tnco.runar.ui.component.dialog.CancelDialog
 import com.tnco.runar.ui.viewmodel.MainViewModel
 
@@ -44,6 +42,7 @@ class GeneratorBackground : Fragment() {
         AnalyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_PATTERN_SELECTION_BACKGROUND)
         binding.textSelectBackground.visibility = View.GONE
         binding.buttonNext.setOnClickListener {
+            viewModel.cancelChildrenCoroutines()
             val direction = GeneratorBackgroundDirections
                 .actionGeneratorBackgroundToGeneratorFinal()
             findNavController().navigate(direction)
@@ -81,7 +80,7 @@ class GeneratorBackground : Fragment() {
 
         }
 
-        viewModel.backgroundInfo.observe(activity as MainActivity, Observer {
+        viewModel.backgroundInfo.observe(viewLifecycleOwner) {
             if (viewModel.backgroundInfo.value!!.isNotEmpty()) {
                 with(binding) {
                     generatorProgressBar.visibility = View.GONE
@@ -107,7 +106,7 @@ class GeneratorBackground : Fragment() {
                 }
                 adapter.updateData(it)
             }
-        })
+        }
     }
 
     override fun onCreateView(
@@ -156,6 +155,7 @@ class GeneratorBackground : Fragment() {
             "generator_background",
             getString(R.string.description_generator_popup)
         ) {
+            viewModel.cancelChildrenCoroutines()
             val direction = GeneratorBackgroundDirections.actionGlobalGeneratorFragment()
             findNavController().navigate(direction)
         }
