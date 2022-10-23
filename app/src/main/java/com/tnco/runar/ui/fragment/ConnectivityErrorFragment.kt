@@ -4,15 +4,26 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.tnco.runar.R
 import com.tnco.runar.databinding.ConnectivityErrorLayoutBinding
+import com.tnco.runar.ui.component.dialog.CancelDialog
 
 class ConnectivityErrorFragment : Fragment() {
     private var _binding: ConnectivityErrorLayoutBinding? = null
     private val binding get() = _binding!!
     private val args: ConnectivityErrorFragmentArgs by navArgs()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        requireActivity().onBackPressedDispatcher.addCallback(this) {
+            findNavController().popBackStack(args.topMostDestinationToRetry, false)
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

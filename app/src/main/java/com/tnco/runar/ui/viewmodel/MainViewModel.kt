@@ -9,13 +9,17 @@ import com.tnco.runar.data.remote.UserInfo
 import com.tnco.runar.repository.backend.BackendRepository
 import android.util.Log
 import androidx.lifecycle.*
+import com.tnco.runar.data.remote.NetworkResult
+import com.tnco.runar.data.remote.RunesResponse
 import com.tnco.runar.model.RunesItemsModel
 import com.tnco.runar.repository.DatabaseRepository
 import com.tnco.runar.repository.SharedDataRepository
 import com.tnco.runar.repository.SharedPreferencesRepository
+import com.tnco.runar.repository.backend.DataClassConverters
 import com.tnco.runar.retrofit.BackgroundInfo
 import com.tnco.runar.util.NetworkMonitor
 import kotlinx.coroutines.*
+import retrofit2.Response
 
 class MainViewModel : ViewModel() {
 
@@ -29,7 +33,7 @@ class MainViewModel : ViewModel() {
 //    val selectedIndices = mutableListOf<Int>()
 
     var readRunes: LiveData<List<RunesItemsModel>> = DatabaseRepository.getRunesGenerator().asLiveData()
-    var runesResponse: MutableLiveData<List<RunesItemsModel>> = MutableLiveData()
+    val runesResponse = MutableLiveData<NetworkResult<List<RunesItemsModel>>>()
 
     val runePattern = mutableListOf<String>()
     val runesImages = mutableListOf<Bitmap>()
@@ -38,7 +42,13 @@ class MainViewModel : ViewModel() {
     var shareURL = ""
 
     fun getRunes() = viewModelScope.launch(Dispatchers.IO) {
-        runesResponse.postValue(BackendRepository.getRunes())
+        runesResponse.postValue(NetworkResult.Loading())
+        try {
+            val response = BackendRepository.getRunes()
+            runesResponse.postValue(handleRunesResponse(response))
+        } catch (e: Exception) {
+            runesResponse.postValue(NetworkResult.Error(e.toString()))
+        }
     }
 
     var runesSelected: String = ""
@@ -90,4 +100,17 @@ class MainViewModel : ViewModel() {
 
     fun cancelChildrenCoroutines() = viewModelScope.coroutineContext.cancelChildren()
 
+    private fun handleRunesResponse(
+        response: Response<List<RunesResponse>>
+    ): NetworkResult<List<RunesItemsModel>> {
+        return when {
+            response.isSuccessful -> {
+                val convertedResult =
+                    DataClassConverters.runesRespToItems(response.body()!!)
+                DatabaseRepository.updateRunesGeneratorDB(convertedResult)
+                NetworkResult.Success(convertedResult)
+            }
+            else -> NetworkResult.Error(response.errorBody().toString())
+        }
+    }
 }
