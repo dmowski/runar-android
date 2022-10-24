@@ -4,8 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -13,15 +11,16 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.tnco.runar.R
 import com.tnco.runar.analytics.AnalyticsHelper
+import com.tnco.runar.databinding.RunePatternGeneratorBinding
 import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.ui.component.dialog.CancelDialog
 import com.tnco.runar.ui.viewmodel.MainViewModel
 
 class RunePatternGenerator : Fragment() {
+
+    private var _binding: RunePatternGeneratorBinding? = null
+    private val binding get() = _binding!!
     private lateinit var viewModel: MainViewModel
-    lateinit var sendBtn: TextView
-    lateinit var nextType: TextView
-    lateinit var imgRune: ImageView
     private var firstImageWasReady = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,6 +33,7 @@ class RunePatternGenerator : Fragment() {
                 "rune_pattern_generator",
                 getString(R.string.description_generator_popup)
             ) {
+                viewModel.cancelChildrenCoroutines()
                 val direction = RunePatternGeneratorDirections.actionGlobalGeneratorFragment()
                 findNavController().navigate(direction)
             }
@@ -46,49 +46,52 @@ class RunePatternGenerator : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        _binding = RunePatternGeneratorBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
-        return inflater.inflate(R.layout.rune_pattern_generator, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         AnalyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_PATTERN_CREATED)
 
-        imgRune = view.findViewById(R.id.imageRune)
-        nextType = view.findViewById(R.id.next_type)
-
         viewModel.runeImagesReady.observe(viewLifecycleOwner, Observer {
             if (it && !firstImageWasReady && viewModel.runesImages.size > 0) {
-                imgRune?.setImageBitmap(viewModel.runesImages[0])
-                nextType?.visibility = View.VISIBLE
+                binding.imageRune?.setImageBitmap(viewModel.runesImages[0])
+                binding.nextType?.visibility = View.VISIBLE
             }
         })
 
         if (viewModel.runesImages.size > 0) {
-            imgRune?.setImageBitmap(viewModel.runesImages[0])
-            nextType?.visibility = View.VISIBLE
+            binding.imageRune?.setImageBitmap(viewModel.runesImages[0])
+            binding.nextType?.visibility = View.VISIBLE
             firstImageWasReady = true
         } else {
             firstImageWasReady = false
-            nextType?.visibility = View.INVISIBLE
-            imgRune?.setImageResource(R.drawable.generator_hourglass)
+            binding.nextType?.visibility = View.INVISIBLE
+            binding.imageRune?.setImageResource(R.drawable.generator_hourglass)
         }
 
 
-        nextType.setOnClickListener {
+        binding.nextType.setOnClickListener {
             AnalyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_PATTERN_NEW_TYPE)
             viewModel.selectedRuneIndex += 1
             if (viewModel.selectedRuneIndex > viewModel.runesImages.size - 1) {
                 viewModel.selectedRuneIndex = 0
             }
-            imgRune.setImageBitmap(viewModel.runesImages[viewModel.selectedRuneIndex])
+            binding.imageRune.setImageBitmap(viewModel.runesImages[viewModel.selectedRuneIndex])
         }
 
-        sendBtn = view.findViewById(R.id.button_select)
-        sendBtn.setOnClickListener {
+        binding.buttonSelect.setOnClickListener {
+            viewModel.cancelChildrenCoroutines()
             val direction = RunePatternGeneratorDirections
                 .actionRunePatternGeneratorToGeneratorBackground()
             findNavController().navigate(direction)
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

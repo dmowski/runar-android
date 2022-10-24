@@ -112,31 +112,32 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                 val runeNameTextSize = (interpretation * 1.2f)
                 val littleTextSize = (interpretation * 0.75f)
                 val sacrTextSize = (interpretation * 0.6f)
-                binding.descriptionHeaderFrame.setTextSize(
-                    TypedValue.COMPLEX_UNIT_PX,
-                    headerTextSize
-                )
-                binding.descriptionButtonFrame.setTextSize(
-                    TypedValue.COMPLEX_UNIT_PX,
-                    buttonTextSize
-                )
-                binding.sacrButtonHeader.setTextSize(
-                    TypedValue.COMPLEX_UNIT_PX,
-                    (runeNameTextSize * 1.2f)
-                )
-                binding.sacrButtonText.setTextSize(
-                    TypedValue.COMPLEX_UNIT_PX,
-                    (sacrTextSize * 1.2f)
-                )
+                with(binding) {
+                    descriptionHeaderFrame.setTextSize(
+                        TypedValue.COMPLEX_UNIT_PX,
+                        headerTextSize
+                    )
+                    descriptionButtonFrame.setTextSize(
+                        TypedValue.COMPLEX_UNIT_PX,
+                        buttonTextSize
+                    )
+                    sacrButtonHeader.setTextSize(
+                        TypedValue.COMPLEX_UNIT_PX,
+                        (runeNameTextSize * 1.2f)
+                    )
+                    sacrButtonText.setTextSize(
+                        TypedValue.COMPLEX_UNIT_PX,
+                        (sacrTextSize * 1.2f)
+                    )
 
-                binding.checkboxText.setTextSize(TypedValue.COMPLEX_UNIT_PX, checkboxTextSize)
-                binding.text.setTextSize(TypedValue.COMPLEX_UNIT_PX, interpretation)
-                binding.runeName.setTextSize(TypedValue.COMPLEX_UNIT_PX, runeNameTextSize)
-                binding.runePosition.setTextSize(TypedValue.COMPLEX_UNIT_PX, littleTextSize)
-                binding.runeAusf.setTextSize(TypedValue.COMPLEX_UNIT_PX, littleTextSize)
-                binding.helperText.setTextSize(TypedValue.COMPLEX_UNIT_PX, littleTextSize)
-                binding.singleRuneName.setTextSize(TypedValue.COMPLEX_UNIT_PX, runeNameTextSize)
-
+                    checkboxText.setTextSize(TypedValue.COMPLEX_UNIT_PX, checkboxTextSize)
+                    text.setTextSize(TypedValue.COMPLEX_UNIT_PX, interpretation)
+                    runeName.setTextSize(TypedValue.COMPLEX_UNIT_PX, runeNameTextSize)
+                    runePosition.setTextSize(TypedValue.COMPLEX_UNIT_PX, littleTextSize)
+                    runeAusf.setTextSize(TypedValue.COMPLEX_UNIT_PX, littleTextSize)
+                    helperText.setTextSize(TypedValue.COMPLEX_UNIT_PX, littleTextSize)
+                    singleRuneName.setTextSize(TypedValue.COMPLEX_UNIT_PX, runeNameTextSize)
+                }
                 viewModel.selectedLayout.observe(viewLifecycleOwner) { selectedLayout ->
                     if (selectedLayout != null) {
                         runeHeight = runeHeightCalculator()
@@ -945,7 +946,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                             if (auspiciousness != null) {
                                 val fortune = getLuckLevel(auspiciousness)
                                 binding.text.text =
-                                    "${requireContext().resources.getString(R.string.layout_interpretation_ausf)} - $fortune"
+                                    "${requireContext().resources.getString(R.string.layout_interpretation_ausf)}: $fortune"
                                 singleRuneAuspiciousness = auspiciousness
                                 val pixelAusfMargin =
                                     (30 * requireContext().resources.displayMetrics.density).toInt()
@@ -973,19 +974,21 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                         viewModel.currentInterpretation.observe(viewLifecycleOwner) { interpretation ->
                             if (!interpretation.isNullOrBlank()) {
                                 val newFontSize = (fontSize * 0.95f)
-                                binding.interpretationText.setTextSize(
-                                    TypedValue.COMPLEX_UNIT_PX,
-                                    newFontSize
-                                )
-                                binding.interpretationText.typeface = ResourcesCompat.getFont(
-                                    requireContext(),
-                                    R.font.roboto_light
-                                )
-                                binding.interpretationText.text = interpretation + affirmText
-                                if (layoutId == 1) {
-                                    viewModel.getSingleRuneData(newUserLayout[1])
-                                    viewModel.singleRune.observe(viewLifecycleOwner) { name ->
-                                        binding.singleRuneName.text = name
+                                with(binding) {
+                                    interpretationText.setTextSize(
+                                        TypedValue.COMPLEX_UNIT_PX,
+                                        newFontSize
+                                    )
+                                    interpretationText.typeface = ResourcesCompat.getFont(
+                                        requireContext(),
+                                        R.font.roboto_light
+                                    )
+                                    interpretationText.text = interpretation + affirmText
+                                    if (layoutId == 1) {
+                                        viewModel.getSingleRuneData(newUserLayout[1])
+                                        viewModel.singleRune.observe(viewLifecycleOwner) { name ->
+                                            singleRuneName.text = name
+                                        }
                                     }
                                 }
                                 val observer = binding.root.viewTreeObserver
@@ -1021,13 +1024,14 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                                                 R.id.right_text_guideline,
                                                 ConstraintSet.END
                                             )
-                                            binding.text.textAlignment = Gravity.CENTER
-                                            binding.text.gravity = Gravity.CENTER
-                                            binding.text.setTextSize(
-                                                TypedValue.COMPLEX_UNIT_PX,
-                                                littleTextSize
-                                            )
-
+                                            with(binding) {
+                                                text.textAlignment = View.TEXT_ALIGNMENT_CENTER
+                                                text.gravity = Gravity.CENTER
+                                                text.setTextSize(
+                                                    TypedValue.COMPLEX_UNIT_PX,
+                                                    littleTextSize
+                                                )
+                                            }
                                             val secondFont = ResourcesCompat.getFont(
                                                 requireContext(),
                                                 R.font.roboto_medium
@@ -1039,18 +1043,21 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
                                                 )
                                             )
                                             val fortune = getLuckLevel(singleRuneAuspiciousness)
-                                            binding.text.text = HtmlCompat.fromHtml(
-                                                "${requireContext().resources.getString(R.string.layout_interpretation_ausf)} - $fortune",
-                                                FROM_HTML_MODE_LEGACY,
-                                                null,
-                                                InterTagHandler(secondFont!!)
-                                            )
 
-                                            binding.text.isVisible = false
-                                            constraintsSet.applyTo(binding.interpretationLayout)
-                                        } else {
-                                            binding.singleRuneName.isVisible = false
-                                        }
+                                            with(binding) {
+                                                text.text = HtmlCompat.fromHtml(
+                                                    "${requireContext().resources.getString(R.string.layout_interpretation_ausf)} : $fortune",
+                                                    FROM_HTML_MODE_LEGACY,
+                                                    null,
+                                                    InterTagHandler(secondFont!!)
+                                                )
+                                                text.isVisible = false
+                                                constraintsSet.applyTo(binding.interpretationLayout)
+                                            }
+                                            } else {
+                                                binding.singleRuneName.isVisible = false
+                                            }
+                                            
                                         screenHeight = binding.root.height
                                         val minSize = screenHeight - binding.interFrame.top
                                         var flag = false
@@ -1110,12 +1117,13 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
 
                 viewModel.selectedRune.observe(viewLifecycleOwner) {
                     if (it != null) {
-                        binding.runeName.text = it.runeName
-                        binding.runeDescription.setTextSize(
-                            TypedValue.COMPLEX_UNIT_PX,
-                            fontSize - 3f
-                        )
-                        binding.runeDescription.text = "\n" + it.fullDescription
+                        with(binding) {
+                            runeName.text = it.runeName
+                            runeDescription.setTextSize(
+                                TypedValue.COMPLEX_UNIT_PX,
+                                fontSize - 3f
+                            )
+                            runeDescription.text = "\n" + it.fullDescription
 //                        val secondFont =
 //                            ResourcesCompat.getFont(requireContext(), R.font.roboto_medium)
 //                        binding.runeAusf.text = HtmlCompat.fromHtml(
@@ -1124,6 +1132,7 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
 //                            null,
 //                            InterTagHandler(secondFont!!)
 //                        )
+                        }
                     }
                 }
             }
@@ -1146,11 +1155,12 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
             }
 
         }
-        binding.runeDescriptionScroll.setOnTouchListener(swipeListener)
-        binding.runeDescriptionBack.setOnTouchListener(swipeListener)
-
-        binding.checkboxText.setOnClickListener(this)
-        binding.sacrificeButtonImg.setOnClickListener(this)
+        with(binding) {
+            runeDescriptionScroll.setOnTouchListener(swipeListener)
+            runeDescriptionBack.setOnTouchListener(swipeListener)
+        }
+            binding.checkboxText.setOnClickListener(this)
+            binding.sacrificeButtonImg.setOnClickListener(this)
 
         view.isFocusableInTouchMode = true
         view.requestFocus()
@@ -1176,8 +1186,8 @@ class LayoutInterpretationFragment : Fragment(R.layout.fragment_layout_interpret
     private fun getLuckLevel(percent: Int): String {
         var luckLevel = ""
         when (percent) {
-            in 0..19 -> luckLevel = requireContext().resources.getString(R.string.luck_next_time)
-            in 20..40 -> luckLevel = requireContext().resources.getString(R.string.luck_is_close)
+            in 0..20 -> luckLevel = requireContext().resources.getString(R.string.luck_next_time)
+            in 21..40 -> luckLevel = requireContext().resources.getString(R.string.luck_is_close)
             in 41..69 -> luckLevel = requireContext().resources.getString(R.string.today_your_day)
             in 70..100 -> luckLevel = requireContext().resources.getString(R.string.lucky)
         }

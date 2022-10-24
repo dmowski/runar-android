@@ -60,11 +60,13 @@ class GeneratorStartFragment : Fragment() {
 
         with(binding) {
             btnRandom.setOnClickListener {
-                randomRunes()
+                if (shimmerLayout.visibility == View.GONE)
+                    randomRunes()
             }
 
             btnGenerate.setOnClickListener {
-                sentRunes()
+                if (shimmerLayout.visibility == View.GONE)
+                    sentRunes()
             }
         }
 
@@ -286,5 +288,10 @@ class GeneratorStartFragment : Fragment() {
         val direction = GeneratorStartFragmentDirections
             .actionGeneratorStartFragmentToGeneratorMagicRune()
         findNavController().navigate(direction)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

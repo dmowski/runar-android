@@ -21,7 +21,9 @@ class BackgroundAdapter(
         val itemView = inflater.inflate(R.layout.backgroung_generato_selected, parent, false)
         val holder = BackgroundViewHolder(itemView)
         itemView.setOnClickListener {
-            selectBackground(holder.adapterPosition)
+            if (list[holder.adapterPosition].img != null) {
+                selectBackground(holder.adapterPosition)
+            }
         }
         return holder
     }
@@ -34,9 +36,10 @@ class BackgroundAdapter(
 
         progressBar.visibility = if (list[position].img != null) View.GONE else View.VISIBLE
         img.setImageBitmap(list[position].img)
-        checkBox.visibility = if (list[position].isSelected) View.VISIBLE else View.GONE
+        checkBox.visibility =
+            if (list[position].isSelected && list[position].img != null) View.VISIBLE else View.GONE
         frameLayout.setBackgroundResource(
-            if (list[position].isSelected) R.drawable.backround_background_selected
+            if (list[position].isSelected && list[position].img != null) R.drawable.backround_background_selected
             else R.drawable.backround_background
         )
     }

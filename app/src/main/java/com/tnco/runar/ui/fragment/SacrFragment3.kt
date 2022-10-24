@@ -26,19 +26,29 @@ class SacrFragment3 : Fragment(R.layout.fragment_layout_sacr_3), View.OnClickLis
         viewModel.fontSize.observe(viewLifecycleOwner) { textSize ->
             fontSize = textSize
             val headerTextSize = (textSize * 3)
-            binding.descriptionHeaderFrame.setTextSize(TypedValue.COMPLEX_UNIT_PX, headerTextSize)
-            binding.cardButton.setTextSize(
-                TypedValue.COMPLEX_UNIT_PX,
-                (textSize * 1.4 * 1.2).toFloat()
-            )
-            binding.resultTw.setTextSize(
-                TypedValue.COMPLEX_UNIT_PX,
-                (textSize * 0.8 * 1.2).toFloat()
-            )
+            with(binding) {
+                descriptionHeaderFrame.setTextSize(
+                    TypedValue.COMPLEX_UNIT_PX,
+                    headerTextSize
+                )
+                cardButton.setTextSize(
+                    TypedValue.COMPLEX_UNIT_PX,
+                    (textSize * 1.4 * 1.2).toFloat()
+                )
+                resultTw.setTextSize(
+                    TypedValue.COMPLEX_UNIT_PX,
+                    (textSize * 0.8 * 1.2).toFloat()
+                )
+            }
         }
     }
 
     override fun onClick(v: View?) {
         TODO("Not yet implemented")
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
