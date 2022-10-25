@@ -91,10 +91,18 @@ class OnboardActivity : AppCompatActivity() {
             )
             models.add(
                 OnboardGuideElementModel(
-                    getString(R.string.onboard_begin),
+                    getString(R.string.onboard_next),
                     getString(R.string.onboard_header5),
                     getString(R.string.onboard_text5),
                     R.drawable.onboard_5
+                )
+            )
+            models.add(
+                OnboardGuideElementModel(
+                    getString(R.string.onboard_begin),
+                    getString(R.string.onboard_header6),
+                    getString(R.string.onboard_text6),
+                    R.drawable.onboard_6
                 )
             )
 
@@ -117,6 +125,7 @@ class OnboardActivity : AppCompatActivity() {
                     2 -> AnalyticsHelper.sendEvent(AnalyticsEvent.OB_INTERPRETATION_OPENED)
                     3 -> AnalyticsHelper.sendEvent(AnalyticsEvent.OB_FAVOURITES_OPENED)
                     4 -> AnalyticsHelper.sendEvent(AnalyticsEvent.OB_LIBRARY_OPENED)
+                    5 -> AnalyticsHelper.sendEvent(AnalyticsEvent.OB_GENERATOR_OPENED)
                 }
                 currentPosition = position
             }
@@ -128,7 +137,7 @@ class OnboardActivity : AppCompatActivity() {
         viewModel.currentPosition.observe(this) {
             binding.viewPager.setCurrentItem(it, true)
             changeSelectionCircle(it)
-            binding.skipButton.isVisible = it != 4
+            binding.skipButton.isVisible = it != 5
         }
         viewModel.end.observe(this) {
             if (it == true) {
@@ -138,7 +147,7 @@ class OnboardActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if (currentPosition in 1..4) {
+        if (currentPosition in 1..5) {
             viewModel.changeCurrentPosition(currentPosition - 1)
         } else {
             super.onBackPressed()
