@@ -67,5 +67,10 @@
             android:layout_height="8dp"
             android:layout_margin="6dp"
             android:src="@drawable/ic_point_deselected"/>
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="8dp"
+            android:layout_height="8dp"
+            android:layout_margin="6dp"
+            android:src="@drawable/ic_point_deselected"/>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
