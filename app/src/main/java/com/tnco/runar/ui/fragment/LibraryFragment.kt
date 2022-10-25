@@ -90,7 +90,6 @@ private fun ItemData(scrollState: ScrollState) {
     val fontSize by viewModel.fontSize.observeAsState()
     val menuData by viewModel.menuData.observeAsState()
     viewModel.updateLastMenuHeader(stringResource(id = R.string.library_top_bar_header))
-
     viewModel.firstMenuDataCheck()
 
     if (menuData != null) {
@@ -124,6 +123,7 @@ private fun ItemData(scrollState: ScrollState) {
                     clickAction = {
                         viewModel.addScrollPositionHistory(scrollState.value)
                         CoroutineScope(Dispatchers.IO).launch {
+                            delay(100)
                             scrollState.scrollTo(0)
                         }
                         viewModel.updateMenuData(item.id)
@@ -158,8 +158,8 @@ private fun ItemData(scrollState: ScrollState) {
     viewModel.scrollPositionHistory.observe(LocalLifecycleOwner.current) {
         CoroutineScope(Dispatchers.IO).launch {
             if (it.last() == 9999) {
-                delay(50)
-                scrollState.scrollTo(it[it.size - 2])
+                delay(450)
+                scrollState.scrollTo(it[2])
                 viewModel.removeLastScrollPositionHistory()
                 viewModel.removeLastScrollPositionHistory()
             }
@@ -209,9 +209,9 @@ private fun Bars() {
         backgroundColor = colorResource(id = R.color.library_top_bar_2)
     ) { paddingValues ->
         val scrollState = rememberScrollState()
-        if (tabsState.value && audioFeature)
+        if (tabsState.value && audioFeature) {
             TabScreen(pagerState, scrollState, fontSize)
-        else {
+        } else {
             Column(Modifier.verticalScroll(state = scrollState, enabled = true)) {
                 ItemData(scrollState)
                 Box(modifier = Modifier.aspectRatio(15f, true))
@@ -277,7 +277,6 @@ fun Tabs(pagerState: PagerState, fontSize: Float?) {
     val list = listOf(R.string.library_tab_books, R.string.library_tab_audio)
 
     val scope = rememberCoroutineScope()
-
     TabRow(selectedTabIndex = pagerState.currentPage,
         backgroundColor = colorResource(id = R.color.library_top_bar),
         contentColor = colorResource(id = R.color.library_top_bar_header_2),
