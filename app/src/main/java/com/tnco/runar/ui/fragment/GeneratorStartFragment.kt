@@ -1,5 +1,6 @@
 package com.tnco.runar.ui.fragment
 
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import coil.load
 import com.tnco.runar.R
 import com.tnco.runar.analytics.AnalyticsHelper
+import com.tnco.runar.data.remote.NetworkResult
 import com.tnco.runar.databinding.FragmentGeneratorStartBinding
 import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.model.RunesItemsModel
@@ -21,6 +23,7 @@ import com.tnco.runar.repository.SharedPreferencesRepository
 import com.tnco.runar.ui.activity.MainActivity
 import com.tnco.runar.ui.adapter.RunesGeneratorAdapter
 import com.tnco.runar.ui.viewmodel.MainViewModel
+import com.tnco.runar.util.InternalDeepLink
 import com.tnco.runar.util.observeOnce
 import kotlinx.coroutines.launch
 import java.util.*
@@ -41,8 +44,6 @@ class GeneratorStartFragment : Fragment() {
     ): View {
         _binding = FragmentGeneratorStartBinding.inflate(inflater, container, false)
 
-        onStartShimmering()
-
         binding.arrowBack.setOnClickListener {
             findNavController().popBackStack()
         }
@@ -51,7 +52,14 @@ class GeneratorStartFragment : Fragment() {
         mViewModel = ViewModelProvider(requireActivity())[MainViewModel::class.java]
         setupRecyclerView()
         //readDatabase()
-        requestApiData()
+
+        mViewModel.isNetworkAvailable.observeOnce(viewLifecycleOwner) { status ->
+            if (status) {
+                requestApiData()
+            } else {
+                showInternetConnectionError()
+            }
+        }
         return binding.root
     }
 
@@ -150,13 +158,19 @@ class GeneratorStartFragment : Fragment() {
     private fun requestApiData() {
         listAllIds.clear()
         mViewModel.getRunes()
-        mViewModel.runesResponse.observe(viewLifecycleOwner) { listRunes ->
-            if (listRunes.isNotEmpty()) {
-                onStopShimmering()
-                mAdapter.setData(listRunes)
-                listRunes.forEach {
-                    listAllIds.add(it.id)
+        mViewModel.runesResponse.observe(viewLifecycleOwner) { response ->
+            when (response) {
+                is NetworkResult.Success -> {
+                    if (response.data!!.isNotEmpty()) {
+                        onStopShimmering()
+                        mAdapter.setData(response.data)
+                        response.data.forEach {
+                            listAllIds.add(it.id)
+                        }
+                    }
                 }
+                is NetworkResult.Error -> showInternetConnectionError()
+                is NetworkResult.Loading -> onStartShimmering()
             }
         }
     }
@@ -288,6 +302,13 @@ class GeneratorStartFragment : Fragment() {
         val direction = GeneratorStartFragmentDirections
             .actionGeneratorStartFragmentToGeneratorMagicRune()
         findNavController().navigate(direction)
+    }
+
+    private fun showInternetConnectionError() {
+        val topMostDestinationToRetry = R.id.generatorFragment
+        val uri = Uri.parse(InternalDeepLink.ConnectivityErrorFragment
+            .withArgs("$topMostDestinationToRetry"))
+        findNavController().navigate(uri)
     }
 
     override fun onDestroyView() {

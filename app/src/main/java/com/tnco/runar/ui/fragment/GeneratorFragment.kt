@@ -35,33 +35,12 @@ class GeneratorFragment : Fragment() {
         }
 
         binding.generatorStav.setOnClickListener {
-            checkInternetConnection()
+            val direction = GeneratorFragmentDirections
+                .actionGeneratorFragmentToGeneratorStartFragment()
+            findNavController().navigate(direction)
         }
 
         return binding.root
-    }
-
-    private fun checkInternetConnection() {
-        viewModel.isNetworkAvailable.observeOnce(viewLifecycleOwner) { status ->
-            if (status) {
-                moveToNextStep()
-            } else {
-                showInternetConnectionError()
-            }
-        }
-    }
-
-    private fun moveToNextStep() {
-        val direction = GeneratorFragmentDirections
-            .actionGeneratorFragmentToGeneratorStartFragment()
-        findNavController().navigate(direction)
-    }
-
-    private fun showInternetConnectionError() {
-        val topMostDestinationToRetry = R.id.generatorFragment
-        val uri = Uri.parse(InternalDeepLink.ConnectivityErrorFragment
-            .withArgs("$topMostDestinationToRetry"))
-        findNavController().navigate(uri)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

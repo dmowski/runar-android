@@ -8,11 +8,13 @@ import com.tnco.runar.repository.SharedPreferencesRepository
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Log
+import com.tnco.runar.data.remote.RunesResponse
 import com.tnco.runar.retrofit.BackgroundInfo
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
+import retrofit2.Response
 import java.lang.Exception
 import java.util.*
 
@@ -82,15 +84,8 @@ object BackendRepository {
     }
 
 
-    suspend fun getRunes(): List<RunesItemsModel> {
-        val response = RetrofitClient.apiInterfaceGenerator.getRunes()
-        if (response.isSuccessful) {
-            val convertedResult =
-                DataClassConverters.runesRespToItems(response.body()!!)
-            DatabaseRepository.updateRunesGeneratorDB(convertedResult)
-            return convertedResult
-        }
-        return listOf(RunesItemsModel())
+    suspend fun getRunes(): Response<List<RunesResponse>> {
+        return RetrofitClient.apiInterfaceGenerator.getRunes()
     }
 
 

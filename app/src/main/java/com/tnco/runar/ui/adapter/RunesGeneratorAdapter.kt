@@ -22,7 +22,6 @@ class RunesGeneratorAdapter(
 
         fun bind(rune: RunesItemsModel) {
             binding.rune = rune
-            binding.executePendingBindings()
         }
 
         companion object {
