@@ -55,6 +55,4 @@ class BackgroundAdapter(
     }
 }
 
-class BackgroundViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
-}
+class BackgroundViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)

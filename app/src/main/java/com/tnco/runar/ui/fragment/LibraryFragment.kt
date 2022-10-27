@@ -1,7 +1,9 @@
 package com.tnco.runar.ui.fragment
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -54,16 +56,23 @@ class LibraryFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         AnalyticsHelper.sendEvent(AnalyticsEvent.LIBRARY_OPENED)
+
+        val noInternet = getString(R.string.internet_conn_error)
+        if (viewModel.isCacheEmpty(requireContext())
+            && !viewModel.isOnline(requireContext())
+        )
+            Toast.makeText(requireContext(), noInternet, Toast.LENGTH_SHORT).show()
+
         val view = ComposeView(requireContext()).apply {
             setContent {
                 Bars()
             }
         }
+
         var header = getString(R.string.library_top_bar_header)
         viewModel.lastMenuHeader.observe(viewLifecycleOwner) {
             header = it
         }
-
 
         view.isFocusableInTouchMode = true
         view.requestFocus()
@@ -83,90 +92,7 @@ class LibraryFragment : Fragment() {
     }
 }
 
-@ExperimentalPagerApi
-@Composable
-private fun ItemData(scrollState: ScrollState) {
-    val viewModel: LibraryViewModel = viewModel()
-    val fontSize by viewModel.fontSize.observeAsState()
-    val menuData by viewModel.menuData.observeAsState()
-    viewModel.updateLastMenuHeader(stringResource(id = R.string.library_top_bar_header))
-
-    viewModel.firstMenuDataCheck()
-
-    if (menuData != null) {
-        for (item in menuData!!) {
-            if (item.imageUrl.isNullOrEmpty()) item.imageUrl = ""
-            when (item.type) {
-                "root" -> {
-                    FirstMenuItem(
-                        fontSize = fontSize!!,
-                        header = item.title!!,
-                        text = item.content!!,
-                        imgLink = item.imageUrl!!,
-                        clickAction = {
-                            AnalyticsHelper.sendEvent(
-                                AnalyticsEvent.LIBRARY_SECTION_OPENED,
-                                Pair(AnalyticsConstants.SECTION, item.title!!)
-                            )
-                            viewModel.addScrollPositionHistory(scrollState.value)
-                            CoroutineScope(Dispatchers.IO).launch {
-                                scrollState.scrollTo(0)
-                            }
-                            viewModel.updateMenuData(item.id)
-                        }
-                    )
-                }
-
-                "subMenu" -> SecondMenuItem(
-                    fontSize = fontSize!!,
-                    header = item.title!!,
-                    imgLink = item.imageUrl!!,
-                    clickAction = {
-                        viewModel.addScrollPositionHistory(scrollState.value)
-                        CoroutineScope(Dispatchers.IO).launch {
-                            scrollState.scrollTo(0)
-                        }
-                        viewModel.updateMenuData(item.id)
-                    }
-                )
-                "poem" -> ThirdMenuItem(
-                    fontSize = fontSize!!,
-                    text = item.content!!,
-                    title = item.title!!
-                )
-                "plainText" -> SimpleTextItem(
-                    fontSize = fontSize!!,
-                    text = item.content,
-                    urlTitle = item.linkTitle,
-                    urlLink = item.linkUrl
-                )
-                "rune" -> {
-                    var imgUrl = " "
-                    if (item.imageUrl != null) imgUrl = item.imageUrl!!
-                    RuneDescription(
-                        fontSize = fontSize!!,
-                        header = item.title!!,
-                        text = item.content!!,
-                        imgLink = imgUrl,
-                        runeTags = item.runeTags!!
-                    )
-                }
-            }
-        }
-    }
-
-    viewModel.scrollPositionHistory.observe(LocalLifecycleOwner.current) {
-        CoroutineScope(Dispatchers.IO).launch {
-            if (it.last() == 9999) {
-                delay(50)
-                scrollState.scrollTo(it[it.size - 2])
-                viewModel.removeLastScrollPositionHistory()
-                viewModel.removeLastScrollPositionHistory()
-            }
-        }
-    }
-}
-
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @ExperimentalPagerApi
 @Composable
 private fun Bars() {
@@ -207,7 +133,7 @@ private fun Bars() {
             )
         },
         backgroundColor = colorResource(id = R.color.library_top_bar_2)
-    ) { paddingValues ->
+    ) {
         val scrollState = rememberScrollState()
         if (tabsState.value && audioFeature)
             TabScreen(pagerState, scrollState, fontSize)
@@ -218,6 +144,104 @@ private fun Bars() {
             }
         }
     }
+}
+
+@ExperimentalPagerApi
+@Composable
+private fun ItemData(scrollState: ScrollState) {
+    val viewModel: LibraryViewModel = viewModel()
+    val fontSize by viewModel.fontSize.observeAsState()
+    val menuData by viewModel.menuData.observeAsState()
+    viewModel.updateLastMenuHeader(stringResource(id = R.string.library_top_bar_header))
+
+    viewModel.firstMenuDataCheck()
+
+    if (menuData != null) {
+        for (item in menuData!!) {
+            if (item.imageUrl.isNullOrEmpty())
+                item.imageUrl = ""
+
+            when (item.type) {
+                "root" -> {
+                    FirstMenuItem(
+                        fontSize = fontSize!!,
+                        header = item.title!!,
+                        text = item.content!!,
+                        imgLink = item.imageUrl!!,
+                        clickAction = {
+                            AnalyticsHelper.sendEvent(
+                                AnalyticsEvent.LIBRARY_SECTION_OPENED,
+                                Pair(AnalyticsConstants.SECTION, item.title!!)
+                            )
+                            viewModel.addScrollPositionHistory(scrollState.value)
+                            CoroutineScope(Dispatchers.IO).launch {
+                                scrollState.scrollTo(0)
+                            }
+                            viewModel.updateMenuData(item.id)
+                        }
+                    )
+                }
+
+                "subMenu" -> {
+                    SecondMenuItem(
+                        fontSize = fontSize!!,
+                        header = item.title!!,
+                        imgLink = item.imageUrl!!,
+                        clickAction = {
+                            viewModel.addScrollPositionHistory(scrollState.value)
+                            CoroutineScope(Dispatchers.IO).launch {
+                                scrollState.scrollTo(0)
+                            }
+                            viewModel.updateMenuData(item.id)
+                        }
+                    )
+                }
+
+                "poem" -> ThirdMenuItem(
+                    fontSize = fontSize!!,
+                    text = item.content!!,
+                    title = item.title!!
+                )
+
+                "plainText" -> SimpleTextItem(
+                    fontSize = fontSize!!,
+                    text = item.content,
+                    urlTitle = item.linkTitle,
+                    urlLink = item.linkUrl
+                )
+
+                "rune" -> {
+                    RuneDescription(
+                        fontSize = fontSize!!,
+                        header = item.title!!,
+                        text = item.content!!,
+                        imgLink = item.imageUrl!!,
+                        runeTags = item.runeTags!!
+                    )
+                }
+            }
+        }
+    }
+
+    viewModel.scrollPositionHistory.observe(LocalLifecycleOwner.current) {
+        CoroutineScope(Dispatchers.IO).launch {
+            if (it.last() == 9999) {
+                delay(50)
+                scrollState.scrollTo(it[it.size - 2])
+                viewModel.removeLastScrollPositionHistory()
+                viewModel.removeLastScrollPositionHistory()
+            }
+        }
+    }
+}
+
+@Composable
+private fun CircularProgressBar() {
+    CircularProgressIndicator(
+        modifier = Modifier.size(37.dp),
+        color = Color.Gray,
+        strokeWidth = 3.dp,
+    )
 }
 
 @Composable
@@ -340,6 +364,7 @@ private fun FirstMenuItem(
     imgLink: String,
     clickAction: () -> Unit
 ) {
+    if (imgLink == "") CircularProgressBar()
     Row(
         Modifier
             .aspectRatio(3.8f, true)
@@ -433,6 +458,7 @@ private fun SecondMenuItem(
     clickAction: () -> Unit
 ) {
     if (imgLink.isEmpty()) {
+        CircularProgressBar()
         Row(
             Modifier
                 .fillMaxSize()
@@ -704,6 +730,7 @@ private fun RuneDescription(
     imgLink: String,
     runeTags: List<String>
 ) {
+    if (imgLink == "") CircularProgressBar()
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
