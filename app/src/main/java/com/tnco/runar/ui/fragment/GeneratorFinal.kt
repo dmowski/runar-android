@@ -188,6 +188,7 @@ class GeneratorFinal : Fragment() {
             "generator_final",
             getString(R.string.description_generator_popup)
         ) {
+            requireActivity().viewModelStore.clear()
             val direction = GeneratorFinalDirections.actionGlobalGeneratorFragment()
             findNavController().navigate(direction)
         }

@@ -1,20 +1,25 @@
 package com.tnco.runar.ui.fragment
 
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.addCallback
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.tnco.runar.R
 import com.tnco.runar.analytics.AnalyticsHelper
+import com.tnco.runar.data.remote.NetworkResult
 import com.tnco.runar.databinding.RunePatternGeneratorBinding
 import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.ui.component.dialog.CancelDialog
 import com.tnco.runar.ui.viewmodel.MainViewModel
+import com.tnco.runar.util.InternalDeepLink
+import com.tnco.runar.util.observeOnce
 
 class RunePatternGenerator : Fragment() {
 
@@ -33,7 +38,7 @@ class RunePatternGenerator : Fragment() {
                 "rune_pattern_generator",
                 getString(R.string.description_generator_popup)
             ) {
-                viewModel.cancelChildrenCoroutines()
+                requireActivity().viewModelStore.clear()
                 val direction = RunePatternGeneratorDirections.actionGlobalGeneratorFragment()
                 findNavController().navigate(direction)
             }
@@ -55,39 +60,75 @@ class RunePatternGenerator : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         AnalyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_PATTERN_CREATED)
 
-        viewModel.runeImagesReady.observe(viewLifecycleOwner, Observer {
-            if (it && !firstImageWasReady && viewModel.runesImages.size > 0) {
-                binding.imageRune?.setImageBitmap(viewModel.runesImages[0])
-                binding.nextType?.visibility = View.VISIBLE
+        viewModel.isNetworkAvailable.observeOnce(viewLifecycleOwner) { status ->
+            if (status) {
+                observeRunesImages()
+            } else {
+                showInternetConnectionError()
             }
-        })
-
-        if (viewModel.runesImages.size > 0) {
-            binding.imageRune?.setImageBitmap(viewModel.runesImages[0])
-            binding.nextType?.visibility = View.VISIBLE
-            firstImageWasReady = true
-        } else {
-            firstImageWasReady = false
-            binding.nextType?.visibility = View.INVISIBLE
-            binding.imageRune?.setImageResource(R.drawable.generator_hourglass)
         }
 
-
         binding.nextType.setOnClickListener {
-            AnalyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_PATTERN_NEW_TYPE)
-            viewModel.selectedRuneIndex += 1
-            if (viewModel.selectedRuneIndex > viewModel.runesImages.size - 1) {
-                viewModel.selectedRuneIndex = 0
+            if (viewModel.runesImages.isNotEmpty()) {
+                AnalyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_PATTERN_NEW_TYPE)
+                viewModel.selectedRuneIndex += 1
+                if (viewModel.selectedRuneIndex > viewModel.runesImages.size - 1) {
+                    viewModel.selectedRuneIndex = 0
+                }
+                binding.imageRune.setImageBitmap(viewModel.runesImages[viewModel.selectedRuneIndex])
             }
-            binding.imageRune.setImageBitmap(viewModel.runesImages[viewModel.selectedRuneIndex])
         }
 
         binding.buttonSelect.setOnClickListener {
-            viewModel.cancelChildrenCoroutines()
-            val direction = RunePatternGeneratorDirections
-                .actionRunePatternGeneratorToGeneratorBackground()
-            findNavController().navigate(direction)
+            if (viewModel.runesImages.isNotEmpty()) {
+                viewModel.cancelChildrenCoroutines()
+                val direction = RunePatternGeneratorDirections
+                    .actionRunePatternGeneratorToGeneratorBackground()
+                findNavController().navigate(direction)
+            }
         }
+    }
+
+    private fun observeRunesImages() {
+        viewModel.runesImagesResponse.observe(viewLifecycleOwner) { response ->
+            when (response) {
+                is NetworkResult.Success -> {
+                    if (response.data?.isNotEmpty() == true && !firstImageWasReady) {
+                        firstImageWasReady = true
+                        binding.progressBar.visibility = View.GONE
+                        binding.imageRune.visibility = View.VISIBLE
+                        binding.nextType.visibility = View.VISIBLE
+                        binding.buttonSelect.background = ResourcesCompat.getDrawable(
+                            resources,
+                            R.drawable.generator_button_background_deselected,
+                            null)
+                        binding.buttonSelect.setTextColor(
+                            resources.getColor(R.color.background_next, null)
+                        )
+                        binding.imageRune.setImageBitmap(viewModel.runesImages[0])
+                    }
+                }
+                is NetworkResult.Error -> {
+                    if (!firstImageWasReady) {
+                        showInternetConnectionError()
+                    }
+                }
+                is NetworkResult.Loading -> {
+                    binding.imageRune.visibility = View.GONE
+                    binding.progressBar.visibility = View.VISIBLE
+                }
+            }
+        }
+    }
+
+    private fun showInternetConnectionError() {
+        requireActivity().viewModelStore.clear()
+        val topMostDestinationToRetry = R.id.generatorFragment
+        val uri = Uri.parse(
+            InternalDeepLink.ConnectivityErrorFragment
+                .withArgs("$topMostDestinationToRetry")
+        )
+        findNavController().navigate(uri)
     }
 
     override fun onDestroyView() {

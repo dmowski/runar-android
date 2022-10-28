@@ -67,8 +67,8 @@
         android:gravity="center_horizontal"
         android:fontFamily="@font/amatic_sc_bold"
         app:autoSizeTextType="uniform"
-        android:background="@drawable/generator_button_background_deselected"
-        android:textColor="@color/background_next"
+        android:background="@drawable/next_type"
+        android:textColor="@color/layout_desc_deselected"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/lineEnd"
         app:layout_constraintStart_toStartOf="@+id/lineStart"
@@ -123,6 +123,18 @@
             app:layout_constraintTop_toTopOf="@+id/lineImgTop"
             tools:srcCompat="@tools:sample/avatars" />
 
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_centerInParent="true"
+            android:indeterminateTint="#EFCD93"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/lineImgBottom"
+            app:layout_constraintEnd_toEndOf="@+id/lineImgEnd"
+            app:layout_constraintStart_toStartOf="@+id/lineImgStart"
+            app:layout_constraintTop_toTopOf="@+id/lineImgTop"/>
+
         <TextView
             android:id="@+id/next_type"
             android:layout_width="0dp"
@@ -136,7 +148,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/lineImgEnd"
             app:layout_constraintStart_toStartOf="@+id/lineImgStart"
-            app:layout_constraintTop_toTopOf="@+id/lineImgBottom" />
+            app:layout_constraintTop_toTopOf="@+id/lineImgBottom"
+            android:visibility="gone"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

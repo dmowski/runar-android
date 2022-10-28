@@ -13,9 +13,9 @@ object RetrofitClient {
     private const val GeneratorServer ="https://runar-generator-api.herokuapp.com/"
 
     private val client = OkHttpClient.Builder()
-        .connectTimeout(5, TimeUnit.MINUTES)
-        .writeTimeout(5, TimeUnit.MINUTES)
-        .readTimeout(5, TimeUnit.MINUTES)
+        .connectTimeout(40, TimeUnit.SECONDS)
+        .writeTimeout(40, TimeUnit.SECONDS)
+        .readTimeout(40, TimeUnit.SECONDS)
         .build()
 
     private val retrofitClient: Retrofit = Retrofit.Builder()

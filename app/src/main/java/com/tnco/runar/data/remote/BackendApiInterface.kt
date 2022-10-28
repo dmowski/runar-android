@@ -18,12 +18,12 @@ interface BackendApiInterface {
 
     // Берём список узоров из рун
     @GET("empty-wallpapers/{stringPath}")
-    suspend fun getRunePattern(@Path("stringPath") stringPath: String): List<String>
+    suspend fun getRunePattern(@Path("stringPath") stringPath: String): Response<List<String>>
 
     @GET("empty-wallpapers/{numberPath}/{imgPath}")
     suspend fun getRunePatternImage(@Path("numberPath") numberPath: String,
                                     @Path("imgPath") imgPath: String
-    ) : ResponseBody
+    ) : Response<ResponseBody>
 
     // Берём список фонов
     @GET("https://runar-generator-api.herokuapp.com/api/v1/wallpapersStyles")

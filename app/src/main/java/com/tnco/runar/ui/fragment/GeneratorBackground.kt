@@ -155,7 +155,7 @@ class GeneratorBackground : Fragment() {
             "generator_background",
             getString(R.string.description_generator_popup)
         ) {
-            viewModel.cancelChildrenCoroutines()
+            requireActivity().viewModelStore.clear()
             val direction = GeneratorBackgroundDirections.actionGlobalGeneratorFragment()
             findNavController().navigate(direction)
         }

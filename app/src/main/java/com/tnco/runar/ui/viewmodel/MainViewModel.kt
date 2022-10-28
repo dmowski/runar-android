@@ -1,24 +1,23 @@
 package com.tnco.runar.ui.viewmodel
 
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Build
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import com.tnco.runar.data.remote.UserInfo
-import com.tnco.runar.repository.backend.BackendRepository
 import android.util.Log
 import androidx.lifecycle.*
 import com.tnco.runar.data.remote.NetworkResult
 import com.tnco.runar.data.remote.RunesResponse
+import com.tnco.runar.data.remote.UserInfo
 import com.tnco.runar.model.RunesItemsModel
 import com.tnco.runar.repository.DatabaseRepository
 import com.tnco.runar.repository.SharedDataRepository
 import com.tnco.runar.repository.SharedPreferencesRepository
+import com.tnco.runar.repository.backend.BackendRepository
 import com.tnco.runar.repository.backend.DataClassConverters
 import com.tnco.runar.retrofit.BackgroundInfo
 import com.tnco.runar.util.NetworkMonitor
 import kotlinx.coroutines.*
+import okhttp3.ResponseBody
 import retrofit2.Response
 
 class MainViewModel : ViewModel() {
@@ -37,6 +36,7 @@ class MainViewModel : ViewModel() {
 
     val runePattern = mutableListOf<String>()
     val runesImages = mutableListOf<Bitmap>()
+    val runesImagesResponse = MutableLiveData<NetworkResult<List<Bitmap>>>()
     var selectedRuneIndex = 0
 
     var shareURL = ""
@@ -52,7 +52,6 @@ class MainViewModel : ViewModel() {
     }
 
     var runesSelected: String = ""
-    val runeImagesReady = MutableLiveData<Boolean>(false)
 
     fun identify() {
         val userId = preferencesRepository.userId
@@ -78,25 +77,33 @@ class MainViewModel : ViewModel() {
         }
 
     fun getRunePattern() = viewModelScope.launch(Dispatchers.IO) {
-            runePattern.clear()
-            runesImages.clear()
-            backgroundInfo.value?.clear()
+        runePattern.clear()
 
-            val newPatterns = BackendRepository.getRunePattern(runesSelected)
-            for (p in newPatterns){
-                val runeNumber = p.substringAfterLast('/')
-                runePattern.add(runeNumber)
-            }
-            Log.d("!!! runePattern",runePattern.toString())
-            for (imgPath in runePattern){
-                val image = BackendRepository.getRuneImage(runesSelected,imgPath)
-                if (image != null) {
-                    runesImages.add(image)
-                }
-            }
-            runeImagesReady.postValue(true)
-            Log.d("!!! runesImages",runesImages.toString())
+        try {
+            val response = BackendRepository.getRunePattern(runesSelected)
+            handleRunePatternResponse(response)
+        } catch (e: Exception) {
+            getRuneImages()
         }
+    }
+
+    fun getRuneImages() = viewModelScope.launch(Dispatchers.IO) {
+        runesImages.clear()
+        runesImagesResponse.postValue(NetworkResult.Loading())
+
+        if (runePattern.isEmpty()) {
+            runesImagesResponse.postValue(NetworkResult.Error(""))
+        }
+
+        for (imgPath in runePattern) {
+            try {
+                val response = BackendRepository.getRuneImage(runesSelected, imgPath)
+                runesImagesResponse.postValue(handleRuneImagesResponse(response))
+            } catch (e: Exception) {
+                runesImagesResponse.postValue(NetworkResult.Error(e.toString()))
+            }
+        }
+    }
 
     fun cancelChildrenCoroutines() = viewModelScope.coroutineContext.cancelChildren()
 
@@ -109,6 +116,42 @@ class MainViewModel : ViewModel() {
                     DataClassConverters.runesRespToItems(response.body()!!)
                 DatabaseRepository.updateRunesGeneratorDB(convertedResult)
                 NetworkResult.Success(convertedResult)
+            }
+            else -> NetworkResult.Error(response.errorBody().toString())
+        }
+    }
+
+    private fun handleRunePatternResponse(
+        response: Response<List<String>>
+    ) {
+        if (response.isSuccessful) {
+            val newPatterns = response.body()!!
+            for (p in newPatterns) {
+                val runeNumber = p.substringAfterLast('/')
+                runePattern.add(runeNumber)
+                Log.d("MainViewModel", "runePattern: $p")
+            }
+        }
+        getRuneImages()
+    }
+
+    private fun handleRuneImagesResponse(
+        response: Response<ResponseBody>
+    ): NetworkResult<List<Bitmap>> {
+        return when {
+            response.isSuccessful -> {
+                val conf = Bitmap.Config.ARGB_8888
+                val opt = BitmapFactory.Options()
+                opt.inPreferredConfig = conf
+                val image = BitmapFactory.decodeStream(response.body()!!.byteStream(),null,opt)
+
+                if (image != null) {
+                    runesImages.add(image)
+                    Log.d("MainViewModel", "runesImages: $image")
+                    NetworkResult.Success(runesImages)
+                } else {
+                    NetworkResult.Success(emptyList())
+                }
             }
             else -> NetworkResult.Error(response.errorBody().toString())
         }

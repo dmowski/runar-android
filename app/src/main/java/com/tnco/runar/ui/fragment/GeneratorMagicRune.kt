@@ -38,7 +38,7 @@ class GeneratorMagicRune : Fragment() {
                 "generator_processing",
                 getString(R.string.description_generator_popup)
             ) {
-                viewModel.cancelChildrenCoroutines()
+                requireActivity().viewModelStore.clear()
                 val direction = GeneratorMagicRuneDirections.actionGlobalGeneratorFragment()
                 findNavController().navigate(direction)
             }
