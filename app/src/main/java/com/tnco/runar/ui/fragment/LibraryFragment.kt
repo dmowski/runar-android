@@ -34,6 +34,7 @@ import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.util.AnalyticsConstants
 import com.tnco.runar.ui.viewmodel.LibraryViewModel
+import com.tnco.runar.util.NetworkMonitor
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -58,8 +59,9 @@ class LibraryFragment : Fragment() {
         AnalyticsHelper.sendEvent(AnalyticsEvent.LIBRARY_OPENED)
 
         val noInternet = getString(R.string.internet_conn_error)
+        val netMonitor = NetworkMonitor(requireContext())
         if (viewModel.isCacheEmpty(requireContext())
-            && !viewModel.isOnline(requireContext())
+            && !netMonitor.isOnline(requireContext())
         )
             Toast.makeText(requireContext(), noInternet, Toast.LENGTH_SHORT).show()
 
@@ -197,18 +199,25 @@ private fun ItemData(scrollState: ScrollState) {
                     )
                 }
 
-                "poem" -> ThirdMenuItem(
-                    fontSize = fontSize!!,
-                    text = item.content!!,
-                    title = item.title!!
-                )
+                "poem" -> {
+                    ThirdMenuItem(
+                        fontSize = fontSize!!,
+                        text = item.content!!,
+                        title = item.title!!
+                    )
+                }
 
-                "plainText" -> SimpleTextItem(
-                    fontSize = fontSize!!,
-                    text = item.content,
-                    urlTitle = item.linkTitle,
-                    urlLink = item.linkUrl
-                )
+                "plainText" -> {
+                    if (item.imageUrl!!.isEmpty()) {
+                        CircularProgressBar()
+                    }
+                    SimpleTextItem(
+                        fontSize = fontSize!!,
+                        text = item.content,
+                        urlTitle = item.linkTitle,
+                        urlLink = item.linkUrl
+                    )
+                }
 
                 "rune" -> {
                     RuneDescription(
@@ -364,7 +373,9 @@ private fun FirstMenuItem(
     imgLink: String,
     clickAction: () -> Unit
 ) {
-    if (imgLink == "") CircularProgressBar()
+    if (imgLink.isEmpty()) {
+        CircularProgressBar()
+    }
     Row(
         Modifier
             .aspectRatio(3.8f, true)
@@ -459,150 +470,69 @@ private fun SecondMenuItem(
 ) {
     if (imgLink.isEmpty()) {
         CircularProgressBar()
-        Row(
+    }
+    Row(
+        Modifier
+            .fillMaxSize()
+            .clickable(onClick = clickAction)
+    ) {
+        Box(
             Modifier
                 .fillMaxSize()
-                .clickable(onClick = clickAction)
-        ) {
-            Box(
-                Modifier
-                    .fillMaxSize()
-                    .weight(16f)
-            )
-            Column(
-                Modifier
-                    .fillMaxSize()
-                    .weight(398f)
-            ) {
-                Box(
-                    Modifier
-                        .fillMaxSize()
-                        .aspectRatio(24f, true)
-                )
-                Row(
-                    Modifier
-                        .fillMaxSize(), verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = header,
-                        color = colorResource(id = R.color.library_item_header),
-                        fontFamily = FontFamily(Font(R.font.roboto_regular)),
-                        style = TextStyle(
-                            fontSize = with(LocalDensity.current) { fontSize.toSp() },
-                            lineHeight = with(LocalDensity.current) { ((fontSize * 1.4f)).toSp() }),
-                        modifier = Modifier
-                            .weight(320f)
-                            .fillMaxSize()
-                    )
-                    Box(
-                        Modifier
-                            .fillMaxSize()
-                            .weight(17f)
-                    )
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_right),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .background(Color(0x00000000))
-                            .fillMaxSize()
-                            .weight(10f)
-                    )
-                    Box(
-                        Modifier
-                            .fillMaxSize()
-                            .weight(16f)
-                    )
-                }
-                Box(
-                    Modifier
-                        .fillMaxSize()
-                        .aspectRatio(19f, true)
-                )
-                Divider(
-                    color = Color(0xA6545458)
-                )
-            }
-        }
-    } else {
-        Row(
+                .weight(16f)
+        )
+        Column(
             Modifier
-                .aspectRatio(3.8f, true)
-                .clickable(onClick = clickAction)
+                .fillMaxSize()
+                .weight(398f)
         ) {
             Box(
                 Modifier
                     .fillMaxSize()
-                    .weight(4f)
+                    .aspectRatio(24f, true)
             )
-            Column(
+            Row(
                 Modifier
-                    .fillMaxSize()
-                    .weight(398f)
+                    .fillMaxSize(), verticalAlignment = Alignment.CenterVertically
             ) {
+                Text(
+                    text = header,
+                    color = colorResource(id = R.color.library_item_header),
+                    fontFamily = FontFamily(Font(R.font.roboto_regular)),
+                    style = TextStyle(
+                        fontSize = with(LocalDensity.current) { fontSize.toSp() },
+                        lineHeight = with(LocalDensity.current) { ((fontSize * 1.4f)).toSp() }),
+                    modifier = Modifier
+                        .weight(320f)
+                        .fillMaxSize()
+                )
                 Box(
                     Modifier
                         .fillMaxSize()
-                        .weight(1f)
+                        .weight(17f)
                 )
-                Row(
-                    Modifier
+                Image(
+                    painter = painterResource(id = R.drawable.ic_right),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .background(Color(0x00000000))
                         .fillMaxSize()
-                        .weight(62f), verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Image(
-                        painter = rememberImagePainter(imgLink),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .background(Color(0x00000000))
-                            .padding(top = 5.dp, bottom = 5.dp)
-                            .weight(60f)
-                            .fillMaxSize()
-                    )
-                    Row(
-                        Modifier
-                            .fillMaxSize()
-                            .weight(277f)
-                            .padding(start = 15.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text(
-                            text = header,
-                            color = colorResource(id = R.color.library_item_header),
-                            fontFamily = FontFamily(Font(R.font.roboto_regular)),
-                            style = TextStyle(
-                                fontSize = with(LocalDensity.current) { fontSize.toSp() },
-                                fontWeight = FontWeight.Normal
-                            ),
-                            modifier = Modifier.padding(bottom = 2.dp)
-                        )
-                    }
-                    Box(
-                        Modifier
-                            .fillMaxSize()
-                            .weight(17f)
-                    )
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_right),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .background(Color(0x00000000))
-                            .weight(10f)
-                    )
-                    Box(
-                        Modifier
-                            .fillMaxSize()
-                            .weight(16f)
-                    )
-                }
+                        .weight(10f)
+                )
                 Box(
                     Modifier
                         .fillMaxSize()
-                        .weight(1f)
-                )
-                Divider(
-                    color = colorResource(id = R.color.divider)
+                        .weight(16f)
                 )
             }
+            Box(
+                Modifier
+                    .fillMaxSize()
+                    .aspectRatio(19f, true)
+            )
+            Divider(
+                color = Color(0xA6545458)
+            )
         }
     }
 }
