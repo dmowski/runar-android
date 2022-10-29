@@ -93,7 +93,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="128dp" />
+        app:layout_constraintGuide_percent="0.27916667" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/lineBottomRune"
@@ -122,9 +122,9 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="@id/lineBottomRune"
-        app:layout_constraintEnd_toEndOf="@id/lineEndRune"
+        app:layout_constraintEnd_toStartOf="@+id/lineEndRune"
         app:layout_constraintStart_toStartOf="@+id/lineStartRune"
-        app:layout_constraintTop_toTopOf="@+id/lineButtonGeneratorBottom">
+        app:layout_constraintTop_toTopOf="@+id/lineTopRune">
 
         <TextView
             android:id="@+id/tv_rune_1"
@@ -242,7 +242,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="268dp" />
+        app:layout_constraintGuide_percent="0.55" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="0dp"
@@ -293,7 +293,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.584" />
+        app:layout_constraintGuide_percent="0.5841996" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/lineRunesTop1"
@@ -320,9 +320,9 @@
         android:id="@+id/runes_recycler_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/lineBottomRunes"
-        app:layout_constraintEnd_toStartOf="@+id/lineEndText"
-        app:layout_constraintStart_toStartOf="@+id/lineStartText"
+        app:layout_constraintBottom_toBottomOf="@+id/offsetImageView3"
+        app:layout_constraintEnd_toStartOf="@+id/lineEnd"
+        app:layout_constraintStart_toStartOf="@+id/lineStart"
         app:layout_constraintTop_toTopOf="@+id/lineRunesTop1" />
 
     <com.facebook.shimmer.ShimmerFrameLayout
