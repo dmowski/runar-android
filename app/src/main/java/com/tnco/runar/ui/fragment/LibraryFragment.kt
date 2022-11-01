@@ -81,6 +81,11 @@ class LibraryFragment : Fragment() {
         }
         return view
     }
+
+    override fun onDetach() {
+        super.onDetach()
+        viewModelStore.clear()
+    }
 }
 
 @ExperimentalPagerApi
