@@ -27,7 +27,7 @@ interface BackendApiInterface {
 
     // Берём список фонов
     @GET("https://runar-generator-api.herokuapp.com/api/v1/wallpapersStyles")
-    suspend fun getBackgroundInfo() : List<BackgroundInfo>
+    suspend fun getBackgroundInfo() : Response<List<BackgroundInfo>>
 
     @GET("https://runar-generator-api.herokuapp.com/api/v1/wallpapers/{runePath}/{imgPath}.png")
     suspend fun getBackgroundImage(@Path("runePath") runePath: String,
@@ -35,5 +35,5 @@ interface BackendApiInterface {
                                    @Query("style") stylePath: String,
                                    @Query("width") width: Int,
                                    @Query("height") height: Int
-                                   ) : ResponseBody
+                                   ) : Response<ResponseBody>
 }

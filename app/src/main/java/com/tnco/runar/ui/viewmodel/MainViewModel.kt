@@ -28,7 +28,8 @@ class MainViewModel : ViewModel() {
     var preferencesRepository = SharedPreferencesRepository.get()
 
     val fontSize: LiveData<Float> = MutableLiveData(SharedDataRepository.fontSize)
-    val backgroundInfo = MutableLiveData(mutableListOf<BackgroundInfo>())
+    var backgroundInfo = mutableListOf<BackgroundInfo>()
+    val backgroundInfoResponse = MutableLiveData<NetworkResult<List<BackgroundInfo>>>()
 //    val selectedIndices = mutableListOf<Int>()
 
     var readRunes: LiveData<List<RunesItemsModel>> = DatabaseRepository.getRunesGenerator().asLiveData()
@@ -61,20 +62,36 @@ class MainViewModel : ViewModel() {
     }
 
     fun getBackgroundInfo() = viewModelScope.launch(Dispatchers.IO) {
-            backgroundInfo.value?.clear()
-            val info = BackendRepository.getBackgroundInfo()
-            for (i in info.indices){
-                val bmp = BackendRepository.getBackgroundImage(
+        backgroundInfo.clear()
+
+        try {
+            val response = BackendRepository.getBackgroundInfo()
+            handleBackgroundInfoResponse(response)
+        } catch (e: Exception) {
+            getBackgroundImages()
+        }
+    }
+
+    fun getBackgroundImages() = viewModelScope.launch(Dispatchers.IO) {
+        if (backgroundInfo.isEmpty()) {
+            backgroundInfoResponse.postValue(NetworkResult.Error(""))
+        }
+
+        for (index in backgroundInfo.indices) {
+            try {
+                val response = BackendRepository.getBackgroundImage(
                     runesSelected,
                     runePattern[selectedRuneIndex],
-                    info[i].name,
+                    backgroundInfo[index].name,
                     720,
                     1280
                 )
-                info[i].img = bmp
-                backgroundInfo.postValue(info.toMutableList())
+                backgroundInfoResponse.postValue(handleBackgroundImageResponse(index, response))
+            } catch (e: Exception) {
+                backgroundInfoResponse.postValue(NetworkResult.Error(e.toString()))
             }
         }
+    }
 
     fun getRunePattern() = viewModelScope.launch(Dispatchers.IO) {
         runePattern.clear()
@@ -116,6 +133,35 @@ class MainViewModel : ViewModel() {
                     DataClassConverters.runesRespToItems(response.body()!!)
                 DatabaseRepository.updateRunesGeneratorDB(convertedResult)
                 NetworkResult.Success(convertedResult)
+            }
+            else -> NetworkResult.Error(response.errorBody().toString())
+        }
+    }
+
+    private fun handleBackgroundInfoResponse(
+        response: Response<List<BackgroundInfo>>
+    ) {
+        if (response.isSuccessful) {
+            backgroundInfo = response.body()!!.toMutableList()
+            Log.d("MainViewModel", "BackgroundInfo: $backgroundInfo")
+        }
+        getBackgroundImages()
+    }
+
+    private fun handleBackgroundImageResponse(
+        index: Int,
+        response: Response<ResponseBody>
+    ): NetworkResult<List<BackgroundInfo>> {
+        return when {
+            response.isSuccessful -> {
+                val conf = Bitmap.Config.ARGB_8888
+                val opt = BitmapFactory.Options()
+                opt.inPreferredConfig = conf
+                val image = BitmapFactory.decodeStream(response.body()!!.byteStream(),null,opt)
+                backgroundInfo[index].img = image
+                Log.d("MainViewModel", "BackgroundImage: $image")
+
+                NetworkResult.Success(backgroundInfo)
             }
             else -> NetworkResult.Error(response.errorBody().toString())
         }

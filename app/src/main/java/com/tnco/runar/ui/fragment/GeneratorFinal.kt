@@ -99,7 +99,7 @@ class GeneratorFinal : Fragment() {
             }
         }
 
-        binding.imgFinal.setImageBitmap(viewModel.backgroundInfo.value!!.first { it.isSelected }.img!!)
+        binding.imgFinal.setImageBitmap(viewModel.backgroundInfo.first { it.isSelected }.img!!)
 
         binding.finalBack.setOnClickListener {
             showCancelDialog()

@@ -90,24 +90,18 @@ object BackendRepository {
     }
 
 
-    suspend fun getBackgroundInfo(): List<BackgroundInfo> {
+    suspend fun getBackgroundInfo(): Response<List<BackgroundInfo>> {
         return RetrofitClient.apiInterface.getBackgroundInfo()
     }
 
-    suspend fun getBackgroundImage(runePath: String,
-                                   imgPath: String,
-                                   stylePath: String,
-                                   width: Int,
-                                   height: Int
-                                   ): Bitmap?{
-
-        val imgResponse = RetrofitClient.apiInterface.getBackgroundImage(runePath, imgPath, stylePath,
-            width, height)
-            val conf = Bitmap.Config.ARGB_8888
-            val opt = BitmapFactory.Options()
-            opt.inPreferredConfig = conf
-            val img = BitmapFactory.decodeStream(imgResponse.byteStream(),null,opt)
-            return img
+    suspend fun getBackgroundImage(
+        runePath: String,
+        imgPath: String,
+        stylePath: String,
+        width: Int,
+        height: Int
+    ): Response<ResponseBody> {
+        return RetrofitClient.apiInterface.getBackgroundImage(runePath, imgPath, stylePath, width, height)
     }
 
     suspend fun getRunePattern(runesPath: String): Response<List<String>> {

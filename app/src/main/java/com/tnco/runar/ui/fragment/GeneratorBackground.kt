@@ -1,5 +1,6 @@
 package com.tnco.runar.ui.fragment
 
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -13,10 +14,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.tnco.runar.R
 import com.tnco.runar.analytics.AnalyticsHelper
+import com.tnco.runar.data.remote.NetworkResult
 import com.tnco.runar.databinding.FragmentGeneratorBackgroundBinding
 import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.ui.component.dialog.CancelDialog
 import com.tnco.runar.ui.viewmodel.MainViewModel
+import com.tnco.runar.util.InternalDeepLink
+import com.tnco.runar.util.observeOnce
 
 
 class GeneratorBackground : Fragment() {
@@ -42,7 +46,6 @@ class GeneratorBackground : Fragment() {
         AnalyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_PATTERN_SELECTION_BACKGROUND)
         binding.textSelectBackground.visibility = View.GONE
         binding.buttonNext.setOnClickListener {
-            viewModel.cancelChildrenCoroutines()
             val direction = GeneratorBackgroundDirections
                 .actionGeneratorBackgroundToGeneratorFinal()
             findNavController().navigate(direction)
@@ -52,9 +55,10 @@ class GeneratorBackground : Fragment() {
             showCancelDialog()
         }
 
-        if (viewModel.backgroundInfo.value!!.isEmpty()) {
+        if (viewModel.backgroundInfo.isEmpty()) {
             viewModel.getBackgroundInfo()
         }
+
         backgroundImgRecyclerView = view.findViewById(R.id.backgroundImgRecyclerView)
         val layoutManager = LinearLayoutManager(requireActivity())
         layoutManager.orientation = RecyclerView.HORIZONTAL
@@ -65,7 +69,7 @@ class GeneratorBackground : Fragment() {
             var pos = layoutManager.findFirstCompletelyVisibleItemPosition()
 
             if (hasSelected) {
-                pos = viewModel.backgroundInfo.value!!.indexOfFirst { it.isSelected }
+                pos = viewModel.backgroundInfo.indexOfFirst { it.isSelected }
             }
 
             if (pos >= 0) {
@@ -80,31 +84,62 @@ class GeneratorBackground : Fragment() {
 
         }
 
-        viewModel.backgroundInfo.observe(viewLifecycleOwner) {
-            if (viewModel.backgroundInfo.value!!.isNotEmpty()) {
-                with(binding) {
-                    generatorProgressBar.visibility = View.GONE
-                    textSelectBackground.visibility = if (!hasSelected) View.VISIBLE else View.GONE
-                    points.removeAllViews()
-                }
-                pointsList.clear()
-                val inflater = LayoutInflater.from(view.context)
-                for (i in 0..viewModel.backgroundInfo.value!!.size - 1) {
-                    val point =
-                        inflater.inflate(R.layout.point_image_view, binding.points, false) as ImageView
-                    if (!hasSelected) {
-                        var pos = layoutManager.findFirstCompletelyVisibleItemPosition()
-                        if (pos < 0) pos = 0
-                        point.setImageResource(if (i == pos) R.drawable.ic_point_selected else R.drawable.ic_point_deselected)
-                    } else {
-                        point.setImageResource(if (viewModel.backgroundInfo.value!![i].isSelected) R.drawable.ic_point_selected else R.drawable.ic_point_deselected)
-                    }
+        viewModel.isNetworkAvailable.observeOnce(viewLifecycleOwner) { status ->
+            if (status) {
+                observeBackgroundImages(layoutManager)
+            } else {
+                showInternetConnectionError()
+            }
+        }
+    }
 
-                    binding.points.addView(point)
-                    pointsList.add(point)
-                    binding.points.invalidate()
+    private fun observeBackgroundImages(layoutManager: LinearLayoutManager) {
+        viewModel.backgroundInfoResponse.observe(viewLifecycleOwner) { response ->
+            when (response) {
+                is NetworkResult.Success -> {
+                    val backgroundInfo = response.data!!
+                    if (backgroundInfo.isNotEmpty()) {
+                        with(binding) {
+                            generatorProgressBar.visibility = View.GONE
+                            textSelectBackground.visibility =
+                                if (!hasSelected) View.VISIBLE else View.GONE
+                            points.removeAllViews()
+                        }
+                        pointsList.clear()
+                        val inflater = LayoutInflater.from(requireView().context)
+                        for (i in backgroundInfo.indices) {
+                            val point = inflater.inflate(
+                                R.layout.point_image_view,
+                                binding.points,
+                                false
+                            ) as ImageView
+                            if (!hasSelected) {
+                                var pos = layoutManager.findFirstCompletelyVisibleItemPosition()
+                                if (pos < 0) pos = 0
+                                point.setImageResource(
+                                    if (i == pos) R.drawable.ic_point_selected
+                                    else R.drawable.ic_point_deselected
+                                )
+                            } else {
+                                point.setImageResource(
+                                    if (backgroundInfo[i].isSelected) R.drawable.ic_point_selected
+                                    else R.drawable.ic_point_deselected
+                                )
+                            }
+
+                            binding.points.addView(point)
+                            pointsList.add(point)
+                            binding.points.invalidate()
+                        }
+                        adapter.updateData(backgroundInfo)
+                    }
                 }
-                adapter.updateData(it)
+                is NetworkResult.Error -> {
+                    if (viewModel.backgroundInfo.all { it.img == null }) {
+                        showInternetConnectionError()
+                    }
+                }
+                is NetworkResult.Loading -> {}
             }
         }
     }
@@ -120,7 +155,7 @@ class GeneratorBackground : Fragment() {
     }
 
     private fun selectBackground(position: Int) {
-        val data = viewModel.backgroundInfo.value!!
+        val data = viewModel.backgroundInfo
 
 
         for (i in data.indices) {
@@ -145,7 +180,7 @@ class GeneratorBackground : Fragment() {
         }
 
 
-        viewModel.backgroundInfo.value = data
+        adapter.updateData(data)
     }
 
     private fun showCancelDialog() {
@@ -160,6 +195,16 @@ class GeneratorBackground : Fragment() {
             findNavController().navigate(direction)
         }
             .showDialog()
+    }
+
+    private fun showInternetConnectionError() {
+        requireActivity().viewModelStore.clear()
+        val topMostDestinationToRetry = R.id.generatorFragment
+        val uri = Uri.parse(
+            InternalDeepLink.ConnectivityErrorFragment
+                .withArgs("$topMostDestinationToRetry")
+        )
+        findNavController().navigate(uri)
     }
 
     override fun onDestroyView() {
