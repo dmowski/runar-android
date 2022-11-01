@@ -2,8 +2,13 @@ package com.tnco.runar.ui.fragment
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.Toast
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -35,10 +40,7 @@ import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.util.AnalyticsConstants
 import com.tnco.runar.ui.viewmodel.LibraryViewModel
 import com.tnco.runar.util.NetworkMonitor
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 const val audioFeature = false
 
@@ -52,18 +54,18 @@ class LibraryFragment : Fragment() {
 
     @ExperimentalPagerApi
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         AnalyticsHelper.sendEvent(AnalyticsEvent.LIBRARY_OPENED)
-
+        Log.d("THIS IS ONCREATEVIEW", "ONCREATEVIEW")
         val noInternet = getString(R.string.internet_conn_error)
         val netMonitor = NetworkMonitor(requireContext())
-        if (viewModel.isCacheEmpty(requireContext())
-            && !netMonitor.isOnline(requireContext())
-        )
-            Toast.makeText(requireContext(), noInternet, Toast.LENGTH_SHORT).show()
+        if (viewModel.isCacheEmpty(requireContext()) && !netMonitor.isOnline(requireContext()))
+            Toast.makeText(
+                requireContext(),
+                noInternet,
+                Toast.LENGTH_SHORT
+            ).show()
 
         val view = ComposeView(requireContext()).apply {
             setContent {
@@ -98,6 +100,7 @@ class LibraryFragment : Fragment() {
 @ExperimentalPagerApi
 @Composable
 private fun Bars() {
+    Log.d("THIS IS B", "BARS WAS USED")
     val viewModel: LibraryViewModel = viewModel()
     val fontSize by viewModel.fontSize.observeAsState()
     val header by viewModel.lastMenuHeader.observeAsState()
@@ -133,12 +136,10 @@ private fun Bars() {
                 navigationIcon = navIcon,
                 elevation = 0.dp
             )
-        },
-        backgroundColor = colorResource(id = R.color.library_top_bar_2)
+        }, backgroundColor = colorResource(id = R.color.library_top_bar_2)
     ) {
         val scrollState = rememberScrollState()
-        if (tabsState.value && audioFeature)
-            TabScreen(pagerState, scrollState, fontSize)
+        if (tabsState.value && audioFeature) TabScreen(pagerState, scrollState, fontSize)
         else {
             Column(Modifier.verticalScroll(state = scrollState, enabled = true)) {
                 ItemData(scrollState)
@@ -151,6 +152,7 @@ private fun Bars() {
 @ExperimentalPagerApi
 @Composable
 private fun ItemData(scrollState: ScrollState) {
+    Log.d("THIS IS ID", "ITEM DATA WAS USED")
     val viewModel: LibraryViewModel = viewModel()
     val fontSize by viewModel.fontSize.observeAsState()
     val menuData by viewModel.menuData.observeAsState()
@@ -160,13 +162,11 @@ private fun ItemData(scrollState: ScrollState) {
 
     if (menuData != null) {
         for (item in menuData!!) {
-            if (item.imageUrl.isNullOrEmpty())
-                item.imageUrl = ""
+            if (item.imageUrl.isNullOrEmpty()) item.imageUrl = ""
 
             when (item.type) {
                 "root" -> {
-                    FirstMenuItem(
-                        fontSize = fontSize!!,
+                    FirstMenuItem(fontSize = fontSize!!,
                         header = item.title!!,
                         text = item.content!!,
                         imgLink = item.imageUrl!!,
@@ -180,13 +180,11 @@ private fun ItemData(scrollState: ScrollState) {
                                 scrollState.scrollTo(0)
                             }
                             viewModel.updateMenuData(item.id)
-                        }
-                    )
+                        })
                 }
 
                 "subMenu" -> {
-                    SecondMenuItem(
-                        fontSize = fontSize!!,
+                    SecondMenuItem(fontSize = fontSize!!,
                         header = item.title!!,
                         imgLink = item.imageUrl!!,
                         clickAction = {
@@ -195,22 +193,16 @@ private fun ItemData(scrollState: ScrollState) {
                                 scrollState.scrollTo(0)
                             }
                             viewModel.updateMenuData(item.id)
-                        }
-                    )
+                        })
                 }
 
                 "poem" -> {
                     ThirdMenuItem(
-                        fontSize = fontSize!!,
-                        text = item.content!!,
-                        title = item.title!!
+                        fontSize = fontSize!!, text = item.content!!, title = item.title!!
                     )
                 }
 
                 "plainText" -> {
-                    if (item.imageUrl!!.isEmpty()) {
-                        CircularProgressBar()
-                    }
                     SimpleTextItem(
                         fontSize = fontSize!!,
                         text = item.content,
@@ -245,12 +237,13 @@ private fun ItemData(scrollState: ScrollState) {
 }
 
 @Composable
-private fun CircularProgressBar() {
-    CircularProgressIndicator(
-        modifier = Modifier.size(37.dp),
-        color = Color.Gray,
-        strokeWidth = 3.dp,
-    )
+private fun CircularProgressBar(imgLink: String?) {
+    if (imgLink.isNullOrEmpty())
+        CircularProgressIndicator(
+            modifier = Modifier.size(37.dp),
+            color = Color.Gray,
+            strokeWidth = 3.dp,
+        )
 }
 
 @Composable
@@ -268,6 +261,7 @@ private fun TopBarIcon() {
 @ExperimentalPagerApi
 @Composable
 private fun TabScreen(pagerState: PagerState, scrollState: ScrollState, fontSize: Float?) {
+    Log.d("THIS IS TS", "TABS SCREEN WAS USED")
     Column {
         Tabs(pagerState = pagerState, fontSize = fontSize)
         TabsContent(pagerState = pagerState, scrollState = scrollState)
@@ -277,6 +271,7 @@ private fun TabScreen(pagerState: PagerState, scrollState: ScrollState, fontSize
 @ExperimentalPagerApi
 @Composable
 fun TabsContent(pagerState: PagerState, scrollState: ScrollState) {
+    Log.d("THIS IS TC", "TABS CONTENT WAS USED")
     HorizontalPager(state = pagerState) { page ->
         when (page) {
             0 -> {
@@ -311,23 +306,21 @@ fun Tabs(pagerState: PagerState, fontSize: Float?) {
 
     val scope = rememberCoroutineScope()
 
+    Log.d("THIS IS TABS", "TABS WAS USED")
+
     TabRow(selectedTabIndex = pagerState.currentPage,
         backgroundColor = colorResource(id = R.color.library_top_bar),
         contentColor = colorResource(id = R.color.library_top_bar_header_2),
         divider = {
             TabRowDefaults.Divider(
-                thickness = 1.dp,
-                color = colorResource(id = R.color.library_tab_divider)
+                thickness = 1.dp, color = colorResource(id = R.color.library_tab_divider)
             )
         },
         indicator = { tabPositions ->
             TabRowDefaults.Indicator(
                 Modifier.pagerTabIndicatorOffset(
-                    pagerState = pagerState,
-                    tabPositions = tabPositions
-                ),
-                height = 1.dp,
-                color = colorResource(id = R.color.library_tab_indicator)
+                    pagerState = pagerState, tabPositions = tabPositions
+                ), height = 1.dp, color = colorResource(id = R.color.library_tab_indicator)
             )
         }) {
         list.forEachIndexed { index, _ ->
@@ -342,22 +335,19 @@ fun Tabs(pagerState: PagerState, fontSize: Float?) {
                 backgroundColor = colorResource(id = R.color.library_top_bar),
 
                 ) {
-                Tab(modifier = Modifier.height(30.dp),
-                    text = {
-                        Text(
-                            text = stringResource(id = list[index]).uppercase(),
-                            fontFamily = FontFamily(Font(R.font.roboto_medium)),
-                            fontSize = with(LocalDensity.current) { ((fontSize!! * 0.8).toFloat()).toSp() },
-                            color = if (pagerState.currentPage == index) colorResource(id = R.color.library_tab_text_selected)
-                            else colorResource(id = R.color.library_tab_text_not_selected)
-                        )
-                    },
-                    selected = pagerState.currentPage == index,
-                    onClick = {
-                        scope.launch {
-                            pagerState.scrollToPage(index)
-                        }
-                    })
+                Tab(modifier = Modifier.height(30.dp), text = {
+                    Text(
+                        text = stringResource(id = list[index]).uppercase(),
+                        fontFamily = FontFamily(Font(R.font.roboto_medium)),
+                        fontSize = with(LocalDensity.current) { ((fontSize!! * 0.8).toFloat()).toSp() },
+                        color = if (pagerState.currentPage == index) colorResource(id = R.color.library_tab_text_selected)
+                        else colorResource(id = R.color.library_tab_text_not_selected)
+                    )
+                }, selected = pagerState.currentPage == index, onClick = {
+                    scope.launch {
+                        pagerState.scrollToPage(index)
+                    }
+                })
             }
         }
         Spacer(modifier = Modifier.width(130.dp))
@@ -367,15 +357,11 @@ fun Tabs(pagerState: PagerState, fontSize: Float?) {
 @ExperimentalPagerApi
 @Composable
 private fun FirstMenuItem(
-    fontSize: Float,
-    header: String,
-    text: String,
-    imgLink: String,
-    clickAction: () -> Unit
+    fontSize: Float, header: String, text: String, imgLink: String, clickAction: () -> Unit
 ) {
-    if (imgLink.isEmpty()) {
-        CircularProgressBar()
-    }
+    Log.d("THIS IS FMI", "FIRST MENU ITEM WAS USED")
+    CircularProgressBar(imgLink)
+
     Row(
         Modifier
             .aspectRatio(3.8f, true)
@@ -427,8 +413,7 @@ private fun FirstMenuItem(
                         text = text,
                         color = colorResource(id = R.color.library_item_text),
                         fontFamily = FontFamily(Font(R.font.roboto_regular)),
-                        style = TextStyle(fontSize = with(LocalDensity.current)
-                        { ((fontSize * 0.8f)).toSp() })
+                        style = TextStyle(fontSize = with(LocalDensity.current) { ((fontSize * 0.8f)).toSp() })
                     )
                 }
                 Box(
@@ -463,14 +448,11 @@ private fun FirstMenuItem(
 
 @Composable
 private fun SecondMenuItem(
-    fontSize: Float,
-    header: String,
-    imgLink: String,
-    clickAction: () -> Unit
+    fontSize: Float, header: String, imgLink: String, clickAction: () -> Unit
 ) {
-    if (imgLink.isEmpty()) {
-        CircularProgressBar()
-    }
+    Log.d("THIS IS SMI", "SECOND MENU ITEM WAS USED")
+    CircularProgressBar(imgLink)
+
     Row(
         Modifier
             .fillMaxSize()
@@ -492,15 +474,13 @@ private fun SecondMenuItem(
                     .aspectRatio(24f, true)
             )
             Row(
-                Modifier
-                    .fillMaxSize(), verticalAlignment = Alignment.CenterVertically
+                Modifier.fillMaxSize(), verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
                     text = header,
                     color = colorResource(id = R.color.library_item_header),
                     fontFamily = FontFamily(Font(R.font.roboto_regular)),
-                    style = TextStyle(
-                        fontSize = with(LocalDensity.current) { fontSize.toSp() },
+                    style = TextStyle(fontSize = with(LocalDensity.current) { fontSize.toSp() },
                         lineHeight = with(LocalDensity.current) { ((fontSize * 1.4f)).toSp() }),
                     modifier = Modifier
                         .weight(320f)
@@ -539,6 +519,7 @@ private fun SecondMenuItem(
 
 @Composable
 private fun ThirdMenuItem(fontSize: Float, text: String, title: String) {
+    Log.d("THIS IS TMI", "THIRD MENU ITEM WAS USED")
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Box(Modifier.aspectRatio(35f))
         Text(
@@ -551,8 +532,7 @@ private fun ThirdMenuItem(fontSize: Float, text: String, title: String) {
             text = text,
             color = colorResource(id = R.color.library_third_text),
             fontFamily = FontFamily(Font(R.font.roboto_light)),
-            style = TextStyle(
-                fontSize = with(LocalDensity.current) { ((fontSize * 0.95f)).toSp() },
+            style = TextStyle(fontSize = with(LocalDensity.current) { ((fontSize * 0.95f)).toSp() },
                 textAlign = TextAlign.Center,
                 lineHeight = with(LocalDensity.current) { ((fontSize * 1.4f)).toSp() }),
             modifier = Modifier.padding(top = 5.dp)
@@ -563,6 +543,7 @@ private fun ThirdMenuItem(fontSize: Float, text: String, title: String) {
 
 @Composable
 private fun SimpleTextItem(fontSize: Float, text: String?, urlTitle: String?, urlLink: String?) {
+    Log.d("THIS IS STI", "SIMPE TEXT ITEM WAS USED")
     Box(
         Modifier
             .fillMaxSize()
@@ -584,13 +565,13 @@ private fun SimpleTextItem(fontSize: Float, text: String?, urlTitle: String?, ur
                     text = text,
                     color = colorResource(id = R.color.library_simple_text),
                     fontFamily = FontFamily(Font(R.font.roboto_light)),
-                    style = TextStyle(
-                        fontSize = with(LocalDensity.current) { ((fontSize * 0.95f)).toSp() },
+                    style = TextStyle(fontSize = with(LocalDensity.current) { ((fontSize * 0.95f)).toSp() },
                         textAlign = TextAlign.Start,
                         lineHeight = with(LocalDensity.current) { ((fontSize * 1.4f)).toSp() }),
                 )
             }
             if (!urlLink.isNullOrEmpty() && !urlTitle.isNullOrEmpty()) {
+                CircularProgressBar(urlLink)
                 Box(
                     Modifier
                         .fillMaxSize()
@@ -606,9 +587,9 @@ private fun SimpleTextItem(fontSize: Float, text: String?, urlTitle: String?, ur
                         ), start = urlTitle.length + 1, end = annotatedText.length
                     )
                     addStyle(
-                        style = ParagraphStyle(
-                            lineHeight = with(LocalDensity.current) { ((fontSize * 1.05f)).toSp() }
-                        ), start = 0, end = annotatedText.length
+                        style = ParagraphStyle(lineHeight = with(LocalDensity.current) { ((fontSize * 1.05f)).toSp() }),
+                        start = 0,
+                        end = annotatedText.length
                     )
                     addStringAnnotation(
                         tag = "URL",
@@ -619,24 +600,19 @@ private fun SimpleTextItem(fontSize: Float, text: String?, urlTitle: String?, ur
 
                 }
                 val uriHandler = LocalUriHandler.current
-                ClickableText(
-                    text = annotatedLinkString,
-                    style = TextStyle(
-                        fontSize = with(LocalDensity.current) { ((fontSize * 0.7f)).toSp() },
-                        fontFamily = FontFamily(Font(R.font.roboto_light)),
-                        color = colorResource(
-                            id = R.color.url_text_color
-                        ),
+                ClickableText(text = annotatedLinkString, style = TextStyle(
+                    fontSize = with(LocalDensity.current) { ((fontSize * 0.7f)).toSp() },
+                    fontFamily = FontFamily(Font(R.font.roboto_light)),
+                    color = colorResource(
+                        id = R.color.url_text_color
+                    ),
 
-                        ),
-                    onClick = {
-                        annotatedLinkString
-                            .getStringAnnotations("URL", it, it)
-                            .firstOrNull()?.let { stringAnnotation ->
-                                uriHandler.openUri(stringAnnotation.item)
-                            }
-                    }
-                )
+                    ), onClick = {
+                    annotatedLinkString.getStringAnnotations("URL", it, it).firstOrNull()
+                        ?.let { stringAnnotation ->
+                            uriHandler.openUri(stringAnnotation.item)
+                        }
+                })
             }
         }
         Box(
@@ -654,13 +630,10 @@ private fun SimpleTextItem(fontSize: Float, text: String?, urlTitle: String?, ur
 
 @Composable
 private fun RuneDescription(
-    fontSize: Float,
-    header: String,
-    text: String,
-    imgLink: String,
-    runeTags: List<String>
+    fontSize: Float, header: String, text: String, imgLink: String, runeTags: List<String>
 ) {
-    if (imgLink == "") CircularProgressBar()
+    Log.d("THIS IS RD", "RUNE DESCR ITEM WAS USED")
+    CircularProgressBar(imgLink)
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -742,8 +715,7 @@ private fun RuneDescription(
                         text = text,
                         color = colorResource(id = R.color.library_third_text),
                         fontFamily = FontFamily(Font(R.font.roboto_light)),
-                        style = TextStyle(
-                            fontSize = with(LocalDensity.current) { ((fontSize * 0.95f)).toSp() },
+                        style = TextStyle(fontSize = with(LocalDensity.current) { ((fontSize * 0.95f)).toSp() },
                             textAlign = TextAlign.Start,
                             lineHeight = with(LocalDensity.current) { ((fontSize * 1.4f)).toSp() }),
                         modifier = Modifier.padding(top = 5.dp)
