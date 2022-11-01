@@ -13,6 +13,7 @@ import com.tnco.runar.retrofit.BackgroundInfo
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import okhttp3.ResponseBody
 import retrofit2.HttpException
 import retrofit2.Response
 import java.lang.Exception
@@ -109,29 +110,11 @@ object BackendRepository {
             return img
     }
 
-    suspend fun getRunePattern(runesPath: String): List<String> {
-        return try {
-            val list = RetrofitClient.apiInterfaceGenerator.getRunePattern(runesPath)
-//            val list = RetrofitClient.apiInterfaceGenerator.getRunePatternString(runesPath)
-            list
-        } catch (e: Exception){
-            Log.d("!!! getRunePattern error", e.toString())
-            mutableListOf()
-        }
+    suspend fun getRunePattern(runesPath: String): Response<List<String>> {
+        return RetrofitClient.apiInterfaceGenerator.getRunePattern(runesPath)
     }
 
-    suspend fun getRuneImage(runePath: String,imgPath: String): Bitmap? {
-        return try {
-            val conf = Bitmap.Config.ARGB_8888
-            val opt = BitmapFactory.Options()
-            opt.inPreferredConfig = conf
-
-            val imgResponse = RetrofitClient.apiInterfaceGenerator.getRunePatternImage(runePath,imgPath)
-            val img = BitmapFactory.decodeStream(imgResponse.byteStream(),null,opt)
-            img
-        } catch (e: Exception){
-            Log.d("!!! getRuneImage error", e.toString())
-            null
-        }
+    suspend fun getRuneImage(runePath: String,imgPath: String): Response<ResponseBody> {
+        return RetrofitClient.apiInterfaceGenerator.getRunePatternImage(runePath,imgPath)
     }
 }
