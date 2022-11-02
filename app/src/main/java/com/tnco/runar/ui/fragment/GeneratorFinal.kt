@@ -11,12 +11,13 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.addCallback
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -39,11 +40,10 @@ class GeneratorFinal : Fragment() {
 
     private var _binding: GeneratorFinalBinding? = null
     private val binding get() = _binding!!
-    val REQUEST_PERMISSION_CODE = 111
     private lateinit var viewModel: MainViewModel
-    lateinit var twitter: ImageView
-    lateinit var facebook: ImageView
-    lateinit var instagram: ImageView
+//    lateinit var twitter: ImageView
+//    lateinit var facebook: ImageView
+//    lateinit var instagram: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,7 +57,7 @@ class GeneratorFinal : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = GeneratorFinalBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
         return binding.root
@@ -87,7 +87,12 @@ class GeneratorFinal : Fragment() {
                 )
             } else {
                 val path =
-                    MediaStore.Images.Media.insertImage(requireContext().contentResolver, bmp, title, null)
+                    MediaStore.Images.Media.insertImage(
+                        requireContext().contentResolver,
+                        bmp,
+                        title,
+                        null
+                    )
                 val uri = Uri.parse(path.toString())
                 val shareIntent: Intent = Intent().apply {
                     action = Intent.ACTION_SEND
@@ -109,72 +114,62 @@ class GeneratorFinal : Fragment() {
             AnalyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_PATTERN_SAVED)
             val fileName = generateFileName()
             val bmp = (binding.imgFinal.drawable as BitmapDrawable).bitmap
-            binding.save.visibility = View.INVISIBLE
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 val contentValues = ContentValues().apply {
                     put(MediaStore.MediaColumns.DISPLAY_NAME, fileName)
                     put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg")
-                    put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS)
+                    put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES)
                 }
                 val resolver = requireActivity().contentResolver
-                val uri = resolver.insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, contentValues)
+                val uri =
+                    resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
                 if (uri != null) {
                     bmp.compress(Bitmap.CompressFormat.JPEG, 100, resolver.openOutputStream(uri))
                 }
-                binding.save.visibility = View.VISIBLE
                 val msg = resources.getString(R.string.image_saved)
                 Toast.makeText(requireContext(), msg, Toast.LENGTH_LONG).show()
             } else {
-                if (ContextCompat.checkSelfPermission(
-                        requireActivity(),
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE
-                    )
-                    != PackageManager.PERMISSION_GRANTED
-                ) {
-                    requestPermissions(Array(1) {
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE
-                    }, REQUEST_PERMISSION_CODE)
-                } else {
-                    val path =
-                        Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-                    val filePath = File(path, fileName)
-                    val os = FileOutputStream(filePath)
-                    bmp.compress(Bitmap.CompressFormat.JPEG, 100, os)
-                    os.close()
-                    binding.save.visibility = View.VISIBLE
-                    val msg = resources.getString(R.string.image_saved)
-                    Toast.makeText(requireContext(), msg, Toast.LENGTH_LONG).show()
-                }
-
+                checkPermissionAndSave()
             }
         }
+    }
+
+    private fun checkPermissionAndSave() {
+        val permission = ContextCompat.checkSelfPermission(
+            requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE
+        )
+
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            requestPermission.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        } else savePicture()
 
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == REQUEST_PERMISSION_CODE) {
-            if (grantResults.get(0) == PackageManager.PERMISSION_GRANTED) {
-                val fileName = generateFileName()
-                val bmp = (binding.imgFinal.drawable as BitmapDrawable).bitmap
-                val path =
-                    Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-                val filePath = File(path, fileName)
-                val os = FileOutputStream(filePath)
-                bmp.compress(Bitmap.CompressFormat.JPEG, 100, os)
-                os.close()
-                binding.save.visibility = View.VISIBLE
-                val msg = resources.getString(R.string.image_saved)
+    private val requestPermission =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (isGranted) {
+                Log.i("DEBUG", "permission granted")
+            } else {
+                val msg = resources.getString(R.string.permission_denied)
                 Toast.makeText(requireContext(), msg, Toast.LENGTH_LONG).show()
+                Log.i("DEBUG", "permission denied")
             }
         }
+
+    private fun savePicture() {
+        val fileName = generateFileName()
+        val bmp = (binding.imgFinal.drawable as BitmapDrawable).bitmap
+        val path =
+            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+        val filePath = File(path, fileName)
+        val os = FileOutputStream(filePath)
+        bmp.compress(Bitmap.CompressFormat.JPEG, 100, os)
+        os.close()
+        val msg = resources.getString(R.string.image_saved)
+        Toast.makeText(requireContext(), msg, Toast.LENGTH_LONG).show()
     }
 
-    fun generateFileName(): String {
+    private fun generateFileName(): String {
         val time = System.currentTimeMillis()
         val formatter = SimpleDateFormat("dd:MM:yyyy_HH:mm:ss", Locale.getDefault())
         val date = formatter.format(time)

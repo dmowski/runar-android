@@ -128,6 +128,7 @@
     <string name="next">Next</string>
     <string name="background_generator">To get started, choose your favorite picture</string>
     <string name="image_saved">Runic pattern is saved</string>
+    <string name="permission_denied">Storage access denied</string>
     <string name="share_title">Cool rune from RunarApp</string>
 
     <string name="library_tab_books">Books</string>
