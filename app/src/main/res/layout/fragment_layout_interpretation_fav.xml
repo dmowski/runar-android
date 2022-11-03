@@ -87,7 +87,7 @@
                             android:layout_height="match_parent"
                             android:fontFamily="@font/roboto_regular"
                             android:letterSpacing="@dimen/layout_text_letter_spacing"
-                            android:text="test"
+                            android:text=""
                             android:textAlignment="center"
                             android:textColor="@color/layout_desc_deselected"
                             android:maxLines="1"/>
@@ -107,7 +107,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:fontFamily="@font/roboto_light"
-                            android:text="test"
+                            android:text=""
                             android:textAlignment="center"
                             android:textColor="@color/interpretation_runes_position"
                             android:maxLines="1"/>
@@ -119,7 +119,7 @@
                         android:layout_width="0dp"
                         android:layout_height="20dp"
                         android:fontFamily="@font/roboto_light"
-                        android:text="test"
+                        android:text=""
                         android:textAlignment="center"
                         android:textColor="@color/interpretation_runes_position"
                         android:maxLines="1"
