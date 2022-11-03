@@ -148,6 +148,7 @@ class GeneratorFinal : Fragment() {
     private val requestPermission =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
             if (isGranted) {
+                savePicture()
                 Log.i("DEBUG", "permission granted")
             } else {
                 val msg = resources.getString(R.string.permission_denied)
@@ -161,12 +162,13 @@ class GeneratorFinal : Fragment() {
         val bmp = (binding.imgFinal.drawable as BitmapDrawable).bitmap
         val path =
             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
-        val filePath = File(path, fileName)
-        val os = FileOutputStream(filePath)
-        bmp.compress(Bitmap.CompressFormat.JPEG, 100, os)
-        os.close()
-        val msg = resources.getString(R.string.image_saved)
-        Toast.makeText(requireContext(), msg, Toast.LENGTH_LONG).show()
+        val image = File(path, fileName)
+        val os = FileOutputStream(image)
+        os.use {
+            bmp.compress(Bitmap.CompressFormat.JPEG, 100, os)
+            val msg = resources.getString(R.string.image_saved)
+            Toast.makeText(requireContext(), msg, Toast.LENGTH_LONG).show()
+        }
     }
 
     private fun generateFileName(): String {
