@@ -126,6 +126,7 @@
     <string name="next">Далее</string>
     <string name="background_generator">Для начала, выберите понравившуюся картинку</string>
     <string name="image_saved">Рунный узор сохранен</string>
+    <string name="permission_denied">Доступ к хранилищу запрещен</string>
     <string name="share_title">Классная руна из RunarApp</string>
 
     <string name="library_tab_books">Книги</string>
