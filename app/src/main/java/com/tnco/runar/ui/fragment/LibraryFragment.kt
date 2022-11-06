@@ -40,6 +40,7 @@ import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.util.AnalyticsConstants
 import com.tnco.runar.ui.viewmodel.LibraryViewModel
 import com.tnco.runar.util.NetworkMonitor
+import com.tnco.runar.util.observeOnce
 import kotlinx.coroutines.*
 
 const val audioFeature = false
@@ -59,13 +60,15 @@ class LibraryFragment : Fragment() {
         AnalyticsHelper.sendEvent(AnalyticsEvent.LIBRARY_OPENED)
         Log.d("THIS IS ONCREATEVIEW", "ONCREATEVIEW")
         val noInternet = getString(R.string.internet_conn_error)
-        val netMonitor = NetworkMonitor(requireContext())
-        if (viewModel.isCacheEmpty(requireContext()) && !netMonitor.isOnline(requireContext()))
-            Toast.makeText(
-                requireContext(),
-                noInternet,
-                Toast.LENGTH_SHORT
-            ).show()
+        viewModel.isOnline.observeOnce(viewLifecycleOwner) { online ->
+            if (!online && viewModel.isCacheEmpty(requireContext())) {
+                Toast.makeText(
+                    requireContext(),
+                    noInternet,
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
 
         val view = ComposeView(requireContext()).apply {
             setContent {

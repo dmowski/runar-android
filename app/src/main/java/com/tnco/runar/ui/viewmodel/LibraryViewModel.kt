@@ -1,16 +1,14 @@
 package com.tnco.runar.ui.viewmodel
 
 import android.content.Context
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
-import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import com.tnco.runar.model.LibraryItemsModel
 import com.tnco.runar.repository.DatabaseRepository
 import com.tnco.runar.repository.SharedDataRepository
+import com.tnco.runar.util.NetworkMonitor
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.asCoroutineDispatcher
 import kotlinx.coroutines.launch
@@ -18,6 +16,8 @@ import java.util.concurrent.Executors
 
 class LibraryViewModel : ViewModel() {
     private val singleThread = Executors.newSingleThreadExecutor().asCoroutineDispatcher()
+    private val networkMonitor = NetworkMonitor.get()
+    val isOnline = networkMonitor.isConnected.asLiveData()
 
     val fontSize: LiveData<Float> = MutableLiveData(SharedDataRepository.fontSize)
     private var dbList: List<LibraryItemsModel> = emptyList()
