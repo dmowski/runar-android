@@ -1,10 +1,13 @@
 package com.tnco.runar.ui.viewmodel
 
 import androidx.lifecycle.LiveData
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import com.tnco.runar.model.LibraryItemsModel
 import com.tnco.runar.repository.DatabaseRepository
+import com.tnco.runar.util.NetworkMonitor
 import com.tnco.runar.repository.SharedDataRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.asCoroutineDispatcher
@@ -13,6 +16,8 @@ import java.util.concurrent.Executors
 
 class LibraryViewModel : ViewModel() {
     private val singleThread = Executors.newSingleThreadExecutor().asCoroutineDispatcher()
+    private val networkMonitor = NetworkMonitor.get()
+    val isOnline = networkMonitor.isConnected.asLiveData()
 
     val fontSize: LiveData<Float> = MutableLiveData(SharedDataRepository.fontSize)
     private var dbList: List<LibraryItemsModel> = emptyList()
@@ -29,7 +34,11 @@ class LibraryViewModel : ViewModel() {
             dbList = DatabaseRepository.getLibraryItemList()
         }
     }
-
+    fun isCacheEmpty(context: Context): Boolean {
+        if (context.cacheDir.exists())
+            return true
+        return false
+    }
     fun firstMenuDataCheck() {
         CoroutineScope(singleThread).launch {
             if (menuData.value?.size == 0) {

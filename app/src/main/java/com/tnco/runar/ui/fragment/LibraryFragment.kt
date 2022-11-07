@@ -2,6 +2,7 @@ package com.tnco.runar.ui.fragment
 
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -32,15 +33,16 @@ import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.util.AnalyticsConstants
 import com.tnco.runar.ui.viewmodel.LibraryViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import com.tnco.runar.util.NetworkMonitor
+import com.tnco.runar.util.observeOnce
+import kotlinx.coroutines.*
+
 
 const val audioFeature = false
 
 class LibraryFragment : Fragment() {
     val viewModel: LibraryViewModel by viewModels()
+    private var isOnline = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         viewModel.getRuneDataFromDB()
@@ -54,16 +56,31 @@ class LibraryFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         AnalyticsHelper.sendEvent(AnalyticsEvent.LIBRARY_OPENED)
+
+        val noInternet = getString(R.string.internet_conn_error)
+        viewModel.isOnline.observeOnce(viewLifecycleOwner) { online ->
+            if (!online && viewModel.isCacheEmpty(requireContext())) {
+                isOnline = false
+                /*Toast.makeText(
+                    requireContext(),
+                    noInternet,
+                    Toast.LENGTH_SHORT
+                ).show()*/
+            }
+        }
+
         val view = ComposeView(requireContext()).apply {
             setContent {
                 Bars()
             }
         }
+
+
         var header = getString(R.string.library_top_bar_header)
         viewModel.lastMenuHeader.observe(viewLifecycleOwner) {
             header = it
         }
-
+        // val noInternet = getString(R.string.internet_conn_error)
 
         view.isFocusableInTouchMode = true
         view.requestFocus()
@@ -96,6 +113,7 @@ private fun ItemData(scrollState: ScrollState) {
     val menuData by viewModel.menuData.observeAsState()
     viewModel.updateLastMenuHeader(stringResource(id = R.string.library_top_bar_header))
     viewModel.firstMenuDataCheck()
+    isOneline;
 
     if (menuData != null) {
         for (item in menuData!!) {
@@ -172,6 +190,17 @@ private fun ItemData(scrollState: ScrollState) {
     }
 }
 
+@Composable
+private fun CircularProgressBar() {
+    //imgLink: String?
+    //if (imgLink.isNullOrEmpty())
+    CircularProgressIndicator(
+        modifier = Modifier.size(37.dp),
+        color = Color.Gray,
+        strokeWidth = 3.dp,
+    )
+}
+
 @ExperimentalPagerApi
 @Composable
 private fun Bars() {
@@ -212,7 +241,7 @@ private fun Bars() {
             )
         },
         backgroundColor = colorResource(id = R.color.library_top_bar_2)
-    ) { paddingValues ->
+    ) {
         val scrollState = rememberScrollState()
         if (tabsState.value && audioFeature) {
             TabScreen(pagerState, scrollState, fontSize)
@@ -335,6 +364,7 @@ fun Tabs(pagerState: PagerState, fontSize: Float?) {
     }
 }
 
+
 @ExperimentalPagerApi
 @Composable
 private fun FirstMenuItem(
@@ -344,6 +374,7 @@ private fun FirstMenuItem(
     imgLink: String,
     clickAction: () -> Unit
 ) {
+
     Row(
         Modifier
             .aspectRatio(3.8f, true)
@@ -369,15 +400,19 @@ private fun FirstMenuItem(
                     .fillMaxSize()
                     .weight(62f), verticalAlignment = Alignment.CenterVertically
             ) {
-                Image(
-                    painter = rememberImagePainter(imgLink),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .background(Color(0x00000000))
-                        .padding(top = 5.dp, bottom = 5.dp)
-                        .weight(60f)
-                        .fillMaxSize()
-                )
+                if (imgLink.isNullOrEmpty() && !isOnline) {
+                    CircularProgressBar()
+                } else {
+                    Image(
+                        painter = rememberImagePainter(imgLink),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .background(Color(0x00000000))
+                            .padding(top = 5.dp, bottom = 5.dp)
+                            .weight(60f)
+                            .fillMaxSize()
+                    )
+                }
                 Column(
                     Modifier
                         .fillMaxSize()
