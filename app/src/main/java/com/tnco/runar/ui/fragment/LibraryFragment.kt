@@ -240,13 +240,12 @@ private fun ItemData(scrollState: ScrollState) {
 }
 
 @Composable
-private fun CircularProgressBar(imgLink: String?) {
-    if (imgLink.isNullOrEmpty())
-        CircularProgressIndicator(
+private fun CircularProgressBar() {
+    CircularProgressIndicator(
             modifier = Modifier.size(37.dp),
             color = Color.Gray,
             strokeWidth = 3.dp,
-        )
+    )
 }
 
 @Composable
@@ -362,8 +361,8 @@ fun Tabs(pagerState: PagerState, fontSize: Float?) {
 private fun FirstMenuItem(
     fontSize: Float, header: String, text: String, imgLink: String, clickAction: () -> Unit
 ) {
+
     Log.d("THIS IS FMI", "FIRST MENU ITEM WAS USED")
-    CircularProgressBar(imgLink)
 
     Row(
         Modifier
@@ -390,15 +389,21 @@ private fun FirstMenuItem(
                     .fillMaxSize()
                     .weight(62f), verticalAlignment = Alignment.CenterVertically
             ) {
-                Image(
-                    painter = rememberImagePainter(imgLink),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .background(Color(0x00000000))
-                        .padding(top = 5.dp, bottom = 5.dp)
-                        .weight(60f)
-                        .fillMaxSize()
-                )
+                if (imgLink.isEmpty()) {
+                    CircularProgressBar()
+                } else {
+
+                    Image(
+                        painter = rememberImagePainter(imgLink),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .background(Color(0x00000000))
+                            .padding(top = 5.dp, bottom = 5.dp)
+                            .weight(60f)
+                            .fillMaxSize()
+                    )
+                }
+
                 Column(
                     Modifier
                         .fillMaxSize()
@@ -454,7 +459,6 @@ private fun SecondMenuItem(
     fontSize: Float, header: String, imgLink: String, clickAction: () -> Unit
 ) {
     Log.d("THIS IS SMI", "SECOND MENU ITEM WAS USED")
-    CircularProgressBar(imgLink)
 
     Row(
         Modifier
@@ -494,14 +498,20 @@ private fun SecondMenuItem(
                         .fillMaxSize()
                         .weight(17f)
                 )
-                Image(
-                    painter = painterResource(id = R.drawable.ic_right),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .background(Color(0x00000000))
-                        .fillMaxSize()
-                        .weight(10f)
-                )
+                if (imgLink.isEmpty()) {
+                    CircularProgressBar()
+                } else {
+
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_right),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .background(Color(0x00000000))
+                            .fillMaxSize()
+                            .weight(10f)
+                    )
+                }
+
                 Box(
                     Modifier
                         .fillMaxSize()
@@ -574,7 +584,7 @@ private fun SimpleTextItem(fontSize: Float, text: String?, urlTitle: String?, ur
                 )
             }
             if (!urlLink.isNullOrEmpty() && !urlTitle.isNullOrEmpty()) {
-                CircularProgressBar(urlLink)
+               // CircularProgressBar(urlLink)
                 Box(
                     Modifier
                         .fillMaxSize()
@@ -636,7 +646,7 @@ private fun RuneDescription(
     fontSize: Float, header: String, text: String, imgLink: String, runeTags: List<String>
 ) {
     Log.d("THIS IS RD", "RUNE DESCR ITEM WAS USED")
-    CircularProgressBar(imgLink)
+ //   CircularProgressBar(imgLink)
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
