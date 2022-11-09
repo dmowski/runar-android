@@ -48,16 +48,14 @@ const val audioFeature = false
 class LibraryFragment : Fragment() {
     val viewModel: LibraryViewModel by viewModels()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        viewModel.getRuneDataFromDB()
-        super.onCreate(savedInstanceState)
-    }
-
     @ExperimentalPagerApi
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         AnalyticsHelper.sendEvent(AnalyticsEvent.LIBRARY_OPENED)
+
+        viewModel.getRuneDataFromDB()
+
         Log.d("THIS IS ONCREATEVIEW", "ONCREATEVIEW")
         val noInternet = getString(R.string.internet_conn_error)
         viewModel.isOnline.observeOnce(viewLifecycleOwner) { online ->
@@ -165,7 +163,9 @@ private fun ItemData(scrollState: ScrollState) {
 
     if (menuData != null) {
         for (item in menuData!!) {
-            if (item.imageUrl.isNullOrEmpty()) item.imageUrl = ""
+            if (item.imageUrl.isNullOrEmpty()) {
+                item.imageUrl = ""
+            }
 
             when (item.type) {
                 "root" -> {
@@ -392,7 +392,6 @@ private fun FirstMenuItem(
                 if (imgLink.isEmpty()) {
                     CircularProgressBar()
                 } else {
-
                     Image(
                         painter = rememberImagePainter(imgLink),
                         contentDescription = null,
