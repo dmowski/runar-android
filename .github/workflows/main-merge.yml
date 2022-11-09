@@ -34,8 +34,8 @@ jobs:
         with:
           to: ${{ secrets.TELEGRAM_TO }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
-          document: ./gradlew
-          format: markdown
+          document: app/build/outputs/apk/debug/app-debug.apk
+          format: html
           message: |
-            Merged new updated from **${{ github.actor }}** 🔥
-            Commit message: ${{ github.event.commits[0].message }}
+            Merged new updated from <b>${{ github.actor }}</b> 🔥
+            <i>${{ github.event.commits[0].message }}</i>
