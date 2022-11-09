@@ -13,7 +13,14 @@ jobs:
 
       - name: Get current date
         id: date
-        run: echo "::set-output name=date::$(date +'%Y-%m-%d__%H_%M_%S')"
+        run: echo "date=$(date +'%Y-%m-%d__%H_%M_%S')" >> $GITHUB_OUTPUT
+
+      - name: Get sanitized description name
+        id: description
+        run: echo "description=$(echo '${{ github.event.commits[0].message }}' | sed -r 's/[<>&;]+//g')" >> $GITHUB_OUTPUT
+
+      - name: Show sanitized description name
+        run: echo "${{ steps.description.outputs.description }}"
 
       - name: Setup JDK
         uses: actions/setup-java@v3
@@ -43,4 +50,4 @@ jobs:
           format: html
           message: |
             🔥 New build from <b>${{ github.actor }}</b> 🔥
-            <i>${{ github.event.commits[0].message }}</i>
+            <i>${{ steps.description.outputs.description }}</i>
