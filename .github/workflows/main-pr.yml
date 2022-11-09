@@ -1,4 +1,4 @@
-name: Android Build
+name: Android Build On Pull Request
 on:
   pull_request:
     branches: [main]
