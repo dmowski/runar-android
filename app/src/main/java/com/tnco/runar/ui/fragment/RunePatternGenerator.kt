@@ -1,8 +1,8 @@
 package com.tnco.runar.ui.fragment
 
+import android.annotation.SuppressLint
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,6 +19,7 @@ import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.ui.component.dialog.CancelDialog
 import com.tnco.runar.ui.viewmodel.MainViewModel
 import com.tnco.runar.util.InternalDeepLink
+import com.tnco.runar.util.OnSwipeTouchListener
 import com.tnco.runar.util.observeOnce
 
 class RunePatternGenerator : Fragment() {
@@ -56,6 +57,25 @@ class RunePatternGenerator : Fragment() {
         return binding.root
     }
 
+    private fun nextPattern(incrementer: Int = 1) {
+        if (viewModel.runesImages.isEmpty()) {
+            return
+        }
+        AnalyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_PATTERN_NEW_TYPE)
+        var nextIndex = viewModel.selectedRuneIndex + incrementer
+        val countOfPatterns = viewModel.runesImages.size;
+
+        if (nextIndex >= countOfPatterns) {
+            nextIndex = 0
+        } else if (nextIndex < 0) {
+            nextIndex = countOfPatterns - 1
+        }
+
+        viewModel.selectedRuneIndex = nextIndex
+        binding.imageRune.setImageBitmap(viewModel.runesImages[viewModel.selectedRuneIndex])
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         AnalyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_PATTERN_CREATED)
@@ -69,15 +89,20 @@ class RunePatternGenerator : Fragment() {
         }
 
         binding.nextType.setOnClickListener {
-            if (viewModel.runesImages.isNotEmpty()) {
-                AnalyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_PATTERN_NEW_TYPE)
-                viewModel.selectedRuneIndex += 1
-                if (viewModel.selectedRuneIndex > viewModel.runesImages.size - 1) {
-                    viewModel.selectedRuneIndex = 0
-                }
-                binding.imageRune.setImageBitmap(viewModel.runesImages[viewModel.selectedRuneIndex])
-            }
+            nextPattern()
         }
+
+        val applicationContext = requireActivity().applicationContext
+        binding.imageRune.setOnTouchListener(object : OnSwipeTouchListener(applicationContext) {
+            override fun onSwipeLeft() {
+                super.onSwipeLeft()
+                nextPattern()
+            }
+            override fun onSwipeRight() {
+                super.onSwipeLeft()
+                nextPattern(-1)
+            }
+        })
 
         binding.buttonSelect.setOnClickListener {
             if (viewModel.runesImages.isNotEmpty()) {
