@@ -47,6 +47,7 @@ jobs:
           token: ${{ secrets.TELEGRAM_TOKEN }}
           document: app/build/outputs/apk/debug/pr-${{ steps.date.outputs.date }}.apk
           format: html
+          disable_notification: true
           message: |
             PULL REQUEST from <b>${{ github.actor }}</b>
             <i>${{ steps.description.outputs.description }}</i>
