@@ -12,7 +12,7 @@ jobs:
 
       - name: Get current date
         id: date
-        run: echo "::set-output name=date::$(date +'%Y-%m-%d__%H_%M_%S')"
+        run: echo "date=$(date +'%Y-%m-%d__%H_%M_%S')" >> $GITHUB_OUTPUT
 
       - name: Get sanitized description name
         id: description
