@@ -16,7 +16,7 @@ jobs:
 
       - name: Get sanitized description2 name
         id: description2
-        run: echo "description2=${{ github.event.pull_request.title }}" >> $GITHUB_OUTPUT
+        run: echo "description2=echo '${{ github.event.pull_request.title }}' | sed -r 's/[<>&;]+//g'" >> $GITHUB_OUTPUT
 
       - name: Show sanitized description2 name
         run: echo "${{ steps.description2.outputs.description2 }}"
