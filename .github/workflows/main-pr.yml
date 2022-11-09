@@ -23,8 +23,12 @@ jobs:
       - name: Build with Grandle
         run: bash ./gradlew assembleDebug --stacktrace
 
+      - name: Rename File
+        run: |
+          cp "app/build/outputs/apk/debug/app-debug.apk" "app/build/outputs/apk/debug/app-${{ steps.date.outputs.date }}.apk"
+
       - name: Upload APK
         uses: actions/upload-artifact@v3
         with:
           name: "ANDROID_APP_${{ steps.date.outputs.date }}"
-          path: app/build/outputs/apk/debug/app-debug.apk
+          path: app/build/outputs/apk/debug/app-${{ steps.date.outputs.date }}.apk
