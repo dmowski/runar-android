@@ -17,7 +17,7 @@ jobs:
 
       - name: Get sanitized description name
         id: description
-        run: echo "description=$(echo '${{ github.event.commits[0].message }}' | sed -r 's/[<>&;]+//g')" >> $GITHUB_OUTPUT
+        run: echo "description='$(echo '${{ github.event.commits[0].message }}' | sed -r 's/[<>&;]+//g')'" >> $GITHUB_OUTPUT
 
       - name: Show sanitized description name
         run: echo "${{ steps.description.outputs.description }}"
