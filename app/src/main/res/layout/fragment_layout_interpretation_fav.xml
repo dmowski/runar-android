@@ -136,9 +136,10 @@
                             android:id="@+id/rune_description"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:lineSpacingMultiplier="1.35"
                             android:fontFamily="@font/roboto_light"
-                            android:textColor="@color/auf_text_color"/>
+                            android:lineSpacingMultiplier="1.35"
+                            android:textColor="@color/auf_text_color"
+                            android:paddingBottom="40dp"/>
                     </ScrollView>
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/rune_description_bottom_background"
@@ -437,7 +438,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_light"
                         android:textAlignment="center"
-                        android:maxLines="1"
+                        android:maxLines="2"
                         android:textColor="@color/auf_text_color"
                         app:layout_constraintEnd_toStartOf="@id/right_text_guideline"
                         app:layout_constraintStart_toStartOf="@id/left_text_guideline"
