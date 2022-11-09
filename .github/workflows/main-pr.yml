@@ -14,6 +14,13 @@ jobs:
         id: date
         run: echo "::set-output name=date::$(date +'%Y-%m-%d__%H_%M_%S')"
 
+      - name: Get sanitized description2 name
+        id: description2
+        run: echo "description2=description2Value" >> $GITHUB_OUTPUT
+
+      - name: Show sanitized description2 name
+        run: echo "${{ steps.description2.outputs.description2 }}"
+
       - name: Get sanitized description name
         id: description
         run: echo "::set-output name=description::$(echo '${{ github.event.pull_request.title }}' | sed -r 's/[<>&;]+//g')"
@@ -28,7 +35,7 @@ jobs:
           java-version: "17"
 
       - name: Build with Grandle
-        run: bash ./gradlew assembleDebug --stacktrace
+        run: bash ./gradlew2 assembleDebug --stacktrace
 
       - name: Rename File
         run: |
