@@ -31,6 +31,7 @@
                 android:text="@string/onboard_next"
                 android:foreground="?android:attr/selectableItemBackgroundBorderless"
                 android:textColor="@color/onboarding_button_text_selector"
+                android:textSize="@dimen/buttonText"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -42,6 +43,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/amatic_sc_bold"
                 android:textColor="@color/onboard_header_color"
+                android:textSize="@dimen/headerText"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -58,8 +60,10 @@
                 app:layout_constraintTop_toBottomOf="@id/header"
                 android:fontFamily="@font/roboto_regular"
                 android:textColor="@color/onboard_text_color"
+                android:textSize="@dimen/infoText"
+                android:letterSpacing="0.011"
                 android:fontFeatureSettings="pnum, lnum"
-                android:lineSpacingMultiplier="1.2"
+                android:lineSpacingMultiplier="1.1"
                 android:gravity="center" />
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/image"
