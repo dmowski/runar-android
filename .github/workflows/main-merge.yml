@@ -42,5 +42,5 @@ jobs:
           document: app/build/outputs/apk/debug/app-${{ steps.date.outputs.date }}.apk
           format: html
           message: |
-            Merged new updated from <b>${{ github.actor }}</b> 🔥
+            🔥 New build from <b>${{ github.actor }}</b> 🔥
             <i>${{ github.event.commits[0].message }}</i>

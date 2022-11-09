@@ -32,3 +32,14 @@ jobs:
         with:
           name: "ANDROID_APP_${{ steps.date.outputs.date }}"
           path: app/build/outputs/apk/debug/app-${{ steps.date.outputs.date }}.apk
+
+      - name: Send telegram message
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          document: app/build/outputs/apk/debug/app-${{ steps.date.outputs.date }}.apk
+          format: html
+          message: |
+            PULL REQUEST from <b>${{ github.actor }}</b>
+            <i>${{ github.event.pull_request.title }}</i>
