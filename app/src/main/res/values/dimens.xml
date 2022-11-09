@@ -6,7 +6,6 @@
     <dimen name="layout_description_line_spacing">1.5</dimen>
     <dimen name="layout_popup_line_spacing">1.35</dimen>
 
-
     <dimen name="generator_rune_width_hdpi">62dp</dimen>
     <dimen name="generator_rune_height_hdpi">74dp</dimen>
 
@@ -17,4 +16,9 @@
     <dimen name="settings_padding_top">16dp</dimen>
 
     <dimen name="about_app_padding">24dp</dimen>
+
+    <dimen name="buttonSkip">14sp</dimen>
+    <dimen name="headerText">36sp</dimen>
+    <dimen name="infoText">15sp</dimen>
+    <dimen name="buttonText">24sp</dimen>
 </resources>
