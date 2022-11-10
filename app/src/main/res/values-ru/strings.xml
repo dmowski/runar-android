@@ -1,10 +1,10 @@
 <resources>
     <string name="app_name">Runar</string>
-    <string name="bottom_nav_layouts">Расклады</string>
-    <string name="bottom_nav_library">Библиотека</string>
-    <string name="bottom_nav_favourites">Избранное</string>
-    <string name="bottom_nav_settings">Настройки</string>
-    <string name="generator">Генератор</string>
+    <string name="bottom_nav_layouts"><font size="12">Расклады</font></string>
+    <string name="bottom_nav_library"><font size="12">Библиотека</font></string>
+    <string name="bottom_nav_favourites"><font size="12">Избранное</font></string>
+    <string name="bottom_nav_settings"><font size="12">Настройки</font></string>
+    <string name="generator"><font size="12">Генератор</font></string>
 
     <string name="pattern_generator">Генератор узоров</string>
     <string name="run_pattern">Рунный узор</string>

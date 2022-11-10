@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <ScrollView
         android:id="@+id/scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fillViewport="true"
         android:overScrollMode="never"
         android:scrollbars="none"
-        android:fillViewport="true">
+        tools:layout_editor_absoluteX="-90dp"
+        tools:layout_editor_absoluteY="45dp">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -24,36 +29,38 @@
                 android:background="@drawable/layout_item_selector_background"
                 android:clickable="true"
                 android:focusable="true"
+                android:orientation="vertical"
                 app:layout_constraintBottom_toTopOf="@id/third_layout"
                 app:layout_constraintDimensionRatio="H,1:1.08"
                 app:layout_constraintEnd_toStartOf="@id/second_layout"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:orientation="vertical">
+                app:layout_constraintTop_toTopOf="parent">
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/first_layout_iw"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:src="@drawable/layout_1_img"
-                    android:layout_weight="3.15"/>
+                    android:layout_weight="3.35"
+                    android:src="@drawable/layout_1_img" />
 
                 <TextView
                     android:id="@+id/first_layout_tw"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_marginBottom="@dimen/layout_text_margin_bottom"
+                    android:layout_weight="1"
                     android:duplicateParentState="true"
                     android:fontFamily="@font/amatic_sc_bold"
-                    app:fontFamily="@font/amatic_sc_bold"
-                    android:letterSpacing="@dimen/layout_text_letter_spacing"
-                    android:text="@string/layout1"
                     android:gravity="center_horizontal|bottom"
+                    android:letterSpacing="@dimen/layout_text_letter_spacing"
+                    android:lineSpacingExtra="-14sp"
+                    android:text="@string/layout1"
                     android:textColor="@color/layout_text_selector"
-                    android:layout_weight="1"
+                    app:autoSizeMinTextSize="5sp"
+                    app:autoSizeMaxTextSize="32sp"
                     app:autoSizeTextType="uniform"
-                    app:maxLines="1"
-                    app:autoSizeMinTextSize="5sp"/>
+                    app:fontFamily="@font/amatic_sc_bold"
+                    app:maxLines="1" />
             </LinearLayout>
 
             <LinearLayout
@@ -64,18 +71,18 @@
                 android:background="@drawable/layout_item_selector_background"
                 android:clickable="true"
                 android:focusable="true"
+                android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="@id/first_layout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/first_layout"
-                app:layout_constraintTop_toTopOf="@id/first_layout"
-                android:orientation="vertical">
+                app:layout_constraintTop_toTopOf="@id/first_layout">
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/second_layout_iw"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:src="@drawable/layout_2_img"
-                    android:layout_weight="3.15"/>
+                    android:layout_weight="3.35"/>
 
                 <TextView
                     android:id="@+id/second_layout_tw"
@@ -92,7 +99,9 @@
                     android:layout_weight="1"
                     app:autoSizeTextType="uniform"
                     app:maxLines="1"
-                    app:autoSizeMinTextSize="5sp"/>
+                    app:autoSizeMinTextSize="5sp" />
+
+
             </LinearLayout>
 
             <LinearLayout
@@ -104,34 +113,34 @@
                 android:background="@drawable/layout_item_selector_background"
                 android:clickable="true"
                 android:focusable="true"
+                android:orientation="vertical"
                 app:layout_constraintBottom_toTopOf="@id/fifth_layout"
                 app:layout_constraintEnd_toEndOf="@id/first_layout"
                 app:layout_constraintStart_toStartOf="@id/first_layout"
-                app:layout_constraintTop_toBottomOf="@id/first_layout"
-                android:orientation="vertical">
+                app:layout_constraintTop_toBottomOf="@id/first_layout">
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/third_layout_iw"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:src="@drawable/layout_3_img"
-                    android:layout_weight="3.15"/>
+                    android:layout_weight="3.35"
+                    android:src="@drawable/layout_3_img" />
 
                 <TextView
                     android:id="@+id/third_layout_tw"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_marginBottom="@dimen/layout_text_margin_bottom"
+                    android:layout_weight="1"
                     android:fontFamily="@font/amatic_sc_bold"
-                    app:fontFamily="@font/amatic_sc_bold"
+                    android:gravity="center_horizontal|bottom"
                     android:letterSpacing="@dimen/layout_text_letter_spacing"
                     android:text="@string/layout3"
-                    android:gravity="center_horizontal|bottom"
                     android:textColor="@color/layout_text_selector"
-                    android:layout_weight="1"
+                    app:autoSizeMinTextSize="5sp"
                     app:autoSizeTextType="uniform"
-                    app:maxLines="1"
-                    app:autoSizeMinTextSize="5sp"/>
+                    app:fontFamily="@font/amatic_sc_bold"
+                    app:maxLines="1" />
             </LinearLayout>
 
             <LinearLayout
@@ -141,35 +150,34 @@
                 android:background="@drawable/layout_item_selector_background"
                 android:clickable="true"
                 android:focusable="true"
+                android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="@id/third_layout"
                 app:layout_constraintEnd_toEndOf="@id/second_layout"
                 app:layout_constraintStart_toStartOf="@id/second_layout"
-                app:layout_constraintTop_toTopOf="@id/third_layout"
-                android:orientation="vertical">
+                app:layout_constraintTop_toTopOf="@id/third_layout">
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/fourth_layout_iw"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:src="@drawable/layout_4_img"
-                    android:layout_weight="3.15"/>
+                    android:layout_weight="3.35"
+                    android:src="@drawable/layout_4_img" />
 
                 <TextView
                     android:id="@+id/fourth_layout_tw"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_marginBottom="@dimen/layout_text_margin_bottom"
+                    android:layout_weight="1"
                     android:fontFamily="@font/amatic_sc_bold"
-                    app:fontFamily="@font/amatic_sc_bold"
+                    android:gravity="center_horizontal|bottom"
                     android:letterSpacing="@dimen/layout_text_letter_spacing"
                     android:text="@string/layout4"
-                    android:gravity="center_horizontal|bottom"
                     android:textColor="@color/layout_text_selector"
-                    android:layout_weight="1"
-                    app:autoSizeTextType="uniform"
-                    app:maxLines="1"
                     app:autoSizeMinTextSize="5sp"
-                    />
+                    app:autoSizeTextType="uniform"
+                    app:fontFamily="@font/amatic_sc_bold"
+                    app:maxLines="1" />
             </LinearLayout>
 
             <LinearLayout
@@ -181,34 +189,34 @@
                 android:background="@drawable/layout_item_selector_background"
                 android:clickable="true"
                 android:focusable="true"
+                android:orientation="vertical"
                 app:layout_constraintBottom_toTopOf="@id/seventh_layout"
                 app:layout_constraintEnd_toEndOf="@id/first_layout"
                 app:layout_constraintStart_toStartOf="@id/first_layout"
-                app:layout_constraintTop_toBottomOf="@id/third_layout"
-                android:orientation="vertical">
+                app:layout_constraintTop_toBottomOf="@id/third_layout">
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/fifth_layout_iw"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:src="@drawable/layout_5_img"
-                    android:layout_weight="3.15"/>
+                    android:layout_weight="3.35"
+                    android:src="@drawable/layout_5_img" />
 
                 <TextView
                     android:id="@+id/fifth_layout_tw"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_marginBottom="@dimen/layout_text_margin_bottom"
+                    android:layout_weight="1"
                     android:fontFamily="@font/amatic_sc_bold"
-                    app:fontFamily="@font/amatic_sc_bold"
+                    android:gravity="center_horizontal|bottom"
                     android:letterSpacing="@dimen/layout_text_letter_spacing"
                     android:text="@string/layout5"
-                    android:gravity="center_horizontal|bottom"
                     android:textColor="@color/layout_text_selector"
-                    android:layout_weight="1"
+                    app:autoSizeMinTextSize="5sp"
                     app:autoSizeTextType="uniform"
-                    app:maxLines="1"
-                    app:autoSizeMinTextSize="5sp"/>
+                    app:fontFamily="@font/amatic_sc_bold"
+                    app:maxLines="1" />
             </LinearLayout>
 
             <LinearLayout
@@ -218,34 +226,34 @@
                 android:background="@drawable/layout_item_selector_background"
                 android:clickable="true"
                 android:focusable="true"
+                android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="@id/fifth_layout"
                 app:layout_constraintEnd_toEndOf="@id/second_layout"
                 app:layout_constraintStart_toStartOf="@id/second_layout"
-                app:layout_constraintTop_toTopOf="@id/fifth_layout"
-                android:orientation="vertical">
+                app:layout_constraintTop_toTopOf="@id/fifth_layout">
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/sixth_layout_iw"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:src="@drawable/layout_6_img"
-                    android:layout_weight="3.15"/>
+                    android:layout_weight="3.35"
+                    android:src="@drawable/layout_6_img" />
 
                 <TextView
                     android:id="@+id/sixth_layout_tw"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_marginBottom="@dimen/layout_text_margin_bottom"
+                    android:layout_weight="1"
                     android:fontFamily="@font/amatic_sc_bold"
-                    app:fontFamily="@font/amatic_sc_bold"
+                    android:gravity="center_horizontal|bottom"
                     android:letterSpacing="@dimen/layout_text_letter_spacing"
                     android:text="@string/layout6"
-                    android:gravity="center_horizontal|bottom"
                     android:textColor="@color/layout_text_selector"
-                    android:layout_weight="1"
+                    app:autoSizeMinTextSize="5sp"
                     app:autoSizeTextType="uniform"
-                    app:maxLines="1"
-                    app:autoSizeMinTextSize="5sp"/>
+                    app:fontFamily="@font/amatic_sc_bold"
+                    app:maxLines="1" />
             </LinearLayout>
 
             <LinearLayout
@@ -256,34 +264,34 @@
                 android:background="@drawable/layout_item_selector_background"
                 android:clickable="true"
                 android:focusable="true"
+                android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@id/first_layout"
                 app:layout_constraintStart_toStartOf="@id/first_layout"
-                app:layout_constraintTop_toBottomOf="@id/fifth_layout"
-                android:orientation="vertical">
+                app:layout_constraintTop_toBottomOf="@id/fifth_layout">
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/seventh_layout_iw"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:src="@drawable/layout_7_img"
-                    android:layout_weight="3.15" />
+                    android:layout_weight="3.35"
+                    android:src="@drawable/layout_7_img" />
 
                 <TextView
                     android:id="@+id/seventh_layout_tw"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_marginBottom="@dimen/layout_text_margin_bottom"
+                    android:layout_weight="1"
                     android:fontFamily="@font/amatic_sc_bold"
-                    app:fontFamily="@font/amatic_sc_bold"
+                    android:gravity="center_horizontal|bottom"
                     android:letterSpacing="@dimen/layout_text_letter_spacing"
                     android:text="@string/layout7"
-                    android:gravity="center_horizontal|bottom"
                     android:textColor="@color/layout_text_selector"
-                    android:layout_weight="1"
+                    app:autoSizeMinTextSize="5sp"
                     app:autoSizeTextType="uniform"
-                    app:maxLines="1"
-                    app:autoSizeMinTextSize="5sp"/>
+                    app:fontFamily="@font/amatic_sc_bold"
+                    app:maxLines="1" />
             </LinearLayout>
 
             <LinearLayout
@@ -293,35 +301,36 @@
                 android:background="@drawable/layout_item_selector_background"
                 android:clickable="true"
                 android:focusable="true"
+                android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="@id/seventh_layout"
                 app:layout_constraintEnd_toEndOf="@id/second_layout"
                 app:layout_constraintStart_toStartOf="@id/second_layout"
-                app:layout_constraintTop_toTopOf="@id/seventh_layout"
-                android:orientation="vertical">
+                app:layout_constraintTop_toTopOf="@id/seventh_layout">
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/eight_layout_iw"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:src="@drawable/layout_8_img"
-                    android:layout_weight="3.15" />
+                    android:layout_weight="3.35"
+                    android:src="@drawable/layout_8_img" />
 
                 <TextView
                     android:id="@+id/eight_layout_tw"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_marginBottom="@dimen/layout_text_margin_bottom"
+                    android:layout_weight="1"
                     android:fontFamily="@font/amatic_sc_bold"
-                    app:fontFamily="@font/amatic_sc_bold"
+                    android:gravity="center_horizontal|bottom"
                     android:letterSpacing="@dimen/layout_text_letter_spacing"
                     android:text="@string/layout8"
-                    android:gravity="center_horizontal|bottom"
                     android:textColor="@color/layout_text_selector"
-                    android:layout_weight="1"
+                    app:autoSizeMinTextSize="5sp"
                     app:autoSizeTextType="uniform"
-                    app:maxLines="1"
-                    app:autoSizeMinTextSize="5sp"/>
+                    app:fontFamily="@font/amatic_sc_bold"
+                    app:maxLines="1" />
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
