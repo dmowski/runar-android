@@ -57,7 +57,6 @@
                     android:text="@string/layout1"
                     android:textColor="@color/layout_text_selector"
                     app:autoSizeMinTextSize="5sp"
-                    app:autoSizeMaxTextSize="32sp"
                     app:autoSizeTextType="uniform"
                     app:fontFamily="@font/amatic_sc_bold"
                     app:maxLines="1" />
