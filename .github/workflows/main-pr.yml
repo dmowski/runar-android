@@ -14,13 +14,6 @@ jobs:
         id: date
         run: echo "date=$(date +'%Y-%m-%d__%H_%M_%S')" >> $GITHUB_OUTPUT
 
-      - name: Get sanitized description name
-        id: description
-        run: echo "description='$(echo '${{ github.event.pull_request.title }}' | sed -r 's/[<>&;]+//g')'" >> $GITHUB_OUTPUT
-
-      - name: Show sanitized description name
-        run: echo "${{ steps.description.outputs.description }}"
-
       - name: Setup JDK
         uses: actions/setup-java@v3
         with:
@@ -46,8 +39,8 @@ jobs:
           to: ${{ secrets.TELEGRAM_TO }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
           document: app/build/outputs/apk/debug/pr-${{ steps.date.outputs.date }}.apk
-          format: html
+          format: markdown
           disable_notification: true
           message: |
-            PULL REQUEST from <b>${{ github.actor }}</b>
-            <i>${{ steps.description.outputs.description }}</i>
+            PULL REQUEST from ${{ github.actor }}
+            ${{ github.event.pull_request.title }}
