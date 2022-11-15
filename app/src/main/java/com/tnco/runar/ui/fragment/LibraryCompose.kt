@@ -39,7 +39,7 @@ import kotlinx.coroutines.launch
 
 @ExperimentalPagerApi
 @Composable
-internal fun ItemData(scrollState: ScrollState) {
+private fun ItemData(scrollState: ScrollState) {
     val viewModel: LibraryViewModel = viewModel()
     val fontSize by viewModel.fontSize.observeAsState()
     val menuData by viewModel.menuData.observeAsState()
@@ -175,7 +175,7 @@ internal fun Bars() {
 }
 
 @Composable
-internal fun TopBarIcon() {
+private fun TopBarIcon() {
     val viewModel: LibraryViewModel = viewModel()
     IconButton(onClick = { viewModel.goBackInMenu() }) {
         Icon(
@@ -188,7 +188,7 @@ internal fun TopBarIcon() {
 
 @ExperimentalPagerApi
 @Composable
-internal fun TabScreen(pagerState: PagerState, scrollState: ScrollState, fontSize: Float?) {
+private fun TabScreen(pagerState: PagerState, scrollState: ScrollState, fontSize: Float?) {
     Column {
         Tabs(pagerState = pagerState, fontSize = fontSize)
         TabsContent(pagerState = pagerState, scrollState = scrollState)
@@ -197,7 +197,7 @@ internal fun TabScreen(pagerState: PagerState, scrollState: ScrollState, fontSiz
 
 @ExperimentalPagerApi
 @Composable
-fun TabsContent(pagerState: PagerState, scrollState: ScrollState) {
+private fun TabsContent(pagerState: PagerState, scrollState: ScrollState) {
     HorizontalPager(state = pagerState) { page ->
         when (page) {
             0 -> {
@@ -227,7 +227,7 @@ fun TabsContent(pagerState: PagerState, scrollState: ScrollState) {
 
 @ExperimentalPagerApi
 @Composable
-fun Tabs(pagerState: PagerState, fontSize: Float?) {
+private fun Tabs(pagerState: PagerState, fontSize: Float?) {
     val list = listOf(R.string.library_tab_books, R.string.library_tab_audio)
 
     val scope = rememberCoroutineScope()
@@ -286,7 +286,7 @@ fun Tabs(pagerState: PagerState, fontSize: Float?) {
 
 @ExperimentalPagerApi
 @Composable
-internal fun FirstMenuItem(
+private fun FirstMenuItem(
     fontSize: Float,
     header: String,
     text: String,
@@ -379,7 +379,7 @@ internal fun FirstMenuItem(
 }
 
 @Composable
-internal fun SecondMenuItem(
+private fun SecondMenuItem(
     fontSize: Float,
     header: String,
     imgLink: String,
@@ -535,7 +535,7 @@ internal fun SecondMenuItem(
 }
 
 @Composable
-internal fun ThirdMenuItem(fontSize: Float, text: String, title: String) {
+private fun ThirdMenuItem(fontSize: Float, text: String, title: String) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Box(Modifier.aspectRatio(35f))
         Text(
@@ -559,7 +559,7 @@ internal fun ThirdMenuItem(fontSize: Float, text: String, title: String) {
 }
 
 @Composable
-internal fun SimpleTextItem(fontSize: Float, text: String?, urlTitle: String?, urlLink: String?) {
+private fun SimpleTextItem(fontSize: Float, text: String?, urlTitle: String?, urlLink: String?) {
     Box(
         Modifier
             .fillMaxSize()
@@ -650,7 +650,7 @@ internal fun SimpleTextItem(fontSize: Float, text: String?, urlTitle: String?, u
 }
 
 @Composable
-internal fun RuneDescription(
+private fun RuneDescription(
     fontSize: Float,
     header: String,
     text: String,
