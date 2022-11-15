@@ -92,8 +92,8 @@
     <string name="onboard_text2">Choose one of the eight divinations and see the interpretation of your fate</string>
     <string name="onboard_header3">Interpretation</string>
     <string name="onboard_text3">See the interpretation of each divination with the luckiness level</string>
-    <string name="onboard_header4">Favorites</string>
-    <string name="onboard_text4">Save your favorite interpretations and meanings of runes to your Favorites</string>
+    <string name="onboard_header4">Favourites</string>
+    <string name="onboard_text4">Save your favourite interpretations and meanings of runes to your Favourites</string>
     <string name="onboard_header5">Generator</string>
     <string name="onboard_text5">Forge your own destiny, collect a rune pattern and choose a background for it</string>
     <string name="onboard_header6">Library</string>
