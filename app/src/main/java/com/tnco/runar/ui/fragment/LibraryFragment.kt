@@ -2,6 +2,7 @@ package com.tnco.runar.ui.fragment
 
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -32,6 +33,7 @@ import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.util.AnalyticsConstants
 import com.tnco.runar.ui.viewmodel.LibraryViewModel
+import com.tnco.runar.util.observeOnce
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -42,18 +44,26 @@ const val audioFeature = false
 class LibraryFragment : Fragment() {
     val viewModel: LibraryViewModel by viewModels()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        viewModel.getRuneDataFromDB()
-        super.onCreate(savedInstanceState)
-    }
-
     @ExperimentalPagerApi
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        viewModel.getRuneDataFromDB()
         AnalyticsHelper.sendEvent(AnalyticsEvent.LIBRARY_OPENED)
+
+        val noInternet = getString(R.string.internet_conn_error1)
+        viewModel.isOnline.observeOnce(viewLifecycleOwner) { online ->
+            if (!online && viewModel.dbList.isEmpty()) {
+                Toast.makeText(
+                    requireContext(),
+                    noInternet,
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        }
+
         val view = ComposeView(requireContext()).apply {
             setContent {
                 Bars()
@@ -63,8 +73,7 @@ class LibraryFragment : Fragment() {
         viewModel.lastMenuHeader.observe(viewLifecycleOwner) {
             header = it
         }
-
-
+        
         view.isFocusableInTouchMode = true
         view.requestFocus()
 
@@ -212,7 +221,7 @@ private fun Bars() {
             )
         },
         backgroundColor = colorResource(id = R.color.library_top_bar_2)
-    ) { paddingValues ->
+   ) { paddingValue ->
         val scrollState = rememberScrollState()
         if (tabsState.value && audioFeature) {
             TabScreen(pagerState, scrollState, fontSize)

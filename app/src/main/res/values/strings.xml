@@ -151,5 +151,6 @@
 
     <string name="retry">Retry</string>
     <string name="internet_conn_error">Please check your network connection and try again</string>
+    <string name="internet_conn_error1">You need to connect to the internet to see the Images!</string>
 
 </resources>

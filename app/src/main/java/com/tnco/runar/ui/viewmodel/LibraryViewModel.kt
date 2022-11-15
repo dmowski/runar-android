@@ -1,11 +1,14 @@
 package com.tnco.runar.ui.viewmodel
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import com.tnco.runar.model.LibraryItemsModel
 import com.tnco.runar.repository.DatabaseRepository
 import com.tnco.runar.repository.SharedDataRepository
+import com.tnco.runar.util.NetworkMonitor
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.asCoroutineDispatcher
 import kotlinx.coroutines.launch
@@ -15,12 +18,15 @@ class LibraryViewModel : ViewModel() {
     private val singleThread = Executors.newSingleThreadExecutor().asCoroutineDispatcher()
 
     val fontSize: LiveData<Float> = MutableLiveData(SharedDataRepository.fontSize)
-    private var dbList: List<LibraryItemsModel> = emptyList()
+    internal var dbList: List<LibraryItemsModel> = emptyList()
     var lastMenuHeader = MutableLiveData("")
 
     var scrollPositionHistory = MutableLiveData(mutableListOf(0))
 
     var menuData = MutableLiveData<List<LibraryItemsModel>>(emptyList())
+
+    private val networkMonitor = NetworkMonitor.get()
+    val isOnline = networkMonitor.isConnected.asLiveData()
 
     private var menuNavData = mutableListOf<String>()
 
