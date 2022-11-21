@@ -14,7 +14,7 @@
     <string name="popup_runic_staves">В скором времени ты можешь сам составлять рунные ставы. Рунный став можно использовать как талисман или оберег. </string>
     <string name="coming_soon">Скоро появится</string>
     <string name="runes_selection">Выбор рун</string>
-    <string name="runes_collect_formula">Собери свой рунный узор, выбрав от 1 до 3 рун</string>
+    <string name="runes_collect_formula">Собери свою рунную формулу, выбрав от 1 до 3 рун</string>
     <string name="runes_random">Выбрать случайные руны</string>
 
     <string name="runes_generate">Сгенерировать</string>
@@ -67,7 +67,7 @@
     <string name="fav_dialog_text">Хотите удалить избранные расклады?</string>
 
     <string name="library_bar_fav">Избранное</string>
-    <string name="fav_checkbox_text">Выбрать всё</string>
+    <string name="fav_checkbox_text">Выбрать все</string>
 
     <string name="about_url1">https://lyod1.bandcamp.com/releases</string>
     <string name="about_url2">https://danheimmusic.com/license-music/</string>
