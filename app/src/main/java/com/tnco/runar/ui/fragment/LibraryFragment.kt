@@ -1,5 +1,6 @@
 package com.tnco.runar.ui.fragment
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
@@ -180,7 +181,7 @@ private fun ItemData(scrollState: ScrollState) {
         }
     }
 }
-
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @ExperimentalPagerApi
 @Composable
 private fun Bars() {
@@ -221,7 +222,7 @@ private fun Bars() {
             )
         },
         backgroundColor = colorResource(id = R.color.library_top_bar_2)
-   ) { paddingValue ->
+    ) {
         val scrollState = rememberScrollState()
         if (tabsState.value && audioFeature) {
             TabScreen(pagerState, scrollState, fontSize)
