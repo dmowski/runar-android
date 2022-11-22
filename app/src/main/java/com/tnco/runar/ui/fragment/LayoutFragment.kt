@@ -1,6 +1,5 @@
 package com.tnco.runar.ui.fragment
 
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -26,7 +25,7 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentLayoutsBinding.bind(view)
-
+        AnalyticsHelper.sendEvent(AnalyticsEvent.SCREEN_VIEW_RUNIC_DRAWS)
         setClickListenerOnRuneLayouts()
 
         viewModel.fontSize.observe(viewLifecycleOwner){fontSize->
