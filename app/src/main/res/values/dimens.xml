@@ -21,4 +21,7 @@
     <dimen name="headerText">36sp</dimen>
     <dimen name="infoText">15sp</dimen>
     <dimen name="buttonText">24sp</dimen>
+    
+    <item name="selected_rune_opacity" type="dimen" format="float">0.3</item>
+    <item name="normal_rune_opacity" type="dimen" format="float">1.0</item>
 </resources>

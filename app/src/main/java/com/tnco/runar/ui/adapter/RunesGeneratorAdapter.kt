@@ -1,10 +1,13 @@
 package com.tnco.runar.ui.adapter
 
+import android.content.Context
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.tnco.runar.R
 import com.tnco.runar.databinding.RuneItemBinding
 import com.tnco.runar.model.RunesItemsModel
 import com.tnco.runar.util.RunesDiffUtil
@@ -41,21 +44,31 @@ class RunesGeneratorAdapter(
     override fun onBindViewHolder(holder: RunesGeneratorHolder, position: Int) {
         val currentRune = mListRunes[position]
         holder.bind(currentRune)
+
+        val normalRuneOpacity = getOpacity(holder.itemView.context, R.dimen.normal_rune_opacity)
+        val selectedRuneOpacity = getOpacity(holder.itemView.context, R.dimen.selected_rune_opacity)
         holder.itemView.setOnClickListener {
             if (selectedRunes.size < 3 && !selectedRunes.contains(currentRune)) {
                 selectedRunes.add(currentRune)
                 selectedAdapterPositions.add(position)
-                it.alpha = 0.3f
+                it.alpha = selectedRuneOpacity
                 obsSelectedRunes.value = selectedRunes
             }
         }
 
-        holder.itemView.alpha = if (selectedAdapterPositions.contains(position)) 0.3f else 1.0f
+        holder.itemView.alpha =
+            if (selectedAdapterPositions.contains(position)) selectedRuneOpacity else normalRuneOpacity
 
         holder.itemView.setOnLongClickListener {
             onShowBottomSheet(currentRune)
             true
         }
+    }
+
+    private fun getOpacity(context: Context, idResource: Int): Float {
+        val outValue = TypedValue()
+        context.resources.getValue(idResource, outValue, true)
+        return outValue.float
     }
 
     fun updateItem(index: Int) {
