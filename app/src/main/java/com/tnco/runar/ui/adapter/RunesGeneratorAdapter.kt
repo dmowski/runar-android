@@ -15,6 +15,7 @@ class RunesGeneratorAdapter(
 
 
     private val selectedRunes: MutableList<RunesItemsModel> = mutableListOf()
+    private val selectedAdapterPositions: MutableList<Int> = mutableListOf()
     var obsSelectedRunes: MutableLiveData<MutableList<RunesItemsModel>> = MutableLiveData()
     private var mListRunes = emptyList<RunesItemsModel>()
     class RunesGeneratorHolder(private val binding: RuneItemBinding) :
@@ -41,15 +42,25 @@ class RunesGeneratorAdapter(
         val currentRune = mListRunes[position]
         holder.bind(currentRune)
         holder.itemView.setOnClickListener {
-            if (selectedRunes.size < 3 && !selectedRunes.contains(currentRune))
+            if (selectedRunes.size < 3 && !selectedRunes.contains(currentRune)) {
                 selectedRunes.add(currentRune)
-            obsSelectedRunes.value = selectedRunes
+                selectedAdapterPositions.add(position)
+                it.alpha = 0.3f
+                obsSelectedRunes.value = selectedRunes
+            }
         }
+
+        holder.itemView.alpha = if (selectedAdapterPositions.contains(position)) 0.3f else 1.0f
 
         holder.itemView.setOnLongClickListener {
             onShowBottomSheet(currentRune)
             true
         }
+    }
+
+    fun updateItem(index: Int) {
+        notifyItemChanged(selectedAdapterPositions[index])
+        selectedAdapterPositions.removeAt(index)
     }
 
     override fun getItemCount(): Int = mListRunes.size
