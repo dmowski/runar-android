@@ -1,5 +1,6 @@
 package com.tnco.runar.ui.fragment
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -31,6 +32,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import com.tnco.runar.BuildConfig
 import com.tnco.runar.R
 import com.tnco.runar.ui.Navigator
 import com.tnco.runar.ui.viewmodel.SettingsViewModel
@@ -71,6 +73,7 @@ class SettingsFragment : Fragment() {
     }
 }
 
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 private fun Bars(navigator: Navigator, navController: NavController) {
     val viewModel: SettingsViewModel = viewModel()
@@ -84,7 +87,6 @@ private fun Bars(navigator: Navigator, navController: NavController) {
     else stringResource(id = R.string.settings_layout)
 
     val context = LocalContext.current
-
 
     Scaffold(
         topBar = {
@@ -101,7 +103,7 @@ private fun Bars(navigator: Navigator, navController: NavController) {
             )
         },
         backgroundColor = colorResource(id = R.color.settings_top_app_bar)
-    ) { paddingValues ->
+    ) {
         val scrollState = rememberScrollState()
         Column(
             modifier = Modifier
@@ -168,6 +170,18 @@ private fun Bars(navigator: Navigator, navController: NavController) {
                 }
             )
             DividerItem()
+            if (BuildConfig.DEBUG) {
+                SimpleMenuItem(
+                    fontSize = fontSize!!,
+                    header = stringResource(id = R.string.developer_options_title),
+                    clickAction = {
+                        val direction = SettingsFragmentDirections
+                            .actionSettingsFragmentToDeveloperOptionsFragment()
+                        navController.navigate(direction)
+                    }
+                )
+                DividerItem()
+            }
         }
     }
 }
