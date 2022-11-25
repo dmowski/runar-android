@@ -1,6 +1,5 @@
 package com.tnco.runar.ui.fragment
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -73,7 +72,6 @@ class SettingsFragment : Fragment() {
     }
 }
 
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 private fun Bars(navigator: Navigator, navController: NavController) {
     val viewModel: SettingsViewModel = viewModel()
@@ -103,14 +101,15 @@ private fun Bars(navigator: Navigator, navController: NavController) {
             )
         },
         backgroundColor = colorResource(id = R.color.settings_top_app_bar)
-    ) {
+    ) { paddingValues ->
         val scrollState = rememberScrollState()
         Column(
             modifier = Modifier
                 .verticalScroll(state = scrollState, enabled = true)
                 .padding(
                     start = dimensionResource(id = R.dimen.settings_padding_left),
-                    top = dimensionResource(id = R.dimen.settings_padding_top)
+                    top = dimensionResource(id = R.dimen.settings_padding_top),
+                    bottom = paddingValues.calculateBottomPadding()
                 )
         ) {
             LangMenuItem(

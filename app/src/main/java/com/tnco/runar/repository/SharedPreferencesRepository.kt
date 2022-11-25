@@ -18,6 +18,7 @@ class SharedPreferencesRepository private constructor(context: Context) {
     var language: String
     var lastRunTime: Long
     var lastDivination: Long = 0
+    var switcherNames: Set<String> = setOf()
 
     init {
         val appVersion = context.packageManager.getPackageInfo(context.packageName, 0).versionCode
@@ -92,6 +93,22 @@ class SharedPreferencesRepository private constructor(context: Context) {
         editor.putLong("last_run", lastRunTime)
         editor.apply()
         RunarLogger.logDebug("last_run $lastRunTime")
+
+        if (preferences.contains(SWITCHER_NAMES_PREF)) {
+            val receivedSwitcherNames = preferences.getStringSet(SWITCHER_NAMES_PREF, setOf())
+            switcherNames = receivedSwitcherNames?.toSet() ?: setOf()
+        } else {
+            initDeveloperSwitchers()
+        }
+    }
+
+    private fun initDeveloperSwitchers() {
+        val switchers = mapOf(
+            Pair("test", false)
+        )
+        switcherNames = switchers.keys
+        putSwitcherNames(switcherNames)
+        putSwitcherStates(switchers)
     }
 
     fun getLibHash(lng: String): String {
@@ -141,7 +158,42 @@ class SharedPreferencesRepository private constructor(context: Context) {
         editor.apply()
     }
 
+    private fun putSwitcherNames(names: Set<String>) {
+        preferences.edit().apply {
+            putStringSet(SWITCHER_NAMES_PREF, names)
+            apply()
+        }
+    }
+
+    private fun putSwitcherStates(states: Map<String, Boolean>) {
+        preferences.edit().apply {
+            states.forEach {
+                putBoolean(it.key, it.value)
+            }
+            apply()
+        }
+    }
+
+    fun putSwitcherState(key: String, state: Boolean) {
+        preferences.edit().apply {
+            putBoolean(key, state)
+            apply()
+        }
+    }
+
+    fun switcherStates(): MutableMap<String, Boolean> {
+        val result: MutableMap<String, Boolean> = mutableMapOf()
+        val keys = preferences.getStringSet(SWITCHER_NAMES_PREF, setOf()) ?: setOf()
+        keys.forEach {
+            result[it] = preferences.getBoolean(it, false)
+        }
+        return result
+    }
+
+
     companion object {
+
+        private const val SWITCHER_NAMES_PREF = "switcher_names"
 
         @Volatile
         private lateinit var sharedPreferencesRepository: SharedPreferencesRepository

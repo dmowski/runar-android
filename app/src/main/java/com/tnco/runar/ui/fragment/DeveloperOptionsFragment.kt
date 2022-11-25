@@ -1,6 +1,5 @@
 package com.tnco.runar.ui.fragment
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,7 +9,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -38,24 +38,16 @@ class DeveloperOptionsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View = ComposeView(requireContext()).apply {
         setContent {
-            FragmentScaffold(findNavController())
+            DeveloperOptionsScreen(findNavController())
         }
     }
 }
 
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-private fun FragmentScaffold(navController: NavController) {
+private fun DeveloperOptionsScreen(navController: NavController) {
     val viewModel: DeveloperOptionsViewModel = viewModel()
     val fontSize by viewModel.fontSize.observeAsState(0f)
     val devSwitcherStates = viewModel.devSwitcherStates
-
-    fun addSwitcher(name: String, state: Boolean) {
-        viewModel.putSwitcherState(name, state)
-    }
-
-    //example of adding a switch
-    addSwitcher("test", true)
 
     @Composable
     fun TopBar() = TopAppBar(
@@ -79,7 +71,6 @@ private fun FragmentScaffold(navController: NavController) {
                 header = switcher.key,
                 checkAction = {
                     viewModel.putSwitcherState(switcher.key, it)
-                    viewModel.putSwitcherState(switcher.key + "5", it)
                 },
                 state = devSwitcherStates[switcher.key] ?: false
             ) {
@@ -96,12 +87,16 @@ private fun FragmentScaffold(navController: NavController) {
             TopBar()
         },
         backgroundColor = colorResource(id = R.color.settings_top_app_bar)
-    ) {
+    ) { paddingValues ->
         val scrollState = rememberScrollState()
         Column(
             Modifier
                 .verticalScroll(state = scrollState, enabled = true)
-                .padding(all = dimensionResource(id = R.dimen.about_app_padding))
+                .padding(
+                    start = dimensionResource(id = R.dimen.settings_padding_left),
+                    top = dimensionResource(id = R.dimen.settings_padding_top),
+                    bottom = paddingValues.calculateBottomPadding()
+                )
         ) {
             Switchers()
         }
