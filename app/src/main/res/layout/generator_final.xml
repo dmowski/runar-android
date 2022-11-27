@@ -92,7 +92,7 @@
         android:layout_height="48dp"
         android:background="@drawable/save_and_share"
         android:padding="8dp"
-        android:src="@drawable/save_img"
+        android:src="@drawable/save_image"
         app:layout_constraintBottom_toTopOf="@+id/finalBottomButton"
         app:layout_constraintStart_toStartOf="@+id/finalStart" />
 
