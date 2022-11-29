@@ -1,21 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/settings"
     app:startDestination="@id/settingsFragment">
 
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.tnco.runar.ui.fragment.SettingsFragment"
-        android:label="SettingsFragment" >
+        android:label="SettingsFragment">
         <action
             android:id="@+id/action_settingsFragment_to_aboutAppFragment"
             app:destination="@id/aboutAppFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_developerOptionsFragment"
+            app:destination="@id/developerOptionsFragment" />
     </fragment>
     <fragment
         android:id="@+id/aboutAppFragment"
         android:name="com.tnco.runar.ui.fragment.AboutAppFragment"
         android:label="AboutAppFragment" />
+    <fragment
+        android:id="@+id/developerOptionsFragment"
+        android:name="com.tnco.runar.ui.fragment.DeveloperOptionsFragment"
+        android:label="DeveloperOptionsFragment" />
 
 </navigation>
