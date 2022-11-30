@@ -83,7 +83,9 @@ internal fun Bars() {
         if (tabsState.value && audioFeature) {
             TabScreen(pagerState, scrollState, fontSize)
         } else {
-            Column(Modifier.verticalScroll(state = scrollState, enabled = true)) {
+            Column(modifier = Modifier
+                .padding(top = paddingValue.calculateBottomPadding())
+                .verticalScroll(state = scrollState, enabled = true)) {
                 ItemData(scrollState)
                 Box(modifier = Modifier.aspectRatio(15f, true))
             }
