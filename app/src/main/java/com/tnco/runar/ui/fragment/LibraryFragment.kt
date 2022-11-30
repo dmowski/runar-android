@@ -5,9 +5,6 @@ import android.view.*
 import android.widget.Toast
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.*
@@ -102,7 +99,7 @@ class LibraryFragment : Fragment() {
 
 @ExperimentalPagerApi
 @Composable
-private fun ItemData() {
+private fun ItemData(scrollState: ScrollState) {
     val viewModel: LibraryViewModel = viewModel()
     val fontSize by viewModel.fontSize.observeAsState()
     val menuData by viewModel.menuData.observeAsState()
@@ -124,11 +121,12 @@ private fun ItemData() {
                                 AnalyticsEvent.LIBRARY_SECTION_OPENED,
                                 Pair(AnalyticsConstants.SECTION, item.title!!)
                             )
-
-                                CoroutineScope(Dispatchers.IO).launch {
+                            viewModel.addScrollPositionHistory(scrollState.value)
+                            CoroutineScope(Dispatchers.IO).launch {
+                                scrollState.scrollTo(0)
+                            }
+                            viewModel.updateMenuData(item.id)
                         }
-                                viewModel.updateMenuData(item.id)
-                }
                     )
                 }
 
@@ -137,8 +135,10 @@ private fun ItemData() {
                     header = item.title!!,
                     imgLink = item.imageUrl!!,
                     clickAction = {
+                        viewModel.addScrollPositionHistory(scrollState.value)
                         CoroutineScope(Dispatchers.IO).launch {
                             delay(100)
+                            scrollState.scrollTo(0)
                         }
                         viewModel.updateMenuData(item.id)
                     }
@@ -169,17 +169,18 @@ private fun ItemData() {
         }
     }
 
-//    viewModel.scrollPositionHistory.observe(LocalLifecycleOwner.current) {
-//        CoroutineScope(Dispatchers.IO).launch {
-//            if (it.last() == 9999) {
-//                delay(450)
-//                viewModel.removeLastScrollPositionHistory()
-//                viewModel.removeLastScrollPositionHistory()
-//
-//            }
+    viewModel.scrollPositionHistory.observe(LocalLifecycleOwner.current) {
+        CoroutineScope(Dispatchers.IO).launch {
+            if (it.last() == 9999) {
+                delay(450)
+                scrollState.scrollTo(it[it.size-2])
+                viewModel.removeLastScrollPositionHistory()
+                viewModel.removeLastScrollPositionHistory()
+            }
         }
-//    }
-//}
+    }
+}
+
 
 
 @ExperimentalPagerApi
@@ -222,24 +223,20 @@ private fun Bars() {
             )
         },
         backgroundColor = colorResource(id = R.color.library_top_bar_2)
-   ) { paddingValue ->
-        val scrollState = rememberLazyListState()
+   ) { paddingValues ->
+        val scrollState = rememberScrollState()
         if (tabsState.value && audioFeature) {
-           TabScreen(pagerState, scrollState, fontSize)
+            TabScreen(pagerState, scrollState, fontSize)
         } else {
-            LazyColumn(modifier = Modifier.fillMaxSize(), state = scrollState) {
-                item(){
-                    ItemData()
-                    Box(modifier = Modifier.aspectRatio(15f, true))
-                }
-
+            Column(Modifier
+                .padding(top = paddingValues.calculateTopPadding())
+                .verticalScroll(state = scrollState, enabled = true)) {
+                ItemData(scrollState)
+                Box(modifier = Modifier.aspectRatio(15f, true))
             }
         }
     }
 }
-
-
-
 
 @Composable
 private fun TopBarIcon() {
@@ -255,7 +252,7 @@ private fun TopBarIcon() {
 
 @ExperimentalPagerApi
 @Composable
-private fun TabScreen(pagerState: PagerState, scrollState: LazyListState, fontSize: Float?) {
+private fun TabScreen(pagerState: PagerState, scrollState: ScrollState, fontSize: Float?) {
     Column {
         Tabs(pagerState = pagerState, fontSize = fontSize)
         TabsContent(pagerState = pagerState, scrollState = scrollState)
@@ -264,15 +261,16 @@ private fun TabScreen(pagerState: PagerState, scrollState: LazyListState, fontSi
 
 @ExperimentalPagerApi
 @Composable
-fun TabsContent(pagerState: PagerState, scrollState: LazyListState) {
+fun TabsContent(pagerState: PagerState, scrollState: ScrollState) {
     HorizontalPager(state = pagerState) { page ->
         when (page) {
             0 -> {
                 Column(
                     Modifier
+                        .verticalScroll(state = scrollState, enabled = true)
                         .fillMaxWidth()
                 ) {
-                    ItemData()
+                    ItemData(scrollState)
                     Box(modifier = Modifier.aspectRatio(15f, true))
                 }
             }
@@ -290,7 +288,6 @@ fun TabsContent(pagerState: PagerState, scrollState: LazyListState) {
         }
     }
 }
-
 
 @ExperimentalPagerApi
 @Composable
@@ -603,32 +600,27 @@ private fun SecondMenuItem(
 
 @Composable
 private fun ThirdMenuItem(fontSize: Float, text: String, title: String) {
-
-
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-
-            Box(Modifier.aspectRatio(35f))
-            Text(
-                text = title,
-                color = colorResource(id = R.color.library_third_id),
-                fontFamily = FontFamily(Font(R.font.roboto_bold)),
-                style = TextStyle(fontSize = with(LocalDensity.current) { ((fontSize * 0.9f)).toSp() })
-            )
-            Text(
-                text = text,
-                color = colorResource(id = R.color.library_third_text),
-                fontFamily = FontFamily(Font(R.font.roboto_light)),
-                style = TextStyle(
-                    fontSize = with(LocalDensity.current) { ((fontSize * 0.95f)).toSp() },
-                    textAlign = TextAlign.Center,
-                    lineHeight = with(LocalDensity.current) { ((fontSize * 1.4f)).toSp() }),
-                modifier = Modifier.padding(top = 5.dp)
-            )
-            Box(Modifier.aspectRatio(35f))
-        }
-
+        Box(Modifier.aspectRatio(35f))
+        Text(
+            text = title,
+            color = colorResource(id = R.color.library_third_id),
+            fontFamily = FontFamily(Font(R.font.roboto_bold)),
+            style = TextStyle(fontSize = with(LocalDensity.current) { ((fontSize * 0.9f)).toSp() })
+        )
+        Text(
+            text = text,
+            color = colorResource(id = R.color.library_third_text),
+            fontFamily = FontFamily(Font(R.font.roboto_light)),
+            style = TextStyle(
+                fontSize = with(LocalDensity.current) { ((fontSize * 0.95f)).toSp() },
+                textAlign = TextAlign.Center,
+                lineHeight = with(LocalDensity.current) { ((fontSize * 1.4f)).toSp() }),
+            modifier = Modifier.padding(top = 5.dp)
+        )
+        Box(Modifier.aspectRatio(35f))
     }
-
+}
 
 @Composable
 private fun SimpleTextItem(fontSize: Float, text: String?, urlTitle: String?, urlLink: String?) {
