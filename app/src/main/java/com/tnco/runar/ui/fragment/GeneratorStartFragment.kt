@@ -244,6 +244,7 @@ class GeneratorStartFragment : Fragment() {
         tvDescRune.visibility = View.INVISIBLE
         tvRune.visibility = View.VISIBLE
         mAdapter.obsSelectedRunes.value?.removeAt(index)
+        mAdapter.updateItem(index)
     }
 
     private fun randomRunes() {

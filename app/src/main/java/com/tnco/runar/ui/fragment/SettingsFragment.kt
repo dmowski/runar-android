@@ -31,6 +31,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import com.tnco.runar.BuildConfig
 import com.tnco.runar.R
 import com.tnco.runar.ui.Navigator
 import com.tnco.runar.ui.viewmodel.SettingsViewModel
@@ -85,7 +86,6 @@ private fun Bars(navigator: Navigator, navController: NavController) {
 
     val context = LocalContext.current
 
-
     Scaffold(
         topBar = {
             TopAppBar(
@@ -108,7 +108,8 @@ private fun Bars(navigator: Navigator, navController: NavController) {
                 .verticalScroll(state = scrollState, enabled = true)
                 .padding(
                     start = dimensionResource(id = R.dimen.settings_padding_left),
-                    top = dimensionResource(id = R.dimen.settings_padding_top)
+                    top = dimensionResource(id = R.dimen.settings_padding_top),
+                    bottom = paddingValues.calculateBottomPadding()
                 )
         ) {
             LangMenuItem(
@@ -168,6 +169,18 @@ private fun Bars(navigator: Navigator, navController: NavController) {
                 }
             )
             DividerItem()
+            if (BuildConfig.DEBUG) {
+                SimpleMenuItem(
+                    fontSize = fontSize!!,
+                    header = stringResource(id = R.string.developer_options_title),
+                    clickAction = {
+                        val direction = SettingsFragmentDirections
+                            .actionSettingsFragmentToDeveloperOptionsFragment()
+                        navController.navigate(direction)
+                    }
+                )
+                DividerItem()
+            }
         }
     }
 }

@@ -61,13 +61,14 @@
     <string name="onboarding_txt">Показать стр. приветствия</string>
     <string name="rate_app_txt">Оценить приложение</string>
     <string name="about_app_txt">О приложении</string>
+    <string name="developer_options_title">Для разработчиков</string>
     <string name="about_txt">Версия приложения 0.14–5\n\nRunar — это приложение для гадания на скандинавских рунах и изучения скандинавской мифологии и сказок. Содержит 8 видов рунных раскладов, толкования рун. В разделе Библиотека вы можете почитать скандинавские саги и сказки.\n\nС разрешения правообладателей, в приложении использованы следующие музыкальные композиции:\n- Лёдъ (использованы композиции - \"Черная Ладья\", \"Мать моя сказала\"), https://lyod1.bandcamp.com/releases \n- Danheim (использованы композиции - \"Runar\", \"Kala\"), https://danheimmusic.com</string>
     <string name="library_top_bar_header">Библиотека</string>
 
     <string name="fav_dialog_text">Хотите удалить избранные расклады?</string>
 
     <string name="library_bar_fav">Избранное</string>
-    <string name="fav_checkbox_text">Выбрать всё</string>
+    <string name="fav_checkbox_text">Выбрать все</string>
 
     <string name="about_url1">https://lyod1.bandcamp.com/releases</string>
     <string name="about_url2">https://danheimmusic.com/license-music/</string>
