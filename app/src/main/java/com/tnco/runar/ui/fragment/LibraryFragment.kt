@@ -180,7 +180,6 @@ private fun ItemData(scrollState: ScrollState) {
         }
     }
 }
-
 @ExperimentalPagerApi
 @Composable
 private fun Bars() {
@@ -221,12 +220,14 @@ private fun Bars() {
             )
         },
         backgroundColor = colorResource(id = R.color.library_top_bar_2)
-   ) { paddingValue ->
+    ) { paddingValues ->
         val scrollState = rememberScrollState()
         if (tabsState.value && audioFeature) {
             TabScreen(pagerState, scrollState, fontSize)
         } else {
-            Column(Modifier.verticalScroll(state = scrollState, enabled = true)) {
+            Column(modifier = Modifier
+                .padding(top = paddingValues.calculateTopPadding())
+                .verticalScroll(state = scrollState, enabled = true)) {
                 ItemData(scrollState)
                 Box(modifier = Modifier.aspectRatio(15f, true))
             }
