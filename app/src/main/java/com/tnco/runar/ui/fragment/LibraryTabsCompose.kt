@@ -1,6 +1,5 @@
 package com.tnco.runar.ui.fragment
 
-import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.*
@@ -24,7 +23,6 @@ import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.pagerTabIndicatorOffset
 import com.tnco.runar.R
 import kotlinx.coroutines.launch
-
 
 @ExperimentalPagerApi
 @Composable
@@ -71,7 +69,8 @@ private fun Tabs(pagerState: PagerState, fontSize: Float?) {
     val list = listOf(R.string.library_tab_books, R.string.library_tab_audio)
 
     val scope = rememberCoroutineScope()
-    TabRow(selectedTabIndex = pagerState.currentPage,
+    TabRow(
+        selectedTabIndex = pagerState.currentPage,
         backgroundColor = colorResource(id = R.color.library_top_bar),
         contentColor = colorResource(id = R.color.library_top_bar_header_2),
         divider = {
@@ -89,27 +88,35 @@ private fun Tabs(pagerState: PagerState, fontSize: Float?) {
                 height = 1.dp,
                 color = colorResource(id = R.color.library_tab_indicator)
             )
-        }) {
+        }
+    ) {
         list.forEachIndexed { index, _ ->
             Card(
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
                 shape = RoundedCornerShape(40.dp),
                 border = BorderStroke(
                     width = 1.dp,
-                    color = if (pagerState.currentPage == index) colorResource(id = R.color.library_tab_text_selected)
-                    else colorResource(id = R.color.library_top_bar)
+                    color = if (pagerState.currentPage == index) {
+                        colorResource(id = R.color.library_tab_text_selected)
+                    } else colorResource(id = R.color.library_top_bar)
                 ),
                 backgroundColor = colorResource(id = R.color.library_top_bar),
 
-                ) {
-                Tab(modifier = Modifier.height(30.dp),
+            ) {
+                Tab(
+                    modifier = Modifier.height(30.dp),
                     text = {
                         Text(
                             text = stringResource(id = list[index]).uppercase(),
                             fontFamily = FontFamily(Font(R.font.roboto_medium)),
-                            fontSize = with(LocalDensity.current) { ((fontSize!! * 0.8).toFloat()).toSp() },
-                            color = if (pagerState.currentPage == index) colorResource(id = R.color.library_tab_text_selected)
-                            else colorResource(id = R.color.library_tab_text_not_selected)
+                            fontSize = with(LocalDensity.current) {
+                                ((fontSize!! * 0.8).toFloat()).toSp()
+                            },
+                            color = if (pagerState.currentPage == index) {
+                                colorResource(id = R.color.library_tab_text_selected)
+                            } else {
+                                colorResource(id = R.color.library_tab_text_not_selected)
+                            }
                         )
                     },
                     selected = pagerState.currentPage == index,
@@ -117,7 +124,8 @@ private fun Tabs(pagerState: PagerState, fontSize: Float?) {
                         scope.launch {
                             pagerState.scrollToPage(index)
                         }
-                    })
+                    }
+                )
             }
         }
         Spacer(modifier = Modifier.width(130.dp))

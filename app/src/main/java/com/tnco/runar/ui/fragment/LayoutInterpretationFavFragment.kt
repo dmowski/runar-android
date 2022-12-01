@@ -30,8 +30,7 @@ import com.tnco.runar.util.setOnCLickListenerForAll
 
 class LayoutInterpretationFavFragment :
     Fragment(R.layout.fragment_layout_interpretation_fav),
-    View.OnClickListener
-{
+    View.OnClickListener {
 
     private val viewModel: InterpretationFavViewModel by viewModels()
     private val args: LayoutInterpretationFavFragmentArgs by navArgs()

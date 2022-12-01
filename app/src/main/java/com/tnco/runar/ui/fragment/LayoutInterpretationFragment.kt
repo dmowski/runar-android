@@ -33,8 +33,7 @@ import com.tnco.runar.util.*
 
 class LayoutInterpretationFragment :
     Fragment(R.layout.fragment_layout_interpretation),
-    View.OnClickListener
-{
+    View.OnClickListener {
 
     private val viewModel: InterpretationViewModel by viewModels()
     private val args: LayoutInterpretationFragmentArgs by navArgs()
