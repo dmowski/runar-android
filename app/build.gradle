@@ -62,9 +62,7 @@ task installGitHook(type: Copy) {
 tasks.getByPath(':app:preBuild').dependsOn installGitHook
 
 ktlint {
-    android = true
-    ignoreFailures = false
-    disabledRules = ["no-wildcard-imports"]
+    disabledRules = ["no-wildcard-imports", "import-ordering"]
 }
 
 dependencies {
