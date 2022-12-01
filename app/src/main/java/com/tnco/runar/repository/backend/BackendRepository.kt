@@ -6,13 +6,13 @@ import com.tnco.runar.data.remote.UserInfo
 import com.tnco.runar.repository.DatabaseRepository
 import com.tnco.runar.repository.SharedPreferencesRepository
 import com.tnco.runar.retrofit.BackgroundInfo
-import java.util.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import okhttp3.ResponseBody
 import retrofit2.HttpException
 import retrofit2.Response
+import java.util.*
 
 object BackendRepository {
 

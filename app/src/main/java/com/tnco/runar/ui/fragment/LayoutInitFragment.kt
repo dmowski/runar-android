@@ -24,9 +24,9 @@ import com.tnco.runar.ui.viewmodel.InitViewModel
 import com.tnco.runar.util.AnalyticsConstants
 import com.tnco.runar.util.AnalyticsUtils
 import com.tnco.runar.util.setOnCLickListenerForAll
-import kotlin.random.Random
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlin.random.Random
 
 class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClickListener {
 

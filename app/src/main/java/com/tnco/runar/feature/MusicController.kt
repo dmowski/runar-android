@@ -5,11 +5,11 @@ import android.media.MediaPlayer
 import android.net.Uri
 import com.tnco.runar.R
 import com.tnco.runar.repository.SharedPreferencesRepository
-import java.util.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.util.*
 
 object MusicController {
 

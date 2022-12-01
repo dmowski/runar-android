@@ -24,8 +24,8 @@ import com.tnco.runar.ui.adapter.RunesGeneratorAdapter
 import com.tnco.runar.ui.viewmodel.MainViewModel
 import com.tnco.runar.util.InternalDeepLink
 import com.tnco.runar.util.observeOnce
-import java.util.*
 import kotlinx.coroutines.launch
+import java.util.*
 
 class GeneratorStartFragment : Fragment() {
 

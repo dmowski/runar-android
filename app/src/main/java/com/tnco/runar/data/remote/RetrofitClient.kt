@@ -1,11 +1,10 @@
 package com.tnco.runar.data.remote
 
-import java.util.concurrent.TimeUnit
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
-import retrofit2.create
+import java.util.concurrent.TimeUnit
 
 object RetrofitClient {
     private const val TestServer = "https://runar-testing.herokuapp.com/"
