@@ -1,6 +1,5 @@
 package com.tnco.runar.ui.fragment
 
-import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
@@ -10,7 +9,6 @@ import android.widget.TextView
 import androidx.activity.addCallback
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
-import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -19,16 +17,16 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.tnco.runar.R
 import com.tnco.runar.analytics.AnalyticsHelper
-import com.tnco.runar.enums.AnalyticsEvent
-import com.tnco.runar.util.AnalyticsConstants
-import com.tnco.runar.util.AnalyticsUtils
 import com.tnco.runar.databinding.FragmentLayoutInitBinding
+import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.ui.component.dialog.DescriptionDialog
 import com.tnco.runar.ui.viewmodel.InitViewModel
+import com.tnco.runar.util.AnalyticsConstants
+import com.tnco.runar.util.AnalyticsUtils
 import com.tnco.runar.util.setOnCLickListenerForAll
+import kotlin.random.Random
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlin.random.Random
 
 class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClickListener {
 
@@ -112,8 +110,12 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
 
             for (i in 0..6) {
                 val currentNumber =
-                    (((layoutFrame.getChildAt(i) as ConstraintLayout)
-                        .getChildAt(0) as TextView).text as String)
+                    (
+                        (
+                            (layoutFrame.getChildAt(i) as ConstraintLayout)
+                                .getChildAt(0) as TextView
+                            ).text as String
+                        )
                         .toInt()
                 if (currentNumber == 0) {
                     (layoutFrame.getChildAt(i) as ConstraintLayout).visibility = View.INVISIBLE
@@ -250,16 +252,19 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
                     if (userLayout[0] == itemsChecker(userLayout)) {
                         val layoutName = AnalyticsUtils.convertLayoutIdToName(layoutId)
                         AnalyticsHelper.sendEvent(
-                            AnalyticsEvent.INTERPRETATION_STARTED, Pair(
+                            AnalyticsEvent.INTERPRETATION_STARTED,
+                            Pair(
                                 AnalyticsConstants.DRAW_RUNE_LAYOUT, layoutName
                             )
                         )
                         val direction = LayoutInitFragmentDirections
-                            .actionLayoutInitFragmentToLayoutProcessingFragment(layoutId, userLayout)
+                            .actionLayoutInitFragmentToLayoutProcessingFragment(
+                                layoutId,
+                                userLayout
+                            )
                         findNavController().navigate(direction)
                     }
                 }
-
             }
             R.id.info_button -> {
                 val info = DescriptionDialog(descriptionText, headerText, fontSize)
@@ -269,7 +274,7 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
     }
 
     private fun slotChanger(): Array<Boolean> {
-        var isLast = false //is exist slots to open
+        var isLast = false // is exist slots to open
 
         for (i in 0..6) {
             if (runeTable[i][1] == 1) {
@@ -283,7 +288,7 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
                         .setTextColor(it.getColor(R.color.rune_number_color_selected))
                 }
 
-                //open it with animation
+                // open it with animation
                 runeTable[i][0] = 0
                 runeTable[i][1] = 0
                 var minSlot = 10
@@ -302,8 +307,8 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
                     activeSlot.setOnClickListener {
                         val array = slotChanger()
                         if (array[1]) {
-                            binding.descriptionButtonFrame.text =
-                                requireContext().resources.getString(R.string.layout_init_button_text2)
+                            binding.descriptionButtonFrame.text = requireContext().resources
+                                .getString(R.string.layout_init_button_text2)
                             binding.infoButton.isVisible = false
                         }
                     }
@@ -358,7 +363,7 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
             delay(500L)
 
             val runeId = getUniqueRune()
-            val ims = context?.assets?.open("runes/${runeId}.png")
+            val ims = context?.assets?.open("runes/$runeId.png")
             val runeImage = Drawable.createFromStream(ims, null)
 
             slot.background = runeImage
@@ -429,7 +434,7 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
         return result
     }
 
-    private fun getRuneIdForNonReversedRunes(randomNumber : Int) : Int {
+    private fun getRuneIdForNonReversedRunes(randomNumber: Int): Int {
         for (i in 0..runesList.lastIndex) {
             if (runesList[i][0] == randomNumber) {
                 runesList[i] = arrayOf(0, 0)
@@ -439,7 +444,7 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
         return 0
     }
 
-    private fun getRuneId(randomNumber : Int) : Int {
+    private fun getRuneId(randomNumber: Int): Int {
         for (i in 0..runesList.lastIndex) {
             for (j in 0..1) {
                 if (runesList[i][j] == randomNumber) {

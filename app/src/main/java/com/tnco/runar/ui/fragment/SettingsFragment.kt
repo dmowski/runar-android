@@ -94,7 +94,11 @@ private fun Bars(navigator: Navigator, navController: NavController) {
                         text = header,
                         color = colorResource(id = R.color.library_top_bar_header),
                         fontFamily = FontFamily(Font(R.font.roboto_medium)),
-                        style = TextStyle(fontSize = with(LocalDensity.current) { ((fontSize!! * 1.35).toFloat()).toSp() })
+                        style = TextStyle(
+                            fontSize = with(LocalDensity.current) {
+                                ((fontSize!! * 1.35).toFloat()).toSp()
+                            }
+                        )
                     )
                 },
                 backgroundColor = colorResource(id = R.color.library_top_bar)
@@ -157,7 +161,8 @@ private fun Bars(navigator: Navigator, navController: NavController) {
                         setPackage("com.android.vending")
                     }
                     context.startActivity(intent)
-                })
+                }
+            )
             DividerItem()
             SimpleMenuItem(
                 fontSize = fontSize!!,
@@ -344,7 +349,11 @@ private fun LanguageItem(fontSize: Float, itemName: String, selected: Boolean, p
             text = itemName,
             color = colorResource(id = R.color.settings_language),
             fontFamily = FontFamily(Font(R.font.roboto_regular)),
-            style = TextStyle(fontSize = with(LocalDensity.current) { ((fontSize * 0.8).toFloat()).toSp() }),
+            style = TextStyle(
+                fontSize = with(LocalDensity.current) {
+                    ((fontSize * 0.8).toFloat()).toSp()
+                }
+            ),
         )
         RadioButton(
             selected = selected,

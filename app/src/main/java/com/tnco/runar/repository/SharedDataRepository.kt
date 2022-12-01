@@ -20,7 +20,7 @@ object SharedDataRepository {
         val paint = Paint()
         val bounds = Rect()
         val maxWidth = Resources.getSystem().displayMetrics.widthPixels * 0.84
-        paint.typeface = ResourcesCompat.getFont(context,R.font.roboto_light)
+        paint.typeface = ResourcesCompat.getFont(context, R.font.roboto_light)
         var textSize = 1f
         paint.textSize = 1f
         paint.getTextBounds(text, 0, text.length, bounds)

@@ -34,5 +34,4 @@ enum class AnalyticsEvent(val analyticsName: String) {
     SCRIPT_INTERRUPTION("script_interruption"),
     MUSIC_LINK_OPENED("music_link_opened"),
     LIBRARY_SECTION_OPENED("library_section_opened")
-
 }

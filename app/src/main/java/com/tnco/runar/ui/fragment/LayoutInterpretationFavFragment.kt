@@ -28,8 +28,10 @@ import com.tnco.runar.util.InterTagHandler
 import com.tnco.runar.util.OnSwipeTouchListener
 import com.tnco.runar.util.setOnCLickListenerForAll
 
-class LayoutInterpretationFavFragment : Fragment(R.layout.fragment_layout_interpretation_fav),
-    View.OnClickListener {
+class LayoutInterpretationFavFragment :
+    Fragment(R.layout.fragment_layout_interpretation_fav),
+    View.OnClickListener
+{
 
     private val viewModel: InterpretationFavViewModel by viewModels()
     private val args: LayoutInterpretationFavFragmentArgs by navArgs()
@@ -78,15 +80,14 @@ class LayoutInterpretationFavFragment : Fragment(R.layout.fragment_layout_interp
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentLayoutInterpretationFavBinding.bind(view)
 
-        //set necessary views
+        // set necessary views
         headerFrame = binding.descriptionHeaderFrame
         runesLayout = binding.runesLayout
         bottomRunesNav = binding.bottomRunesNavBar
-        //get data about current layout
+        // get data about current layout
         viewModel.fontSize.observe(viewLifecycleOwner) { interpretation ->
             if (interpretation != null) {
 
@@ -887,20 +888,21 @@ class LayoutInterpretationFavFragment : Fragment(R.layout.fragment_layout_interp
                                 dotsCreator(7)
                             }
                         }
-                        //**runes description
-                        //runes click listeners
+                        // **runes description
+                        // runes click listeners
                         for (i in 0 until this.runesLayout.childCount) {
                             this.runesLayout.getChildAt(i).setOnClickListener(this)
                         }
                         runesDotsList.setOnCLickListenerForAll(this)
 
-                        //runes description**
+                        // runes description**
                         viewModel.getLuckPercentForCurrentLayout()
                         viewModel.currentAusp.observe(viewLifecycleOwner) { ausp ->
                             if (ausp != null) {
                                 val fortune = getLuckLevel(ausp)
-                                binding.text.text =
-                                    "${requireContext().resources.getString(R.string.layout_interpretation_ausf)}: $fortune"
+                                val interpretationAusf = requireContext().resources
+                                    .getString(R.string.layout_interpretation_ausf)
+                                binding.text.text = "$interpretationAusf: $fortune"
                                 singleRuneAusp = ausp
                                 viewModel.getAffimForCurrentLayout(ausp)
                             }
@@ -911,7 +913,9 @@ class LayoutInterpretationFavFragment : Fragment(R.layout.fragment_layout_interp
                                 viewModel.getInterpretation()
                             }
                         }
-                        viewModel.currentInterpretation.observe(viewLifecycleOwner) { interpretation ->
+                        viewModel.currentInterpretation.observe(
+                            viewLifecycleOwner
+                        ) { interpretation ->
                             if (!interpretation.isNullOrBlank()) {
                                 val newFontSize = (fontSize * 0.95).toFloat()
                                 binding.interpretationText.setTextSize(
@@ -930,85 +934,89 @@ class LayoutInterpretationFavFragment : Fragment(R.layout.fragment_layout_interp
                                     }
                                 }
 
-
                                 val observer = binding.root.viewTreeObserver
                                 defaultConstraintSet.clone(runesLayout)
                                 observer.addOnGlobalLayoutListener(object :
-                                    ViewTreeObserver.OnGlobalLayoutListener {
-                                    override fun onGlobalLayout() {
-                                        observer.removeOnGlobalLayoutListener(this)
-                                        if (layoutId == 1) {
-                                            binding.helperText.isVisible = false
-                                            binding.divider0.isVisible = false
-                                            val constraintsSet = ConstraintSet()
-                                            constraintsSet.clone(binding.interpretationLayout)
-                                            constraintsSet.clear(R.id.divider4, ConstraintSet.TOP)
-                                            constraintsSet.clear(R.id.text, ConstraintSet.TOP)
-                                            constraintsSet.connect(
-                                                R.id.divider4,
-                                                ConstraintSet.TOP,
-                                                R.id.text,
-                                                ConstraintSet.BOTTOM
-                                            )
-                                            constraintsSet.connect(
-                                                R.id.text,
-                                                ConstraintSet.TOP,
-                                                R.id.single_rune_name,
-                                                ConstraintSet.BOTTOM
-                                            )
-
-                                            constraintsSet.clear(R.id.text, ConstraintSet.END)
-                                            constraintsSet.connect(
-                                                R.id.text,
-                                                ConstraintSet.END,
-                                                R.id.right_text_guideline,
-                                                ConstraintSet.END
-                                            )
-                                            with(binding) {
-                                                text.textAlignment = View.TEXT_ALIGNMENT_CENTER
-                                                text.gravity = Gravity.CENTER
-                                                text.setTextSize(
-                                                    TypedValue.COMPLEX_UNIT_PX,
-                                                    littleTextSize
+                                        ViewTreeObserver.OnGlobalLayoutListener {
+                                        override fun onGlobalLayout() {
+                                            observer.removeOnGlobalLayoutListener(this)
+                                            if (layoutId == 1) {
+                                                binding.helperText.isVisible = false
+                                                binding.divider0.isVisible = false
+                                                val constraintsSet = ConstraintSet()
+                                                constraintsSet.clone(binding.interpretationLayout)
+                                                constraintsSet.clear(
+                                                    R.id.divider4,
+                                                    ConstraintSet.TOP
                                                 )
-                                            }
-                                            val secondFont = ResourcesCompat.getFont(
-                                                requireContext(),
-                                                R.font.roboto_medium
-                                            )
-                                            binding.text.setTextColor(
-                                                ContextCompat.getColor(
+                                                constraintsSet.clear(R.id.text, ConstraintSet.TOP)
+                                                constraintsSet.connect(
+                                                    R.id.divider4,
+                                                    ConstraintSet.TOP,
+                                                    R.id.text,
+                                                    ConstraintSet.BOTTOM
+                                                )
+                                                constraintsSet.connect(
+                                                    R.id.text,
+                                                    ConstraintSet.TOP,
+                                                    R.id.single_rune_name,
+                                                    ConstraintSet.BOTTOM
+                                                )
+
+                                                constraintsSet.clear(R.id.text, ConstraintSet.END)
+                                                constraintsSet.connect(
+                                                    R.id.text,
+                                                    ConstraintSet.END,
+                                                    R.id.right_text_guideline,
+                                                    ConstraintSet.END
+                                                )
+                                                with(binding) {
+                                                    text.textAlignment = View.TEXT_ALIGNMENT_CENTER
+                                                    text.gravity = Gravity.CENTER
+                                                    text.setTextSize(
+                                                        TypedValue.COMPLEX_UNIT_PX,
+                                                        littleTextSize
+                                                    )
+                                                }
+                                                val secondFont = ResourcesCompat.getFont(
                                                     requireContext(),
-                                                    R.color.interpretation_runes_position
+                                                    R.font.roboto_medium
                                                 )
-                                            )
-                                            val fortune = getLuckLevel(singleRuneAusp)
-                                            binding.text.text = Html.fromHtml(
-                                                "${requireContext().resources.getString(R.string.layout_interpretation_ausf)}: $fortune",
-                                                FROM_HTML_MODE_LEGACY,
-                                                null,
-                                                InterTagHandler(secondFont!!)
-                                            )
+                                                binding.text.setTextColor(
+                                                    ContextCompat.getColor(
+                                                        requireContext(),
+                                                        R.color.interpretation_runes_position
+                                                    )
+                                                )
+                                                val fortune = getLuckLevel(singleRuneAusp)
+                                                val interpretationAusf = requireContext().resources
+                                                    .getString(R.string.layout_interpretation_ausf)
+                                                binding.text.text = Html.fromHtml(
+                                                    "$interpretationAusf: $fortune",
+                                                    FROM_HTML_MODE_LEGACY,
+                                                    null,
+                                                    InterTagHandler(secondFont!!)
+                                                )
 
-                                            binding.text.isVisible = false
-                                            constraintsSet.applyTo(binding.interpretationLayout)
-                                        } else {
-                                            binding.singleRuneName.isVisible = false
+                                                binding.text.isVisible = false
+                                                constraintsSet.applyTo(binding.interpretationLayout)
+                                            } else {
+                                                binding.singleRuneName.isVisible = false
+                                            }
+                                            screenHeight = binding.root.height
+                                            val minSize = screenHeight - binding.interFrame.top
+                                            if (minSize > binding.interFrame.height) {
+                                                val backLayoutParams =
+                                                    binding.interpretationLayout.layoutParams
+                                                backLayoutParams.height =
+                                                    minSize - binding.divider3.height
+                                                binding.interpretationLayout.layoutParams =
+                                                    backLayoutParams
+                                            }
+                                            baseSize = firstRune.bottom - binding.divider1.height
+                                            binding.loadHelper.isVisible = false
                                         }
-                                        screenHeight = binding.root.height
-                                        val minSize = screenHeight - binding.interFrame.top
-                                        if (minSize > binding.interFrame.height) {
-                                            val backLayoutParams =
-                                                binding.interpretationLayout.layoutParams
-                                            backLayoutParams.height =
-                                                minSize - binding.divider3.height
-                                            binding.interpretationLayout.layoutParams =
-                                                backLayoutParams
-                                        }
-                                        baseSize = firstRune.bottom - binding.divider1.height
-                                        binding.loadHelper.isVisible = false
-                                    }
-                                })
+                                    })
                             }
                         }
                     }
@@ -1049,7 +1057,6 @@ class LayoutInterpretationFavFragment : Fragment(R.layout.fragment_layout_interp
                 } else showDescriptionOfSelectedRune(runesViewList[currentRunePosition + 1])
                 super.onSwipeLeft()
             }
-
         }
 
         binding.exitButtonMain.setOnClickListener(this)
@@ -1151,7 +1158,8 @@ class LayoutInterpretationFavFragment : Fragment(R.layout.fragment_layout_interp
                     viewModel.getSelectedRuneData(runesViewList.indexOf(rune) + 1)
                     binding.runePosition.text = runesPositionsList[runesViewList.indexOf(rune)]
                     binding.runeDescriptionScroll.scrollTo(0, 0)
-                    runesDotsList[runesViewList.indexOf(rune)].setImageResource(R.drawable.ic_circle_selected)
+                    runesDotsList[runesViewList.indexOf(rune)]
+                        .setImageResource(R.drawable.ic_circle_selected)
                     runesDotsList[runesViewList.indexOf(rune)].setOnClickListener(null)
                     currentRunePosition = runesViewList.indexOf(rune)
 
@@ -1488,7 +1496,6 @@ class LayoutInterpretationFavFragment : Fragment(R.layout.fragment_layout_interp
             element.isVisible = false
         }
     }
-
 
     private fun <T : View> viewIdGenerator(list: ArrayList<T>) {
         for (element in list) element.id = View.generateViewId()

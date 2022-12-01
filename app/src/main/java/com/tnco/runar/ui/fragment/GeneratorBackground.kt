@@ -2,12 +2,12 @@ package com.tnco.runar.ui.fragment
 
 import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.activity.addCallback
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,7 +21,6 @@ import com.tnco.runar.ui.component.dialog.CancelDialog
 import com.tnco.runar.ui.viewmodel.MainViewModel
 import com.tnco.runar.util.InternalDeepLink
 import com.tnco.runar.util.observeOnce
-
 
 class GeneratorBackground : Fragment() {
 
@@ -81,7 +80,6 @@ class GeneratorBackground : Fragment() {
                 }
                 binding.points.invalidate()
             }
-
         }
 
         viewModel.isNetworkAvailable.observeOnce(viewLifecycleOwner) { status ->
@@ -145,7 +143,8 @@ class GeneratorBackground : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentGeneratorBackgroundBinding.inflate(inflater, container, false)
@@ -156,7 +155,6 @@ class GeneratorBackground : Fragment() {
 
     private fun selectBackground(position: Int) {
         val data = viewModel.backgroundInfo
-
 
         for (i in data.indices) {
             if (i != position) {
@@ -178,7 +176,6 @@ class GeneratorBackground : Fragment() {
                 textSelectBackground.visibility = View.VISIBLE
             }
         }
-
 
         adapter.updateData(data)
     }

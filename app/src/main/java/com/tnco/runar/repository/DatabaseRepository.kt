@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 object DatabaseRepository {
     private var appDao = AppDB.getLayoutDB().appDAO()
     private var dataDao = DataDB.getDataDB().dataDAO()
-    fun reinit(){
+    fun reinit() {
         appDao = AppDB.getLayoutDB().appDAO()
         dataDao = DataDB.getDataDB().dataDAO()
     }
@@ -22,7 +22,7 @@ object DatabaseRepository {
         return appDao.getLayoutDetails(id)
     }
 
-    fun getAllLayouts(): List<LayoutDescriptionModel>{
+    fun getAllLayouts(): List<LayoutDescriptionModel> {
         return appDao.getAllLayoutDetails()
     }
 
@@ -42,7 +42,7 @@ object DatabaseRepository {
         return appDao.getTwoRunesInter(id)
     }
 
-    fun getAllTwoRunesInter(): List<TwoRunesInterModel>{
+    fun getAllTwoRunesInter(): List<TwoRunesInterModel> {
         return appDao.getAllTwoRunesInter()
     }
 
@@ -50,7 +50,7 @@ object DatabaseRepository {
         dataDao.addUserLayout(data)
     }
 
-    fun getLayoutName(id: Int): String{
+    fun getLayoutName(id: Int): String {
         return appDao.getLayoutName(id)
     }
 
@@ -58,27 +58,26 @@ object DatabaseRepository {
         return appDao.getLibraryItems()
     }
 
-    fun updateLibraryDB(list: List<LibraryItemsModel>){
+    fun updateLibraryDB(list: List<LibraryItemsModel>) {
         appDao.clearLibrary()
         RunarLogger.logDebug("library cleared")
         appDao.insertLibraryData(list)
         RunarLogger.logDebug("library data inserted")
     }
 
-    fun getUserLayouts(): List<UserLayoutModel>{
+    fun getUserLayouts(): List<UserLayoutModel> {
         return dataDao.getUserLayouts()
     }
 
-    fun deleteUserLayoutsByIds(ids: List<Int>){
+    fun deleteUserLayoutsByIds(ids: List<Int>) {
         dataDao.removeUserLayoutsByIds(ids)
     }
-
 
     fun getRunesGenerator(): Flow<List<RunesItemsModel>> {
         return appDao.getRunesGenerator()
     }
 
-    fun updateRunesGeneratorDB(list: List<RunesItemsModel>){
+    fun updateRunesGeneratorDB(list: List<RunesItemsModel>) {
         appDao.clearRunesGenerator()
         appDao.insertRunesGenerator(list)
     }

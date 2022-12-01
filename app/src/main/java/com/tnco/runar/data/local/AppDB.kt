@@ -47,10 +47,17 @@ abstract class AppDB : RoomDatabase() {
             return INSTANCE
         }
 
-
         private val MIGRATION_2_3 = object : Migration(2, 3) {
             override fun migrate(database: SupportSQLiteDatabase) {
-                database.execSQL("CREATE TABLE runes_generator (id INTEGER PRIMARY KEY NOT NULL, imgUrl TEXT, enTitle TEXT, ruTitle TEXT)")
+                database.execSQL(
+                    "CREATE TABLE runes_generator " +
+                        "(" +
+                        "id INTEGER PRIMARY KEY NOT NULL, " +
+                        "imgUrl TEXT, " +
+                        "enTitle TEXT, " +
+                        "ruTitle TEXT" +
+                        ")"
+                )
             }
         }
 
@@ -66,6 +73,5 @@ abstract class AppDB : RoomDatabase() {
                 database.execSQL("ALTER TABLE library ADD COLUMN rune_tags TEXT")
             }
         }
-
     }
 }

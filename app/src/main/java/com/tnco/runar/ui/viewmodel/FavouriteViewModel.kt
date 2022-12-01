@@ -10,11 +10,11 @@ import com.tnco.runar.repository.DatabaseRepository
 import com.tnco.runar.repository.SharedDataRepository
 import com.tnco.runar.util.AnalyticsConstants
 import com.tnco.runar.util.AnalyticsUtils
+import java.text.SimpleDateFormat
+import java.util.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
-import java.util.*
 
 class FavouriteViewModel : ViewModel() {
     val fontSize: LiveData<Float> = MutableLiveData(SharedDataRepository.fontSize)
@@ -24,7 +24,7 @@ class FavouriteViewModel : ViewModel() {
     private var twoRunesInters: List<TwoRunesInterModel> = emptyList()
     var favData = MutableLiveData<List<FavUserLayoutModel>>()
     var haveSelectedItem =
-        MutableLiveData(0) //0 - not exist, 1 - exist, 2 - something unchecked, 3 - selected all
+        MutableLiveData(0) // 0 - not exist, 1 - exist, 2 - something unchecked, 3 - selected all
 
     fun getUserLayoutsFromDB() {
         CoroutineScope(Dispatchers.IO).launch {

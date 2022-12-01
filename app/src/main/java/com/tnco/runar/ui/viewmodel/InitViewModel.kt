@@ -22,7 +22,6 @@ class InitViewModel : ViewModel() {
         _fontSize.postValue(SharedDataRepository.fontSize)
     }
 
-
     fun getLayoutDescription(id: Int) {
         CoroutineScope(Dispatchers.IO).launch {
             _selectedLayout.postValue(DatabaseRepository.getLayoutDetails(id))

@@ -1,6 +1,5 @@
 package com.tnco.runar.ui.fragment
 
-import android.content.Context
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.View

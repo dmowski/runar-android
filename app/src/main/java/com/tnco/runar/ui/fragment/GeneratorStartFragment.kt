@@ -20,26 +20,28 @@ import com.tnco.runar.databinding.FragmentGeneratorStartBinding
 import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.model.RunesItemsModel
 import com.tnco.runar.repository.SharedPreferencesRepository
-import com.tnco.runar.ui.activity.MainActivity
 import com.tnco.runar.ui.adapter.RunesGeneratorAdapter
 import com.tnco.runar.ui.viewmodel.MainViewModel
 import com.tnco.runar.util.InternalDeepLink
 import com.tnco.runar.util.observeOnce
-import kotlinx.coroutines.launch
 import java.util.*
+import kotlinx.coroutines.launch
 
 class GeneratorStartFragment : Fragment() {
 
     private var _binding: FragmentGeneratorStartBinding? = null
     private val binding get() = _binding!!
     private lateinit var mViewModel: MainViewModel
-    private val mAdapter: RunesGeneratorAdapter by lazy { RunesGeneratorAdapter(::onShowBottomSheet) }
     private var listId: MutableList<Int> = mutableListOf()
     private var listAllIds: MutableList<Int> = mutableListOf()
     private val sharedPreferences by lazy { SharedPreferencesRepository.get() }
+    private val mAdapter: RunesGeneratorAdapter by lazy {
+        RunesGeneratorAdapter(::onShowBottomSheet)
+    }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentGeneratorStartBinding.inflate(inflater, container, false)
@@ -51,7 +53,7 @@ class GeneratorStartFragment : Fragment() {
         AnalyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_PATTERN_SELECTED)
         mViewModel = ViewModelProvider(requireActivity())[MainViewModel::class.java]
         setupRecyclerView()
-        //readDatabase()
+        // readDatabase()
 
         mViewModel.isNetworkAvailable.observeOnce(viewLifecycleOwner) { status ->
             if (status) {
@@ -307,8 +309,10 @@ class GeneratorStartFragment : Fragment() {
 
     private fun showInternetConnectionError() {
         val topMostDestinationToRetry = R.id.generatorFragment
-        val uri = Uri.parse(InternalDeepLink.ConnectivityErrorFragment
-            .withArgs("$topMostDestinationToRetry"))
+        val uri = Uri.parse(
+            InternalDeepLink.ConnectivityErrorFragment
+                .withArgs("$topMostDestinationToRetry")
+        )
         findNavController().navigate(uri)
     }
 
