@@ -109,7 +109,7 @@
         android:paddingTop="17dp"
         android:paddingRight="18dp"
         android:paddingBottom="16dp"
-        android:src="@drawable/share"
+        android:src="@drawable/share_image"
         app:layout_constraintBottom_toTopOf="@+id/finalBottomButton"
         app:layout_constraintStart_toEndOf="@+id/save" />
 
