@@ -7,11 +7,11 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.tnco.runar.R
 import com.tnco.runar.analytics.AnalyticsHelper
-import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.databinding.FragmentLayoutsBinding
+import com.tnco.runar.enums.AnalyticsEvent
+import com.tnco.runar.ui.viewmodel.LayoutViewModel
 import com.tnco.runar.util.AnalyticsConstants
 import com.tnco.runar.util.AnalyticsUtils
-import com.tnco.runar.ui.viewmodel.LayoutViewModel
 import com.tnco.runar.util.setOnCLickListenerForAll
 
 class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener {
@@ -28,7 +28,7 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
         AnalyticsHelper.sendEvent(AnalyticsEvent.SCREEN_VIEW_RUNIC_DRAWS)
         setClickListenerOnRuneLayouts()
 
-        viewModel.fontSize.observe(viewLifecycleOwner){fontSize->
+        viewModel.fontSize.observe(viewLifecycleOwner) { fontSize ->
            /* val namesFontSize=(fontSize*1.6).toFloat()
             binding.firstLayoutTw.setTextSize(TypedValue.COMPLEX_UNIT_PX, namesFontSize)
             binding.secondLayoutTw.setTextSize(TypedValue.COMPLEX_UNIT_PX, namesFontSize)

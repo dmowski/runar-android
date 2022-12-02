@@ -190,7 +190,6 @@ class SharedPreferencesRepository private constructor(context: Context) {
         return result
     }
 
-
     companion object {
 
         private const val SWITCHER_NAMES_PREF = "switcher_names"

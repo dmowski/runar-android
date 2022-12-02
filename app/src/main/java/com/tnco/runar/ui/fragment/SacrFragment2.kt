@@ -1,6 +1,5 @@
 package com.tnco.runar.ui.fragment
 
-import android.content.Context
 import android.os.Bundle
 import android.text.Html
 import android.util.TypedValue
@@ -42,13 +41,15 @@ class SacrFragment2 : Fragment(R.layout.fragment_layout_sacr_2), View.OnClickLis
             val hintTextSize = (textSize * 0.6 * 1.2).toFloat()
             val gpTextSize = (textSize * 0.5 * 1.2).toFloat()
             with(binding) {
-                binding.descriptionHeaderFrame.setTextSize(TypedValue.COMPLEX_UNIT_PX, headerTextSize)
+                binding.descriptionHeaderFrame
+                    .setTextSize(TypedValue.COMPLEX_UNIT_PX, headerTextSize)
                 binding.hintTw.setTextSize(TypedValue.COMPLEX_UNIT_PX, hintTextSize)
                 binding.gpTw.setTextSize(TypedValue.COMPLEX_UNIT_PX, gpTextSize)
                 binding.hintTw.setTextColor(resources.getColor(R.color.sacr_hint_main))
                 val secondFont = ResourcesCompat.getFont(requireContext(), R.font.roboto_bold)
+                val sacrHintText = requireContext().resources.getString(R.string.sacr_hint_text)
                 binding.hintTw.text = Html.fromHtml(
-                    "${requireContext().resources.getString(R.string.sacr_hint_text)} <font color='#DADADA'><bf>$${tipSize}</bf></font>",
+                    "$sacrHintText <font color='#DADADA'><bf>$$tipSize</bf></font>",
                     null,
                     InterTagHandler(secondFont!!)
                 )

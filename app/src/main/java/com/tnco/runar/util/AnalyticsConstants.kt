@@ -16,5 +16,4 @@ object AnalyticsConstants {
     const val CROSS_OF_ELEMENTS = "cross_of_elements"
     const val CELTIC_CROSS = "celtic_cross"
     const val DOES_NOT_EXIST = "does_not_exist"
-
 }

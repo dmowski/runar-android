@@ -13,9 +13,8 @@ import kotlinx.coroutines.launch
 class ProcessingViewModel : ViewModel() {
 
     private var _layoutName = SingleLiveEvent<String>()
-    val layoutName : LiveData<String> = _layoutName
+    val layoutName: LiveData<String> = _layoutName
     val fontSize: LiveData<Float> = MutableLiveData(SharedDataRepository.fontSize)
-
 
     fun getLayoutName(id: Int) {
         CoroutineScope(Dispatchers.IO).launch {

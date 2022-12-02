@@ -91,12 +91,14 @@ private fun Bars(navController: NavController) {
             })
         }
         navActions = {
-            TopBarActions(fontSize!!,
+            TopBarActions(
+                fontSize!!,
                 clickAction = {
                     viewModel.removeSelectedLayouts()
                     viewModel.changeAll(false)
                     checkedState.value = false
-                })
+                }
+            )
         }
         if (existSelected == 2) checkedState.value = false
         else if (existSelected == 3) checkedState.value = true
@@ -157,7 +159,8 @@ private fun Bars(navController: NavController) {
                             state = item.selected!!,
                             checkAction = {
                                 viewModel.changeSelection(item.id!!)
-                            })
+                            }
+                        )
                     }
                 }
             }
@@ -239,7 +242,7 @@ private fun CheckboxItem(
                 )
 
             )
-            //end space
+            // end space
             Box(
                 Modifier
                     .fillMaxSize()
@@ -265,25 +268,25 @@ private fun FavItem(
             .aspectRatio(4.25f, true)
             .clickable(onClick = clickAction)
     ) {
-        //start space
+        // start space
         Box(
             Modifier
                 .fillMaxSize()
                 .weight(16f)
         )
-        //data space
+        // data space
         Column(
             Modifier
                 .fillMaxSize()
                 .weight(398f)
         ) {
-            //top space
+            // top space
             Box(
                 Modifier
                     .fillMaxSize()
                     .weight(10f)
             )
-            //data
+            // data
             Row(
                 Modifier
                     .fillMaxSize()
@@ -291,8 +294,8 @@ private fun FavItem(
 
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                //first img
-                //space between first img and text
+                // first img
+                // space between first img and text
                 Column(
                     Modifier
                         .fillMaxSize()
@@ -339,13 +342,13 @@ private fun FavItem(
                         )
                     )
                 }
-                //space between text and end img
+                // space between text and end img
                 Box(
                     Modifier
                         .fillMaxSize()
                         .weight(15f)
                 )
-                //end img
+                // end img
                 Checkbox(
                     checked = state,
                     onCheckedChange = checkAction,
@@ -359,20 +362,20 @@ private fun FavItem(
                     )
 
                 )
-                //end space
+                // end space
                 Box(
                     Modifier
                         .fillMaxSize()
                         .weight(23f)
                 )
             }
-            //bottom space
+            // bottom space
             Box(
                 Modifier
                     .fillMaxSize()
                     .weight(16f)
             )
-            //bottom divider
+            // bottom divider
             Divider(
                 color = colorResource(id = R.color.divider)
             )

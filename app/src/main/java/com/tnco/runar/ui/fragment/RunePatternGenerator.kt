@@ -63,7 +63,7 @@ class RunePatternGenerator : Fragment() {
         }
         AnalyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_PATTERN_NEW_TYPE)
         var nextIndex = viewModel.selectedRuneIndex + incrementer
-        val countOfPatterns = viewModel.runesImages.size;
+        val countOfPatterns = viewModel.runesImages.size
 
         if (nextIndex >= countOfPatterns) {
             nextIndex = 0
@@ -126,7 +126,8 @@ class RunePatternGenerator : Fragment() {
                         binding.buttonSelect.background = ResourcesCompat.getDrawable(
                             resources,
                             R.drawable.generator_button_background_deselected,
-                            null)
+                            null
+                        )
                         binding.buttonSelect.setTextColor(
                             resources.getColor(R.color.background_next, null)
                         )

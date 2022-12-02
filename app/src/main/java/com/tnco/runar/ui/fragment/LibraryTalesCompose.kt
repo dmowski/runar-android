@@ -1,6 +1,5 @@
 package com.tnco.runar.ui.fragment
 
-import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.Text
@@ -41,7 +40,8 @@ internal fun SimpleTextItem(fontSize: Float, text: String?, urlTitle: String?, u
                     style = TextStyle(
                         fontSize = with(LocalDensity.current) { ((fontSize * 0.95f)).toSp() },
                         textAlign = TextAlign.Start,
-                        lineHeight = with(LocalDensity.current) { ((fontSize * 1.4f)).toSp() }),
+                        lineHeight = with(LocalDensity.current) { ((fontSize * 1.4f)).toSp() }
+                    ),
                 )
             }
             if (!urlLink.isNullOrEmpty() && !urlTitle.isNullOrEmpty()) {
@@ -57,12 +57,14 @@ internal fun SimpleTextItem(fontSize: Float, text: String?, urlTitle: String?, u
                     addStyle(
                         style = SpanStyle(
                             color = colorResource(id = R.color.url_text_about_color)
-                        ), start = urlTitle.length + 1, end = annotatedText.length
+                        ),
+                        start = urlTitle.length + 1, end = annotatedText.length
                     )
                     addStyle(
                         style = ParagraphStyle(
                             lineHeight = with(LocalDensity.current) { ((fontSize * 1.05f)).toSp() }
-                        ), start = 0, end = annotatedText.length
+                        ),
+                        start = 0, end = annotatedText.length
                     )
                     addStringAnnotation(
                         tag = "URL",
@@ -70,7 +72,6 @@ internal fun SimpleTextItem(fontSize: Float, text: String?, urlTitle: String?, u
                         start = urlTitle.length + 1,
                         end = annotatedText.length
                     )
-
                 }
                 val uriHandler = LocalUriHandler.current
                 ClickableText(
@@ -82,7 +83,7 @@ internal fun SimpleTextItem(fontSize: Float, text: String?, urlTitle: String?, u
                             id = R.color.url_text_color
                         ),
 
-                        ),
+                    ),
                     onClick = {
                         annotatedLinkString
                             .getStringAnnotations("URL", it, it)

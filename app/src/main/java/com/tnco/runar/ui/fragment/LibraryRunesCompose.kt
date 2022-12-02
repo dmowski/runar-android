@@ -1,6 +1,5 @@
 package com.tnco.runar.ui.fragment
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -117,7 +116,8 @@ internal fun RuneDescription(
                         style = TextStyle(
                             fontSize = with(LocalDensity.current) { ((fontSize * 0.95f)).toSp() },
                             textAlign = TextAlign.Start,
-                            lineHeight = with(LocalDensity.current) { ((fontSize * 1.4f)).toSp() }),
+                            lineHeight = with(LocalDensity.current) { ((fontSize * 1.4f)).toSp() }
+                        ),
                         modifier = Modifier.padding(top = 5.dp)
                     )
                     Box(Modifier.aspectRatio(12f))

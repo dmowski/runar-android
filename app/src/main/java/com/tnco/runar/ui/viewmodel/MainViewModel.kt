@@ -16,7 +16,9 @@ import com.tnco.runar.repository.backend.BackendRepository
 import com.tnco.runar.repository.backend.DataClassConverters
 import com.tnco.runar.retrofit.BackgroundInfo
 import com.tnco.runar.util.NetworkMonitor
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancelChildren
+import kotlinx.coroutines.launch
 import okhttp3.ResponseBody
 import retrofit2.Response
 
@@ -32,7 +34,8 @@ class MainViewModel : ViewModel() {
     val backgroundInfoResponse = MutableLiveData<NetworkResult<List<BackgroundInfo>>>()
 //    val selectedIndices = mutableListOf<Int>()
 
-    var readRunes: LiveData<List<RunesItemsModel>> = DatabaseRepository.getRunesGenerator().asLiveData()
+    var readRunes: LiveData<List<RunesItemsModel>> =
+        DatabaseRepository.getRunesGenerator().asLiveData()
     val runesResponse = MutableLiveData<NetworkResult<List<RunesItemsModel>>>()
 
     val runePattern = mutableListOf<String>()
@@ -58,7 +61,7 @@ class MainViewModel : ViewModel() {
         val userId = preferencesRepository.userId
         val timeStamp = System.currentTimeMillis() / 1000L
         val androidVersion = "Android " + Build.VERSION.RELEASE
-        BackendRepository.identify(UserInfo(userId,timeStamp,androidVersion))
+        BackendRepository.identify(UserInfo(userId, timeStamp, androidVersion))
     }
 
     fun getBackgroundInfo() = viewModelScope.launch(Dispatchers.IO) {
@@ -157,7 +160,7 @@ class MainViewModel : ViewModel() {
                 val conf = Bitmap.Config.ARGB_8888
                 val opt = BitmapFactory.Options()
                 opt.inPreferredConfig = conf
-                val image = BitmapFactory.decodeStream(response.body()!!.byteStream(),null,opt)
+                val image = BitmapFactory.decodeStream(response.body()!!.byteStream(), null, opt)
                 backgroundInfo[index].img = image
                 Log.d("MainViewModel", "BackgroundImage: $image")
 
@@ -189,7 +192,7 @@ class MainViewModel : ViewModel() {
                 val conf = Bitmap.Config.ARGB_8888
                 val opt = BitmapFactory.Options()
                 opt.inPreferredConfig = conf
-                val image = BitmapFactory.decodeStream(response.body()!!.byteStream(),null,opt)
+                val image = BitmapFactory.decodeStream(response.body()!!.byteStream(), null, opt)
 
                 if (image != null) {
                     runesImages.add(image)

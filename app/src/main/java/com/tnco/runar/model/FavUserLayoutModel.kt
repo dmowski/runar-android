@@ -1,6 +1,6 @@
 package com.tnco.runar.model
 
-data class FavUserLayoutModel (
+data class FavUserLayoutModel(
     var header: String?,
     var content: String?,
     var time: String?,

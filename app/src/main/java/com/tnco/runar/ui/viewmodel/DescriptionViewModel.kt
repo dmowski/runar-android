@@ -29,6 +29,4 @@ class DescriptionViewModel : ViewModel() {
             DatabaseRepository.notShow(id)
         }
     }
-
-
 }

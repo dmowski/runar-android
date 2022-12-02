@@ -15,6 +15,6 @@ data class RunesItemsModel(
     @Ignore
     var ruDesc: String?,
     var ruTitle: String?
-){
-    constructor(): this(0,null,null,null,null,null)
+) {
+    constructor() : this(0, null, null, null, null, null)
 }
