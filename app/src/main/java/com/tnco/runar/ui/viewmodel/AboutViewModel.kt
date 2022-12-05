@@ -5,6 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.tnco.runar.repository.SharedDataRepository
 
-class AboutViewModel: ViewModel() {
+class AboutViewModel : ViewModel() {
     val fontSize: LiveData<Float> = MutableLiveData(SharedDataRepository.fontSize)
 }

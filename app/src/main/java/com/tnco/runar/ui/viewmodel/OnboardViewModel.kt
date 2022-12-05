@@ -7,14 +7,14 @@ import com.tnco.runar.util.SingleLiveEvent
 class OnboardViewModel : ViewModel() {
 
     private var _currentPosition = SingleLiveEvent<Int>()
-    var currentPosition : LiveData<Int> = _currentPosition
+    var currentPosition: LiveData<Int> = _currentPosition
     private var _end = SingleLiveEvent<Boolean>()
-    var end : LiveData<Boolean> = _end
+    var end: LiveData<Boolean> = _end
 
-    fun changeCurrentPosition(pos: Int){
+    fun changeCurrentPosition(pos: Int) {
         _currentPosition.postValue(pos)
     }
-    fun nextActivity(status: Boolean){
+    fun nextActivity(status: Boolean) {
         _end.postValue(status)
     }
 }

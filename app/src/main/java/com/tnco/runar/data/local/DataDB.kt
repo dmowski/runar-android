@@ -8,7 +8,7 @@ import com.tnco.runar.model.DescriptionStatusModel
 import com.tnco.runar.model.UserLayoutModel
 
 @Database(
-    entities = [DescriptionStatusModel::class,UserLayoutModel::class],
+    entities = [DescriptionStatusModel::class, UserLayoutModel::class],
     version = 2,
     exportSchema = false
 )

@@ -16,7 +16,6 @@ class RunesGeneratorAdapter(
     private val onShowBottomSheet: (RunesItemsModel) -> Unit
 ) : RecyclerView.Adapter<RunesGeneratorAdapter.RunesGeneratorHolder>() {
 
-
     private val selectedRunes: MutableList<RunesItemsModel> = mutableListOf()
     private val selectedAdapterPositions: MutableList<Int> = mutableListOf()
     var obsSelectedRunes: MutableLiveData<MutableList<RunesItemsModel>> = MutableLiveData()
@@ -57,7 +56,11 @@ class RunesGeneratorAdapter(
         }
 
         holder.itemView.alpha =
-            if (selectedAdapterPositions.contains(position)) selectedRuneOpacity else normalRuneOpacity
+            if (selectedAdapterPositions.contains(position)) {
+                selectedRuneOpacity
+            } else {
+                normalRuneOpacity
+            }
 
         holder.itemView.setOnLongClickListener {
             onShowBottomSheet(currentRune)

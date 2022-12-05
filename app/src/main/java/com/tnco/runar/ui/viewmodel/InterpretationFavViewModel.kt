@@ -19,7 +19,6 @@ class InterpretationFavViewModel(application: Application) : AndroidViewModel(ap
     var runesData: List<RuneDescriptionModel> = emptyList()
     var affirmData: List<AffimDescriptionModel> = emptyList()
 
-
     private var _selectedRune = SingleLiveEvent<RuneDescriptionModel>()
     private var _singleRune = SingleLiveEvent<String>()
     private var _currentAffirm = SingleLiveEvent<String>()

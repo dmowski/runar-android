@@ -1,6 +1,5 @@
 package com.tnco.runar.ui.fragment
 
-
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -49,7 +48,6 @@ class AboutAppFragment : Fragment() {
     }
 }
 
-
 @Composable
 private fun Bars(navController: NavController) {
     val viewModel: AboutViewModel = viewModel()
@@ -63,7 +61,9 @@ private fun Bars(navController: NavController) {
                         text = stringResource(id = R.string.about_app_txt),
                         color = colorResource(id = R.color.library_top_bar_header_2),
                         fontFamily = FontFamily(Font(R.font.roboto_medium)),
-                        style = TextStyle(fontSize = with(LocalDensity.current) { fontSize!!.toSp() })
+                        style = TextStyle(
+                            fontSize = with(LocalDensity.current) { fontSize!!.toSp() }
+                        )
                     )
                 },
                 backgroundColor = colorResource(id = R.color.library_top_bar),
@@ -107,18 +107,26 @@ private fun AboutText() {
             addStyle(
                 style = SpanStyle(
                     color = colorResource(id = R.color.url_text_about_color)
-                ), start = first, end = first + 35
+                ),
+                start = first,
+                end = first + 35
             )
             addStyle(
                 style = SpanStyle(
                     color = colorResource(id = R.color.url_text_about_color)
-                ), start = second, end = string.length
+                ),
+                start = second,
+                end = string.length
             )
 
             addStyle(
                 style = ParagraphStyle(
-                    lineHeight = with(LocalDensity.current) { ((fontSize!! * 1.57).toFloat()).toSp() }
-                ), start = 0, end = string.length
+                    lineHeight = with(LocalDensity.current) {
+                        ((fontSize!! * 1.57).toFloat()).toSp()
+                    }
+                ),
+                start = 0,
+                end = string.length
             )
 
             addStringAnnotation(
