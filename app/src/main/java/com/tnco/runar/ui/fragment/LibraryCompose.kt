@@ -169,7 +169,7 @@ internal fun ItemData(scrollState: ScrollState) {
         CoroutineScope(Dispatchers.IO).launch {
             if (it.last() == 9999) {
                 delay(450)
-                scrollState.scrollTo(it[it.size-2])
+                scrollState.scrollTo(it[it.size - 2])
                 viewModel.removeLastScrollPositionHistory()
                 viewModel.removeLastScrollPositionHistory()
             }
