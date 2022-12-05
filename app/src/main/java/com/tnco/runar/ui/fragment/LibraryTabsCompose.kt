@@ -36,7 +36,7 @@ internal fun TabScreen(pagerState: PagerState, scrollState: ScrollState, fontSiz
 @ExperimentalPagerApi
 @Composable
 private fun TabsContent(pagerState: PagerState, scrollState: ScrollState) {
-    HorizontalPager(state = pagerState) { page ->
+    HorizontalPager(state = pagerState, count = 2) { page ->
         when (page) {
             0 -> {
                 Column(
