@@ -3,11 +3,8 @@ package com.tnco.runar.ui.fragment
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -22,13 +19,14 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberImagePainter
-import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.accompanist.pager.rememberPagerState
+import com.google.accompanist.pager.*
 import com.tnco.runar.R
 import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.enums.AnalyticsEvent
+import com.tnco.runar.ui.component.tabs.TabItem
 import com.tnco.runar.ui.viewmodel.LibraryViewModel
 import com.tnco.runar.util.AnalyticsConstants
 import kotlinx.coroutines.CoroutineScope
@@ -45,12 +43,14 @@ internal fun Bars() {
     val tabsState = remember {
         mutableStateOf(true)
     }
-    val pagerState = rememberPagerState(pageCount = 2)
+    val pagerState = rememberPagerState(2)
 
     var barColor = colorResource(id = R.color.library_top_bar_header)
     var barFont = FontFamily(Font(R.font.roboto_medium))
     var barFontSize = with(LocalDensity.current) { ((fontSize!! * 1.35f)).toSp() }
     var navIcon: @Composable (() -> Unit)? = null
+
+    val tabs = listOf(TabItem.Books, TabItem.AudioTales)
 
     if (header != stringResource(id = R.string.library_top_bar_header)) {
         tabsState.value = false
@@ -86,11 +86,19 @@ internal fun Bars() {
                     .padding(top = paddingValue.calculateBottomPadding())
                     .verticalScroll(state = scrollState, enabled = true)
             ) {
-                ItemData(scrollState)
+                Tabs(tabs = tabs, pagerState = pagerState)
+                TabsContent(tabs = tabs, pagerState = pagerState)
                 Box(modifier = Modifier.aspectRatio(15f, true))
             }
         }
     }
+}
+
+@OptIn(ExperimentalPagerApi::class)
+@Composable
+internal fun BooksScreen() {
+    val scrollState = rememberScrollState()
+    ItemData(scrollState)
 }
 
 @ExperimentalPagerApi
@@ -174,6 +182,62 @@ internal fun ItemData(scrollState: ScrollState) {
                 viewModel.removeLastScrollPositionHistory()
             }
         }
+    }
+}
+
+// условная функция, вместо которой будет вёрстка экрана аудиосказок
+@Composable
+internal fun AudioScreen() {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .wrapContentSize(Alignment.Center)
+    ) {
+        Text(
+            text = "Audio View",
+            fontWeight = FontWeight.Bold,
+            color = Color.White,
+            modifier = Modifier.align(Alignment.CenterHorizontally),
+            textAlign = TextAlign.Center,
+            fontSize = 25.sp
+        )
+    }
+}
+
+@OptIn(ExperimentalPagerApi::class)
+@Composable
+fun Tabs(tabs: List<TabItem>, pagerState: PagerState) {
+    val scope = rememberCoroutineScope()
+    TabRow(
+        modifier = Modifier.width(200.dp),
+        selectedTabIndex = pagerState.currentPage,
+        backgroundColor = colorResource(id = R.color.library_top_bar_2),
+        contentColor = colorResource(id = R.color.library_top_bar_header_2),
+        indicator = { tabPositions ->
+            TabRowDefaults.Indicator(
+                Modifier.pagerTabIndicatorOffset(pagerState, tabPositions)
+            )
+        }
+    ) {
+        tabs.forEachIndexed { index, tab ->
+            Tab(
+                text = { Text(tab.title) },
+                selected = pagerState.currentPage == index,
+                onClick = {
+                    scope.launch {
+                        pagerState.animateScrollToPage(index)
+                    }
+                },
+            )
+        }
+    }
+}
+
+@OptIn(ExperimentalPagerApi::class)
+@Composable
+fun TabsContent(tabs: List<TabItem>, pagerState: PagerState) {
+    HorizontalPager(state = pagerState, count = tabs.size) { page ->
+        tabs[page].screen()
     }
 }
 
