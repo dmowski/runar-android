@@ -5,10 +5,10 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import androidx.core.graphics.drawable.toBitmap
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.graphics.drawable.toBitmap
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.tnco.runar.R
 import com.tnco.runar.RunarLogger
@@ -17,7 +17,6 @@ import com.tnco.runar.ui.activity.MainActivity
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.util.*
-
 
 class PushService : FirebaseMessagingService() {
 
@@ -32,8 +31,8 @@ class PushService : FirebaseMessagingService() {
     override fun handleIntent(intent: Intent?) {
         RunarLogger.logDebug("received message from server")
         Log.d("KEYKAK", "enter handle intent method")
-        //crutch, for some reason the notification comes on the first start
-        //if I open just only once, it will be problem
+        // crutch, for some reason the notification comes on the first start
+        // if I open just only once, it will be problem
         Log.d("KEYKAK", "${preferencesRepository.firstLaunch}")
         if (preferencesRepository.firstLaunch != 1 && isShouldSend()) {
             sendNotification()

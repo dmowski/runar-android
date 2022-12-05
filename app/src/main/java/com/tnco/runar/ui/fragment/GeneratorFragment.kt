@@ -1,6 +1,5 @@
 package com.tnco.runar.ui.fragment
 
-import android.net.Uri
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -9,14 +8,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.tnco.runar.R
 import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.databinding.FragmentLayoutGeneratorBinding
 import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.ui.viewmodel.MainViewModel
-import com.tnco.runar.util.InternalDeepLink
 import com.tnco.runar.util.observeOnce
-
 
 class GeneratorFragment : Fragment() {
     val viewModel: MainViewModel by viewModels()
@@ -53,4 +49,3 @@ class GeneratorFragment : Fragment() {
         _binding = null
     }
 }
-

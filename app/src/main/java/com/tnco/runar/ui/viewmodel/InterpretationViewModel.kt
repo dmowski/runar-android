@@ -22,7 +22,6 @@ class InterpretationViewModel(application: Application) : AndroidViewModel(appli
     var runesData: List<RuneDescriptionModel> = emptyList()
     var affirmData: List<AffimDescriptionModel> = emptyList()
 
-
     private var _selectedRune = SingleLiveEvent<RuneDescriptionModel>()
     private var _singleRune = SingleLiveEvent<String>()
     private var _currentAffirm = SingleLiveEvent<String>()
@@ -31,17 +30,16 @@ class InterpretationViewModel(application: Application) : AndroidViewModel(appli
     private var _selectedLayout = SingleLiveEvent<LayoutDescriptionModel>()
     private var userLayout = arrayListOf<Int>()
 
-    var currentAuspiciousness : LiveData<Int> = _currentAuspiciousness
+    var currentAuspiciousness: LiveData<Int> = _currentAuspiciousness
     val selectedLayout: LiveData<LayoutDescriptionModel> = _selectedLayout
-    var currentAffirm : LiveData<String> = _currentAffirm
-    var currentInterpretation : LiveData<String> = _currentInterpretation
-    var selectedRune : LiveData<RuneDescriptionModel> = _selectedRune
-    var singleRune : LiveData<String> = _singleRune
+    var currentAffirm: LiveData<String> = _currentAffirm
+    var currentInterpretation: LiveData<String> = _currentInterpretation
+    var selectedRune: LiveData<RuneDescriptionModel> = _selectedRune
+    var singleRune: LiveData<String> = _singleRune
 
-    var affirmId =1
+    var affirmId = 1
 
-
-    fun getSingleRuneData(id: Int){
+    fun getSingleRuneData(id: Int) {
         for (rune in runesData) {
             if (rune.runeId == id) {
                 _singleRune.postValue(rune.runeName!!)
@@ -66,24 +64,58 @@ class InterpretationViewModel(application: Application) : AndroidViewModel(appli
                 CoroutineScope(IO).launch {
                     val index = userLayout[1] * 100 + userLayout[2]
                     val inter = DatabaseRepository.getTwoRunesInterpretation(index)
-                    val res = String.format(selectedLayout.value?.interpretation!!,inter)
+                    val res = String.format(selectedLayout.value?.interpretation!!, inter)
                     _currentInterpretation.postValue(res)
                 }
                 return
             }
-            3 -> result = String.format(selectedLayout.value?.interpretation!!,
-                    getMeaningForRune(userLayout[1]),getMeaningForRune(userLayout[2]),getMeaningForRune(userLayout[3]))
+            3 -> result = String.format(
+                selectedLayout.value?.interpretation!!,
+                getMeaningForRune(userLayout[1]),
+                getMeaningForRune(userLayout[2]),
+                getMeaningForRune(userLayout[3])
+            )
 
-            4 -> result = String.format(selectedLayout.value?.interpretation!!,
-                    getMeaningForRune(userLayout[1]),getMeaningForRune(userLayout[2]),getMeaningForRune(userLayout[3]),getMeaningForRune(userLayout[4]))
-            5 -> result = String.format(selectedLayout.value?.interpretation!!,
-                    getMeaningForRune(userLayout[1]),getMeaningForRune(userLayout[2]),getMeaningForRune(userLayout[4]))
-            6 -> result = String.format(selectedLayout.value?.interpretation!!,
-                    getMeaningForRune(userLayout[1]),getMeaningForRune(userLayout[2]),getMeaningForRune(userLayout[3]),getMeaningForRune(userLayout[5]),getMeaningForRune(userLayout[4]))
-            7 -> result = String.format(selectedLayout.value?.interpretation!!,
-                    getMeaningForRune(userLayout[2]),getMeaningForRune(userLayout[1]),getMeaningForRune(userLayout[4]),getMeaningForRune(userLayout[3]),getMeaningForRune(userLayout[5]),getMeaningForRune(userLayout[6]))
-            8 -> result = String.format(selectedLayout.value?.interpretation!!,
-                    getMeaningForRune(userLayout[1]),getMeaningForRune(userLayout[2]),getMeaningForRune(userLayout[3]),getMeaningForRune(userLayout[4]),getMeaningForRune(userLayout[5]),getMeaningForRune(userLayout[6]),getMeaningForRune(userLayout[7]))
+            4 -> result = String.format(
+                selectedLayout.value?.interpretation!!,
+                getMeaningForRune(userLayout[1]),
+                getMeaningForRune(userLayout[2]),
+                getMeaningForRune(userLayout[3]),
+                getMeaningForRune(userLayout[4])
+            )
+            5 -> result = String.format(
+                selectedLayout.value?.interpretation!!,
+                getMeaningForRune(userLayout[1]),
+                getMeaningForRune(userLayout[2]),
+                getMeaningForRune(userLayout[4])
+            )
+            6 -> result = String.format(
+                selectedLayout.value?.interpretation!!,
+                getMeaningForRune(userLayout[1]),
+                getMeaningForRune(userLayout[2]),
+                getMeaningForRune(userLayout[3]),
+                getMeaningForRune(userLayout[5]),
+                getMeaningForRune(userLayout[4])
+            )
+            7 -> result = String.format(
+                selectedLayout.value?.interpretation!!,
+                getMeaningForRune(userLayout[2]),
+                getMeaningForRune(userLayout[1]),
+                getMeaningForRune(userLayout[4]),
+                getMeaningForRune(userLayout[3]),
+                getMeaningForRune(userLayout[5]),
+                getMeaningForRune(userLayout[6])
+            )
+            8 -> result = String.format(
+                selectedLayout.value?.interpretation!!,
+                getMeaningForRune(userLayout[1]),
+                getMeaningForRune(userLayout[2]),
+                getMeaningForRune(userLayout[3]),
+                getMeaningForRune(userLayout[4]),
+                getMeaningForRune(userLayout[5]),
+                getMeaningForRune(userLayout[6]),
+                getMeaningForRune(userLayout[7])
+            )
         }
         _currentInterpretation.postValue(result)
     }
@@ -94,17 +126,17 @@ class InterpretationViewModel(application: Application) : AndroidViewModel(appli
         val currentDate = System.currentTimeMillis() / 1000L
         CoroutineScope(IO).launch {
             val userLayout = UserLayoutModel(
-                    userId,
-                    currentDate,
-                    layoutId,
-                    userLayout[1],
-                    userLayout[2],
-                    userLayout[3],
-                    userLayout[4],
-                    userLayout[5],
-                    userLayout[6],
-                    userLayout[7],
-                    affirmId
+                userId,
+                currentDate,
+                layoutId,
+                userLayout[1],
+                userLayout[2],
+                userLayout[3],
+                userLayout[4],
+                userLayout[5],
+                userLayout[6],
+                userLayout[7],
+                affirmId
             )
             DatabaseRepository.addUserLayout(userLayout)
         }
@@ -115,13 +147,13 @@ class InterpretationViewModel(application: Application) : AndroidViewModel(appli
         var luckPercent = 0
         when (layoutId) {
             1 -> luckPercent = getSumOfAusp(arrayListOf(1))
-            2 -> luckPercent = getSumOfAusp(arrayListOf(1,2)) / 2
+            2 -> luckPercent = getSumOfAusp(arrayListOf(1, 2)) / 2
             3 -> luckPercent = getSumOfAusp(arrayListOf(3))
-            4 -> luckPercent = getSumOfAusp(arrayListOf(3,4)) / 2
-            5 -> luckPercent = getSumOfAusp(arrayListOf(2,3,4))/ 3
-            6 -> luckPercent =getSumOfAusp(arrayListOf(3,4,5))/ 3
-            7 -> luckPercent =getSumOfAusp(arrayListOf(3,5,6))/ 3
-            8 -> luckPercent =getSumOfAusp(arrayListOf(3,4,6,7))/ 4
+            4 -> luckPercent = getSumOfAusp(arrayListOf(3, 4)) / 2
+            5 -> luckPercent = getSumOfAusp(arrayListOf(2, 3, 4)) / 3
+            6 -> luckPercent = getSumOfAusp(arrayListOf(3, 4, 5)) / 3
+            7 -> luckPercent = getSumOfAusp(arrayListOf(3, 5, 6)) / 3
+            8 -> luckPercent = getSumOfAusp(arrayListOf(3, 4, 6, 7)) / 4
         }
         _currentAuspiciousness.postValue(luckPercent)
     }
@@ -129,7 +161,7 @@ class InterpretationViewModel(application: Application) : AndroidViewModel(appli
     fun getAffimForCurrentLayout(ausp: Int) {
         while (true) {
             val affirmElement = affirmData.random()
-            affirmId=affirmElement.id!!*100+ausp
+            affirmId = affirmElement.id!! * 100 + ausp
             when (ausp) {
                 in 0..20 -> {
                     _currentAffirm.postValue(affirmElement.lvl1!!)
@@ -152,11 +184,11 @@ class InterpretationViewModel(application: Application) : AndroidViewModel(appli
     }
 
     private fun getSumOfAusp(ids: ArrayList<Int>): Int {
-        var sum =0
-        for(runePos in ids){
+        var sum = 0
+        for (runePos in ids) {
             for (rune in runesData) {
                 if (rune.runeId == userLayout[runePos]) {
-                    sum+= rune.ausp!!
+                    sum += rune.ausp!!
                 }
             }
         }

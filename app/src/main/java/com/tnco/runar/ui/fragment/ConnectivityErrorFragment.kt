@@ -8,9 +8,7 @@ import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.tnco.runar.R
 import com.tnco.runar.databinding.ConnectivityErrorLayoutBinding
-import com.tnco.runar.ui.component.dialog.CancelDialog
 
 class ConnectivityErrorFragment : Fragment() {
     private var _binding: ConnectivityErrorLayoutBinding? = null
@@ -26,7 +24,8 @@ class ConnectivityErrorFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = ConnectivityErrorLayoutBinding.inflate(inflater, container, false)

@@ -22,7 +22,6 @@ import com.tnco.runar.util.AnalyticsConstants
 import com.tnco.runar.util.AnalyticsUtils
 import kotlinx.coroutines.delay
 
-
 class LayoutProcessingFragment : Fragment(R.layout.fragment_layout_processing) {
 
     private var layoutId: Int = 0
@@ -109,7 +108,6 @@ class LayoutProcessingFragment : Fragment(R.layout.fragment_layout_processing) {
                     }
                 }
             }
-
         }
 
         binding.descriptionButtonFrame.setOnClickListener {
@@ -148,4 +146,3 @@ class LayoutProcessingFragment : Fragment(R.layout.fragment_layout_processing) {
         _binding = null
     }
 }
-

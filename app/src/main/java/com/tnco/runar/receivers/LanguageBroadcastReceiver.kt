@@ -9,7 +9,7 @@ import com.tnco.runar.repository.SharedDataRepository
 import com.tnco.runar.repository.SharedPreferencesRepository
 import java.util.*
 
-class LanguageBroadcastReceiver: BroadcastReceiver() {
+class LanguageBroadcastReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context?, intent: Intent?) {
         AppDB.init(context!!)

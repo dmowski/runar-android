@@ -8,8 +8,6 @@ import com.tnco.runar.repository.SharedDataRepository
 class GeneratorViewModel : ViewModel() {
     val fontSize: LiveData<Float> = MutableLiveData(SharedDataRepository.fontSize)
 
-    fun generatorStartBack(viewModel: GeneratorViewModel){
-
+    fun generatorStartBack(viewModel: GeneratorViewModel) {
     }
-
 }

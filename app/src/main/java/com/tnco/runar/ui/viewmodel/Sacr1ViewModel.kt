@@ -13,5 +13,4 @@ class Sacr1ViewModel : ViewModel() {
     init {
         _fontSize.postValue(SharedDataRepository.fontSize)
     }
-
 }

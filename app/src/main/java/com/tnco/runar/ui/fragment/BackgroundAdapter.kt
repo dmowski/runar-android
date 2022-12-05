@@ -39,8 +39,11 @@ class BackgroundAdapter(
         checkBox.visibility =
             if (list[position].isSelected && list[position].img != null) View.VISIBLE else View.GONE
         frameLayout.setBackgroundResource(
-            if (list[position].isSelected && list[position].img != null) R.drawable.backround_background_selected
-            else R.drawable.backround_background
+            if (list[position].isSelected && list[position].img != null) {
+                R.drawable.backround_background_selected
+            } else {
+                R.drawable.backround_background
+            }
         )
     }
 
@@ -55,6 +58,4 @@ class BackgroundAdapter(
     }
 }
 
-class BackgroundViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
-}
+class BackgroundViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
