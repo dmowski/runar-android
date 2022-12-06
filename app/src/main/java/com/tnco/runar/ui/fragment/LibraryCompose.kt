@@ -43,14 +43,14 @@ internal fun Bars() {
     val tabsState = remember {
         mutableStateOf(true)
     }
-    val pagerState = rememberPagerState(2)
+
+    val tabs = listOf(TabItem.Books, TabItem.AudioTales)
+    val pagerState = rememberPagerState(tabs.size)
 
     var barColor = colorResource(id = R.color.library_top_bar_header)
     var barFont = FontFamily(Font(R.font.roboto_medium))
     var barFontSize = with(LocalDensity.current) { ((fontSize!! * 1.35f)).toSp() }
     var navIcon: @Composable (() -> Unit)? = null
-
-    val tabs = listOf(TabItem.Books, TabItem.AudioTales)
 
     if (header != stringResource(id = R.string.library_top_bar_header)) {
         tabsState.value = false
@@ -195,8 +195,8 @@ internal fun AudioScreen() {
     ) {
         Text(
             text = "Audio View",
-            fontWeight = FontWeight.Bold,
-            color = Color.White,
+            fontWeight = FontWeight.Normal,
+            color = Color.Gray,
             modifier = Modifier.align(Alignment.CenterHorizontally),
             textAlign = TextAlign.Center,
             fontSize = 25.sp
@@ -221,7 +221,11 @@ fun Tabs(tabs: List<TabItem>, pagerState: PagerState) {
     ) {
         tabs.forEachIndexed { index, tab ->
             Tab(
-                text = { Text(tab.title) },
+                text = {
+                    Text(
+                        text = stringResource(tab.title)
+                    )
+                },
                 selected = pagerState.currentPage == index,
                 onClick = {
                     scope.launch {
@@ -236,7 +240,11 @@ fun Tabs(tabs: List<TabItem>, pagerState: PagerState) {
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun TabsContent(tabs: List<TabItem>, pagerState: PagerState) {
-    HorizontalPager(state = pagerState, count = tabs.size) { page ->
+    HorizontalPager(
+        state = pagerState,
+        count = tabs.size,
+        modifier = Modifier.fillMaxSize()
+    ) { page ->
         tabs[page].screen()
     }
 }

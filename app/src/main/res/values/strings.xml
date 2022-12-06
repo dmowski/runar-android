@@ -154,4 +154,7 @@
     <string name="internet_conn_error">Please check your network connection and try again</string>
     <string name="internet_conn_error1">You need to be connected to the internet to see Images!</string>
 
+    <string name="books">Books</string>
+    <string name="audio">Audio</string>
+
 </resources>
