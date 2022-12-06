@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         firebaseAnalytics = Firebase.analytics
-        LanguageRepository.setSettingsLanguage(this)//set app language from settings
+        LanguageRepository.setSettingsLanguage(this) // set app language from settings
         // status bar color
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
@@ -86,18 +86,18 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
             binding.bottomNavigationBar.visibility = bottomNavBarVisibility
         }
 
-        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
-            if (!task.isSuccessful) {
-                RunarLogger.logDebug("Fetching FCM registration token failed")
-                return@OnCompleteListener
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(
+            OnCompleteListener { task ->
+                if (!task.isSuccessful) {
+                    RunarLogger.logDebug("Fetching FCM registration token failed")
+                    return@OnCompleteListener
+                }
+
+                // Get new FCM registration token
+                val token = task.result
+                println("token: $token")
             }
-
-            // Get new FCM registration token
-            val token = task.result
-            println("token: $token")
-
-        })
-
+        )
     }
 
     override fun onAudioFocusChange(focusChange: Int) {

@@ -5,18 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebChromeClient
-import android.webkit.WebView
 import android.webkit.WebViewClient
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.tnco.runar.R
-import com.tnco.runar.databinding.FragmentGeneratorProcessingBinding
 import com.tnco.runar.databinding.LayoutWebShareBinding
-import com.tnco.runar.ui.activity.MainActivity
 import com.tnco.runar.ui.viewmodel.MainViewModel
 
-class WebShareFragment: Fragment() {
+class WebShareFragment : Fragment() {
 
     private var _binding: LayoutWebShareBinding? = null
     private val binding get() = _binding!!

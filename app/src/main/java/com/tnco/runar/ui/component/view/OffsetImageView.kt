@@ -10,7 +10,6 @@ import androidx.annotation.StyleableRes
 import androidx.appcompat.widget.AppCompatImageView
 import com.tnco.runar.R
 
-
 /**
  * [android.widget.ImageView] that supports directional cropping in both vertical and
  * horizontal directions instead of being restricted to center-crop. Automatically sets [ ] to MATRIX and defaults to center-crop.
@@ -120,14 +119,16 @@ class OffsetImageView(context: Context, attrs: AttributeSet?, @AttrRes defStyleA
         scaleType: OffsetScaleType
     ) {
         require(
-            !(mHorizontalCropOffsetPercent < 0
-                    || mVerticalCropOffsetPercent < 0
-                    || mHorizontalFitOffsetPercent < 0
-                    || mVerticalFitOffsetPercent < 0
-                    || mHorizontalCropOffsetPercent > 1
-                    || mVerticalCropOffsetPercent > 1
-                    || mHorizontalFitOffsetPercent > 1
-                    || mVerticalFitOffsetPercent > 1)
+            !(
+                mHorizontalCropOffsetPercent < 0 ||
+                    mVerticalCropOffsetPercent < 0 ||
+                    mHorizontalFitOffsetPercent < 0 ||
+                    mVerticalFitOffsetPercent < 0 ||
+                    mHorizontalCropOffsetPercent > 1 ||
+                    mVerticalCropOffsetPercent > 1 ||
+                    mHorizontalFitOffsetPercent > 1 ||
+                    mVerticalFitOffsetPercent > 1
+                )
         ) { "Offset values must be a float between 0.0 and 1.0" }
         mHorizontalCropOffsetPercent = horizontalCropOffsetPercent
         mVerticalCropOffsetPercent = verticalCropOffsetPercent
@@ -156,10 +157,14 @@ class OffsetImageView(context: Context, attrs: AttributeSet?, @AttrRes defStyleA
         }
 
         val scaleHeight = when (mOffsetScaleType) {
-            OffsetScaleType.CROP -> drawableWidth * viewHeight > drawableHeight * viewWidth // If drawable is flatter than view, scale it to fill the view height.
-            OffsetScaleType.FIT_INSIDE -> drawableWidth * viewHeight < drawableHeight * viewWidth // If drawable is is taller than view, scale according to height to fit inside.
-            OffsetScaleType.FIT_X -> false // User wants to fit X axis -> scale according to width
-            OffsetScaleType.FIT_Y -> true // User wants to fit Y axis -> scale according to height
+            // If drawable is flatter than view, scale it to fill the view height.
+            OffsetScaleType.CROP -> drawableWidth * viewHeight > drawableHeight * viewWidth
+            // If drawable is is taller than view, scale according to height to fit inside.
+            OffsetScaleType.FIT_INSIDE -> drawableWidth * viewHeight < drawableHeight * viewWidth
+            // User wants to fit X axis -> scale according to width
+            OffsetScaleType.FIT_X -> false
+            // User wants to fit Y axis -> scale according to height
+            OffsetScaleType.FIT_Y -> true
         }
         // Get the scale.
         scale = if (scaleHeight) {

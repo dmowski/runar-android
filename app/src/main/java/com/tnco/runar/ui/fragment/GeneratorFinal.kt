@@ -36,7 +36,6 @@ import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
-
 class GeneratorFinal : Fragment() {
 
     private var _binding: GeneratorFinalBinding? = null
@@ -154,7 +153,6 @@ class GeneratorFinal : Fragment() {
         if (permission != PackageManager.PERMISSION_GRANTED) {
             requestPermission.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
         } else savePicture()
-
     }
 
     private val requestPermission =

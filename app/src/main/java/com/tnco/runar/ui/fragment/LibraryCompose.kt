@@ -1,33 +1,31 @@
 package com.tnco.runar.ui.fragment
 
-import android.util.Log
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLifecycleOwner
-import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.*
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberImagePainter
-import coil.size.OriginalSize
-import com.google.accompanist.flowlayout.FlowRow
-import com.google.accompanist.pager.*
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.rememberPagerState
 import com.tnco.runar.R
 import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.enums.AnalyticsEvent
@@ -83,9 +81,11 @@ internal fun Bars() {
         if (tabsState.value && audioFeature) {
             TabScreen(pagerState, scrollState, fontSize)
         } else {
-            Column(modifier = Modifier
-                .padding(top = paddingValue.calculateBottomPadding())
-                .verticalScroll(state = scrollState, enabled = true)) {
+            Column(
+                modifier = Modifier
+                    .padding(top = paddingValue.calculateBottomPadding())
+                    .verticalScroll(state = scrollState, enabled = true)
+            ) {
                 ItemData(scrollState)
                 Box(modifier = Modifier.aspectRatio(15f, true))
             }
@@ -169,7 +169,7 @@ internal fun ItemData(scrollState: ScrollState) {
         CoroutineScope(Dispatchers.IO).launch {
             if (it.last() == 9999) {
                 delay(450)
-                scrollState.scrollTo(it[2])
+                scrollState.scrollTo(it[it.size - 2])
                 viewModel.removeLastScrollPositionHistory()
                 viewModel.removeLastScrollPositionHistory()
             }
@@ -209,7 +209,8 @@ private fun FirstMenuItem(
             Row(
                 Modifier
                     .fillMaxSize()
-                    .weight(62f), verticalAlignment = Alignment.CenterVertically
+                    .weight(62f),
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 Image(
                     painter = rememberImagePainter(imgLink),
@@ -230,15 +231,18 @@ private fun FirstMenuItem(
                         text = header,
                         color = colorResource(id = R.color.library_item_header),
                         fontFamily = FontFamily(Font(R.font.roboto_regular)),
-                        style = TextStyle(fontSize = with(LocalDensity.current) { fontSize.toSp() }),
+                        style = TextStyle(
+                            fontSize = with(LocalDensity.current) { fontSize.toSp() }
+                        ),
                         modifier = Modifier.padding(bottom = 2.dp)
                     )
                     Text(
                         text = text,
                         color = colorResource(id = R.color.library_item_text),
                         fontFamily = FontFamily(Font(R.font.roboto_regular)),
-                        style = TextStyle(fontSize = with(LocalDensity.current)
-                        { ((fontSize * 0.8f)).toSp() })
+                        style = TextStyle(
+                            fontSize = with(LocalDensity.current) { ((fontSize * 0.8f)).toSp() }
+                        )
                     )
                 }
                 Box(
@@ -301,7 +305,8 @@ private fun SecondMenuItem(
                 )
                 Row(
                     Modifier
-                        .fillMaxSize(), verticalAlignment = Alignment.CenterVertically
+                        .fillMaxSize(),
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
                         text = header,
@@ -309,7 +314,8 @@ private fun SecondMenuItem(
                         fontFamily = FontFamily(Font(R.font.roboto_regular)),
                         style = TextStyle(
                             fontSize = with(LocalDensity.current) { fontSize.toSp() },
-                            lineHeight = with(LocalDensity.current) { ((fontSize * 1.4f)).toSp() }),
+                            lineHeight = with(LocalDensity.current) { ((fontSize * 1.4f)).toSp() }
+                        ),
                         modifier = Modifier
                             .weight(320f)
                             .fillMaxSize()
@@ -367,7 +373,8 @@ private fun SecondMenuItem(
                 Row(
                     Modifier
                         .fillMaxSize()
-                        .weight(62f), verticalAlignment = Alignment.CenterVertically
+                        .weight(62f),
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
                     Image(
                         painter = rememberImagePainter(imgLink),
@@ -444,7 +451,8 @@ private fun ThirdMenuItem(fontSize: Float, text: String, title: String) {
             style = TextStyle(
                 fontSize = with(LocalDensity.current) { ((fontSize * 0.95f)).toSp() },
                 textAlign = TextAlign.Center,
-                lineHeight = with(LocalDensity.current) { ((fontSize * 1.4f)).toSp() }),
+                lineHeight = with(LocalDensity.current) { ((fontSize * 1.4f)).toSp() }
+            ),
             modifier = Modifier.padding(top = 5.dp)
         )
         Box(Modifier.aspectRatio(35f))
@@ -462,6 +470,3 @@ private fun TopBarIcon() {
         )
     }
 }
-
-
-

@@ -8,7 +8,7 @@ import com.tnco.runar.ui.activity.MainActivity
 import java.util.*
 
 object LanguageRepository {
-    fun changeLanguage(activity: Activity,language: String){
+    fun changeLanguage(activity: Activity, language: String) {
         val locale = Locale(language)
         Locale.setDefault(locale)
         val config: Configuration? = activity.baseContext?.resources?.configuration
@@ -23,7 +23,7 @@ object LanguageRepository {
 
         (activity as MainActivity).reshowBar()
     }
-    fun setSettingsLanguage(activity: Activity){
+    fun setSettingsLanguage(activity: Activity) {
         val prefRep = SharedPreferencesRepository.get()
         val locale = Locale(prefRep.language)
         Locale.setDefault(locale)
@@ -37,7 +37,7 @@ object LanguageRepository {
         DatabaseRepository.reinit()
         SharedDataRepository.init(activity)
     }
-    fun setInitialSettingsLanguage(context: Context){
+    fun setInitialSettingsLanguage(context: Context) {
         val prefRep = SharedPreferencesRepository.get()
         val locale = Locale(prefRep.language)
         Locale.setDefault(locale)

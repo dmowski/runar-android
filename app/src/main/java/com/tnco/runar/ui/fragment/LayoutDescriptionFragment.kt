@@ -1,24 +1,23 @@
 package com.tnco.runar.ui.fragment
 
-import android.content.Context
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.View
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.tnco.runar.R
 import com.tnco.runar.analytics.AnalyticsHelper
+import com.tnco.runar.databinding.FragmentLayoutDescriptionBinding
 import com.tnco.runar.enums.AnalyticsEvent
+import com.tnco.runar.ui.viewmodel.DescriptionViewModel
 import com.tnco.runar.util.AnalyticsConstants
 import com.tnco.runar.util.AnalyticsUtils
-import com.tnco.runar.databinding.FragmentLayoutDescriptionBinding
-import com.tnco.runar.ui.viewmodel.DescriptionViewModel
 import com.tnco.runar.util.setOnCLickListenerForAll
 
-class LayoutDescriptionFragment : Fragment(R.layout.fragment_layout_description),
+class LayoutDescriptionFragment :
+    Fragment(R.layout.fragment_layout_description),
     View.OnClickListener {
 
     private val viewModel: DescriptionViewModel by viewModels()

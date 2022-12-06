@@ -25,10 +25,10 @@ interface AppDAO {
     fun getAffirmations(): List<AffimDescriptionModel>
 
     @Query("SELECT text FROM two_runes WHERE id = :id")
-    fun getTwoRunesInter(id: Int?) : String
+    fun getTwoRunesInter(id: Int?): String
 
     @Query("SELECT * FROM two_runes")
-    fun getAllTwoRunesInter() : List<TwoRunesInterModel>
+    fun getAllTwoRunesInter(): List<TwoRunesInterModel>
 
     @Query("SELECT * FROM library")
     fun getLibraryItems(): List<LibraryItemsModel>
