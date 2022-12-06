@@ -8,6 +8,7 @@
 
     <string name="pattern_generator">Генератор узоров</string>
     <string name="run_pattern">Рунный узор</string>
+    <string name="run_patterns">Рунические узоры</string>
     <string name="formula">Рунная Формула</string>
     <string name="popup_runic_formula">В скором времени ты сможешь сам составлять рунные формулы. Рунную формулу можно использовать как талисман или оберег.</string>
     <string name="stav">Рунный Став</string>
@@ -29,6 +30,8 @@
     <string name="layout6">Крест</string>
     <string name="layout7">Крест стихий</string>
     <string name="layout8">Кельтский крест</string>
+    <string name="layout_upper_banner_description">Создай свой рунный узор, выбрав несколько рун</string>
+    <string name="rune_layouts">Расклады рун</string>
 
     <string name="layout_description_checkbox">Больше не показывать</string>
     <string name="layout_description_button">Начать расклад</string>
