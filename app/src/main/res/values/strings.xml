@@ -8,6 +8,7 @@
 
     <string name="pattern_generator">Pattern generator</string>
     <string name="run_pattern">Rune pattern</string>
+    <string name="run_patterns">Rune patterns</string>
     <string name="formula">Runic Formula</string>
     <string name="popup_runic_formula">Choose a few runes, and we will offer runic formulas which are made from them. Runic formula can be used as a mascot or a guard.</string>
     <string name="stav">Runic Staves</string>
@@ -28,6 +29,8 @@
     <string name="layout6">CROSS</string>
     <string name="layout7">CROSS OF ELEMENTS</string>
     <string name="layout8">CELTIC CROSS</string>
+    <string name="layout_upper_banner_description">Create your runic pattern by selecting a few runes</string>
+    <string name="rune_layouts">Rune layouts</string>
 
     <string name="layout_description_checkbox">Do not show again</string>
     <string name="layout_description_button">Start Runic Draw</string>
