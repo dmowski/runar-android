@@ -4,12 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -141,12 +144,16 @@ private fun UpperBanner(onClick: () -> Unit = {}) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             ConstraintLayout(
                 modifier = Modifier
-                    .paint(
-                        painter = painterResource(id = R.drawable.layouts_upper_banner),
-                        contentScale = ContentScale.FillBounds
-                    )
                     .fillMaxWidth()
                     .aspectRatio(3.28f)
+                    .border(
+                        border = BorderStroke(1.dp, colorResource(id = R.color.border)),
+                        shape = RoundedCornerShape(8.dp)
+                    )
+                    .paint(
+                        painter = painterResource(id = R.drawable.sacr_back_button),
+                        contentScale = ContentScale.Inside
+                    )
                     .clickable(onClick = onClick)
             ) {
                 val (image, title, description) = createRefs()
