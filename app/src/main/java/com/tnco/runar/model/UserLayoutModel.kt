@@ -21,7 +21,7 @@ data class UserLayoutModel(
     var slot7: Int?,
     @ColumnInfo(name = "affirm_id")
     var affirmId: Int?,
-){
+) {
     @PrimaryKey(autoGenerate = true)
     var id: Int? = null
 }

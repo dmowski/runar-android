@@ -22,19 +22,19 @@ data class LayoutDescriptionModel(
     var slot6: Int?,
     var slot7: Int?,
     @ColumnInfo(name = "slot1_meaning")
-    var slotMeaning1 : String?,
+    var slotMeaning1: String?,
     @ColumnInfo(name = "slot2_meaning")
-    var slotMeaning2 : String?,
+    var slotMeaning2: String?,
     @ColumnInfo(name = "slot3_meaning")
-    var slotMeaning3 : String?,
+    var slotMeaning3: String?,
     @ColumnInfo(name = "slot4_meaning")
-    var slotMeaning4 : String?,
+    var slotMeaning4: String?,
     @ColumnInfo(name = "slot5_meaning")
-    var slotMeaning5 : String?,
+    var slotMeaning5: String?,
     @ColumnInfo(name = "slot6_meaning")
-    var slotMeaning6 : String?,
+    var slotMeaning6: String?,
     @ColumnInfo(name = "slot7_meaning")
-    var slotMeaning7 : String?,
+    var slotMeaning7: String?,
     @ColumnInfo(name = "interpretation")
-    var interpretation : String?
+    var interpretation: String?
 )

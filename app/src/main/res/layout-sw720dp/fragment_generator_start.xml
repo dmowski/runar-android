@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.tnco.runar.ui.component.view.OffsetImageView
+        android:id="@+id/offsetImageView3"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/background_fire"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@color/library_top_bar"
+        app:layout_constraintTop_toTopOf="parent"
+        app:subtitleTextAppearance="@font/roboto_medium"
+        app:titleTextColor="@color/library_top_bar_header">
+
+        <ImageView
+            android:id="@+id/arrowBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:src="@drawable/ic_library_back_arrow_2" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_medium"
+            android:text="@string/runes_selection"
+            android:textColor="@color/gray"
+            android:textSize="20sp"
+            tools:layout_editor_absoluteX="76dp"
+            tools:layout_editor_absoluteY="14dp" />
+    </androidx.appcompat.widget.Toolbar>
+
+    <TextView
+        android:id="@+id/text_inform"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:fontFamily="@font/roboto_light"
+        android:text="@string/runes_collect_formula"
+        android:textAlignment="center"
+        android:textColor="@color/white_f8"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@id/lineEndText"
+        app:layout_constraintStart_toStartOf="@+id/lineStartText"
+        app:layout_constraintTop_toTopOf="@+id/lineTopText" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/lineStart"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.019" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/lineEnd"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.981" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/lineStartText"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.144" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/lineEndText"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.856" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/lineTopText"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.125" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/lineTopRune"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.28" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/lineBottomRune"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.40" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/lineStartRune"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.30" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/lineEndRune"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.69" />
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/runes_numbers"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@id/lineBottomRune"
+        app:layout_constraintEnd_toEndOf="@id/lineEndRune"
+        app:layout_constraintStart_toStartOf="@+id/lineStartRune"
+        app:layout_constraintTop_toTopOf="@+id/lineTopRune">
+
+        <TextView
+            android:id="@+id/tv_rune_1"
+            android:layout_width="58dp"
+            android:layout_height="76dp"
+            android:background="@drawable/slot_active"
+            android:fontFamily="@font/amatic_sc_bold"
+            android:gravity="center"
+            android:text="1"
+            android:textColor="@color/rune_number_color_deselected"
+            android:textSize="50sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/rune_1"
+            android:layout_width="58dp"
+            android:layout_height="76dp"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_desc_rune_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto"
+            android:textColor="#FFEACA"
+            android:textSize="12sp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@+id/rune_1"
+            app:layout_constraintStart_toStartOf="@id/rune_1"
+            app:layout_constraintTop_toBottomOf="@+id/rune_1" />
+
+        <TextView
+            android:id="@+id/tv_rune_2"
+            android:layout_width="58dp"
+            android:layout_height="76dp"
+            android:background="@drawable/slot_active"
+            android:fontFamily="@font/amatic_sc_bold"
+            android:gravity="center"
+            android:text="2"
+            android:textColor="@color/rune_number_color_deselected"
+            android:textSize="50sp"
+            app:layout_constraintEnd_toStartOf="@+id/tv_rune_3"
+            app:layout_constraintStart_toEndOf="@+id/tv_rune_1"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/rune_2"
+            android:layout_width="58dp"
+            android:layout_height="76dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toStartOf="@+id/tv_rune_3"
+            app:layout_constraintStart_toEndOf="@+id/tv_rune_1"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_desc_rune_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto"
+            android:textColor="#FFEACA"
+            android:textSize="12sp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@id/rune_2"
+            app:layout_constraintStart_toStartOf="@id/rune_2"
+            app:layout_constraintTop_toBottomOf="@+id/rune_2" />
+
+        <TextView
+            android:id="@+id/tv_rune_3"
+            android:layout_width="58dp"
+            android:layout_height="76dp"
+            android:background="@drawable/slot_active"
+            android:fontFamily="@font/amatic_sc_bold"
+            android:gravity="center"
+            android:text="3"
+            android:textColor="@color/rune_number_color_deselected"
+            android:textSize="50sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/rune_3"
+            android:layout_width="58dp"
+            android:layout_height="76dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_desc_rune_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto"
+            android:textColor="#FFEACA"
+            android:textSize="12sp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@id/rune_3"
+            app:layout_constraintStart_toStartOf="@id/rune_3"
+            app:layout_constraintTop_toBottomOf="@+id/rune_3" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/lineButtonGeneratorTop"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.472" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/lineButtonGeneratorBottom"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.55" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/lineButtonGeneratorBottom"
+        app:layout_constraintEnd_toEndOf="@+id/lineEndRune"
+        app:layout_constraintStart_toStartOf="@+id/lineStartRune"
+        app:layout_constraintTop_toTopOf="@+id/lineButtonGeneratorTop">
+
+        <TextView
+            android:id="@+id/btn_random"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/generator_start_button"
+            android:clickable="true"
+            android:focusable="true"
+            android:fontFamily="@font/amatic_sc_bold"
+            android:gravity="center"
+            android:text="@string/runes_random"
+            android:textColor="@color/layout_description_button_text_selector"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/btn_generate"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/description_button_background_selector_2"
+            android:clickable="true"
+            android:focusable="true"
+            android:fontFamily="@font/amatic_sc_bold"
+            android:gravity="center"
+            android:text="@string/runes_generate"
+            android:textColor="@color/layout_description_button_text_selector_2"
+            android:visibility="gone"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/lineRunesTop"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.584" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/lineRunesTop1"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.67" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/lineRunesTop2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.862" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/lineBottomRunes"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.95" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/runes_recycler_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/lineBottomRunes"
+        app:layout_constraintEnd_toStartOf="@+id/lineEndText"
+        app:layout_constraintStart_toStartOf="@+id/lineStartText"
+        app:layout_constraintTop_toTopOf="@+id/lineRunesTop1" />
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmerLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:animateLayoutChanges="true"
+        android:animationCache="true"
+        app:layout_constraintEnd_toStartOf="@+id/lineEndText"
+        app:layout_constraintStart_toStartOf="@+id/lineStartText"
+        app:layout_constraintTop_toTopOf="@+id/lineRunesTop1"
+        app:shimmer_repeat_mode="restart"
+        app:shimmer_shape="radial">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical">
+
+            <include layout="@layout/shimmer_layout" />
+
+            <include layout="@layout/shimmer_layout" />
+
+            <include layout="@layout/shimmer_layout" />
+
+        </LinearLayout>
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -12,4 +12,7 @@ class GeneratorViewModel @Inject constructor(
     sharedDataRepository: SharedDataRepository
 ) : ViewModel() {
     val fontSize: LiveData<Float> = MutableLiveData(sharedDataRepository.fontSize)
+
+    fun generatorStartBack(viewModel: GeneratorViewModel) {
+    }
 }

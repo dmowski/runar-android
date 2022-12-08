@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 object DatabaseRepository {
     private var appDao = AppDB.getLayoutDB().appDAO()
     private var dataDao = DataDB.getDataDB().dataDAO()
-    fun reinit(){
+    fun reinit() {
         appDao = AppDB.getLayoutDB().appDAO()
         dataDao = DataDB.getDataDB().dataDAO()
     }
@@ -72,7 +72,6 @@ object DatabaseRepository {
     fun deleteUserLayoutsByIds(ids: List<Int>) {
         dataDao.removeUserLayoutsByIds(ids)
     }
-
 
     fun getRunesGenerator(): Flow<List<RunesItemsModel>> {
         return appDao.getRunesGenerator()

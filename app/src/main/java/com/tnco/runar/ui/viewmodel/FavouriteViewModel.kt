@@ -30,7 +30,7 @@ class FavouriteViewModel @Inject constructor(
     private var twoRunesInters: List<TwoRunesInterModel> = emptyList()
     var favData = MutableLiveData<List<FavUserLayoutModel>>()
     var haveSelectedItem =
-        MutableLiveData(0) //0 - not exist, 1 - exist, 2 - something unchecked, 3 - selected all
+        MutableLiveData(0) // 0 - not exist, 1 - exist, 2 - something unchecked, 3 - selected all
 
     fun getUserLayoutsFromDB() {
         CoroutineScope(Dispatchers.IO).launch {

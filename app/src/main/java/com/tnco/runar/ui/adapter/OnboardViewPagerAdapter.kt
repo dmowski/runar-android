@@ -1,7 +1,6 @@
 package com.tnco.runar.ui.adapter
 
 import android.content.Context
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,7 +17,6 @@ import com.tnco.runar.ui.viewmodel.OnboardViewModel
 class OnboardViewPagerAdapter(
     private var models: List<OnboardGuideElementModel>,
     var context: Context,
-    var textSize: Float,
     var viewModel: OnboardViewModel
 ) : PagerAdapter() {
     private lateinit var layoutInflater: LayoutInflater
@@ -38,18 +36,12 @@ class OnboardViewPagerAdapter(
         val header = view.findViewById<TextView>(R.id.header)
         val info = view.findViewById<TextView>(R.id.info)
         val img = view.findViewById<ImageView>(R.id.image)
-        cardButton.setTextSize(
-            TypedValue.COMPLEX_UNIT_PX,
-            (textSize * 1.4 * 1.2).toFloat()
-        ) //1.2 actually
-        header.setTextSize(TypedValue.COMPLEX_UNIT_PX, (textSize * 1.8 * 1.2).toFloat())
-        info.setTextSize(TypedValue.COMPLEX_UNIT_PX, (textSize * 0.8 * 1.2).toFloat())
         cardButton.text = models[position].buttonText
         header.text = models[position].headerText
         info.text = models[position].infoText
         img.setImageResource(models[position].imgId)
 
-        if (position == 4) {
+        if (position == 5) {
             cardButton.background = AppCompatResources.getDrawable(
                 context,
                 R.drawable.onboarding_button_background_selected

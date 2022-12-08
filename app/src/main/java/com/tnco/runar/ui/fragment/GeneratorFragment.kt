@@ -7,39 +7,47 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.tnco.runar.R
+import androidx.navigation.fragment.findNavController
 import com.tnco.runar.analytics.AnalyticsHelper
+import com.tnco.runar.databinding.FragmentLayoutGeneratorBinding
 import com.tnco.runar.enums.AnalyticsEvent
-import com.tnco.runar.databinding.FragmerntLayoutGeneratorBinding
-import com.tnco.runar.ui.viewmodel.GeneratorViewModel
+import com.tnco.runar.ui.viewmodel.MainViewModel
 import com.tnco.runar.util.observeOnce
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class GeneratorFragment : Fragment() {
-    val viewModel: GeneratorViewModel by viewModels()
-    private var _binding: FragmerntLayoutGeneratorBinding? = null
-    private val binding get() = _binding!!
+    val viewModel: MainViewModel by viewModels()
 
+    private var _binding: FragmentLayoutGeneratorBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmerntLayoutGeneratorBinding.inflate(inflater, container, false)
-        AnalyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_OPENED)
+        _binding = FragmentLayoutGeneratorBinding.inflate(inflater, container, false)
         viewModel.fontSize.observeOnce(this) {
             binding.tvToolbar.setTextSize(TypedValue.COMPLEX_UNIT_PX, (it * 1.35f))
         }
 
         binding.generatorStav.setOnClickListener {
-            activity?.supportFragmentManager?.beginTransaction()
-                ?.replace(R.id.fragmentContainer, GeneratorStartFragment())
-                ?.commit()
+            val direction = GeneratorFragmentDirections
+                .actionGeneratorFragmentToGeneratorStartFragment()
+            findNavController().navigate(direction)
         }
+
         return binding.root
     }
 
-}
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        AnalyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_OPENED)
+    }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+}

@@ -2,7 +2,6 @@ package com.tnco.runar.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.TypedValue
 import android.view.WindowManager
 import android.widget.ImageView
 import androidx.activity.viewModels
@@ -24,7 +23,6 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class OnboardActivity : AppCompatActivity() {
     private val viewModel: OnboardViewModel by viewModels()
-    private var fontSize: Float = 0f
     private var currentPosition = 0
 
     @Inject
@@ -60,54 +58,59 @@ class OnboardActivity : AppCompatActivity() {
             closeActivity()
         }
 
-        viewModel.fontSize.observe(this) {
-            fontSize = it
-            binding.skipButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, (it * 0.7 * 1.2).toFloat())
-            models = ArrayList<OnboardGuideElementModel>()
-            models.add(
-                OnboardGuideElementModel(
-                    getString(R.string.onboard_next),
-                    getString(R.string.onboard_header1),
-                    getString(R.string.onboard_text1),
-                    R.drawable.onboard_1
-                )
+        models = ArrayList()
+        models.add(
+            OnboardGuideElementModel(
+                getString(R.string.onboard_next),
+                getString(R.string.onboard_header1),
+                getString(R.string.onboard_text1),
+                R.drawable.onboard_1
             )
-            models.add(
-                OnboardGuideElementModel(
-                    getString(R.string.onboard_next),
-                    getString(R.string.onboard_header2),
-                    getString(R.string.onboard_text2),
-                    R.drawable.onboard_2
-                )
+        )
+        models.add(
+            OnboardGuideElementModel(
+                getString(R.string.onboard_next),
+                getString(R.string.onboard_header2),
+                getString(R.string.onboard_text2),
+                R.drawable.onboard_2
             )
-            models.add(
-                OnboardGuideElementModel(
-                    getString(R.string.onboard_next),
-                    getString(R.string.onboard_header3),
-                    getString(R.string.onboard_text3),
-                    R.drawable.onboard_3
-                )
+        )
+        models.add(
+            OnboardGuideElementModel(
+                getString(R.string.onboard_next),
+                getString(R.string.onboard_header3),
+                getString(R.string.onboard_text3),
+                R.drawable.onboard_3
             )
-            models.add(
-                OnboardGuideElementModel(
-                    getString(R.string.onboard_next),
-                    getString(R.string.onboard_header4),
-                    getString(R.string.onboard_text4),
-                    R.drawable.onboard_4
-                )
+        )
+        models.add(
+            OnboardGuideElementModel(
+                getString(R.string.onboard_next),
+                getString(R.string.onboard_header4),
+                getString(R.string.onboard_text4),
+                R.drawable.onboard_4
             )
-            models.add(
-                OnboardGuideElementModel(
-                    getString(R.string.onboard_begin),
-                    getString(R.string.onboard_header5),
-                    getString(R.string.onboard_text5),
-                    R.drawable.onboard_5
-                )
+        )
+        models.add(
+            OnboardGuideElementModel(
+                getString(R.string.onboard_next),
+                getString(R.string.onboard_header5),
+                getString(R.string.onboard_text5),
+                R.drawable.onboard_5
             )
+        )
+        models.add(
+            OnboardGuideElementModel(
+                getString(R.string.onboard_begin),
+                getString(R.string.onboard_header6),
+                getString(R.string.onboard_text6),
+                R.drawable.onboard_6
+            )
+        )
 
-            adapter = OnboardViewPagerAdapter(models, this, it, viewModel)
-            binding.viewPager.adapter = adapter
-        }
+        adapter = OnboardViewPagerAdapter(models, this, viewModel)
+        binding.viewPager.adapter = adapter
+
         binding.viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrolled(
                 position: Int,
@@ -123,7 +126,8 @@ class OnboardActivity : AppCompatActivity() {
                     1 -> AnalyticsHelper.sendEvent(AnalyticsEvent.OB_FORTUNE_OPENED)
                     2 -> AnalyticsHelper.sendEvent(AnalyticsEvent.OB_INTERPRETATION_OPENED)
                     3 -> AnalyticsHelper.sendEvent(AnalyticsEvent.OB_FAVOURITES_OPENED)
-                    4 -> AnalyticsHelper.sendEvent(AnalyticsEvent.OB_LIBRARY_OPENED)
+                    4 -> AnalyticsHelper.sendEvent(AnalyticsEvent.OB_GENERATOR_OPENED)
+                    5 -> AnalyticsHelper.sendEvent(AnalyticsEvent.OB_LIBRARY_OPENED)
                 }
                 currentPosition = position
             }
@@ -135,7 +139,7 @@ class OnboardActivity : AppCompatActivity() {
         viewModel.currentPosition.observe(this) {
             binding.viewPager.setCurrentItem(it, true)
             changeSelectionCircle(it)
-            binding.skipButton.isVisible = it != 4
+            binding.skipButton.isVisible = it != 5
         }
         viewModel.end.observe(this) {
             if (it == true) {
@@ -145,7 +149,7 @@ class OnboardActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if (currentPosition in 1..4) {
+        if (currentPosition in 1..5) {
             viewModel.changeCurrentPosition(currentPosition - 1)
         } else {
             super.onBackPressed()

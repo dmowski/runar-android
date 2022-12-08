@@ -1,13 +1,18 @@
 package com.tnco.runar.repository.backend
 
 import com.tnco.runar.data.remote.BackendApi
+import com.tnco.runar.data.remote.RetrofitClient
+import com.tnco.runar.data.remote.RunesResponse
 import com.tnco.runar.data.remote.request.UserInfo
 import com.tnco.runar.repository.DatabaseRepository
 import com.tnco.runar.repository.SharedPreferencesRepository
+import com.tnco.runar.retrofit.BackgroundInfo
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import okhttp3.ResponseBody
 import retrofit2.HttpException
+import retrofit2.Response
 import java.util.*
 import javax.inject.Inject
 
@@ -37,7 +42,7 @@ class BackendRepository @Inject constructor(
                     //RunarLogger.logDebug("Hash GET!: ")
                     val oldHash = preferencesRepository.getLibHash(lang)
                     val newHash = hashResp.body()?.hash
-                    //RunarLogger.logDebug("oldHash: $oldHash  newHash: $newHash")
+                    // RunarLogger.logDebug("oldHash: $oldHash  newHash: $newHash")
                     if (newHash != null) {
                         if (oldHash != newHash) {
                             // RunarLogger.logDebug("Accepted and started library updating")
@@ -64,11 +69,43 @@ class BackendRepository @Inject constructor(
                     }
                 }
             } catch (e: HttpException) {
-                //RunarLogger.logDebug("Library http error")
+                // RunarLogger.logDebug("Library http error")
             } catch (e: Throwable) {
-                //RunarLogger.logDebug("Library some strange error")
-                //RunarLogger.logError("Library", e)
+                // RunarLogger.logDebug("Library some strange error")
+                // RunarLogger.logError("Library", e)
             }
         }
+    }
+
+    suspend fun getRunes(): Response<List<RunesResponse>> {
+        return RetrofitClient.apiInterfaceGenerator.getRunes()
+    }
+
+    suspend fun getBackgroundInfo(): Response<List<BackgroundInfo>> {
+        return RetrofitClient.apiInterface.getBackgroundInfo()
+    }
+
+    suspend fun getBackgroundImage(
+        runePath: String,
+        imgPath: String,
+        stylePath: String,
+        width: Int,
+        height: Int
+    ): Response<ResponseBody> {
+        return RetrofitClient.apiInterface.getBackgroundImage(
+            runePath,
+            imgPath,
+            stylePath,
+            width,
+            height
+        )
+    }
+
+    suspend fun getRunePattern(runesPath: String): Response<List<String>> {
+        return RetrofitClient.apiInterfaceGenerator.getRunePattern(runesPath)
+    }
+
+    suspend fun getRuneImage(runePath: String, imgPath: String): Response<ResponseBody> {
+        return RetrofitClient.apiInterfaceGenerator.getRunePatternImage(runePath, imgPath)
     }
 }

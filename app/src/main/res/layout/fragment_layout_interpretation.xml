@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -146,7 +147,8 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto_light"
                             android:lineSpacingMultiplier="1.35"
-                            android:textColor="@color/auf_text_color" />
+                            android:textColor="@color/auf_text_color"
+                            android:paddingBottom="40dp"/>
                     </ScrollView>
 
                     <androidx.appcompat.widget.AppCompatImageView
@@ -157,7 +159,7 @@
                         android:elevation="6dp"
                         android:scaleType="centerCrop"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintDimensionRatio="H,5:1"
+                        app:layout_constraintDimensionRatio="H,6:1"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent" />
 
@@ -420,12 +422,12 @@
                     <TextView
                         android:id="@+id/text"
                         android:layout_width="0dp"
-                        android:layout_height="30dp"
+                        android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_light"
-                        android:gravity="start"
-                        android:maxLines="1"
+                        android:textAlignment="center"
+                        android:maxLines="2"
                         android:textColor="@color/auf_text_color"
-                        app:layout_constraintEnd_toEndOf="@id/auf_text_guideline"
+                        app:layout_constraintEnd_toStartOf="@+id/sacr_button_end_guideline"
                         app:layout_constraintStart_toStartOf="@id/left_text_guideline"
                         app:layout_constraintTop_toBottomOf="@id/divider0" />
 
@@ -604,7 +606,6 @@
                         android:background="@drawable/description_button_background_selector"
                         android:fontFamily="@font/amatic_sc_bold"
                         android:gravity="center"
-                        android:paddingBottom="8dp"
                         android:text="@string/layout_interpretation_button"
                         android:textColor="@color/layout_description_button_text_selector"
                         app:layout_constraintDimensionRatio="H,4.55:1"
@@ -627,7 +628,8 @@
                         app:layout_constraintEnd_toStartOf="@id/checkbox_text"
                         app:layout_constraintHorizontal_chainStyle="packed"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/text_affim" />
+                        app:layout_constraintTop_toBottomOf="@id/text_affim"
+                        tools:ignore="TouchTargetSizeCheck" />
 
                     <TextView
                         android:id="@+id/checkbox_text"

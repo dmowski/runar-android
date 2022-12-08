@@ -1,48 +1,38 @@
 package com.tnco.runar.ui.fragment
 
-import android.content.Context
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.View
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.tnco.runar.R
 import com.tnco.runar.analytics.AnalyticsHelper
+import com.tnco.runar.databinding.FragmentLayoutDescriptionBinding
 import com.tnco.runar.enums.AnalyticsEvent
+import com.tnco.runar.ui.viewmodel.DescriptionViewModel
 import com.tnco.runar.util.AnalyticsConstants
 import com.tnco.runar.util.AnalyticsUtils
-import com.tnco.runar.databinding.FragmentLayoutDescriptionBinding
-import com.tnco.runar.ui.Navigator
-import com.tnco.runar.ui.viewmodel.DescriptionViewModel
 import com.tnco.runar.util.setOnCLickListenerForAll
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class LayoutDescriptionFragment : Fragment(R.layout.fragment_layout_description),
+class LayoutDescriptionFragment :
+    Fragment(R.layout.fragment_layout_description),
     View.OnClickListener {
 
     private val viewModel: DescriptionViewModel by viewModels()
     private var layoutId: Int = 0
-    private var navigator: Navigator? = null
+    private val args: LayoutDescriptionFragmentArgs by navArgs()
 
     private var _binding: FragmentLayoutDescriptionBinding? = null
     private val binding
         get() = _binding!!
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        navigator = context as Navigator
-    }
-
-    override fun onDetach() {
-        navigator = null
-        super.onDetach()
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        layoutId = requireArguments().getInt(KEY_LAYOUT_ID)
+        layoutId = args.layoutId
         viewModel.getLayoutDescription(layoutId)
     }
 
@@ -90,7 +80,7 @@ class LayoutDescriptionFragment : Fragment(R.layout.fragment_layout_description)
                     AnalyticsEvent.SCRIPT_INTERRUPTION,
                     Pair(AnalyticsConstants.PAGE, "layout_description")
                 )
-                requireActivity().onBackPressed()
+                findNavController().popBackStack()
             }
             R.id.description_button_frame -> {
                 if (binding.checkbox.isChecked) {
@@ -101,19 +91,13 @@ class LayoutDescriptionFragment : Fragment(R.layout.fragment_layout_description)
                     AnalyticsEvent.DRAWS_STARTED,
                     Pair(AnalyticsConstants.DRAW_RUNE_LAYOUT, layoutName)
                 )
-                navigator?.navigateToLayoutInitFragment(layoutId)
+                val direction = LayoutDescriptionFragmentDirections
+                    .actionLayoutDescriptionFragmentToLayoutInitFragment(layoutId)
+                findNavController().navigate(direction)
             }
             R.id.checkbox_text -> {
                 binding.checkbox.isChecked = !binding.checkbox.isChecked
             }
-        }
-    }
-
-    companion object {
-        private const val KEY_LAYOUT_ID = "LAYOUT_ID"
-
-        fun newInstance(id: Int): LayoutDescriptionFragment {
-            return LayoutDescriptionFragment().apply { arguments = bundleOf(KEY_LAYOUT_ID to id) }
         }
     }
 }

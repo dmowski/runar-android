@@ -22,7 +22,6 @@ class ProcessingViewModel @Inject constructor(
     val layoutName: LiveData<String> = _layoutName
     val fontSize: LiveData<Float> = MutableLiveData(sharedDataRepository.fontSize)
 
-
     fun getLayoutName(id: Int) {
         CoroutineScope(Dispatchers.IO).launch {
             _layoutName.postValue(databaseRepository.getLayoutName(id))

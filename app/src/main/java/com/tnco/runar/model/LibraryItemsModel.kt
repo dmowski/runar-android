@@ -23,14 +23,28 @@ data class LibraryItemsModel constructor(
     @ColumnInfo(name = "audio_url")
     var audioUrl: String?,
     @ColumnInfo(name = "audio_duration")
-    var audioDuration: Int?
+    var audioDuration: Int?,
+    @ColumnInfo(name = "rune_tags")
+    var runeTags: List<String>?
 ) {
+
     @Ignore
-    constructor() : this("null", listOf(), null, null, null, null, null, null, null, null, null)
+    constructor() : this(
+        "null",
+        listOf(),
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        listOf()
+    )
 
     override fun toString(): String {
         return "LibraryItemsModel(title=$title, audioUrl=$audioUrl, audioDuration=$audioDuration)"
     }
-
-
 }

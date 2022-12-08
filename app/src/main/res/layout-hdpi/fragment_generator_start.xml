@@ -21,7 +21,7 @@
         app:subtitleTextAppearance="@font/roboto_medium"
         app:titleTextColor="@color/library_top_bar_header">
 
-        <androidx.appcompat.widget.AppCompatImageView
+        <ImageView
             android:id="@+id/arrowBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_medium"
             android:text="@string/runes_selection"
-            android:textColor="@color/white_f8"
+            android:textColor="@color/gray"
             android:textSize="20sp" />
     </androidx.appcompat.widget.Toolbar>
 
@@ -42,6 +42,7 @@
         android:layout_width="0dp"
         android:layout_height="48dp"
         android:text="@string/runes_collect_formula"
+        android:fontFamily="@font/roboto_light"
         android:textAlignment="center"
         android:textColor="@color/white_f8"
         android:textSize="18sp"
@@ -129,7 +130,7 @@
             android:background="@drawable/slot_active"
             android:fontFamily="@font/amatic_sc_bold"
             android:gravity="center"
-            android:text="@string/value_1"
+            android:text="1"
             android:textColor="@color/rune_number_color_deselected"
             android:textSize="40sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -137,7 +138,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.appcompat.widget.AppCompatImageView
+        <ImageView
             android:id="@+id/rune_1"
             android:layout_width="@dimen/generator_rune_width_hdpi"
             android:layout_height="@dimen/generator_rune_height_hdpi"
@@ -167,7 +168,7 @@
             android:background="@drawable/slot_active"
             android:fontFamily="@font/amatic_sc_bold"
             android:gravity="center"
-            android:text="@string/value_2"
+            android:text="2"
             android:textColor="@color/rune_number_color_deselected"
             android:textSize="40sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -175,7 +176,7 @@
             app:layout_constraintStart_toEndOf="@+id/tv_rune_1"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.appcompat.widget.AppCompatImageView
+        <ImageView
             android:id="@+id/rune_2"
             android:layout_width="@dimen/generator_rune_width_hdpi"
             android:layout_height="@dimen/generator_rune_height_hdpi"
@@ -204,7 +205,7 @@
             android:background="@drawable/slot_active"
             android:fontFamily="@font/amatic_sc_bold"
             android:gravity="center"
-            android:text="@string/value_3"
+            android:text="3"
             android:textColor="@color/rune_number_color_deselected"
             android:textSize="40sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -212,7 +213,7 @@
             app:layout_constraintStart_toEndOf="@+id/tv_rune_2"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.appcompat.widget.AppCompatImageView
+        <ImageView
             android:id="@+id/rune_3"
             android:layout_width="@dimen/generator_rune_width_hdpi"
             android:layout_height="@dimen/generator_rune_height_hdpi"
@@ -263,7 +264,7 @@
             android:id="@+id/btn_random"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="@drawable/description_button_background_selector"
+            android:background="@drawable/generator_start_button"
             android:fontFamily="@font/amatic_sc_bold"
             android:gravity="center"
             android:clickable="true"
@@ -325,5 +326,31 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/lineStart"
         app:layout_constraintTop_toBottomOf="@+id/lineRunesTop" />
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmerLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:animateLayoutChanges="true"
+        android:animationCache="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/lineStart"
+        app:layout_constraintTop_toBottomOf="@+id/lineRunesTop"
+        app:shimmer_repeat_mode="restart"
+        app:shimmer_shape="radial">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <include layout="@layout/shimmer_layout" />
+
+            <include layout="@layout/shimmer_layout" />
+
+            <include layout="@layout/shimmer_layout" />
+        </LinearLayout>
+    </com.facebook.shimmer.ShimmerFrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

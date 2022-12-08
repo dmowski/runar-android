@@ -1,6 +1,5 @@
 package com.tnco.runar.ui.fragment
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -17,7 +16,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
@@ -32,10 +30,11 @@ import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
 import com.tnco.runar.R
 import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.enums.AnalyticsEvent
-import com.tnco.runar.ui.Navigator
 import com.tnco.runar.ui.component.dialog.SavedLayoutsDialog
 import com.tnco.runar.ui.viewmodel.FavouriteViewModel
 import com.tnco.runar.util.AnalyticsConstants
@@ -45,21 +44,10 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class FavouriteFragment : Fragment() {
     val viewModel: FavouriteViewModel by viewModels()
-    private var navigator: Navigator? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         viewModel.getUserLayoutsFromDB()
         super.onCreate(savedInstanceState)
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        navigator = context as Navigator
-    }
-
-    override fun onDetach() {
-        navigator = null
-        super.onDetach()
     }
 
     override fun onCreateView(
@@ -69,7 +57,7 @@ class FavouriteFragment : Fragment() {
     ): View {
         val view = ComposeView(requireContext()).apply {
             setContent {
-                Bars(navigator)
+                Bars(findNavController())
             }
         }
         AnalyticsHelper.sendEvent(AnalyticsEvent.FAVOURITE_OPENED)
@@ -80,15 +68,17 @@ class FavouriteFragment : Fragment() {
 }
 
 @Composable
-private fun Bars(navigator: Navigator?) {
+private fun Bars(navController: NavController) {
     val viewModel: FavouriteViewModel = viewModel()
     val fontSize by viewModel.fontSize.observeAsState()
     val favData by viewModel.favData.observeAsState()
     val existSelected by viewModel.haveSelectedItem.observeAsState()
+
     val barColor = colorResource(id = R.color.library_top_bar_header)
     val barFont = FontFamily(Font(R.font.roboto_medium))
     val barFontSize = with(LocalDensity.current) { ((fontSize!! * 1.35f)).toSp() }
     var barText = stringResource(id = R.string.library_bar_fav)
+
     var navIcon: @Composable (() -> Unit)? = null
     var navActions: @Composable RowScope.() -> Unit = {}
 
@@ -103,12 +93,14 @@ private fun Bars(navigator: Navigator?) {
             })
         }
         navActions = {
-            TopBarActions(fontSize!!,
+            TopBarActions(
+                fontSize!!,
                 clickAction = {
                     viewModel.removeSelectedLayouts()
                     viewModel.changeAll(false)
                     checkedState.value = false
-                })
+                }
+            )
         }
         if (existSelected == 2) checkedState.value = false
         else if (existSelected == 3) checkedState.value = true
@@ -130,10 +122,10 @@ private fun Bars(navigator: Navigator?) {
                 actions = navActions
             )
         },
-        backgroundColor = Color(0x73000000)
-    ) {
-
+        backgroundColor = colorResource(id = R.color.library_top_bar_2)
+    ) { paddingValues ->
         val scrollState = rememberScrollState()
+
         Column(Modifier.verticalScroll(state = scrollState, enabled = true)) {
             if (favData != null) {
                 if (favData!!.isNotEmpty()) {
@@ -160,16 +152,17 @@ private fun Bars(navigator: Navigator?) {
                                     AnalyticsEvent.FAVOURITE_DRAWS_OPENED,
                                     Pair(AnalyticsConstants.DRAW_RUNE_LAYOUT, layoutName)
                                 )
-                                navigator?.navigateToFavInterpretationFragment(
-                                    layoutId = item.layoutId!!,
-                                    userLayout = item.userData!!,
-                                    affirmId = item.affirmId!!
-                                )
+                                val direction = FavouriteFragmentDirections
+                                    .actionFavouriteFragmentToLayoutInterpretationFavFragment(
+                                        item.layoutId!!, item.userData!!, item.affirmId!!
+                                    )
+                                navController.navigate(direction)
                             },
                             state = item.selected!!,
                             checkAction = {
                                 viewModel.changeSelection(item.id!!)
-                            })
+                            }
+                        )
                     }
                 }
             }
@@ -228,7 +221,11 @@ private fun CheckboxItem(
                 textAlign = TextAlign.End,
                 color = colorResource(id = R.color.fav_checkbox_text),
                 fontFamily = FontFamily(Font(R.font.roboto_regular)),
-                style = TextStyle(fontSize = with(LocalDensity.current) { ((fontSize * 0.7f)).toSp() })
+                style = TextStyle(
+                    fontSize = with(LocalDensity.current) {
+                        ((fontSize * 0.7f)).toSp()
+                    }
+                )
             )
             Box(
                 Modifier
@@ -247,7 +244,7 @@ private fun CheckboxItem(
                 )
 
             )
-            //end space
+            // end space
             Box(
                 Modifier
                     .fillMaxSize()
@@ -273,32 +270,34 @@ private fun FavItem(
             .aspectRatio(4.25f, true)
             .clickable(onClick = clickAction)
     ) {
-        //start space
+        // start space
         Box(
             Modifier
                 .fillMaxSize()
                 .weight(16f)
         )
-        //data space
+        // data space
         Column(
             Modifier
                 .fillMaxSize()
                 .weight(398f)
         ) {
-            //top space
+            // top space
             Box(
                 Modifier
                     .fillMaxSize()
                     .weight(10f)
             )
-            //data
+            // data
             Row(
                 Modifier
                     .fillMaxSize()
-                    .weight(66f), verticalAlignment = Alignment.CenterVertically
+                    .weight(66f),
+
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                //first img
-                //space between first img and text
+                // first img
+                // space between first img and text
                 Column(
                     Modifier
                         .fillMaxSize()
@@ -310,7 +309,11 @@ private fun FavItem(
                             text = header,
                             color = colorResource(id = R.color.fav_header_text),
                             fontFamily = FontFamily(Font(R.font.roboto_regular)),
-                            style = TextStyle(fontSize = with(LocalDensity.current) { fontSize.toSp() }),
+                            style = TextStyle(
+                                fontSize = with(LocalDensity.current) {
+                                    fontSize.toSp()
+                                }
+                            ),
                             modifier = Modifier
                                 .padding(bottom = 4.dp)
                                 .weight(10f),
@@ -319,7 +322,11 @@ private fun FavItem(
                             text = time,
                             color = colorResource(id = R.color.fav_time_text),
                             fontFamily = FontFamily(Font(R.font.roboto_regular)),
-                            style = TextStyle(fontSize = with(LocalDensity.current) { ((fontSize * 0.7f)).toSp() }),
+                            style = TextStyle(
+                                fontSize = with(LocalDensity.current) {
+                                    ((fontSize * 0.7f)).toSp()
+                                }
+                            ),
                             modifier = Modifier
                                 .padding(bottom = 4.dp)
                                 .weight(7f),
@@ -330,16 +337,20 @@ private fun FavItem(
                         text = text,
                         color = colorResource(id = R.color.fav_inter_text),
                         fontFamily = FontFamily(Font(R.font.roboto_light)),
-                        style = TextStyle(fontSize = with(LocalDensity.current) { ((fontSize * 0.8f)).toSp() })
+                        style = TextStyle(
+                            fontSize = with(LocalDensity.current) {
+                                ((fontSize * 0.8f)).toSp()
+                            }
+                        )
                     )
                 }
-                //space between text and end img
+                // space between text and end img
                 Box(
                     Modifier
                         .fillMaxSize()
                         .weight(15f)
                 )
-                //end img
+                // end img
                 Checkbox(
                     checked = state,
                     onCheckedChange = checkAction,
@@ -353,22 +364,22 @@ private fun FavItem(
                     )
 
                 )
-                //end space
+                // end space
                 Box(
                     Modifier
                         .fillMaxSize()
                         .weight(23f)
                 )
             }
-            //bottom space
+            // bottom space
             Box(
                 Modifier
                     .fillMaxSize()
                     .weight(16f)
             )
-            //bottom divider
+            // bottom divider
             Divider(
-                color = Color(0xA6545458)
+                color = colorResource(id = R.color.divider)
             )
         }
     }

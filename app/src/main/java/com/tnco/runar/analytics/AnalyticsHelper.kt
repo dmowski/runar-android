@@ -19,5 +19,4 @@ object AnalyticsHelper {
         keyValuePairs.forEach { bundle.putString(it.first, it.second) }
         firebaseAnalytics.logEvent(eventName.analyticsName, bundle)
     }
-
 }

@@ -3,6 +3,7 @@ package com.tnco.runar.data.remote
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -22,9 +23,9 @@ class RetrofitClient @Inject constructor() {
         getGeneratorClient().create(GeneratorApi::class.java)
 
     private val client = OkHttpClient.Builder()
-        .connectTimeout(5, TimeUnit.MINUTES)
-        .writeTimeout(5, TimeUnit.MINUTES)
-        .readTimeout(5, TimeUnit.MINUTES)
+        .connectTimeout(40, TimeUnit.SECONDS)
+        .writeTimeout(40, TimeUnit.SECONDS)
+        .readTimeout(40, TimeUnit.SECONDS)
         .build()
 
     private fun getBackendClient(): Retrofit = Retrofit.Builder()
@@ -36,6 +37,7 @@ class RetrofitClient @Inject constructor() {
     private fun getGeneratorClient(): Retrofit = Retrofit.Builder()
         .baseUrl(GeneratorServer + "api/v1/")
         .client(client)
+        .addConverterFactory(ScalarsConverterFactory.create())
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 }

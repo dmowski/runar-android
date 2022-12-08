@@ -24,7 +24,6 @@ class InitViewModel @Inject constructor(
 
     val fontSize: LiveData<Float> = MutableLiveData(sharedDataRepository.fontSize)
 
-
     fun getLayoutDescription(id: Int) {
         CoroutineScope(Dispatchers.IO).launch {
             _selectedLayout.postValue(databaseRepository.getLayoutDetails(id))

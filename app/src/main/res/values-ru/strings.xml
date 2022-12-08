@@ -8,13 +8,18 @@
 
     <string name="pattern_generator">Генератор узоров</string>
     <string name="run_pattern">Рунный узор</string>
-    <string name="formula">Формула</string>
-    <string name="stav">Став</string>
+    <string name="formula">Рунная Формула</string>
+    <string name="popup_runic_formula">В скором времени ты сможешь сам составлять рунные формулы. Рунную формулу можно использовать как талисман или оберег.</string>
+    <string name="stav">Рунный Став</string>
+    <string name="popup_runic_staves">В скором времени ты можешь сам составлять рунные ставы. Рунный став можно использовать как талисман или оберег. </string>
     <string name="coming_soon">Скоро появится</string>
     <string name="runes_selection">Выбор рун</string>
-    <string name="runes_collect_formula">Собери свою рунную формулу, выбрав от 1 до 3 рун</string>
+    <string name="runes_collect_formula">Собери свой рунный узор, выбрав от 1 до 3 рун</string>
     <string name="runes_random">Выбрать случайные руны</string>
+
     <string name="runes_generate">Сгенерировать</string>
+
+
 
     <string name="layout1">Руна дня</string>
     <string name="layout2">Расклад из 2 рун</string>
@@ -37,7 +42,8 @@
 
     <string name="info_popup_button_text">Ок</string>
 
-    <string name="description_popup_text">Остановить расклад?</string>
+    <string name="description_runic_draws_popup">Остановить расклад?</string>
+    <string name="description_generator_popup">Остановить генератор?</string>
     <string name="description_popup_button1">Нет</string>
     <string name="description_popup_button2">Да</string>
     <string name="layout_interpretation_checkbox">Сохранить результат</string>
@@ -55,13 +61,14 @@
     <string name="onboarding_txt">Показать стр. приветствия</string>
     <string name="rate_app_txt">Оценить приложение</string>
     <string name="about_app_txt">О приложении</string>
+    <string name="developer_options_title">Для разработчиков</string>
     <string name="about_txt">Версия приложения 0.14–5\n\nRunar — это приложение для гадания на скандинавских рунах и изучения скандинавской мифологии и сказок. Содержит 8 видов рунных раскладов, толкования рун. В разделе Библиотека вы можете почитать скандинавские саги и сказки.\n\nС разрешения правообладателей, в приложении использованы следующие музыкальные композиции:\n- Лёдъ (использованы композиции - \"Черная Ладья\", \"Мать моя сказала\"), https://lyod1.bandcamp.com/releases \n- Danheim (использованы композиции - \"Runar\", \"Kala\"), https://danheimmusic.com</string>
     <string name="library_top_bar_header">Библиотека</string>
 
     <string name="fav_dialog_text">Хотите удалить избранные расклады?</string>
 
     <string name="library_bar_fav">Избранное</string>
-    <string name="fav_checkbox_text">Выбрать всё</string>
+    <string name="fav_checkbox_text">Выбрать все</string>
 
     <string name="about_url1">https://lyod1.bandcamp.com/releases</string>
     <string name="about_url2">https://danheimmusic.com/license-music/</string>
@@ -88,8 +95,10 @@
     <string name="onboard_text3">Смотри интерпретацию каждого расклада с указанием уровня удачи</string>
     <string name="onboard_header4">Избранное</string>
     <string name="onboard_text4">Сохраняй понравившиеся толкования и значения рун в Избранное</string>
-    <string name="onboard_header5">Библиотека</string>
-    <string name="onboard_text5">Заходи в Библиотеку знаний, изучай сказки, мифологию и историю рун</string>
+    <string name="onboard_header5">Генератор</string>
+    <string name="onboard_text5">Куй свою судьбу сам, собери рунный узор и наложи его на классную картинку</string>
+    <string name="onboard_header6">Библиотека</string>
+    <string name="onboard_text6">Заходи в Библиотеку знаний, изучай сказки, мифологию и историю рун</string>
 
     <string name="sacr_button_header">Принести жертву богам</string>
     <string name="sacr_button_text">Активация и поддержка новых фичей, и креативных идей.</string>
@@ -107,6 +116,32 @@
     <string name="sacr_last_button_text">Продолжить путь</string>
     <string name="sacr_result_text">Жертва принесена, и Боги обратили на тебя свой взор. Теперь продолжи свой путь!</string>
 
+    <string name="generatorBackground">Выбор обоев</string>
+    <string name="text_magic_happens">Происходит магия</string>
+    <string name="fate_created">Создаётся узор …</string>
+    <string name="do_not_despair">Не отчаивайтесь, если сегодня руны вам не подскажут судьбу, но, далее вам необходимо будет выбрать .....</string>
+    <string name="runic_pattern">Рунический узор</string>
+    <string name="text_for_viking">Далее выбери фон для него, викинг</string>
+    <string name="pattern_created">Узор создан</string>
+    <string name="new_option">Смотреть еще</string>
+    <string name="next">Далее</string>
+    <string name="background_generator">Для начала, выберите понравившуюся картинку</string>
+    <string name="image_saved">Рунный узор сохранен</string>
+    <string name="permission_denied">Доступ к хранилищу запрещен</string>
+    <string name="share_title">Классная руна из RunarApp</string>
+
     <string name="library_tab_books">Книги</string>
     <string name="library_tab_audio">Аудио</string>
+    <string name="push_general_notification">Заходи в Runar и узнай, какая руна дня сегодня</string>
+    <string name="push_general_notification_channel_name">Напоминания</string>
+
+    <string name="luck_next_time">В следующий раз точно повезет!</string>
+    <string name="luck_is_close">Ещё немного, и всё получится!</string>
+    <string name="today_your_day">Сегодня твой день!</string>
+    <string name="lucky">Боги благоволят тебе!</string>
+
+    <string name="retry">Повторить</string>
+    <string name="internet_conn_error">Пожалуйста, проверьте подключение к сети и повторите попытку</string>
+    <string name="internet_conn_error1">Чтобы видеть изображения, необходимо подключиться к интернету!</string>
+
 </resources>

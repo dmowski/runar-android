@@ -7,13 +7,15 @@ enum class AnalyticsEvent(val analyticsName: String) {
     FAVOURITE_OPENED("favourite_opened"),
     LIBRARY_OPENED("library_opened"),
     OB_ABOUT_OPENED("ob1_about_opened"),
-    OB_FORTUNE_OPENED("ob2_fortune_opened"),
+    OB_FORTUNE_OPENED("ob2_how_to_read_runes_opened"),
     OB_INTERPRETATION_OPENED("ob3_interpretation_opened"),
     OB_FAVOURITES_OPENED("ob4_favourites_opened"),
-    OB_LIBRARY_OPENED("ob5_library_opened"),
+    OB_GENERATOR_OPENED("ob5_generator_opened"),
+    OB_LIBRARY_OPENED("ob6_library_opened"),
     OB_NEXT("ob_next"),
     OB_SKIP("ob_skip"),
     OB_START("ob_done_and_start"),
+    SCREEN_VIEW_RUNIC_DRAWS("screen_view_runic_draws"),
     DRAWS_SELECTED("draws_selected"),
     DRAWS_STARTED("draws_started"),
     INTERPRETATION_STARTED("interpretation_started"),
@@ -32,5 +34,4 @@ enum class AnalyticsEvent(val analyticsName: String) {
     SCRIPT_INTERRUPTION("script_interruption"),
     MUSIC_LINK_OPENED("music_link_opened"),
     LIBRARY_SECTION_OPENED("library_section_opened")
-
 }

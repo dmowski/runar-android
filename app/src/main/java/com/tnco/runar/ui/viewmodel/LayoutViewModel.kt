@@ -19,7 +19,7 @@ class LayoutViewModel @Inject constructor(
 ) : ViewModel() {
 
     private var _showStatus = SingleLiveEvent<Boolean>()
-    val showStatus : LiveData<Boolean> = _showStatus
+    val showStatus: LiveData<Boolean> = _showStatus
     val fontSize: LiveData<Float> = MutableLiveData(sharedDataRepository.fontSize)
 
     fun checkDescriptionStatus(id: Int) {

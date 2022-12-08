@@ -48,8 +48,11 @@ class MusicController @Inject constructor(
                 }
             }
             mediaPlayer.reset()
-            val mediaPath =
-                Uri.parse("android.resource://" + context.packageName + "/" + musicList[currentSongPos])
+            val mediaPath = Uri.parse(
+                "android.resource://" +
+                    context.packageName + "/" +
+                    musicList[currentSongPos]
+            )
             mediaPlayer.setDataSource(context, mediaPath)
             mediaPlayer.prepare()
             mediaPlayer.setVolume(log1, log1)

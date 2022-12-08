@@ -8,12 +8,15 @@
 
     <string name="pattern_generator">Pattern generator</string>
     <string name="run_pattern">Rune pattern</string>
-    <string name="formula">Formula</string>
-    <string name="stav">Stav</string>
+    <string name="formula">Runic Formula</string>
+    <string name="popup_runic_formula">Choose a few runes, and we will offer runic formulas which are made from them. Runic formula can be used as a mascot or a guard.</string>
+    <string name="stav">Runic Staves</string>
+    <string name="popup_runic_staves">Choose a few runes, and we will offer runic staves which are made from them. Runic staves can be used as a mascot or a guard.</string>
     <string name="coming_soon">Coming soon</string>
     <string name="runes_selection">Runes selection</string>
-    <string name="runes_collect_formula">Collect your rune formula by choosing from 1 to 3 runes</string>
+    <string name="runes_collect_formula">Select 1 to 3 runes and collect your rune draw</string>
     <string name="runes_random">Choose random runes</string>
+
     <string name="runes_generate">Generate</string>
 
 
@@ -31,14 +34,17 @@
 
     <string name="layout_init_button_text1">Pull Out a Rune</string>
     <string name="layout_init_button_text2">Get Interpretation</string>
+
     <string name="layout_init_button_text4">Processing…</string>
-    <string name="layout_init_processing">Ravendark Guitars </string>
+    <string name="layout_init_processing">Ravendark Guitars</string>
+
     <string name="layout_description_product">Products description</string>
     <string name="layout_go_to_site">Check the website</string>
 
     <string name="info_popup_button_text">Ок</string>
 
-    <string name="description_popup_text">Do you really want to stop\nRunic Draw?</string>
+    <string name="description_runic_draws_popup">Do you really want to stop\nRunic Draw?</string>
+    <string name="description_generator_popup">Do you really want to stop\nGenerator?</string>
     <string name="description_popup_button1">No</string>
     <string name="description_popup_button2">Yes</string>
     <string name="layout_interpretation_checkbox">Save this draw</string>
@@ -56,6 +62,7 @@
     <string name="onboarding_txt">Show onboard page</string>
     <string name="rate_app_txt">Rate the application</string>
     <string name="about_app_txt">About</string>
+    <string name="developer_options_title">Developer Options</string>
     <string name="about_txt">Application version 0.14–5\n\nRunar is an app for reading Scandinavian runes and studying mythology and fairy tales. Contains 8 types of rune layouts and runes interpretation. In the Library section you can read Scandinavian sagas and fairy tales.\n\nWith the permission of the copyright holders, the following musical compositions are used in the application:\n- Lyod (tracks \"Black rook\", \"My mother told\"), https://lyod1.bandcamp.com/releases \n- Danheim (tracks \"Runar\", \"Kala\"), https://danheimmusic.com</string>
     <string name="library_top_bar_header">Library</string>
     <string name="fav_dialog_text">Do you really want to delete your favorite layouts?</string>
@@ -86,10 +93,12 @@
     <string name="onboard_text2">Choose one of the eight divinations and see the interpretation of your fate</string>
     <string name="onboard_header3">Interpretation</string>
     <string name="onboard_text3">See the interpretation of each divination with the luckiness level</string>
-    <string name="onboard_header4">Favorites</string>
-    <string name="onboard_text4">Save your favorite interpretations and meanings of runes to your Favorites</string>
-    <string name="onboard_header5">Library</string>
-    <string name="onboard_text5">Go to the Library of Knowledge, learn fairy tales, mythology and the history of runes</string>
+    <string name="onboard_header4">Favourites</string>
+    <string name="onboard_text4">Save your favourite interpretations and meanings of runes to your Favourites</string>
+    <string name="onboard_header5">Generator</string>
+    <string name="onboard_text5">Forge your own destiny, collect a rune pattern and choose a background for it</string>
+    <string name="onboard_header6">Library</string>
+    <string name="onboard_text6">Go to the Library of Knowledge, learn fairy tales, mythology and the history of runes</string>
 
     <string name="sacr_button_header">Принести жертву богам</string>
     <string name="sacr_button_text">Активация и поддержка новых фичей, и креативных идей.</string>
@@ -107,6 +116,21 @@
     <string name="sacr_last_button_text">Продолжить путь</string>
     <string name="sacr_result_text">Жертва принесена, и Боги обратили на тебя свой взор. Теперь продолжи свой путь!</string>
 
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+
+    <string name="generatorBackground">Select background</string>
+    <string name="text_magic_happens">Magic happens</string>
+    <string name="fate_created">Template is creating … </string>
+    <string name="do_not_despair">Do not despair if today the runes do not tell you fate, but then you will need to choose .....</string>
+    <string name="runic_pattern">Runic pattern</string>
+    <string name="text_for_viking">Next, choose a background for it, viking</string>
+    <string name="pattern_created">Pattern created</string>
+    <string name="new_option">See more</string>
+    <string name="next">Next</string>
+    <string name="background_generator">To get started, choose your favorite picture</string>
+    <string name="image_saved">Runic pattern is saved</string>
+    <string name="permission_denied">Storage access denied</string>
+    <string name="share_title">Cool rune from RunarApp</string>
 
     <string name="library_tab_books">Books</string>
     <string name="library_tab_audio">Audio</string>
@@ -114,4 +138,20 @@
     <string name="value_1" translatable="false">1</string>
     <string name="value_2" translatable="false">2</string>
     <string name="value_3" translatable="false">3</string>
+
+    <string name="title_push_general_notification" translatable="false">Runar App</string>
+    <string name="push_general_notification">Just open Runar and find out what’s the rune of the day</string>
+    <string name="push_general_notification_channel_name">Reminders</string>
+    <string name="heading">Heading</string>
+    <string name="some_description">Some Description</string>
+    <string name="some_text">Some text</string>
+    <string name="luck_is_close">A little more, and you\'ll catch up the luck!</string>
+    <string name="today_your_day">Hey, it\'s your lucky day!</string>
+    <string name="lucky">The gods favor you!</string>
+    <string name="luck_next_time">Better luck next time!</string>
+
+    <string name="retry">Retry</string>
+    <string name="internet_conn_error">Please check your network connection and try again</string>
+    <string name="internet_conn_error1">You need to be connected to the internet to see Images!</string>
+
 </resources>

@@ -11,5 +11,7 @@ import javax.inject.Inject
 class Sacr2ViewModel @Inject constructor(
     sharedDataRepository: SharedDataRepository
 ) : ViewModel() {
+
     val fontSize: LiveData<Float> = MutableLiveData(sharedDataRepository.fontSize)
+
 }

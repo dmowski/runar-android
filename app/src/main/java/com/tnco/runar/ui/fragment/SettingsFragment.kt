@@ -17,11 +17,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -30,6 +30,9 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
+import com.tnco.runar.BuildConfig
 import com.tnco.runar.R
 import com.tnco.runar.ui.Navigator
 import com.tnco.runar.ui.viewmodel.SettingsViewModel
@@ -65,7 +68,7 @@ class SettingsFragment : Fragment() {
     ): View {
         val view = ComposeView(requireContext()).apply {
             setContent {
-                Bars(navigator!!)
+                Bars(navigator!!, findNavController())
             }
         }
         return view
@@ -73,7 +76,7 @@ class SettingsFragment : Fragment() {
 }
 
 @Composable
-private fun Bars(navigator: Navigator) {
+private fun Bars(navigator: Navigator, navController: NavController) {
     val viewModel: SettingsViewModel = viewModel()
     val fontSize by viewModel.fontSize.observeAsState()
     val musicStatus by viewModel.musicStatus.observeAsState()
@@ -86,8 +89,6 @@ private fun Bars(navigator: Navigator) {
 
     val context = LocalContext.current
 
-
-
     Scaffold(
         topBar = {
             TopAppBar(
@@ -96,22 +97,34 @@ private fun Bars(navigator: Navigator) {
                         text = header,
                         color = colorResource(id = R.color.library_top_bar_header),
                         fontFamily = FontFamily(Font(R.font.roboto_medium)),
-                        style = TextStyle(fontSize = with(LocalDensity.current) { ((fontSize!! * 1.35).toFloat()).toSp() })
+                        style = TextStyle(
+                            fontSize = with(LocalDensity.current) {
+                                ((fontSize!! * 1.35).toFloat()).toSp()
+                            }
+                        )
                     )
                 },
                 backgroundColor = colorResource(id = R.color.library_top_bar)
             )
         },
-        backgroundColor = Color(0x73000000)
-    ) {
+        backgroundColor = colorResource(id = R.color.settings_top_app_bar)
+    ) { paddingValues ->
         val scrollState = rememberScrollState()
-        Column(Modifier.verticalScroll(state = scrollState, enabled = true)) {
-            EmptyMenuItem()
+        Column(
+            modifier = Modifier
+                .verticalScroll(state = scrollState, enabled = true)
+                .padding(
+                    start = dimensionResource(id = R.dimen.settings_padding_left),
+                    top = dimensionResource(id = R.dimen.settings_padding_top),
+                    bottom = paddingValues.calculateBottomPadding()
+                )
+        ) {
             LangMenuItem(
                 fontSize = fontSize!!,
                 header = stringResource(id = R.string.settings_language),
                 selectedPos = languagePos!!
             )
+            DividerItem()
             SwitcherMenuItem(
                 fontSize = fontSize!!,
                 header = stringResource(id = R.string.music_txt),
@@ -127,6 +140,7 @@ private fun Bars(navigator: Navigator) {
                     else navigator.dropAudioFocus()
                 }
             )
+            DividerItem()
             SwitcherMenuItem(
                 fontSize = fontSize!!,
                 header = stringResource(id = R.string.onboarding_txt),
@@ -138,6 +152,7 @@ private fun Bars(navigator: Navigator) {
                     viewModel.changeOnboardingStatus(!onboardingStatus!!)
                 }
             )
+            DividerItem()
             SimpleMenuItem(
                 fontSize = fontSize!!,
                 header = stringResource(id = R.string.rate_app_txt),
@@ -149,11 +164,31 @@ private fun Bars(navigator: Navigator) {
                         setPackage("com.android.vending")
                     }
                     context.startActivity(intent)
-                })
+                }
+            )
+            DividerItem()
             SimpleMenuItem(
                 fontSize = fontSize!!,
                 header = stringResource(id = R.string.about_app_txt),
-                clickAction = { navigator.navigateToAboutFragment() })
+                clickAction = {
+                    val direction = SettingsFragmentDirections
+                        .actionSettingsFragmentToAboutAppFragment()
+                    navController.navigate(direction)
+                }
+            )
+            DividerItem()
+            if (BuildConfig.DEBUG) {
+                SimpleMenuItem(
+                    fontSize = fontSize!!,
+                    header = stringResource(id = R.string.developer_options_title),
+                    clickAction = {
+                        val direction = SettingsFragmentDirections
+                            .actionSettingsFragmentToDeveloperOptionsFragment()
+                        navController.navigate(direction)
+                    }
+                )
+                DividerItem()
+            }
         }
     }
 }
@@ -162,54 +197,34 @@ private fun Bars(navigator: Navigator) {
 private fun SimpleMenuItem(fontSize: Float, header: String, clickAction: () -> Unit) {
     Row(
         Modifier
-            .aspectRatio(6.3f, true)
+            .aspectRatio(7.5f)
             .clickable(onClick = clickAction)
     ) {
-        Box(
+        Row(
             Modifier
                 .fillMaxSize()
-                .weight(16f)
-        )
-        Column(
-            Modifier
-                .fillMaxSize()
-                .weight(398f)
+                .weight(323f),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Row(
-                Modifier
-                    .fillMaxSize()
-                    .weight(66f), verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = header,
-                    color = colorResource(id = R.color.library_item_header),
-                    fontFamily = FontFamily(Font(R.font.roboto_regular)),
-                    style = TextStyle(fontSize = with(LocalDensity.current) { fontSize.toSp() }),
-                    modifier = Modifier
-                        .weight(320f)
-                )
-                Box(
-                    Modifier
-                        .fillMaxSize()
-                        .weight(17f)
-                )
-                Image(
-                    painter = painterResource(id = R.drawable.ic_right),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .background(Color(0x00000000))
-                        .weight(10f)
-                )
-                Box(
-                    Modifier
-                        .fillMaxSize()
-                        .weight(16f)
-                )
-            }
-            Divider(
-                color = Color(0xA6545458)
+            Text(
+                text = header,
+                color = colorResource(id = R.color.library_item_header),
+                fontFamily = FontFamily(Font(R.font.roboto_regular)),
+                style = TextStyle(fontSize = with(LocalDensity.current) { fontSize.toSp() }),
+            )
+            Image(
+                painter = painterResource(id = R.drawable.ic_right),
+                contentDescription = null,
+                modifier = Modifier
+                    .background(colorResource(id = R.color.transparent))
             )
         }
+        Spacer(
+            Modifier
+                .fillMaxSize()
+                .weight(21f)
+        )
     }
 }
 
@@ -223,36 +238,24 @@ private fun SwitcherMenuItem(
 ) {
     Row(
         Modifier
-            .aspectRatio(6.3f, true)
+            .aspectRatio(7.5f)
             .clickable(onClick = clickAction)
     ) {
-        Box(
-            Modifier
-                .fillMaxSize()
-                .weight(16f)
-        )
         Column(
             Modifier
                 .fillMaxSize()
-                .weight(398f)
+                .weight(335f)
         ) {
             Row(
-                Modifier
-                    .fillMaxSize()
-                    .weight(66f), verticalAlignment = Alignment.CenterVertically
+                Modifier.fillMaxSize(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
                     text = header,
                     color = colorResource(id = R.color.library_item_header),
                     fontFamily = FontFamily(Font(R.font.roboto_regular)),
-                    style = TextStyle(fontSize = with(LocalDensity.current) { fontSize.toSp() }),
-                    modifier = Modifier
-                        .weight(320f)
-                )
-                Box(
-                    Modifier
-                        .fillMaxSize()
-                        .weight(17f)
+                    style = TextStyle(fontSize = with(LocalDensity.current) { fontSize.toSp() })
                 )
                 Switch(
                     checked = state,
@@ -264,16 +267,13 @@ private fun SwitcherMenuItem(
                         uncheckedTrackColor = colorResource(id = R.color.switcher_unchecked_back),
                     )
                 )
-                Box(
-                    Modifier
-                        .fillMaxSize()
-                        .weight(12f)
-                )
             }
-            Divider(
-                color = Color(0xA6545458)
-            )
         }
+        Spacer(
+            Modifier
+                .fillMaxSize()
+                .weight(9f)
+        )
     }
 }
 
@@ -284,24 +284,27 @@ private fun LangMenuItem(fontSize: Float, header: String, selectedPos: Int) {
         stringResource(id = R.string.settings_language_en)
     )
     Row(
-        Modifier.fillMaxSize()
+        Modifier
+            .fillMaxSize()
     ) {
-        Box(
-            Modifier
-                .fillMaxSize()
-                .weight(16f)
-        )
         Column(
             Modifier
                 .fillMaxSize()
-                .weight(398f)
+                .weight(342f)
         ) {
-            Text(
-                text = header,
-                color = colorResource(id = R.color.settings_language_name),
-                fontFamily = FontFamily(Font(R.font.roboto_regular)),
-                style = TextStyle(fontSize = with(LocalDensity.current) { fontSize.toSp() })
-            )
+            Row(
+                Modifier
+                    .aspectRatio(7.5f),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = header,
+                    color = colorResource(id = R.color.settings_language_name),
+                    fontFamily = FontFamily(Font(R.font.roboto_regular)),
+                    style = TextStyle(fontSize = with(LocalDensity.current) { fontSize.toSp() })
+                )
+            }
+
             for (i in langList.indices) {
                 if (i == selectedPos) {
                     LanguageItem(
@@ -319,14 +322,12 @@ private fun LangMenuItem(fontSize: Float, header: String, selectedPos: Int) {
                     )
                 }
             }
-            Box(
-                Modifier
-                    .aspectRatio(35f, true)
-            )
-            Divider(
-                color = Color(0xA6545458)
-            )
         }
+        Spacer(
+            Modifier
+                .fillMaxSize()
+                .weight(2f)
+        )
     }
 }
 
@@ -337,26 +338,25 @@ private fun LanguageItem(fontSize: Float, itemName: String, selected: Boolean, p
     Row(
         Modifier
             .fillMaxSize()
-            .aspectRatio(11f)
+            .aspectRatio(7.5f)
             .clickable(onClick = {
                 if (!selected) viewModel.changeLanguage(
                     pos,
                     activityContext
                 )
-            }), verticalAlignment = Alignment.CenterVertically
+            }),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(
             text = itemName,
             color = colorResource(id = R.color.settings_language),
             fontFamily = FontFamily(Font(R.font.roboto_regular)),
-            style = TextStyle(fontSize = with(LocalDensity.current) { ((fontSize * 0.8).toFloat()).toSp() }),
-            modifier = Modifier
-                .weight(336f)
-        )
-        Box(
-            Modifier
-                .fillMaxSize()
-                .weight(17f)
+            style = TextStyle(
+                fontSize = with(LocalDensity.current) {
+                    ((fontSize * 0.8).toFloat()).toSp()
+                }
+            ),
         )
         RadioButton(
             selected = selected,
@@ -366,18 +366,12 @@ private fun LanguageItem(fontSize: Float, itemName: String, selected: Boolean, p
                 unselectedColor = colorResource(id = R.color.switcher_unchecked_thumb)
             )
         )
-        Box(
-            Modifier
-                .fillMaxSize()
-                .weight(12f)
-        )
     }
 }
 
 @Composable
-private fun EmptyMenuItem() {
-    Box(
-        Modifier
-            .aspectRatio(14f, true)
+private fun DividerItem() {
+    Divider(
+        color = colorResource(id = R.color.settings_divider)
     )
 }

@@ -3,10 +3,12 @@ package com.tnco.runar.ui.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import com.tnco.runar.model.LibraryItemsModel
 import com.tnco.runar.repository.DatabaseRepository
 import com.tnco.runar.repository.SharedDataRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import com.tnco.runar.util.NetworkMonitor
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.asCoroutineDispatcher
 import kotlinx.coroutines.launch
@@ -21,18 +23,17 @@ class LibraryViewModel @Inject constructor(
     private val singleThread = Executors.newSingleThreadExecutor().asCoroutineDispatcher()
 
     val fontSize: LiveData<Float> = MutableLiveData(sharedDataRepository.fontSize)
-    var dbList: List<LibraryItemsModel> = emptyList()
+    internal var dbList: List<LibraryItemsModel> = emptyList()
     var lastMenuHeader = MutableLiveData("")
 
     var scrollPositionHistory = MutableLiveData(mutableListOf(0))
 
-    var menuData = MutableLiveData<Pair<List<LibraryItemsModel>, MutableList<String>>>(
-        Pair(
-            emptyList(), mutableListOf()
-        )
-    )
+    var menuData = MutableLiveData<List<LibraryItemsModel>>(emptyList())
 
-    var menuNavData = mutableListOf<String>()
+    private val networkMonitor = NetworkMonitor.get()
+    val isOnline = networkMonitor.isConnected.asLiveData()
+
+    private var menuNavData = mutableListOf<String>()
 
     fun getRuneDataFromDB() {
         CoroutineScope(singleThread).launch {
@@ -42,7 +43,7 @@ class LibraryViewModel @Inject constructor(
 
     fun firstMenuDataCheck() {
         CoroutineScope(singleThread).launch {
-            if (menuData.value?.first?.size == 0) {
+            if (menuData.value?.size == 0) {
                 updateMenuData()
             }
         }
@@ -55,7 +56,7 @@ class LibraryViewModel @Inject constructor(
         }
         menuNavData.clear()
         newList.sortBy { it.sortOrder }
-        menuData.postValue(Pair(newList, mutableListOf()))
+        menuData.postValue(newList)
     }
 
     fun updateMenuData(id: String) {
@@ -78,26 +79,8 @@ class LibraryViewModel @Inject constructor(
             updateMenuData()
             return
         }
-
         menuNavData.add(id)
-
-
-        val newRoute = mutableListOf<String>()
-        var routLength = 0
-        for (menuId in menuNavData) {
-            for (item in dbList) {
-                if (item.id == menuId) {
-                    val routeString = "> " + item.title + "  "
-                    newRoute.add(routeString)
-                    routLength += routeString.length
-                }
-            }
-        }
-        if (routLength > 55) {
-            newRoute.removeLast()
-            newRoute.add(">...")
-        }
-        menuData.postValue(Pair(newList, newRoute))
+        menuData.postValue(newList)
     }
 
     fun goBackInMenu() {

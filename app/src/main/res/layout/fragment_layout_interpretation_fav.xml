@@ -87,7 +87,6 @@
                             android:layout_height="match_parent"
                             android:fontFamily="@font/roboto_regular"
                             android:letterSpacing="@dimen/layout_text_letter_spacing"
-                            android:text="test"
                             android:textAlignment="center"
                             android:textColor="@color/layout_desc_deselected"
                             android:maxLines="1"/>
@@ -107,7 +106,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:fontFamily="@font/roboto_light"
-                            android:text="test"
                             android:textAlignment="center"
                             android:textColor="@color/interpretation_runes_position"
                             android:maxLines="1"/>
@@ -119,7 +117,6 @@
                         android:layout_width="0dp"
                         android:layout_height="20dp"
                         android:fontFamily="@font/roboto_light"
-                        android:text="test"
                         android:textAlignment="center"
                         android:textColor="@color/interpretation_runes_position"
                         android:maxLines="1"
@@ -139,9 +136,10 @@
                             android:id="@+id/rune_description"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:lineSpacingMultiplier="1.35"
                             android:fontFamily="@font/roboto_light"
-                            android:textColor="@color/auf_text_color"/>
+                            android:lineSpacingMultiplier="1.35"
+                            android:textColor="@color/auf_text_color"
+                            android:paddingBottom="40dp"/>
                     </ScrollView>
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/rune_description_bottom_background"
@@ -437,12 +435,12 @@
                     <TextView
                         android:id="@+id/text"
                         android:layout_width="0dp"
-                        android:layout_height="30dp"
+                        android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_light"
-                        android:gravity="start"
-                        android:maxLines="1"
+                        android:textAlignment="center"
+                        android:maxLines="2"
                         android:textColor="@color/auf_text_color"
-                        app:layout_constraintEnd_toEndOf="@id/auf_text_guideline"
+                        app:layout_constraintEnd_toStartOf="@id/right_text_guideline"
                         app:layout_constraintStart_toStartOf="@id/left_text_guideline"
                         app:layout_constraintTop_toBottomOf="@id/divider0" />
 

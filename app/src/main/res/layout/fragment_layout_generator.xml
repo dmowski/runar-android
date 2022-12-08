@@ -59,7 +59,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.854" />
+        app:layout_constraintGuide_percent="0.88" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/lineBottom_2"
@@ -72,7 +72,7 @@
         android:id="@+id/generatorStav"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@drawable/layout_item_selector_background"
+        android:background="@drawable/generator_first_item"
         app:layout_constraintBottom_toBottomOf="@+id/lineBottom_1"
         app:layout_constraintEnd_toEndOf="@+id/lineEnd"
         app:layout_constraintStart_toStartOf="@id/lineStart"
@@ -96,7 +96,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:maxLines="1" />
 
-        <androidx.appcompat.widget.AppCompatImageView
+        <ImageView
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:adjustViewBounds="true"
@@ -113,11 +113,13 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginEnd="8dp"
-        android:background="@drawable/layout_item_selector_background"
+        android:background="@drawable/generator_second_item"
         app:layout_constraintBottom_toBottomOf="@+id/lineBottom"
         app:layout_constraintEnd_toEndOf="@+id/lineCenterVertical"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@id/lineStart"
-        app:layout_constraintTop_toBottomOf="@+id/lineBottom_2">
+        app:layout_constraintTop_toBottomOf="@+id/lineBottom_2"
+        app:layout_constraintVertical_bias="0.0">
 
         <TextView
             android:id="@+id/formula_screen"
@@ -137,15 +139,18 @@
             app:layout_constraintTop_toTopOf="parent"
             app:maxLines="1" />
 
-        <androidx.appcompat.widget.AppCompatImageView
+        <ImageView
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginStart="2dp"
             android:adjustViewBounds="true"
             android:src="@drawable/formula"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/formula_screen" />
+            app:layout_constraintTop_toBottomOf="@+id/formula_screen"
+            app:layout_goneMarginBottom="2dp"
+            app:layout_goneMarginEnd="2dp" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -155,7 +160,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
-        android:background="@drawable/layout_item_selector_background"
+        android:background="@drawable/generator_second_item"
         app:layout_constraintBottom_toBottomOf="@id/lineBottom"
         app:layout_constraintEnd_toEndOf="@+id/lineEnd"
         app:layout_constraintStart_toStartOf="@id/lineCenterVertical"
@@ -179,11 +184,14 @@
             app:layout_constraintTop_toTopOf="parent"
             app:maxLines="1" />
 
-        <androidx.appcompat.widget.AppCompatImageView
+        <ImageView
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:adjustViewBounds="true"
             android:src="@drawable/stav"
+            android:layout_marginStart="2dp"
+            app:layout_goneMarginEnd="2dp"
+            app:layout_goneMarginBottom="2dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -196,9 +204,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/amatic_sc_bold"
-        android:letterSpacing="@dimen/layout_text_letter_spacing"
+
         android:text="@string/coming_soon"
-        android:textColor="@color/layout_desc_deselected"
+        android:textColor="@color/white_f8"
         android:textSize="24sp"
         app:autoSizeMinTextSize="5sp"
         app:autoSizeTextType="uniform"
@@ -207,6 +215,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/lineBottom_1"
         app:maxLines="1" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

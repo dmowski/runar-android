@@ -1,24 +1,24 @@
 package com.tnco.runar.ui.fragment
 
-import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.widget.TextView
+import androidx.activity.addCallback
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
-import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.tnco.runar.R
 import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.databinding.FragmentLayoutInitBinding
 import com.tnco.runar.enums.AnalyticsEvent
-import com.tnco.runar.repository.SharedPreferencesRepository
-import com.tnco.runar.ui.Navigator
 import com.tnco.runar.ui.component.dialog.DescriptionDialog
 import com.tnco.runar.ui.viewmodel.InitViewModel
 import com.tnco.runar.util.AnalyticsConstants
@@ -34,40 +34,35 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
 
     private val viewModel: InitViewModel by viewModels()
 
-    @Inject
-    lateinit var preferencesRepository: SharedPreferencesRepository
-
     private lateinit var headerText: String
     private lateinit var descriptionText: String
     private lateinit var layoutFrame: ConstraintLayout
     private var fontSize: Float = 0f
     private var runeTable: Array<Array<Int>> = Array(7) { Array(3) { 0 } }
-    private var runesList: Array<Array<Int>> = Array(25) { Array(4) { 0 } }
+    private var runesList: Array<Array<Int>> = Array(25) { Array(2) { 0 } }
     private var layoutTable: Array<Int> = Array(9) { 0 }
     private var layoutId: Int = 0
     private var threadCounter = 0
-
-    private var navigator: Navigator? = null
+    private val totalRune = 41
 
     private var _binding: FragmentLayoutInitBinding? = null
     private val binding
         get() = _binding!!
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        navigator = context as Navigator
-    }
+    private lateinit var views: Array<TextView>
+    private lateinit var slots: Array<Int?>
+    private val args: LayoutInitFragmentArgs by navArgs()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        layoutId = requireArguments().getInt(KEY_ID)
+        layoutId = args.layoutId
         viewModel.getLayoutDescription(layoutId)
         runesArrayInit()
-    }
 
-    override fun onDetach() {
-        navigator = null
-        super.onDetach()
+        requireActivity().onBackPressedDispatcher.addCallback(this) {
+            val direction = LayoutInitFragmentDirections.actionGlobalLayoutFragment()
+            findNavController().navigate(direction)
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -82,6 +77,7 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
             fontSize = textSize
             val headerTextSize = textSize * 3.0f
             val buttonTextSize = textSize * 1.65f
+
             binding.descriptionHeaderFrame.setTextSize(TypedValue.COMPLEX_UNIT_PX, headerTextSize)
             binding.descriptionButtonFrame.setTextSize(TypedValue.COMPLEX_UNIT_PX, buttonTextSize)
         }
@@ -91,25 +87,44 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
                 1, 2, 3, 4 -> layoutTable[0] = it.layoutId!!
                 else -> layoutTable[0] = it.layoutId!! - 1
             }
+
             binding.descriptionHeaderFrame.text = it.layoutName
             headerText = it.layoutName.toString()
             descriptionText = it.layoutDescription.toString()
             layoutFrame = binding.layoutFrame
-            binding.firstRuneNumber.text = it.slot1.toString()
-            binding.secondRuneNumber.text = it.slot2.toString()
-            binding.thirdRuneNumber.text = it.slot3.toString()
-            binding.fourthRuneNumber.text = it.slot4.toString()
-            binding.fifthRuneNumber.text = it.slot5.toString()
-            binding.sixthRuneNumber.text = it.slot6.toString()
-            binding.seventhRuneNumber.text = it.slot7.toString()
+
+            with(binding) {
+                views = arrayOf(
+                    firstRuneNumber,
+                    secondRuneNumber,
+                    thirdRuneNumber,
+                    fourthRuneNumber,
+                    fifthRuneNumber,
+                    sixthRuneNumber,
+                    seventhRuneNumber
+                )
+            }
+            slots = arrayOf(it.slot1, it.slot2, it.slot3, it.slot4, it.slot5, it.slot6, it.slot7)
+
+            for (v in views.indices) {
+                views[v].text = slots[v].toString()
+            }
+
             for (i in 0..6) {
                 val currentNumber =
-                    (((layoutFrame.getChildAt(i) as ConstraintLayout).getChildAt(0) as TextView).text as String).toInt()
+                    (
+                        (
+                            (layoutFrame.getChildAt(i) as ConstraintLayout)
+                                .getChildAt(0) as TextView
+                            ).text as String
+                        )
+                        .toInt()
                 if (currentNumber == 0) {
                     (layoutFrame.getChildAt(i) as ConstraintLayout).visibility = View.INVISIBLE
                 }
                 runeTable[i][0] = currentNumber
             }
+
             when (it.layoutId) {
                 2, 4 -> {
                     val constraintsSet = ConstraintSet()
@@ -213,11 +228,6 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
         }
     }
 
-    override fun onDestroyView() {
-        _binding = null
-        super.onDestroyView()
-    }
-
     private fun itemsChecker(data: IntArray): Int {
         var res = 0
         for (item in data) {
@@ -226,12 +236,12 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
         return --res
     }
 
-
     override fun onClick(v: View?) {
 
         when (v?.id) {
             R.id.exit_button -> {
-                navigator?.showDialog("layout_init")
+                val destination = LayoutInitFragmentDirections.actionGlobalLayoutFragment()
+                findNavController().navigate(destination)
             }
             R.id.description_button_frame -> {
                 val result = slotChanger()
@@ -244,14 +254,19 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
                     if (userLayout[0] == itemsChecker(userLayout)) {
                         val layoutName = AnalyticsUtils.convertLayoutIdToName(layoutId)
                         AnalyticsHelper.sendEvent(
-                            AnalyticsEvent.INTERPRETATION_STARTED, Pair(
+                            AnalyticsEvent.INTERPRETATION_STARTED,
+                            Pair(
                                 AnalyticsConstants.DRAW_RUNE_LAYOUT, layoutName
                             )
                         )
-                        navigator?.navigateToLayoutProcessingFragment(layoutId, userLayout)
+                        val direction = LayoutInitFragmentDirections
+                            .actionLayoutInitFragmentToLayoutProcessingFragment(
+                                layoutId,
+                                userLayout
+                            )
+                        findNavController().navigate(direction)
                     }
                 }
-
             }
             R.id.info_button -> {
                 val info = DescriptionDialog(descriptionText, headerText, fontSize)
@@ -261,7 +276,7 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
     }
 
     private fun slotChanger(): Array<Boolean> {
-        var isLast = false //is exist slots to open
+        var isLast = false // is exist slots to open
 
         for (i in 0..6) {
             if (runeTable[i][1] == 1) {
@@ -270,9 +285,12 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
 
                 slot.setOnClickListener(null)
                 slot.setBackgroundResource(R.drawable.slot_active_big)
-                context?.let { (slot.getChildAt(0) as TextView).setTextColor(it.getColor(R.color.rune_number_color_selected)) }
+                context?.let {
+                    (slot.getChildAt(0) as TextView)
+                        .setTextColor(it.getColor(R.color.rune_number_color_selected))
+                }
 
-                //open it with animation
+                // open it with animation
                 runeTable[i][0] = 0
                 runeTable[i][1] = 0
                 var minSlot = 10
@@ -291,8 +309,8 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
                     activeSlot.setOnClickListener {
                         val array = slotChanger()
                         if (array[1]) {
-                            binding.descriptionButtonFrame.text =
-                                requireContext().resources.getString(R.string.layout_init_button_text2)
+                            binding.descriptionButtonFrame.text = requireContext().resources
+                                .getString(R.string.layout_init_button_text2)
                             binding.infoButton.isVisible = false
                         }
                     }
@@ -319,7 +337,10 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
             lifecycleScope.launch {
                 runeTable[minElement][1] = 1
                 slot.setBackgroundResource(R.drawable.slot_active)
-                context?.let { (slot.getChildAt(0) as TextView).setTextColor(it.getColor(R.color.rune_number_color_selected)) }
+                context?.let {
+                    (slot.getChildAt(0) as TextView)
+                        .setTextColor(it.getColor(R.color.rune_number_color_selected))
+                }
             }
             slot.setOnClickListener {
                 val result = slotChanger()
@@ -342,15 +363,22 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
             threadCounter++
             blockButton(false)
             delay(500L)
+
             val runeId = getUniqueRune()
-            val ims = context?.assets?.open("runes/${runeId}.png")
+            val ims = context?.assets?.open("runes/$runeId.png")
             val runeImage = Drawable.createFromStream(ims, null)
+
             slot.background = runeImage
             (slot.getChildAt(0) as TextView).visibility = View.INVISIBLE
+
             if (activeSlot != null) {
                 activeSlot.setBackgroundResource(R.drawable.slot_active)
-                context?.let { (activeSlot.getChildAt(0) as TextView).setTextColor(it.getColor(R.color.rune_number_color_selected)) }
+                context?.let {
+                    (activeSlot.getChildAt(0) as TextView)
+                        .setTextColor(it.getColor(R.color.rune_number_color_selected))
+                }
             }
+
             if (childNumber == 10) layoutTable[layoutTable[0]] = runeId
             else layoutTable[childNumber - 1] = runeId
             blockButton(true)
@@ -362,108 +390,78 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
         binding.descriptionButtonFrame.isClickable = state
     }
 
+    /**
+     * Method of filling an array with rune IDs
+     * if there is no reverse rune, then 0
+     */
     private fun runesArrayInit() {
-        runesList[0] = arrayOf(1, 2, 60, 30)
-        runesList[1] = arrayOf(3, 4, 80, 20)
-        runesList[2] = arrayOf(5, 6, 20, 40)
-        runesList[3] = arrayOf(7, 8, 70, 20)
-        runesList[4] = arrayOf(9, 10, 70, 40)
-        runesList[5] = arrayOf(11, 12, 80, 20)
-        runesList[6] = arrayOf(13, 0, 90, 0)
-        runesList[7] = arrayOf(14, 15, 70, 40)
-        runesList[8] = arrayOf(16, 0, 30, 0)
-        runesList[9] = arrayOf(17, 18, 20, 20)
-        runesList[10] = arrayOf(19, 0, 10, 0)
-        runesList[11] = arrayOf(20, 0, 80, 0)
-        runesList[12] = arrayOf(21, 0, 20, 0)
-        runesList[13] = arrayOf(22, 23, 50, 40)
-        runesList[14] = arrayOf(24, 25, 70, 40)
-        runesList[15] = arrayOf(26, 0, 90, 0)
-        runesList[16] = arrayOf(27, 28, 80, 10)
-        runesList[17] = arrayOf(29, 30, 70, 30)
-        runesList[18] = arrayOf(31, 32, 60, 40)
-        runesList[19] = arrayOf(33, 34, 40, 40)
-        runesList[20] = arrayOf(35, 36, 50, 30)
-        runesList[21] = arrayOf(37, 0, 70, 0)
-        runesList[22] = arrayOf(38, 0, 90, 0)
-        runesList[23] = arrayOf(39, 40, 50, 40)
-        runesList[24] = arrayOf(41, 0, 50, 0)
+        runesList[0] = arrayOf(1, 2)
+        runesList[1] = arrayOf(3, 4)
+        runesList[2] = arrayOf(5, 6)
+        runesList[3] = arrayOf(7, 8)
+        runesList[4] = arrayOf(9, 10)
+        runesList[5] = arrayOf(11, 12)
+        runesList[6] = arrayOf(13, 0)
+        runesList[7] = arrayOf(14, 15)
+        runesList[8] = arrayOf(16, 0)
+        runesList[9] = arrayOf(17, 18)
+        runesList[10] = arrayOf(19, 0)
+        runesList[11] = arrayOf(20, 0)
+        runesList[12] = arrayOf(21, 0)
+        runesList[13] = arrayOf(22, 23)
+        runesList[14] = arrayOf(24, 25)
+        runesList[15] = arrayOf(26, 0)
+        runesList[16] = arrayOf(27, 28)
+        runesList[17] = arrayOf(29, 30)
+        runesList[18] = arrayOf(31, 32)
+        runesList[19] = arrayOf(33, 34)
+        runesList[20] = arrayOf(35, 36)
+        runesList[21] = arrayOf(37, 0)
+        runesList[22] = arrayOf(38, 0)
+        runesList[23] = arrayOf(39, 40)
+        runesList[24] = arrayOf(41, 0)
     }
 
     private fun getUniqueRune(): Int {
-        val minRuneLvl = preferencesRepository.minRuneLvl
-        var randomRunesList: Array<Array<Int>> = Array(3) { Array(7) { 0 } }
-        var randomRunesListSize = 0
-        //RunarLogger.logDebug(minRuneLvl.toString())
-        while (randomRunesListSize < 3) {
-            val randomNumber = Random.nextInt(1, 42)
-            //RunarLogger.logDebug("rand: $randomNumber")
-            if (layoutId == 2) {
-                for (i in 0..24) {
-                    if (runesList[i][0] == randomNumber) {
-                        randomRunesList[randomRunesListSize] =
-                            arrayOf(
-                                runesList[i][0],
-                                runesList[i][1],
-                                runesList[i][2],
-                                runesList[i][3],
-                                i,
-                                randomNumber,
-                                runesList[i][2]
-                            )
-                        randomRunesListSize++
-                        runesList[i] = arrayOf(0, 0, 0, 0)
-                        //RunarLogger.logDebug("found: $randomRunesListSize")
-                        break
-                    }
-                }
-            } else {
-                for (i in 0..24) {
-                    var exit = false
-                    for (i2 in 0..1) {
-                        if (runesList[i][i2] == randomNumber) {
-                            randomRunesList[randomRunesListSize] =
-                                arrayOf(
-                                    runesList[i][0],
-                                    runesList[i][1],
-                                    runesList[i][2],
-                                    runesList[i][3], i, randomNumber, runesList[i][i2 + 2]
-                                )
-                            randomRunesListSize++
-                            exit = true
-                            runesList[i] = arrayOf(0, 0, 0, 0)
-                            //RunarLogger.logDebug("found: $randomRunesListSize")
-                            break
-                        }
-                    }
-                    if (exit) break
-                }
-            }
-        }
-        //RunarLogger.logDebug(randomRunesList.contentDeepToString())
-        randomRunesList = randomRunesList.sortedWith(compareBy { it[6] }).toTypedArray()
-        //RunarLogger.logDebug(randomRunesList.contentDeepToString())
         var result = 0
-        for (n in 0..2) {
-            if (n == minRuneLvl) {
-                result = randomRunesList[n][5]
+        while (result == 0) {
+            val randomNumber = getRandomValueFromNumberRunes()
+            result = if (layoutId == 2) {
+                getRuneIdForNonReversedRunes(randomNumber)
             } else {
-                runesList[randomRunesList[n][4]] = arrayOf(
-                    randomRunesList[n][0],
-                    randomRunesList[n][1],
-                    randomRunesList[n][2],
-                    randomRunesList[n][3]
-                )
+                getRuneId(randomNumber)
             }
         }
+        Log.d("KEYKAK", "rune ID = $result")
         return result
     }
 
-    companion object {
-        private const val KEY_ID = "KEY_ID"
-
-        fun newInstance(id: Int): LayoutInitFragment {
-            return LayoutInitFragment().apply { arguments = bundleOf(KEY_ID to id) }
+    private fun getRuneIdForNonReversedRunes(randomNumber: Int): Int {
+        for (i in 0..runesList.lastIndex) {
+            if (runesList[i][0] == randomNumber) {
+                runesList[i] = arrayOf(0, 0)
+                return randomNumber
+            }
         }
+        return 0
+    }
+
+    private fun getRuneId(randomNumber: Int): Int {
+        for (i in 0..runesList.lastIndex) {
+            for (j in 0..1) {
+                if (runesList[i][j] == randomNumber) {
+                    runesList[i] = arrayOf(0, 0)
+                    return randomNumber
+                }
+            }
+        }
+        return 0
+    }
+
+    private fun getRandomValueFromNumberRunes() = Random.nextInt(1, totalRune + 1)
+
+    override fun onDestroyView() {
+        _binding = null
+        super.onDestroyView()
     }
 }
