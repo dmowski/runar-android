@@ -25,7 +25,6 @@ import com.google.accompanist.pager.*
 import com.tnco.runar.R
 import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.enums.AnalyticsEvent
-import com.tnco.runar.ui.component.tabs.TabItem
 import com.tnco.runar.ui.viewmodel.LibraryViewModel
 import com.tnco.runar.util.AnalyticsConstants
 import kotlinx.coroutines.CoroutineScope
@@ -43,8 +42,7 @@ internal fun Bars() {
         mutableStateOf(true)
     }
 
-    val tabs = listOf(TabItem.Books, TabItem.AudioTales)
-    val pagerState = rememberPagerState(tabs.size)
+    val pagerState = rememberPagerState(2)
 
     var barColor = colorResource(id = R.color.library_top_bar_header)
     var barFont = FontFamily(Font(R.font.roboto_medium))
