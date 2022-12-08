@@ -456,7 +456,8 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
         return 0
     }
 
-    private fun getRandomValueFromNumberRunes() = Random().nextInt(totalRune) + 1
+    private val rand = Random()
+    private fun getRandomValueFromNumberRunes() = rand.nextInt(totalRune) + 1
 
     override fun onDestroyView() {
         _binding = null
