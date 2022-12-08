@@ -19,7 +19,6 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberImagePainter
 import com.google.accompanist.pager.*
@@ -86,19 +85,11 @@ internal fun Bars() {
                     .padding(top = paddingValue.calculateBottomPadding())
                     .verticalScroll(state = scrollState, enabled = true)
             ) {
-                Tabs(tabs = tabs, pagerState = pagerState)
-                TabsContent(tabs = tabs, pagerState = pagerState)
+                ItemData(scrollState)
                 Box(modifier = Modifier.aspectRatio(15f, true))
             }
         }
     }
-}
-
-@OptIn(ExperimentalPagerApi::class)
-@Composable
-internal fun BooksScreen() {
-    val scrollState = rememberScrollState()
-    ItemData(scrollState)
 }
 
 @ExperimentalPagerApi
@@ -182,70 +173,6 @@ internal fun ItemData(scrollState: ScrollState) {
                 viewModel.removeLastScrollPositionHistory()
             }
         }
-    }
-}
-
-// условная функция, вместо которой будет вёрстка экрана аудиосказок
-@Composable
-internal fun AudioScreen() {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .wrapContentSize(Alignment.Center)
-    ) {
-        Text(
-            text = "Audio View",
-            fontWeight = FontWeight.Normal,
-            color = Color.Gray,
-            modifier = Modifier.align(Alignment.CenterHorizontally),
-            textAlign = TextAlign.Center,
-            fontSize = 25.sp
-        )
-    }
-}
-
-@OptIn(ExperimentalPagerApi::class)
-@Composable
-fun Tabs(tabs: List<TabItem>, pagerState: PagerState) {
-    val scope = rememberCoroutineScope()
-    TabRow(
-        modifier = Modifier.width(200.dp),
-        selectedTabIndex = pagerState.currentPage,
-        backgroundColor = colorResource(id = R.color.library_top_bar_2),
-        contentColor = colorResource(id = R.color.library_top_bar_header_2),
-        indicator = { tabPositions ->
-            TabRowDefaults.Indicator(
-                Modifier.pagerTabIndicatorOffset(pagerState, tabPositions)
-            )
-        }
-    ) {
-        tabs.forEachIndexed { index, tab ->
-            Tab(
-                text = {
-                    Text(
-                        text = stringResource(tab.title)
-                    )
-                },
-                selected = pagerState.currentPage == index,
-                onClick = {
-                    scope.launch {
-                        pagerState.animateScrollToPage(index)
-                    }
-                },
-            )
-        }
-    }
-}
-
-@OptIn(ExperimentalPagerApi::class)
-@Composable
-fun TabsContent(tabs: List<TabItem>, pagerState: PagerState) {
-    HorizontalPager(
-        state = pagerState,
-        count = tabs.size,
-        modifier = Modifier.fillMaxSize()
-    ) { page ->
-        tabs[page].screen()
     }
 }
 

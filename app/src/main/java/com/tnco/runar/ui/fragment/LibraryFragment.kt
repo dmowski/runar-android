@@ -16,7 +16,7 @@ import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.ui.viewmodel.LibraryViewModel
 import com.tnco.runar.util.observeOnce
 
-const val audioFeature = false
+const val audioFeature = true
 
 class LibraryFragment : Fragment() {
     val viewModel: LibraryViewModel by viewModels()
