@@ -26,7 +26,7 @@ import com.tnco.runar.util.AnalyticsUtils
 import com.tnco.runar.util.setOnCLickListenerForAll
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlin.random.Random
+import java.util.*
 
 class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClickListener {
 
@@ -456,7 +456,7 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
         return 0
     }
 
-    private fun getRandomValueFromNumberRunes() = Random.nextInt(1, totalRune + 1)
+    private fun getRandomValueFromNumberRunes() = Random().nextInt(totalRune) + 1
 
     override fun onDestroyView() {
         _binding = null
