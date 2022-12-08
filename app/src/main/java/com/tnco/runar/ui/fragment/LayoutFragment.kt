@@ -8,17 +8,13 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.paint
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.res.colorResource
@@ -142,7 +138,7 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
 private fun UpperBanner(onClick: () -> Unit = {}) {
     MaterialTheme {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            ConstraintLayout(
+            Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .aspectRatio(3.28f)
@@ -150,55 +146,61 @@ private fun UpperBanner(onClick: () -> Unit = {}) {
                         border = BorderStroke(1.dp, colorResource(id = R.color.border)),
                         shape = RoundedCornerShape(8.dp)
                     )
-                    .paint(
-                        painter = painterResource(id = R.drawable.sacr_back_button),
-                        contentScale = ContentScale.Inside
-                    )
-                    .clickable(onClick = onClick)
             ) {
-                val (image, title, description) = createRefs()
-                val topDescriptionHorizontalGuideline = createGuidelineFromTop(0.5f)
-                val bottomTitleHorizontalGuideline = createGuidelineFromTop(0.42f)
                 Image(
-                    painter = painterResource(id = R.drawable.rune_pattern),
-                    contentDescription = stringResource(id = R.string.run_patterns),
-                    modifier = Modifier
-                        .constrainAs(image) {
-                            top.linkTo(parent.top)
-                            start.linkTo(parent.start)
-                            bottom.linkTo(parent.bottom)
-                        }
-                        .padding(start = 12.dp, top = 6.dp, bottom = 14.dp, end = 6.dp)
+                    painter = painterResource(id = R.drawable.sacr_back_button),
+                    contentScale = ContentScale.Crop,
+                    contentDescription = stringResource(id = R.string.run_patterns)
                 )
-                Text(
-                    text = stringResource(id = R.string.run_patterns),
-                    textAlign = TextAlign.Start,
-                    fontFamily = FontFamily(Font(R.font.amatic_sc_bold)),
-                    color = colorResource(R.color.neutrals_gray_100),
-                    fontSize = 24.sp,
+                ConstraintLayout(
                     modifier = Modifier
-                        .constrainAs(title) {
-                            width = Dimension.fillToConstraints
-                            bottom.linkTo(bottomTitleHorizontalGuideline)
-                            start.linkTo(image.end)
-                            end.linkTo(parent.end)
-                        }
+                        .fillMaxSize()
+                        .clickable(onClick = onClick)
+                ) {
+                    val (image, title, description) = createRefs()
+                    val topDescriptionHorizontalGuideline = createGuidelineFromTop(0.5f)
+                    val bottomTitleHorizontalGuideline = createGuidelineFromTop(0.42f)
+                    Image(
+                        painter = painterResource(id = R.drawable.rune_pattern),
+                        contentDescription = stringResource(id = R.string.run_patterns),
+                        modifier = Modifier
+                            .constrainAs(image) {
+                                top.linkTo(parent.top)
+                                start.linkTo(parent.start)
+                                bottom.linkTo(parent.bottom)
+                            }
+                            .padding(start = 12.dp, top = 6.dp, bottom = 14.dp, end = 6.dp)
+                    )
+                    Text(
+                        text = stringResource(id = R.string.run_patterns),
+                        textAlign = TextAlign.Start,
+                        fontFamily = FontFamily(Font(R.font.amatic_sc_bold)),
+                        color = colorResource(R.color.neutrals_gray_100),
+                        fontSize = 24.sp,
+                        modifier = Modifier
+                            .constrainAs(title) {
+                                width = Dimension.fillToConstraints
+                                bottom.linkTo(bottomTitleHorizontalGuideline)
+                                start.linkTo(image.end)
+                                end.linkTo(parent.end)
+                            }
 
-                )
-                Text(
-                    text = stringResource(id = R.string.layout_upper_banner_description),
-                    fontFamily = FontFamily(Font(resId = R.font.roboto_regular)),
-                    color = colorResource(R.color.neutrals_gray_50),
-                    fontSize = 12.sp,
-                    modifier = Modifier
-                        .padding(end = 28.dp)
-                        .constrainAs(description) {
-                            width = Dimension.fillToConstraints
-                            top.linkTo(topDescriptionHorizontalGuideline)
-                            start.linkTo(image.end)
-                            end.linkTo(parent.end)
-                        }
-                )
+                    )
+                    Text(
+                        text = stringResource(id = R.string.layout_upper_banner_description),
+                        fontFamily = FontFamily(Font(resId = R.font.roboto_regular)),
+                        color = colorResource(R.color.neutrals_gray_50),
+                        fontSize = 12.sp,
+                        modifier = Modifier
+                            .padding(end = 28.dp)
+                            .constrainAs(description) {
+                                width = Dimension.fillToConstraints
+                                top.linkTo(topDescriptionHorizontalGuideline)
+                                start.linkTo(image.end)
+                                end.linkTo(parent.end)
+                            }
+                    )
+                }
             }
             Text(
                 text = stringResource(id = R.string.rune_layouts),
