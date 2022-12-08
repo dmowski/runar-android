@@ -6,11 +6,16 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.tnco.runar.repository.SharedDataRepository
 import com.tnco.runar.repository.SharedPreferencesRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class DeveloperOptionsViewModel : ViewModel() {
+@HiltViewModel
+class DeveloperOptionsViewModel @Inject constructor(
+    sharedDataRepository: SharedDataRepository
+): ViewModel() {
 
     private val preferencesRepository = SharedPreferencesRepository.get()
-    val fontSize: LiveData<Float> = MutableLiveData(SharedDataRepository.fontSize)
+    val fontSize: LiveData<Float> = MutableLiveData(sharedDataRepository.fontSize)
 
     private var _devSwitcherStates: MutableMap<String, Boolean> = switcherStatesFromRepository()
     val devSwitcherStates: Map<String, Boolean>
