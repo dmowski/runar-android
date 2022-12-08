@@ -15,7 +15,7 @@ android {
     defaultConfig {
         applicationId "com.tnco.runar"
         minSdkVersion 24
-        targetSdkVersion 32
+        targetSdkVersion 33
         versionCode 9
         versionName "0.19"
     }
