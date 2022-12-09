@@ -15,6 +15,11 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Paint
+import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.res.colorResource
@@ -24,6 +29,7 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -146,6 +152,12 @@ private fun UpperBanner(onClick: () -> Unit = {}) {
                         border = BorderStroke(1.dp, colorResource(id = R.color.border)),
                         shape = RoundedCornerShape(8.dp)
                     )
+                    .rectShadow(
+                        cornersRadius = 8.dp,
+                        shadowBlurRadius = 8.dp,
+                        offsetX = 8.dp,
+                        offsetY = 8.dp
+                    )
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.sacr_back_button),
@@ -184,7 +196,6 @@ private fun UpperBanner(onClick: () -> Unit = {}) {
                                 start.linkTo(image.end)
                                 end.linkTo(parent.end)
                             }
-
                     )
                     Text(
                         text = stringResource(id = R.string.layout_upper_banner_description),
@@ -202,15 +213,48 @@ private fun UpperBanner(onClick: () -> Unit = {}) {
                     )
                 }
             }
+            Spacer(Modifier.height(38.dp))
             Text(
                 text = stringResource(id = R.string.rune_layouts),
                 textAlign = TextAlign.Center,
                 fontFamily = FontFamily(Font(R.font.amatic_sc_bold)),
                 color = colorResource(R.color.onboard_header_color),
                 fontSize = 36.sp,
-                modifier = Modifier
-                    .padding(top = 38.dp, bottom = 24.dp)
             )
+            Spacer(Modifier.height(24.dp))
         }
+    }
+}
+
+fun Modifier.rectShadow(
+    color: Color = Color.Black,
+    alpha: Float = 0.99f,
+    cornersRadius: Dp = 0.dp,
+    shadowBlurRadius: Dp = 0.dp,
+    offsetY: Dp = 0.dp,
+    offsetX: Dp = 0.dp
+) = drawBehind {
+    val shadowColor = color.copy(alpha = alpha).toArgb()
+    val transparentColor = color.copy(alpha = 0f).toArgb()
+
+    drawIntoCanvas {
+        val paint = Paint()
+        val frameworkPaint = paint.asFrameworkPaint()
+        frameworkPaint.color = transparentColor
+        frameworkPaint.setShadowLayer(
+            shadowBlurRadius.toPx(),
+            offsetX.toPx(),
+            offsetY.toPx(),
+            shadowColor
+        )
+        it.drawRoundRect(
+            0f,
+            0f,
+            this.size.width,
+            this.size.height,
+            cornersRadius.toPx(),
+            cornersRadius.toPx(),
+            paint
+        )
     }
 }
