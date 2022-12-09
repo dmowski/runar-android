@@ -36,7 +36,6 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.tnco.runar.R
 import com.tnco.runar.analytics.AnalyticsHelper
@@ -65,13 +64,7 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
         binding.upperBanner.apply {
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
             val bannerOnClick = {
-                findNavController().navigate(
-                    R.id.generator,
-                    null,
-                    NavOptions.Builder()
-                        .setPopUpTo(findNavController().graph.startDestinationId, true)
-                        .build()
-                )
+                findNavController().navigate(R.id.generator)
             }
             setContent {
                 UpperBanner(onClick = bannerOnClick)
