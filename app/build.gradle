@@ -16,8 +16,8 @@ android {
         applicationId "com.tnco.runar"
         minSdkVersion 24
         targetSdkVersion 33
-        versionCode 9
-        versionName "0.19"
+        versionCode 10
+        versionName "0.20"
     }
 
     buildTypes {
