@@ -159,40 +159,41 @@
                         android:elevation="6dp"
                         android:scaleType="centerCrop"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintDimensionRatio="H,6:1"
+                        app:layout_constraintDimensionRatio="H,4:1"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent" />
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/bottom_runes_nav_bar"
                         android:layout_width="match_parent"
-                        android:layout_height="0dp"
+                        android:layout_height="wrap_content"
                         android:elevation="7dp"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintDimensionRatio="H,10:1"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent">
 
                         <androidx.appcompat.widget.AppCompatImageView
                             android:id="@+id/left_arrow"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:padding="12dp"
                             android:adjustViewBounds="true"
                             android:src="@drawable/ic_runes_nav_left_arrow"
                             app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="@id/left_arrow_end_guideline"
-                            app:layout_constraintStart_toStartOf="@id/left_arrow_start_guideline"
+                            app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <androidx.appcompat.widget.AppCompatImageView
                             android:id="@+id/right_arrow"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:padding="12dp"
                             android:adjustViewBounds="true"
                             android:src="@drawable/ic_runes_nav_right_arrow"
                             app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="@id/right_arrow_end_guideline"
-                            app:layout_constraintStart_toStartOf="@id/right_arrow_start_guideline"
+                            app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <androidx.constraintlayout.widget.Guideline
