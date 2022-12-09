@@ -1,0 +1,705 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <com.tnco.runar.ui.component.view.OffsetImageView
+        android:id="@+id/back_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/background_fire"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:offsetScaleType="fitX"
+        app:verticalCropOffset="1"
+        app:verticalFitOffset="0" />
+
+    <ScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:overScrollMode="never"
+        android:scrollbars="none">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/scroll_constraint_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/runes_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/rune_description_back"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/rune_description_background"
+                    android:elevation="2dp"
+                    android:visibility="gone">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/pop_top_background"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_margin="2dp"
+                        android:elevation="6dp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/description_top_background"
+                        app:layout_constraintDimensionRatio="H,3.5:1"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/exit_button"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:adjustViewBounds="true"
+                        android:clickable="true"
+                        android:elevation="7dp"
+                        android:focusable="true"
+                        android:src="@drawable/cross_selector"
+                        app:layout_constraintEnd_toStartOf="@id/icon_end_guideline"
+                        app:layout_constraintStart_toEndOf="@id/icon_start_guideline"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <FrameLayout
+                        android:id="@+id/rune_name_frame"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="30dp"
+                        android:elevation="7dp"
+                        app:layout_constraintDimensionRatio="H,8:1"
+                        app:layout_constraintEnd_toStartOf="@id/rune_name_end_guideline"
+                        app:layout_constraintStart_toEndOf="@id/rune_name_start_guideline"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <TextView
+                            android:id="@+id/rune_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:fontFamily="@font/roboto_regular"
+                            android:letterSpacing="@dimen/layout_text_letter_spacing"
+                            android:maxLines="1"
+                            android:textAlignment="center"
+                            android:textColor="@color/layout_desc_deselected" />
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:id="@+id/rune_position_frame"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="5dp"
+                        android:elevation="7dp"
+                        app:layout_constraintDimensionRatio="H,20:1"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/rune_name_frame">
+
+                        <TextView
+                            android:id="@+id/rune_position"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:fontFamily="@font/roboto_light"
+                            android:maxLines="1"
+                            android:textAlignment="center"
+                            android:textColor="@color/interpretation_runes_position" />
+                    </FrameLayout>
+
+                    <TextView
+                        android:id="@+id/rune_ausf"
+                        android:layout_width="0dp"
+                        android:layout_height="20dp"
+                        android:layout_marginTop="4dp"
+                        android:elevation="7dp"
+                        android:fontFamily="@font/roboto_light"
+                        android:maxLines="1"
+                        android:textAlignment="center"
+                        android:textColor="@color/interpretation_runes_position"
+                        app:layout_constraintEnd_toEndOf="@id/rune_ausf_end_guideline"
+                        app:layout_constraintStart_toStartOf="@id/rune_ausf_start_guideline"
+                        app:layout_constraintTop_toBottomOf="@id/rune_position_frame" />
+
+                    <ScrollView
+                        android:id="@+id/rune_description_scroll"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="10dp"
+                        app:layout_constraintBottom_toTopOf="@id/bottom_runes_nav_bar"
+                        app:layout_constraintEnd_toEndOf="@id/rune_description_right_guideline"
+                        app:layout_constraintStart_toStartOf="@id/rune_description_left_guideline"
+                        app:layout_constraintTop_toBottomOf="@id/rune_ausf">
+
+                        <TextView
+                            android:id="@+id/rune_description"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_light"
+                            android:lineSpacingMultiplier="1.35"
+                            android:textColor="@color/auf_text_color"
+                            android:paddingBottom="40dp"/>
+                    </ScrollView>
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/rune_description_bottom_background"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:background="@drawable/rune_description_bottom_background"
+                        android:elevation="6dp"
+                        android:scaleType="centerCrop"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintDimensionRatio="H,6:1"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/bottom_runes_nav_bar"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:elevation="7dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintDimensionRatio="H,10:1"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/left_arrow"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:adjustViewBounds="true"
+                            android:src="@drawable/ic_runes_nav_left_arrow"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@id/left_arrow_end_guideline"
+                            app:layout_constraintStart_toStartOf="@id/left_arrow_start_guideline"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/right_arrow"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:adjustViewBounds="true"
+                            android:src="@drawable/ic_runes_nav_right_arrow"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@id/right_arrow_end_guideline"
+                            app:layout_constraintStart_toStartOf="@id/right_arrow_start_guideline"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.constraintlayout.widget.Guideline
+                            android:id="@+id/bottom_runes_nav_center"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            app:layout_constraintGuide_percent="0.5" />
+
+                        <androidx.constraintlayout.widget.Guideline
+                            android:id="@+id/left_arrow_start_guideline"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            app:layout_constraintGuide_percent="0.06" />
+
+                        <androidx.constraintlayout.widget.Guideline
+                            android:id="@+id/left_arrow_end_guideline"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            app:layout_constraintGuide_percent="0.11" />
+
+                        <androidx.constraintlayout.widget.Guideline
+                            android:id="@+id/right_arrow_start_guideline"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            app:layout_constraintGuide_percent="0.89" />
+
+                        <androidx.constraintlayout.widget.Guideline
+                            android:id="@+id/right_arrow_end_guideline"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            app:layout_constraintGuide_percent="0.94" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/rune_description_left_guideline"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.06" />
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/rune_description_right_guideline"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.94" />
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/rune_ausf_start_guideline"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.29" />
+
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/rune_ausf_end_guideline"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.71" />
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/rune_name_start_guideline"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.18" />
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/rune_name_end_guideline"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.82" />
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/icon_start_guideline"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.86" />
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/icon_end_guideline"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.97" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <FrameLayout
+                    android:id="@+id/description_header_background"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:background="@drawable/inter_header_back"
+                    android:elevation="2dp"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@id/description_header_frame"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/description_header_frame"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="25dp"
+                    android:elevation="3dp"
+                    android:fontFamily="@font/amatic_sc_bold"
+                    android:letterSpacing="@dimen/layout_text_letter_spacing"
+                    android:textAlignment="center"
+                    android:textColor="@color/layout_desc_deselected"
+                    app:layout_constraintDimensionRatio="H,3.5:1"
+                    app:layout_constraintEnd_toStartOf="@id/right_header_guideline"
+                    app:layout_constraintStart_toEndOf="@id/left_header_guideline"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <FrameLayout
+                    android:id="@+id/divider1"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintDimensionRatio="H,10:1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/description_header_frame" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/center_guideline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.50" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/left_header_guideline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.14" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/right_header_guideline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.86" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/inter_frame"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/runes_layout">
+
+                <com.tnco.runar.ui.component.view.OffsetImageView
+                    android:id="@+id/interpretation_background"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:src="@drawable/interpretation_background"
+                    app:layout_constraintBottom_toBottomOf="@id/interpretation_layout"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:offsetScaleType="fitX"
+                    app:verticalCropOffset="0"
+                    app:verticalFitOffset="0" />
+
+                <FrameLayout
+                    android:id="@+id/divider3"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintDimensionRatio="H,7:1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/interpretation_layout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/divider3">
+
+                    <TextView
+                        android:id="@+id/helper_text"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_light"
+                        android:text="@string/helper_text"
+                        android:textAlignment="center"
+                        android:textColor="@color/helper_text_color"
+                        app:layout_constraintEnd_toEndOf="@id/right_text_guideline"
+                        app:layout_constraintStart_toStartOf="@id/left_text_guideline"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <FrameLayout
+                        android:id="@+id/divider0"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        app:layout_constraintDimensionRatio="H,8:1"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/helper_text" />
+
+                    <TextView
+                        android:id="@+id/single_rune_name"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_regular"
+                        android:maxLines="1"
+                        android:textAlignment="center"
+                        android:textColor="@color/single_rune_text_color"
+                        app:layout_constraintEnd_toEndOf="@id/right_text_guideline"
+                        app:layout_constraintStart_toStartOf="@id/left_text_guideline"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/text"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_light"
+                        android:textAlignment="center"
+                        android:maxLines="2"
+                        android:textColor="@color/auf_text_color"
+                        app:layout_constraintEnd_toStartOf="@+id/sacr_button_end_guideline"
+                        app:layout_constraintStart_toStartOf="@id/left_text_guideline"
+                        app:layout_constraintTop_toBottomOf="@id/divider0" />
+
+                    <FrameLayout
+                        android:id="@+id/divider4"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/text" />
+                    <!-- app:layout_constraintDimensionRatio="H,18:1"/> -->
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/sacrifice_button_big"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:foreground="@drawable/bg_sacrifice_button_border"
+                        app:layout_constraintEnd_toEndOf="@id/sacr_button_end_guideline"
+                        app:layout_constraintStart_toStartOf="@id/sacr_button_start_guideline"
+                        app:layout_constraintTop_toBottomOf="@id/divider4">
+                        <!-- app:layout_constraintDimensionRatio="H,3.28:1" > -->
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:id="@+id/sacrifice_button_img"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:foreground="@drawable/ripple_sacr_button_big"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/sacr_back_button"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:shapeAppearanceOverlay="@style/roundedImageView" />
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/sacr_button_img"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:paddingStart="12dp"
+                            android:paddingTop="6dp"
+                            android:paddingEnd="6dp"
+                            android:paddingBottom="14dp"
+                            android:src="@drawable/sacr_button_image"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/sacr_button_header"
+                            app:layout_constraintHorizontal_weight="29"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/sacr_button_header"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:fontFamily="@font/amatic_sc_bold"
+                            android:gravity="bottom"
+                            android:paddingBottom="4dp"
+                            android:text="@string/sacr_button_header"
+                            android:textColor="@color/neutrals_gray_100"
+                            app:layout_constraintBottom_toTopOf="@id/sacr_button_text"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_weight="71"
+                            app:layout_constraintStart_toEndOf="@id/sacr_button_img"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintVertical_weight="50" />
+
+                        <TextView
+                            android:id="@+id/sacr_button_text"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:fontFamily="@font/roboto_light"
+                            android:gravity="top"
+                            android:lineSpacingMultiplier="1.14"
+                            android:paddingEnd="30dp"
+                            android:text="@string/sacr_button_text"
+                            android:textColor="@color/neutrals_gray_50"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@id/sacr_button_header"
+                            app:layout_constraintHorizontal_weight="71"
+                            app:layout_constraintStart_toStartOf="@id/sacr_button_header"
+                            app:layout_constraintTop_toBottomOf="@id/sacr_button_header"
+                            app:layout_constraintVertical_weight="50" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/sacr_button_start_guideline"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.044" />
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/sacr_button_end_guideline"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.956" />
+
+                    <FrameLayout
+                        android:id="@+id/divider8"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        app:layout_constraintDimensionRatio="H,14:1"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/sacrifice_button_big" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/spliter"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/interpretation_bottom_line"
+                        app:layout_constraintEnd_toEndOf="@id/right_text_guideline"
+                        app:layout_constraintStart_toStartOf="@id/left_text_guideline"
+                        app:layout_constraintTop_toBottomOf="@id/divider8" />
+
+                    <FrameLayout
+                        android:id="@+id/divider5"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        app:layout_constraintDimensionRatio="H,14.5:1"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/spliter">
+
+                        <com.tnco.runar.ui.component.view.OffsetImageView
+                            android:id="@+id/load_helper"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/background_fire"
+                            android:visibility="visible"
+                            app:offsetScaleType="fitX"
+                            app:verticalCropOffset="1"
+                            app:verticalFitOffset="0" />
+                    </FrameLayout>
+
+                    <TextView
+                        android:id="@+id/interpretation_text"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_thin"
+                        android:gravity="start"
+                        android:lineSpacingMultiplier="1.2"
+                        android:textColor="@color/auf_text_color"
+                        app:layout_constraintEnd_toStartOf="@id/right_text_guideline"
+                        app:layout_constraintStart_toStartOf="@id/left_text_guideline"
+                        app:layout_constraintTop_toBottomOf="@id/divider5" />
+
+                    <FrameLayout
+                        android:id="@+id/divider6"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        app:layout_constraintDimensionRatio="H,20:1"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/interpretation_text" />
+
+                    <TextView
+                        android:id="@+id/text_affim"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_regular"
+                        android:gravity="start"
+                        android:letterSpacing="-0.02"
+                        android:lineSpacingMultiplier="1.4"
+                        android:textColor="@color/affim_text_color"
+                        app:layout_constraintEnd_toStartOf="@id/right_text_guideline"
+                        app:layout_constraintStart_toStartOf="@id/left_text_guideline"
+                        app:layout_constraintTop_toBottomOf="@id/divider6" />
+
+
+                    <TextView
+                        android:id="@+id/description_button_frame"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="15dp"
+                        android:background="@drawable/description_button_background_selector"
+                        android:fontFamily="@font/amatic_sc_bold"
+                        android:gravity="center"
+                        android:text="@string/layout_interpretation_button"
+                        android:textColor="@color/layout_description_button_text_selector"
+                        app:layout_constraintDimensionRatio="H,4.55:1"
+                        app:layout_constraintEnd_toStartOf="@id/right_button_guideline"
+                        app:layout_constraintStart_toEndOf="@id/left_button_guideline"
+                        app:layout_constraintTop_toBottomOf="@+id/checkbox" />
+
+                    <CheckBox
+                        android:id="@+id/checkbox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30dp"
+                        android:button="@drawable/checkbox_selector"
+                        android:buttonTint="@color/checkbox_tint_selector"
+                        android:minWidth="0dp"
+                        android:paddingStart="10dp"
+                        android:text=""
+                        android:textColor="@color/checkbox"
+                        app:layout_constraintBottom_toTopOf="@id/description_button_frame"
+                        app:layout_constraintEnd_toStartOf="@id/checkbox_text"
+                        app:layout_constraintHorizontal_chainStyle="packed"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/text_affim"
+                        tools:ignore="TouchTargetSizeCheck" />
+
+                    <TextView
+                        android:id="@+id/checkbox_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="48dp"
+                        android:fontFamily="@font/roboto_light"
+                        android:gravity="center_vertical"
+                        android:maxLines="1"
+                        android:text="@string/layout_interpretation_checkbox"
+                        android:textColor="@color/checkbox_color_unchecked"
+                        app:layout_constraintBottom_toBottomOf="@id/checkbox"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_chainStyle="packed"
+                        app:layout_constraintStart_toEndOf="@id/checkbox"
+                        app:layout_constraintTop_toTopOf="@id/checkbox" />
+
+                    <FrameLayout
+                        android:id="@+id/bottom_support_frame"
+                        android:layout_width="match_parent"
+                        android:layout_height="25dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/description_button_frame" />
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/checkbox_text_guideline"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.48" />
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/left_button_guideline"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.19" />
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/right_button_guideline"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.81" />
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/auf_text_guideline"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.55" />
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/left_text_guideline"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.05" />
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/right_text_guideline"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.95" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
