@@ -37,6 +37,8 @@ import androidx.constraintlayout.compose.Dimension
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.NavigationUI
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.tnco.runar.R
 import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.databinding.FragmentLayoutsBinding
@@ -63,8 +65,11 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
         val view = binding.root
         binding.upperBanner.apply {
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
-            val bannerOnClick = {
-                findNavController().navigate(R.id.generator)
+            val bannerOnClick: () -> Unit = {
+                val bottomNavigationBar =
+                    requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigationBar)
+                val menuItem = bottomNavigationBar.menu.findItem(R.id.generator)
+                NavigationUI.onNavDestinationSelected(menuItem, findNavController())
             }
             setContent {
                 UpperBanner(onClick = bannerOnClick)
