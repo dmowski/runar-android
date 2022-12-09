@@ -9,9 +9,7 @@
     <string name="pattern_generator">Генератор узоров</string>
     <string name="run_pattern">Рунный узор</string>
     <string name="formula">Рунная Формула</string>
-    <string name="popup_runic_formula">В скором времени ты сможешь сам составлять рунные формулы. Рунную формулу можно использовать как талисман или оберег.</string>
     <string name="stav">Рунный Став</string>
-    <string name="popup_runic_staves">В скором времени ты можешь сам составлять рунные ставы. Рунный став можно использовать как талисман или оберег. </string>
     <string name="coming_soon">Скоро появится</string>
     <string name="runes_selection">Выбор рун</string>
     <string name="runes_collect_formula">Собери свой рунный узор, выбрав от 1 до 3 рун</string>
@@ -128,7 +126,7 @@
     <string name="background_generator">Для начала, выберите понравившуюся картинку</string>
     <string name="image_saved">Рунный узор сохранен</string>
     <string name="permission_denied">Доступ к хранилищу запрещен</string>
-    <string name="share_title">Классная руна из RunarApp</string>
+
 
     <string name="library_tab_books">Книги</string>
     <string name="library_tab_audio">Аудио</string>
