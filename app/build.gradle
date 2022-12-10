@@ -123,8 +123,10 @@ dependencies {
     // Integration with observables
     implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
     implementation "androidx.compose.runtime:runtime-rxjava2:$compose_version"
+    // constraintlayout
+    implementation "androidx.constraintlayout:constraintlayout-compose:1.0.1"
+
     implementation "com.google.accompanist:accompanist-pager:0.25.0" // Pager
-    implementation "com.google.accompanist:accompanist-pager-indicators:0.25.0" // Pager Indicators
 
     //coil
     implementation("io.coil-kt:coil:2.2.0")
