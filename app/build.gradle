@@ -126,8 +126,6 @@ dependencies {
     // constraintlayout
     implementation "androidx.constraintlayout:constraintlayout-compose:1.0.1"
 
-    implementation "com.google.accompanist:accompanist-pager:0.25.0" // Pager
-
     //coil
     implementation("io.coil-kt:coil:2.2.0")
     implementation('io.coil-kt:coil-compose:2.1.0')
