@@ -8,10 +8,9 @@
 
     <string name="pattern_generator">Pattern generator</string>
     <string name="run_pattern">Rune pattern</string>
+    <string name="run_patterns">Rune patterns</string>
     <string name="formula">Runic Formula</string>
-    <string name="popup_runic_formula">Choose a few runes, and we will offer runic formulas which are made from them. Runic formula can be used as a mascot or a guard.</string>
     <string name="stav">Runic Staves</string>
-    <string name="popup_runic_staves">Choose a few runes, and we will offer runic staves which are made from them. Runic staves can be used as a mascot or a guard.</string>
     <string name="coming_soon">Coming soon</string>
     <string name="runes_selection">Runes selection</string>
     <string name="runes_collect_formula">Select 1 to 3 runes and collect your rune draw</string>
@@ -28,6 +27,8 @@
     <string name="layout6">CROSS</string>
     <string name="layout7">CROSS OF ELEMENTS</string>
     <string name="layout8">CELTIC CROSS</string>
+    <string name="layout_upper_banner_description">Create your runic pattern by selecting a few runes</string>
+    <string name="rune_layouts">Rune layouts</string>
 
     <string name="layout_description_checkbox">Do not show again</string>
     <string name="layout_description_button">Start Runic Draw</string>
@@ -116,8 +117,6 @@
     <string name="sacr_last_button_text">Продолжить путь</string>
     <string name="sacr_result_text">Жертва принесена, и Боги обратили на тебя свой взор. Теперь продолжи свой путь!</string>
 
-    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
-
     <string name="generatorBackground">Select background</string>
     <string name="text_magic_happens">Magic happens</string>
     <string name="fate_created">Template is creating … </string>
@@ -130,21 +129,14 @@
     <string name="background_generator">To get started, choose your favorite picture</string>
     <string name="image_saved">Runic pattern is saved</string>
     <string name="permission_denied">Storage access denied</string>
-    <string name="share_title">Cool rune from RunarApp</string>
 
     <string name="library_tab_books">Books</string>
     <string name="library_tab_audio">Audio</string>
 
-    <string name="value_1" translatable="false">1</string>
-    <string name="value_2" translatable="false">2</string>
-    <string name="value_3" translatable="false">3</string>
-
-    <string name="title_push_general_notification" translatable="false">Runar App</string>
     <string name="push_general_notification">Just open Runar and find out what’s the rune of the day</string>
     <string name="push_general_notification_channel_name">Reminders</string>
     <string name="heading">Heading</string>
     <string name="some_description">Some Description</string>
-    <string name="some_text">Some text</string>
     <string name="luck_is_close">A little more, and you\'ll catch up the luck!</string>
     <string name="today_your_day">Hey, it\'s your lucky day!</string>
     <string name="lucky">The gods favor you!</string>

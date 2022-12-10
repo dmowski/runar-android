@@ -1,10 +1,44 @@
 package com.tnco.runar.ui.fragment
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Paint
+import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
+import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.ViewCompositionStrategy
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.Dimension
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.NavigationUI
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.tnco.runar.R
 import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.databinding.FragmentLayoutsBinding
@@ -22,23 +56,33 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
     private val binding
         get() = _binding!!
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentLayoutsBinding.inflate(inflater, container, false)
+        val view = binding.root
+        binding.upperBanner.apply {
+            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+            val bannerOnClick: () -> Unit = {
+                val bottomNavigationBar =
+                    requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigationBar)
+                val menuItem = bottomNavigationBar.menu.findItem(R.id.generator)
+                NavigationUI.onNavDestinationSelected(menuItem, findNavController())
+            }
+            setContent {
+                UpperBanner(onClick = bannerOnClick)
+            }
+        }
+
+        return view
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        _binding = FragmentLayoutsBinding.bind(view)
         AnalyticsHelper.sendEvent(AnalyticsEvent.SCREEN_VIEW_RUNIC_DRAWS)
         setClickListenerOnRuneLayouts()
-
-        viewModel.fontSize.observe(viewLifecycleOwner) { fontSize ->
-           /* val namesFontSize=(fontSize*1.6).toFloat()
-            binding.firstLayoutTw.setTextSize(TypedValue.COMPLEX_UNIT_PX, namesFontSize)
-            binding.secondLayoutTw.setTextSize(TypedValue.COMPLEX_UNIT_PX, namesFontSize)
-            binding.thirdLayoutTw.setTextSize(TypedValue.COMPLEX_UNIT_PX, namesFontSize)
-            binding.fourthLayoutTw.setTextSize(TypedValue.COMPLEX_UNIT_PX, namesFontSize)
-            binding.fifthLayoutTw.setTextSize(TypedValue.COMPLEX_UNIT_PX, namesFontSize)
-            binding.sixthLayoutTw.setTextSize(TypedValue.COMPLEX_UNIT_PX, namesFontSize)
-            binding.seventhLayoutTw.setTextSize(TypedValue.COMPLEX_UNIT_PX, namesFontSize)
-            binding.eightLayoutTw.setTextSize(TypedValue.COMPLEX_UNIT_PX, namesFontSize)*/
-        }
     }
 
     override fun onDestroyView() {
@@ -90,5 +134,125 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
                 findNavController().navigate(direction)
             }
         }
+    }
+}
+
+@Preview
+@Composable
+private fun UpperBanner(onClick: () -> Unit = {}) {
+    MaterialTheme {
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .aspectRatio(3.28f)
+                    .border(
+                        border = BorderStroke(1.dp, colorResource(id = R.color.border)),
+                        shape = RoundedCornerShape(8.dp)
+                    )
+                    .rectShadow(
+                        cornersRadius = 8.dp,
+                        shadowBlurRadius = 8.dp,
+                        offsetX = 8.dp,
+                        offsetY = 8.dp
+                    )
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.sacr_back_button),
+                    contentScale = ContentScale.Crop,
+                    contentDescription = stringResource(id = R.string.run_patterns)
+                )
+                ConstraintLayout(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .clickable(onClick = onClick)
+                ) {
+                    val (image, title, description) = createRefs()
+                    val topDescriptionHorizontalGuideline = createGuidelineFromTop(0.5f)
+                    val bottomTitleHorizontalGuideline = createGuidelineFromTop(0.42f)
+                    Image(
+                        painter = painterResource(id = R.drawable.rune_pattern),
+                        contentDescription = stringResource(id = R.string.run_patterns),
+                        modifier = Modifier
+                            .constrainAs(image) {
+                                top.linkTo(parent.top)
+                                start.linkTo(parent.start)
+                                bottom.linkTo(parent.bottom)
+                            }
+                            .padding(start = 12.dp, top = 6.dp, bottom = 14.dp, end = 6.dp)
+                    )
+                    Text(
+                        text = stringResource(id = R.string.run_patterns),
+                        textAlign = TextAlign.Start,
+                        fontFamily = FontFamily(Font(R.font.amatic_sc_bold)),
+                        color = colorResource(R.color.neutrals_gray_100),
+                        fontSize = 24.sp,
+                        modifier = Modifier
+                            .constrainAs(title) {
+                                width = Dimension.fillToConstraints
+                                bottom.linkTo(bottomTitleHorizontalGuideline)
+                                start.linkTo(image.end)
+                                end.linkTo(parent.end)
+                            }
+                    )
+                    Text(
+                        text = stringResource(id = R.string.layout_upper_banner_description),
+                        fontFamily = FontFamily(Font(resId = R.font.roboto_regular)),
+                        color = colorResource(R.color.neutrals_gray_50),
+                        fontSize = 12.sp,
+                        modifier = Modifier
+                            .padding(end = 28.dp)
+                            .constrainAs(description) {
+                                width = Dimension.fillToConstraints
+                                top.linkTo(topDescriptionHorizontalGuideline)
+                                start.linkTo(image.end)
+                                end.linkTo(parent.end)
+                            }
+                    )
+                }
+            }
+            Spacer(Modifier.height(38.dp))
+            Text(
+                text = stringResource(id = R.string.rune_layouts),
+                textAlign = TextAlign.Center,
+                fontFamily = FontFamily(Font(R.font.amatic_sc_bold)),
+                color = colorResource(R.color.onboard_header_color),
+                fontSize = 36.sp,
+            )
+            Spacer(Modifier.height(24.dp))
+        }
+    }
+}
+
+fun Modifier.rectShadow(
+    color: Color = Color.Black,
+    alpha: Float = 0.99f,
+    cornersRadius: Dp = 0.dp,
+    shadowBlurRadius: Dp = 0.dp,
+    offsetY: Dp = 0.dp,
+    offsetX: Dp = 0.dp
+) = drawBehind {
+    val shadowColor = color.copy(alpha = alpha).toArgb()
+    val transparentColor = color.copy(alpha = 0f).toArgb()
+
+    drawIntoCanvas {
+        val paint = Paint()
+        val frameworkPaint = paint.asFrameworkPaint()
+        frameworkPaint.color = transparentColor
+        frameworkPaint.setShadowLayer(
+            shadowBlurRadius.toPx(),
+            offsetX.toPx(),
+            offsetY.toPx(),
+            shadowColor
+        )
+        it.drawRoundRect(
+            0f,
+            0f,
+            this.size.width,
+            this.size.height,
+            cornersRadius.toPx(),
+            cornersRadius.toPx(),
+            paint
+        )
     }
 }
