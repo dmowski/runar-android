@@ -1,4 +1,4 @@
-package com.tnco.runar.retrofit
+package com.tnco.runar.data.remote.request
 
 import android.graphics.Bitmap
 

@@ -17,7 +17,7 @@ class RetrofitClient @Inject constructor() {
         private const val GeneratorServer = "https://runar-generator-api.herokuapp.com/"
     }
 
-    fun getBackendApi(): BackendApi = getBackendClient().create(BackendApi::class.java)
+    fun getLibraryApi(): LibraryApi = getLibraryClient().create(LibraryApi::class.java)
 
     fun getGeneratorApi(): GeneratorApi =
         getGeneratorClient().create(GeneratorApi::class.java)
@@ -28,7 +28,7 @@ class RetrofitClient @Inject constructor() {
         .readTimeout(40, TimeUnit.SECONDS)
         .build()
 
-    private fun getBackendClient(): Retrofit = Retrofit.Builder()
+    private fun getLibraryClient(): Retrofit = Retrofit.Builder()
         .baseUrl(MainServer + "api/v1/")
         .client(client)
         .addConverterFactory(GsonConverterFactory.create())

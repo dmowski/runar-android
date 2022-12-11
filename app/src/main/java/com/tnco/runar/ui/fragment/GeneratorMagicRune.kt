@@ -19,9 +19,15 @@ import com.tnco.runar.feature.MusicController
 import com.tnco.runar.ui.component.dialog.CancelDialog
 import com.tnco.runar.ui.viewmodel.MainViewModel
 import com.tnco.runar.util.AnalyticsConstants
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class GeneratorMagicRune : Fragment() {
+
+    @Inject
+    lateinit var musicController: MusicController
 
     private var _binding: FragmentGeneratorProcessingBinding? = null
     private val binding get() = _binding!!
@@ -78,7 +84,7 @@ class GeneratorMagicRune : Fragment() {
             for (i in 0..100) {
                 binding.generatorProgressOfLoadingView.progress = i
                 delay(70)
-                when (MusicController.currentSongPos) {
+                when (musicController.currentSongPos) {
                     2 -> {
                         link = "https://lyod1.bandcamp.com/releases"
                         with(binding) {

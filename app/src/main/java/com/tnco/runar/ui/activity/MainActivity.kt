@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.IntentFilter
 import android.media.AudioFocusRequest
 import android.media.AudioManager
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
@@ -56,7 +57,7 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         firebaseAnalytics = Firebase.analytics
-        languageRepository.setSettingsLanguage(this) // set app language from settings
+        languageRepository.changeLanguageAndUpdateRepo(this, preferencesRepository.language) // set app language from settings
         // status bar color
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
@@ -147,18 +148,32 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
     }
 
     override fun getAudioFocus() {
-        audioManager.requestAudioFocus(
-            AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN)
-                .setOnAudioFocusChangeListener(this)
-                .build()
-        )
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            audioManager.requestAudioFocus(
+                AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN)
+                    .setOnAudioFocusChangeListener(this)
+                    .build()
+            )
+        } else {
+            @Suppress("DEPRECATION")
+            audioManager.requestAudioFocus(
+                this,
+                AudioManager.STREAM_MUSIC,
+                AudioManager.AUDIOFOCUS_GAIN
+            )
+        }
     }
 
     override fun dropAudioFocus() {
-        audioManager.abandonAudioFocusRequest(
-            AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_LOSS)
-                .setOnAudioFocusChangeListener(this)
-                .build()
-        )
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            audioManager.abandonAudioFocusRequest(
+                AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_LOSS)
+                    .setOnAudioFocusChangeListener(this)
+                    .build()
+            )
+        } else {
+            @Suppress("DEPRECATION")
+            audioManager.abandonAudioFocus(this)
+        }
     }
 }

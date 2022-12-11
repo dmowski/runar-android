@@ -12,7 +12,6 @@ import com.tnco.runar.data.local.DataDB
 import com.tnco.runar.feature.MusicController
 import com.tnco.runar.repository.LanguageRepository
 import com.tnco.runar.repository.SharedDataRepository
-import com.tnco.runar.repository.SharedPreferencesRepository
 import com.tnco.runar.services.PushService.Companion.REMINDER_CHANNEL_ID
 import com.tnco.runar.util.NetworkMonitor
 import dagger.hilt.android.HiltAndroidApp
@@ -29,18 +28,17 @@ class App : Application() {
 
     @Inject
     lateinit var sharedDataRepository: SharedDataRepository
-
+    // TODO SharedPreferencesRepository.init(this) was removed
     override fun onCreate() {
         AppDB.init(this)
         DataDB.init(this)
-        languageRepository.setInitialSettingsLanguage(this)
         musicController.init(this)
         sharedDataRepository.init(this)
+        languageRepository.setInitialSettingsLanguage(this)
         createNotificationChannel()
         AnalyticsHelper.init()
         NetworkMonitor.init(this)
         super.onCreate()
-
     }
 
     private fun createNotificationChannel() {

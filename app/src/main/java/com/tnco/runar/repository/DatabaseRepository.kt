@@ -7,8 +7,11 @@ import com.tnco.runar.model.*
 import kotlinx.coroutines.flow.Flow
 
 object DatabaseRepository {
+
     private var appDao = AppDB.getLayoutDB().appDAO()
+
     private var dataDao = DataDB.getDataDB().dataDAO()
+
     fun reinit() {
         appDao = AppDB.getLayoutDB().appDAO()
         dataDao = DataDB.getDataDB().dataDAO()

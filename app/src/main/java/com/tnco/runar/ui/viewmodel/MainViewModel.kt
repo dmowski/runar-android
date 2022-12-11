@@ -6,8 +6,8 @@ import android.os.Build
 import android.util.Log
 import androidx.lifecycle.*
 import com.tnco.runar.data.remote.NetworkResult
-import com.tnco.runar.data.remote.RunesResponse
 import com.tnco.runar.data.remote.request.UserInfo
+import com.tnco.runar.data.remote.response.RunesResponse
 import com.tnco.runar.model.RunesItemsModel
 import com.tnco.runar.repository.DatabaseRepository
 import com.tnco.runar.repository.SharedDataRepository
@@ -16,7 +16,7 @@ import com.tnco.runar.repository.backend.BackendRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import com.tnco.runar.repository.backend.DataClassConverters
-import com.tnco.runar.retrofit.BackgroundInfo
+import com.tnco.runar.data.remote.request.BackgroundInfo
 import com.tnco.runar.util.NetworkMonitor
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancelChildren

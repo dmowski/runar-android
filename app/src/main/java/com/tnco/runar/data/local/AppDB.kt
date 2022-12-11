@@ -19,6 +19,7 @@ import java.util.*
     exportSchema = false
 )
 abstract class AppDB : RoomDatabase() {
+
     abstract fun appDAO(): AppDAO
 
     companion object {

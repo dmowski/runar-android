@@ -7,7 +7,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class OnboardViewModel : ViewModel() {
+class OnboardViewModel @Inject constructor() : ViewModel() {
 
     private var _currentPosition = SingleLiveEvent<Int>()
     var currentPosition: LiveData<Int> = _currentPosition

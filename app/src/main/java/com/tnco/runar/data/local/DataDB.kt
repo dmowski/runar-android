@@ -14,6 +14,7 @@ import com.tnco.runar.model.UserLayoutModel
 )
 
 abstract class DataDB : RoomDatabase() {
+
     abstract fun dataDAO(): DataDAO
 
     companion object {

@@ -8,7 +8,7 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import androidx.recyclerview.widget.RecyclerView
 import com.tnco.runar.R
-import com.tnco.runar.retrofit.BackgroundInfo
+import com.tnco.runar.data.remote.request.BackgroundInfo
 
 class BackgroundAdapter(
     val selectBackground: (Int) -> Unit

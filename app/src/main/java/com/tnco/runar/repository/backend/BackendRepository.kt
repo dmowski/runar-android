@@ -1,12 +1,12 @@
 package com.tnco.runar.repository.backend
 
-import com.tnco.runar.data.remote.BackendApi
-import com.tnco.runar.data.remote.RetrofitClient
-import com.tnco.runar.data.remote.RunesResponse
+import com.tnco.runar.data.remote.GeneratorApi
+import com.tnco.runar.data.remote.LibraryApi
 import com.tnco.runar.data.remote.request.UserInfo
+import com.tnco.runar.data.remote.response.RunesResponse
 import com.tnco.runar.repository.DatabaseRepository
 import com.tnco.runar.repository.SharedPreferencesRepository
-import com.tnco.runar.retrofit.BackgroundInfo
+import com.tnco.runar.data.remote.request.BackgroundInfo
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -19,13 +19,14 @@ import javax.inject.Inject
 class BackendRepository @Inject constructor(
     private val preferencesRepository: SharedPreferencesRepository,
     private val databaseRepository: DatabaseRepository,
-    private val backendApi: BackendApi
+    private val libraryApi: LibraryApi,
+    private val generatorApi: GeneratorApi
 ) {
 
     fun identify(userInfo: UserInfo) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                backendApi.createUser(userInfo)
+                libraryApi.createUser(userInfo)
             } catch (t: Throwable) {
                 t.printStackTrace()
             }
@@ -36,17 +37,17 @@ class BackendRepository @Inject constructor(
         //  RunarLogger.logDebug("Start updating library")
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                //RunarLogger.logDebug("Send hash request")
-                val hashResp = backendApi.getLibraryHash(lang)
+                // RunarLogger.logDebug("Send hash request")
+                val hashResp = libraryApi.getLibraryHash(lang)
                 if (hashResp.isSuccessful) {
-                    //RunarLogger.logDebug("Hash GET!: ")
+                    // RunarLogger.logDebug("Hash GET!: ")
                     val oldHash = preferencesRepository.getLibHash(lang)
                     val newHash = hashResp.body()?.hash
                     // RunarLogger.logDebug("oldHash: $oldHash  newHash: $newHash")
                     if (newHash != null) {
                         if (oldHash != newHash) {
                             // RunarLogger.logDebug("Accepted and started library updating")
-                            val response = backendApi.getLibraryData(lang)
+                            val response = libraryApi.getLibraryData(lang)
                             if (response.isSuccessful) {
                                 // RunarLogger.logDebug("Library success: " + response.message().toString())
                                 val convertedResult =
@@ -78,11 +79,11 @@ class BackendRepository @Inject constructor(
     }
 
     suspend fun getRunes(): Response<List<RunesResponse>> {
-        return RetrofitClient.apiInterfaceGenerator.getRunes()
+        return generatorApi.getRunes()
     }
 
     suspend fun getBackgroundInfo(): Response<List<BackgroundInfo>> {
-        return RetrofitClient.apiInterface.getBackgroundInfo()
+        return generatorApi.getBackgroundInfo()
     }
 
     suspend fun getBackgroundImage(
@@ -92,7 +93,7 @@ class BackendRepository @Inject constructor(
         width: Int,
         height: Int
     ): Response<ResponseBody> {
-        return RetrofitClient.apiInterface.getBackgroundImage(
+        return generatorApi.getBackgroundImage(
             runePath,
             imgPath,
             stylePath,
@@ -102,10 +103,10 @@ class BackendRepository @Inject constructor(
     }
 
     suspend fun getRunePattern(runesPath: String): Response<List<String>> {
-        return RetrofitClient.apiInterfaceGenerator.getRunePattern(runesPath)
+        return generatorApi.getRunePattern(runesPath)
     }
 
     suspend fun getRuneImage(runePath: String, imgPath: String): Response<ResponseBody> {
-        return RetrofitClient.apiInterfaceGenerator.getRunePatternImage(runePath, imgPath)
+        return generatorApi.getRunePatternImage(runePath, imgPath)
     }
 }

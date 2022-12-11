@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.tnco.runar.R
 import com.tnco.runar.databinding.ActivitySplashBinding
 import com.tnco.runar.feature.MusicController
-import com.tnco.runar.repository.LanguageRepository
 import com.tnco.runar.repository.SharedPreferencesRepository
 import com.tnco.runar.ui.viewmodel.SplashViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -19,9 +18,6 @@ class SplashActivity : AppCompatActivity() {
 
     @Inject
     lateinit var preferencesRepository: SharedPreferencesRepository
-
-    @Inject
-    lateinit var languageRepository: LanguageRepository
 
     @Inject
     lateinit var musicController: MusicController

@@ -1,6 +1,6 @@
 package com.tnco.runar.di
 
-import com.tnco.runar.data.remote.BackendApi
+import com.tnco.runar.data.remote.LibraryApi
 import com.tnco.runar.data.remote.GeneratorApi
 import com.tnco.runar.data.remote.RetrofitClient
 import com.tnco.runar.repository.DatabaseRepository
@@ -21,7 +21,7 @@ class AppModule {
     @Singleton
     fun provideBackendApi(
         retrofitClient: RetrofitClient
-    ): BackendApi = retrofitClient.getBackendApi()
+    ): LibraryApi = retrofitClient.getLibraryApi()
 
     @Provides
     @Singleton
