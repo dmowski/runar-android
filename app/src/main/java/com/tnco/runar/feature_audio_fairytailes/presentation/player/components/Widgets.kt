@@ -4,20 +4,24 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Divider
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.filled.LibraryMusic
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
@@ -27,63 +31,73 @@ import androidx.constraintlayout.compose.Dimension
 import com.tnco.runar.R
 
 @Composable
-fun Header(name: String) {
+fun AudioHeader(
+    name: String,
+    isFirstHeader: Boolean = false
+) {
     Surface(
         modifier = Modifier
             .fillMaxWidth()
-            .height(48.dp),
-        color = Color.Black
+            .padding(
+                start = 16.dp,
+                end = 16.dp,
+                top = if (isFirstHeader) 28.dp else 12.dp
+            ),
+        color = Color.Transparent
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(
-                    horizontal = 16.dp,
-                    vertical = 12.dp
-                ),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Start
+        Column(
+            modifier = Modifier.fillMaxWidth()
         ) {
             Text(
                 modifier = Modifier
-                    .fillMaxWidth(),
+                    .fillMaxWidth()
+                    .padding(
+                        bottom = 12.dp
+                    ),
                 text = name,
                 style = TextStyle(
-                    color = Color(0xFFACACAC),
+                    color = colorResource(id = R.color.audio_header_text),
                     fontSize = 16.sp,
-                    fontFamily = FontFamily(
-                        Font(R.font.roboto_regular)
-                    ),
+                    fontFamily = FontFamily(Font(R.font.roboto_regular)),
                     lineHeight = 24.em
                 )
+            )
+            Divider(
+                color = colorResource(id = R.color.audio_divider),
+                thickness = 0.5.dp
             )
         }
     }
 }
 
 @Composable
-fun AudioDetailRow(name: String) {
+fun AudioDetailRow(
+    name: String,
+    image: ImageVector = Icons.Filled.LibraryMusic,
+    time: String = "3:27"
+) {
     Surface(
         modifier = Modifier
             .fillMaxWidth()
-            .height(56.dp),
-        color = Color.Black
+            .padding(
+                start = 16.dp,
+                end = 16.dp,
+                top = 8.dp
+            ),
+        color = Color.Transparent
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(
-                    horizontal = 16.dp,
-                    vertical = 8.dp
-                )
+        Column(
+            modifier = Modifier.fillMaxWidth()
         ) {
-
-            ConstraintLayout(Modifier.fillMaxWidth()) {
-
-                val(audioImage, audioText, audioTime, audioImageMore) = createRefs()
+            ConstraintLayout(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 8.dp)
+            ) {
+                val (audioImage, audioText, audioTime, audioImageMore) = createRefs()
 
                 Image(
-                    painter = rememberVectorPainter(image = Icons.Filled.LibraryMusic),
+                    painter = rememberVectorPainter(image = image),
                     contentDescription = "Audio Image",
                     modifier = Modifier
                         .constrainAs(audioImage) {
@@ -94,7 +108,7 @@ fun AudioDetailRow(name: String) {
                         .size(40.dp)
                         .border(
                             1.dp,
-                            Color(0xFFD2C4AD),
+                            colorResource(id = R.color.audio_border_image),
                             shape = RoundedCornerShape(5.dp)
                         ),
                     colorFilter = ColorFilter.tint(Color.White),
@@ -110,13 +124,15 @@ fun AudioDetailRow(name: String) {
                         },
                     text = name,
                     style = TextStyle(
-                        color = Color(0xFFE1E1E1),
+                        color = colorResource(id = R.color.audio_name_text),
                         fontSize = 16.sp,
                         fontFamily = FontFamily(
                             Font(R.font.roboto_regular)
                         ),
                         lineHeight = 24.em
-                    )
+                    ),
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
                 )
                 Text(
                     modifier = Modifier
@@ -125,9 +141,9 @@ fun AudioDetailRow(name: String) {
                             bottom.linkTo(parent.bottom)
                             end.linkTo(audioImageMore.start, 16.dp)
                         },
-                    text = "3:27",
+                    text = time,
                     style = TextStyle(
-                        color = Color(0xFFE1E1E1),
+                        color = colorResource(id = R.color.audio_time_text),
                         fontSize = 16.sp,
                         fontFamily = FontFamily(
                             Font(R.font.roboto_regular)
@@ -145,9 +161,17 @@ fun AudioDetailRow(name: String) {
                             bottom.linkTo(parent.bottom)
                         }
                         .size(24.dp),
-                    colorFilter = ColorFilter.tint(Color(0xFF6E6E6E))
+                    colorFilter = ColorFilter.tint(colorResource(id = R.color.audio_image_more_tint))
                 )
             }
+            Divider(
+                modifier = Modifier
+                    .padding(
+                        start = 56.dp
+                    ),
+                color = colorResource(id = R.color.audio_divider),
+                thickness = 0.5.dp
+            )
         }
     }
 }
@@ -161,5 +185,5 @@ fun AudioDetailRowPreview() {
 @Preview
 @Composable
 fun HeaderAudioDetailRowPreview() {
-    Header(name = "Норвежские сказки")
+    AudioHeader(name = "Норвежские сказки")
 }
