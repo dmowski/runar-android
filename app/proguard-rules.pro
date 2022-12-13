@@ -19,3 +19,6 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+# enable for export the R8 configuration
+#-printconfiguration proguard_config.txt
