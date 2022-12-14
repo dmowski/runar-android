@@ -13,7 +13,7 @@ fun AudioScreen() {
 }
 
 @Composable
-fun AudioFairyTalesList(audioFairyTales: Map<String, List<String>>) {
+private fun AudioFairyTalesList(audioFairyTales: Map<String, List<String>>) {
     LazyColumn {
         audioFairyTales.onEachIndexed { index, fairyTalesEntry ->
             item {
@@ -32,6 +32,6 @@ fun AudioFairyTalesList(audioFairyTales: Map<String, List<String>>) {
 
 @Preview
 @Composable
-fun AudioScreenPreview() {
+private fun AudioScreenPreview() {
     AudioScreen()
 }

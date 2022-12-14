@@ -31,7 +31,7 @@ import androidx.constraintlayout.compose.Dimension
 import com.tnco.runar.R
 
 @Composable
-fun AudioHeader(
+internal fun AudioHeader(
     name: String,
     isFirstHeader: Boolean = false
 ) {
@@ -71,7 +71,7 @@ fun AudioHeader(
 }
 
 @Composable
-fun AudioDetailRow(
+internal fun AudioDetailRow(
     name: String,
     image: ImageVector = Icons.Filled.LibraryMusic,
     time: String = "3:27"
@@ -178,12 +178,12 @@ fun AudioDetailRow(
 
 @Preview
 @Composable
-fun AudioDetailRowPreview() {
+private fun AudioDetailRowPreview() {
     AudioDetailRow(name = "Сказка о пряничке")
 }
 
 @Preview
 @Composable
-fun HeaderAudioDetailRowPreview() {
+private fun HeaderAudioDetailRowPreview() {
     AudioHeader(name = "Норвежские сказки")
 }
