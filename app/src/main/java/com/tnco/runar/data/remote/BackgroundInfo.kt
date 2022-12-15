@@ -1,4 +1,4 @@
-package com.tnco.runar.retrofit
+package com.tnco.runar.data.remote
 
 import android.graphics.Bitmap
 import com.google.gson.annotations.SerializedName
