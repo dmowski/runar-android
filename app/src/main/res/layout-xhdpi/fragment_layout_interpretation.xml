@@ -55,7 +55,7 @@
                         android:elevation="6dp"
                         android:scaleType="fitXY"
                         android:src="@drawable/description_top_background"
-                        app:layout_constraintDimensionRatio="H,3.5:1"
+                        app:layout_constraintDimensionRatio="H,2.5:1"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -131,7 +131,7 @@
                         app:layout_constraintStart_toStartOf="@id/rune_ausf_start_guideline"
                         app:layout_constraintTop_toBottomOf="@id/rune_position_frame" />
 
-                    <ScrollView
+                    <androidx.core.widget.NestedScrollView
                         android:id="@+id/rune_description_scroll"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
@@ -149,7 +149,7 @@
                             android:lineSpacingMultiplier="1.35"
                             android:textColor="@color/auf_text_color"
                             android:paddingBottom="40dp"/>
-                    </ScrollView>
+                    </androidx.core.widget.NestedScrollView>
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/rune_description_bottom_background"
@@ -159,40 +159,41 @@
                         android:elevation="6dp"
                         android:scaleType="centerCrop"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintDimensionRatio="H,6:1"
+                        app:layout_constraintDimensionRatio="H,5:1"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent" />
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/bottom_runes_nav_bar"
                         android:layout_width="match_parent"
-                        android:layout_height="0dp"
+                        android:layout_height="wrap_content"
                         android:elevation="7dp"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintDimensionRatio="H,10:1"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent">
 
                         <androidx.appcompat.widget.AppCompatImageView
                             android:id="@+id/left_arrow"
                             android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:adjustViewBounds="true"
+                            android:layout_height="0dp"
+                            android:scaleType="centerInside"
                             android:src="@drawable/ic_runes_nav_left_arrow"
+                            app:layout_constraintWidth_percent="0.2"
+                            app:layout_constraintDimensionRatio="1.5"
                             app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="@id/left_arrow_end_guideline"
-                            app:layout_constraintStart_toStartOf="@id/left_arrow_start_guideline"
+                            app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <androidx.appcompat.widget.AppCompatImageView
                             android:id="@+id/right_arrow"
                             android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:adjustViewBounds="true"
+                            android:layout_height="0dp"
+                            android:scaleType="centerInside"
                             android:src="@drawable/ic_runes_nav_right_arrow"
+                            app:layout_constraintWidth_percent="0.2"
+                            app:layout_constraintDimensionRatio="1.5"
                             app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="@id/right_arrow_end_guideline"
-                            app:layout_constraintStart_toStartOf="@id/right_arrow_start_guideline"
+                            app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <androidx.constraintlayout.widget.Guideline

@@ -131,5 +131,12 @@
     <color name="bottom_sheet_text">#E1E1E1</color>
     <color name="bottom_sheet_button">#6A6A6A5C</color>
     <color name="bottom_sheet_background">#BF000000</color>
+    
+    <color name="audio_header_text">#FFACACAC</color>
+    <color name="audio_name_text">#FFE1E1E1</color>
+    <color name="audio_time_text">@color/audio_name_text</color>
+    <color name="audio_border_image">#FFD2C4AD</color>
+    <color name="audio_divider">#FF292929</color>
+    <color name="audio_image_more_tint">#FF6E6E6E</color>
 
 </resources>
