@@ -1,7 +1,9 @@
 package com.tnco.runar.ui.fragment
 
+
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -10,7 +12,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.colorResource
@@ -80,6 +84,9 @@ internal fun Bars() {
         backgroundColor = colorResource(id = R.color.library_top_bar_2)
     ) { paddingValue ->
         val scrollState = rememberScrollState()
+        if (scrollState.isScrollInProgress && scrollState.value > 0) {
+            ScrollBars(scrollState)
+        }
         if (tabsState.value && audioFeature) {
             TabScreen(pagerState, scrollState, fontSize)
         } else {
@@ -470,4 +477,29 @@ private fun TopBarIcon() {
             contentDescription = "arrow"
         )
     }
+}
+
+@Composable
+fun ScrollBars(scrollState: ScrollState) {
+    // Reference screen size
+    val standartFullScreen = 648
+    val standartScreenForScrool = 456
+    // to get the screen size of the current
+    val configuration = LocalConfiguration.current
+    val screenWidth = configuration.screenWidthDp.dp - 3.dp
+    // getting the difference between the reference screen and the actual
+    val screenHeight = configuration.screenHeightDp - standartFullScreen
+    val screenCurrent = screenHeight + standartScreenForScrool
+    // getting how many times you need to slow down the scroll
+    val countScreen: Float = scrollState.maxValue.toFloat() / screenCurrent.toFloat()
+    val slowScrollState: Float = scrollState.value / countScreen
+
+    Box(
+        modifier = Modifier
+            .offset(x = screenWidth, y = slowScrollState.dp)
+            .clip(RoundedCornerShape(2.dp))
+            .height(70.dp)
+            .width(4.dp)
+            .background(Color.DarkGray)
+    )
 }
