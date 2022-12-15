@@ -81,6 +81,7 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
                 R.id.favouriteFragment -> View.VISIBLE
                 R.id.settingsFragment -> View.VISIBLE
                 R.id.developerOptionsFragment -> View.VISIBLE
+                R.id.aboutAppFragment -> View.VISIBLE
                 else -> View.GONE
             }
             binding.bottomNavigationBar.visibility = bottomNavBarVisibility

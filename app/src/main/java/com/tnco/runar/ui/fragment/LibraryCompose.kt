@@ -40,6 +40,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+private const val TO_LAST_SCROLLSTATE = 2
+
 @ExperimentalPagerApi
 @Composable
 internal fun Bars() {
@@ -172,12 +174,11 @@ internal fun ItemData(scrollState: ScrollState) {
         }
     }
 
-    viewModel.scrollPositionHistory.observe(LocalLifecycleOwner.current) {
+    viewModel.scrollPositionHistory.observe(LocalLifecycleOwner.current) { list ->
         CoroutineScope(Dispatchers.IO).launch {
-            if (it.last() == 9999) {
+            if (list.last() == 9999) {
                 delay(450)
-                scrollState.scrollTo(it[it.size - 2])
-                viewModel.removeLastScrollPositionHistory()
+                scrollState.scrollTo(list[list.size - TO_LAST_SCROLLSTATE])
                 viewModel.removeLastScrollPositionHistory()
             }
         }
