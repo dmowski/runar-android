@@ -18,11 +18,24 @@ import com.tnco.runar.retrofit.BackgroundInfo
 import com.tnco.runar.util.NetworkMonitor
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancelChildren
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import okhttp3.ResponseBody
 import retrofit2.Response
 
 class MainViewModel : ViewModel() {
+
+    private val _isLoading = MutableStateFlow(true)
+    val isLoading = _isLoading.asStateFlow()
+
+    init {
+        viewModelScope.launch {
+            delay(3000)
+            _isLoading.value = false
+        }
+    }
 
     private val networkMonitor = NetworkMonitor.get()
     val isNetworkAvailable = networkMonitor.isConnected.asLiveData()
