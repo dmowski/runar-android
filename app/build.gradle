@@ -23,16 +23,17 @@ android {
     buildTypes {
         release {
             minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug {
             minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 
     buildFeatures {
-        viewBinding  true
+        viewBinding true
         dataBinding true
         compose true
     }
@@ -50,8 +51,8 @@ android {
         jvmTarget = '11'
     }
 
-    bundle{
-        language{
+    bundle {
+        language {
             enableSplit = false
         }
     }
@@ -111,7 +112,7 @@ dependencies {
     implementation "androidx.compose.ui:ui:$compose_version"
     implementation "com.google.accompanist:accompanist-flowlayout:0.25.1"
     // Tooling support (Previews, etc.)
-    debugImplementation  "androidx.compose.ui:ui-tooling:$compose_version"
+    debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
     implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
     // Foundation (Border, Background, Box, Image, Scroll, shapes, animations, etc.)
     implementation "androidx.compose.foundation:foundation:$compose_version"

@@ -23,6 +23,9 @@
 # Enable for export the R8 configuration
 #-printconfiguration proguard_config.txt
 
+# Disable obfuscate
+-dontobfuscate
+
 # Keep Gson data classes with annotations SerializedName
 -keepclasseswithmembers,allowobfuscation class * {
     @com.google.gson.annotations.SerializedName <fields>;
@@ -40,3 +43,6 @@
 # kept. Suspend functions are wrapped in continuations where the type argument
 # is used.
 -keep,allowobfuscation,allowshrinking class kotlin.coroutines.Continuation
+
+# Suppress warnings about missing class com.google.firebase.iid.FcmBroadcastProcessor
+-dontwarn com.google.firebase.iid.FcmBroadcastProcessor
