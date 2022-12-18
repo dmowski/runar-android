@@ -27,22 +27,22 @@
 -dontobfuscate
 
 # Keep Gson data classes with annotations SerializedName
--keepclasseswithmembers,allowobfuscation class * {
+-keepclasseswithmembers class * {
     @com.google.gson.annotations.SerializedName <fields>;
 }
 
 # Keep inherited services.
 -if interface * { @retrofit2.http.* <methods>; }
--keep,allowobfuscation interface * extends <1>
+-keep interface * extends <1>
 
 # Keep generic signature of Call, Response (R8 full mode strips signatures from non-kept items).
--keep,allowobfuscation,allowshrinking interface retrofit2.Call
--keep,allowobfuscation,allowshrinking class retrofit2.Response
+-keep,allowshrinking interface retrofit2.Call
+-keep,allowshrinking class retrofit2.Response
 
 # With R8 full mode generic signatures are stripped for classes that are not
 # kept. Suspend functions are wrapped in continuations where the type argument
 # is used.
--keep,allowobfuscation,allowshrinking class kotlin.coroutines.Continuation
+-keep,allowshrinking class kotlin.coroutines.Continuation
 
 # Suppress warnings about missing class com.google.firebase.iid.FcmBroadcastProcessor
 -dontwarn com.google.firebase.iid.FcmBroadcastProcessor
