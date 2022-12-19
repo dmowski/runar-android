@@ -7,6 +7,7 @@ import androidx.lifecycle.asLiveData
 import com.tnco.runar.model.LibraryItemsModel
 import com.tnco.runar.repository.DatabaseRepository
 import com.tnco.runar.repository.SharedDataRepository
+import com.tnco.runar.repository.SharedPreferencesRepository
 import com.tnco.runar.util.NetworkMonitor
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.asCoroutineDispatcher
@@ -28,6 +29,9 @@ class LibraryViewModel : ViewModel() {
     val isOnline = networkMonitor.isConnected.asLiveData()
 
     private var menuNavData = mutableListOf<String>()
+
+    val audioDisplaying: MutableLiveData<Boolean> =
+        MutableLiveData(SharedPreferencesRepository.audioTalesDisplaying)
 
     fun getRuneDataFromDB() {
         CoroutineScope(singleThread).launch {

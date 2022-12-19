@@ -104,7 +104,8 @@ class SharedPreferencesRepository private constructor(context: Context) {
 
     private fun initDeveloperSwitchers() {
         val switchers = mapOf(
-            Pair("test", false)
+            Pair("Test", false),
+            Pair("Displaying audio fairy tales", true)
         )
         switcherNames = switchers.keys
         putSwitcherNames(switcherNames)
@@ -190,9 +191,14 @@ class SharedPreferencesRepository private constructor(context: Context) {
         return result
     }
 
+    internal fun hideAudioTales() {
+        audioTalesDisplaying = false
+    }
+
     companion object {
 
         private const val SWITCHER_NAMES_PREF = "switcher_names"
+        var audioTalesDisplaying = true
 
         @Volatile
         private lateinit var sharedPreferencesRepository: SharedPreferencesRepository

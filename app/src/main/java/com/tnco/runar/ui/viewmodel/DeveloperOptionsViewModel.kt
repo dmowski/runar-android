@@ -11,6 +11,8 @@ class DeveloperOptionsViewModel : ViewModel() {
 
     private val preferencesRepository = SharedPreferencesRepository.get()
     val fontSize: LiveData<Float> = MutableLiveData(SharedDataRepository.fontSize)
+    val audioDisplaying: MutableLiveData<Boolean> =
+        MutableLiveData(SharedPreferencesRepository.audioTalesDisplaying)
 
     private var _devSwitcherStates: MutableMap<String, Boolean> = switcherStatesFromRepository()
     val devSwitcherStates: Map<String, Boolean>
@@ -26,5 +28,9 @@ class DeveloperOptionsViewModel : ViewModel() {
         states.forEach {
             put(it.key, it.value)
         }
+    }
+
+    internal fun hideAudioFairyTales() {
+        preferencesRepository.hideAudioTales()
     }
 }

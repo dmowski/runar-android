@@ -47,6 +47,7 @@ class DeveloperOptionsFragment : Fragment() {
 private fun DeveloperOptionsScreen(navController: NavController) {
     val viewModel: DeveloperOptionsViewModel = viewModel()
     val fontSize by viewModel.fontSize.observeAsState(0f)
+    val audioDisplaying by viewModel.audioDisplaying.observeAsState(true)
     val devSwitcherStates = viewModel.devSwitcherStates
 
     @Composable
@@ -71,6 +72,9 @@ private fun DeveloperOptionsScreen(navController: NavController) {
                 header = switcher.key,
                 checkAction = {
                     viewModel.putSwitcherState(switcher.key, it)
+                    if (viewModel.audioDisplaying.value == false) {
+                        viewModel.hideAudioFairyTales()
+                    }
                 },
                 state = devSwitcherStates[switcher.key] ?: false
             ) {
