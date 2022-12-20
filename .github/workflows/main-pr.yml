@@ -25,7 +25,7 @@ jobs:
 
       - name: Rename File
         run: |
-          cp "app/build/outputs/apk/release/app-release.apk" "app/build/outputs/apk/release/pr-${{ steps.date.outputs.date }}.apk"
+          cp "app/build/outputs/apk/release/app-release-unsigned.apk" "app/build/outputs/apk/release/pr-${{ steps.date.outputs.date }}.apk"
 
       - name: Upload APK
         uses: actions/upload-artifact@v3

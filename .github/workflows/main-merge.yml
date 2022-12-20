@@ -18,7 +18,7 @@ jobs:
       - name: Setup JDK
         uses: actions/setup-java@v3
         with:
-          distribut                                                        ion: "temurin" # See 'Supported distributions' for available options
+          distribution: "temurin" # See 'Supported distributions' for available options
           java-version: "17"
 
       - name: Build with Grandle
@@ -26,7 +26,7 @@ jobs:
 
       - name: Rename File
         run: |
-          cp "app/build/outputs/apk/release/app-release.apk" "app/build/outputs/apk/release/app-${{ steps.date.outputs.date }}.apk"
+          cp "app/build/outputs/apk/release/app-release-unsigned.apk" "app/build/outputs/apk/release/app-${{ steps.date.outputs.date }}.apk"
 
       - name: Upload APK
         uses: actions/upload-artifact@v3
