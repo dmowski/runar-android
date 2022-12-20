@@ -72,7 +72,7 @@ private fun DeveloperOptionsScreen(navController: NavController) {
                 header = switcher.key,
                 checkAction = {
                     viewModel.putSwitcherState(switcher.key, it)
-                    if (viewModel.audioDisplaying.value == false) {
+                    if (audioDisplaying == false) {
                         viewModel.hideAudioFairyTales()
                     }
                 },
