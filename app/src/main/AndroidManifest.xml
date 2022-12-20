@@ -8,6 +8,8 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
+    <uses-sdk android:targetSdkVersion="33" />
+
     <supports-screens
         android:largeScreens="true"
         android:normalScreens="true"
@@ -36,19 +38,20 @@
 
         <activity
             android:name="com.tnco.runar.ui.activity.SplashActivity"
+            android:exported="true"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.Runar"
-            android:exported="true">
+            android:theme="@style/Theme.Runar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <service
             android:name=".services.PushService"
-            android:exported="false"
-            android:directBootAware="true">
+            android:directBootAware="true"
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
@@ -56,8 +59,8 @@
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.tnco.runar.provider"
-            android:grantUriPermissions="true"
-            android:exported="false">
+            android:exported="false"
+            android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
