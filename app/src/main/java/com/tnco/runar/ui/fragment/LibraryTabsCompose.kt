@@ -73,6 +73,14 @@ private fun Tabs(
     tabsViewModel: DeveloperOptionsViewModel = viewModel()
 ) {
 
+    val list: List<Int>
+
+    if (tabsViewModel.audioDisplaying.value!!) {
+        list = listOf(R.string.library_tab_books, R.string.library_tab_audio)
+    } else {
+        list = listOf(R.string.library_tab_books)
+    }
+
     val scope = rememberCoroutineScope()
     TabRow(
         selectedTabIndex = pagerState.currentPage,
@@ -95,7 +103,7 @@ private fun Tabs(
             )
         }
     ) {
-        tabsViewModel.list.forEachIndexed { index, _ ->
+        list.forEachIndexed { index, _ ->
             Card(
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
                 shape = RoundedCornerShape(40.dp),
@@ -112,7 +120,7 @@ private fun Tabs(
                     modifier = Modifier.height(30.dp),
                     text = {
                         Text(
-                            text = stringResource(id = tabsViewModel.list[index]).uppercase(),
+                            text = stringResource(id = list[index]).uppercase(),
                             fontFamily = FontFamily(Font(R.font.roboto_medium)),
                             fontSize = with(LocalDensity.current) {
                                 ((fontSize!! * 0.8).toFloat()).toSp()
