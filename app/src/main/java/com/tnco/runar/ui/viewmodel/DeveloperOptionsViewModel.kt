@@ -1,13 +1,19 @@
 package com.tnco.runar.ui.viewmodel
 
 import androidx.compose.runtime.snapshots.SnapshotStateMap
+import androidx.compose.runtime.toMutableStateList
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.tnco.runar.R
 import com.tnco.runar.repository.SharedDataRepository
 import com.tnco.runar.repository.SharedPreferencesRepository
 
 class DeveloperOptionsViewModel : ViewModel() {
+
+    private val _list =
+        listOf(R.string.library_tab_books, R.string.library_tab_audio).toMutableStateList()
+    val list: List<Int> get() = _list
 
     private val preferencesRepository = SharedPreferencesRepository.get()
     val fontSize: LiveData<Float> = MutableLiveData(SharedDataRepository.fontSize)
@@ -33,4 +39,9 @@ class DeveloperOptionsViewModel : ViewModel() {
     internal fun hideAudioFairyTales() {
         preferencesRepository.hideAudioTales()
     }
+
+    internal fun showAudioFairyTales() {
+        preferencesRepository.showAudioTales()
+    }
+
 }

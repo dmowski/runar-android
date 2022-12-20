@@ -195,6 +195,10 @@ class SharedPreferencesRepository private constructor(context: Context) {
         audioTalesDisplaying = false
     }
 
+    internal fun showAudioTales() {
+        audioTalesDisplaying = true
+    }
+
     companion object {
 
         private const val SWITCHER_NAMES_PREF = "switcher_names"

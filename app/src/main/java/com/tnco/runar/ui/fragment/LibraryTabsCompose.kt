@@ -17,11 +17,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.pagerTabIndicatorOffset
 import com.tnco.runar.R
+import com.tnco.runar.ui.viewmodel.DeveloperOptionsViewModel
 import kotlinx.coroutines.launch
 
 @ExperimentalPagerApi
@@ -65,8 +67,11 @@ private fun TabsContent(pagerState: PagerState, scrollState: ScrollState) {
 
 @ExperimentalPagerApi
 @Composable
-private fun Tabs(pagerState: PagerState, fontSize: Float?) {
-    val list = listOf(R.string.library_tab_books, R.string.library_tab_audio)
+private fun Tabs(
+    pagerState: PagerState,
+    fontSize: Float?,
+    tabsViewModel: DeveloperOptionsViewModel = viewModel()
+) {
 
     val scope = rememberCoroutineScope()
     TabRow(
@@ -90,7 +95,7 @@ private fun Tabs(pagerState: PagerState, fontSize: Float?) {
             )
         }
     ) {
-        list.forEachIndexed { index, _ ->
+        tabsViewModel.list.forEachIndexed { index, _ ->
             Card(
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
                 shape = RoundedCornerShape(40.dp),
@@ -102,12 +107,12 @@ private fun Tabs(pagerState: PagerState, fontSize: Float?) {
                 ),
                 backgroundColor = colorResource(id = R.color.library_top_bar),
 
-            ) {
+                ) {
                 Tab(
                     modifier = Modifier.height(30.dp),
                     text = {
                         Text(
-                            text = stringResource(id = list[index]).uppercase(),
+                            text = stringResource(id = tabsViewModel.list[index]).uppercase(),
                             fontFamily = FontFamily(Font(R.font.roboto_medium)),
                             fontSize = with(LocalDensity.current) {
                                 ((fontSize!! * 0.8).toFloat()).toSp()

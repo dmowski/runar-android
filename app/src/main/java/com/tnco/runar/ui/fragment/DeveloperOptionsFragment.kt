@@ -72,8 +72,10 @@ private fun DeveloperOptionsScreen(navController: NavController) {
                 header = switcher.key,
                 checkAction = {
                     viewModel.putSwitcherState(switcher.key, it)
-                    if (audioDisplaying == false) {
+                    if (!it) {
                         viewModel.hideAudioFairyTales()
+                    } else {
+                        viewModel.showAudioFairyTales()
                     }
                 },
                 state = devSwitcherStates[switcher.key] ?: false

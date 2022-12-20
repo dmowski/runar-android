@@ -15,6 +15,7 @@ import kotlinx.coroutines.launch
 import java.util.concurrent.Executors
 
 class LibraryViewModel : ViewModel() {
+
     private val singleThread = Executors.newSingleThreadExecutor().asCoroutineDispatcher()
 
     val fontSize: LiveData<Float> = MutableLiveData(SharedDataRepository.fontSize)
@@ -117,4 +118,5 @@ class LibraryViewModel : ViewModel() {
             scrollPositionHistory.value?.removeLast()
         }
     }
+
 }
