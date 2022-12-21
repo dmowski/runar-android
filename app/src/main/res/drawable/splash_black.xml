@@ -1,54 +1,26 @@
-<animated-vector
+<vector
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:aapt="http://schemas.android.com/aapt">
-    <aapt:attr name="android:drawable">
-        <vector
-            android:name="vector"
-            android:width="200dp"
-            android:height="200dp"
-            android:viewportWidth="200"
-            android:viewportHeight="200">
-            <group
-                android:name="group"
-                android:pivotX="85"
-                android:pivotY="58"
-                android:translateY="9"
-                android:scaleX="0"
-                android:scaleY="0">
-                <path
-                    android:name="path"
-                    android:pathData="M 102 17 C 123.209 17 143.571 25.434 158.569 40.431 C 173.566 55.429 182 75.791 182 97 C 182 118.209 173.566 138.571 158.569 153.569 C 143.571 168.566 123.209 177 102 177 C 80.791 177 60.429 168.566 45.431 153.569 C 30.434 138.571 22 118.209 22 97 C 22 75.791 30.434 55.429 45.431 40.431 C 60.429 25.434 80.791 17 102 17"
-                    android:fillColor="#000000"
-                    android:strokeWidth="1"/>
-                <path
-                    android:name="path_1"
-                    android:pathData="M 102.258 26 L 57.034 63.832 L 93.213 96.353 L 56 125.84 L 56 139.807 L 96.832 108.79 L 96.832 168 L 107.685 168 L 107.685 108.79 L 147.742 140.324 L 147.742 126.098 L 111.303 96.352 L 148 63.703 L 102.258 26 Z M 96.832 45.693 L 74.09 63.763 L 96.832 83.914 L 96.832 45.693 Z M 107.685 45.693 L 107.685 83.914 L 130.427 63.703 L 107.685 45.693 Z"
-                    android:fillColor="#ffffff"
-                    android:strokeWidth="1"
-                    android:fillType="evenOdd"/>
-            </group>
-        </vector>
-    </aapt:attr>
-    <target android:name="group">
-        <aapt:attr name="android:animation">
-            <set>
-                <objectAnimator
-                    android:propertyName="scaleX"
-                    android:startOffset="200"
-                    android:duration="300"
-                    android:valueFrom="0"
-                    android:valueTo="0.85"
-                    android:valueType="floatType"
-                    android:interpolator="@android:anim/linear_interpolator"/>
-                <objectAnimator
-                    android:propertyName="scaleY"
-                    android:startOffset="200"
-                    android:duration="300"
-                    android:valueFrom="0"
-                    android:valueTo="0.85"
-                    android:valueType="floatType"
-                    android:interpolator="@android:anim/linear_interpolator"/>
-            </set>
-        </aapt:attr>
-    </target>
-</animated-vector>
+    android:name="vector"
+    android:width="204dp"
+    android:height="206dp"
+    android:viewportWidth="204"
+    android:viewportHeight="206">
+  <group
+      android:name="group"
+      android:pivotX="105"
+      android:pivotY="125"
+      android:scaleX="0.85"
+      android:scaleY="0.85">
+    <path
+        android:name="path"
+        android:pathData="M 102 17 C 123.209 17 143.571 25.434 158.569 40.431 C 173.566 55.429 182 75.791 182 97 C 182 118.209 173.566 138.571 158.569 153.569 C 143.571 168.566 123.209 177 102 177 C 80.791 177 60.429 168.566 45.431 153.569 C 30.434 138.571 22 118.209 22 97 C 22 75.791 30.434 55.429 45.431 40.431 C 60.429 25.434 80.791 17 102 17"
+        android:fillColor="#000000"
+        android:strokeWidth="1"/>
+    <path
+        android:name="path_1"
+        android:pathData="M 102.258 26 L 57.034 63.832 L 93.213 96.353 L 56 125.84 L 56 139.807 L 96.832 108.79 L 96.832 168 L 107.685 168 L 107.685 108.79 L 147.742 140.324 L 147.742 126.098 L 111.303 96.352 L 148 63.703 L 102.258 26 Z M 96.832 45.693 L 74.09 63.763 L 96.832 83.914 L 96.832 45.693 Z M 107.685 45.693 L 107.685 83.914 L 130.427 63.703 L 107.685 45.693 Z"
+        android:fillColor="#ffffff"
+        android:strokeWidth="1"
+        android:fillType="evenOdd"/>
+  </group>
+</vector>
