@@ -107,7 +107,7 @@ private fun Tabs(
                 ),
                 backgroundColor = colorResource(id = R.color.library_top_bar),
 
-                ) {
+            ) {
                 Tab(
                     modifier = Modifier.height(30.dp),
                     text = {
