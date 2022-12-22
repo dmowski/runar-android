@@ -10,7 +10,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
@@ -22,6 +21,7 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.pagerTabIndicatorOffset
 import com.tnco.runar.R
+import com.tnco.runar.feature_audio_fairytailes.presentation.player.AudioScreen
 import kotlinx.coroutines.launch
 
 @ExperimentalPagerApi
@@ -36,7 +36,10 @@ internal fun TabScreen(pagerState: PagerState, scrollState: ScrollState, fontSiz
 @ExperimentalPagerApi
 @Composable
 private fun TabsContent(pagerState: PagerState, scrollState: ScrollState) {
-    HorizontalPager(state = pagerState) { page ->
+    HorizontalPager(
+        state = pagerState,
+        verticalAlignment = Alignment.Top
+    ) { page ->
         when (page) {
             0 -> {
                 Column(
@@ -49,16 +52,7 @@ private fun TabsContent(pagerState: PagerState, scrollState: ScrollState) {
                 }
             }
 
-            1 -> {
-                // Audio Library fun will be here
-                Column(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Text(text = "Audio", color = Color.White)
-                }
-            }
+            1 -> AudioScreen()
         }
     }
 }
