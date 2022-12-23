@@ -43,6 +43,7 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+
         installSplashScreen().apply {
             setKeepOnScreenCondition {
                 viewModel.isLoading.value
