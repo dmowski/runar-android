@@ -21,24 +21,24 @@ jobs:
           java-version: "17"
 
       - name: Build with Grandle
-        run: bash ./gradlew assembleDebug --stacktrace
+        run: bash ./gradlew assembleDebugWithR8 --stacktrace
 
       - name: Rename File
         run: |
-          cp "app/build/outputs/apk/debug/app-debug.apk" "app/build/outputs/apk/debug/pr-${{ steps.date.outputs.date }}.apk"
+          cp "app/build/outputs/apk/debugWithR8/app-debugWithR8.apk" "app/build/outputs/apk/debugWithR8/pr-${{ steps.date.outputs.date }}.apk"
 
       - name: Upload APK
         uses: actions/upload-artifact@v3
         with:
           name: "ANDROID_APP_${{ steps.date.outputs.date }}"
-          path: app/build/outputs/apk/debug/pr-${{ steps.date.outputs.date }}.apk
+          path: app/build/outputs/apk/debugWithR8/pr-${{ steps.date.outputs.date }}.apk
 
       - name: Send telegram message
         uses: appleboy/telegram-action@master
         with:
           to: ${{ secrets.TELEGRAM_TO }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
-          document: app/build/outputs/apk/debug/pr-${{ steps.date.outputs.date }}.apk
+          document: app/build/outputs/apk/debugWithR8/pr-${{ steps.date.outputs.date }}.apk
           format: markdown
           disable_notification: true
           message: |

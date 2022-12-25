@@ -5,7 +5,7 @@ import com.tnco.runar.data.remote.RunesResponse
 import com.tnco.runar.data.remote.UserInfo
 import com.tnco.runar.repository.DatabaseRepository
 import com.tnco.runar.repository.SharedPreferencesRepository
-import com.tnco.runar.retrofit.BackgroundInfo
+import com.tnco.runar.data.remote.BackgroundInfo
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

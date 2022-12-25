@@ -14,7 +14,7 @@ import com.tnco.runar.repository.SharedDataRepository
 import com.tnco.runar.repository.SharedPreferencesRepository
 import com.tnco.runar.repository.backend.BackendRepository
 import com.tnco.runar.repository.backend.DataClassConverters
-import com.tnco.runar.retrofit.BackgroundInfo
+import com.tnco.runar.data.remote.BackgroundInfo
 import com.tnco.runar.util.NetworkMonitor
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancelChildren

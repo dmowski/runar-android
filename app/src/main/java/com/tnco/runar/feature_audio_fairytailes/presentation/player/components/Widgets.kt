@@ -9,8 +9,8 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.LibraryMusic
-import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
@@ -24,7 +24,6 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
@@ -59,8 +58,10 @@ internal fun AudioHeader(
                     color = colorResource(id = R.color.audio_header_text),
                     fontSize = 16.sp,
                     fontFamily = FontFamily(Font(R.font.roboto_regular)),
-                    lineHeight = 24.em
-                )
+                    lineHeight = 24.sp
+                ),
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
             )
             Divider(
                 color = colorResource(id = R.color.audio_divider),
@@ -82,7 +83,7 @@ internal fun AudioDetailRow(
             .padding(
                 start = 16.dp,
                 end = 16.dp,
-                top = 8.dp
+                top = 12.dp
             ),
         color = Color.Transparent
     ) {
@@ -92,9 +93,9 @@ internal fun AudioDetailRow(
             ConstraintLayout(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(bottom = 8.dp)
+                    .padding(bottom = 12.dp)
             ) {
-                val (audioImage, audioText, audioTime, audioImageMore) = createRefs()
+                val (audioImage, audioText, audioTime) = createRefs()
 
                 Image(
                     painter = rememberVectorPainter(image = image),
@@ -105,7 +106,7 @@ internal fun AudioDetailRow(
                             start.linkTo(parent.start)
                             bottom.linkTo(parent.bottom)
                         }
-                        .size(40.dp)
+                        .size(64.dp)
                         .border(
                             1.dp,
                             colorResource(id = R.color.audio_border_image),
@@ -114,32 +115,38 @@ internal fun AudioDetailRow(
                     colorFilter = ColorFilter.tint(Color.White),
                     contentScale = ContentScale.Fit
                 )
-                Text(
+                Box(
                     modifier = Modifier
                         .constrainAs(audioText) {
                             width = Dimension.fillToConstraints
-                            top.linkTo(parent.top)
+                            height = Dimension.fillToConstraints
+                            top.linkTo(audioImage.top)
+                            bottom.linkTo(audioImage.bottom)
                             start.linkTo(audioImage.end, 16.dp)
                             end.linkTo(audioTime.start, 16.dp)
                         },
-                    text = name,
-                    style = TextStyle(
-                        color = colorResource(id = R.color.audio_name_text),
-                        fontSize = 16.sp,
-                        fontFamily = FontFamily(
-                            Font(R.font.roboto_regular)
+                    contentAlignment = Alignment.CenterStart
+                ) {
+                    Text(
+                        text = name,
+                        style = TextStyle(
+                            color = colorResource(id = R.color.audio_name_text),
+                            fontSize = 16.sp,
+                            fontFamily = FontFamily(
+                                Font(R.font.roboto_regular)
+                            ),
+                            lineHeight = 24.sp
                         ),
-                        lineHeight = 24.em
-                    ),
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
                 Text(
                     modifier = Modifier
                         .constrainAs(audioTime) {
                             top.linkTo(parent.top)
                             bottom.linkTo(parent.bottom)
-                            end.linkTo(audioImageMore.start, 16.dp)
+                            end.linkTo(parent.end, 16.dp)
                         },
                     text = time,
                     style = TextStyle(
@@ -148,26 +155,14 @@ internal fun AudioDetailRow(
                         fontFamily = FontFamily(
                             Font(R.font.roboto_regular)
                         ),
-                        lineHeight = 24.em
+                        lineHeight = 24.sp
                     )
-                )
-                Image(
-                    painter = rememberVectorPainter(image = Icons.Filled.MoreVert),
-                    contentDescription = "Image More",
-                    modifier = Modifier
-                        .constrainAs(audioImageMore) {
-                            top.linkTo(parent.top)
-                            end.linkTo(parent.end)
-                            bottom.linkTo(parent.bottom)
-                        }
-                        .size(24.dp),
-                    colorFilter = ColorFilter.tint(colorResource(id = R.color.audio_image_more_tint))
                 )
             }
             Divider(
                 modifier = Modifier
                     .padding(
-                        start = 56.dp
+                        start = 80.dp
                     ),
                 color = colorResource(id = R.color.audio_divider),
                 thickness = 0.5.dp
