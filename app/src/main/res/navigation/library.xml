@@ -7,6 +7,21 @@
     <fragment
         android:id="@+id/libraryFragment"
         android:name="com.tnco.runar.ui.fragment.LibraryFragment"
-        android:label="LibraryFragment" />
+        android:label="LibraryFragment" >
+        <action
+            android:id="@+id/action_libraryFragment_to_audioDetailsFragment"
+            app:destination="@id/audioDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/audioDetailsFragment"
+        android:name="com.tnco.runar.ui.fragment.AudioDetailsFragment"
+        android:label="AudioDetailsFragment" >
+        <argument
+            android:name="audioName"
+            app:argType="string" />
+        <argument
+            android:name="audioGroup"
+            app:argType="string" />
+    </fragment>
 
 </navigation>

@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState
@@ -21,16 +22,29 @@ import kotlinx.coroutines.launch
 
 @ExperimentalPagerApi
 @Composable
-internal fun TabScreen(pagerState: PagerState, scrollState: ScrollState, fontSize: Float?) {
+internal fun TabScreen(
+    pagerState: PagerState,
+    scrollState: ScrollState,
+    fontSize: Float?,
+    navController: NavController
+) {
     Column {
         Tabs(pagerState = pagerState, fontSize = fontSize)
-        TabsContent(pagerState = pagerState, scrollState = scrollState)
+        TabsContent(
+            pagerState = pagerState,
+            scrollState = scrollState,
+            navController = navController
+        )
     }
 }
 
 @ExperimentalPagerApi
 @Composable
-private fun TabsContent(pagerState: PagerState, scrollState: ScrollState) {
+private fun TabsContent(
+    pagerState: PagerState,
+    scrollState: ScrollState,
+    navController: NavController
+) {
     HorizontalPager(
         state = pagerState,
         verticalAlignment = Alignment.Top
@@ -47,7 +61,7 @@ private fun TabsContent(pagerState: PagerState, scrollState: ScrollState) {
                 }
             }
 
-            1 -> AudioScreen()
+            1 -> AudioScreen(navController = navController)
         }
     }
 }
