@@ -1,6 +1,5 @@
 package com.tnco.runar.ui.fragment
 
-
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -54,14 +53,14 @@ internal fun Bars() {
     val pagerState = rememberPagerState(pageCount = 2)
 
     var barColor = colorResource(id = R.color.library_top_bar_header)
-    var barFont = FontFamily(Font(R.font.roboto_medium))
-    var barFontSize = with(LocalDensity.current) { ((fontSize!! * 1.35f)).toSp() }
+    var barFont = FontFamily(Font(R.font.amatic_sc_bold))
+    var barFontSize = with(LocalDensity.current) { ((fontSize!! * 2.4f)).toSp() }
     var navIcon: @Composable (() -> Unit)? = null
 
     if (header != stringResource(id = R.string.library_top_bar_header)) {
         tabsState.value = false
         barColor = colorResource(id = R.color.library_top_bar_header_2)
-        barFont = FontFamily(Font(R.font.roboto_medium))
+        barFont = FontFamily(Font(R.font.amatic_sc_bold))
         barFontSize = with(LocalDensity.current) { fontSize!!.toSp() }
         navIcon = { TopBarIcon() }
     } else tabsState.value = true
@@ -69,12 +68,18 @@ internal fun Bars() {
         topBar = {
             TopAppBar(
                 title = {
-                    Text(
-                        text = header!!,
-                        color = barColor,
-                        fontFamily = barFont,
-                        style = TextStyle(fontSize = barFontSize)
-                    )
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        Text(
+                            text = requireNotNull(header),
+                            color = barColor,
+                            fontFamily = barFont,
+                            style = TextStyle(fontSize = barFontSize),
+                            textAlign = TextAlign.Center
+                        )
+                    }
                 },
                 backgroundColor = colorResource(id = R.color.library_top_bar),
                 navigationIcon = navIcon,
