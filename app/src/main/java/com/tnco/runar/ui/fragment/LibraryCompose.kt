@@ -28,6 +28,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImagePainter
+import coil.compose.rememberAsyncImagePainter
 import coil.compose.rememberImagePainter
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
@@ -221,7 +222,7 @@ private fun FirstMenuItem(
                     .weight(62f),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                val painter = rememberImagePainter(imgLink)
+                val painter = rememberAsyncImagePainter(imgLink)
                 Image(
                     painter = painter,
                     contentDescription = null,
