@@ -35,11 +35,13 @@ import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.ui.viewmodel.LibraryViewModel
 import com.tnco.runar.util.AnalyticsConstants
+import com.tnco.runar.util.observeOnce
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+private var wasOnline = false
 private const val TO_LAST_SCROLLSTATE = 2
 
 @ExperimentalPagerApi
@@ -194,6 +196,12 @@ private fun FirstMenuItem(
     imgLink: String,
     clickAction: () -> Unit
 ) {
+    val viewModel: LibraryViewModel = viewModel()
+    val lifecycleOwner = LocalLifecycleOwner.current
+    viewModel.isOnline.observeOnce(lifecycleOwner) {
+        if (it != false) wasOnline = true
+    }
+
     Row(
         Modifier
             .aspectRatio(3.8f, true)
@@ -220,15 +228,23 @@ private fun FirstMenuItem(
                     .weight(62f),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Image(
-                    painter = rememberImagePainter(imgLink),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .background(Color(0x00000000))
-                        .padding(top = 5.dp, bottom = 5.dp)
-                        .weight(60f)
-                        .fillMaxSize()
-                )
+                if (wasOnline) {
+                    Image(
+                        painter = rememberImagePainter(imgLink),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .background(Color(0x00000000))
+                            .padding(top = 5.dp, bottom = 5.dp)
+                            .weight(60f)
+                            .fillMaxSize()
+                    )
+                } else {
+                    CircularProgressIndicator(
+                        modifier = Modifier.size(size = 64.dp),
+                        color = Color.Magenta,
+                        strokeWidth = 6.dp
+                    )
+                }
                 Column(
                     Modifier
                         .fillMaxSize()
