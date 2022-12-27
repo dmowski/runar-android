@@ -11,9 +11,30 @@ import com.tnco.runar.feature_audio_fairytailes.presentation.player.components.A
 @Composable
 fun AudioScreen(navController: NavController) {
     val audioFairyTales: Map<String, List<String>> = mapOf(
-        "Books" to listOf("To Kill a Mockingbird", "Lord of the Flies", "Wuthering Heights"),
-        "Norwegian Fairytales" to listOf("The Fisherman and the Draug", "The Giant Who Had No Heart in His Body", "Farmer Weatherbeard", "The King's Hares", "Minnikin", "The Master Maid"),
-        "Christmas Music" to listOf("All I Want For Christmas Is You", "Rockin' Around The Christmas Tree", "Jingle Bell Rock", "A Holly Jolly Christmas", "Anti-Hero", "Unholy", "Superhero", "Last Christmas", "Rich Flex"),
+        "Books" to listOf(
+            "To Kill a Mockingbird",
+            "Lord of the Flies",
+            "Wuthering Heights"
+        ),
+        "Norwegian Fairytales" to listOf(
+            "The Fisherman and the Draug",
+            "The Giant Who Had No Heart in His Body",
+            "Farmer Weatherbeard",
+            "The King's Hares",
+            "Minnikin",
+            "The Master Maid"
+        ),
+        "Christmas Music" to listOf(
+            "All I Want For Christmas Is You",
+            "Rockin' Around The Christmas Tree",
+            "Jingle Bell Rock",
+            "A Holly Jolly Christmas",
+            "Anti-Hero",
+            "Unholy",
+            "Superhero",
+            "Last Christmas",
+            "Rich Flex"
+        ),
     )
     AudioFairyTalesList(
         audioFairyTales = audioFairyTales,
