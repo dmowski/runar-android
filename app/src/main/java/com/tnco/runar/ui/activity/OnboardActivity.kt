@@ -152,6 +152,7 @@ class OnboardActivity : AppCompatActivity() {
     private fun closeActivity() {
         val intent = Intent(this, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+            putExtra("onboarding_passed", true)
         }
         startActivity(intent)
     }

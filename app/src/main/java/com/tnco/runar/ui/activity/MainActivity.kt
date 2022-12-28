@@ -1,6 +1,7 @@
 package com.tnco.runar.ui.activity
 
 import android.content.Context
+import android.content.Intent
 import android.content.IntentFilter
 import android.media.AudioManager
 import android.os.Bundle
@@ -44,11 +45,11 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
         super.onCreate(savedInstanceState)
 
         installSplashScreen().apply {
-            setKeepOnScreenCondition {
-                viewModel.isLoading.value
-            }
+//            setKeepOnScreenCondition {
+// //                viewModel.isLoading.value
+//            }
+            showOnboarding()
         }
-
 
         firebaseAnalytics = Firebase.analytics
         LanguageRepository.setSettingsLanguage(this) // set app language from settings
@@ -69,9 +70,9 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
         viewModel.identify()
         supportActionBar?.hide()
 
-        if (preferencesRepository.firstLaunch == 1) {
-            preferencesRepository.changeSettingsOnboarding(0)
-        }
+//        if (preferencesRepository.firstLaunch == 1) {
+//            preferencesRepository.changeSettingsOnboarding(0)
+//        }
 
         audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
         if (preferencesRepository.settingsMusic == 1) getAudioFocus()
@@ -108,6 +109,16 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
                 println("token: $token")
             }
         )
+    }
+
+    private fun showOnboarding() {
+        val isPassed = intent.getBooleanExtra("onboarding_passed", false)
+        if (!isPassed && preferencesRepository.settingsOnboarding == 1) {
+            val intent = Intent(this, OnboardActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+            }
+            startActivity(intent)
+        }
     }
 
     override fun onAudioFocusChange(focusChange: Int) {

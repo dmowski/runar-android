@@ -40,7 +40,8 @@
         <activity
             android:name="com.tnco.runar.ui.activity.OnboardActivity"
             android:noHistory="true"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Runar"/>
 
         <service
             android:name=".services.PushService"
