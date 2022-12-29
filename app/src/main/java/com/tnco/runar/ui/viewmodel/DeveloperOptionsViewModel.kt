@@ -11,10 +11,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DeveloperOptionsViewModel @Inject constructor(
+    private val preferencesRepository: SharedPreferencesRepository,
     sharedDataRepository: SharedDataRepository
-): ViewModel() {
+) : ViewModel() {
 
-    private val preferencesRepository = SharedPreferencesRepository.get()
     val fontSize: LiveData<Float> = MutableLiveData(sharedDataRepository.fontSize)
 
     private var _devSwitcherStates: MutableMap<String, Boolean> = switcherStatesFromRepository()

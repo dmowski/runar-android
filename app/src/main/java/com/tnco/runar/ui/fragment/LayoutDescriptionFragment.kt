@@ -11,16 +11,21 @@ import com.tnco.runar.R
 import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.databinding.FragmentLayoutDescriptionBinding
 import com.tnco.runar.enums.AnalyticsEvent
+import com.tnco.runar.repository.SharedPreferencesRepository
 import com.tnco.runar.ui.viewmodel.DescriptionViewModel
 import com.tnco.runar.util.AnalyticsConstants
 import com.tnco.runar.util.AnalyticsUtils
 import com.tnco.runar.util.setOnCLickListenerForAll
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class LayoutDescriptionFragment :
     Fragment(R.layout.fragment_layout_description),
     View.OnClickListener {
+
+    @Inject
+    lateinit var preferencesRepository: SharedPreferencesRepository
 
     private val viewModel: DescriptionViewModel by viewModels()
     private var layoutId: Int = 0

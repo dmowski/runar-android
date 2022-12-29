@@ -14,13 +14,17 @@ import com.tnco.runar.R
 import com.tnco.runar.RunarLogger
 import com.tnco.runar.repository.SharedPreferencesRepository
 import com.tnco.runar.ui.activity.MainActivity
+import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.util.*
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class PushService : FirebaseMessagingService() {
 
-    private val preferencesRepository = SharedPreferencesRepository.get()
+    @Inject
+    lateinit var preferencesRepository: SharedPreferencesRepository
 
     override fun onNewToken(token: String) {
         RunarLogger.logDebug("Refreshed token: $token")

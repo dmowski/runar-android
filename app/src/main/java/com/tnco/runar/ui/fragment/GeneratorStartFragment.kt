@@ -24,17 +24,22 @@ import com.tnco.runar.ui.adapter.RunesGeneratorAdapter
 import com.tnco.runar.ui.viewmodel.MainViewModel
 import com.tnco.runar.util.InternalDeepLink
 import com.tnco.runar.util.observeOnce
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.util.*
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class GeneratorStartFragment : Fragment() {
+
+    @Inject
+    lateinit var sharedPreferences: SharedPreferencesRepository
 
     private var _binding: FragmentGeneratorStartBinding? = null
     private val binding get() = _binding!!
     private lateinit var mViewModel: MainViewModel
     private var listId: MutableList<Int> = mutableListOf()
     private var listAllIds: MutableList<Int> = mutableListOf()
-    private val sharedPreferences by lazy { SharedPreferencesRepository.get() }
     private val mAdapter: RunesGeneratorAdapter by lazy {
         RunesGeneratorAdapter(::onShowBottomSheet)
     }

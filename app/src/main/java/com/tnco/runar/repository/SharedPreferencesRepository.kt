@@ -14,6 +14,7 @@ import javax.inject.Singleton
 class SharedPreferencesRepository @Inject constructor(
     @ApplicationContext appContext: Context
 ) {
+
     private val preferences: SharedPreferences =
         PreferenceManager.getDefaultSharedPreferences(appContext)
 
@@ -200,18 +201,5 @@ class SharedPreferencesRepository @Inject constructor(
     companion object {
 
         private const val SWITCHER_NAMES_PREF = "switcher_names"
-
-        @Volatile
-        private lateinit var sharedPreferencesRepository: SharedPreferencesRepository
-
-        fun init(context: Context) {
-            synchronized(this) {
-                sharedPreferencesRepository = SharedPreferencesRepository(context)
-            }
-        }
-
-        fun get(): SharedPreferencesRepository {
-            return sharedPreferencesRepository
-        }
     }
 }

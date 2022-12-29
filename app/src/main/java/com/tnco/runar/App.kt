@@ -28,7 +28,7 @@ class App : Application() {
 
     @Inject
     lateinit var sharedDataRepository: SharedDataRepository
-    // TODO SharedPreferencesRepository.init(this) was removed
+
     override fun onCreate() {
         AppDB.init(this)
         DataDB.init(this)

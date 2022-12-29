@@ -31,11 +31,15 @@ import com.tnco.runar.ui.component.dialog.CancelDialog
 import com.tnco.runar.ui.viewmodel.InterpretationViewModel
 import com.tnco.runar.util.*
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class LayoutInterpretationFragment :
     Fragment(R.layout.fragment_layout_interpretation),
     View.OnClickListener {
+
+    @Inject
+    lateinit var preferencesRepository: SharedPreferencesRepository
 
     private val viewModel: InterpretationViewModel by viewModels()
     private val args: LayoutInterpretationFragmentArgs by navArgs()
@@ -47,7 +51,6 @@ class LayoutInterpretationFragment :
     private var runesViewList: ArrayList<FrameLayout> = arrayListOf()
     private var runesPositionsList: ArrayList<String?> = arrayListOf()
     private var runesDotsList: ArrayList<ImageView> = arrayListOf()
-    private val preferencesRepository = SharedPreferencesRepository.get()
 
     private var runeHeight: Int = 0
     private var runeWidth: Int = 0

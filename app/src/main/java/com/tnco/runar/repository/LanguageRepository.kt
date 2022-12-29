@@ -5,9 +5,8 @@ import android.content.Context
 import android.content.res.Configuration
 import android.os.LocaleList
 import java.util.*
-import javax.inject.Inject
 
-class LanguageRepository @Inject constructor(
+class LanguageRepository constructor(
     private val preferencesRepository: SharedPreferencesRepository,
     private val sharedDataRepository: SharedDataRepository,
     private val databaseRepository: DatabaseRepository
