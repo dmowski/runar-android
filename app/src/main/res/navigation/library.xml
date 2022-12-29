@@ -17,10 +17,10 @@
         android:name="com.tnco.runar.ui.fragment.AudioDetailsFragment"
         android:label="AudioDetailsFragment" >
         <argument
-            android:name="audioName"
+            android:name="audioNameText"
             app:argType="string" />
         <argument
-            android:name="audioGroup"
+            android:name="audioGroupText"
             app:argType="string" />
     </fragment>
 

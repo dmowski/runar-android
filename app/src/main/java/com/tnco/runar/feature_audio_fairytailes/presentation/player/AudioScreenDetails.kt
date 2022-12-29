@@ -2,9 +2,7 @@ package com.tnco.runar.feature_audio_fairytailes.presentation.player
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -21,7 +19,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.Dimension
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.tnco.runar.R
 import com.tnco.runar.feature_audio_fairytailes.presentation.player.components.AudioAppBar
 import com.tnco.runar.util.rectShadow
@@ -33,10 +34,10 @@ fun AudioScreenDetails(navController: NavController) {
 
 @Composable
 private fun MainScreen(navController: NavController) {
-    val audioName = navController
-        .currentBackStackEntry?.arguments?.getString("audioName") ?: ""
-    val audioGroup = navController
-        .currentBackStackEntry?.arguments?.getString("audioGroup") ?: ""
+    val audioTitleText = navController
+        .currentBackStackEntry?.arguments?.getString("audioNameText") ?: ""
+    val audioGroupText = navController
+        .currentBackStackEntry?.arguments?.getString("audioGroupText") ?: ""
 
     Scaffold(
         topBar = {
@@ -47,21 +48,21 @@ private fun MainScreen(navController: NavController) {
         },
         backgroundColor = Color.Transparent
     ) { paddingValues ->
-        Column(
+        ConstraintLayout(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(top = paddingValues.calculateTopPadding())
-                .verticalScroll(state = rememberScrollState()),
-            horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            val (audioImage, audioTitle, audioGroup, playButtonsFrame) = createRefs()
+
             Surface(
                 modifier = Modifier
-                    .padding(
-                        start = 54.dp,
-                        end = 54.dp,
-                        top = 16.dp,
-                        bottom = 32.dp
-                    )
+                    .constrainAs(audioImage) {
+                        top.linkTo(parent.top, 16.dp)
+                        start.linkTo(parent.start, 54.dp)
+                        end.linkTo(parent.end, 54.dp)
+                        width = Dimension.fillToConstraints
+                    }
                     .aspectRatio(1f)
                     .border(
                         1.dp,
@@ -89,11 +90,12 @@ private fun MainScreen(navController: NavController) {
 
             Text(
                 modifier = Modifier
-                    .padding(
-                        start = 54.dp,
-                        end = 54.dp
-                    ),
-                text = audioName,
+                    .constrainAs(audioTitle) {
+                        top.linkTo(audioImage.bottom, 32.dp)
+                        start.linkTo(parent.start, 54.dp)
+                        end.linkTo(parent.end, 54.dp)
+                    },
+                text = audioTitleText,
                 style = TextStyle(
                     color = colorResource(id = R.color.white_f8),
                     fontSize = 14.sp,
@@ -105,11 +107,12 @@ private fun MainScreen(navController: NavController) {
 
             Text(
                 modifier = Modifier
-                    .padding(
-                        start = 54.dp,
-                        end = 54.dp
-                    ),
-                text = audioGroup,
+                    .constrainAs(audioGroup) {
+                        top.linkTo(audioTitle.bottom)
+                        start.linkTo(parent.start, 54.dp)
+                        end.linkTo(parent.end, 54.dp)
+                    },
+                text = audioGroupText,
                 style = TextStyle(
                     color = colorResource(id = R.color.white_f8),
                     fontSize = 10.sp,
@@ -119,103 +122,113 @@ private fun MainScreen(navController: NavController) {
                 )
             )
 
-            Row(
+            Column(
                 modifier = Modifier
-                    .padding(top = 56.dp)
+                    .constrainAs(playButtonsFrame) {
+                        top.linkTo(audioGroup.bottom)
+                        start.linkTo(parent.start, 30.dp)
+                        end.linkTo(parent.end, 30.dp)
+                        bottom.linkTo(parent.bottom)
+                        width = Dimension.fillToConstraints
+                    }
             ) {
-                IconButton(
-                    onClick = { }
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.skip_previous),
-                        contentDescription = "Skip Previous",
-                        tint = colorResource(id = R.color.audio_play_panel)
-                    )
-                }
-
-                IconButton(
-                    onClick = { }
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.replay_15),
-                        contentDescription = "Replay 15",
-                        tint = colorResource(id = R.color.audio_play_panel)
-                    )
-                }
-
-                IconButton(
-                    onClick = { }
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.play_circle_button),
-                        contentDescription = "Play Button",
-                        tint = colorResource(id = R.color.audio_play_button)
-                    )
-                }
-
-                IconButton(
-                    onClick = { }
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.forward_15),
-                        contentDescription = "Forward 15",
-                        tint = colorResource(id = R.color.audio_play_panel)
-                    )
-                }
-
-                IconButton(
-                    onClick = { }
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.skip_next),
-                        contentDescription = "Skip Next",
-                        tint = colorResource(id = R.color.audio_play_panel)
-                    )
-                }
-            }
-
-            Row(
-                modifier = Modifier
-                    .padding(
-                        start = 30.dp,
-                        end = 30.dp,
-                        top = 20.dp,
-                        bottom = 96.dp
-                    ),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = "2:22",
-                    style = TextStyle(
-                        color = colorResource(id = R.color.white_f8),
-                        fontSize = 12.sp,
-                        fontFamily = FontFamily(Font(R.font.roboto_regular)),
-                        lineHeight = 18.sp
-                    )
-                )
-
-                Slider(
+                Row(
                     modifier = Modifier
-                        .padding(horizontal = 8.dp)
-                        .weight(1f, true),
-                    value = 0.3f,
-                    onValueChange = { },
-                    colors = SliderDefaults.colors(
-                        thumbColor = colorResource(id = R.color.audio_thumb_slider),
-                        activeTrackColor = colorResource(id = R.color.audio_thumb_slider),
-                        inactiveTrackColor = colorResource(id = R.color.white_f8)
-                    )
-                )
+                        .fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    IconButton(
+                        onClick = { }
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.skip_previous),
+                            contentDescription = "Skip Previous",
+                            tint = colorResource(id = R.color.audio_play_panel)
+                        )
+                    }
 
-                Text(
-                    text = "5:56",
-                    style = TextStyle(
-                        color = colorResource(id = R.color.white_f8),
-                        fontSize = 12.sp,
-                        fontFamily = FontFamily(Font(R.font.roboto_regular)),
-                        lineHeight = 18.sp
+                    IconButton(
+                        onClick = { }
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.replay_15),
+                            contentDescription = "Replay 15",
+                            tint = colorResource(id = R.color.audio_play_panel)
+                        )
+                    }
+
+                    IconButton(
+                        onClick = { }
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.play_circle_button),
+                            contentDescription = "Play Button",
+                            tint = colorResource(id = R.color.audio_play_button)
+                        )
+                    }
+
+                    IconButton(
+                        onClick = { }
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.forward_15),
+                            contentDescription = "Forward 15",
+                            tint = colorResource(id = R.color.audio_play_panel)
+                        )
+                    }
+
+                    IconButton(
+                        onClick = { }
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.skip_next),
+                            contentDescription = "Skip Next",
+                            tint = colorResource(id = R.color.audio_play_panel)
+                        )
+                    }
+                }
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 20.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Text(
+                        text = "2:22",
+                        style = TextStyle(
+                            color = colorResource(id = R.color.white_f8),
+                            fontSize = 12.sp,
+                            fontFamily = FontFamily(Font(R.font.roboto_regular)),
+                            lineHeight = 18.sp
+                        )
                     )
-                )
+
+                    Slider(
+                        modifier = Modifier
+                            .padding(horizontal = 8.dp)
+                            .weight(1f, true),
+                        value = 0.3f,
+                        onValueChange = {},
+                        colors = SliderDefaults.colors(
+                            thumbColor = colorResource(id = R.color.audio_thumb_slider),
+                            activeTrackColor = colorResource(id = R.color.audio_thumb_slider),
+                            inactiveTrackColor = colorResource(id = R.color.white_f8)
+                        )
+                    )
+
+                    Text(
+                        text = "5:56",
+                        style = TextStyle(
+                            color = colorResource(id = R.color.white_f8),
+                            fontSize = 12.sp,
+                            fontFamily = FontFamily(Font(R.font.roboto_regular)),
+                            lineHeight = 18.sp
+                        )
+                    )
+                }
             }
         }
     }
@@ -224,5 +237,5 @@ private fun MainScreen(navController: NavController) {
 @Preview
 @Composable
 fun AudioScreenDetailsPreview() {
-    // AudioScreenDetails()
+    AudioScreenDetails(rememberNavController())
 }
