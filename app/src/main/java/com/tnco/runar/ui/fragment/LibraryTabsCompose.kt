@@ -1,6 +1,5 @@
 package com.tnco.runar.ui.fragment
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -10,16 +9,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState
-import com.google.accompanist.pager.pagerTabIndicatorOffset
 import com.tnco.runar.R
 import com.tnco.runar.feature_audio_fairytailes.presentation.player.AudioScreen
 import kotlinx.coroutines.launch
@@ -61,67 +56,55 @@ private fun TabsContent(pagerState: PagerState, scrollState: ScrollState) {
 @Composable
 private fun Tabs(pagerState: PagerState, fontSize: Float?) {
     val list = listOf(R.string.library_tab_books, R.string.library_tab_audio)
-
     val scope = rememberCoroutineScope()
-    TabRow(
-        selectedTabIndex = pagerState.currentPage,
-        backgroundColor = colorResource(id = R.color.library_top_bar),
-        contentColor = colorResource(id = R.color.library_top_bar_header_2),
-        divider = {
-            TabRowDefaults.Divider(
-                thickness = 1.dp,
-                color = colorResource(id = R.color.library_tab_divider)
-            )
-        },
-        indicator = { tabPositions ->
-            TabRowDefaults.Indicator(
-                Modifier.pagerTabIndicatorOffset(
-                    pagerState = pagerState,
-                    tabPositions = tabPositions
-                ),
-                height = 1.dp,
-                color = colorResource(id = R.color.library_tab_indicator)
-            )
-        }
-    ) {
-        list.forEachIndexed { index, _ ->
-            Card(
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
-                shape = RoundedCornerShape(40.dp),
-                border = BorderStroke(
-                    width = 1.dp,
-                    color = if (pagerState.currentPage == index) {
-                        colorResource(id = R.color.library_tab_text_selected)
-                    } else colorResource(id = R.color.library_top_bar)
-                ),
-                backgroundColor = colorResource(id = R.color.library_top_bar),
 
-            ) {
-                Tab(
-                    modifier = Modifier.height(30.dp),
-                    text = {
-                        Text(
-                            text = stringResource(id = list[index]).uppercase(),
-                            fontFamily = FontFamily(Font(R.font.roboto_medium)),
-                            fontSize = with(LocalDensity.current) {
-                                ((fontSize!! * 0.8).toFloat()).toSp()
-                            },
-                            color = if (pagerState.currentPage == index) {
-                                colorResource(id = R.color.library_tab_text_selected)
-                            } else {
-                                colorResource(id = R.color.library_tab_text_not_selected)
-                            }
-                        )
-                    },
-                    selected = pagerState.currentPage == index,
-                    onClick = {
-                        scope.launch {
-                            pagerState.scrollToPage(index)
-                        }
+    Card(
+        shape = RoundedCornerShape(7.dp),
+        modifier = Modifier
+            .padding(horizontal = 6.dp, vertical = 6.dp)
+            .width(388.dp)
+            .height(34.dp),
+        backgroundColor = colorResource(id = R.color.library_tab_background)
+    ) {
+        TabRow(
+            modifier = Modifier
+                .padding(horizontal = 1.dp, vertical = 1.dp)
+                .width(388.dp)
+                .height(34.dp),
+            selectedTabIndex = pagerState.currentPage,
+            backgroundColor = colorResource(id = R.color.library_top_bar_2),
+            contentColor = colorResource(id = R.color.library_tab_background_not_selected),
+            indicator = {}
+        ) {
+            list.forEachIndexed { index, _ ->
+                Card(
+                    shape = RoundedCornerShape(7.dp),
+                    backgroundColor = if (pagerState.currentPage == index) {
+                        colorResource(id = R.color.library_tab_background_selected)
+                    } else {
+                        colorResource(id = R.color.library_tab_background_not_selected)
                     }
-                )
+                ) {
+                    Tab(
+                        text = {
+                            Text(
+                                text = stringResource(id = list[index]),
+                                color = if (pagerState.currentPage == index) {
+                                    colorResource(id = R.color.library_tab_text_selected)
+                                } else {
+                                    colorResource(id = R.color.library_tab_text_not_selected)
+                                }
+                            )
+                        },
+                        selected = pagerState.currentPage == index,
+                        onClick = {
+                            scope.launch {
+                                pagerState.animateScrollToPage(index)
+                            }
+                        },
+                    )
+                }
             }
         }
-        Spacer(modifier = Modifier.width(130.dp))
     }
 }
