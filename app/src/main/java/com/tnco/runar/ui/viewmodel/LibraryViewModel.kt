@@ -1,16 +1,11 @@
 package com.tnco.runar.ui.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
+import androidx.lifecycle.*
 import com.tnco.runar.model.LibraryItemsModel
 import com.tnco.runar.repository.DatabaseRepository
 import com.tnco.runar.repository.SharedDataRepository
 import com.tnco.runar.util.NetworkMonitor
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.asCoroutineDispatcher
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import java.util.concurrent.Executors
 
 class LibraryViewModel : ViewModel() {
@@ -19,6 +14,10 @@ class LibraryViewModel : ViewModel() {
     val fontSize: LiveData<Float> = MutableLiveData(SharedDataRepository.fontSize)
     internal var dbList: List<LibraryItemsModel> = emptyList()
     var lastMenuHeader = MutableLiveData("")
+
+    private val _errorLoad = MutableLiveData<Boolean>()
+    val errorLoad: LiveData<Boolean>
+    get() = _errorLoad
 
     var scrollPositionHistory = MutableLiveData(mutableListOf(0))
 
@@ -41,6 +40,9 @@ class LibraryViewModel : ViewModel() {
                 updateMenuData()
             }
         }
+    }
+    fun updateStateLoad(error: Boolean) {
+        _errorLoad.value = error
     }
 
     private fun updateMenuData() {
