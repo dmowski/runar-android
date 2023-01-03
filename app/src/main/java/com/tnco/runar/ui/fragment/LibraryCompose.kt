@@ -27,6 +27,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import coil.compose.AsyncImagePainter
+import coil.compose.rememberAsyncImagePainter
 import coil.compose.rememberImagePainter
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
@@ -35,13 +37,11 @@ import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.ui.viewmodel.LibraryViewModel
 import com.tnco.runar.util.AnalyticsConstants
-import com.tnco.runar.util.observeOnce
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-private var wasOnline = false
 private const val TO_LAST_SCROLLSTATE = 2
 
 @ExperimentalPagerApi
@@ -196,12 +196,6 @@ private fun FirstMenuItem(
     imgLink: String,
     clickAction: () -> Unit
 ) {
-    val viewModel: LibraryViewModel = viewModel()
-    val lifecycleOwner = LocalLifecycleOwner.current
-    viewModel.isOnline.observeOnce(lifecycleOwner) {
-        if (it != false) wasOnline = true
-    }
-
     Row(
         Modifier
             .aspectRatio(3.8f, true)
@@ -228,22 +222,20 @@ private fun FirstMenuItem(
                     .weight(62f),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                if (wasOnline) {
-                    Image(
-                        painter = rememberImagePainter(imgLink),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .background(Color(0x00000000))
-                            .padding(top = 5.dp, bottom = 5.dp)
-                            .weight(60f)
-                            .fillMaxSize()
-                    )
-                } else {
-                    CircularProgressIndicator(
-                        modifier = Modifier.size(size = 64.dp),
-                        color = Color.Magenta,
-                        strokeWidth = 6.dp
-                    )
+                val painter = rememberAsyncImagePainter(imgLink)
+                Image(
+                    painter = painter,
+                    contentDescription = null,
+                    modifier = Modifier
+                        .background(Color(0x00000000))
+                        .padding(top = 5.dp, bottom = 5.dp)
+                        .weight(60f)
+                        .fillMaxSize()
+                )
+                val painterState = painter.state
+                val viewModel: LibraryViewModel = viewModel()
+                if(painterState is AsyncImagePainter.State.Error) {
+                    viewModel.updateStateLoad(true)
                 }
                 Column(
                     Modifier
