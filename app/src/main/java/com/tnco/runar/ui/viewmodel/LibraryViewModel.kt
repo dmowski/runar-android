@@ -15,7 +15,9 @@ class LibraryViewModel : ViewModel() {
     internal var dbList: List<LibraryItemsModel> = emptyList()
     var lastMenuHeader = MutableLiveData("")
 
-    var stateLoad = MutableLiveData<Boolean>()
+    private val _errorLoad = MutableLiveData<Boolean>()
+    val errorLoad: LiveData<Boolean>
+    get() = _errorLoad
 
     var scrollPositionHistory = MutableLiveData(mutableListOf(0))
 
@@ -38,6 +40,9 @@ class LibraryViewModel : ViewModel() {
                 updateMenuData()
             }
         }
+    }
+    fun updateStateLoad(error: Boolean) {
+        _errorLoad.value = error
     }
 
     private fun updateMenuData() {

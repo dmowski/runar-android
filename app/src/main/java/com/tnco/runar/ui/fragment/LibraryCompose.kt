@@ -234,7 +234,9 @@ private fun FirstMenuItem(
                 )
                 val painterState = painter.state
                 val viewModel: LibraryViewModel = viewModel()
-                viewModel.stateLoad.value = painterState is AsyncImagePainter.State.Success
+                if(painterState is AsyncImagePainter.State.Error) {
+                    viewModel.updateStateLoad(true)
+                }
                 Column(
                     Modifier
                         .fillMaxSize()

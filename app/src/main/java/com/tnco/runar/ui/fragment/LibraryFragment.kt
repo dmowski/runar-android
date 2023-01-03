@@ -21,6 +21,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 const val audioFeature = true
+const val waitingForImages = 3500L
 
 class LibraryFragment : Fragment() {
     val viewModel: LibraryViewModel by viewModels()
@@ -38,8 +39,8 @@ class LibraryFragment : Fragment() {
 
         viewModel.isOnline.observeOnce(viewLifecycleOwner) { online ->
             CoroutineScope(Dispatchers.Main).launch {
-                delay(3500)
-                if (!online && viewModel.stateLoad.value == false) {
+                delay(waitingForImages)
+                if (!online && viewModel.errorLoad.value == true) {
                     Toast.makeText(
                         requireContext(),
                         noInternet,
