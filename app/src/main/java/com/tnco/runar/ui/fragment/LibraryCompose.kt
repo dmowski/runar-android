@@ -232,10 +232,8 @@ private fun FirstMenuItem(
                 val viewModel: LibraryViewModel = viewModel()
                 if(painterState is AsyncImagePainter.State.Error) {
                     viewModel.updateStateLoad(true)
-                } else {
-                    viewModel.updateStateLoad(false)
                 }
-                if (!viewModel.errorLoad.value!!) {
+                if (viewModel.errorLoad?.value == null) {
                     Image(
                         painter = painter,
                         contentDescription = null,
