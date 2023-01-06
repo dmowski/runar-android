@@ -41,13 +41,14 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
     private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
 
         installSplashScreen().apply {
             setKeepOnScreenCondition {
                 viewModel.isLoading.value
             }
         }
+
+        super.onCreate(savedInstanceState)
 
 
         firebaseAnalytics = Firebase.analytics
