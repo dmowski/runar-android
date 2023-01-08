@@ -52,10 +52,48 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
     override fun onCreate(savedInstanceState: Bundle?) {
 
         viewModel.isNetworkAvailable.observe(this) {
-            if(it) {
+            if (it) {
                 CoroutineScope(Dispatchers.IO).launch {
-                    BackendRepository.getLibraryData("ru")
-                    BackendRepository.getLibraryData("en")
+                    try {
+                        // RunarLogger.logDebug("Send hash request")
+                        val hashResp = RetrofitClient.apiInterface.getLibraryHash("ru")
+                        if (hashResp.isSuccessful) {
+                            // RunarLogger.logDebug("Hash GET!: ")
+                            val spr = SharedPreferencesRepository.get()
+                            val oldHash = spr.getLibHash("ru")
+                            val newHash = hashResp.body()?.hash
+                            // RunarLogger.logDebug("oldHash: $oldHash  newHash: $newHash")
+                            if (newHash != null) {
+                                if (oldHash != newHash) {
+                                    // RunarLogger.logDebug("Accepted and started library updating")
+                                    val response = RetrofitClient.apiInterface.getLibraryData("ru")
+                                    if (response.isSuccessful) {
+                                        // RunarLogger.logDebug("Library success: " + response.message().toString())
+                                        val convertedResult =
+                                            DataClassConverters.libRespToItems(response.body()!!)
+                                        if (Locale.getDefault().language == "ru") {
+                                            // RunarLogger.logDebug("Data Loaded and Converted")
+                                            DatabaseRepository.updateLibraryDB(convertedResult)
+                                            //  RunarLogger.logDebug("save new hash")
+                                            spr.putLibHash("ru", newHash)
+                                        } else {
+                                            // RunarLogger.logDebug("Language changed can't update db")
+                                        }
+                                        // RunarLogger.logDebug("work with library done")
+                                    } else {
+                                        //  RunarLogger.logDebug("Library not success: " + response.code().toString())
+                                    }
+                                } else {
+                                    // RunarLogger.logDebug("Library Data is actual, not need to update")
+                                }
+                            }
+                        }
+                    } catch (e: HttpException) {
+                        // RunarLogger.logDebug("Library http error")
+                    } catch (e: Throwable) {
+                        // RunarLogger.logDebug("Library some strange error")
+                        // RunarLogger.logError("Library", e)
+                    }
                 }
             }
         }
