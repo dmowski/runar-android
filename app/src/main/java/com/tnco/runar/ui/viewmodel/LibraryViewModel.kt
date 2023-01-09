@@ -9,6 +9,7 @@ import kotlinx.coroutines.*
 import java.util.concurrent.Executors
 
 class LibraryViewModel : ViewModel() {
+
     private val singleThread = Executors.newSingleThreadExecutor().asCoroutineDispatcher()
 
     val fontSize: LiveData<Float> = MutableLiveData(SharedDataRepository.fontSize)
