@@ -405,15 +405,33 @@ private fun SecondMenuItem(
                         .weight(62f),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Image(
-                        painter = rememberImagePainter(imgLink),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .background(Color(0x00000000))
-                            .padding(top = 5.dp, bottom = 5.dp)
-                            .weight(60f)
-                            .fillMaxSize()
-                    )
+                    val painterRune = rememberAsyncImagePainter(imgLink)
+                    val painterEmpty = rememberAsyncImagePainter(R.drawable.slot_active)
+                    val painterState = painterRune.state
+                    val viewModel: LibraryViewModel = viewModel()
+                    if(painterState is AsyncImagePainter.State.Error) {
+                        viewModel.updateStateLoad(true)
+                    }
+                    if( viewModel.errorLoad.value == null) {
+                        Image(
+                            painter = painterRune,
+                            contentDescription = null,
+                            modifier = Modifier
+                                .background(Color(0x00000000))
+                                .padding(top = 5.dp, bottom = 5.dp)
+                                .weight(60f)
+                                .fillMaxSize()
+                        )
+                    } else {
+                        Image(
+                            painter = painterEmpty,
+                            contentDescription = null,
+                            modifier = Modifier
+                                .background(Color(0x00000000))
+                                .padding(top = 5.dp, bottom = 5.dp)
+                                .weight(60f)
+                                .fillMaxSize())
+                    }
                     Row(
                         Modifier
                             .fillMaxSize()
