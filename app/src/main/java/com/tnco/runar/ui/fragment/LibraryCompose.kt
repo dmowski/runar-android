@@ -1,6 +1,5 @@
 package com.tnco.runar.ui.fragment
 
-
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -27,6 +26,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import coil.compose.AsyncImagePainter
+import coil.compose.rememberAsyncImagePainter
 import coil.compose.rememberImagePainter
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
@@ -54,14 +55,14 @@ internal fun Bars() {
     val pagerState = rememberPagerState(pageCount = 2)
 
     var barColor = colorResource(id = R.color.library_top_bar_header)
-    var barFont = FontFamily(Font(R.font.roboto_medium))
-    var barFontSize = with(LocalDensity.current) { ((fontSize!! * 1.35f)).toSp() }
+    var barFont = FontFamily(Font(R.font.amatic_sc_bold))
+    var barFontSize = with(LocalDensity.current) { ((fontSize!! * 2.4f)).toSp() }
     var navIcon: @Composable (() -> Unit)? = null
 
     if (header != stringResource(id = R.string.library_top_bar_header)) {
         tabsState.value = false
         barColor = colorResource(id = R.color.library_top_bar_header_2)
-        barFont = FontFamily(Font(R.font.roboto_medium))
+        barFont = FontFamily(Font(R.font.amatic_sc_bold))
         barFontSize = with(LocalDensity.current) { fontSize!!.toSp() }
         navIcon = { TopBarIcon() }
     } else tabsState.value = true
@@ -69,12 +70,18 @@ internal fun Bars() {
         topBar = {
             TopAppBar(
                 title = {
-                    Text(
-                        text = header!!,
-                        color = barColor,
-                        fontFamily = barFont,
-                        style = TextStyle(fontSize = barFontSize)
-                    )
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        Text(
+                            text = requireNotNull(header),
+                            color = barColor,
+                            fontFamily = barFont,
+                            style = TextStyle(fontSize = barFontSize),
+                            textAlign = TextAlign.Center
+                        )
+                    }
                 },
                 backgroundColor = colorResource(id = R.color.library_top_bar),
                 navigationIcon = navIcon,
@@ -220,15 +227,29 @@ private fun FirstMenuItem(
                     .weight(62f),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Image(
-                    painter = rememberImagePainter(imgLink),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .background(Color(0x00000000))
-                        .padding(top = 5.dp, bottom = 5.dp)
-                        .weight(60f)
-                        .fillMaxSize()
-                )
+                val painter = rememberAsyncImagePainter(imgLink)
+                val painterState = painter.state
+                val viewModel: LibraryViewModel = viewModel()
+                if(painterState is AsyncImagePainter.State.Error) {
+                    viewModel.updateStateLoad(true)
+                }
+                if (viewModel.errorLoad?.value == null) {
+                    Image(
+                        painter = painter,
+                        contentDescription = null,
+                        modifier = Modifier
+                            .background(Color(0x00000000))
+                            .padding(top = 5.dp, bottom = 5.dp)
+                            .weight(60f)
+                            .fillMaxSize()
+                    )
+                } else {
+                    CircularProgressIndicator(
+                        modifier = Modifier.size(size = 64.dp),
+                        color = Color.Gray,
+                        strokeWidth = 6.dp
+                    )
+                }
                 Column(
                     Modifier
                         .fillMaxSize()

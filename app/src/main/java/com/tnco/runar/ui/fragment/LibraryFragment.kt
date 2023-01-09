@@ -15,8 +15,13 @@ import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.ui.viewmodel.LibraryViewModel
 import com.tnco.runar.util.observeOnce
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 const val audioFeature = true
+private const val WAITING_FOR_IMAGES = 3500L
 
 class LibraryFragment : Fragment() {
     val viewModel: LibraryViewModel by viewModels()
@@ -31,16 +36,19 @@ class LibraryFragment : Fragment() {
         AnalyticsHelper.sendEvent(AnalyticsEvent.LIBRARY_OPENED)
 
         val noInternet = getString(R.string.internet_conn_error1)
+
         viewModel.isOnline.observeOnce(viewLifecycleOwner) { online ->
-            if (!online && viewModel.dbList.isEmpty()) {
-                Toast.makeText(
-                    requireContext(),
-                    noInternet,
-                    Toast.LENGTH_LONG
-                ).show()
+            CoroutineScope(Dispatchers.Main).launch {
+                delay(WAITING_FOR_IMAGES)
+                if (!online && viewModel.errorLoad.value == true) {
+                    Toast.makeText(
+                        requireContext(),
+                        noInternet,
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
             }
         }
-
         val view = ComposeView(requireContext()).apply {
             setContent {
                 Bars()
