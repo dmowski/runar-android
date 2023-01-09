@@ -19,22 +19,13 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
 import com.tnco.runar.R
 import com.tnco.runar.RunarLogger
-import com.tnco.runar.data.remote.RetrofitClient
 import com.tnco.runar.databinding.ActivityMainBinding
 import com.tnco.runar.feature.MusicController
 import com.tnco.runar.receivers.LanguageBroadcastReceiver
-import com.tnco.runar.repository.DatabaseRepository
 import com.tnco.runar.repository.LanguageRepository
 import com.tnco.runar.repository.SharedPreferencesRepository
-import com.tnco.runar.repository.backend.BackendRepository
-import com.tnco.runar.repository.backend.DataClassConverters
 import com.tnco.runar.ui.Navigator
 import com.tnco.runar.ui.viewmodel.MainViewModel
-import com.tnco.runar.util.observeOnce
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import retrofit2.HttpException
 import java.util.*
 
 class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusChangeListener {
@@ -50,54 +41,6 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
     private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
-        viewModel.isNetworkAvailable.observe(this) {
-            if (it) {
-                CoroutineScope(Dispatchers.IO).launch {
-                    try {
-                        // RunarLogger.logDebug("Send hash request")
-                        val hashResp = RetrofitClient.apiInterface.getLibraryHash("ru")
-                        if (hashResp.isSuccessful) {
-                            // RunarLogger.logDebug("Hash GET!: ")
-                            val spr = SharedPreferencesRepository.get()
-                            val oldHash = spr.getLibHash("ru")
-                            val newHash = hashResp.body()?.hash
-                            // RunarLogger.logDebug("oldHash: $oldHash  newHash: $newHash")
-                            if (newHash != null) {
-                                if (oldHash != newHash) {
-                                    // RunarLogger.logDebug("Accepted and started library updating")
-                                    val response = RetrofitClient.apiInterface.getLibraryData("ru")
-                                    if (response.isSuccessful) {
-                                        // RunarLogger.logDebug("Library success: " + response.message().toString())
-                                        val convertedResult =
-                                            DataClassConverters.libRespToItems(response.body()!!)
-                                        if (Locale.getDefault().language == "ru") {
-                                            // RunarLogger.logDebug("Data Loaded and Converted")
-                                            DatabaseRepository.updateLibraryDB(convertedResult)
-                                            //  RunarLogger.logDebug("save new hash")
-                                            spr.putLibHash("ru", newHash)
-                                        } else {
-                                            // RunarLogger.logDebug("Language changed can't update db")
-                                        }
-                                        // RunarLogger.logDebug("work with library done")
-                                    } else {
-                                        //  RunarLogger.logDebug("Library not success: " + response.code().toString())
-                                    }
-                                } else {
-                                    // RunarLogger.logDebug("Library Data is actual, not need to update")
-                                }
-                            }
-                        }
-                    } catch (e: HttpException) {
-                        // RunarLogger.logDebug("Library http error")
-                    } catch (e: Throwable) {
-                        // RunarLogger.logDebug("Library some strange error")
-                        // RunarLogger.logError("Library", e)
-                    }
-                }
-            }
-        }
-
         super.onCreate(savedInstanceState)
         firebaseAnalytics = Firebase.analytics
         LanguageRepository.setSettingsLanguage(this) // set app language from settings
