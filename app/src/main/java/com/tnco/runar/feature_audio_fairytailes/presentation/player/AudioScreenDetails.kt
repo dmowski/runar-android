@@ -1,12 +1,14 @@
 package com.tnco.runar.feature_audio_fairytailes.presentation.player
 
 import androidx.compose.foundation.border
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
-import androidx.compose.runtime.Composable
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -17,6 +19,7 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -27,17 +30,25 @@ import com.tnco.runar.R
 import com.tnco.runar.feature_audio_fairytailes.presentation.player.components.AudioAppBar
 import com.tnco.runar.util.rectShadow
 
+private val DEFAULT_THUMB_RADIUS_MATERIAL_DESIGN = 10.dp
+private val CUSTOM_THUMB_RADIUS = 4.dp
+
 @Composable
 fun AudioScreenDetails(navController: NavController) {
     MainScreen(navController)
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun MainScreen(navController: NavController) {
     val audioTitleText = navController
         .currentBackStackEntry?.arguments?.getString("audioNameText") ?: ""
     val audioGroupText = navController
         .currentBackStackEntry?.arguments?.getString("audioGroupText") ?: ""
+
+    var sliderPosition by remember {
+        mutableStateOf(0f)
+    }
 
     Scaffold(
         topBar = {
@@ -191,8 +202,7 @@ private fun MainScreen(navController: NavController) {
 
                 Row(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 20.dp),
+                        .fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Center
                 ) {
@@ -206,17 +216,45 @@ private fun MainScreen(navController: NavController) {
                         )
                     )
 
-                    Slider(
+                    androidx.compose.material3.Slider(
                         modifier = Modifier
                             .padding(horizontal = 8.dp)
                             .weight(1f, true),
-                        value = 0.3f,
-                        onValueChange = {},
-                        colors = SliderDefaults.colors(
-                            thumbColor = colorResource(id = R.color.audio_thumb_slider),
-                            activeTrackColor = colorResource(id = R.color.audio_thumb_slider),
-                            inactiveTrackColor = colorResource(id = R.color.white_f8)
-                        )
+                        value = sliderPosition,
+                        onValueChange = {
+                            sliderPosition = it
+                        },
+                        thumb = remember {
+                            {
+                                androidx.compose.material3.SliderDefaults.Thumb(
+                                    modifier = Modifier.padding(
+                                        top = DEFAULT_THUMB_RADIUS_MATERIAL_DESIGN - CUSTOM_THUMB_RADIUS,
+                                        start = DEFAULT_THUMB_RADIUS_MATERIAL_DESIGN - CUSTOM_THUMB_RADIUS
+                                    ),
+                                    interactionSource = remember { MutableInteractionSource() },
+                                    colors = androidx.compose.material3.SliderDefaults.colors(
+                                        thumbColor = colorResource(id = R.color.audio_thumb_slider)
+                                    ),
+                                    thumbSize = DpSize(
+                                        CUSTOM_THUMB_RADIUS * 2,
+                                        CUSTOM_THUMB_RADIUS * 2
+                                    )
+                                )
+                            }
+                        },
+                        track = remember {
+                            { sliderPositions ->
+                                androidx.compose.material3.SliderDefaults.Track(
+                                    modifier = Modifier
+                                        .padding(vertical = 8.dp),
+                                    sliderPositions = sliderPositions,
+                                    colors = androidx.compose.material3.SliderDefaults.colors(
+                                        activeTrackColor = colorResource(id = R.color.audio_thumb_slider),
+                                        inactiveTrackColor = colorResource(id = R.color.white_f8)
+                                    ),
+                                )
+                            }
+                        }
                     )
 
                     Text(
