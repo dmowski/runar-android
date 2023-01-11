@@ -32,7 +32,7 @@ object DataStorePreferences {
     suspend fun initialPopulate() {
         saveSwitchers(
             listOf(
-//                DeveloperSwitcher(name = "test", state = false)
+                DeveloperSwitcher(name = "Audio fairy tales displaying", state = true)
             )
         )
     }

@@ -1,11 +1,14 @@
 package com.tnco.runar.ui.viewmodel
 
 import androidx.lifecycle.*
+import com.tnco.runar.model.DeveloperSwitcher
 import com.tnco.runar.model.LibraryItemsModel
 import com.tnco.runar.repository.DatabaseRepository
 import com.tnco.runar.repository.SharedDataRepository
+import com.tnco.runar.repository.data_store.DataStorePreferences
 import com.tnco.runar.util.NetworkMonitor
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.map
 import java.util.concurrent.Executors
 
 class LibraryViewModel : ViewModel() {
@@ -18,7 +21,7 @@ class LibraryViewModel : ViewModel() {
 
     private val _errorLoad = MutableLiveData<Boolean>()
     val errorLoad: LiveData<Boolean>
-    get() = _errorLoad
+        get() = _errorLoad
 
     var scrollPositionHistory = MutableLiveData(mutableListOf(0))
 
@@ -28,6 +31,21 @@ class LibraryViewModel : ViewModel() {
     val isOnline = networkMonitor.isConnected.asLiveData()
 
     private var menuNavData = mutableListOf<String>()
+
+    val audioSwitcher = DataStorePreferences.switchers.map { list ->
+        list.first {
+            it.name == "Audio fairy tales displaying"
+        }
+    }
+
+    fun audioState(audioSw: DeveloperSwitcher?): Boolean {
+        return audioSw?.equals(
+            DeveloperSwitcher(
+                name = "Audio fairy tales displaying",
+                state = true
+            )
+        ) ?: false
+    }
 
     fun getRuneDataFromDB() {
         CoroutineScope(singleThread).launch {

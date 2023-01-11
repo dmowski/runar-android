@@ -25,6 +25,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
@@ -58,6 +59,8 @@ internal fun Bars() {
     var barFont = FontFamily(Font(R.font.amatic_sc_bold))
     var barFontSize = with(LocalDensity.current) { ((fontSize!! * 2.4f)).toSp() }
     var navIcon: @Composable (() -> Unit)? = null
+
+    val audioSw by viewModel.audioSwitcher.asLiveData().observeAsState()
 
     if (header != stringResource(id = R.string.library_top_bar_header)) {
         tabsState.value = false
@@ -94,7 +97,7 @@ internal fun Bars() {
         if (scrollState.isScrollInProgress && scrollState.value > 0) {
             ScrollBars(scrollState)
         }
-        if (tabsState.value && audioFeature) {
+        if (tabsState.value && audioFeature && viewModel.audioState(audioSw)) {
             TabScreen(pagerState, scrollState, fontSize)
         } else {
             Column(
@@ -230,7 +233,7 @@ private fun FirstMenuItem(
                 val painter = rememberAsyncImagePainter(imgLink)
                 val painterState = painter.state
                 val viewModel: LibraryViewModel = viewModel()
-                if(painterState is AsyncImagePainter.State.Error) {
+                if (painterState is AsyncImagePainter.State.Error) {
                     viewModel.updateStateLoad(true)
                 }
                 if (viewModel.errorLoad?.value == null) {
