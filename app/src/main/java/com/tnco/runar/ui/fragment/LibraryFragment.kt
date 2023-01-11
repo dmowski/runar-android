@@ -15,16 +15,14 @@ import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.ui.viewmodel.LibraryViewModel
 import com.tnco.runar.util.observeOnce
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 const val audioFeature = true
 private const val WAITING_FOR_IMAGES = 3500L
 
 class LibraryFragment : Fragment() {
     val viewModel: LibraryViewModel by viewModels()
+    private val uiScope = CoroutineScope(Dispatchers.Main)
 
     @ExperimentalPagerApi
     override fun onCreateView(
@@ -38,7 +36,7 @@ class LibraryFragment : Fragment() {
         val noInternet = getString(R.string.internet_conn_error1)
 
         viewModel.isOnline.observeOnce(viewLifecycleOwner) { online ->
-            CoroutineScope(Dispatchers.Main).launch {
+            uiScope.launch {
                 delay(WAITING_FOR_IMAGES)
                 if (!online && viewModel.errorLoad.value == true) {
                     Toast.makeText(
@@ -79,5 +77,10 @@ class LibraryFragment : Fragment() {
     override fun onDetach() {
         super.onDetach()
         viewModelStore.clear()
+    }
+
+    override fun onDestroy() {
+        uiScope.cancel()
+        super.onDestroy()
     }
 }
