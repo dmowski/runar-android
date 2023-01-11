@@ -10,6 +10,7 @@ import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.data.local.AppDB
 import com.tnco.runar.data.local.DataDB
 import com.tnco.runar.feature.MusicController
+import com.tnco.runar.repository.data_store.DataStorePreferences
 import com.tnco.runar.repository.LanguageRepository
 import com.tnco.runar.repository.SharedDataRepository
 import com.tnco.runar.repository.SharedPreferencesRepository
@@ -27,6 +28,7 @@ class App : Application() {
         AnalyticsHelper.init()
         createNotificationChannel()
         NetworkMonitor.init(this)
+        DataStorePreferences.init(this)
         super.onCreate()
     }
 
