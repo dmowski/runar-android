@@ -78,7 +78,7 @@ internal fun AudioHeader(
 @Composable
 internal fun AudioDetailRow(
     audioNameText: String,
-    audioGroupText: String,
+    audioCategoryText: String,
     image: ImageVector = Icons.Filled.LibraryMusic,
     time: String = "3:27",
     navController: NavController
@@ -88,7 +88,7 @@ internal fun AudioDetailRow(
             .fillMaxWidth()
             .clickable {
                 val direction = LibraryFragmentDirections
-                    .actionLibraryFragmentToAudioDetailsFragment(audioNameText, audioGroupText)
+                    .actionLibraryFragmentToAudioDetailsFragment(audioNameText, audioCategoryText)
                 navController.navigate(direction)
             }
             .padding(

@@ -59,7 +59,7 @@ private fun AudioFairyTalesList(
             items(fairyTalesEntry.value) { audioFairyTale ->
                 AudioDetailRow(
                     audioNameText = audioFairyTale,
-                    audioGroupText = fairyTalesEntry.key,
+                    audioCategoryText = fairyTalesEntry.key,
                     navController = navController
                 )
             }

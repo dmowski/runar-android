@@ -20,7 +20,7 @@
             android:name="audioNameText"
             app:argType="string" />
         <argument
-            android:name="audioGroupText"
+            android:name="audioCategoryText"
             app:argType="string" />
     </fragment>
 

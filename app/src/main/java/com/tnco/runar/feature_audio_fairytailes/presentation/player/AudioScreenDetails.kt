@@ -12,6 +12,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -19,9 +20,7 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.DpSize
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.unit.*
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.navigation.NavController
@@ -43,8 +42,14 @@ fun AudioScreenDetails(navController: NavController) {
 private fun MainScreen(navController: NavController) {
     val audioTitleText = navController
         .currentBackStackEntry?.arguments?.getString("audioNameText") ?: ""
-    val audioGroupText = navController
-        .currentBackStackEntry?.arguments?.getString("audioGroupText") ?: ""
+    val audioCategoryText = navController
+        .currentBackStackEntry?.arguments?.getString("audioCategoryText") ?: ""
+
+    val config = LocalConfiguration.current
+    val audioTitleTextSize: TextUnit = if (config.screenWidthDp <= 360) 14.sp else 16.sp
+    val audioCategoryTextSize: TextUnit = if (config.screenWidthDp <= 360) 10.sp else 12.sp
+    val playButtonSize: Dp = if (config.screenWidthDp <= 360) 48.dp else 56.dp
+    val skipAndRewindButtonsSize = if (config.screenWidthDp <= 360) 24.dp else 32.dp
 
     var sliderPosition by remember {
         mutableStateOf(0f)
@@ -70,8 +75,8 @@ private fun MainScreen(navController: NavController) {
                 modifier = Modifier
                     .constrainAs(audioImage) {
                         top.linkTo(parent.top, 16.dp)
-                        start.linkTo(parent.start, 54.dp)
-                        end.linkTo(parent.end, 54.dp)
+                        start.linkTo(parent.start, 16.dp)
+                        end.linkTo(parent.end, 16.dp)
                         width = Dimension.fillToConstraints
                     }
                     .aspectRatio(1f)
@@ -109,7 +114,7 @@ private fun MainScreen(navController: NavController) {
                 text = audioTitleText,
                 style = TextStyle(
                     color = colorResource(id = R.color.white_f8),
-                    fontSize = 14.sp,
+                    fontSize = audioTitleTextSize,
                     fontFamily = FontFamily(Font(R.font.roboto_medium)),
                     lineHeight = 21.sp,
                     textAlign = TextAlign.Center
@@ -123,10 +128,10 @@ private fun MainScreen(navController: NavController) {
                         start.linkTo(parent.start, 54.dp)
                         end.linkTo(parent.end, 54.dp)
                     },
-                text = audioGroupText,
+                text = audioCategoryText,
                 style = TextStyle(
                     color = colorResource(id = R.color.white_f8),
-                    fontSize = 10.sp,
+                    fontSize = audioCategoryTextSize,
                     fontFamily = FontFamily(Font(R.font.roboto_light)),
                     lineHeight = 16.sp,
                     textAlign = TextAlign.Center
@@ -147,12 +152,13 @@ private fun MainScreen(navController: NavController) {
                     modifier = Modifier
                         .fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center
+                    horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
                     IconButton(
                         onClick = { }
                     ) {
                         Icon(
+                            modifier = Modifier.size(skipAndRewindButtonsSize),
                             painter = painterResource(id = R.drawable.skip_previous),
                             contentDescription = "Skip Previous",
                             tint = colorResource(id = R.color.audio_play_panel)
@@ -163,6 +169,7 @@ private fun MainScreen(navController: NavController) {
                         onClick = { }
                     ) {
                         Icon(
+                            modifier = Modifier.size(skipAndRewindButtonsSize),
                             painter = painterResource(id = R.drawable.replay_15),
                             contentDescription = "Replay 15",
                             tint = colorResource(id = R.color.audio_play_panel)
@@ -170,9 +177,11 @@ private fun MainScreen(navController: NavController) {
                     }
 
                     IconButton(
+                        modifier = Modifier.size(playButtonSize),
                         onClick = { }
                     ) {
                         Icon(
+                            modifier = Modifier.size(playButtonSize),
                             painter = painterResource(id = R.drawable.play_circle_button),
                             contentDescription = "Play Button",
                             tint = colorResource(id = R.color.audio_play_button)
@@ -183,6 +192,7 @@ private fun MainScreen(navController: NavController) {
                         onClick = { }
                     ) {
                         Icon(
+                            modifier = Modifier.size(skipAndRewindButtonsSize),
                             painter = painterResource(id = R.drawable.forward_15),
                             contentDescription = "Forward 15",
                             tint = colorResource(id = R.color.audio_play_panel)
@@ -193,6 +203,7 @@ private fun MainScreen(navController: NavController) {
                         onClick = { }
                     ) {
                         Icon(
+                            modifier = Modifier.size(skipAndRewindButtonsSize),
                             painter = painterResource(id = R.drawable.skip_next),
                             contentDescription = "Skip Next",
                             tint = colorResource(id = R.color.audio_play_panel)
