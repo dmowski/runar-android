@@ -27,15 +27,16 @@ import retrofit2.Response
 
 class MainViewModel : ViewModel() {
 
-    private val _isLoading = MutableStateFlow(true)
-    val isLoading = _isLoading.asStateFlow()
-
-    init {
-        viewModelScope.launch {
-            delay(2000)
-            _isLoading.value = false
-        }
-    }
+//          Splash API code - do not delete
+//    private val _isLoading = MutableStateFlow(true)
+//    val isLoading = _isLoading.asStateFlow()
+//
+//    init {
+//        viewModelScope.launch {
+//            delay(2000)
+//            _isLoading.value = false
+//        }
+//    }
 
     private val networkMonitor = NetworkMonitor.get()
     val isNetworkAvailable = networkMonitor.isConnected.asLiveData()

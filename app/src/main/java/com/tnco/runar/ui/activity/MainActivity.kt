@@ -42,11 +42,12 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
-        installSplashScreen().apply {
-            setKeepOnScreenCondition {
-                viewModel.isLoading.value
-            }
-        }
+//        Splash API code - do not delete
+//        installSplashScreen().apply {
+//            setKeepOnScreenCondition {
+//                viewModel.isLoading.value
+//            }
+//        }
 
         super.onCreate(savedInstanceState)
 
