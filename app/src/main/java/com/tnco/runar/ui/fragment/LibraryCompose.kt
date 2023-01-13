@@ -220,15 +220,29 @@ private fun FirstMenuItem(
                     .weight(62f),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Image(
-                    painter = rememberImagePainter(imgLink),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .background(Color(0x00000000))
-                        .padding(top = 5.dp, bottom = 5.dp)
-                        .weight(60f)
-                        .fillMaxSize()
-                )
+                val painter = rememberAsyncImagePainter(imgLink)
+                val painterState = painter.state
+                val viewModel: LibraryViewModel = viewModel()
+                if(painterState is AsyncImagePainter.State.Error) {
+                    viewModel.updateStateLoad(true)
+                }
+                if (viewModel.errorLoad?.value == null) {
+                    Image(
+                        painter = painter,
+                        contentDescription = null,
+                        modifier = Modifier
+                            .background(Color(0x00000000))
+                            .padding(top = 5.dp, bottom = 5.dp)
+                            .weight(60f)
+                            .fillMaxSize()
+                    )
+                } else {
+                    CircularProgressIndicator(
+                        modifier = Modifier.size(size = 64.dp),
+                        color = Color.Gray,
+                        strokeWidth = 6.dp
+                    )
+                }
                 Column(
                     Modifier
                         .fillMaxSize()

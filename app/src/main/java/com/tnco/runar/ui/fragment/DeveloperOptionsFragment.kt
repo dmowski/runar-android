@@ -24,10 +24,12 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.tnco.runar.R
+import com.tnco.runar.model.DeveloperSwitcher
 import com.tnco.runar.ui.viewmodel.DeveloperOptionsViewModel
 
 class DeveloperOptionsFragment : Fragment() {
@@ -47,7 +49,7 @@ class DeveloperOptionsFragment : Fragment() {
 private fun DeveloperOptionsScreen(navController: NavController) {
     val viewModel: DeveloperOptionsViewModel = viewModel()
     val fontSize by viewModel.fontSize.observeAsState(0f)
-    val devSwitcherStates = viewModel.devSwitcherStates
+    val devSwitcherStates by viewModel.switchers.asLiveData().observeAsState()
 
     @Composable
     fun TopBar() = TopAppBar(
@@ -64,20 +66,17 @@ private fun DeveloperOptionsScreen(navController: NavController) {
     )
 
     @Composable
-    fun Switchers() {
-        devSwitcherStates.forEach { switcher ->
+    fun Switchers(switchers: List<DeveloperSwitcher>) {
+        switchers.forEach { switcher ->
             SwitcherMenuItem(
                 fontSize = fontSize,
-                header = switcher.key,
+                header = switcher.name,
                 checkAction = {
-                    viewModel.putSwitcherState(switcher.key, it)
+                    viewModel.saveSwitcher(switcher.copy(state = !switcher.state))
                 },
-                state = devSwitcherStates[switcher.key] ?: false
+                state = switcher.state
             ) {
-                viewModel.putSwitcherState(
-                    switcher.key,
-                    devSwitcherStates[switcher.key]?.not() ?: false
-                )
+                viewModel.saveSwitcher(switcher.copy(state = !switcher.state))
             }
         }
     }
@@ -98,7 +97,9 @@ private fun DeveloperOptionsScreen(navController: NavController) {
                     bottom = paddingValues.calculateBottomPadding()
                 )
         ) {
-            Switchers()
+            devSwitcherStates?.let {
+                Switchers(it)
+            }
         }
     }
 }
