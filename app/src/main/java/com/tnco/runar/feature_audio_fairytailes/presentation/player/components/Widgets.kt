@@ -1,13 +1,15 @@
 package com.tnco.runar.feature_audio_fairytailes.presentation.player.components
 
+import android.graphics.drawable.Icon
+import android.media.Image
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Divider
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.LibraryMusic
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -27,7 +29,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import androidx.navigation.NavController
 import com.tnco.runar.R
+import com.tnco.runar.ui.fragment.LibraryFragmentDirections
 
 @Composable
 internal fun AudioHeader(
@@ -73,13 +77,20 @@ internal fun AudioHeader(
 
 @Composable
 internal fun AudioDetailRow(
-    name: String,
+    audioNameText: String,
+    audioCategoryText: String,
     image: ImageVector = Icons.Filled.LibraryMusic,
-    time: String = "3:27"
+    time: String = "3:27",
+    navController: NavController
 ) {
     Surface(
         modifier = Modifier
             .fillMaxWidth()
+            .clickable {
+                val direction = LibraryFragmentDirections
+                    .actionLibraryFragmentToAudioDetailsFragment(audioNameText, audioCategoryText)
+                navController.navigate(direction)
+            }
             .padding(
                 start = 16.dp,
                 end = 16.dp,
@@ -128,7 +139,7 @@ internal fun AudioDetailRow(
                     contentAlignment = Alignment.CenterStart
                 ) {
                     Text(
-                        text = name,
+                        text = audioNameText,
                         style = TextStyle(
                             color = colorResource(id = R.color.audio_name_text),
                             fontSize = 16.sp,
@@ -171,10 +182,43 @@ internal fun AudioDetailRow(
     }
 }
 
+@Composable
+internal fun AudioAppBar(
+    title: String,
+    icon: ImageVector = Icons.Filled.ArrowBack,
+    navController: NavController
+) {
+    TopAppBar(
+        title = {
+            Text(
+                text = title,
+                style = TextStyle(
+                    color = colorResource(id = R.color.audio_top_app_bar_header),
+                    fontSize = 24.sp,
+                    fontFamily = FontFamily(Font(R.font.roboto_medium))
+                )
+            )
+        },
+        backgroundColor = colorResource(id = R.color.audio_top_app_bar),
+        navigationIcon = {
+            IconButton(
+                onClick = { navController.popBackStack() }
+            ) {
+                Icon(
+                    imageVector = icon,
+                    contentDescription = "Arrow Back",
+                    tint = colorResource(id = R.color.audio_top_app_bar_header)
+                )
+            }
+        },
+        elevation = 0.dp
+    )
+}
+
 @Preview
 @Composable
 private fun AudioDetailRowPreview() {
-    AudioDetailRow(name = "Сказка о пряничке")
+    // AudioDetailRow(name = "Сказка о пряничке")
 }
 
 @Preview
