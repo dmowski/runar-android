@@ -227,6 +227,7 @@ private fun FirstMenuItem(
                     .weight(62f),
                 verticalAlignment = Alignment.CenterVertically
             ) {
+                val painterEmpty = painterResource(R.drawable.empty)
                 val painter = rememberAsyncImagePainter(imgLink)
                 val painterState = painter.state
                 val viewModel: LibraryViewModel = viewModel()
@@ -244,10 +245,14 @@ private fun FirstMenuItem(
                             .fillMaxSize()
                     )
                 } else {
-                    CircularProgressIndicator(
-                        modifier = Modifier.size(size = 64.dp),
-                        color = Color.Gray,
-                        strokeWidth = 6.dp
+                    Image(
+                        painter = painterEmpty,
+                        contentDescription = null,
+                        modifier = Modifier
+                            .background(Color(0x00000000))
+                            .padding(top = 5.dp, bottom = 5.dp)
+                            .weight(60f)
+                            .fillMaxSize()
                     )
                 }
                 Column(
@@ -406,7 +411,7 @@ private fun SecondMenuItem(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     val painterRune = rememberAsyncImagePainter(imgLink)
-                    val painterEmpty = rememberAsyncImagePainter(R.drawable.slot_active)
+                    val painterEmpty = painterResource(R.drawable.slot_active)
                     val painterState = painterRune.state
                     val viewModel: LibraryViewModel = viewModel()
                     if(painterState is AsyncImagePainter.State.Error) {
