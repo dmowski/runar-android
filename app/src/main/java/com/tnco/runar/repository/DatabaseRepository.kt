@@ -9,14 +9,16 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class DatabaseRepository @Inject constructor() {
+class DatabaseRepository @Inject constructor(
+    private val dataDB: DataDB
+) {
     private var appDao = AppDB.getLayoutDB().appDAO()
 
-    private var dataDao = DataDB.getDataDB().dataDAO()
+    private var dataDao = dataDB.dataDAO()
 
     fun reinit() {
         appDao = AppDB.getLayoutDB().appDAO()
-        dataDao = DataDB.getDataDB().dataDAO()
+        dataDao = dataDB.dataDAO()
     }
 
     fun notShow(id: Int) {

@@ -8,7 +8,6 @@ import android.os.Build
 import android.util.Log
 import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.data.local.AppDB
-import com.tnco.runar.data.local.DataDB
 import com.tnco.runar.repository.LanguageRepository
 import com.tnco.runar.repository.SharedDataRepository
 import com.tnco.runar.services.PushService.Companion.REMINDER_CHANNEL_ID
@@ -26,7 +25,6 @@ class App : Application() {
 
     override fun onCreate() {
         AppDB.init(this)
-        DataDB.init(this)
         super.onCreate()
         sharedDataRepository.init(this)
         languageRepository.setInitialSettingsLanguage(this)
