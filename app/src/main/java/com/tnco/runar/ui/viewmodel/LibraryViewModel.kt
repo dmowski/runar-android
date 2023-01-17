@@ -18,6 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class LibraryViewModel @Inject constructor(
     private val databaseRepository: DatabaseRepository,
+    private val networkMonitor: NetworkMonitor,
     sharedDataRepository: SharedDataRepository
 ) : ViewModel() {
     private val singleThread = Executors.newSingleThreadExecutor().asCoroutineDispatcher()
@@ -30,7 +31,6 @@ class LibraryViewModel @Inject constructor(
 
     var menuData = MutableLiveData<List<LibraryItemsModel>>(emptyList())
 
-    private val networkMonitor = NetworkMonitor.get()
     val isOnline = networkMonitor.isConnected.asLiveData()
 
     private var menuNavData = mutableListOf<String>()

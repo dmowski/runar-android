@@ -5,6 +5,7 @@ import android.media.MediaPlayer
 import android.net.Uri
 import com.tnco.runar.R
 import com.tnco.runar.repository.SharedPreferencesRepository
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -15,7 +16,8 @@ import javax.inject.Singleton
 
 @Singleton
 class MusicController @Inject constructor(
-    private val preferencesRepository: SharedPreferencesRepository
+    private val preferencesRepository: SharedPreferencesRepository,
+    @ApplicationContext context: Context
 ) {
 
     private var musicList = arrayOf(
@@ -32,7 +34,7 @@ class MusicController @Inject constructor(
     var mainStatus = false
     var onboardingStatus = false
 
-    fun init(context: Context) {
+    init {
         currentSongPos = getRandomSongPos()
         mediaPlayer = MediaPlayer.create(context, musicList[currentSongPos])
         mediaPlayer.setVolume(log1, log1)

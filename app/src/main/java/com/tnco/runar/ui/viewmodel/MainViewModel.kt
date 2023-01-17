@@ -28,10 +28,11 @@ import retrofit2.Response
 class MainViewModel @Inject constructor(
     private val preferencesRepository: SharedPreferencesRepository,
     private val backendRepository: BackendRepository,
+    private val databaseRepository: DatabaseRepository,
+    private val networkMonitor: NetworkMonitor,
     sharedDataRepository: SharedDataRepository
 ) : ViewModel() {
 
-    private val networkMonitor = NetworkMonitor.get()
     val isNetworkAvailable = networkMonitor.isConnected.asLiveData()
 
     val fontSize: LiveData<Float> = MutableLiveData(sharedDataRepository.fontSize)
@@ -40,7 +41,7 @@ class MainViewModel @Inject constructor(
 //    val selectedIndices = mutableListOf<Int>()
 
     var readRunes: LiveData<List<RunesItemsModel>> =
-        DatabaseRepository.getRunesGenerator().asLiveData()
+        databaseRepository.getRunesGenerator().asLiveData()
     val runesResponse = MutableLiveData<NetworkResult<List<RunesItemsModel>>>()
 
     val runePattern = mutableListOf<String>()
@@ -142,7 +143,7 @@ class MainViewModel @Inject constructor(
             response.isSuccessful -> {
                 val convertedResult =
                     DataClassConverters.runesRespToItems(response.body()!!)
-                DatabaseRepository.updateRunesGeneratorDB(convertedResult)
+                databaseRepository.updateRunesGeneratorDB(convertedResult)
                 NetworkResult.Success(convertedResult)
             }
             else -> NetworkResult.Error(response.errorBody().toString())

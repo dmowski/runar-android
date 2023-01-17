@@ -20,9 +20,12 @@ class LanguageBroadcastReceiver : BroadcastReceiver() {
     @Inject
     lateinit var sharedPreferencesRepository: SharedPreferencesRepository
 
+    @Inject
+    lateinit var databaseRepository: DatabaseRepository
+
     override fun onReceive(context: Context?, intent: Intent?) {
         AppDB.init(context!!) // TODO
-        DatabaseRepository.reinit()
+        databaseRepository.reinit()
         sharedDataRepository.init(context)
         sharedPreferencesRepository.changeSettingsLanguage(Locale.getDefault().language)
     }

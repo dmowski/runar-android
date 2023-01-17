@@ -14,8 +14,11 @@ import okhttp3.ResponseBody
 import retrofit2.HttpException
 import retrofit2.Response
 import java.util.*
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class BackendRepository constructor(
+@Singleton
+class BackendRepository @Inject constructor(
     private val preferencesRepository: SharedPreferencesRepository,
     private val databaseRepository: DatabaseRepository,
     private val libraryApi: LibraryApi,

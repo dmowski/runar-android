@@ -5,11 +5,17 @@ import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class NetworkMonitor private constructor(context: Context) {
+@Singleton
+class NetworkMonitor @Inject constructor(
+    @ApplicationContext context: Context
+) {
 
     private val connectivityManager =
         context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
@@ -47,20 +53,5 @@ class NetworkMonitor private constructor(context: Context) {
         val activeNetwork = connectivityManager.activeNetwork
         return connectivityManager.getNetworkCapabilities(activeNetwork)
             ?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) == true
-    }
-
-    companion object {
-        @Volatile
-        private lateinit var networkMonitor: NetworkMonitor
-
-        fun init(context: Context) {
-            synchronized(this) {
-                networkMonitor = NetworkMonitor(context)
-            }
-        }
-
-        fun get(): NetworkMonitor {
-            return networkMonitor
-        }
     }
 }

@@ -5,9 +5,11 @@ import com.tnco.runar.data.local.AppDB
 import com.tnco.runar.data.local.DataDB
 import com.tnco.runar.model.*
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
+import javax.inject.Singleton
 
-object DatabaseRepository {
-
+@Singleton
+class DatabaseRepository @Inject constructor() {
     private var appDao = AppDB.getLayoutDB().appDAO()
 
     private var dataDao = DataDB.getDataDB().dataDAO()

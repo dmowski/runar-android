@@ -9,11 +9,9 @@ import android.util.Log
 import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.data.local.AppDB
 import com.tnco.runar.data.local.DataDB
-import com.tnco.runar.feature.MusicController
 import com.tnco.runar.repository.LanguageRepository
 import com.tnco.runar.repository.SharedDataRepository
 import com.tnco.runar.services.PushService.Companion.REMINDER_CHANNEL_ID
-import com.tnco.runar.util.NetworkMonitor
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
 
@@ -24,21 +22,16 @@ class App : Application() {
     lateinit var languageRepository: LanguageRepository
 
     @Inject
-    lateinit var musicController: MusicController
-
-    @Inject
     lateinit var sharedDataRepository: SharedDataRepository
 
     override fun onCreate() {
         AppDB.init(this)
         DataDB.init(this)
-        musicController.init(this)
+        super.onCreate()
         sharedDataRepository.init(this)
         languageRepository.setInitialSettingsLanguage(this)
         createNotificationChannel()
         AnalyticsHelper.init()
-        NetworkMonitor.init(this)
-        super.onCreate()
     }
 
     private fun createNotificationChannel() {
