@@ -5,12 +5,15 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.ktx.Firebase
 import com.tnco.runar.enums.AnalyticsEvent
+import javax.inject.Inject
+import javax.inject.Singleton
 
-object AnalyticsHelper {
+@Singleton
+class AnalyticsHelper @Inject constructor(
+    private var firebaseAnalytics: FirebaseAnalytics
+) {
 
-    private lateinit var firebaseAnalytics: FirebaseAnalytics
-
-    fun init() {
+    init {
         firebaseAnalytics = Firebase.analytics
     }
 
