@@ -1,11 +1,14 @@
 package com.tnco.runar.ui.activity
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.Context
 import android.content.IntentFilter
 import android.media.AudioFocusRequest
 import android.media.AudioManager
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import androidx.activity.viewModels
@@ -26,6 +29,7 @@ import com.tnco.runar.feature.MusicController
 import com.tnco.runar.receivers.LanguageBroadcastReceiver
 import com.tnco.runar.repository.LanguageRepository
 import com.tnco.runar.repository.SharedPreferencesRepository
+import com.tnco.runar.services.PushService
 import com.tnco.runar.ui.Navigator
 import com.tnco.runar.ui.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -57,6 +61,7 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         firebaseAnalytics = Firebase.analytics
+        createNotificationChannel()
         languageRepository.changeLanguageAndUpdateRepo(this, preferencesRepository.language) // set app language from settings
         // status bar color
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
@@ -174,6 +179,17 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
         } else {
             @Suppress("DEPRECATION")
             audioManager.abandonAudioFocus(this)
+        }
+    }
+
+    private fun createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            Log.d("KEYKAK", "in create notification channel")
+            val name = getString(R.string.push_general_notification_channel_name)
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel(PushService.REMINDER_CHANNEL_ID, name, importance)
+            val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            manager.createNotificationChannel(channel)
         }
     }
 }
