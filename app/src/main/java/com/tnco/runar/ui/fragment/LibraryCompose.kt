@@ -1,5 +1,6 @@
 package com.tnco.runar.ui.fragment
 
+import android.util.Log
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -242,14 +243,14 @@ private fun FirstMenuItem(
                 if(painterState is AsyncImagePainter.State.Error) {
                     viewModel.updateStateLoad(true)
                 }
-                when (true) {
-                    (painterState is AsyncImagePainter.State.Error) ->
+                when (painterState) {
+                   is AsyncImagePainter.State.Error ->
                         CircularProgressIndicator(
                         modifier = Modifier.offset(x = (-25).dp),
                         color = Color.Gray,
                         strokeWidth = 6.dp)
-                    (painterState is AsyncImagePainter.State.Success) -> viewModel.updateStateLoad(false)
-                    else -> false
+                   is AsyncImagePainter.State.Success -> viewModel.updateStateLoad(false)
+                    else -> viewModel.updateStateLoad(false)
                 }
                 Column(
                     Modifier
