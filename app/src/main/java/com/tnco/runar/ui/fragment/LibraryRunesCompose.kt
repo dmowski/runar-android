@@ -84,11 +84,11 @@ internal fun RuneDescription(
                             .padding(12.dp, 6.dp)
                             .border(
                                 width = 1.dp,
-                                color = colorResource(R.color.lib_rune_tag_border),
+                                color = colorResource(R.color.lib_rune_tag_border).copy(alpha = 0.1f),
                                 shape = RoundedCornerShape(10.dp)
                             )
                             .background(
-                                color = Color.Black.copy(alpha = 0.7f),
+                                color = colorResource(R.color.lib_rune_tag_background),
                                 shape = RoundedCornerShape(10.dp)
                             )
                             .padding(12.dp, 6.dp)
