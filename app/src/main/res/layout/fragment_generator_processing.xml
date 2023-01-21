@@ -46,14 +46,6 @@
         app:layout_constraintGuide_percent="0.86" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/generator_top_header_guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.25" />
-
-
-    <androidx.constraintlayout.widget.Guideline
         android:id="@+id/generator_top_button_guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -136,13 +128,6 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.72" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/generator_bottom_image_guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.52" />
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/generator_description_text_view"
         android:layout_width="0dp"
@@ -161,14 +146,14 @@
             android:id="@+id/generator_image_group"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginLeft="64dp"
-            android:layout_marginTop="34dp"
-            android:layout_marginRight="64dp"
-            android:layout_marginBottom="24dp"
-            android:scaleType="centerCrop"
+            android:padding="2dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="40dp"
             app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintWidth_percent="70"
+            app:layout_constraintHeight_percent="70"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/generator_text_view" />
@@ -181,14 +166,14 @@
             android:layout_marginLeft="40dp"
             android:layout_marginTop="10dp"
             android:layout_marginRight="40dp"
-            android:indeterminate="false"
+            app:layout_constraintWidth_percent="70"
+            app:layout_constraintHeight_percent="70"
+            app:layout_constraintDimensionRatio="1:1"
             android:max="100"
             android:progress="65"
             app:layout_constraintBottom_toBottomOf="parent"
             android:progressDrawable="@drawable/circular_progress_bar"
-            app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/generator_text_view" />
 
