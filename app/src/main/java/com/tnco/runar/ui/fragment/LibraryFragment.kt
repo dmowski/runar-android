@@ -35,16 +35,12 @@ class LibraryFragment : Fragment() {
         val toast = Toast.makeText(requireContext(), noInternet, Toast.LENGTH_SHORT)
         viewModel.errorLoad.observe(viewLifecycleOwner) {
             uiScope.launch {
-                delay(WAITING_FOR_IMAGES)
-                if (!online && viewModel.errorLoad.value == true) {
-                    Toast.makeText(
-                        requireContext(),
-                        noInternet,
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
+                if (viewModel.isOnline.value == null && viewModel.errorLoad.value == true) {
+                    toast.show()
+                } else toast.cancel()
             }
         }
+
         val view = ComposeView(requireContext()).apply {
             setContent {
                 Bars()
