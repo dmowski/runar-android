@@ -70,7 +70,7 @@ task installGitHook(type: Copy) {
     fileMode 0775
 }
 
-tasks.getByPath(':app:preBuild').dependsOn installGitHook
+//tasks.getByPath(':app:preBuild').dependsOn installGitHook
 
 ktlint {
     disabledRules = ["no-wildcard-imports", "import-ordering"]
