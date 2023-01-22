@@ -321,7 +321,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/runes_recycler_view"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/lineBottomRunes"
         app:layout_constraintEnd_toStartOf="@+id/lineEndText"
@@ -334,6 +334,8 @@
         android:layout_height="wrap_content"
         android:animateLayoutChanges="true"
         android:animationCache="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.0"
         app:layout_constraintEnd_toStartOf="@+id/lineEndText"
         app:layout_constraintStart_toStartOf="@+id/lineStartText"
         app:layout_constraintTop_toTopOf="@+id/lineRunesTop1"

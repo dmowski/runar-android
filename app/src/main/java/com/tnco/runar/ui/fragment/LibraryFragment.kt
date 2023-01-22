@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.tnco.runar.R
 import com.tnco.runar.analytics.AnalyticsHelper
@@ -43,7 +44,7 @@ class LibraryFragment : Fragment() {
 
         val view = ComposeView(requireContext()).apply {
             setContent {
-                Bars()
+                LibraryBars(findNavController())
             }
         }
         var header = getString(R.string.library_top_bar_header)

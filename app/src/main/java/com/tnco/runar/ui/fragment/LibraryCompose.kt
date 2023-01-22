@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
+import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
@@ -46,7 +47,7 @@ private const val TO_LAST_SCROLLSTATE = 2
 
 @ExperimentalPagerApi
 @Composable
-internal fun Bars() {
+internal fun LibraryBars(navController: NavController) {
     val viewModel: LibraryViewModel = viewModel()
     val fontSize by viewModel.fontSize.observeAsState()
     val header by viewModel.lastMenuHeader.observeAsState()
@@ -96,7 +97,7 @@ internal fun Bars() {
             ScrollBars(scrollState)
         }
         if (tabsState.value && audioFeature) {
-            TabScreen(pagerState, scrollState, fontSize)
+            TabScreen(pagerState, scrollState, fontSize, navController)
         } else {
             Column(
                 modifier = Modifier
