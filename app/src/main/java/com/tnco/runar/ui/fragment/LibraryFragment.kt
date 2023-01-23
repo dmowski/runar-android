@@ -32,8 +32,10 @@ class LibraryFragment : Fragment() {
     ): View {
         viewModel.getRuneDataFromDB()
         AnalyticsHelper.sendEvent(AnalyticsEvent.LIBRARY_OPENED)
+
         val noInternet = getString(R.string.internet_conn_error1)
         val toast = Toast.makeText(requireContext(), noInternet, Toast.LENGTH_SHORT)
+
         viewModel.errorLoad.observe(viewLifecycleOwner) {
             uiScope.launch {
                 if (viewModel.isOnline.value == null && viewModel.errorLoad.value == true) {
