@@ -1,5 +1,6 @@
 package com.tnco.runar.ui.fragment
 
+import android.graphics.drawable.AnimatedVectorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
@@ -66,6 +67,12 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentLayoutInitBinding.bind(view)
+        binding.seventhRune.setOnClickListener {
+            Log.d("TAG", "seventh click - ${it.id}")
+            binding.anim.isVisible = true
+            val drawable: AnimatedVectorDrawable = binding.anim.drawable as AnimatedVectorDrawable
+            drawable.start()
+        }
 
         val listOfView =
             listOf(binding.descriptionButtonFrame, binding.exitButton, binding.infoButton)
@@ -365,6 +372,12 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
             val runeId = getUniqueRune()
             val ims = context?.assets?.open("runes/$runeId.png")
             val runeImage = Drawable.createFromStream(ims, null)
+
+            if(slot == binding.seventhRune){
+                binding.anim.isVisible = true
+                val drawable: AnimatedVectorDrawable = binding.anim.drawable as AnimatedVectorDrawable
+                drawable.start()
+            }
 
             slot.background = runeImage
             (slot.getChildAt(0) as TextView).visibility = View.INVISIBLE
