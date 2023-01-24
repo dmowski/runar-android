@@ -1,5 +1,6 @@
 package com.tnco.runar.ui.fragment
 
+import android.graphics.drawable.AnimatedVectorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
@@ -67,6 +68,13 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentLayoutInitBinding.bind(view)
 
+        binding.seventhRune.setOnClickListener {
+            Log.d("TAG", "seventh click - ${it.id}")
+            binding.anim.isVisible = true
+            val drawable: AnimatedVectorDrawable = binding.anim.drawable as AnimatedVectorDrawable
+            drawable.start()
+        }
+
         val listOfView =
             listOf(binding.descriptionButtonFrame, binding.exitButton, binding.infoButton)
         listOfView.setOnCLickListenerForAll(this)
@@ -105,7 +113,9 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
             slots = arrayOf(it.slot1, it.slot2, it.slot3, it.slot4, it.slot5, it.slot6, it.slot7)
 
             for (v in views.indices) {
+                Log.d("TAG", "For v ${v}")
                 views[v].text = slots[v].toString()
+                Log.d("TAG", "For v 2 ${views[v].text}")
             }
 
             for (i in 0..6) {
@@ -127,6 +137,8 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
                 2, 4 -> {
                     val constraintsSet = ConstraintSet()
                     constraintsSet.clone(layoutFrame)
+                    Log.d("TAG", "2 4 - ${constraintsSet.knownIds}")
+                    Log.d("TAG", "2 - 4 - ${layoutFrame.id}")
                     constraintsSet.clear(R.id.third_rune, ConstraintSet.START)
                     constraintsSet.clear(R.id.seventh_rune, ConstraintSet.START)
                     constraintsSet.connect(
@@ -235,13 +247,14 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
     }
 
     override fun onClick(v: View?) {
-
+        Log.d("TAG", "onClick ")
         when (v?.id) {
             R.id.exit_button -> {
                 val destination = LayoutInitFragmentDirections.actionGlobalLayoutFragment()
                 findNavController().navigate(destination)
             }
             R.id.description_button_frame -> {
+                Log.d("TAG", "description")
                 val result = slotChanger()
                 if (result[1]) {
                     binding.infoButton.isVisible = false
@@ -275,13 +288,13 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
 
     private fun slotChanger(): Array<Boolean> {
         var isLast = false // is exist slots to open
-
+        Log.d("TAG", "slotChanger ")
         for (i in 0..6) {
             if (runeTable[i][1] == 1) {
 
                 val slot = layoutFrame.getChildAt(i) as ConstraintLayout
-
-                slot.setOnClickListener(null)
+                Log.d("TAG", "slot - ${slot.id}")
+                slot.setOnClickListener{Log.d("TAG", "slot - ${slot.id} - ${layoutFrame.id}")}
                 slot.setBackgroundResource(R.drawable.slot_active_big)
                 context?.let {
                     (slot.getChildAt(0) as TextView)
@@ -303,7 +316,8 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
                 if (minSlot != 10) {
                     runeTable[minSlot][1] = 1
                     activeSlot = layoutFrame.getChildAt(minSlot) as ConstraintLayout
-
+                    Log.d("TAG", "activeSlot SlotChanger")
+                    Log.d("TAG", "${activeSlot.id}")
                     activeSlot.setOnClickListener {
                         val array = slotChanger()
                         if (array[1]) {
@@ -329,7 +343,7 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
                 minElement = i
             }
         }
-
+        Log.d("TAG", "firstSlotOpener")
         if (minValue != 10) {
             val slot = layoutFrame.getChildAt(minElement) as ConstraintLayout
             lifecycleScope.launch {
@@ -356,6 +370,7 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
         activeSlot: ConstraintLayout?,
         childNumber: Int
     ) {
+        Log.d("TAG", "runeSetter")
         AnalyticsHelper.sendEvent(AnalyticsEvent.RUNE_OPENED)
         lifecycleScope.launch {
             threadCounter++
@@ -365,8 +380,13 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
             val runeId = getUniqueRune()
             val ims = context?.assets?.open("runes/$runeId.png")
             val runeImage = Drawable.createFromStream(ims, null)
-
+            if(slot == binding.seventhRune){
+                binding.anim.isVisible = true
+                val drawable: AnimatedVectorDrawable = binding.anim.drawable as AnimatedVectorDrawable
+                drawable.start()
+            }
             slot.background = runeImage
+            Log.d("TAG", "slot back - ${slot} - ${slot.getViewById(slot.id)}")
             (slot.getChildAt(0) as TextView).visibility = View.INVISIBLE
 
             if (activeSlot != null) {
@@ -381,6 +401,7 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
             else layoutTable[childNumber - 1] = runeId
             blockButton(true)
             threadCounter--
+
         }
     }
 
@@ -393,6 +414,7 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
      * if there is no reverse rune, then 0
      */
     private fun runesArrayInit() {
+        Log.d("TAG", "runesArrayInit ")
         runesList[0] = arrayOf(1, 2)
         runesList[1] = arrayOf(3, 4)
         runesList[2] = arrayOf(5, 6)
@@ -421,6 +443,7 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
     }
 
     private fun getUniqueRune(): Int {
+        Log.d("TAG", "getUniqRune")
         var result = 0
         while (result == 0) {
             val randomNumber = getRandomValueFromNumberRunes()
@@ -435,6 +458,7 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
     }
 
     private fun getRuneIdForNonReversedRunes(randomNumber: Int): Int {
+        Log.d("TAG", "getRuneIdForNon")
         for (i in 0..runesList.lastIndex) {
             if (runesList[i][0] == randomNumber) {
                 runesList[i] = arrayOf(0, 0)
