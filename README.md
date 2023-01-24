@@ -39,3 +39,5 @@
 | ./util       |                | consist of supportive methods and classes                                                                                                                                                             |
 | ./           | App.kt         | main bootstrap file                                                                                                                                                                                   |
 | ./           | RunarLogger.kt | contains logs of project                                                                                                                                                                              |
+
+wwww
