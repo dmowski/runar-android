@@ -1,5 +1,6 @@
 package com.tnco.runar.ui.fragment
 
+import android.util.Log
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -231,10 +232,6 @@ private fun FirstMenuItem(
                 val painter = rememberAsyncImagePainter(imgLink)
                 val painterState = painter.state
                 val viewModel: LibraryViewModel = viewModel()
-                if(painterState is AsyncImagePainter.State.Error) {
-                    viewModel.updateStateLoad(true)
-                }
-                if (viewModel.errorLoad?.value == null) {
                     Image(
                         painter = painter,
                         contentDescription = null,
@@ -244,12 +241,17 @@ private fun FirstMenuItem(
                             .weight(60f)
                             .fillMaxSize()
                     )
-                } else {
-                    CircularProgressIndicator(
-                        modifier = Modifier.size(size = 64.dp),
+                if(painterState is AsyncImagePainter.State.Error) {
+                    viewModel.updateStateLoad(true)
+                }
+                when (painterState) {
+                   is AsyncImagePainter.State.Error ->
+                        CircularProgressIndicator(
+                        modifier = Modifier.offset(x = (-25).dp),
                         color = Color.Gray,
-                        strokeWidth = 6.dp
-                    )
+                        strokeWidth = 6.dp)
+                   is AsyncImagePainter.State.Success -> viewModel.updateStateLoad(false)
+                    else -> viewModel.updateStateLoad(false)
                 }
                 Column(
                     Modifier
@@ -312,6 +314,9 @@ private fun SecondMenuItem(
     imgLink: String,
     clickAction: () -> Unit
 ) {
+    val viewModel: LibraryViewModel = viewModel()
+    viewModel.updateStateLoad(false)
+
     if (imgLink.isEmpty()) {
         Row(
             Modifier
@@ -466,6 +471,8 @@ private fun SecondMenuItem(
 
 @Composable
 private fun ThirdMenuItem(fontSize: Float, text: String, title: String) {
+    val viewModel: LibraryViewModel = viewModel()
+    viewModel.updateStateLoad(false)
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Box(Modifier.aspectRatio(35f))
         Text(
