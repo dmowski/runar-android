@@ -29,7 +29,7 @@ class MainViewModel @Inject constructor(
     private val preferencesRepository: SharedPreferencesRepository,
     private val backendRepository: BackendRepository,
     private val databaseRepository: DatabaseRepository,
-    private val networkMonitor: NetworkMonitor,
+    networkMonitor: NetworkMonitor,
     sharedDataRepository: SharedDataRepository
 ) : ViewModel() {
 

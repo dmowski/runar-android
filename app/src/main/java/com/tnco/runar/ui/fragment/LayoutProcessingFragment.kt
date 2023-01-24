@@ -20,12 +20,16 @@ import com.tnco.runar.ui.component.dialog.CancelDialog
 import com.tnco.runar.ui.viewmodel.ProcessingViewModel
 import com.tnco.runar.util.AnalyticsConstants
 import com.tnco.runar.util.AnalyticsUtils
+import com.tnco.runar.util.InternalDeepLink
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class LayoutProcessingFragment : Fragment(R.layout.fragment_layout_processing) {
+
+    @Inject
+    lateinit var analyticsHelper: AnalyticsHelper
 
     private var layoutId: Int = 0
     private var userLayout = intArrayOf()
@@ -48,16 +52,16 @@ class LayoutProcessingFragment : Fragment(R.layout.fragment_layout_processing) {
         userLayout = args.userLayout
 
         requireActivity().onBackPressedDispatcher.addCallback(this) {
-            CancelDialog(
-                requireContext(),
-                viewModel.fontSize.value!!,
-                "layout_processing",
-                getString(R.string.description_runic_draws_popup)
-            ) {
-                val direction = LayoutProcessingFragmentDirections.actionGlobalLayoutFragment()
-                findNavController().navigate(direction)
-            }
-                .showDialog()
+            val uri = Uri.parse(
+                InternalDeepLink.CancelDialog
+                    .withArgs(
+                        "${viewModel.fontSize.value!!}",
+                        "layout_processing",
+                        getString(R.string.description_runic_draws_popup),
+                        "${R.id.layoutFragment}"
+                    )
+            )
+            findNavController().navigate(uri)
         }
     }
 
@@ -117,7 +121,7 @@ class LayoutProcessingFragment : Fragment(R.layout.fragment_layout_processing) {
         }
 
         binding.descriptionButtonFrame.setOnClickListener {
-            AnalyticsHelper.sendEvent(
+            analyticsHelper.sendEvent(
                 AnalyticsEvent.MUSIC_LINK_OPENED,
                 Pair(AnalyticsConstants.GROUP_NAME, binding.textGroupName.text.toString()),
                 Pair(AnalyticsConstants.TRACK_NAME, binding.textSongName.text.toString())
@@ -137,7 +141,7 @@ class LayoutProcessingFragment : Fragment(R.layout.fragment_layout_processing) {
                 delay(50)
             }
             val layoutName = AnalyticsUtils.convertLayoutIdToName(layoutId)
-            AnalyticsHelper.sendEvent(
+            analyticsHelper.sendEvent(
                 AnalyticsEvent.INTERPRETATION_VIEWED,
                 Pair(AnalyticsConstants.DRAW_RUNE_LAYOUT, layoutName)
             )

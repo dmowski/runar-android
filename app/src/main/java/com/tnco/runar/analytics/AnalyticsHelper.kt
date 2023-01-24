@@ -9,13 +9,9 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class AnalyticsHelper @Inject constructor(
-    private var firebaseAnalytics: FirebaseAnalytics
-) {
+class AnalyticsHelper @Inject constructor() {
 
-    init {
-        firebaseAnalytics = Firebase.analytics
-    }
+    private val firebaseAnalytics: FirebaseAnalytics = Firebase.analytics
 
     fun sendEvent(eventName: AnalyticsEvent, vararg keyValuePairs: Pair<String, String>) {
         val bundle = Bundle()

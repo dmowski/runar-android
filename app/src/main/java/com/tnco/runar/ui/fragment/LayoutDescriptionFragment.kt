@@ -27,6 +27,9 @@ class LayoutDescriptionFragment :
     @Inject
     lateinit var preferencesRepository: SharedPreferencesRepository
 
+    @Inject
+    lateinit var analyticsHelper: AnalyticsHelper
+
     private val viewModel: DescriptionViewModel by viewModels()
     private var layoutId: Int = 0
     private val args: LayoutDescriptionFragmentArgs by navArgs()
@@ -81,7 +84,7 @@ class LayoutDescriptionFragment :
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.exit_button -> {
-                AnalyticsHelper.sendEvent(
+                analyticsHelper.sendEvent(
                     AnalyticsEvent.SCRIPT_INTERRUPTION,
                     Pair(AnalyticsConstants.PAGE, "layout_description")
                 )
@@ -92,7 +95,7 @@ class LayoutDescriptionFragment :
                     viewModel.notShowSelectedLayout(layoutId)
                 }
                 val layoutName = AnalyticsUtils.convertLayoutIdToName(layoutId)
-                AnalyticsHelper.sendEvent(
+                analyticsHelper.sendEvent(
                     AnalyticsEvent.DRAWS_STARTED,
                     Pair(AnalyticsConstants.DRAW_RUNE_LAYOUT, layoutName)
                 )

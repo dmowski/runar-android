@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.*
@@ -40,6 +41,9 @@ class LayoutInterpretationFragment :
 
     @Inject
     lateinit var preferencesRepository: SharedPreferencesRepository
+
+    @Inject
+    lateinit var analyticsHelper: AnalyticsHelper
 
     private val viewModel: InterpretationViewModel by viewModels()
     private val args: LayoutInterpretationFragmentArgs by navArgs()
@@ -83,16 +87,16 @@ class LayoutInterpretationFragment :
         viewModel.getAffirmationsDataFromDB()
 
         requireActivity().onBackPressedDispatcher.addCallback(this) {
-            CancelDialog(
-                requireContext(),
-                viewModel.fontSize.value!!,
-                "layout_interpretation",
-                getString(R.string.description_runic_draws_popup)
-            ) {
-                val direction = LayoutInterpretationFragmentDirections.actionGlobalLayoutFragment()
-                findNavController().navigate(direction)
-            }
-                .showDialog()
+            val uri = Uri.parse(
+                InternalDeepLink.CancelDialog
+                    .withArgs(
+                        "${viewModel.fontSize.value!!}",
+                        "layout_interpretation",
+                        getString(R.string.description_runic_draws_popup),
+                        "${R.id.layoutFragment}"
+                    )
+            )
+            findNavController().navigate(uri)
         }
     }
 
@@ -1228,7 +1232,7 @@ class LayoutInterpretationFragment :
             R.id.description_button_frame -> {
                 if (binding.checkbox.isChecked) {
                     val layoutName = AnalyticsUtils.convertLayoutIdToName(layoutId)
-                    AnalyticsHelper.sendEvent(
+                    analyticsHelper.sendEvent(
                         AnalyticsEvent.DRAWS_SAVED,
                         Pair(AnalyticsConstants.DRAW_RUNE_LAYOUT, layoutName)
                     )
@@ -1280,7 +1284,7 @@ class LayoutInterpretationFragment :
     }
 
     private fun showDescriptionOfSelectedRune(v: View?) {
-        AnalyticsHelper.sendEvent(AnalyticsEvent.RUNE_VIEWED)
+        analyticsHelper.sendEvent(AnalyticsEvent.RUNE_VIEWED)
 
         readyToReturn = false
         defaultConstraintSet.applyTo(runesLayout)

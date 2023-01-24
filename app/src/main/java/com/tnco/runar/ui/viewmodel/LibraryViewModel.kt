@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
+import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.model.LibraryItemsModel
 import com.tnco.runar.repository.DatabaseRepository
 import com.tnco.runar.repository.SharedDataRepository
@@ -19,6 +20,7 @@ import javax.inject.Inject
 class LibraryViewModel @Inject constructor(
     private val databaseRepository: DatabaseRepository,
     private val networkMonitor: NetworkMonitor,
+    val analyticsHelper: AnalyticsHelper,
     sharedDataRepository: SharedDataRepository
 ) : ViewModel() {
     private val singleThread = Executors.newSingleThreadExecutor().asCoroutineDispatcher()

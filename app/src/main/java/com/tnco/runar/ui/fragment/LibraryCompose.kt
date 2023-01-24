@@ -27,7 +27,6 @@ import coil.compose.rememberImagePainter
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
 import com.tnco.runar.R
-import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.ui.viewmodel.LibraryViewModel
 import com.tnco.runar.util.AnalyticsConstants
@@ -113,7 +112,7 @@ internal fun ItemData(scrollState: ScrollState) {
                         text = item.content!!,
                         imgLink = item.imageUrl!!,
                         clickAction = {
-                            AnalyticsHelper.sendEvent(
+                            viewModel.analyticsHelper.sendEvent(
                                 AnalyticsEvent.LIBRARY_SECTION_OPENED,
                                 Pair(AnalyticsConstants.SECTION, item.title!!)
                             )

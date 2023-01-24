@@ -30,13 +30,20 @@ import com.tnco.runar.databinding.GeneratorFinalBinding
 import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.ui.component.dialog.CancelDialog
 import com.tnco.runar.ui.viewmodel.MainViewModel
+import com.tnco.runar.util.InternalDeepLink
+import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class GeneratorFinal : Fragment() {
+
+    @Inject
+    lateinit var analyticsHelper: AnalyticsHelper
 
     private var _binding: GeneratorFinalBinding? = null
     private val binding get() = _binding!!
@@ -80,7 +87,7 @@ class GeneratorFinal : Fragment() {
 //        instagram = view.findViewById(R.id.instagram)
 
         binding.share.setOnClickListener {
-            AnalyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_PATTERN_SHARED)
+            analyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_PATTERN_SHARED)
             val bmp = (binding.imgFinal.drawable as BitmapDrawable).bitmap
             shareImage(bmp, requireContext())
         }
@@ -92,7 +99,7 @@ class GeneratorFinal : Fragment() {
         }
 
         binding.save.setOnClickListener {
-            AnalyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_PATTERN_SAVED)
+            analyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_PATTERN_SAVED)
             val fileName = generateFileName()
             val bmp = (binding.imgFinal.drawable as BitmapDrawable).bitmap
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -189,17 +196,16 @@ class GeneratorFinal : Fragment() {
     }
 
     private fun showCancelDialog() {
-        CancelDialog(
-            requireContext(),
-            viewModel.fontSize.value!!,
-            PAGE,
-            getString(R.string.description_generator_popup)
-        ) {
-            requireActivity().viewModelStore.clear()
-            val direction = GeneratorFinalDirections.actionGlobalGeneratorFragment()
-            findNavController().navigate(direction)
-        }
-            .showDialog()
+        val uri = Uri.parse(
+            InternalDeepLink.CancelDialog
+                .withArgs(
+                    "${viewModel.fontSize.value!!}",
+                    PAGE,
+                    getString(R.string.description_runic_draws_popup),
+                    "${R.id.generatorFragment}"
+                )
+        )
+        findNavController().navigate(uri)
     }
 
     override fun onDestroyView() {

@@ -14,10 +14,14 @@ import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.ui.viewmodel.MainViewModel
 import com.tnco.runar.util.observeOnce
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class GeneratorFragment : Fragment() {
     val viewModel: MainViewModel by viewModels()
+
+    @Inject
+    lateinit var analyticsHelper: AnalyticsHelper
 
     private var _binding: FragmentLayoutGeneratorBinding? = null
     private val binding get() = _binding!!
@@ -43,7 +47,7 @@ class GeneratorFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        AnalyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_OPENED)
+        analyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_OPENED)
     }
 
     override fun onDestroyView() {

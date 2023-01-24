@@ -21,8 +21,14 @@ import com.tnco.runar.ui.viewmodel.MainViewModel
 import com.tnco.runar.util.InternalDeepLink
 import com.tnco.runar.util.OnSwipeTouchListener
 import com.tnco.runar.util.observeOnce
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class RunePatternGenerator : Fragment() {
+
+    @Inject
+    lateinit var analyticsHelper: AnalyticsHelper
 
     private var _binding: RunePatternGeneratorBinding? = null
     private val binding get() = _binding!!
@@ -33,17 +39,16 @@ class RunePatternGenerator : Fragment() {
         super.onCreate(savedInstanceState)
 
         requireActivity().onBackPressedDispatcher.addCallback(this) {
-            CancelDialog(
-                requireContext(),
-                viewModel.fontSize.value!!,
-                "rune_pattern_generator",
-                getString(R.string.description_generator_popup)
-            ) {
-                requireActivity().viewModelStore.clear()
-                val direction = RunePatternGeneratorDirections.actionGlobalGeneratorFragment()
-                findNavController().navigate(direction)
-            }
-                .showDialog()
+            val uri = Uri.parse(
+                InternalDeepLink.CancelDialog
+                    .withArgs(
+                        "${viewModel.fontSize.value!!}",
+                        "rune_pattern_generator",
+                        getString(R.string.description_runic_draws_popup),
+                        "${R.id.generatorFragment}"
+                    )
+            )
+            findNavController().navigate(uri)
         }
     }
 
@@ -61,7 +66,7 @@ class RunePatternGenerator : Fragment() {
         if (viewModel.runesImages.isEmpty()) {
             return
         }
-        AnalyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_PATTERN_NEW_TYPE)
+        analyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_PATTERN_NEW_TYPE)
         var nextIndex = viewModel.selectedRuneIndex + incrementer
         val countOfPatterns = viewModel.runesImages.size
 
@@ -78,7 +83,7 @@ class RunePatternGenerator : Fragment() {
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        AnalyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_PATTERN_CREATED)
+        analyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_PATTERN_CREATED)
 
         viewModel.isNetworkAvailable.observeOnce(viewLifecycleOwner) { status ->
             if (status) {

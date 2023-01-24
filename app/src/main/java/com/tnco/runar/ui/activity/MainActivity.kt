@@ -18,9 +18,6 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.firebase.analytics.ktx.analytics
-import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
 import com.tnco.runar.R
 import com.tnco.runar.RunarLogger
@@ -56,11 +53,8 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
     private lateinit var audioManager: AudioManager
     lateinit var binding: ActivityMainBinding
 
-    private lateinit var firebaseAnalytics: FirebaseAnalytics
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        firebaseAnalytics = Firebase.analytics
         createNotificationChannel()
         languageRepository.changeLanguageAndUpdateRepo(this, preferencesRepository.language) // set app language from settings
         // status bar color

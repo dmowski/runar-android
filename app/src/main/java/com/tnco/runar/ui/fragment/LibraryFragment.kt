@@ -17,12 +17,16 @@ import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.ui.viewmodel.LibraryViewModel
 import com.tnco.runar.util.observeOnce
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 const val audioFeature = false
 
 @AndroidEntryPoint
 class LibraryFragment : Fragment() {
     val viewModel: LibraryViewModel by viewModels()
+
+    @Inject
+    lateinit var analyticsHelper: AnalyticsHelper
 
     @ExperimentalPagerApi
     override fun onCreateView(
@@ -31,7 +35,7 @@ class LibraryFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         viewModel.getRuneDataFromDB()
-        AnalyticsHelper.sendEvent(AnalyticsEvent.LIBRARY_OPENED)
+        analyticsHelper.sendEvent(AnalyticsEvent.LIBRARY_OPENED)
 
         val noInternet = getString(R.string.internet_conn_error1)
         viewModel.isOnline.observeOnce(viewLifecycleOwner) { online ->

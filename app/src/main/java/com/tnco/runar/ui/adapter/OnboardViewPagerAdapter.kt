@@ -9,7 +9,6 @@ import android.widget.TextView
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.viewpager.widget.PagerAdapter
 import com.tnco.runar.R
-import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.model.OnboardGuideElementModel
 import com.tnco.runar.ui.viewmodel.OnboardViewModel
@@ -51,10 +50,10 @@ class OnboardViewPagerAdapter(
 
         cardButton.setOnClickListener {
             if (position < models.size - 1) {
-                AnalyticsHelper.sendEvent(AnalyticsEvent.OB_NEXT)
+                viewModel.analyticsHelper.sendEvent(AnalyticsEvent.OB_NEXT)
                 viewModel.changeCurrentPosition(position + 1)
             } else {
-                AnalyticsHelper.sendEvent(AnalyticsEvent.OB_START)
+                viewModel.analyticsHelper.sendEvent(AnalyticsEvent.OB_START)
                 viewModel.nextActivity(true)
             }
         }

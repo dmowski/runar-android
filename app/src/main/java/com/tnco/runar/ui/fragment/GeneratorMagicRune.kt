@@ -19,6 +19,7 @@ import com.tnco.runar.feature.MusicController
 import com.tnco.runar.ui.component.dialog.CancelDialog
 import com.tnco.runar.ui.viewmodel.MainViewModel
 import com.tnco.runar.util.AnalyticsConstants
+import com.tnco.runar.util.InternalDeepLink
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import javax.inject.Inject
@@ -29,6 +30,9 @@ class GeneratorMagicRune : Fragment() {
     @Inject
     lateinit var musicController: MusicController
 
+    @Inject
+    lateinit var analyticsHelper: AnalyticsHelper
+
     private var _binding: FragmentGeneratorProcessingBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel: MainViewModel
@@ -38,17 +42,16 @@ class GeneratorMagicRune : Fragment() {
         super.onCreate(savedInstanceState)
 
         requireActivity().onBackPressedDispatcher.addCallback(this) {
-            CancelDialog(
-                requireContext(),
-                viewModel.fontSize.value!!,
-                "generator_processing",
-                getString(R.string.description_generator_popup)
-            ) {
-                requireActivity().viewModelStore.clear()
-                val direction = GeneratorMagicRuneDirections.actionGlobalGeneratorFragment()
-                findNavController().navigate(direction)
-            }
-                .showDialog()
+            val uri = Uri.parse(
+                InternalDeepLink.CancelDialog
+                    .withArgs(
+                        "${viewModel.fontSize.value!!}",
+                        "generator_processing",
+                        getString(R.string.description_runic_draws_popup),
+                        "${R.id.generatorFragment}"
+                    )
+            )
+            findNavController().navigate(uri)
         }
     }
 
@@ -67,7 +70,7 @@ class GeneratorMagicRune : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         progressBarAction()
         binding.generatorDescriptionButtonFrame.setOnClickListener {
-            AnalyticsHelper.sendEvent(
+            analyticsHelper.sendEvent(
                 AnalyticsEvent.MUSIC_LINK_OPENED,
                 Pair(AnalyticsConstants.GROUP_NAME, binding.generatorTextGroupName.text.toString()),
                 Pair(AnalyticsConstants.TRACK_NAME, binding.generatorTextSongName.text.toString())

@@ -35,6 +35,9 @@ class GeneratorStartFragment : Fragment() {
     @Inject
     lateinit var sharedPreferences: SharedPreferencesRepository
 
+    @Inject
+    lateinit var analyticsHelper: AnalyticsHelper
+
     private var _binding: FragmentGeneratorStartBinding? = null
     private val binding get() = _binding!!
     private lateinit var mViewModel: MainViewModel
@@ -55,7 +58,7 @@ class GeneratorStartFragment : Fragment() {
             findNavController().popBackStack()
         }
 
-        AnalyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_PATTERN_SELECTED)
+        analyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_PATTERN_SELECTED)
         mViewModel = ViewModelProvider(requireActivity())[MainViewModel::class.java]
         setupRecyclerView()
         // readDatabase()
@@ -255,7 +258,7 @@ class GeneratorStartFragment : Fragment() {
     }
 
     private fun randomRunes() {
-        AnalyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_PATTERN_RANDOM_RUNES)
+        analyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_PATTERN_RANDOM_RUNES)
         val count = (1..3).random()
         listId.clear()
 

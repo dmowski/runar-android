@@ -31,7 +31,9 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.tnco.runar.R
 import com.tnco.runar.ui.viewmodel.AboutViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class AboutAppFragment : Fragment() {
 
     override fun onCreateView(

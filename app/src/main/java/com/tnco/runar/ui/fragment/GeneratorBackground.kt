@@ -21,8 +21,14 @@ import com.tnco.runar.ui.component.dialog.CancelDialog
 import com.tnco.runar.ui.viewmodel.MainViewModel
 import com.tnco.runar.util.InternalDeepLink
 import com.tnco.runar.util.observeOnce
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class GeneratorBackground : Fragment() {
+
+    @Inject
+    lateinit var analyticsHelper: AnalyticsHelper
 
     private var _binding: FragmentGeneratorBackgroundBinding? = null
     private val binding get() = _binding!!
@@ -42,7 +48,7 @@ class GeneratorBackground : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        AnalyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_PATTERN_SELECTION_BACKGROUND)
+        analyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_PATTERN_SELECTION_BACKGROUND)
         binding.textSelectBackground.visibility = View.GONE
         binding.buttonNext.setOnClickListener {
             val direction = GeneratorBackgroundDirections
@@ -181,17 +187,16 @@ class GeneratorBackground : Fragment() {
     }
 
     private fun showCancelDialog() {
-        CancelDialog(
-            requireContext(),
-            viewModel.fontSize.value!!,
-            "generator_background",
-            getString(R.string.description_generator_popup)
-        ) {
-            requireActivity().viewModelStore.clear()
-            val direction = GeneratorBackgroundDirections.actionGlobalGeneratorFragment()
-            findNavController().navigate(direction)
-        }
-            .showDialog()
+        val uri = Uri.parse(
+            InternalDeepLink.CancelDialog
+                .withArgs(
+                    "${viewModel.fontSize.value!!}",
+                    "generator_background",
+                    getString(R.string.description_runic_draws_popup),
+                    "${R.id.generatorFragment}"
+                )
+        )
+        findNavController().navigate(uri)
     }
 
     private fun showInternetConnectionError() {

@@ -31,6 +31,9 @@ class OnboardActivity : AppCompatActivity() {
     @Inject
     lateinit var musicController: MusicController
 
+    @Inject
+    lateinit var analyticsHelper: AnalyticsHelper
+
     private lateinit var adapter: OnboardViewPagerAdapter
     private lateinit var models: ArrayList<OnboardGuideElementModel>
 
@@ -51,10 +54,10 @@ class OnboardActivity : AppCompatActivity() {
         viewModel.changeCurrentPosition(0)
         viewModel.nextActivity(false)
 
-        AnalyticsHelper.sendEvent(AnalyticsEvent.OB_ABOUT_OPENED)
+        analyticsHelper.sendEvent(AnalyticsEvent.OB_ABOUT_OPENED)
 
         binding.skipButton.setOnClickListener {
-            AnalyticsHelper.sendEvent(AnalyticsEvent.OB_SKIP)
+            analyticsHelper.sendEvent(AnalyticsEvent.OB_SKIP)
             closeActivity()
         }
 
@@ -122,12 +125,12 @@ class OnboardActivity : AppCompatActivity() {
             override fun onPageSelected(position: Int) {
                 viewModel.changeCurrentPosition(position)
                 when (position) {
-                    0 -> AnalyticsHelper.sendEvent(AnalyticsEvent.OB_ABOUT_OPENED)
-                    1 -> AnalyticsHelper.sendEvent(AnalyticsEvent.OB_FORTUNE_OPENED)
-                    2 -> AnalyticsHelper.sendEvent(AnalyticsEvent.OB_INTERPRETATION_OPENED)
-                    3 -> AnalyticsHelper.sendEvent(AnalyticsEvent.OB_FAVOURITES_OPENED)
-                    4 -> AnalyticsHelper.sendEvent(AnalyticsEvent.OB_GENERATOR_OPENED)
-                    5 -> AnalyticsHelper.sendEvent(AnalyticsEvent.OB_LIBRARY_OPENED)
+                    0 -> analyticsHelper.sendEvent(AnalyticsEvent.OB_ABOUT_OPENED)
+                    1 -> analyticsHelper.sendEvent(AnalyticsEvent.OB_FORTUNE_OPENED)
+                    2 -> analyticsHelper.sendEvent(AnalyticsEvent.OB_INTERPRETATION_OPENED)
+                    3 -> analyticsHelper.sendEvent(AnalyticsEvent.OB_FAVOURITES_OPENED)
+                    4 -> analyticsHelper.sendEvent(AnalyticsEvent.OB_GENERATOR_OPENED)
+                    5 -> analyticsHelper.sendEvent(AnalyticsEvent.OB_LIBRARY_OPENED)
                 }
                 currentPosition = position
             }

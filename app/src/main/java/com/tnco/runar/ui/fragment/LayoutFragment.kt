@@ -14,9 +14,13 @@ import com.tnco.runar.util.AnalyticsConstants
 import com.tnco.runar.util.AnalyticsUtils
 import com.tnco.runar.util.setOnCLickListenerForAll
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener {
+
+    @Inject
+    lateinit var analyticsHelper: AnalyticsHelper
 
     private val viewModel: LayoutViewModel by viewModels()
 
@@ -27,7 +31,7 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentLayoutsBinding.bind(view)
-        AnalyticsHelper.sendEvent(AnalyticsEvent.SCREEN_VIEW_RUNIC_DRAWS)
+        analyticsHelper.sendEvent(AnalyticsEvent.SCREEN_VIEW_RUNIC_DRAWS)
         setClickListenerOnRuneLayouts()
 
         viewModel.fontSize.observe(viewLifecycleOwner) { fontSize ->
@@ -77,7 +81,7 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
         }
         viewModel.checkDescriptionStatus(idOfRune)
         val layoutName = AnalyticsUtils.convertLayoutIdToName(idOfRune)
-        AnalyticsHelper.sendEvent(
+        analyticsHelper.sendEvent(
             AnalyticsEvent.DRAWS_SELECTED,
             Pair(AnalyticsConstants.DRAW_RUNE_LAYOUT, layoutName)
         )

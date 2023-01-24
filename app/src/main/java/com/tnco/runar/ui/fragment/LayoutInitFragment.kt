@@ -32,6 +32,9 @@ import kotlin.random.Random
 @AndroidEntryPoint
 class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClickListener {
 
+    @Inject
+    lateinit var analyticsHelper: AnalyticsHelper
+
     private val viewModel: InitViewModel by viewModels()
 
     private lateinit var headerText: String
@@ -253,7 +256,7 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
                     val userLayout = layoutTable.toIntArray()
                     if (userLayout[0] == itemsChecker(userLayout)) {
                         val layoutName = AnalyticsUtils.convertLayoutIdToName(layoutId)
-                        AnalyticsHelper.sendEvent(
+                        analyticsHelper.sendEvent(
                             AnalyticsEvent.INTERPRETATION_STARTED,
                             Pair(
                                 AnalyticsConstants.DRAW_RUNE_LAYOUT, layoutName
@@ -358,7 +361,7 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
         activeSlot: ConstraintLayout?,
         childNumber: Int
     ) {
-        AnalyticsHelper.sendEvent(AnalyticsEvent.RUNE_OPENED)
+        analyticsHelper.sendEvent(AnalyticsEvent.RUNE_OPENED)
         lifecycleScope.launch {
             threadCounter++
             blockButton(false)
