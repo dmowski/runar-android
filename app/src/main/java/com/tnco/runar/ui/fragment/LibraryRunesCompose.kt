@@ -5,12 +5,11 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Divider
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.*
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.TextStyle
@@ -23,6 +22,7 @@ import coil.compose.rememberImagePainter
 import coil.size.OriginalSize
 import com.google.accompanist.flowlayout.FlowRow
 import com.tnco.runar.R
+import com.tnco.runar.util.rectShadow
 
 @Composable
 internal fun RuneDescription(
@@ -72,27 +72,46 @@ internal fun RuneDescription(
         FlowRow {
             for (tag in runeTags) {
                 if (tag.isNotEmpty()) {
-                    Text(
-                        text = tag,
-                        style = TextStyle(
-                            color = colorResource(R.color.lib_rune_tag_text),
-                            fontWeight = FontWeight.Normal,
-                            textAlign = TextAlign.Center
-                        ),
+                    Surface(
                         modifier = Modifier
-                            .wrapContentSize(Alignment.Center)
-                            .padding(12.dp, 6.dp)
+                            .padding(4.dp, 6.dp)
                             .border(
                                 width = 1.dp,
-                                color = colorResource(R.color.lib_rune_tag_border).copy(alpha = 0.1f),
-                                shape = RoundedCornerShape(10.dp)
+                                color = colorResource(R.color.lib_rune_tag_border),
+                                shape = RoundedCornerShape(8.dp)
                             )
-                            .background(
-                                color = colorResource(R.color.lib_rune_tag_background),
-                                shape = RoundedCornerShape(10.dp)
+                            .rectShadow(
+                                color = colorResource(id = R.color.lib_rune_tag_shadow),
+                                alpha = 0.3f,
+                                cornersRadius = 8.dp,
+                                shadowBlurRadius = 3.dp,
+                                offsetX = 0.dp,
+                                offsetY = 1.dp
                             )
-                            .padding(12.dp, 6.dp)
-                    )
+                            .rectShadow(
+                                color = colorResource(id = R.color.lib_rune_tag_shadow),
+                                alpha = 0.15f,
+                                cornersRadius = 8.dp,
+                                shadowBlurRadius = 8.dp,
+                                offsetX = 0.dp,
+                                offsetY = 4.dp
+                            ),
+                        shape = RoundedCornerShape(8.dp),
+                        color = colorResource(R.color.lib_rune_tag_background),
+                        elevation = 3.dp
+                    ) {
+                        Text(
+                            text = tag,
+                            style = TextStyle(
+                                color = colorResource(R.color.lib_rune_tag_text),
+                                fontWeight = FontWeight.Normal,
+                                textAlign = TextAlign.Center
+                            ),
+                            modifier = Modifier
+                                .wrapContentSize(Alignment.Center)
+                                .padding(12.dp, 6.dp)
+                        )
+                    }
                 }
             }
         }
