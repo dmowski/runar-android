@@ -29,7 +29,7 @@
         android:label="CancelDialog"
         tools:layout="@layout/cancel_dialog_layout">
         <deepLink
-            android:id="@+id/deepLinkConnectivityErrorFragment"
+            android:id="@+id/deepLinkCancelDialog"
             app:uri="runar-android://CancelDialog/{fontSize}/{page}/{dialogText}/{destinationOnAgree}" />
         <argument
             android:name="fontSize"
