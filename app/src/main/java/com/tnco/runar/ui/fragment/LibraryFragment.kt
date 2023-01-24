@@ -15,14 +15,11 @@ import com.tnco.runar.R
 import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.ui.viewmodel.LibraryViewModel
-import kotlinx.coroutines.*
 
 const val audioFeature = true
 
 class LibraryFragment : Fragment() {
     val viewModel: LibraryViewModel by viewModels()
-    val job = Job()
-    private val uiScope = CoroutineScope(Dispatchers.Main + job)
 
     @ExperimentalPagerApi
     override fun onCreateView(
@@ -37,11 +34,9 @@ class LibraryFragment : Fragment() {
         val toast = Toast.makeText(requireContext(), noInternet, Toast.LENGTH_SHORT)
 
         viewModel.errorLoad.observe(viewLifecycleOwner) {
-            uiScope.launch {
                 if (viewModel.isOnline.value == null && viewModel.errorLoad.value == true) {
                     toast.show()
                 } else toast.cancel()
-            }
         }
 
         val view = ComposeView(requireContext()).apply {
@@ -77,7 +72,6 @@ class LibraryFragment : Fragment() {
     }
 
     override fun onDestroy() {
-        uiScope.cancel()
         super.onDestroy()
     }
 }
