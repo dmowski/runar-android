@@ -30,12 +30,14 @@ import com.tnco.runar.databinding.GeneratorFinalBinding
 import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.ui.component.dialog.CancelDialog
 import com.tnco.runar.ui.viewmodel.MainViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
+@AndroidEntryPoint
 class GeneratorFinal : Fragment() {
 
     private var _binding: GeneratorFinalBinding? = null

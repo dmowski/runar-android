@@ -21,7 +21,9 @@ import com.tnco.runar.ui.viewmodel.MainViewModel
 import com.tnco.runar.util.InternalDeepLink
 import com.tnco.runar.util.OnSwipeTouchListener
 import com.tnco.runar.util.observeOnce
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class RunePatternGenerator : Fragment() {
 
     private var _binding: RunePatternGeneratorBinding? = null

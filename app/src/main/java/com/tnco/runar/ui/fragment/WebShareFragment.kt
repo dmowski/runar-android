@@ -10,7 +10,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.tnco.runar.databinding.LayoutWebShareBinding
 import com.tnco.runar.ui.viewmodel.MainViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class WebShareFragment : Fragment() {
 
     private var _binding: LayoutWebShareBinding? = null

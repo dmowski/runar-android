@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory
 import android.os.Build
 import android.util.Log
 import androidx.lifecycle.*
+import com.tnco.runar.data.remote.BackgroundInfo
 import com.tnco.runar.data.remote.NetworkResult
 import com.tnco.runar.data.remote.RunesResponse
 import com.tnco.runar.data.remote.UserInfo
@@ -14,18 +15,19 @@ import com.tnco.runar.repository.SharedDataRepository
 import com.tnco.runar.repository.SharedPreferencesRepository
 import com.tnco.runar.repository.backend.BackendRepository
 import com.tnco.runar.repository.backend.DataClassConverters
-import com.tnco.runar.data.remote.BackgroundInfo
 import com.tnco.runar.util.NetworkMonitor
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancelChildren
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import okhttp3.ResponseBody
 import retrofit2.Response
+import javax.inject.Inject
 
-class MainViewModel : ViewModel() {
+@HiltViewModel
+class MainViewModel @Inject constructor(
+    networkMonitor: NetworkMonitor
+) : ViewModel() {
 
 //    private val _isLoading = MutableStateFlow(true)
 //    val isLoading = _isLoading.asStateFlow()
@@ -37,7 +39,6 @@ class MainViewModel : ViewModel() {
 //        }
 //    }
 
-    private val networkMonitor = NetworkMonitor.get()
     val isNetworkAvailable = networkMonitor.isConnected.asLiveData()
 
     var preferencesRepository = SharedPreferencesRepository.get()

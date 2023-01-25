@@ -21,7 +21,9 @@ import com.tnco.runar.ui.component.dialog.CancelDialog
 import com.tnco.runar.ui.viewmodel.MainViewModel
 import com.tnco.runar.util.InternalDeepLink
 import com.tnco.runar.util.observeOnce
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class GeneratorBackground : Fragment() {
 
     private var _binding: FragmentGeneratorBackgroundBinding? = null

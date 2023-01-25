@@ -13,7 +13,9 @@ import com.tnco.runar.databinding.FragmentLayoutGeneratorBinding
 import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.ui.viewmodel.MainViewModel
 import com.tnco.runar.util.observeOnce
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class GeneratorFragment : Fragment() {
     val viewModel: MainViewModel by viewModels()
 

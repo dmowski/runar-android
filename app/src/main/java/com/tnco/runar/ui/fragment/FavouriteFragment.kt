@@ -39,7 +39,9 @@ import com.tnco.runar.ui.component.dialog.SavedLayoutsDialog
 import com.tnco.runar.ui.viewmodel.FavouriteViewModel
 import com.tnco.runar.util.AnalyticsConstants
 import com.tnco.runar.util.AnalyticsUtils
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class FavouriteFragment : Fragment() {
     val viewModel: FavouriteViewModel by viewModels()
 

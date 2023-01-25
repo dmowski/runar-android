@@ -9,7 +9,9 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.tnco.runar.databinding.ConnectivityErrorLayoutBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ConnectivityErrorFragment : Fragment() {
     private var _binding: ConnectivityErrorLayoutBinding? = null
     private val binding get() = _binding!!

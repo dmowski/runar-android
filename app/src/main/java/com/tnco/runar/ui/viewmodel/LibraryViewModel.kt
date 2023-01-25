@@ -5,10 +5,15 @@ import com.tnco.runar.model.LibraryItemsModel
 import com.tnco.runar.repository.DatabaseRepository
 import com.tnco.runar.repository.SharedDataRepository
 import com.tnco.runar.util.NetworkMonitor
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
 import java.util.concurrent.Executors
+import javax.inject.Inject
 
-class LibraryViewModel : ViewModel() {
+@HiltViewModel
+class LibraryViewModel @Inject constructor(
+    networkMonitor: NetworkMonitor
+) : ViewModel() {
 
     private val singleThread = Executors.newSingleThreadExecutor().asCoroutineDispatcher()
 
@@ -18,13 +23,12 @@ class LibraryViewModel : ViewModel() {
 
     private val _errorLoad = MutableLiveData<Boolean>()
     val errorLoad: LiveData<Boolean>
-    get() = _errorLoad
+        get() = _errorLoad
 
     var scrollPositionHistory = MutableLiveData(mutableListOf(0))
 
     var menuData = MutableLiveData<List<LibraryItemsModel>>(emptyList())
 
-    private val networkMonitor = NetworkMonitor.get()
     val isOnline = networkMonitor.isConnected.asLiveData()
 
     private var menuNavData = mutableListOf<String>()

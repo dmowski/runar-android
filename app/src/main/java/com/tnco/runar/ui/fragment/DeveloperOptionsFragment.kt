@@ -31,7 +31,9 @@ import androidx.navigation.fragment.findNavController
 import com.tnco.runar.R
 import com.tnco.runar.model.DeveloperSwitcher
 import com.tnco.runar.ui.viewmodel.DeveloperOptionsViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class DeveloperOptionsFragment : Fragment() {
 
     override fun onCreateView(

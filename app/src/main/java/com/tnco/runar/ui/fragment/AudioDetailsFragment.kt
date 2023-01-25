@@ -8,8 +8,11 @@ import androidx.activity.addCallback
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import dagger.hilt.android.AndroidEntryPoint
+
 import com.tnco.runar.feature_audio_fairytailes.presentation.player.AudioScreenDetails
 
+@AndroidEntryPoint
 class AudioDetailsFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

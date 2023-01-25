@@ -7,14 +7,17 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.tnco.runar.R
 import com.tnco.runar.databinding.ActivitySplashBinding
-import com.tnco.runar.feature.MusicController
 import com.tnco.runar.repository.LanguageRepository
 import com.tnco.runar.repository.SharedPreferencesRepository
+import com.tnco.runar.ui.viewmodel.MusicControllerViewModel
 import com.tnco.runar.ui.viewmodel.SplashViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SplashActivity : AppCompatActivity() {
 
     private val viewModel: SplashViewModel by viewModels()
+    private val musicControllerViewModel: MusicControllerViewModel by viewModels()
     private lateinit var binding: ActivitySplashBinding
     private var musicState = true
     var preferencesRepository = SharedPreferencesRepository.get()
@@ -37,14 +40,14 @@ class SplashActivity : AppCompatActivity() {
     }
 
     override fun onResume() {
-        MusicController.splashStatus = true
-        MusicController.startMusic()
+        musicControllerViewModel.updateSplashStatus(true)
+        musicControllerViewModel.startMusic()
         super.onResume()
     }
 
     override fun onPause() {
-        MusicController.splashStatus = false
-        MusicController.softStopMusic()
+        musicControllerViewModel.updateSplashStatus(false)
+        musicControllerViewModel.softStopMusic()
         super.onPause()
     }
 

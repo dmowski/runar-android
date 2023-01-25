@@ -30,7 +30,9 @@ import com.tnco.runar.repository.SharedPreferencesRepository
 import com.tnco.runar.ui.component.dialog.CancelDialog
 import com.tnco.runar.ui.viewmodel.InterpretationViewModel
 import com.tnco.runar.util.*
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class LayoutInterpretationFragment :
     Fragment(R.layout.fragment_layout_interpretation),
     View.OnClickListener {

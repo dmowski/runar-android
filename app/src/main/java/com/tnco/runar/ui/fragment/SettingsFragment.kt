@@ -35,7 +35,9 @@ import com.tnco.runar.BuildConfig
 import com.tnco.runar.R
 import com.tnco.runar.ui.Navigator
 import com.tnco.runar.ui.viewmodel.SettingsViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SettingsFragment : Fragment() {
 
     val viewModel: SettingsViewModel by viewModels()
