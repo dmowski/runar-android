@@ -43,4 +43,5 @@ jobs:
           disable_notification: true
           message: |
             PULL REQUEST from ${{ github.actor }}
+            https://github.com/dmowski/runar-android/pull/${{ github.event.pull_request.number }}
             ${{ github.event.pull_request.title }}
