@@ -9,14 +9,15 @@ import android.util.Log
 import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.data.local.AppDB
 import com.tnco.runar.data.local.DataDB
-import com.tnco.runar.feature.MusicController
-import com.tnco.runar.repository.data_store.DataStorePreferences
 import com.tnco.runar.repository.LanguageRepository
 import com.tnco.runar.repository.SharedDataRepository
 import com.tnco.runar.repository.SharedPreferencesRepository
+import com.tnco.runar.repository.data_store.DataStorePreferences
 import com.tnco.runar.services.PushService.Companion.REMINDER_CHANNEL_ID
 import com.tnco.runar.util.NetworkMonitor
+import dagger.hilt.android.HiltAndroidApp
 
+@HiltAndroidApp
 class App : Application() {
     override fun onCreate() {
         SharedPreferencesRepository.init(this)
@@ -24,7 +25,6 @@ class App : Application() {
         AppDB.init(this)
         DataDB.init(this)
         SharedDataRepository.init(this)
-        MusicController.init(this)
         AnalyticsHelper.init()
         createNotificationChannel()
         NetworkMonitor.init(this)

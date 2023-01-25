@@ -15,7 +15,9 @@ import com.tnco.runar.ui.viewmodel.DescriptionViewModel
 import com.tnco.runar.util.AnalyticsConstants
 import com.tnco.runar.util.AnalyticsUtils
 import com.tnco.runar.util.setOnCLickListenerForAll
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class LayoutDescriptionFragment :
     Fragment(R.layout.fragment_layout_description),
     View.OnClickListener {

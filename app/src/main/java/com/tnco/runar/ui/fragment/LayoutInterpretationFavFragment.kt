@@ -27,7 +27,9 @@ import com.tnco.runar.ui.viewmodel.InterpretationFavViewModel
 import com.tnco.runar.util.InterTagHandler
 import com.tnco.runar.util.OnSwipeTouchListener
 import com.tnco.runar.util.setOnCLickListenerForAll
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class LayoutInterpretationFavFragment :
     Fragment(R.layout.fragment_layout_interpretation_fav),
     View.OnClickListener {

@@ -12,14 +12,19 @@ import com.tnco.runar.R
 import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.databinding.ActivityOnboardBinding
 import com.tnco.runar.enums.AnalyticsEvent
-import com.tnco.runar.feature.MusicController
 import com.tnco.runar.model.OnboardGuideElementModel
 import com.tnco.runar.repository.LanguageRepository
 import com.tnco.runar.ui.adapter.OnboardViewPagerAdapter
+import com.tnco.runar.ui.viewmodel.MusicControllerViewModel
 import com.tnco.runar.ui.viewmodel.OnboardViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class OnboardActivity : AppCompatActivity() {
+
     private val viewModel: OnboardViewModel by viewModels()
+    private val musicControllerViewModel: MusicControllerViewModel by viewModels()
+
     private var currentPosition = 0
 
     private lateinit var adapter: OnboardViewPagerAdapter
@@ -166,14 +171,14 @@ class OnboardActivity : AppCompatActivity() {
     }
 
     override fun onResume() {
-        MusicController.onboardingStatus = true
-        MusicController.startMusic()
+        musicControllerViewModel.updateOnboardingStatus(true)
+        musicControllerViewModel.startMusic()
         super.onResume()
     }
 
     override fun onPause() {
-        MusicController.onboardingStatus = false
-        MusicController.softStopMusic()
+        musicControllerViewModel.updateOnboardingStatus(false)
+        musicControllerViewModel.softStopMusic()
         super.onPause()
     }
 }
