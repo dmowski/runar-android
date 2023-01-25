@@ -82,7 +82,6 @@
 
     <color name="lib_rune_tag_text">#D2C4AD</color>
     <color name="lib_rune_tag_border">#D2C4AD</color>
-    <color name="lib_rune_tag_shadow">#000000</color>
     <color name="lib_rune_tag_background">#141414</color>
     <color name="border">#99D2C4AD</color>
 
