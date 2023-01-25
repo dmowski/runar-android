@@ -12,7 +12,6 @@ import com.tnco.runar.data.local.DataDB
 import com.tnco.runar.repository.LanguageRepository
 import com.tnco.runar.repository.SharedDataRepository
 import com.tnco.runar.repository.SharedPreferencesRepository
-import com.tnco.runar.repository.data_store.DataStorePreferences
 import com.tnco.runar.services.PushService.Companion.REMINDER_CHANNEL_ID
 import dagger.hilt.android.HiltAndroidApp
 
@@ -26,7 +25,6 @@ class App : Application() {
         SharedDataRepository.init(this)
         AnalyticsHelper.init()
         createNotificationChannel()
-        DataStorePreferences.init(this)
         super.onCreate()
     }
 

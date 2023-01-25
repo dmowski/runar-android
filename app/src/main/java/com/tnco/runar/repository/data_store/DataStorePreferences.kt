@@ -1,26 +1,22 @@
 package com.tnco.runar.repository.data_store
 
-import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringSetPreferencesKey
-import androidx.datastore.preferences.preferencesDataStore
 import com.tnco.runar.model.DeveloperSwitcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
+import javax.inject.Singleton
 
-object DataStorePreferences {
+@Singleton
+class DataStorePreferences @Inject constructor(
+    private val dataStore: DataStore<Preferences>
+) {
 
-    private const val PREFERENCE_NAME = "settings"
-    private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = PREFERENCE_NAME)
-    private val SWITCHERS_STATES = stringSetPreferencesKey("switchers_states")
-    private lateinit var dataStore: DataStore<Preferences>
-
-    fun init(context: Context) {
-        dataStore = context.dataStore
-    }
+    private val switcherStates = stringSetPreferencesKey("switchers_states")
 
     /**
      * Add your switchers to the list.
@@ -40,7 +36,7 @@ object DataStorePreferences {
     val switchers: Flow<List<DeveloperSwitcher>>
         get() = dataStore.data.map { preferences ->
             val switchers = mutableListOf<DeveloperSwitcher>()
-            val switcherNames = preferences[SWITCHERS_STATES]
+            val switcherNames = preferences[switcherStates]
             switcherNames?.let {
                 it.forEach { name ->
                     val state = preferences[booleanPreferencesKey(name)] ?: false
@@ -55,7 +51,7 @@ object DataStorePreferences {
             val states = switchers
                 .map { it.name }
                 .toSet()
-            preferences[SWITCHERS_STATES] = states
+            preferences[switcherStates] = states
             switchers.forEach {
                 preferences[booleanPreferencesKey(it.name)] = it.state
             }
