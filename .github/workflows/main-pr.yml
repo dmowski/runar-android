@@ -20,7 +20,7 @@ jobs:
           distribution: "temurin"
           java-version: "17"
 
-      - name: Build with Grandle
+      - name: Build with Gradle
         run: bash ./gradlew assembleDebugWithR8 --stacktrace
 
       - name: Rename File
