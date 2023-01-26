@@ -20,17 +20,19 @@ import com.google.firebase.messaging.FirebaseMessaging
 import com.tnco.runar.R
 import com.tnco.runar.RunarLogger
 import com.tnco.runar.databinding.ActivityMainBinding
-import com.tnco.runar.feature.MusicController
 import com.tnco.runar.receivers.LanguageBroadcastReceiver
 import com.tnco.runar.repository.LanguageRepository
 import com.tnco.runar.repository.SharedPreferencesRepository
 import com.tnco.runar.ui.Navigator
 import com.tnco.runar.ui.viewmodel.MainViewModel
-import java.util.*
+import com.tnco.runar.ui.viewmodel.MusicControllerViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusChangeListener {
 
     private val viewModel: MainViewModel by viewModels()
+    private val musicControllerViewModel: MusicControllerViewModel by viewModels()
     private var languageReceiver = LanguageBroadcastReceiver()
     var preferencesRepository = SharedPreferencesRepository.get()
     private lateinit var navController: NavController
@@ -111,21 +113,21 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
 
     override fun onAudioFocusChange(focusChange: Int) {
         if (focusChange <= 0) {
-            MusicController.stopMusic()
+            musicControllerViewModel.stopMusic()
         } else {
-            MusicController.startMusic()
+            musicControllerViewModel.startMusic()
         }
     }
 
     override fun onResume() {
-        MusicController.mainStatus = true
-        MusicController.startMusic()
+        musicControllerViewModel.updateMainStatus(true)
+        musicControllerViewModel.startMusic()
         super.onResume()
     }
 
     override fun onPause() {
-        MusicController.mainStatus = false
-        MusicController.softStopMusic()
+        musicControllerViewModel.updateMainStatus(false)
+        musicControllerViewModel.softStopMusic()
         super.onPause()
     }
 

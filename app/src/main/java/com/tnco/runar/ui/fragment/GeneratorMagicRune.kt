@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -15,17 +16,20 @@ import com.tnco.runar.R
 import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.databinding.FragmentGeneratorProcessingBinding
 import com.tnco.runar.enums.AnalyticsEvent
-import com.tnco.runar.feature.MusicController
 import com.tnco.runar.ui.component.dialog.CancelDialog
 import com.tnco.runar.ui.viewmodel.MainViewModel
+import com.tnco.runar.ui.viewmodel.MusicControllerViewModel
 import com.tnco.runar.util.AnalyticsConstants
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 
+@AndroidEntryPoint
 class GeneratorMagicRune : Fragment() {
 
     private var _binding: FragmentGeneratorProcessingBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel: MainViewModel
+    private val musicControllerViewModel: MusicControllerViewModel by viewModels()
     private var link = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -78,7 +82,7 @@ class GeneratorMagicRune : Fragment() {
             for (i in 0..100) {
                 binding.generatorProgressOfLoadingView.progress = i
                 delay(70)
-                when (MusicController.currentSongPos) {
+                when (musicControllerViewModel.currentSongPos()) {
                     2 -> {
                         link = "https://lyod1.bandcamp.com/releases"
                         with(binding) {

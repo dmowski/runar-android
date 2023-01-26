@@ -15,14 +15,18 @@ import com.tnco.runar.R
 import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.databinding.FragmentLayoutProcessingBinding
 import com.tnco.runar.enums.AnalyticsEvent
-import com.tnco.runar.feature.MusicController
 import com.tnco.runar.ui.component.dialog.CancelDialog
+import com.tnco.runar.ui.viewmodel.MusicControllerViewModel
 import com.tnco.runar.ui.viewmodel.ProcessingViewModel
 import com.tnco.runar.util.AnalyticsConstants
 import com.tnco.runar.util.AnalyticsUtils
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 
+@AndroidEntryPoint
 class LayoutProcessingFragment : Fragment(R.layout.fragment_layout_processing) {
+
+    private val musicControllerViewModel: MusicControllerViewModel by viewModels()
 
     private var layoutId: Int = 0
     private var userLayout = intArrayOf()
@@ -74,7 +78,7 @@ class LayoutProcessingFragment : Fragment(R.layout.fragment_layout_processing) {
                 textSongName.setTextSize(TypedValue.COMPLEX_UNIT_PX, simpleTextSize)
                 textGroupName.setTextSize(TypedValue.COMPLEX_UNIT_PX, advertHeaderTextSize)
             }
-            when (MusicController.currentSongPos) {
+            when (musicControllerViewModel.currentSongPos()) {
                 2 -> {
                     link = "https://lyod1.bandcamp.com/releases"
                     with(binding) {

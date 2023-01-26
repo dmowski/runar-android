@@ -9,12 +9,18 @@ import com.tnco.runar.repository.LanguageRepository
 import com.tnco.runar.repository.SharedDataRepository
 import com.tnco.runar.repository.SharedPreferencesRepository
 import com.tnco.runar.repository.backend.BackendRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.*
+import javax.inject.Inject
 
-class SettingsViewModel : ViewModel() {
+@HiltViewModel
+class SettingsViewModel @Inject constructor(
+    private val musicController: MusicController
+) : ViewModel() {
+
     private val preferencesRepository = SharedPreferencesRepository.get()
 
     val fontSize: LiveData<Float> = MutableLiveData(SharedDataRepository.fontSize)
@@ -50,11 +56,11 @@ class SettingsViewModel : ViewModel() {
     fun changeMusicStatus(state: Boolean) {
         if (state) {
             preferencesRepository.changeSettingsMusic(1)
-            MusicController.startMusic()
+            musicController.startMusic()
             updateMusicStatus()
         } else {
             preferencesRepository.changeSettingsMusic(0)
-            MusicController.stopMusic()
+            musicController.stopMusic()
             updateMusicStatus()
         }
     }

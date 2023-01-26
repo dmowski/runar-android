@@ -16,6 +16,7 @@ import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.ui.viewmodel.LibraryViewModel
 import com.tnco.runar.util.observeOnce
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -24,6 +25,7 @@ import kotlinx.coroutines.launch
 const val audioFeature = true
 private const val WAITING_FOR_IMAGES = 3500L
 
+@AndroidEntryPoint
 class LibraryFragment : Fragment() {
     val viewModel: LibraryViewModel by viewModels()
 
