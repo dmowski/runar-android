@@ -65,7 +65,7 @@ class SettingsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val view = ComposeView(requireContext()).apply {
+        val view = ComposeView(requireActivity()).apply {
             setContent {
                 Bars(navigator!!, findNavController())
             }
