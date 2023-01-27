@@ -6,7 +6,6 @@ import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
 import android.util.Log
-import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.data.local.AppDB
 import com.tnco.runar.data.local.DataDB
 import com.tnco.runar.repository.LanguageRepository
@@ -23,7 +22,6 @@ class App : Application() {
         AppDB.init(this)
         DataDB.init(this)
         SharedDataRepository.init(this)
-        AnalyticsHelper.init()
         createNotificationChannel()
         super.onCreate()
     }

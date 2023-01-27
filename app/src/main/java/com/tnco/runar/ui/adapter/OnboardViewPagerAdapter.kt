@@ -1,6 +1,5 @@
 package com.tnco.runar.ui.adapter
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,17 +8,13 @@ import android.widget.TextView
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.viewpager.widget.PagerAdapter
 import com.tnco.runar.R
-import com.tnco.runar.analytics.AnalyticsHelper
-import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.model.OnboardGuideElementModel
-import com.tnco.runar.ui.viewmodel.OnboardViewModel
 
 class OnboardViewPagerAdapter(
-    private var models: List<OnboardGuideElementModel>,
-    var context: Context,
-    var viewModel: OnboardViewModel
+    private val models: List<OnboardGuideElementModel>,
+    private val onChangeActivity: () -> Unit,
+    private val onChangePosition: (Int) -> Unit
 ) : PagerAdapter() {
-    private lateinit var layoutInflater: LayoutInflater
 
     override fun getCount(): Int {
         return models.size
@@ -30,7 +25,7 @@ class OnboardViewPagerAdapter(
     }
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
-        layoutInflater = LayoutInflater.from(context)
+        val layoutInflater = LayoutInflater.from(container.context)
         val view = layoutInflater.inflate(R.layout.onboard_card, container, false)
         val cardButton = view.findViewById<TextView>(R.id.card_button)
         val header = view.findViewById<TextView>(R.id.header)
@@ -43,19 +38,17 @@ class OnboardViewPagerAdapter(
 
         if (position == 5) {
             cardButton.background = AppCompatResources.getDrawable(
-                context,
+                container.context,
                 R.drawable.onboarding_button_background_selected
             )
-            cardButton.setTextColor(context.getColor(R.color.onboarding_button_text_deselected))
+            cardButton.setTextColor(container.context.getColor(R.color.onboarding_button_text_deselected))
         }
 
         cardButton.setOnClickListener {
             if (position < models.size - 1) {
-                AnalyticsHelper.sendEvent(AnalyticsEvent.OB_NEXT)
-                viewModel.changeCurrentPosition(position + 1)
+                onChangePosition(position)
             } else {
-                AnalyticsHelper.sendEvent(AnalyticsEvent.OB_START)
-                viewModel.nextActivity(true)
+                onChangeActivity()
             }
         }
         container.addView(view, 0)

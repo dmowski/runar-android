@@ -13,15 +13,16 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.tnco.runar.R
-import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.databinding.FragmentGeneratorProcessingBinding
 import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.ui.component.dialog.CancelDialog
 import com.tnco.runar.ui.viewmodel.MainViewModel
 import com.tnco.runar.ui.viewmodel.MusicControllerViewModel
 import com.tnco.runar.util.AnalyticsConstants
+import com.tnco.runar.util.InternalDeepLink
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
 class GeneratorMagicRune : Fragment() {
@@ -36,17 +37,16 @@ class GeneratorMagicRune : Fragment() {
         super.onCreate(savedInstanceState)
 
         requireActivity().onBackPressedDispatcher.addCallback(this) {
-            CancelDialog(
-                requireContext(),
-                viewModel.fontSize.value!!,
-                "generator_processing",
-                getString(R.string.description_generator_popup)
-            ) {
-                requireActivity().viewModelStore.clear()
-                val direction = GeneratorMagicRuneDirections.actionGlobalGeneratorFragment()
-                findNavController().navigate(direction)
-            }
-                .showDialog()
+            val uri = Uri.parse(
+                InternalDeepLink.CancelDialog
+                    .withArgs(
+                        "${viewModel.fontSize.value!!}",
+                        "generator_processing",
+                        getString(R.string.description_runic_draws_popup),
+                        "${R.id.generatorStartFragment}"
+                    )
+            )
+            findNavController().navigate(uri)
         }
     }
 
@@ -65,7 +65,7 @@ class GeneratorMagicRune : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         progressBarAction()
         binding.generatorDescriptionButtonFrame.setOnClickListener {
-            AnalyticsHelper.sendEvent(
+            viewModel.analyticsHelper.sendEvent(
                 AnalyticsEvent.MUSIC_LINK_OPENED,
                 Pair(AnalyticsConstants.GROUP_NAME, binding.generatorTextGroupName.text.toString()),
                 Pair(AnalyticsConstants.TRACK_NAME, binding.generatorTextSongName.text.toString())
@@ -118,9 +118,13 @@ class GeneratorMagicRune : Fragment() {
                 }
             }
 
-            val direction = GeneratorMagicRuneDirections
-                .actionGeneratorMagicRuneToRunePatternGenerator()
-            findNavController().navigate(direction)
+            findNavController().currentBackStackEntryFlow.collect { navBackStackEntry ->
+                if (navBackStackEntry.destination.id == R.id.generatorMagicRune) {
+                    val direction = GeneratorMagicRuneDirections
+                        .actionGeneratorMagicRuneToRunePatternGenerator()
+                    findNavController().navigate(direction)
+                }
+            }
         }
     }
 

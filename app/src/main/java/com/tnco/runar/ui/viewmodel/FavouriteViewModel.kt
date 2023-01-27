@@ -10,13 +10,18 @@ import com.tnco.runar.repository.DatabaseRepository
 import com.tnco.runar.repository.SharedDataRepository
 import com.tnco.runar.util.AnalyticsConstants
 import com.tnco.runar.util.AnalyticsUtils
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
+import javax.inject.Inject
 
-class FavouriteViewModel : ViewModel() {
+@HiltViewModel
+class FavouriteViewModel @Inject constructor(
+    val analyticsHelper: AnalyticsHelper
+) : ViewModel() {
     val fontSize: LiveData<Float> = MutableLiveData(SharedDataRepository.fontSize)
     private var favList: List<UserLayoutModel> = emptyList()
     private var runesData: List<RuneDescriptionModel> = emptyList()
@@ -74,7 +79,7 @@ class FavouriteViewModel : ViewModel() {
                 if (item.selected!!) {
                     idsList.add(item.id!!)
                     val value = AnalyticsUtils.convertLayoutIdToName(item.layoutId!!)
-                    AnalyticsHelper.sendEvent(
+                    analyticsHelper.sendEvent(
                         AnalyticsEvent.FAVOURITE_DRAWS_DELETED,
                         Pair(AnalyticsConstants.DRAW_RUNE_LAYOUT, value)
                     )

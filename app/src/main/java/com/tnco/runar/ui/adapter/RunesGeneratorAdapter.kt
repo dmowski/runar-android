@@ -79,6 +79,12 @@ class RunesGeneratorAdapter(
         selectedAdapterPositions.removeAt(index)
     }
 
+    fun clearData() {
+        selectedRunes.clear()
+        selectedAdapterPositions.clear()
+        obsSelectedRunes.postValue(mutableListOf())
+    }
+
     override fun getItemCount(): Int = mListRunes.size
 
     fun setData(list: List<RunesItemsModel>) {

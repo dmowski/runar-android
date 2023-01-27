@@ -12,7 +12,6 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.tnco.runar.R
-import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.ui.viewmodel.LibraryViewModel
 import com.tnco.runar.util.observeOnce
@@ -36,7 +35,7 @@ class LibraryFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         viewModel.getRuneDataFromDB()
-        AnalyticsHelper.sendEvent(AnalyticsEvent.LIBRARY_OPENED)
+        viewModel.analyticsHelper.sendEvent(AnalyticsEvent.LIBRARY_OPENED)
 
         val noInternet = getString(R.string.internet_conn_error1)
 
