@@ -42,7 +42,6 @@ class CancelDialog : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // requireDialog().requestWindowFeature(Window.FEATURE_NO_TITLE)
         requireDialog().setCancelable(false)
         requireDialog().window?.setLayout(
             WindowManager.LayoutParams.MATCH_PARENT,
