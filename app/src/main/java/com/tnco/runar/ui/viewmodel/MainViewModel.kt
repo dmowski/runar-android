@@ -26,7 +26,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    networkMonitor: NetworkMonitor
+    networkMonitor: NetworkMonitor,
+    private val databaseRepository: DatabaseRepository,
+    private val backendRepository: BackendRepository,
 ) : ViewModel() {
 
 //    private val _isLoading = MutableStateFlow(true)
@@ -49,7 +51,7 @@ class MainViewModel @Inject constructor(
 //    val selectedIndices = mutableListOf<Int>()
 
     var readRunes: LiveData<List<RunesItemsModel>> =
-        DatabaseRepository.getRunesGenerator().asLiveData()
+        databaseRepository.getRunesGenerator().asLiveData()
     val runesResponse = MutableLiveData<NetworkResult<List<RunesItemsModel>>>()
 
     val runePattern = mutableListOf<String>()
@@ -62,7 +64,7 @@ class MainViewModel @Inject constructor(
     fun getRunes() = viewModelScope.launch(Dispatchers.IO) {
         runesResponse.postValue(NetworkResult.Loading())
         try {
-            val response = BackendRepository.getRunes()
+            val response = backendRepository.getRunes()
             runesResponse.postValue(handleRunesResponse(response))
         } catch (e: Exception) {
             runesResponse.postValue(NetworkResult.Error(e.toString()))
@@ -75,14 +77,14 @@ class MainViewModel @Inject constructor(
         val userId = preferencesRepository.userId
         val timeStamp = System.currentTimeMillis() / 1000L
         val androidVersion = "Android " + Build.VERSION.RELEASE
-        BackendRepository.identify(UserInfo(userId, timeStamp, androidVersion))
+        backendRepository.identify(UserInfo(userId, timeStamp, androidVersion))
     }
 
     fun getBackgroundInfo() = viewModelScope.launch(Dispatchers.IO) {
         backgroundInfo.clear()
 
         try {
-            val response = BackendRepository.getBackgroundInfo()
+            val response = backendRepository.getBackgroundInfo()
             handleBackgroundInfoResponse(response)
         } catch (e: Exception) {
             getBackgroundImages()
@@ -96,7 +98,7 @@ class MainViewModel @Inject constructor(
 
         for (index in backgroundInfo.indices) {
             try {
-                val response = BackendRepository.getBackgroundImage(
+                val response = backendRepository.getBackgroundImage(
                     runesSelected,
                     runePattern[selectedRuneIndex],
                     backgroundInfo[index].name,
@@ -114,7 +116,7 @@ class MainViewModel @Inject constructor(
         runePattern.clear()
 
         try {
-            val response = BackendRepository.getRunePattern(runesSelected)
+            val response = backendRepository.getRunePattern(runesSelected)
             handleRunePatternResponse(response)
         } catch (e: Exception) {
             getRuneImages()
@@ -131,7 +133,7 @@ class MainViewModel @Inject constructor(
 
         for (imgPath in runePattern) {
             try {
-                val response = BackendRepository.getRuneImage(runesSelected, imgPath)
+                val response = backendRepository.getRuneImage(runesSelected, imgPath)
                 runesImagesResponse.postValue(handleRuneImagesResponse(response))
             } catch (e: Exception) {
                 runesImagesResponse.postValue(NetworkResult.Error(e.toString()))
@@ -142,13 +144,13 @@ class MainViewModel @Inject constructor(
     fun cancelChildrenCoroutines() = viewModelScope.coroutineContext.cancelChildren()
 
     private fun handleRunesResponse(
-        response: Response<List<RunesResponse>>
+        response: Response<List<RunesResponse>>,
     ): NetworkResult<List<RunesItemsModel>> {
         return when {
             response.isSuccessful -> {
                 val convertedResult =
                     DataClassConverters.runesRespToItems(response.body()!!)
-                DatabaseRepository.updateRunesGeneratorDB(convertedResult)
+                databaseRepository.updateRunesGeneratorDB(convertedResult)
                 NetworkResult.Success(convertedResult)
             }
             else -> NetworkResult.Error(response.errorBody().toString())
@@ -156,7 +158,7 @@ class MainViewModel @Inject constructor(
     }
 
     private fun handleBackgroundInfoResponse(
-        response: Response<List<BackgroundInfo>>
+        response: Response<List<BackgroundInfo>>,
     ) {
         if (response.isSuccessful) {
             backgroundInfo = response.body()!!.toMutableList()
@@ -167,7 +169,7 @@ class MainViewModel @Inject constructor(
 
     private fun handleBackgroundImageResponse(
         index: Int,
-        response: Response<ResponseBody>
+        response: Response<ResponseBody>,
     ): NetworkResult<List<BackgroundInfo>> {
         return when {
             response.isSuccessful -> {
@@ -185,7 +187,7 @@ class MainViewModel @Inject constructor(
     }
 
     private fun handleRunePatternResponse(
-        response: Response<List<String>>
+        response: Response<List<String>>,
     ) {
         if (response.isSuccessful) {
             val newPatterns = response.body()!!
@@ -199,7 +201,7 @@ class MainViewModel @Inject constructor(
     }
 
     private fun handleRuneImagesResponse(
-        response: Response<ResponseBody>
+        response: Response<ResponseBody>,
     ): NetworkResult<List<Bitmap>> {
         return when {
             response.isSuccessful -> {

@@ -7,11 +7,16 @@ import com.tnco.runar.model.LayoutDescriptionModel
 import com.tnco.runar.repository.DatabaseRepository
 import com.tnco.runar.repository.SharedDataRepository
 import com.tnco.runar.util.SingleLiveEvent
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class InitViewModel : ViewModel() {
+@HiltViewModel
+class InitViewModel @Inject constructor(
+    private val databaseRepository: DatabaseRepository
+) : ViewModel() {
 
     private var _selectedLayout = SingleLiveEvent<LayoutDescriptionModel>()
     private var _fontSize = MutableLiveData<Float>()
@@ -24,7 +29,7 @@ class InitViewModel : ViewModel() {
 
     fun getLayoutDescription(id: Int) {
         CoroutineScope(Dispatchers.IO).launch {
-            _selectedLayout.postValue(DatabaseRepository.getLayoutDetails(id))
+            _selectedLayout.postValue(databaseRepository.getLayoutDetails(id))
         }
     }
 }

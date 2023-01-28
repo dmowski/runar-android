@@ -6,11 +6,16 @@ import androidx.lifecycle.ViewModel
 import com.tnco.runar.repository.DatabaseRepository
 import com.tnco.runar.repository.SharedDataRepository
 import com.tnco.runar.util.SingleLiveEvent
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class LayoutViewModel : ViewModel() {
+@HiltViewModel
+class LayoutViewModel @Inject constructor(
+    private val databaseRepository: DatabaseRepository
+) : ViewModel() {
 
     private var _showStatus = SingleLiveEvent<Boolean>()
     val showStatus: LiveData<Boolean> = _showStatus
@@ -18,7 +23,7 @@ class LayoutViewModel : ViewModel() {
 
     fun checkDescriptionStatus(id: Int) {
         CoroutineScope(Dispatchers.IO).launch {
-            _showStatus.postValue(DatabaseRepository.getShowStatus(id) == 1)
+            _showStatus.postValue(databaseRepository.getShowStatus(id) == 1)
         }
     }
 }

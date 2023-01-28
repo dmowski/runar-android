@@ -6,11 +6,16 @@ import androidx.lifecycle.ViewModel
 import com.tnco.runar.repository.DatabaseRepository
 import com.tnco.runar.repository.SharedDataRepository
 import com.tnco.runar.util.SingleLiveEvent
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ProcessingViewModel : ViewModel() {
+@HiltViewModel
+class ProcessingViewModel @Inject constructor(
+    private val databaseRepository: DatabaseRepository
+) : ViewModel() {
 
     private var _layoutName = SingleLiveEvent<String>()
     val layoutName: LiveData<String> = _layoutName
@@ -18,7 +23,7 @@ class ProcessingViewModel : ViewModel() {
 
     fun getLayoutName(id: Int) {
         CoroutineScope(Dispatchers.IO).launch {
-            _layoutName.postValue(DatabaseRepository.getLayoutName(id))
+            _layoutName.postValue(databaseRepository.getLayoutName(id))
         }
     }
 }

@@ -12,7 +12,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LibraryViewModel @Inject constructor(
-    networkMonitor: NetworkMonitor
+    networkMonitor: NetworkMonitor,
+    private val databaseRepository: DatabaseRepository
 ) : ViewModel() {
 
     private val singleThread = Executors.newSingleThreadExecutor().asCoroutineDispatcher()
@@ -35,7 +36,7 @@ class LibraryViewModel @Inject constructor(
 
     fun getRuneDataFromDB() {
         CoroutineScope(singleThread).launch {
-            dbList = DatabaseRepository.getLibraryItemList()
+            dbList = databaseRepository.getLibraryItemList()
         }
     }
 

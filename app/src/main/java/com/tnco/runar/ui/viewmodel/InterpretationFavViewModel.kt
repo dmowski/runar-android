@@ -1,20 +1,24 @@
 package com.tnco.runar.ui.viewmodel
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.tnco.runar.model.AffimDescriptionModel
 import com.tnco.runar.model.LayoutDescriptionModel
 import com.tnco.runar.model.RuneDescriptionModel
 import com.tnco.runar.repository.DatabaseRepository
 import com.tnco.runar.repository.SharedDataRepository
 import com.tnco.runar.util.SingleLiveEvent
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class InterpretationFavViewModel(application: Application) : AndroidViewModel(application) {
+@HiltViewModel
+class InterpretationFavViewModel @Inject constructor(
+    private val databaseRepository: DatabaseRepository
+) : ViewModel() {
     val fontSize: LiveData<Float> = MutableLiveData(SharedDataRepository.fontSize)
     var runesData: List<RuneDescriptionModel> = emptyList()
     var affirmData: List<AffimDescriptionModel> = emptyList()
@@ -59,7 +63,7 @@ class InterpretationFavViewModel(application: Application) : AndroidViewModel(ap
             2 -> {
                 CoroutineScope(IO).launch {
                     val index = userLayout[1] * 100 + userLayout[2]
-                    val inter = DatabaseRepository.getTwoRunesInterpretation(index)
+                    val inter = databaseRepository.getTwoRunesInterpretation(index)
                     val res = String.format(selectedLayout.value?.interpretation!!, inter)
                     _currentInterpretation.postValue(res)
                 }
@@ -197,19 +201,19 @@ class InterpretationFavViewModel(application: Application) : AndroidViewModel(ap
 
     fun getRuneDataFromDB() {
         CoroutineScope(IO).launch {
-            runesData = DatabaseRepository.getRunesList()
+            runesData = databaseRepository.getRunesList()
         }
     }
 
     fun getAffirmationsDataFromDB() {
         CoroutineScope(IO).launch {
-            affirmData = DatabaseRepository.getAffirmList()
+            affirmData = databaseRepository.getAffirmList()
         }
     }
 
     fun getLayoutDescription(id: Int) {
         CoroutineScope(IO).launch {
-            _selectedLayout.postValue(DatabaseRepository.getLayoutDetails(id))
+            _selectedLayout.postValue(databaseRepository.getLayoutDetails(id))
         }
     }
 
