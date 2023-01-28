@@ -3,6 +3,7 @@ package com.tnco.runar.ui.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.model.AffimDescriptionModel
 import com.tnco.runar.model.LayoutDescriptionModel
 import com.tnco.runar.model.RuneDescriptionModel
@@ -19,7 +20,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class InterpretationViewModel @Inject constructor(
-    private val databaseRepository: DatabaseRepository
+    private val databaseRepository: DatabaseRepository,
+    val analyticsHelper: AnalyticsHelper
 ) : ViewModel() {
     var preferencesRepository = SharedPreferencesRepository.get()
     val fontSize: LiveData<Float> = MutableLiveData(SharedDataRepository.fontSize)

@@ -16,6 +16,7 @@ class DataStorePreferences @Inject constructor(
     private val switcherStates = stringSetPreferencesKey("switchers_states")
     private val languageKey = stringPreferencesKey("language")
 
+
     /**
      * Add your switchers to the list.
      * Of significant note: This switchers are available in debug mode only.

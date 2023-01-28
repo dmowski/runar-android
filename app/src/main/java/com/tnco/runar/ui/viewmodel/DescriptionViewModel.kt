@@ -3,6 +3,7 @@ package com.tnco.runar.ui.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.model.LayoutDescriptionModel
 import com.tnco.runar.repository.DatabaseRepository
 import com.tnco.runar.repository.SharedDataRepository
@@ -15,7 +16,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DescriptionViewModel @Inject constructor(
-    private val databaseRepository: DatabaseRepository
+    private val databaseRepository: DatabaseRepository,
+    val analyticsHelper: AnalyticsHelper
 ) : ViewModel() {
 
     private var _selectedLayout = SingleLiveEvent<LayoutDescriptionModel>()

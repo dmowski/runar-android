@@ -3,6 +3,7 @@ package com.tnco.runar.ui.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.repository.DatabaseRepository
 import com.tnco.runar.repository.SharedDataRepository
 import com.tnco.runar.util.SingleLiveEvent
@@ -14,7 +15,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LayoutViewModel @Inject constructor(
-    private val databaseRepository: DatabaseRepository
+    private val databaseRepository: DatabaseRepository,
+    val analyticsHelper: AnalyticsHelper
 ) : ViewModel() {
 
     private var _showStatus = SingleLiveEvent<Boolean>()

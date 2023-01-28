@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory
 import android.os.Build
 import android.util.Log
 import androidx.lifecycle.*
+import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.data.remote.BackgroundInfo
 import com.tnco.runar.data.remote.NetworkResult
 import com.tnco.runar.data.remote.RunesResponse
@@ -29,6 +30,7 @@ class MainViewModel @Inject constructor(
     networkMonitor: NetworkMonitor,
     private val databaseRepository: DatabaseRepository,
     private val backendRepository: BackendRepository,
+    val analyticsHelper: AnalyticsHelper
 ) : ViewModel() {
 
 //    private val _isLoading = MutableStateFlow(true)
@@ -62,6 +64,7 @@ class MainViewModel @Inject constructor(
     var shareURL = ""
 
     fun getRunes() = viewModelScope.launch(Dispatchers.IO) {
+        backgroundInfo.clear()
         runesResponse.postValue(NetworkResult.Loading())
         try {
             val response = backendRepository.getRunes()
