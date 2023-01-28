@@ -158,7 +158,7 @@ class MainViewModel @Inject constructor(
     }
 
     private fun handleBackgroundInfoResponse(
-        response: Response<List<BackgroundInfo>>,
+        response: Response<List<BackgroundInfo>>
     ) {
         if (response.isSuccessful) {
             backgroundInfo = response.body()!!.toMutableList()
@@ -169,7 +169,7 @@ class MainViewModel @Inject constructor(
 
     private fun handleBackgroundImageResponse(
         index: Int,
-        response: Response<ResponseBody>,
+        response: Response<ResponseBody>
     ): NetworkResult<List<BackgroundInfo>> {
         return when {
             response.isSuccessful -> {
@@ -187,7 +187,7 @@ class MainViewModel @Inject constructor(
     }
 
     private fun handleRunePatternResponse(
-        response: Response<List<String>>,
+        response: Response<List<String>>
     ) {
         if (response.isSuccessful) {
             val newPatterns = response.body()!!
@@ -201,7 +201,7 @@ class MainViewModel @Inject constructor(
     }
 
     private fun handleRuneImagesResponse(
-        response: Response<ResponseBody>,
+        response: Response<ResponseBody>
     ): NetworkResult<List<Bitmap>> {
         return when {
             response.isSuccessful -> {
