@@ -13,7 +13,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.tnco.runar.R
-import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.data.remote.NetworkResult
 import com.tnco.runar.databinding.FragmentGeneratorBackgroundBinding
 import com.tnco.runar.enums.AnalyticsEvent
@@ -44,7 +43,7 @@ class GeneratorBackground : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        AnalyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_PATTERN_SELECTION_BACKGROUND)
+        viewModel.analyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_PATTERN_SELECTION_BACKGROUND)
         binding.textSelectBackground.visibility = View.GONE
         binding.buttonNext.setOnClickListener {
             val direction = GeneratorBackgroundDirections
@@ -183,25 +182,23 @@ class GeneratorBackground : Fragment() {
     }
 
     private fun showCancelDialog() {
-        CancelDialog(
-            requireContext(),
-            viewModel.fontSize.value!!,
-            "generator_background",
-            getString(R.string.description_generator_popup)
-        ) {
-            requireActivity().viewModelStore.clear()
-            val direction = GeneratorBackgroundDirections.actionGlobalGeneratorFragment()
-            findNavController().navigate(direction)
-        }
-            .showDialog()
+        val uri = Uri.parse(
+            InternalDeepLink.CancelDialog
+                .withArgs(
+                    "${viewModel.fontSize.value!!}",
+                    "generator_background",
+                    getString(R.string.description_runic_draws_popup),
+                    "${R.id.generatorStartFragment}"
+                )
+        )
+        findNavController().navigate(uri)
     }
 
     private fun showInternetConnectionError() {
         requireActivity().viewModelStore.clear()
-        val topMostDestinationToRetry = R.id.generatorFragment
         val uri = Uri.parse(
             InternalDeepLink.ConnectivityErrorFragment
-                .withArgs("$topMostDestinationToRetry")
+                .withArgs("${R.id.generatorStartFragment}")
         )
         findNavController().navigate(uri)
     }

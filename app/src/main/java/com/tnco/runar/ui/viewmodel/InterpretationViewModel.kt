@@ -1,9 +1,9 @@
 package com.tnco.runar.ui.viewmodel
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.model.AffimDescriptionModel
 import com.tnco.runar.model.LayoutDescriptionModel
 import com.tnco.runar.model.RuneDescriptionModel
@@ -12,11 +12,16 @@ import com.tnco.runar.repository.DatabaseRepository
 import com.tnco.runar.repository.SharedDataRepository
 import com.tnco.runar.repository.SharedPreferencesRepository
 import com.tnco.runar.util.SingleLiveEvent
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class InterpretationViewModel(application: Application) : AndroidViewModel(application) {
+@HiltViewModel
+class InterpretationViewModel @Inject constructor(
+    val analyticsHelper: AnalyticsHelper
+) : ViewModel() {
     var preferencesRepository = SharedPreferencesRepository.get()
     val fontSize: LiveData<Float> = MutableLiveData(SharedDataRepository.fontSize)
     var runesData: List<RuneDescriptionModel> = emptyList()

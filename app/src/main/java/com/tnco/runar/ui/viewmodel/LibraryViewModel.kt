@@ -1,6 +1,7 @@
 package com.tnco.runar.ui.viewmodel
 
 import androidx.lifecycle.*
+import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.model.LibraryItemsModel
 import com.tnco.runar.repository.DatabaseRepository
 import com.tnco.runar.repository.SharedDataRepository
@@ -12,7 +13,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LibraryViewModel @Inject constructor(
-    networkMonitor: NetworkMonitor
+    networkMonitor: NetworkMonitor,
+    val analyticsHelper: AnalyticsHelper
 ) : ViewModel() {
 
     private val singleThread = Executors.newSingleThreadExecutor().asCoroutineDispatcher()
