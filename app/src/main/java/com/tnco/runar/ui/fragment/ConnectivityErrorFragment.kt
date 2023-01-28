@@ -1,5 +1,6 @@
 package com.tnco.runar.ui.fragment
 
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,7 +9,9 @@ import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.tnco.runar.R
 import com.tnco.runar.databinding.ConnectivityErrorLayoutBinding
+import com.tnco.runar.util.InternalDeepLink
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -21,7 +24,12 @@ class ConnectivityErrorFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         requireActivity().onBackPressedDispatcher.addCallback(this) {
-            findNavController().popBackStack(args.topMostDestinationToRetry, false)
+            val topMostDestinationToRetry = R.id.layoutFragment
+            val uri = Uri.parse(
+                InternalDeepLink.ReturnLayoutFragment
+                    .withArgs("$topMostDestinationToRetry")
+            )
+            findNavController().navigate(uri)
         }
     }
 
