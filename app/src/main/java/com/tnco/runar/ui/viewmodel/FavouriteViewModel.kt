@@ -20,7 +20,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class FavouriteViewModel @Inject constructor(
-    private val databaseRepository: DatabaseRepository
+    private val databaseRepository: DatabaseRepository,
+    val analyticsHelper: AnalyticsHelper
 ) : ViewModel() {
     val fontSize: LiveData<Float> = MutableLiveData(SharedDataRepository.fontSize)
     private var favList: List<UserLayoutModel> = emptyList()
@@ -79,7 +80,7 @@ class FavouriteViewModel @Inject constructor(
                 if (item.selected!!) {
                     idsList.add(item.id!!)
                     val value = AnalyticsUtils.convertLayoutIdToName(item.layoutId!!)
-                    AnalyticsHelper.sendEvent(
+                    analyticsHelper.sendEvent(
                         AnalyticsEvent.FAVOURITE_DRAWS_DELETED,
                         Pair(AnalyticsConstants.DRAW_RUNE_LAYOUT, value)
                     )

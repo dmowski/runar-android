@@ -14,7 +14,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import coil.load
 import com.tnco.runar.R
-import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.data.remote.NetworkResult
 import com.tnco.runar.databinding.FragmentGeneratorStartBinding
 import com.tnco.runar.enums.AnalyticsEvent
@@ -52,8 +51,8 @@ class GeneratorStartFragment : Fragment() {
             findNavController().popBackStack()
         }
 
-        AnalyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_PATTERN_SELECTED)
         mViewModel = ViewModelProvider(requireActivity())[MainViewModel::class.java]
+        mViewModel.analyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_PATTERN_SELECTED)
         setupRecyclerView()
         // readDatabase()
 
@@ -252,7 +251,7 @@ class GeneratorStartFragment : Fragment() {
     }
 
     private fun randomRunes() {
-        AnalyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_PATTERN_RANDOM_RUNES)
+        mViewModel.analyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_PATTERN_RANDOM_RUNES)
         val count = (1..3).random()
         listId.clear()
 
@@ -310,16 +309,16 @@ class GeneratorStartFragment : Fragment() {
     }
 
     private fun showInternetConnectionError() {
-        val topMostDestinationToRetry = R.id.generatorFragment
         val uri = Uri.parse(
             InternalDeepLink.ConnectivityErrorFragment
-                .withArgs("$topMostDestinationToRetry")
+                .withArgs("${R.id.generatorStartFragment}")
         )
         findNavController().navigate(uri)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
+        mAdapter.clearData()
         _binding = null
     }
 }

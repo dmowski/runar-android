@@ -34,7 +34,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.tnco.runar.R
-import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.databinding.FragmentLayoutsBinding
 import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.ui.viewmodel.LayoutViewModel
@@ -78,7 +77,7 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        AnalyticsHelper.sendEvent(AnalyticsEvent.SCREEN_VIEW_RUNIC_DRAWS)
+        viewModel.analyticsHelper.sendEvent(AnalyticsEvent.SCREEN_VIEW_RUNIC_DRAWS)
         setClickListenerOnRuneLayouts()
     }
 
@@ -116,7 +115,7 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
         }
         viewModel.checkDescriptionStatus(idOfRune)
         val layoutName = AnalyticsUtils.convertLayoutIdToName(idOfRune)
-        AnalyticsHelper.sendEvent(
+        viewModel.analyticsHelper.sendEvent(
             AnalyticsEvent.DRAWS_SELECTED,
             Pair(AnalyticsConstants.DRAW_RUNE_LAYOUT, layoutName)
         )
