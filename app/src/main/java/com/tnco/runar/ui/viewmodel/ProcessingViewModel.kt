@@ -15,6 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProcessingViewModel @Inject constructor(
+    private val databaseRepository: DatabaseRepository,
     val analyticsHelper: AnalyticsHelper
 ) : ViewModel() {
 
@@ -24,7 +25,7 @@ class ProcessingViewModel @Inject constructor(
 
     fun getLayoutName(id: Int) {
         CoroutineScope(Dispatchers.IO).launch {
-            _layoutName.postValue(DatabaseRepository.getLayoutName(id))
+            _layoutName.postValue(databaseRepository.getLayoutName(id))
         }
     }
 }

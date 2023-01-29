@@ -20,6 +20,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class InterpretationViewModel @Inject constructor(
+    private val databaseRepository: DatabaseRepository,
     val analyticsHelper: AnalyticsHelper
 ) : ViewModel() {
     var preferencesRepository = SharedPreferencesRepository.get()
@@ -68,7 +69,7 @@ class InterpretationViewModel @Inject constructor(
             2 -> {
                 CoroutineScope(IO).launch {
                     val index = userLayout[1] * 100 + userLayout[2]
-                    val inter = DatabaseRepository.getTwoRunesInterpretation(index)
+                    val inter = databaseRepository.getTwoRunesInterpretation(index)
                     val res = String.format(selectedLayout.value?.interpretation!!, inter)
                     _currentInterpretation.postValue(res)
                 }
@@ -143,7 +144,7 @@ class InterpretationViewModel @Inject constructor(
                 userLayout[7],
                 affirmId
             )
-            DatabaseRepository.addUserLayout(userLayout)
+            databaseRepository.addUserLayout(userLayout)
         }
     }
 
@@ -203,7 +204,7 @@ class InterpretationViewModel @Inject constructor(
     private fun getMeaningForRune(id: Int): String {
         for (rune in runesData) {
             if (rune.runeId == id) {
-                return rune.meaning!!.toLowerCase()
+                return rune.meaning!!.lowercase()
             }
         }
         return ""
@@ -220,19 +221,19 @@ class InterpretationViewModel @Inject constructor(
 
     fun getRuneDataFromDB() {
         CoroutineScope(IO).launch {
-            runesData = DatabaseRepository.getRunesList()
+            runesData = databaseRepository.getRunesList()
         }
     }
 
     fun getAffirmationsDataFromDB() {
         CoroutineScope(IO).launch {
-            affirmData = DatabaseRepository.getAffirmList()
+            affirmData = databaseRepository.getAffirmList()
         }
     }
 
     fun getLayoutDescription(id: Int) {
         CoroutineScope(IO).launch {
-            _selectedLayout.postValue(DatabaseRepository.getLayoutDetails(id))
+            _selectedLayout.postValue(databaseRepository.getLayoutDetails(id))
         }
     }
 

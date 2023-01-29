@@ -16,6 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class InitViewModel @Inject constructor(
+    private val databaseRepository: DatabaseRepository,
     val analyticsHelper: AnalyticsHelper
 ) : ViewModel() {
 
@@ -30,7 +31,7 @@ class InitViewModel @Inject constructor(
 
     fun getLayoutDescription(id: Int) {
         CoroutineScope(Dispatchers.IO).launch {
-            _selectedLayout.postValue(DatabaseRepository.getLayoutDetails(id))
+            _selectedLayout.postValue(databaseRepository.getLayoutDetails(id))
         }
     }
 }

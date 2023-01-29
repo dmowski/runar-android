@@ -14,6 +14,7 @@ import javax.inject.Inject
 @HiltViewModel
 class LibraryViewModel @Inject constructor(
     networkMonitor: NetworkMonitor,
+    private val databaseRepository: DatabaseRepository,
     val analyticsHelper: AnalyticsHelper
 ) : ViewModel() {
 
@@ -37,7 +38,7 @@ class LibraryViewModel @Inject constructor(
 
     fun getRuneDataFromDB() {
         CoroutineScope(singleThread).launch {
-            dbList = DatabaseRepository.getLibraryItemList()
+            dbList = databaseRepository.getLibraryItemList()
         }
     }
 

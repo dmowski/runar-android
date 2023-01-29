@@ -13,8 +13,11 @@ import okhttp3.ResponseBody
 import retrofit2.HttpException
 import retrofit2.Response
 import java.util.*
+import javax.inject.Inject
 
-object BackendRepository {
+class BackendRepository @Inject constructor(
+    private val databaseRepository: DatabaseRepository
+) {
 
     fun identify(userInfo: UserInfo) {
         CoroutineScope(Dispatchers.IO).launch {
@@ -55,7 +58,7 @@ object BackendRepository {
                                     DataClassConverters.libRespToItems(response.body()!!)
                                 if (Locale.getDefault().language == lang) {
                                     // RunarLogger.logDebug("Data Loaded and Converted")
-                                    DatabaseRepository.updateLibraryDB(convertedResult)
+                                    databaseRepository.updateLibraryDB(convertedResult)
                                     //  RunarLogger.logDebug("save new hash")
                                     spr.putLibHash(lang, newHash)
                                 } else {

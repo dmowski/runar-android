@@ -4,11 +4,13 @@ import android.app.Activity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.tnco.runar.feature.MusicController
 import com.tnco.runar.repository.LanguageRepository
 import com.tnco.runar.repository.SharedDataRepository
 import com.tnco.runar.repository.SharedPreferencesRepository
 import com.tnco.runar.repository.backend.BackendRepository
+import com.tnco.runar.repository.data_store.DataStorePreferences
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -18,10 +20,15 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
-    private val musicController: MusicController
+    private val musicController: MusicController,
+    private val languageRepository: LanguageRepository,
+    private val backendRepository: BackendRepository,
+    private val dataStorePreferences: DataStorePreferences
 ) : ViewModel() {
 
     private val preferencesRepository = SharedPreferencesRepository.get()
+
+    val appLanguage = dataStorePreferences.appLanguage
 
     val fontSize: LiveData<Float> = MutableLiveData(SharedDataRepository.fontSize)
     val musicStatus: MutableLiveData<Boolean> = MutableLiveData(true)
@@ -38,12 +45,14 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun changeLanguage(pos: Int, activity: Activity) {
-        LanguageRepository.changeLanguage(activity, langOrder[pos])
-        preferencesRepository.changeSettingsLanguage(langOrder[pos])
+        languageRepository.changeLanguage(activity, langOrder[pos])
+        viewModelScope.launch {
+            dataStorePreferences.saveAppLanguage(langOrder[pos])
+        }
         selectedLanguagePos.postValue(pos)
         headerUpdater.postValue(!headerUpdater.value!!)
         CoroutineScope(Dispatchers.IO).launch {
-            BackendRepository.getLibraryData(langOrder[pos])
+            backendRepository.getLibraryData(langOrder[pos])
         }
     }
 

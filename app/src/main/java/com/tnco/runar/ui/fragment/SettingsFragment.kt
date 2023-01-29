@@ -83,7 +83,7 @@ private fun Bars(navigator: Navigator, navController: NavController) {
     val languagePos by viewModel.selectedLanguagePos.observeAsState()
     val headerUpdater by viewModel.headerUpdater.observeAsState()
 
-    val header = if (headerUpdater!!) stringResource(id = R.string.settings_layout)
+    val header = if (headerUpdater!!) stringResource(id = R.string.settings_layout) // TODO is it the right way to update the state?
     else stringResource(id = R.string.settings_layout)
 
     val context = LocalContext.current

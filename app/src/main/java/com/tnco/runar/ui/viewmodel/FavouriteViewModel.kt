@@ -20,6 +20,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class FavouriteViewModel @Inject constructor(
+    private val databaseRepository: DatabaseRepository,
     val analyticsHelper: AnalyticsHelper
 ) : ViewModel() {
     val fontSize: LiveData<Float> = MutableLiveData(SharedDataRepository.fontSize)
@@ -33,10 +34,10 @@ class FavouriteViewModel @Inject constructor(
 
     fun getUserLayoutsFromDB() {
         CoroutineScope(Dispatchers.IO).launch {
-            favList = DatabaseRepository.getUserLayouts().asReversed().take(500)
-            runesData = DatabaseRepository.getRunesList()
-            layoutsData = DatabaseRepository.getAllLayouts()
-            twoRunesInters = DatabaseRepository.getAllTwoRunesInter()
+            favList = databaseRepository.getUserLayouts().asReversed().take(500)
+            runesData = databaseRepository.getRunesList()
+            layoutsData = databaseRepository.getAllLayouts()
+            twoRunesInters = databaseRepository.getAllTwoRunesInter()
             getCorrectUserData()
         }
     }
@@ -87,8 +88,8 @@ class FavouriteViewModel @Inject constructor(
             }
         }
         CoroutineScope(Dispatchers.IO).launch {
-            DatabaseRepository.deleteUserLayoutsByIds(idsList)
-            favList = DatabaseRepository.getUserLayouts()
+            databaseRepository.deleteUserLayoutsByIds(idsList)
+            favList = databaseRepository.getUserLayouts()
             getCorrectUserData()
         }
     }

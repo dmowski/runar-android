@@ -15,6 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LayoutViewModel @Inject constructor(
+    private val databaseRepository: DatabaseRepository,
     val analyticsHelper: AnalyticsHelper
 ) : ViewModel() {
 
@@ -24,7 +25,7 @@ class LayoutViewModel @Inject constructor(
 
     fun checkDescriptionStatus(id: Int) {
         CoroutineScope(Dispatchers.IO).launch {
-            _showStatus.postValue(DatabaseRepository.getShowStatus(id) == 1)
+            _showStatus.postValue(databaseRepository.getShowStatus(id) == 1)
         }
     }
 }
