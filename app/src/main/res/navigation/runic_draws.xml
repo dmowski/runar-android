@@ -17,8 +17,8 @@
             android:id="@+id/action_layoutFragment_to_layoutInitFragment"
             app:destination="@id/layoutInitFragment" />
         <deepLink
-            android:id="@+id/returnLayoutFragment"
-            app:uri="runar-android://LayoutFragment/{topMostDestinationToRetry}" />
+            android:id="@+id/layoutFragment"
+            app:uri="runar-android://LayoutFragment" />
 
     </fragment>
 

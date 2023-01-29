@@ -19,6 +19,7 @@ class ConnectivityErrorFragment : Fragment() {
     private var _binding: ConnectivityErrorLayoutBinding? = null
     private val binding get() = _binding!!
     private val args: ConnectivityErrorFragmentArgs by navArgs()
+    private val getRoute: ConnectivityErrorFragmentArgs by navArgs()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,8 +27,8 @@ class ConnectivityErrorFragment : Fragment() {
         requireActivity().onBackPressedDispatcher.addCallback(this) {
             val topMostDestinationToRetry = R.id.layoutFragment
             val uri = Uri.parse(
-                InternalDeepLink.ReturnLayoutFragment
-                    .withArgs("$topMostDestinationToRetry")
+                InternalDeepLink.LayoutFragment
+                    .getRoute()
             )
             findNavController().navigate(uri)
         }
