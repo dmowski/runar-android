@@ -23,14 +23,15 @@ class SettingsViewModel @Inject constructor(
     private val musicController: MusicController,
     private val languageRepository: LanguageRepository,
     private val backendRepository: BackendRepository,
-    private val dataStorePreferences: DataStorePreferences
+    private val dataStorePreferences: DataStorePreferences,
+    sharedDataRepository: SharedDataRepository
 ) : ViewModel() {
 
     private val preferencesRepository = SharedPreferencesRepository.get()
 
     val appLanguage = dataStorePreferences.appLanguage
 
-    val fontSize: LiveData<Float> = MutableLiveData(SharedDataRepository.fontSize)
+    val fontSize: LiveData<Float> = MutableLiveData(sharedDataRepository.fontSize)
     val musicStatus: MutableLiveData<Boolean> = MutableLiveData(true)
     val onboardingStatus: MutableLiveData<Boolean> = MutableLiveData(true)
     val selectedLanguagePos: MutableLiveData<Int> = MutableLiveData(0)
