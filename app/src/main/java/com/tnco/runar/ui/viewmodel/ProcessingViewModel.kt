@@ -16,12 +16,13 @@ import javax.inject.Inject
 @HiltViewModel
 class ProcessingViewModel @Inject constructor(
     private val databaseRepository: DatabaseRepository,
-    val analyticsHelper: AnalyticsHelper
+    val analyticsHelper: AnalyticsHelper,
+    sharedDataRepository: SharedDataRepository
 ) : ViewModel() {
 
     private var _layoutName = SingleLiveEvent<String>()
     val layoutName: LiveData<String> = _layoutName
-    val fontSize: LiveData<Float> = MutableLiveData(SharedDataRepository.fontSize)
+    val fontSize: LiveData<Float> = MutableLiveData(sharedDataRepository.fontSize)
 
     fun getLayoutName(id: Int) {
         CoroutineScope(Dispatchers.IO).launch {
