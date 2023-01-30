@@ -10,6 +10,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.toBitmap
 import com.google.firebase.messaging.FirebaseMessagingService
+import com.google.firebase.messaging.RemoteMessage
 import com.tnco.runar.R
 import com.tnco.runar.RunarLogger
 import com.tnco.runar.repository.SharedPreferencesRepository
@@ -28,29 +29,40 @@ class PushService : FirebaseMessagingService() {
         super.onNewToken(token)
     }
 
+    override fun onMessageReceived(message: RemoteMessage) {
+        Log.d("KEYKAK", "onMessageReceived - ${message.notification?.body}")
+    }
+
     override fun handleIntent(intent: Intent?) {
         RunarLogger.logDebug("received message from server")
         Log.d("KEYKAK", "enter handle intent method")
+        Log.d("KEYKAK", "keySet - ${intent?.extras?.keySet()?.joinToString(" ")}")
+        Log.d(
+            "KEYKAK",
+            "gcm.notification.title - ${intent?.extras?.getString("gcm.notification.title")}"
+        )
+        Log.d(
+            "KEYKAK",
+            "gcm.notification.body - ${intent?.extras?.getString("gcm.notification.body")}"
+        )
         // crutch, for some reason the notification comes on the first start
         // if I open just only once, it will be problem
-        Log.d("KEYKAK", "${preferencesRepository.firstLaunch}")
-        if (preferencesRepository.firstLaunch != 1 && isShouldSend()) {
-            sendNotification()
+        if (isShouldSend()) {
+            sendNotification(intent)
         }
     }
 
     private fun isShouldSend(): Boolean {
         var isShouldSend = false
-        val monday = "monday"
         val currentDay = getCurrentDay()
         val currentTime = System.currentTimeMillis()
         val lastRunTime = preferencesRepository.lastDivination
         val startTimeNotification = 11
         val oneHour = 3600000L
         val difference = oneHour * startTimeNotification
-        val isOk = currentTime - lastRunTime > difference
+        val isOk = (currentTime - lastRunTime) > difference
         Log.d("KEYKAK", "$difference, $currentDay, ${currentTime - lastRunTime}")
-        if (currentDay == monday && isOk) {
+        if (isOk) {
             Log.d("KEYKAK", "isOk=true")
             isShouldSend = true
         }
@@ -69,14 +81,14 @@ class PushService : FirebaseMessagingService() {
         }
     }
 
-    private fun sendNotification() {
-        val notification = createNotification()
+    private fun sendNotification(intent: Intent?) {
+        val notification = createNotification(intent)
         val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val uniqueNotificationId = 0
         manager.notify(uniqueNotificationId, notification.build())
     }
 
-    private fun createNotification(): NotificationCompat.Builder {
+    private fun createNotification(notificationInfo: Intent?): NotificationCompat.Builder {
         val intent = Intent(this, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
@@ -90,7 +102,12 @@ class PushService : FirebaseMessagingService() {
         val bigLargeIcon = ResourcesCompat.getDrawable(resources, R.drawable.big_large_icon, null)
         return NotificationCompat.Builder(this, REMINDER_CHANNEL_ID)
             .setSmallIcon(R.drawable.notif_icon_white)
-            .setContentText(getString(R.string.push_general_notification))
+            .setContentText(
+                if (notificationInfo?.extras?.getString("gcm.notification.body") != null)
+                    notificationInfo.extras?.getString("gcm.notification.body")
+                else
+                    getString(R.string.push_general_notification)
+            )
             .setAutoCancel(true)
             .setLargeIcon(largeIcon?.toBitmap())
             .setStyle(
