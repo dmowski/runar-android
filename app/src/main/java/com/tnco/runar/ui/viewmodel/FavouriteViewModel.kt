@@ -21,9 +21,10 @@ import javax.inject.Inject
 @HiltViewModel
 class FavouriteViewModel @Inject constructor(
     private val databaseRepository: DatabaseRepository,
-    val analyticsHelper: AnalyticsHelper
+    val analyticsHelper: AnalyticsHelper,
+    sharedDataRepository: SharedDataRepository
 ) : ViewModel() {
-    val fontSize: LiveData<Float> = MutableLiveData(SharedDataRepository.fontSize)
+    val fontSize: LiveData<Float> = MutableLiveData(sharedDataRepository.fontSize)
     private var favList: List<UserLayoutModel> = emptyList()
     private var runesData: List<RuneDescriptionModel> = emptyList()
     private var layoutsData: List<LayoutDescriptionModel> = emptyList()

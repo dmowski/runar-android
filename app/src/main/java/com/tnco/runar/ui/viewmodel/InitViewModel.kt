@@ -17,7 +17,8 @@ import javax.inject.Inject
 @HiltViewModel
 class InitViewModel @Inject constructor(
     private val databaseRepository: DatabaseRepository,
-    val analyticsHelper: AnalyticsHelper
+    val analyticsHelper: AnalyticsHelper,
+    sharedDataRepository: SharedDataRepository
 ) : ViewModel() {
 
     private var _selectedLayout = SingleLiveEvent<LayoutDescriptionModel>()
@@ -26,7 +27,7 @@ class InitViewModel @Inject constructor(
     val fontSize: LiveData<Float> = _fontSize
 
     init {
-        _fontSize.postValue(SharedDataRepository.fontSize)
+        _fontSize.postValue(sharedDataRepository.fontSize)
     }
 
     fun getLayoutDescription(id: Int) {

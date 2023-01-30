@@ -1,7 +1,6 @@
 package com.tnco.runar.ui.activity
 
 import android.content.Context
-import android.content.IntentFilter
 import android.media.AudioManager
 import android.os.Bundle
 import android.view.View
@@ -21,7 +20,6 @@ import com.google.firebase.messaging.FirebaseMessaging
 import com.tnco.runar.R
 import com.tnco.runar.RunarLogger
 import com.tnco.runar.databinding.ActivityMainBinding
-import com.tnco.runar.receivers.LanguageBroadcastReceiver
 import com.tnco.runar.repository.LanguageRepository
 import com.tnco.runar.repository.SharedPreferencesRepository
 import com.tnco.runar.ui.Navigator
@@ -42,7 +40,6 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
 
     private val viewModel: MainViewModel by viewModels()
     private val musicControllerViewModel: MusicControllerViewModel by viewModels()
-    private var languageReceiver = LanguageBroadcastReceiver()
     var preferencesRepository = SharedPreferencesRepository.get()
     private lateinit var navController: NavController
 
@@ -79,11 +76,6 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        this.registerReceiver(
-            languageReceiver,
-            IntentFilter("android.intent.action.LOCALE_CHANGED")
-        )
 
         viewModel.identify()
         supportActionBar?.hide()

@@ -6,16 +6,22 @@ import android.graphics.Paint
 import android.graphics.Rect
 import androidx.core.content.res.ResourcesCompat
 import com.tnco.runar.R
+import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
+import javax.inject.Singleton
 
-object SharedDataRepository {
+@Singleton
+class SharedDataRepository @Inject constructor(
+    @ApplicationContext context: Context,
+) {
     var fontSize: Float = 0.0f
         private set
 
-    fun init(context: Context) {
-        fontSize = correctFontSize(context)
+    init {
+        defineFontSize(context)
     }
 
-    private fun correctFontSize(context: Context): Float {
+    fun defineFontSize(context: Context) {
         val text = context.resources.getString(R.string.text_calculation_helper)
         val paint = Paint()
         val bounds = Rect()
@@ -31,6 +37,6 @@ object SharedDataRepository {
             paint.getTextBounds(text, 0, text.length, bounds)
             currentWidth = bounds.width()
         }
-        return textSize - 2f
+        fontSize = textSize - 2f
     }
 }

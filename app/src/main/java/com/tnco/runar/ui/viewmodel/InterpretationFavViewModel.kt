@@ -17,9 +17,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class InterpretationFavViewModel @Inject constructor(
-    private val databaseRepository: DatabaseRepository
+    private val databaseRepository: DatabaseRepository,
+    sharedDataRepository: SharedDataRepository
 ) : ViewModel() {
-    val fontSize: LiveData<Float> = MutableLiveData(SharedDataRepository.fontSize)
+    val fontSize: LiveData<Float> = MutableLiveData(sharedDataRepository.fontSize)
     var runesData: List<RuneDescriptionModel> = emptyList()
     var affirmData: List<AffimDescriptionModel> = emptyList()
 

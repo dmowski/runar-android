@@ -16,12 +16,13 @@ import javax.inject.Inject
 @HiltViewModel
 class LayoutViewModel @Inject constructor(
     private val databaseRepository: DatabaseRepository,
-    val analyticsHelper: AnalyticsHelper
+    val analyticsHelper: AnalyticsHelper,
+    sharedDataRepository: SharedDataRepository
 ) : ViewModel() {
 
     private var _showStatus = SingleLiveEvent<Boolean>()
     val showStatus: LiveData<Boolean> = _showStatus
-    val fontSize: LiveData<Float> = MutableLiveData(SharedDataRepository.fontSize)
+    val fontSize: LiveData<Float> = MutableLiveData(sharedDataRepository.fontSize)
 
     fun checkDescriptionStatus(id: Int) {
         CoroutineScope(Dispatchers.IO).launch {
