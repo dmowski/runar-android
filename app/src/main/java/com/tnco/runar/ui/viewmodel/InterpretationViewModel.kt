@@ -1,9 +1,9 @@
 package com.tnco.runar.ui.viewmodel
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.model.AffimDescriptionModel
 import com.tnco.runar.model.LayoutDescriptionModel
 import com.tnco.runar.model.RuneDescriptionModel
@@ -12,13 +12,20 @@ import com.tnco.runar.repository.DatabaseRepository
 import com.tnco.runar.repository.SharedDataRepository
 import com.tnco.runar.repository.SharedPreferencesRepository
 import com.tnco.runar.util.SingleLiveEvent
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class InterpretationViewModel(application: Application) : AndroidViewModel(application) {
+@HiltViewModel
+class InterpretationViewModel @Inject constructor(
+    private val databaseRepository: DatabaseRepository,
+    val analyticsHelper: AnalyticsHelper,
+    sharedDataRepository: SharedDataRepository
+) : ViewModel() {
     var preferencesRepository = SharedPreferencesRepository.get()
-    val fontSize: LiveData<Float> = MutableLiveData(SharedDataRepository.fontSize)
+    val fontSize: LiveData<Float> = MutableLiveData(sharedDataRepository.fontSize)
     var runesData: List<RuneDescriptionModel> = emptyList()
     var affirmData: List<AffimDescriptionModel> = emptyList()
 
@@ -63,7 +70,7 @@ class InterpretationViewModel(application: Application) : AndroidViewModel(appli
             2 -> {
                 CoroutineScope(IO).launch {
                     val index = userLayout[1] * 100 + userLayout[2]
-                    val inter = DatabaseRepository.getTwoRunesInterpretation(index)
+                    val inter = databaseRepository.getTwoRunesInterpretation(index)
                     val res = String.format(selectedLayout.value?.interpretation!!, inter)
                     _currentInterpretation.postValue(res)
                 }
@@ -138,7 +145,7 @@ class InterpretationViewModel(application: Application) : AndroidViewModel(appli
                 userLayout[7],
                 affirmId
             )
-            DatabaseRepository.addUserLayout(userLayout)
+            databaseRepository.addUserLayout(userLayout)
         }
     }
 
@@ -198,7 +205,7 @@ class InterpretationViewModel(application: Application) : AndroidViewModel(appli
     private fun getMeaningForRune(id: Int): String {
         for (rune in runesData) {
             if (rune.runeId == id) {
-                return rune.meaning!!.toLowerCase()
+                return rune.meaning!!.lowercase()
             }
         }
         return ""
@@ -215,19 +222,19 @@ class InterpretationViewModel(application: Application) : AndroidViewModel(appli
 
     fun getRuneDataFromDB() {
         CoroutineScope(IO).launch {
-            runesData = DatabaseRepository.getRunesList()
+            runesData = databaseRepository.getRunesList()
         }
     }
 
     fun getAffirmationsDataFromDB() {
         CoroutineScope(IO).launch {
-            affirmData = DatabaseRepository.getAffirmList()
+            affirmData = databaseRepository.getAffirmList()
         }
     }
 
     fun getLayoutDescription(id: Int) {
         CoroutineScope(IO).launch {
-            _selectedLayout.postValue(DatabaseRepository.getLayoutDetails(id))
+            _selectedLayout.postValue(databaseRepository.getLayoutDetails(id))
         }
     }
 

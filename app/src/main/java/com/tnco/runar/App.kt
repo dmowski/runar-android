@@ -6,11 +6,7 @@ import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
 import android.util.Log
-import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.data.local.AppDB
-import com.tnco.runar.data.local.DataDB
-import com.tnco.runar.repository.LanguageRepository
-import com.tnco.runar.repository.SharedDataRepository
 import com.tnco.runar.repository.SharedPreferencesRepository
 import com.tnco.runar.services.PushService.Companion.REMINDER_CHANNEL_ID
 import dagger.hilt.android.HiltAndroidApp
@@ -19,11 +15,7 @@ import dagger.hilt.android.HiltAndroidApp
 class App : Application() {
     override fun onCreate() {
         SharedPreferencesRepository.init(this)
-        LanguageRepository.setInitialSettingsLanguage(this)
         AppDB.init(this)
-        DataDB.init(this)
-        SharedDataRepository.init(this)
-        AnalyticsHelper.init()
         createNotificationChannel()
         super.onCreate()
     }

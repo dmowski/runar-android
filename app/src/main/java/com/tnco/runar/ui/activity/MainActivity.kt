@@ -1,7 +1,6 @@
 package com.tnco.runar.ui.activity
 
 import android.content.Context
-import android.content.IntentFilter
 import android.media.AudioManager
 import android.os.Bundle
 import android.view.View
@@ -9,6 +8,7 @@ import android.view.WindowManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.get
+import androidx.lifecycle.asLiveData
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
@@ -20,20 +20,26 @@ import com.google.firebase.messaging.FirebaseMessaging
 import com.tnco.runar.R
 import com.tnco.runar.RunarLogger
 import com.tnco.runar.databinding.ActivityMainBinding
-import com.tnco.runar.receivers.LanguageBroadcastReceiver
 import com.tnco.runar.repository.LanguageRepository
 import com.tnco.runar.repository.SharedPreferencesRepository
 import com.tnco.runar.ui.Navigator
 import com.tnco.runar.ui.viewmodel.MainViewModel
 import com.tnco.runar.ui.viewmodel.MusicControllerViewModel
+import com.tnco.runar.ui.viewmodel.SettingsViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusChangeListener {
 
+    @Inject
+    lateinit var languageRepository: LanguageRepository // TODO get rid of it
+    private val settingsViewModel: SettingsViewModel by viewModels()
+
     private val viewModel: MainViewModel by viewModels()
     private val musicControllerViewModel: MusicControllerViewModel by viewModels()
-    private var languageReceiver = LanguageBroadcastReceiver()
     var preferencesRepository = SharedPreferencesRepository.get()
     private lateinit var navController: NavController
 
@@ -52,7 +58,16 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
 //        }
 
         firebaseAnalytics = Firebase.analytics
-        LanguageRepository.setSettingsLanguage(this) // set app language from settings
+        runBlocking { // TODO get rid of it
+            val initLanguage = settingsViewModel.appLanguage.first()
+            languageRepository.changeLanguage(this@MainActivity, initLanguage)
+        }
+
+        settingsViewModel.appLanguage.asLiveData().observe(this) { // TODO get rid of it
+            languageRepository.changeLanguage(this, it)
+            reshowBar()
+        }
+
         // status bar color
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
@@ -61,11 +76,6 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        this.registerReceiver(
-            languageReceiver,
-            IntentFilter("android.intent.action.LOCALE_CHANGED")
-        )
 
         viewModel.identify()
         supportActionBar?.hide()

@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.viewpager.widget.ViewPager
 import com.tnco.runar.R
-import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.databinding.ActivityOnboardBinding
 import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.model.OnboardGuideElementModel
@@ -17,10 +16,19 @@ import com.tnco.runar.repository.LanguageRepository
 import com.tnco.runar.ui.adapter.OnboardViewPagerAdapter
 import com.tnco.runar.ui.viewmodel.MusicControllerViewModel
 import com.tnco.runar.ui.viewmodel.OnboardViewModel
+import com.tnco.runar.ui.viewmodel.SettingsViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
+import javax.inject.Inject
+
 
 @AndroidEntryPoint
 class OnboardActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var languageRepository: LanguageRepository // TODO get rid of it
+    private val settingsViewModel: SettingsViewModel by viewModels()
 
     private val viewModel: OnboardViewModel by viewModels()
     private val musicControllerViewModel: MusicControllerViewModel by viewModels()
@@ -35,7 +43,10 @@ class OnboardActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        LanguageRepository.setSettingsLanguage(this)
+        runBlocking { // TODO get rid of it
+            val initLanguage = settingsViewModel.appLanguage.first()
+            languageRepository.changeLanguage(this@OnboardActivity, initLanguage)
+        }
 
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         window.statusBarColor = getColor(R.color.library_top_bar)
@@ -49,10 +60,10 @@ class OnboardActivity : AppCompatActivity() {
         viewModel.changeCurrentPosition(0)
         viewModel.nextActivity(false)
 
-        AnalyticsHelper.sendEvent(AnalyticsEvent.OB_ABOUT_OPENED)
+        viewModel.analyticsHelper.sendEvent(AnalyticsEvent.OB_ABOUT_OPENED)
 
         binding.skipButton.setOnClickListener {
-            AnalyticsHelper.sendEvent(AnalyticsEvent.OB_SKIP)
+            viewModel.analyticsHelper.sendEvent(AnalyticsEvent.OB_SKIP)
             closeActivity()
         }
 
@@ -106,7 +117,7 @@ class OnboardActivity : AppCompatActivity() {
             )
         )
 
-        adapter = OnboardViewPagerAdapter(models, this, viewModel)
+        adapter = OnboardViewPagerAdapter(models, ::onChangeActivity, ::onChangePosition)
         binding.viewPager.adapter = adapter
 
         binding.viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
@@ -120,12 +131,12 @@ class OnboardActivity : AppCompatActivity() {
             override fun onPageSelected(position: Int) {
                 viewModel.changeCurrentPosition(position)
                 when (position) {
-                    0 -> AnalyticsHelper.sendEvent(AnalyticsEvent.OB_ABOUT_OPENED)
-                    1 -> AnalyticsHelper.sendEvent(AnalyticsEvent.OB_FORTUNE_OPENED)
-                    2 -> AnalyticsHelper.sendEvent(AnalyticsEvent.OB_INTERPRETATION_OPENED)
-                    3 -> AnalyticsHelper.sendEvent(AnalyticsEvent.OB_FAVOURITES_OPENED)
-                    4 -> AnalyticsHelper.sendEvent(AnalyticsEvent.OB_GENERATOR_OPENED)
-                    5 -> AnalyticsHelper.sendEvent(AnalyticsEvent.OB_LIBRARY_OPENED)
+                    0 -> viewModel.analyticsHelper.sendEvent(AnalyticsEvent.OB_ABOUT_OPENED)
+                    1 -> viewModel.analyticsHelper.sendEvent(AnalyticsEvent.OB_FORTUNE_OPENED)
+                    2 -> viewModel.analyticsHelper.sendEvent(AnalyticsEvent.OB_INTERPRETATION_OPENED)
+                    3 -> viewModel.analyticsHelper.sendEvent(AnalyticsEvent.OB_FAVOURITES_OPENED)
+                    4 -> viewModel.analyticsHelper.sendEvent(AnalyticsEvent.OB_GENERATOR_OPENED)
+                    5 -> viewModel.analyticsHelper.sendEvent(AnalyticsEvent.OB_LIBRARY_OPENED)
                 }
                 currentPosition = position
             }
@@ -180,5 +191,15 @@ class OnboardActivity : AppCompatActivity() {
         musicControllerViewModel.updateOnboardingStatus(false)
         musicControllerViewModel.softStopMusic()
         super.onPause()
+    }
+
+    private fun onChangeActivity() {
+        viewModel.analyticsHelper.sendEvent(AnalyticsEvent.OB_START)
+        viewModel.nextActivity(true)
+    }
+
+    private fun onChangePosition(position: Int) {
+        viewModel.analyticsHelper.sendEvent(AnalyticsEvent.OB_NEXT)
+        viewModel.changeCurrentPosition(position + 1)
     }
 }
