@@ -149,8 +149,7 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
         binding.bottomNavigationBar.menu[0].title = getString(R.string.bottom_nav_layouts)
         binding.bottomNavigationBar.menu[1].title = getString(R.string.bottom_nav_library)
         binding.bottomNavigationBar.menu[2].title = getString(R.string.generator)
-        binding.bottomNavigationBar.menu[3].title = getString(R.string.bottom_nav_favourites)
-        binding.bottomNavigationBar.menu[4].title = getString(R.string.bottom_nav_settings)
+        binding.bottomNavigationBar.menu[3].title = getString(R.string.bottom_nav_menu)
     }
 
     override fun getAudioFocus() {
