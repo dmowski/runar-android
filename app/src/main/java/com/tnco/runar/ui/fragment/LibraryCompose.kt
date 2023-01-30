@@ -230,25 +230,26 @@ private fun FirstMenuItem(
                 val painter = rememberAsyncImagePainter(imgLink)
                 val painterState = painter.state
                 val viewModel: LibraryViewModel = viewModel()
-                if (painterState is AsyncImagePainter.State.Error) {
+                Image(
+                    painter = painter,
+                    contentDescription = null,
+                    modifier = Modifier
+                        .background(Color(0x00000000))
+                        .padding(top = 5.dp, bottom = 5.dp)
+                        .weight(60f)
+                        .fillMaxSize()
+                )
+                if(painterState is AsyncImagePainter.State.Error) {
                     viewModel.updateStateLoad(true)
                 }
-                if (viewModel.errorLoad?.value == null) {
-                    Image(
-                        painter = painter,
-                        contentDescription = null,
-                        modifier = Modifier
-                            .background(Color(0x00000000))
-                            .padding(top = 5.dp, bottom = 5.dp)
-                            .weight(60f)
-                            .fillMaxSize()
-                    )
-                } else {
-                    CircularProgressIndicator(
-                        modifier = Modifier.size(size = 64.dp),
-                        color = Color.Gray,
-                        strokeWidth = 6.dp
-                    )
+                when (painterState) {
+                    is AsyncImagePainter.State.Error ->
+                        CircularProgressIndicator(
+                            modifier = Modifier.offset(x = (-25).dp),
+                            color = Color.Gray,
+                            strokeWidth = 6.dp)
+                    is AsyncImagePainter.State.Success -> viewModel.updateStateLoad(false)
+                    else -> false
                 }
                 Column(
                     Modifier
