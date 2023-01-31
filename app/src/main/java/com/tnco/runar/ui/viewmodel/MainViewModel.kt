@@ -30,7 +30,8 @@ class MainViewModel @Inject constructor(
     networkMonitor: NetworkMonitor,
     private val databaseRepository: DatabaseRepository,
     private val backendRepository: BackendRepository,
-    val analyticsHelper: AnalyticsHelper
+    val analyticsHelper: AnalyticsHelper,
+    sharedDataRepository: SharedDataRepository
 ) : ViewModel() {
 
 //    private val _isLoading = MutableStateFlow(true)
@@ -47,7 +48,7 @@ class MainViewModel @Inject constructor(
 
     var preferencesRepository = SharedPreferencesRepository.get()
 
-    val fontSize: LiveData<Float> = MutableLiveData(SharedDataRepository.fontSize)
+    val fontSize: LiveData<Float> = MutableLiveData(sharedDataRepository.fontSize)
     var backgroundInfo = mutableListOf<BackgroundInfo>()
     val backgroundInfoResponse = MutableLiveData<NetworkResult<List<BackgroundInfo>>>()
 //    val selectedIndices = mutableListOf<Int>()

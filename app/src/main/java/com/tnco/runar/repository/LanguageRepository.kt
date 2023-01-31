@@ -7,7 +7,8 @@ import java.util.*
 import javax.inject.Inject
 
 class LanguageRepository @Inject constructor(
-    private val databaseRepository: DatabaseRepository
+    private val databaseRepository: DatabaseRepository,
+    private val sharedDataRepository: SharedDataRepository
 ) {
 
     fun changeLanguage(activity: Activity, language: String) { // TODO get rid of activity of whole repository?
@@ -21,6 +22,6 @@ class LanguageRepository @Inject constructor(
         )
         AppDB.init(activity)
         databaseRepository.reinit()
-        SharedDataRepository.init(activity)
+        sharedDataRepository.defineFontSize(activity)
     }
 }
