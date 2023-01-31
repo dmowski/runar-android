@@ -3,7 +3,7 @@
     <string name="bottom_nav_layouts">Расклады</string>
     <string name="bottom_nav_library">Библиотека</string>
     <string name="bottom_nav_favourites">Избранное</string>
-    <string name="bottom_nav_settings">Настройки</string>
+    <string name="bottom_nav_menu">Меню</string>
     <string name="generator">Генератор</string>
 
     <string name="pattern_generator">Генератор узоров</string>
@@ -59,7 +59,7 @@
     <string name="settings_language_rus">Русский</string>
     <string name="settings_language_en">English</string>
     <string name="music_txt">Музыка</string>
-    <string name="onboarding_txt">Показать стр. приветствия</string>
+    <string name="onboarding_txt">Отображать стр. приветствия</string>
     <string name="rate_app_txt">Оценить приложение</string>
     <string name="about_app_txt">О приложении</string>
     <string name="developer_options_title">Для разработчиков</string>
