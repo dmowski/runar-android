@@ -1,14 +1,17 @@
 package com.tnco.runar.repository
 
 import android.app.Activity
-import android.content.Context
 import android.content.res.Configuration
 import com.tnco.runar.data.local.AppDB
-import com.tnco.runar.ui.activity.MainActivity
 import java.util.*
+import javax.inject.Inject
 
-object LanguageRepository {
-    fun changeLanguage(activity: Activity, language: String) {
+class LanguageRepository @Inject constructor(
+    private val databaseRepository: DatabaseRepository,
+    private val sharedDataRepository: SharedDataRepository
+) {
+
+    fun changeLanguage(activity: Activity, language: String) { // TODO get rid of activity of whole repository?
         val locale = Locale(language)
         Locale.setDefault(locale)
         val config: Configuration? = activity.baseContext?.resources?.configuration
@@ -18,34 +21,7 @@ object LanguageRepository {
             activity.baseContext?.resources?.displayMetrics
         )
         AppDB.init(activity)
-        DatabaseRepository.reinit()
-        SharedDataRepository.init(activity)
-
-        (activity as MainActivity).reshowBar()
-    }
-    fun setSettingsLanguage(activity: Activity) {
-        val prefRep = SharedPreferencesRepository.get()
-        val locale = Locale(prefRep.language)
-        Locale.setDefault(locale)
-        val config: Configuration? = activity.baseContext?.resources?.configuration
-        config?.locale = locale
-        activity.baseContext?.resources?.updateConfiguration(
-            config,
-            activity.baseContext?.resources?.displayMetrics
-        )
-        AppDB.init(activity)
-        DatabaseRepository.reinit()
-        SharedDataRepository.init(activity)
-    }
-    fun setInitialSettingsLanguage(context: Context) {
-        val prefRep = SharedPreferencesRepository.get()
-        val locale = Locale(prefRep.language)
-        Locale.setDefault(locale)
-        val config: Configuration? = context.resources?.configuration
-        config?.locale = locale
-        context.resources?.updateConfiguration(
-            config,
-            context.resources?.displayMetrics
-        )
+        databaseRepository.reinit()
+        sharedDataRepository.defineFontSize(activity)
     }
 }

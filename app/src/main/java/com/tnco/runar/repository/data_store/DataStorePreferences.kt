@@ -1,10 +1,7 @@
 package com.tnco.runar.repository.data_store
 
 import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.booleanPreferencesKey
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.stringSetPreferencesKey
+import androidx.datastore.preferences.core.*
 import com.tnco.runar.model.DeveloperSwitcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -17,6 +14,8 @@ class DataStorePreferences @Inject constructor(
 ) {
 
     private val switcherStates = stringSetPreferencesKey("switchers_states")
+    private val languageKey = stringPreferencesKey("language")
+
 
     /**
      * Add your switchers to the list.
@@ -55,6 +54,17 @@ class DataStorePreferences @Inject constructor(
             switchers.forEach {
                 preferences[booleanPreferencesKey(it.name)] = it.state
             }
+        }
+    }
+
+    val appLanguage: Flow<String>
+        get() = dataStore.data.map { preferences ->
+            preferences[languageKey] ?: "ru"
+        }
+
+    suspend fun saveAppLanguage(language: String) {
+        dataStore.edit { preferences ->
+            preferences[languageKey] = language
         }
     }
 

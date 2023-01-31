@@ -34,15 +34,6 @@ jobs:
           name: "ANDROID_APP_${{ steps.date.outputs.date }}"
           path: app/build/outputs/apk/debugWithR8/app-${{ steps.date.outputs.date }}.apk
 
-      - name: Remove pair markdown symbols from commits
-        id: commits
-        run: |
-          COMMITS=${{ github.event.commits[0].message }}
-          COMMITS=${COMMITS//\*/}
-          COMMITS=${COMMITS//_/}
-          COMMITS=${COMMITS//\~/}
-          echo "commits=$COMMITS" >> $GITHUB_OUTPUT
-
       - name: Send telegram message
         uses: appleboy/telegram-action@master
         with:
@@ -52,4 +43,4 @@ jobs:
           format: markdown
           message: |
             🔥 New build from ${{ github.actor }} 🔥
-            ${{ steps.commits.outputs.commits }}
+            ${{ github.event.commits[0].url }}

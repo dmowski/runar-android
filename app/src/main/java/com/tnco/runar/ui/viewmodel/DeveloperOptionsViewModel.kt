@@ -15,7 +15,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DeveloperOptionsViewModel @Inject constructor(
-    private val dataStorePreferences: DataStorePreferences
+    private val dataStorePreferences: DataStorePreferences,
+    sharedDataRepository: SharedDataRepository
 ) : ViewModel() {
 
     init {
@@ -27,7 +28,7 @@ class DeveloperOptionsViewModel @Inject constructor(
         }
     }
 
-    val fontSize: LiveData<Float> = MutableLiveData(SharedDataRepository.fontSize)
+    val fontSize: LiveData<Float> = MutableLiveData(sharedDataRepository.fontSize)
     val switchers: Flow<List<DeveloperSwitcher>> = dataStorePreferences.switchers
 
     fun saveSwitcher(switcher: DeveloperSwitcher) {

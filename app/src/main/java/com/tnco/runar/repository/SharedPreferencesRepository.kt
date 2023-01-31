@@ -4,9 +4,15 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.preference.PreferenceManager
 import com.tnco.runar.RunarLogger
+import dagger.hilt.android.qualifiers.ApplicationContext
 import java.util.*
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class SharedPreferencesRepository private constructor(context: Context) {
+@Singleton
+class SharedPreferencesRepository @Inject constructor(
+    @ApplicationContext context: Context
+) {
     private val preferences: SharedPreferences =
         PreferenceManager.getDefaultSharedPreferences(context)
 

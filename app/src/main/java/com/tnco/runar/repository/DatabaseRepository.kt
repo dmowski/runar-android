@@ -2,16 +2,18 @@ package com.tnco.runar.repository
 
 import com.tnco.runar.RunarLogger
 import com.tnco.runar.data.local.AppDB
-import com.tnco.runar.data.local.DataDB
+import com.tnco.runar.data.local.DataDao
 import com.tnco.runar.model.*
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-object DatabaseRepository {
+class DatabaseRepository @Inject constructor(
+    private val dataDao: DataDao
+) {
     private var appDao = AppDB.getLayoutDB().appDAO()
-    private var dataDao = DataDB.getDataDB().dataDAO()
+
     fun reinit() {
         appDao = AppDB.getLayoutDB().appDAO()
-        dataDao = DataDB.getDataDB().dataDAO()
     }
 
     fun notShow(id: Int) {
