@@ -49,6 +49,9 @@ internal fun LibraryBars(navController: NavController) {
     val viewModel: LibraryViewModel = viewModel()
     val fontSize by viewModel.fontSize.observeAsState()
     val header by viewModel.lastMenuHeader.observeAsState()
+    val audioSwitch by viewModel.audioSwitcher.observeAsState()
+    // val audioSw by viewModel.audioSwitcher.asLiveData().observeAsState()
+
     val tabsState = remember {
         mutableStateOf(true)
     }
@@ -94,7 +97,9 @@ internal fun LibraryBars(navController: NavController) {
         if (scrollState.isScrollInProgress && scrollState.value > 0) {
             ScrollBars(scrollState)
         }
-        if (tabsState.value && audioFeature) {
+
+        // if (tabsState.value && audioFeature && viewModel.audioState(audioSw) {
+        if (tabsState.value && audioFeature && requireNotNull(audioSwitch)) {
             TabScreen(pagerState, scrollState, fontSize, navController)
         } else {
             Column(

@@ -5,6 +5,7 @@ import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.model.LibraryItemsModel
 import com.tnco.runar.repository.DatabaseRepository
 import com.tnco.runar.repository.SharedDataRepository
+import com.tnco.runar.repository.data_store.DataStorePreferences
 import com.tnco.runar.util.NetworkMonitor
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
@@ -37,6 +38,24 @@ class LibraryViewModel @Inject constructor(
 
     private var menuNavData = mutableListOf<String>()
 
+    val audioSwitcher =
+        MutableLiveData(DataStorePreferences.switcherStates.name == DataStorePreferences.AUDIO_SWITCH)
+
+//    val audioSwitcher = DataStorePreferences.switchers.map { list ->
+//        list.first {
+//            it.name == "Audio fairy tales displaying"
+//        }
+//    }
+
+//    fun audioState(audioSw: Boolean): Boolean {
+//        return audioSw.equals(
+//            DeveloperSwitcher(
+//                name = DataStorePreferences.AUDIO_SWITCH,
+//                state = true
+//            )
+//        ) ?: false
+//    }
+
     fun getRuneDataFromDB() {
         CoroutineScope(singleThread).launch {
             dbList = databaseRepository.getLibraryItemList()
@@ -50,6 +69,7 @@ class LibraryViewModel @Inject constructor(
             }
         }
     }
+
     fun updateStateLoad(error: Boolean) {
         _errorLoad.value = error
     }
