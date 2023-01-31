@@ -144,6 +144,6 @@
 
     <string name="retry">Retry</string>
     <string name="internet_conn_error">Please check your network connection and try again</string>
-    <string name="internet_conn_error1">No network connection</string>
+    <string name="internet_conn_error1">No internet connection</string>
 
 </resources>

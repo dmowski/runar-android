@@ -42,6 +42,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 private const val TO_LAST_SCROLLSTATE = 2
+private const val NO_RESULT = 0
 
 @ExperimentalPagerApi
 @Composable
@@ -239,17 +240,15 @@ private fun FirstMenuItem(
                         .weight(60f)
                         .fillMaxSize()
                 )
-                if(painterState is AsyncImagePainter.State.Error) {
-                    viewModel.updateStateLoad(true)
-                }
                 when (painterState) {
                     is AsyncImagePainter.State.Error ->
-                        CircularProgressIndicator(
+                    {  CircularProgressIndicator(
                             modifier = Modifier.offset(x = (-25).dp),
                             color = Color.Gray,
                             strokeWidth = 6.dp)
+                        viewModel.updateStateLoad(true) }
                     is AsyncImagePainter.State.Success -> viewModel.updateStateLoad(false)
-                    else -> false
+                    else -> NO_RESULT
                 }
                 Column(
                     Modifier
