@@ -143,6 +143,6 @@
 
     <string name="retry">Повторить</string>
     <string name="internet_conn_error">Пожалуйста, проверьте подключение к сети и повторите попытку</string>
-    <string name="internet_conn_error1">Чтобы видеть изображения, необходимо подключиться к интернету!</string>
+    <string name="internet_conn_error1">Нет доступа к интернету</string>
 
 </resources>
