@@ -9,6 +9,7 @@ import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.navigation.navOptions
 import com.tnco.runar.R
 import com.tnco.runar.databinding.ConnectivityErrorLayoutBinding
 import com.tnco.runar.util.InternalDeepLink
@@ -30,9 +31,15 @@ class ConnectivityErrorFragment : Fragment() {
                     .getRoute()
 
             )
-            findNavController().popBackStack(R.id.layoutFragment, true)
 
-            findNavController().navigate(uri)
+            findNavController().navigate(
+                uri,
+                navOptions {
+                    popUpTo(R.id.layoutFragment) {
+                        inclusive = true
+                    }
+                }
+            )
         }
     }
 
