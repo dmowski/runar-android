@@ -12,9 +12,9 @@ import javax.inject.Singleton
 class DataStorePreferences @Inject constructor(
     private val dataStore: DataStore<Preferences>
 ) {
-    private val languageKey = stringPreferencesKey("language")
 
-    //  private val switcherStates = stringSetPreferencesKey("switchers_states")
+    private val languageKey = stringPreferencesKey("language")
+    private val switcherStates = stringSetPreferencesKey("switchers_states")
 
     /**
      * Add your switchers to the list.
@@ -81,7 +81,5 @@ class DataStorePreferences @Inject constructor(
 
     companion object {
         const val AUDIO_SWITCH = "Audio fairy tales displaying"
-        var switcherStates = stringSetPreferencesKey("switchers_states")
-        // val switchers во вью модели библиотеки не достать
     }
 }

@@ -25,6 +25,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
@@ -49,8 +50,7 @@ internal fun LibraryBars(navController: NavController) {
     val viewModel: LibraryViewModel = viewModel()
     val fontSize by viewModel.fontSize.observeAsState()
     val header by viewModel.lastMenuHeader.observeAsState()
-    val audioSwitch by viewModel.audioSwitcher.observeAsState()
-    // val audioSw by viewModel.audioSwitcher.asLiveData().observeAsState()
+    val audioSw by viewModel.audioSwitcher.asLiveData().observeAsState()
 
     val tabsState = remember {
         mutableStateOf(true)
@@ -98,8 +98,7 @@ internal fun LibraryBars(navController: NavController) {
             ScrollBars(scrollState)
         }
 
-        // if (tabsState.value && audioFeature && viewModel.audioState(audioSw) {
-        if (tabsState.value && audioFeature && requireNotNull(audioSwitch)) {
+        if (tabsState.value && audioFeature && viewModel.audioState(audioSw)) {
             TabScreen(pagerState, scrollState, fontSize, navController)
         } else {
             Column(
