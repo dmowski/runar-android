@@ -2,7 +2,6 @@ package com.tnco.runar.ui.viewmodel
 
 import androidx.lifecycle.*
 import com.tnco.runar.analytics.AnalyticsHelper
-import com.tnco.runar.model.DeveloperSwitcher
 import com.tnco.runar.model.LibraryItemsModel
 import com.tnco.runar.repository.DatabaseRepository
 import com.tnco.runar.repository.SharedDataRepository
@@ -45,15 +44,6 @@ class LibraryViewModel @Inject constructor(
         list.first {
             it.name == "Audio fairy tales displaying"
         }
-    }
-
-    fun audioState(audioSw: DeveloperSwitcher?): Boolean {
-        return audioSw?.equals(
-            DeveloperSwitcher(
-                name = DataStorePreferences.AUDIO_SWITCH,
-                state = true
-            )
-        ) ?: false
     }
 
     fun getRuneDataFromDB() {
