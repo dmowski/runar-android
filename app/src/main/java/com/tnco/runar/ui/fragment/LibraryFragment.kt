@@ -14,9 +14,15 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.tnco.runar.R
 import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.ui.viewmodel.LibraryViewModel
+import com.tnco.runar.util.observeOnce
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 const val audioFeature = true
+const val DELAY_FOR_LOADING = 600L
 
 @AndroidEntryPoint
 class LibraryFragment : Fragment() {
@@ -34,10 +40,17 @@ class LibraryFragment : Fragment() {
         val noInternet = getString(R.string.internet_conn_error1)
         val toast = Toast.makeText(requireContext(), noInternet, Toast.LENGTH_SHORT)
 
-        viewModel.errorLoad.observe(viewLifecycleOwner) {
-            if (viewModel.isOnline.value == null && viewModel.errorLoad.value == true) {
-                toast.show()
-            } else toast.cancel()
+        viewModel.isOnline.observeOnce(viewLifecycleOwner) {
+            viewModel.errorLoad.observeOnce(viewLifecycleOwner) {
+                CoroutineScope(Dispatchers.Main).launch {
+                    delay(DELAY_FOR_LOADING)
+                    if (viewModel.isOnline.value == false && viewModel.errorLoad.value == true) {
+                        toast.show()
+                    } else {
+                        toast.cancel()
+                    }
+                }
+            }
         }
 
         val view = ComposeView(requireContext()).apply {
