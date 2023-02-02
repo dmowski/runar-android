@@ -7,7 +7,7 @@ sealed class InternalDeepLink(private val route: String) {
 
     object LayoutFragment : InternalDeepLink("runar-android://LayoutFragment")
 
-    fun getRoute(): String { return route }
+    fun getRoute(): String = route
 
     fun withArgs(vararg args: String): String {
         return buildString {
