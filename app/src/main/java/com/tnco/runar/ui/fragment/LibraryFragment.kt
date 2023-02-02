@@ -14,15 +14,9 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.tnco.runar.R
 import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.ui.viewmodel.LibraryViewModel
-import com.tnco.runar.util.observeOnce
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 const val audioFeature = true
-private const val WAITING_FOR_IMAGES = 3500L
 
 @AndroidEntryPoint
 class LibraryFragment : Fragment() {
@@ -38,19 +32,14 @@ class LibraryFragment : Fragment() {
         viewModel.analyticsHelper.sendEvent(AnalyticsEvent.LIBRARY_OPENED)
 
         val noInternet = getString(R.string.internet_conn_error1)
+        val toast = Toast.makeText(requireContext(), noInternet, Toast.LENGTH_SHORT)
 
-        viewModel.isOnline.observeOnce(viewLifecycleOwner) { online ->
-            CoroutineScope(Dispatchers.Main).launch {
-                delay(WAITING_FOR_IMAGES)
-                if (!online && viewModel.errorLoad.value == true) {
-                    Toast.makeText(
-                        requireContext(),
-                        noInternet,
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
-            }
+        viewModel.errorLoad.observe(viewLifecycleOwner) {
+            if (viewModel.isOnline.value == null && viewModel.errorLoad.value == true) {
+                toast.show()
+            } else toast.cancel()
         }
+
         val view = ComposeView(requireContext()).apply {
             setContent {
                 LibraryBars(findNavController())
@@ -76,10 +65,5 @@ class LibraryFragment : Fragment() {
             consumed
         }
         return view
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        viewModelStore.clear()
     }
 }
