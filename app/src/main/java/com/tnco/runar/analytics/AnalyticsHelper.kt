@@ -2,7 +2,6 @@ package com.tnco.runar.analytics
 
 import android.os.Bundle
 import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.firebase.analytics.ktx.analytics
 import com.tnco.runar.enums.AnalyticsEvent
 import javax.inject.Inject
 import javax.inject.Singleton

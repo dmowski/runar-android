@@ -1,6 +1,5 @@
 package com.tnco.runar.ui.fragment
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -63,7 +62,7 @@ class SettingsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         val view = ComposeView(requireActivity()).apply {
             setContent {
@@ -83,8 +82,9 @@ private fun Bars(navigator: Navigator, navController: NavController) {
     val languagePos by viewModel.selectedLanguagePos.observeAsState()
     val headerUpdater by viewModel.headerUpdater.observeAsState()
 
-    val header = if (headerUpdater!!) stringResource(id = R.string.settings_layout) // TODO is it the right way to update the state?
-    else stringResource(id = R.string.settings_layout)
+    val header =
+        if (headerUpdater!!) stringResource(id = R.string.settings_layout) // TODO is it the right way to update the state?
+        else stringResource(id = R.string.settings_layout)
 
     val context = LocalContext.current
 
@@ -233,7 +233,7 @@ private fun SwitcherMenuItem(
     header: String,
     checkAction: ((Boolean) -> Unit),
     state: Boolean,
-    clickAction: () -> Unit
+    clickAction: () -> Unit,
 ) {
     Row(
         Modifier
@@ -333,17 +333,15 @@ private fun LangMenuItem(fontSize: Float, header: String, selectedPos: Int) {
 @Composable
 private fun LanguageItem(fontSize: Float, itemName: String, selected: Boolean, pos: Int) {
     val viewModel: SettingsViewModel = viewModel()
-    val context = LocalContext.current
     Row(
         Modifier
             .fillMaxSize()
             .aspectRatio(7.5f)
-            .clickable(onClick = {
-                if (!selected) viewModel.changeLanguage(
-                    pos,
-                    (context as Activity)
-                )
-            }),
+            .clickable(
+                onClick = {
+                    if (!selected) viewModel.changeLanguage(pos)
+                }
+            ),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
@@ -359,7 +357,9 @@ private fun LanguageItem(fontSize: Float, itemName: String, selected: Boolean, p
         )
         RadioButton(
             selected = selected,
-            onClick = { if (!selected) viewModel.changeLanguage(pos, (context as Activity)) },
+            onClick = {
+                if (!selected) viewModel.changeLanguage(pos)
+            },
             colors = RadioButtonDefaults.colors(
                 selectedColor = colorResource(id = R.color.switcher_checked_thumb),
                 unselectedColor = colorResource(id = R.color.switcher_unchecked_thumb)

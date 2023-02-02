@@ -8,7 +8,6 @@ import android.view.WindowManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.get
-import androidx.lifecycle.asLiveData
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
@@ -20,23 +19,14 @@ import com.google.firebase.messaging.FirebaseMessaging
 import com.tnco.runar.R
 import com.tnco.runar.RunarLogger
 import com.tnco.runar.databinding.ActivityMainBinding
-import com.tnco.runar.repository.LanguageRepository
 import com.tnco.runar.repository.SharedPreferencesRepository
 import com.tnco.runar.ui.Navigator
 import com.tnco.runar.ui.viewmodel.MainViewModel
 import com.tnco.runar.ui.viewmodel.MusicControllerViewModel
-import com.tnco.runar.ui.viewmodel.SettingsViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.runBlocking
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusChangeListener {
-
-    @Inject
-    lateinit var languageRepository: LanguageRepository // TODO get rid of it
-    private val settingsViewModel: SettingsViewModel by viewModels()
 
     private val viewModel: MainViewModel by viewModels()
     private val musicControllerViewModel: MusicControllerViewModel by viewModels()
@@ -58,15 +48,6 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
 //        }
 
         firebaseAnalytics = Firebase.analytics
-        runBlocking { // TODO get rid of it
-            val initLanguage = settingsViewModel.appLanguage.first()
-            languageRepository.changeLanguage(this@MainActivity, initLanguage)
-        }
-
-        settingsViewModel.appLanguage.asLiveData().observe(this) { // TODO get rid of it
-            languageRepository.changeLanguage(this, it)
-            reshowBar()
-        }
 
         // status bar color
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
@@ -76,6 +57,9 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        viewModel.defineFontSize()
+        updateBarTitles()
 
         viewModel.identify()
         supportActionBar?.hide()
@@ -145,7 +129,7 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
         return navController.navigateUp() || super.onSupportNavigateUp()
     }
 
-    fun reshowBar() {
+    private fun updateBarTitles() {
         binding.bottomNavigationBar.menu[0].title = getString(R.string.bottom_nav_layouts)
         binding.bottomNavigationBar.menu[1].title = getString(R.string.bottom_nav_library)
         binding.bottomNavigationBar.menu[2].title = getString(R.string.generator)

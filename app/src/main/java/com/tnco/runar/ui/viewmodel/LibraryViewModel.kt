@@ -1,13 +1,18 @@
 package com.tnco.runar.ui.viewmodel
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.model.LibraryItemsModel
 import com.tnco.runar.repository.DatabaseRepository
 import com.tnco.runar.repository.SharedDataRepository
 import com.tnco.runar.util.NetworkMonitor
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.asCoroutineDispatcher
+import kotlinx.coroutines.launch
 import java.util.concurrent.Executors
 import javax.inject.Inject
 
@@ -21,8 +26,8 @@ class LibraryViewModel @Inject constructor(
 
     private val singleThread = Executors.newSingleThreadExecutor().asCoroutineDispatcher()
 
-    val fontSize: LiveData<Float> = MutableLiveData(sharedDataRepository.fontSize)
-    internal var dbList: List<LibraryItemsModel> = emptyList()
+    val fontSize: LiveData<Float> = sharedDataRepository.fontSize
+    internal var dbList: List<LibraryItemsModel> = emptyList() // TODO private?
     var lastMenuHeader = MutableLiveData("")
 
     private val _errorLoad = MutableLiveData<Boolean>()

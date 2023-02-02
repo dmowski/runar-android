@@ -26,9 +26,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
-import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
@@ -233,7 +233,7 @@ private fun FirstMenuItem(
                 if (painterState is AsyncImagePainter.State.Error) {
                     viewModel.updateStateLoad(true)
                 }
-                if (viewModel.errorLoad?.value == null) {
+                if (viewModel.errorLoad.value == null) {
                     Image(
                         painter = painter,
                         contentDescription = null,

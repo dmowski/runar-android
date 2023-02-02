@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.tnco.runar.databinding.FragmentLayoutGeneratorBinding
 import com.tnco.runar.enums.AnalyticsEvent
@@ -16,7 +16,8 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class GeneratorFragment : Fragment() {
-    val viewModel: MainViewModel by viewModels()
+
+    val viewModel: MainViewModel by activityViewModels() // TODO private?
 
     private var _binding: FragmentLayoutGeneratorBinding? = null
     private val binding get() = _binding!!
