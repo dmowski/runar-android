@@ -20,7 +20,8 @@ class OnboardViewModel @Inject constructor(
     fun changeCurrentPosition(pos: Int) {
         _currentPosition.postValue(pos)
     }
-    fun nextActivity(status: Boolean) {
-        _end.postValue(status)
+
+    fun shouldCloseScreen() {
+        _end.postValue(true)
     }
 }

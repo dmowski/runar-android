@@ -32,7 +32,9 @@ import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusChangeListener {
+class MainActivity :
+    AppCompatActivity(), Navigator, AudioManager.OnAudioFocusChangeListener,
+    OnboardFragment.OnOnboardFinishedListener {
 
     @Inject
     lateinit var languageRepository: LanguageRepository // TODO get rid of it
@@ -119,6 +121,13 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
                 println("token: $token")
             }
         )
+        if (preferencesRepository.settingsOnboarding == 1) {
+            binding.bottomNavigationBar.visibility = View.GONE
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fragmentContainer, OnboardFragment.newInstance())
+                .addToBackStack(null)
+                .commit()
+        }
     }
 
     override fun onAudioFocusChange(focusChange: Int) {
@@ -162,5 +171,10 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
 
     override fun dropAudioFocus() {
         audioManager.abandonAudioFocus(this)
+    }
+
+    override fun onOnboardFinished() {
+        supportFragmentManager.popBackStack()
+        binding.bottomNavigationBar.visibility = View.VISIBLE
     }
 }

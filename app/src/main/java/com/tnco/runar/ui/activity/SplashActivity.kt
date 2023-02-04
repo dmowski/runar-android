@@ -19,7 +19,6 @@ class SplashActivity : AppCompatActivity() {
     private val musicControllerViewModel: MusicControllerViewModel by viewModels()
     private lateinit var binding: ActivitySplashBinding
     private var musicState = true
-    var preferencesRepository = SharedPreferencesRepository.get()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,18 +59,11 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun launchMainActivity() {
-        val intent: Intent
-        if (preferencesRepository.settingsOnboarding == 1) {
-            intent = Intent(this, OnboardActivity::class.java).apply {
-                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-            }
-        } else {
-            intent = Intent(this, MainActivity::class.java).apply {
-                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-            }
+        Intent(this, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+            startActivity(this)
         }
         musicState = false
-        startActivity(intent)
         finish()
     }
 }
