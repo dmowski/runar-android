@@ -181,4 +181,7 @@ dependencies {
 
     //Splash Screen API
     implementation 'androidx.core:core-splashscreen:1.0.0'
+
+
+    implementation 'com.github.mmin18:realtimeblurview:1.2.1'
 }
