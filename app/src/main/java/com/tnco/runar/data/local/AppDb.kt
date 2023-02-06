@@ -35,7 +35,7 @@ abstract class AppDb : RoomDatabase() {
             EN_LOCALE to AppDbData(name = EN_DB_NAME, sourceAssetFileName = EN_DB_FILE_NAME)
         )
 
-        private fun isDataBaseAlreadyExist(context: Context, dbName: String): Boolean {
+        private fun isDbExists(context: Context, dbName: String): Boolean {
             val dbFile = context.getDatabasePath(dbName)
             return dbFile.exists()
         }
@@ -57,25 +57,20 @@ abstract class AppDb : RoomDatabase() {
                 dbName
             ).build()
 
-        fun getInstance(context: Context, language: String): AppDb {
-            INSTANCES[language]?.let {
-                return it
-            }
-            synchronized(this) {
-                INSTANCES[language]?.let {
-                    return it
+        fun getInstance(context: Context, language: String): AppDb =
+            INSTANCES[language] ?: synchronized(this) {
+                INSTANCES[language] ?: run {
+                    val appDb = dbData[language]?.let { dbData ->
+                        if (isDbExists(context = context, dbName = dbData.name)) {
+                            getDbFromFile(context = context, dbName = dbData.name)
+                        } else {
+                            createDbFromAsset(context = context, dbData = dbData)
+                        }
+                    } ?: throw RuntimeException("Locale '$language' is not supported")
+                    INSTANCES[language] = appDb
+                    appDb
                 }
-                val appDb = dbData[language]?.let { dbData ->
-                    if (isDataBaseAlreadyExist(context = context, dbName = dbData.name)) {
-                        getDbFromFile(context = context, dbName = dbData.name)
-                    } else {
-                        createDbFromAsset(context = context, dbData = dbData)
-                    }
-                } ?: throw RuntimeException("Locale '$language' is not supported")
-                INSTANCES[language] = appDb
-                return appDb
             }
-        }
 
         private val MIGRATION_2_3 = object : Migration(2, 3) {
             override fun migrate(database: SupportSQLiteDatabase) {
