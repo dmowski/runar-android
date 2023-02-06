@@ -6,7 +6,6 @@ import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
 import android.util.Log
-import com.tnco.runar.data.local.AppDB
 import com.tnco.runar.repository.SharedPreferencesRepository
 import com.tnco.runar.services.PushService.Companion.REMINDER_CHANNEL_ID
 import dagger.hilt.android.HiltAndroidApp
@@ -15,7 +14,6 @@ import dagger.hilt.android.HiltAndroidApp
 class App : Application() {
     override fun onCreate() {
         SharedPreferencesRepository.init(this)
-        AppDB.init(this)
         createNotificationChannel()
         super.onCreate()
     }

@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -32,7 +32,7 @@ class GeneratorStartFragment : Fragment() {
 
     private var _binding: FragmentGeneratorStartBinding? = null
     private val binding get() = _binding!!
-    private lateinit var mViewModel: MainViewModel
+    private val viewModel: MainViewModel by activityViewModels()
     private var listId: MutableList<Int> = mutableListOf()
     private var listAllIds: MutableList<Int> = mutableListOf()
     private val sharedPreferences by lazy { SharedPreferencesRepository.get() }
@@ -51,12 +51,10 @@ class GeneratorStartFragment : Fragment() {
             findNavController().popBackStack()
         }
 
-        mViewModel = ViewModelProvider(requireActivity())[MainViewModel::class.java]
-        mViewModel.analyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_PATTERN_SELECTED)
+        viewModel.analyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_PATTERN_SELECTED)
         setupRecyclerView()
-        // readDatabase()
 
-        mViewModel.isNetworkAvailable.observeOnce(viewLifecycleOwner) { status ->
+        viewModel.isNetworkAvailable.observeOnce(viewLifecycleOwner) { status ->
             if (status) {
                 requestApiData()
             } else {
@@ -144,10 +142,10 @@ class GeneratorStartFragment : Fragment() {
         }
     }
 
-    private fun readDatabase() { // доделать считывание
+    private fun readDatabase() { // TODO доделать считывание
         listAllIds.clear()
         lifecycleScope.launch {
-            mViewModel.readRunes.observeOnce(viewLifecycleOwner) { listRunes ->
+            viewModel.readRunes.observeOnce(viewLifecycleOwner) { listRunes ->
                 if (listRunes.isNotEmpty()) {
                     mAdapter.setData(listRunes)
                     listRunes.forEach {
@@ -160,8 +158,8 @@ class GeneratorStartFragment : Fragment() {
 
     private fun requestApiData() {
         listAllIds.clear()
-        mViewModel.getRunes()
-        mViewModel.runesResponse.observe(viewLifecycleOwner) { response ->
+        viewModel.getRunes()
+        viewModel.runesResponse.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is NetworkResult.Success -> {
                     if (response.data!!.isNotEmpty()) {
@@ -251,7 +249,7 @@ class GeneratorStartFragment : Fragment() {
     }
 
     private fun randomRunes() {
-        mViewModel.analyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_PATTERN_RANDOM_RUNES)
+        viewModel.analyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_PATTERN_RANDOM_RUNES)
         val count = (1..3).random()
         listId.clear()
 
@@ -273,7 +271,7 @@ class GeneratorStartFragment : Fragment() {
                 idsString = "${listId[0]}_${listId[1]}_${listId[2]}"
             }
         }
-        mViewModel.runesSelected = idsString
+        viewModel.runesSelected = idsString
 
         val direction = GeneratorStartFragmentDirections
             .actionGeneratorStartFragmentToGeneratorMagicRune()
@@ -301,7 +299,7 @@ class GeneratorStartFragment : Fragment() {
             }
         }
 
-        mViewModel.runesSelected = idsString
+        viewModel.runesSelected = idsString
 
         val direction = GeneratorStartFragmentDirections
             .actionGeneratorStartFragmentToGeneratorMagicRune()

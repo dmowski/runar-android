@@ -1,7 +1,6 @@
 package com.tnco.runar.ui.viewmodel
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.model.AffimDescriptionModel
@@ -25,7 +24,7 @@ class InterpretationViewModel @Inject constructor(
     sharedDataRepository: SharedDataRepository
 ) : ViewModel() {
     var preferencesRepository = SharedPreferencesRepository.get()
-    val fontSize: LiveData<Float> = MutableLiveData(sharedDataRepository.fontSize)
+    val fontSize: LiveData<Float> = sharedDataRepository.fontSize
     var runesData: List<RuneDescriptionModel> = emptyList()
     var affirmData: List<AffimDescriptionModel> = emptyList()
 

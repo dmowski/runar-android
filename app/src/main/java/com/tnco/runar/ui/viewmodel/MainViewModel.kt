@@ -31,24 +31,14 @@ class MainViewModel @Inject constructor(
     private val databaseRepository: DatabaseRepository,
     private val backendRepository: BackendRepository,
     val analyticsHelper: AnalyticsHelper,
-    sharedDataRepository: SharedDataRepository
+    private val sharedDataRepository: SharedDataRepository
 ) : ViewModel() {
-
-//    private val _isLoading = MutableStateFlow(true)
-//    val isLoading = _isLoading.asStateFlow()
-//
-//    init {
-//        viewModelScope.launch {
-//            delay(2000)
-//            _isLoading.value = false
-//        }
-//    }
 
     val isNetworkAvailable = networkMonitor.isConnected.asLiveData()
 
     var preferencesRepository = SharedPreferencesRepository.get()
 
-    val fontSize: LiveData<Float> = MutableLiveData(sharedDataRepository.fontSize)
+    val fontSize: LiveData<Float> = sharedDataRepository.fontSize
     var backgroundInfo = mutableListOf<BackgroundInfo>()
     val backgroundInfoResponse = MutableLiveData<NetworkResult<List<BackgroundInfo>>>()
 //    val selectedIndices = mutableListOf<Int>()
@@ -63,6 +53,10 @@ class MainViewModel @Inject constructor(
     var selectedRuneIndex = 0
 
     var shareURL = ""
+
+    fun defineFontSize() {
+        sharedDataRepository.defineFontSize()
+    }
 
     fun getRunes() = viewModelScope.launch(Dispatchers.IO) {
         backgroundInfo.clear()
@@ -148,7 +142,7 @@ class MainViewModel @Inject constructor(
     fun cancelChildrenCoroutines() = viewModelScope.coroutineContext.cancelChildren()
 
     private fun handleRunesResponse(
-        response: Response<List<RunesResponse>>,
+        response: Response<List<RunesResponse>>
     ): NetworkResult<List<RunesItemsModel>> {
         return when {
             response.isSuccessful -> {

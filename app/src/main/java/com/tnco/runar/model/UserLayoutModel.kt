@@ -20,7 +20,7 @@ data class UserLayoutModel(
     var slot6: Int?,
     var slot7: Int?,
     @ColumnInfo(name = "affirm_id")
-    var affirmId: Int?,
+    var affirmId: Int?
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Int? = null

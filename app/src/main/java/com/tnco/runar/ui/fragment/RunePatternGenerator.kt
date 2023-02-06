@@ -9,13 +9,12 @@ import android.view.ViewGroup
 import androidx.activity.addCallback
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.tnco.runar.R
 import com.tnco.runar.data.remote.NetworkResult
 import com.tnco.runar.databinding.RunePatternGeneratorBinding
 import com.tnco.runar.enums.AnalyticsEvent
-import com.tnco.runar.ui.component.dialog.CancelDialog
 import com.tnco.runar.ui.viewmodel.MainViewModel
 import com.tnco.runar.util.InternalDeepLink
 import com.tnco.runar.util.OnSwipeTouchListener
@@ -27,7 +26,7 @@ class RunePatternGenerator : Fragment() {
 
     private var _binding: RunePatternGeneratorBinding? = null
     private val binding get() = _binding!!
-    private lateinit var viewModel: MainViewModel
+    private val viewModel: MainViewModel by activityViewModels()
     private var firstImageWasReady = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,9 +50,8 @@ class RunePatternGenerator : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = RunePatternGeneratorBinding.inflate(inflater, container, false)
-        viewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
         return binding.root
     }
 
