@@ -14,7 +14,7 @@ import javax.inject.Singleton
 
 @Singleton
 class SharedDataRepository @Inject constructor(
-    @ApplicationContext private val context: Context,
+    @ApplicationContext private val context: Context
 ) {
 
     private val _fontSize = MutableLiveData(0f)

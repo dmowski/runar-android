@@ -142,7 +142,7 @@ class MainViewModel @Inject constructor(
     fun cancelChildrenCoroutines() = viewModelScope.coroutineContext.cancelChildren()
 
     private fun handleRunesResponse(
-        response: Response<List<RunesResponse>>,
+        response: Response<List<RunesResponse>>
     ): NetworkResult<List<RunesItemsModel>> {
         return when {
             response.isSuccessful -> {

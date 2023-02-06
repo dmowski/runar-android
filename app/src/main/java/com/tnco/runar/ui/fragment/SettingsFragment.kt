@@ -62,7 +62,7 @@ class SettingsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?,
+        savedInstanceState: Bundle?
     ): View {
         val view = ComposeView(requireActivity()).apply {
             setContent {
@@ -233,7 +233,7 @@ private fun SwitcherMenuItem(
     header: String,
     checkAction: ((Boolean) -> Unit),
     state: Boolean,
-    clickAction: () -> Unit,
+    clickAction: () -> Unit
 ) {
     Row(
         Modifier
@@ -353,7 +353,7 @@ private fun LanguageItem(fontSize: Float, itemName: String, selected: Boolean, p
                 fontSize = with(LocalDensity.current) {
                     ((fontSize * 0.8).toFloat()).toSp()
                 }
-            ),
+            )
         )
         RadioButton(
             selected = selected,

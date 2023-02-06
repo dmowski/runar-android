@@ -11,5 +11,5 @@ data class AffimDescriptionModel(
     var lvl1: String?,
     var lvl2: String?,
     var lvl3: String?,
-    var lvl4: String?,
+    var lvl4: String?
 )

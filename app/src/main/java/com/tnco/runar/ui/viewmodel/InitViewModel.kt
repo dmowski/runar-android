@@ -17,7 +17,7 @@ import javax.inject.Inject
 class InitViewModel @Inject constructor(
     private val databaseRepository: DatabaseRepository,
     val analyticsHelper: AnalyticsHelper,
-    sharedDataRepository: SharedDataRepository,
+    sharedDataRepository: SharedDataRepository
 ) : ViewModel() {
 
     private val _selectedLayout = SingleLiveEvent<LayoutDescriptionModel>()

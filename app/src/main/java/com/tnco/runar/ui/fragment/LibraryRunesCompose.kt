@@ -45,7 +45,7 @@ internal fun RuneDescription(
             style = TextStyle(
                 fontSize = with(LocalDensity.current) { ((fontSize * 1.2f)).toSp() },
                 textAlign = TextAlign.Center,
-            ),
+            )
         )
         Box(Modifier.aspectRatio(30f))
         Row {
