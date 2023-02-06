@@ -7,16 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.activity.MainActivity">
 
-    <com.github.mmin18.widget.RealtimeBlurView
-        android:id="@+id/bottomNavigationBarLayout"
-        android:layout_width="376dp"
-        android:layout_height="80dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/bottomNavigationBar"
-        app:realtimeBlurRadius="10dp"
-        app:realtimeOverlayColor="#00000000" />
+
 
 
     <com.tnco.runar.ui.component.view.OffsetImageView
@@ -31,11 +22,11 @@
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainer"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
         android:name="androidx.navigation.fragment.NavHostFragment"
         app:defaultNavHost="true"
         app:navGraph="@navigation/nav_graph"
-        app:layout_constraintBottom_toTopOf="@id/bottomNavigationBarLayout"
+        app:layout_constraintBottom_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -44,8 +35,8 @@
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationBar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#000000"
+        android:layout_height="57dp"
+        android:background="#D8000000"
         app:itemIconSize="21dp"
         app:itemIconTint="@color/bottom_nav_icon_selector"
         app:itemTextAppearanceActive="@style/BottomNavigationView.Active"
@@ -53,7 +44,6 @@
         app:itemTextColor="@color/bottom_nav_text_selector"
         app:labelVisibilityMode="labeled"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:realtimeBlurRadius="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/bottom_navigation" />
 

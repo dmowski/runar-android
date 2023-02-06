@@ -101,6 +101,8 @@
 
     <color name="bottom_bar_background">#CE1D1D1D</color>
 
+    <color name="color_blur">#D8000000</color>
+
     <color name="onboard_skip_color">#B3FFFFFF</color>
 
     <color name="neutrals_gray_950">#141414</color>
