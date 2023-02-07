@@ -57,8 +57,8 @@
 
     <string name="settings_layout">Settings</string>
     <string name="settings_language">Language</string>
-    <string name="settings_language_rus">Russian</string>
-    <string name="settings_language_en">English</string>
+    <string name="settings_language_rus" translatable="false">Русский</string>
+    <string name="settings_language_en" translatable="false">English</string>
     <string name="music_txt">Music</string>
     <string name="onboarding_txt">Show onboard page</string>
     <string name="rate_app_txt">Rate the application</string>
