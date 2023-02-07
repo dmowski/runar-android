@@ -18,7 +18,6 @@ import com.tnco.runar.data.remote.NetworkResult
 import com.tnco.runar.databinding.FragmentGeneratorStartBinding
 import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.model.RunesItemsModel
-import com.tnco.runar.repository.SharedPreferencesRepository
 import com.tnco.runar.ui.adapter.RunesGeneratorAdapter
 import com.tnco.runar.ui.viewmodel.MainViewModel
 import com.tnco.runar.util.InternalDeepLink
@@ -35,7 +34,6 @@ class GeneratorStartFragment : Fragment() {
     private val viewModel: MainViewModel by activityViewModels()
     private var listId: MutableList<Int> = mutableListOf()
     private var listAllIds: MutableList<Int> = mutableListOf()
-    private val sharedPreferences by lazy { SharedPreferencesRepository.get() }
     private val mAdapter: RunesGeneratorAdapter by lazy {
         RunesGeneratorAdapter(::onShowBottomSheet)
     }
@@ -113,10 +111,10 @@ class GeneratorStartFragment : Fragment() {
         var title = ""
         var desc = ""
 
-        if (sharedPreferences.language == "ru") {
+        if (viewModel.sharedPreferencesRepository.language == "ru") {
             title = rune.ruTitle.toString()
             desc = rune.ruDesc.toString()
-        } else if (sharedPreferences.language == "en") {
+        } else if (viewModel.sharedPreferencesRepository.language == "en") {
             title = rune.enTitle.toString()
             desc = rune.enDesc.toString()
         }

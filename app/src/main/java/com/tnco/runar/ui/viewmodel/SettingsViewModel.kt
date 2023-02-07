@@ -20,10 +20,9 @@ import javax.inject.Inject
 class SettingsViewModel @Inject constructor(
     private val musicController: MusicController,
     private val backendRepository: BackendRepository,
+    private val sharedPreferencesRepository: SharedPreferencesRepository,
     sharedDataRepository: SharedDataRepository
 ) : ViewModel() {
-
-    private val preferencesRepository = SharedPreferencesRepository.get()
 
     val fontSize: LiveData<Float> = sharedDataRepository.fontSize
     val musicStatus: MutableLiveData<Boolean> = MutableLiveData(true)
@@ -51,35 +50,35 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun updateMusicStatus() {
-        val currentMusicStatus = preferencesRepository.settingsMusic
+        val currentMusicStatus = sharedPreferencesRepository.settingsMusic
         val state = currentMusicStatus == 1
         musicStatus.postValue(state)
     }
 
     fun changeMusicStatus(state: Boolean) {
         if (state) {
-            preferencesRepository.changeSettingsMusic(1)
+            sharedPreferencesRepository.changeSettingsMusic(1)
             musicController.startMusic()
             updateMusicStatus()
         } else {
-            preferencesRepository.changeSettingsMusic(0)
+            sharedPreferencesRepository.changeSettingsMusic(0)
             musicController.stopMusic()
             updateMusicStatus()
         }
     }
 
     fun updateOnboardingStatus() {
-        val currentOnboardingStatus = preferencesRepository.settingsOnboarding
+        val currentOnboardingStatus = sharedPreferencesRepository.settingsOnboarding
         val state = currentOnboardingStatus == 1
         onboardingStatus.postValue(state)
     }
 
     fun changeOnboardingStatus(state: Boolean) {
         if (state) {
-            preferencesRepository.changeSettingsOnboarding(1)
+            sharedPreferencesRepository.changeSettingsOnboarding(1)
             updateOnboardingStatus()
         } else {
-            preferencesRepository.changeSettingsOnboarding(0)
+            sharedPreferencesRepository.changeSettingsOnboarding(0)
             updateOnboardingStatus()
         }
     }
