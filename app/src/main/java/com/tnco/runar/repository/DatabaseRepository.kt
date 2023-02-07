@@ -1,6 +1,5 @@
 package com.tnco.runar.repository
 
-import androidx.appcompat.app.AppCompatDelegate
 import com.tnco.runar.RunarLogger
 import com.tnco.runar.data.local.AppDao
 import com.tnco.runar.data.local.DataDao
@@ -9,19 +8,17 @@ import com.tnco.runar.di.annotations.RuLocale
 import com.tnco.runar.model.*
 import dagger.Lazy
 import kotlinx.coroutines.flow.Flow
-import java.util.*
 import javax.inject.Inject
 
 class DatabaseRepository @Inject constructor(
     private val dataDao: DataDao,
+    private val languageRepository: LanguageRepository,
     @RuLocale private val ruAppDao: Lazy<AppDao>,
     @EnLocale private val enAppDao: Lazy<AppDao>
 ) {
 
     private fun appDao(): AppDao {
-        val language: String = AppCompatDelegate.getApplicationLocales().get(0)?.language
-            ?: Locale.getDefault().language
-        return if (language == "ru") ruAppDao.get() else enAppDao.get()
+        return if (languageRepository.currentAppLanguage() == "ru") ruAppDao.get() else enAppDao.get()
     }
 
     fun notShow(id: Int) {

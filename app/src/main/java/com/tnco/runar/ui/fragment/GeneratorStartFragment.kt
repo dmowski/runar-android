@@ -112,11 +112,10 @@ class GeneratorStartFragment : Fragment() {
     private fun onShowBottomSheet(rune: RunesItemsModel) {
         var title = ""
         var desc = ""
-
-        if (sharedPreferences.language == "ru") {
+        if (viewModel.languageRepository.currentAppLanguage() == "ru") {
             title = rune.ruTitle.toString()
             desc = rune.ruDesc.toString()
-        } else if (sharedPreferences.language == "en") {
+        } else {
             title = rune.enTitle.toString()
             desc = rune.enDesc.toString()
         }
