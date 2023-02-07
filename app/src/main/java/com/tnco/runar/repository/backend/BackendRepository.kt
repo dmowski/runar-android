@@ -1,11 +1,11 @@
 package com.tnco.runar.repository.backend
 
+import com.tnco.runar.data.remote.BackgroundInfo
 import com.tnco.runar.data.remote.RetrofitClient
 import com.tnco.runar.data.remote.RunesResponse
 import com.tnco.runar.data.remote.UserInfo
 import com.tnco.runar.repository.DatabaseRepository
 import com.tnco.runar.repository.SharedPreferencesRepository
-import com.tnco.runar.data.remote.BackgroundInfo
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -16,7 +16,8 @@ import java.util.*
 import javax.inject.Inject
 
 class BackendRepository @Inject constructor(
-    private val databaseRepository: DatabaseRepository
+    private val databaseRepository: DatabaseRepository,
+    private val sharedPreferencesRepository: SharedPreferencesRepository
 ) {
 
     fun identify(userInfo: UserInfo) {
@@ -44,8 +45,7 @@ class BackendRepository @Inject constructor(
                 val hashResp = RetrofitClient.apiInterface.getLibraryHash(lang)
                 if (hashResp.isSuccessful) {
                     // RunarLogger.logDebug("Hash GET!: ")
-                    val spr = SharedPreferencesRepository.get()
-                    val oldHash = spr.getLibHash(lang)
+                    val oldHash = sharedPreferencesRepository.getLibHash(lang)
                     val newHash = hashResp.body()?.hash
                     // RunarLogger.logDebug("oldHash: $oldHash  newHash: $newHash")
                     if (newHash != null) {
@@ -60,7 +60,7 @@ class BackendRepository @Inject constructor(
                                     // RunarLogger.logDebug("Data Loaded and Converted")
                                     databaseRepository.updateLibraryDB(convertedResult)
                                     //  RunarLogger.logDebug("save new hash")
-                                    spr.putLibHash(lang, newHash)
+                                    sharedPreferencesRepository.putLibHash(lang, newHash)
                                 } else {
                                     // RunarLogger.logDebug("Language changed can't update db")
                                 }

@@ -13,7 +13,7 @@ import com.tnco.runar.model.UserLayoutModel
     exportSchema = false
 )
 
-abstract class DataDB : RoomDatabase() {
+abstract class DataDb : RoomDatabase() {
     abstract fun dataDAO(): DataDao
 
     companion object {
@@ -22,9 +22,9 @@ abstract class DataDB : RoomDatabase() {
         private const val ASSET_NAME = "database/app_data.db"
 
         @Volatile
-        private var INSTANCE: DataDB? = null
+        private var INSTANCE: DataDb? = null
 
-        fun getInstance(context: Context): DataDB {
+        fun getInstance(context: Context): DataDb {
             INSTANCE?.let {
                 return it
             }
@@ -34,7 +34,7 @@ abstract class DataDB : RoomDatabase() {
                 }
                 val db = Room.databaseBuilder(
                     context,
-                    DataDB::class.java,
+                    DataDb::class.java,
                     DB_NAME
                 )
                     .createFromAsset(ASSET_NAME)

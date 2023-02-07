@@ -8,7 +8,7 @@ import com.tnco.runar.model.*
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface AppDAO {
+interface AppDao {
 
     @Query("SELECT * FROM layouts WHERE layout_id = :id")
     fun getLayoutDetails(id: Int): LayoutDescriptionModel

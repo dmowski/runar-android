@@ -8,28 +8,26 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.tnco.runar.R
 import com.tnco.runar.databinding.FragmentGeneratorProcessingBinding
 import com.tnco.runar.enums.AnalyticsEvent
-import com.tnco.runar.ui.component.dialog.CancelDialog
 import com.tnco.runar.ui.viewmodel.MainViewModel
 import com.tnco.runar.ui.viewmodel.MusicControllerViewModel
 import com.tnco.runar.util.AnalyticsConstants
 import com.tnco.runar.util.InternalDeepLink
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
 class GeneratorMagicRune : Fragment() {
 
     private var _binding: FragmentGeneratorProcessingBinding? = null
     private val binding get() = _binding!!
-    private lateinit var viewModel: MainViewModel
+    private val viewModel: MainViewModel by activityViewModels()
     private val musicControllerViewModel: MusicControllerViewModel by viewModels()
     private var link = ""
 
@@ -54,10 +52,8 @@ class GeneratorMagicRune : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentGeneratorProcessingBinding.inflate(inflater, container, false)
-        // Inflate the layout for this fragment
-        viewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
         return binding.root
     }
 

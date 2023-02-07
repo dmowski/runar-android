@@ -1,7 +1,6 @@
 package com.tnco.runar.ui.viewmodel
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.tnco.runar.model.DeveloperSwitcher
@@ -28,7 +27,7 @@ class DeveloperOptionsViewModel @Inject constructor(
         }
     }
 
-    val fontSize: LiveData<Float> = MutableLiveData(sharedDataRepository.fontSize)
+    val fontSize: LiveData<Float> = sharedDataRepository.fontSize
     val switchers: Flow<List<DeveloperSwitcher>> = dataStorePreferences.switchers
 
     fun saveSwitcher(switcher: DeveloperSwitcher) {

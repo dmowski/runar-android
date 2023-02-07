@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -16,7 +16,6 @@ import com.tnco.runar.R
 import com.tnco.runar.data.remote.NetworkResult
 import com.tnco.runar.databinding.FragmentGeneratorBackgroundBinding
 import com.tnco.runar.enums.AnalyticsEvent
-import com.tnco.runar.ui.component.dialog.CancelDialog
 import com.tnco.runar.ui.viewmodel.MainViewModel
 import com.tnco.runar.util.InternalDeepLink
 import com.tnco.runar.util.observeOnce
@@ -27,7 +26,7 @@ class GeneratorBackground : Fragment() {
 
     private var _binding: FragmentGeneratorBackgroundBinding? = null
     private val binding get() = _binding!!
-    private lateinit var viewModel: MainViewModel
+    private val viewModel: MainViewModel by activityViewModels()
     lateinit var backgroundImgRecyclerView: RecyclerView
     var hasSelected = false
     val pointsList = mutableListOf<ImageView>()
@@ -147,10 +146,8 @@ class GeneratorBackground : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentGeneratorBackgroundBinding.inflate(inflater, container, false)
-        // Inflate the layout for this fragment
-        viewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
         return binding.root
     }
 

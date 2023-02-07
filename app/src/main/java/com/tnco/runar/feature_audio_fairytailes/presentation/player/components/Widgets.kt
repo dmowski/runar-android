@@ -1,7 +1,5 @@
 package com.tnco.runar.feature_audio_fairytailes.presentation.player.components
 
-import android.graphics.drawable.Icon
-import android.media.Image
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable

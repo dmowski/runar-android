@@ -58,7 +58,6 @@ class LibraryFragment : Fragment() {
         }
         return view
     }
-
     override fun onStart() {
         val noInternet = getString(R.string.internet_conn_error1)
         viewModel.isOnline.observeOnce(viewLifecycleOwner) { isOnline ->

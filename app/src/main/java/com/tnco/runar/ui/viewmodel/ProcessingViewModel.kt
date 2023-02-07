@@ -1,7 +1,6 @@
 package com.tnco.runar.ui.viewmodel
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.repository.DatabaseRepository
@@ -22,7 +21,7 @@ class ProcessingViewModel @Inject constructor(
 
     private var _layoutName = SingleLiveEvent<String>()
     val layoutName: LiveData<String> = _layoutName
-    val fontSize: LiveData<Float> = MutableLiveData(sharedDataRepository.fontSize)
+    val fontSize: LiveData<Float> = sharedDataRepository.fontSize
 
     fun getLayoutName(id: Int) {
         CoroutineScope(Dispatchers.IO).launch {

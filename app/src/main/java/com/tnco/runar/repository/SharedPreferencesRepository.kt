@@ -146,20 +146,4 @@ class SharedPreferencesRepository @Inject constructor(
         editor.putString("language", language)
         editor.apply()
     }
-
-    companion object {
-
-        @Volatile
-        private lateinit var sharedPreferencesRepository: SharedPreferencesRepository
-
-        fun init(context: Context) {
-            synchronized(this) {
-                sharedPreferencesRepository = SharedPreferencesRepository(context)
-            }
-        }
-
-        fun get(): SharedPreferencesRepository {
-            return sharedPreferencesRepository
-        }
-    }
 }
