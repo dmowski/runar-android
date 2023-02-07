@@ -59,16 +59,15 @@ class LibraryFragment : Fragment() {
         return view
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
+    override fun onStart() {
         val noInternet = getString(R.string.internet_conn_error1)
-        viewModel.isOnline.observeOnce(viewLifecycleOwner) {
-            viewModel.errorLoad.observeOnce(viewLifecycleOwner) {
-                if (viewModel.isOnline.value == false && viewModel.errorLoad.value == true) {
+        viewModel.isOnline.observeOnce(viewLifecycleOwner) { isOnline ->
+            viewModel.errorLoad.observeOnce(viewLifecycleOwner) { errorLoad ->
+                if (!isOnline && errorLoad) {
                     Toast.makeText(requireContext(), noInternet, Toast.LENGTH_LONG).show()
                 }
             }
-            super.onViewCreated(view, savedInstanceState)
         }
+        super.onStart()
     }
 }
