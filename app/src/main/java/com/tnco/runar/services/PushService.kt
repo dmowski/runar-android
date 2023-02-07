@@ -13,9 +13,14 @@ import com.tnco.runar.R
 import com.tnco.runar.RunarLogger
 import com.tnco.runar.repository.SharedPreferencesRepository
 import com.tnco.runar.ui.activity.MainActivity
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class PushService : FirebaseMessagingService() {
-    private val preferencesRepository = SharedPreferencesRepository.get()
+
+    @Inject
+    lateinit var sharedPreferencesRepository: SharedPreferencesRepository
 
     override fun onNewToken(token: String) {
         RunarLogger.logDebug("Refreshed token: $token")
@@ -32,7 +37,7 @@ class PushService : FirebaseMessagingService() {
         )
         // crutch, for some reason the notification comes on the first start
         // if I open just only once, it will be problem
-        if (preferencesRepository.firstLaunch != 1) {
+        if (sharedPreferencesRepository.firstLaunch != 1) {
             sendNotification(intent)
         }
     }

@@ -21,9 +21,9 @@ import javax.inject.Inject
 class InterpretationViewModel @Inject constructor(
     private val databaseRepository: DatabaseRepository,
     val analyticsHelper: AnalyticsHelper,
+    val sharedPreferencesRepository: SharedPreferencesRepository,
     sharedDataRepository: SharedDataRepository
 ) : ViewModel() {
-    var preferencesRepository = SharedPreferencesRepository.get()
     val fontSize: LiveData<Float> = sharedDataRepository.fontSize
     var runesData: List<RuneDescriptionModel> = emptyList()
     var affirmData: List<AffimDescriptionModel> = emptyList()
@@ -127,7 +127,7 @@ class InterpretationViewModel @Inject constructor(
     }
 
     fun saveUserLayout() {
-        val userId = preferencesRepository.userId
+        val userId = sharedPreferencesRepository.userId
         val layoutId = selectedLayout.value?.layoutId
         val currentDate = System.currentTimeMillis() / 1000L
         CoroutineScope(IO).launch {

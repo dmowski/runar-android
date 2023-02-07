@@ -3,6 +3,7 @@ package com.tnco.runar.ui.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.tnco.runar.repository.SharedPreferencesRepository
 import com.tnco.runar.repository.backend.BackendRepository
 import com.tnco.runar.util.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,7 +16,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SplashViewModel @Inject constructor(
-    private val backendRepository: BackendRepository
+    private val backendRepository: BackendRepository,
+    val sharedPreferencesRepository: SharedPreferencesRepository
 ) : ViewModel() {
 
     private val _splashCommand = SingleLiveEvent<Boolean>()
