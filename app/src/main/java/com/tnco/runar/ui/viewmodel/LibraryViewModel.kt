@@ -140,7 +140,4 @@ class LibraryViewModel @Inject constructor(
             scrollPositionHistory.value?.removeLast()
         }
     }
-
-    companion object {
-    }
 }
