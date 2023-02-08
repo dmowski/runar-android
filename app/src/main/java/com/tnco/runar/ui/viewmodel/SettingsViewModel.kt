@@ -9,17 +9,18 @@ import com.tnco.runar.feature.MusicController
 import com.tnco.runar.repository.SharedDataRepository
 import com.tnco.runar.repository.SharedPreferencesRepository
 import com.tnco.runar.repository.backend.BackendRepository
+import com.tnco.runar.repository.LanguageRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val musicController: MusicController,
     private val backendRepository: BackendRepository,
+    private val languageRepository: LanguageRepository,
     private val sharedPreferencesRepository: SharedPreferencesRepository,
     sharedDataRepository: SharedDataRepository
 ) : ViewModel() {
@@ -32,9 +33,7 @@ class SettingsViewModel @Inject constructor(
     val headerUpdater: MutableLiveData<Boolean> = MutableLiveData(true)
 
     fun updateLocaleData() {
-        val language: String = AppCompatDelegate.getApplicationLocales().get(0)?.language
-            ?: Locale.getDefault().language
-        when (language) {
+        when (languageRepository.currentAppLanguage()) {
             "ru" -> selectedLanguagePos.postValue(0)
             else -> selectedLanguagePos.postValue(1)
         }

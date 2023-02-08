@@ -16,6 +16,7 @@ import com.tnco.runar.repository.SharedDataRepository
 import com.tnco.runar.repository.SharedPreferencesRepository
 import com.tnco.runar.repository.backend.BackendRepository
 import com.tnco.runar.repository.backend.DataClassConverters
+import com.tnco.runar.repository.LanguageRepository
 import com.tnco.runar.util.NetworkMonitor
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -32,7 +33,8 @@ class MainViewModel @Inject constructor(
     private val backendRepository: BackendRepository,
     val analyticsHelper: AnalyticsHelper,
     private val sharedDataRepository: SharedDataRepository,
-    val sharedPreferencesRepository: SharedPreferencesRepository
+    val sharedPreferencesRepository: SharedPreferencesRepository,
+    val languageRepository: LanguageRepository
 ) : ViewModel() {
 
     val isNetworkAvailable = networkMonitor.isConnected.asLiveData()
