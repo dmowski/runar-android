@@ -25,7 +25,7 @@ class DataStorePreferences @Inject constructor(
     suspend fun initialPopulate() {
         saveSwitchers(
             listOf(
-//                DeveloperSwitcher(name = "test", state = false)
+                DeveloperSwitcher(name = AUDIO_SWITCHER_NAME, state = true)
             )
         )
     }
@@ -65,5 +65,9 @@ class DataStorePreferences @Inject constructor(
         dataStore.edit { preferences ->
             preferences.clear()
         }
+    }
+
+    companion object {
+        const val AUDIO_SWITCHER_NAME = "Audio fairy tales displaying"
     }
 }
