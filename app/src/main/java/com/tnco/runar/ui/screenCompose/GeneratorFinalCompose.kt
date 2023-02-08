@@ -26,11 +26,11 @@ import com.tnco.runar.util.rectShadow
 
 @Composable
 fun GenFinal(navController: NavController) {
-    Screen(navController)
+    GeneratorFinalScreen(navController)
 }
 
 @Composable
-private fun Screen(navController: NavController) {
+private fun GeneratorFinalScreen(navController: NavController) {
     Scaffold(
         topBar = {
             AppBar(
@@ -124,6 +124,6 @@ private fun Screen(navController: NavController) {
 
 @Preview
 @Composable
-fun ScreenPreview() {
-    Screen(rememberNavController())
+fun GeneratorFinalScreenPreview() {
+    GeneratorFinalScreen(rememberNavController())
 }
