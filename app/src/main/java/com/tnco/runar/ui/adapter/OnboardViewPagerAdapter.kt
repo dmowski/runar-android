@@ -12,7 +12,7 @@ import com.tnco.runar.model.OnboardGuideElementModel
 
 class OnboardViewPagerAdapter(
     private val models: List<OnboardGuideElementModel>,
-    private val onChangeActivity: () -> Unit,
+    private val onStartMainActivity: () -> Unit,
     private val onChangePosition: (Int) -> Unit
 ) : PagerAdapter() {
 
@@ -48,7 +48,7 @@ class OnboardViewPagerAdapter(
             if (position < models.size - 1) {
                 onChangePosition(position)
             } else {
-                onChangeActivity()
+                onStartMainActivity()
             }
         }
         container.addView(view, 0)

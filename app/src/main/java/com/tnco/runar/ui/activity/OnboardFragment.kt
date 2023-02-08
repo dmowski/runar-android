@@ -54,7 +54,7 @@ class OnboardFragment : Fragment() {
         if (context is OnOnboardFinishedListener) {
             onOnboardFinishedListener = context
         } else {
-            throw java.lang.RuntimeException("Activity must implement OnOnboardFinishedListener")
+            throw RuntimeException("$context Activity must implement OnOnboardFinishedListener")
         }
     }
 
@@ -65,6 +65,15 @@ class OnboardFragment : Fragment() {
             val initLanguage = settingsViewModel.appLanguage.first()
             languageRepository.changeLanguage(requireActivity(), initLanguage)
         }
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentOnboardBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -80,11 +89,83 @@ class OnboardFragment : Fragment() {
 
         onboardViewModel.analyticsHelper.sendEvent(AnalyticsEvent.OB_ABOUT_OPENED)
 
+        setupSkipButtonClickListener()
+
+        initModels()
+
+        adapter = OnboardViewPagerAdapter(models, ::onStartMainActivity, ::onChangePosition)
+        binding.viewPager.adapter = adapter
+
+        viewPagerChangeListener()
+        onboardViewModelObservers()
+    }
+
+    override fun onResume() {
+        musicControllerViewModel.updateOnboardingStatus(true)
+        musicControllerViewModel.startMusic()
+        super.onResume()
+    }
+
+    override fun onPause() {
+        musicControllerViewModel.updateOnboardingStatus(false)
+        musicControllerViewModel.softStopMusic()
+        super.onPause()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    private fun setupSkipButtonClickListener() {
         binding.skipButton.setOnClickListener {
             onboardViewModel.analyticsHelper.sendEvent(AnalyticsEvent.OB_SKIP)
             onboardViewModel.shouldCloseScreen()
         }
+    }
 
+    private fun viewPagerChangeListener() {
+        binding.viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+            override fun onPageScrolled(
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
+            ) {
+            }
+
+            override fun onPageSelected(position: Int) {
+                onboardViewModel.changeCurrentPosition(position)
+                when (position) {
+                    0 -> onboardViewModel.analyticsHelper.sendEvent(AnalyticsEvent.OB_ABOUT_OPENED)
+                    1 -> onboardViewModel.analyticsHelper.sendEvent(AnalyticsEvent.OB_FORTUNE_OPENED)
+                    2 -> onboardViewModel.analyticsHelper.sendEvent(AnalyticsEvent.OB_INTERPRETATION_OPENED)
+                    3 -> onboardViewModel.analyticsHelper.sendEvent(AnalyticsEvent.OB_FAVOURITES_OPENED)
+                    4 -> onboardViewModel.analyticsHelper.sendEvent(AnalyticsEvent.OB_GENERATOR_OPENED)
+                    5 -> onboardViewModel.analyticsHelper.sendEvent(AnalyticsEvent.OB_LIBRARY_OPENED)
+                }
+                currentPosition = position
+            }
+
+            override fun onPageScrollStateChanged(state: Int) {
+            }
+        })
+    }
+
+    private fun onboardViewModelObservers() {
+        onboardViewModel.currentPosition.observe(viewLifecycleOwner) {
+            binding.viewPager.setCurrentItem(it, true)
+            changeSelectionCircle(it)
+            binding.skipButton.isVisible = it != 5
+        }
+        onboardViewModel.end.observe(viewLifecycleOwner) {
+            if (it) {
+                shouldCloseScreen()
+            }
+        }
+    }
+
+
+    private fun initModels() {
         models = ArrayList<OnboardGuideElementModel>().apply {
             add(
                 OnboardGuideElementModel(
@@ -135,64 +216,6 @@ class OnboardFragment : Fragment() {
                 )
             )
         }
-
-
-        adapter = OnboardViewPagerAdapter(models, ::onChangeActivity, ::onChangePosition)
-        binding.viewPager.adapter = adapter
-
-        binding.viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
-            override fun onPageScrolled(
-                position: Int,
-                positionOffset: Float,
-                positionOffsetPixels: Int
-            ) {
-            }
-
-            override fun onPageSelected(position: Int) {
-                onboardViewModel.changeCurrentPosition(position)
-                when (position) {
-                    0 -> onboardViewModel.analyticsHelper.sendEvent(AnalyticsEvent.OB_ABOUT_OPENED)
-                    1 -> onboardViewModel.analyticsHelper.sendEvent(AnalyticsEvent.OB_FORTUNE_OPENED)
-                    2 -> onboardViewModel.analyticsHelper.sendEvent(AnalyticsEvent.OB_INTERPRETATION_OPENED)
-                    3 -> onboardViewModel.analyticsHelper.sendEvent(AnalyticsEvent.OB_FAVOURITES_OPENED)
-                    4 -> onboardViewModel.analyticsHelper.sendEvent(AnalyticsEvent.OB_GENERATOR_OPENED)
-                    5 -> onboardViewModel.analyticsHelper.sendEvent(AnalyticsEvent.OB_LIBRARY_OPENED)
-                }
-                currentPosition = position
-            }
-
-            override fun onPageScrollStateChanged(state: Int) {
-            }
-        })
-
-        onboardViewModel.currentPosition.observe(viewLifecycleOwner) {
-            binding.viewPager.setCurrentItem(it, true)
-            changeSelectionCircle(it)
-            binding.skipButton.isVisible = it != 5
-        }
-        onboardViewModel.end.observe(viewLifecycleOwner) {
-            if (it == true) {
-                shouldCloseScreen()
-            }
-        }
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentOnboardBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
-    interface OnOnboardFinishedListener {
-        fun onOnboardFinished()
     }
 
     private fun shouldCloseScreen() {
@@ -208,19 +231,7 @@ class OnboardFragment : Fragment() {
             .setImageResource(R.drawable.ic_point_selected)
     }
 
-    override fun onResume() {
-        musicControllerViewModel.updateOnboardingStatus(true)
-        musicControllerViewModel.startMusic()
-        super.onResume()
-    }
-
-    override fun onPause() {
-        musicControllerViewModel.updateOnboardingStatus(false)
-        musicControllerViewModel.softStopMusic()
-        super.onPause()
-    }
-
-    private fun onChangeActivity() {
+    private fun onStartMainActivity() {
         onboardViewModel.analyticsHelper.sendEvent(AnalyticsEvent.OB_START)
         onboardViewModel.shouldCloseScreen()
     }
@@ -228,6 +239,10 @@ class OnboardFragment : Fragment() {
     private fun onChangePosition(position: Int) {
         onboardViewModel.analyticsHelper.sendEvent(AnalyticsEvent.OB_NEXT)
         onboardViewModel.changeCurrentPosition(position + 1)
+    }
+
+    interface OnOnboardFinishedListener {
+        fun onOnboardFinished()
     }
 
     companion object {
