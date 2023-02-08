@@ -1,9 +1,11 @@
 package com.tnco.runar.repository.backend
 
+import com.tnco.runar.data.remote.BackendApiInterface
 import com.tnco.runar.data.remote.BackgroundInfo
-import com.tnco.runar.data.remote.RetrofitClient
 import com.tnco.runar.data.remote.RunesResponse
 import com.tnco.runar.data.remote.UserInfo
+import com.tnco.runar.di.annotations.GeneratorServer
+import com.tnco.runar.di.annotations.MainServer
 import com.tnco.runar.repository.DatabaseRepository
 import com.tnco.runar.repository.SharedPreferencesRepository
 import kotlinx.coroutines.CoroutineScope
@@ -17,13 +19,17 @@ import javax.inject.Inject
 
 class BackendRepository @Inject constructor(
     private val databaseRepository: DatabaseRepository,
-    private val sharedPreferencesRepository: SharedPreferencesRepository
+    private val sharedPreferencesRepository: SharedPreferencesRepository,
+    @MainServer
+    private val backendApiInterfaceMain: BackendApiInterface,
+    @GeneratorServer
+    private val backendApiInterfaceGenerator: BackendApiInterface
 ) {
 
-    fun identify(userInfo: UserInfo) {
-        CoroutineScope(Dispatchers.IO).launch {
+    fun identify(userInfo: UserInfo) { // TODO make suspend with viewModelScope
+        CoroutineScope(Dispatchers.IO).launch { // TODO get rid of the dispatcher, Retrofit uses a non-UI dispatcher under the hood
             try {
-                val response = RetrofitClient.apiInterface.createUser(userInfo)
+                val response = backendApiInterfaceMain.createUser(userInfo)
                 if (response.isSuccessful) {
                     // RunarLogger.logDebug("Identification success: " + response.message().toString())
                 } else {
@@ -39,10 +45,10 @@ class BackendRepository @Inject constructor(
 
     suspend fun getLibraryData(lang: String) {
         //  RunarLogger.logDebug("Start updating library")
-        CoroutineScope(Dispatchers.IO).launch {
+        CoroutineScope(Dispatchers.IO).launch { // TODO get rid of the scope
             try {
                 // RunarLogger.logDebug("Send hash request")
-                val hashResp = RetrofitClient.apiInterface.getLibraryHash(lang)
+                val hashResp = backendApiInterfaceMain.getLibraryHash(lang)
                 if (hashResp.isSuccessful) {
                     // RunarLogger.logDebug("Hash GET!: ")
                     val oldHash = sharedPreferencesRepository.getLibHash(lang)
@@ -51,7 +57,7 @@ class BackendRepository @Inject constructor(
                     if (newHash != null) {
                         if (oldHash != newHash) {
                             // RunarLogger.logDebug("Accepted and started library updating")
-                            val response = RetrofitClient.apiInterface.getLibraryData(lang)
+                            val response = backendApiInterfaceMain.getLibraryData(lang)
                             if (response.isSuccessful) {
                                 // RunarLogger.logDebug("Library success: " + response.message().toString())
                                 val convertedResult =
@@ -83,11 +89,11 @@ class BackendRepository @Inject constructor(
     }
 
     suspend fun getRunes(): Response<List<RunesResponse>> {
-        return RetrofitClient.apiInterfaceGenerator.getRunes()
+        return backendApiInterfaceGenerator.getRunes()
     }
 
     suspend fun getBackgroundInfo(): Response<List<BackgroundInfo>> {
-        return RetrofitClient.apiInterface.getBackgroundInfo()
+        return backendApiInterfaceMain.getBackgroundInfo()
     }
 
     suspend fun getBackgroundImage(
@@ -97,7 +103,7 @@ class BackendRepository @Inject constructor(
         width: Int,
         height: Int
     ): Response<ResponseBody> {
-        return RetrofitClient.apiInterface.getBackgroundImage(
+        return backendApiInterfaceMain.getBackgroundImage(
             runePath,
             imgPath,
             stylePath,
@@ -107,10 +113,10 @@ class BackendRepository @Inject constructor(
     }
 
     suspend fun getRunePattern(runesPath: String): Response<List<String>> {
-        return RetrofitClient.apiInterfaceGenerator.getRunePattern(runesPath)
+        return backendApiInterfaceGenerator.getRunePattern(runesPath)
     }
 
     suspend fun getRuneImage(runePath: String, imgPath: String): Response<ResponseBody> {
-        return RetrofitClient.apiInterfaceGenerator.getRunePatternImage(runePath, imgPath)
+        return backendApiInterfaceGenerator.getRunePatternImage(runePath, imgPath)
     }
 }
