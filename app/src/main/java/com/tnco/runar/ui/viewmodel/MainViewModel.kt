@@ -33,12 +33,11 @@ class MainViewModel @Inject constructor(
     private val backendRepository: BackendRepository,
     val analyticsHelper: AnalyticsHelper,
     private val sharedDataRepository: SharedDataRepository,
+    val sharedPreferencesRepository: SharedPreferencesRepository,
     val languageRepository: LanguageRepository
 ) : ViewModel() {
 
     val isNetworkAvailable = networkMonitor.isConnected.asLiveData()
-
-    var preferencesRepository = SharedPreferencesRepository.get()
 
     val fontSize: LiveData<Float> = sharedDataRepository.fontSize
     var backgroundInfo = mutableListOf<BackgroundInfo>()
@@ -74,7 +73,7 @@ class MainViewModel @Inject constructor(
     var runesSelected: String = ""
 
     fun identify() {
-        val userId = preferencesRepository.userId
+        val userId = sharedPreferencesRepository.userId
         val timeStamp = System.currentTimeMillis() / 1000L
         val androidVersion = "Android " + Build.VERSION.RELEASE
         backendRepository.identify(UserInfo(userId, timeStamp, androidVersion))

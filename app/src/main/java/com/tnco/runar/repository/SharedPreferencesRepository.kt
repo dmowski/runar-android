@@ -137,20 +137,4 @@ class SharedPreferencesRepository @Inject constructor(
         editor.putInt("Settings_onboarding", n)
         editor.apply()
     }
-
-    companion object {
-
-        @Volatile
-        private lateinit var sharedPreferencesRepository: SharedPreferencesRepository
-
-        fun init(context: Context) {
-            synchronized(this) {
-                sharedPreferencesRepository = SharedPreferencesRepository(context)
-            }
-        }
-
-        fun get(): SharedPreferencesRepository {
-            return sharedPreferencesRepository
-        }
-    }
 }

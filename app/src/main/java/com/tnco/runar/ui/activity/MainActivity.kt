@@ -19,7 +19,6 @@ import com.google.firebase.messaging.FirebaseMessaging
 import com.tnco.runar.R
 import com.tnco.runar.RunarLogger
 import com.tnco.runar.databinding.ActivityMainBinding
-import com.tnco.runar.repository.SharedPreferencesRepository
 import com.tnco.runar.ui.Navigator
 import com.tnco.runar.ui.viewmodel.MainViewModel
 import com.tnco.runar.ui.viewmodel.MusicControllerViewModel
@@ -30,7 +29,6 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
 
     private val viewModel: MainViewModel by viewModels()
     private val musicControllerViewModel: MusicControllerViewModel by viewModels()
-    var preferencesRepository = SharedPreferencesRepository.get()
     private lateinit var navController: NavController
 
     private lateinit var audioManager: AudioManager
@@ -64,12 +62,12 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
         viewModel.identify()
         supportActionBar?.hide()
 
-        if (preferencesRepository.firstLaunch == 1) {
-            preferencesRepository.changeSettingsOnboarding(0)
+        if (viewModel.sharedPreferencesRepository.firstLaunch == 1) {
+            viewModel.sharedPreferencesRepository.changeSettingsOnboarding(0)
         }
 
         audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
-        if (preferencesRepository.settingsMusic == 1) getAudioFocus()
+        if (viewModel.sharedPreferencesRepository.settingsMusic == 1) getAudioFocus()
 
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.fragmentContainer) as NavHostFragment
