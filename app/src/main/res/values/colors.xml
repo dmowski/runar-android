@@ -149,4 +149,6 @@
     <color name="audio_play_panel">@color/audio_border_image</color>
     <color name="audio_thumb_slider">@color/audio_border_image</color>
 
+    <color name="generator_card_border">#6A6A6A</color>
+    <color name="generator_btns">#D2C4AD</color>
 </resources>
