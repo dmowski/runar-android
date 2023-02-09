@@ -81,7 +81,8 @@
     <color name="lib_run_header">#EFCD93</color>
 
     <color name="lib_rune_tag_text">#D2C4AD</color>
-    <color name="lib_rune_tag_border">#696257</color>
+    <color name="lib_rune_tag_border">#D2C4AD</color>
+    <color name="lib_rune_tag_background">#141414</color>
     <color name="border">#99D2C4AD</color>
 
 

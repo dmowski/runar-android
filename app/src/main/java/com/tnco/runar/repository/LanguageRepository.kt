@@ -1,51 +1,11 @@
 package com.tnco.runar.repository
 
-import android.app.Activity
-import android.content.Context
-import android.content.res.Configuration
-import com.tnco.runar.data.local.AppDB
-import com.tnco.runar.ui.activity.MainActivity
+import androidx.appcompat.app.AppCompatDelegate
 import java.util.*
+import javax.inject.Inject
 
-object LanguageRepository {
-    fun changeLanguage(activity: Activity, language: String) {
-        val locale = Locale(language)
-        Locale.setDefault(locale)
-        val config: Configuration? = activity.baseContext?.resources?.configuration
-        config?.locale = locale
-        activity.baseContext?.resources?.updateConfiguration(
-            config,
-            activity.baseContext?.resources?.displayMetrics
-        )
-        AppDB.init(activity)
-        DatabaseRepository.reinit()
-        SharedDataRepository.init(activity)
+class LanguageRepository @Inject constructor() {
 
-        (activity as MainActivity).reshowBar()
-    }
-    fun setSettingsLanguage(activity: Activity) {
-        val prefRep = SharedPreferencesRepository.get()
-        val locale = Locale(prefRep.language)
-        Locale.setDefault(locale)
-        val config: Configuration? = activity.baseContext?.resources?.configuration
-        config?.locale = locale
-        activity.baseContext?.resources?.updateConfiguration(
-            config,
-            activity.baseContext?.resources?.displayMetrics
-        )
-        AppDB.init(activity)
-        DatabaseRepository.reinit()
-        SharedDataRepository.init(activity)
-    }
-    fun setInitialSettingsLanguage(context: Context) {
-        val prefRep = SharedPreferencesRepository.get()
-        val locale = Locale(prefRep.language)
-        Locale.setDefault(locale)
-        val config: Configuration? = context.resources?.configuration
-        config?.locale = locale
-        context.resources?.updateConfiguration(
-            config,
-            context.resources?.displayMetrics
-        )
-    }
+    fun currentAppLanguage(): String = AppCompatDelegate.getApplicationLocales().get(0)?.language
+        ?: Locale.getDefault().language
 }

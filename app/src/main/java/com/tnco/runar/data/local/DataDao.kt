@@ -6,7 +6,7 @@ import androidx.room.Query
 import com.tnco.runar.model.UserLayoutModel
 
 @Dao
-interface DataDAO {
+interface DataDao {
 
     @Query("UPDATE description_status SET status = 0 WHERE layout_id = :id")
     fun notShow(id: Int)

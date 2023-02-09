@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.*
@@ -23,14 +24,13 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.tnco.runar.R
-import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.databinding.FragmentLayoutInterpretationBinding
 import com.tnco.runar.enums.AnalyticsEvent
-import com.tnco.runar.repository.SharedPreferencesRepository
-import com.tnco.runar.ui.component.dialog.CancelDialog
 import com.tnco.runar.ui.viewmodel.InterpretationViewModel
 import com.tnco.runar.util.*
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class LayoutInterpretationFragment :
     Fragment(R.layout.fragment_layout_interpretation),
     View.OnClickListener {
@@ -45,7 +45,6 @@ class LayoutInterpretationFragment :
     private var runesViewList: ArrayList<FrameLayout> = arrayListOf()
     private var runesPositionsList: ArrayList<String?> = arrayListOf()
     private var runesDotsList: ArrayList<ImageView> = arrayListOf()
-    private val preferencesRepository = SharedPreferencesRepository.get()
 
     private var runeHeight: Int = 0
     private var runeWidth: Int = 0
@@ -78,16 +77,16 @@ class LayoutInterpretationFragment :
         viewModel.getAffirmationsDataFromDB()
 
         requireActivity().onBackPressedDispatcher.addCallback(this) {
-            CancelDialog(
-                requireContext(),
-                viewModel.fontSize.value!!,
-                "layout_interpretation",
-                getString(R.string.description_runic_draws_popup)
-            ) {
-                val direction = LayoutInterpretationFragmentDirections.actionGlobalLayoutFragment()
-                findNavController().navigate(direction)
-            }
-                .showDialog()
+            val uri = Uri.parse(
+                InternalDeepLink.CancelDialog
+                    .withArgs(
+                        "${viewModel.fontSize.value!!}",
+                        "layout_interpretation",
+                        getString(R.string.description_runic_draws_popup),
+                        "${R.id.layoutFragment}"
+                    )
+            )
+            findNavController().navigate(uri)
         }
     }
 
@@ -96,7 +95,7 @@ class LayoutInterpretationFragment :
 
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentLayoutInterpretationBinding.bind(view)
-        preferencesRepository.putLastTimeDivination(System.currentTimeMillis())
+        viewModel.sharedPreferencesRepository.putLastTimeDivination(System.currentTimeMillis())
         // set necessary views
         headerFrame = binding.descriptionHeaderFrame
         runesLayout = binding.runesLayout
@@ -1223,7 +1222,7 @@ class LayoutInterpretationFragment :
             R.id.description_button_frame -> {
                 if (binding.checkbox.isChecked) {
                     val layoutName = AnalyticsUtils.convertLayoutIdToName(layoutId)
-                    AnalyticsHelper.sendEvent(
+                    viewModel.analyticsHelper.sendEvent(
                         AnalyticsEvent.DRAWS_SAVED,
                         Pair(AnalyticsConstants.DRAW_RUNE_LAYOUT, layoutName)
                     )
@@ -1275,7 +1274,7 @@ class LayoutInterpretationFragment :
     }
 
     private fun showDescriptionOfSelectedRune(v: View?) {
-        AnalyticsHelper.sendEvent(AnalyticsEvent.RUNE_VIEWED)
+        viewModel.analyticsHelper.sendEvent(AnalyticsEvent.RUNE_VIEWED)
 
         readyToReturn = false
         defaultConstraintSet.applyTo(runesLayout)

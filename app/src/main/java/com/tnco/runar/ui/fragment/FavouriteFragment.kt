@@ -33,13 +33,14 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.tnco.runar.R
-import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.ui.component.dialog.SavedLayoutsDialog
 import com.tnco.runar.ui.viewmodel.FavouriteViewModel
 import com.tnco.runar.util.AnalyticsConstants
 import com.tnco.runar.util.AnalyticsUtils
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class FavouriteFragment : Fragment() {
     val viewModel: FavouriteViewModel by viewModels()
 
@@ -58,7 +59,7 @@ class FavouriteFragment : Fragment() {
                 Bars(findNavController())
             }
         }
-        AnalyticsHelper.sendEvent(AnalyticsEvent.FAVOURITE_OPENED)
+        viewModel.analyticsHelper.sendEvent(AnalyticsEvent.FAVOURITE_OPENED)
         view.isFocusableInTouchMode = true
         view.requestFocus()
         return view
@@ -146,7 +147,7 @@ private fun Bars(navController: NavController) {
                             clickAction = {
                                 val layoutName =
                                     AnalyticsUtils.convertLayoutIdToName(item.layoutId!!)
-                                AnalyticsHelper.sendEvent(
+                                viewModel.analyticsHelper.sendEvent(
                                     AnalyticsEvent.FAVOURITE_DRAWS_OPENED,
                                     Pair(AnalyticsConstants.DRAW_RUNE_LAYOUT, layoutName)
                                 )

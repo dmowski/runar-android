@@ -12,18 +12,14 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.tnco.runar.R
-import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.ui.viewmodel.LibraryViewModel
 import com.tnco.runar.util.observeOnce
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import dagger.hilt.android.AndroidEntryPoint
 
 const val audioFeature = true
-private const val WAITING_FOR_IMAGES = 3500L
 
+@AndroidEntryPoint
 class LibraryFragment : Fragment() {
     val viewModel: LibraryViewModel by viewModels()
 
@@ -34,22 +30,8 @@ class LibraryFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         viewModel.getRuneDataFromDB()
-        AnalyticsHelper.sendEvent(AnalyticsEvent.LIBRARY_OPENED)
+        viewModel.analyticsHelper.sendEvent(AnalyticsEvent.LIBRARY_OPENED)
 
-        val noInternet = getString(R.string.internet_conn_error1)
-
-        viewModel.isOnline.observeOnce(viewLifecycleOwner) { online ->
-            CoroutineScope(Dispatchers.Main).launch {
-                delay(WAITING_FOR_IMAGES)
-                if (!online && viewModel.errorLoad.value == true) {
-                    Toast.makeText(
-                        requireContext(),
-                        noInternet,
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
-            }
-        }
         val view = ComposeView(requireContext()).apply {
             setContent {
                 LibraryBars(findNavController())
@@ -77,8 +59,16 @@ class LibraryFragment : Fragment() {
         return view
     }
 
-    override fun onDetach() {
-        super.onDetach()
-        viewModelStore.clear()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        val noInternet = getString(R.string.internet_conn_error1)
+        viewModel.isOnline.observeOnce(viewLifecycleOwner) {
+            viewModel.errorLoad.observeOnce(viewLifecycleOwner) {
+                if (viewModel.isOnline.value == false && viewModel.errorLoad.value == true) {
+                    Toast.makeText(requireContext(), noInternet, Toast.LENGTH_LONG).show()
+                }
+            }
+            super.onViewCreated(view, savedInstanceState)
+        }
     }
 }

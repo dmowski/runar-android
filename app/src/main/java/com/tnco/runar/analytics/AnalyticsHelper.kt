@@ -2,17 +2,14 @@ package com.tnco.runar.analytics
 
 import android.os.Bundle
 import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.firebase.analytics.ktx.analytics
-import com.google.firebase.ktx.Firebase
 import com.tnco.runar.enums.AnalyticsEvent
+import javax.inject.Inject
+import javax.inject.Singleton
 
-object AnalyticsHelper {
-
-    private lateinit var firebaseAnalytics: FirebaseAnalytics
-
-    fun init() {
-        firebaseAnalytics = Firebase.analytics
-    }
+@Singleton
+class AnalyticsHelper @Inject constructor(
+    private val firebaseAnalytics: FirebaseAnalytics
+) {
 
     fun sendEvent(eventName: AnalyticsEvent, vararg keyValuePairs: Pair<String, String>) {
         val bundle = Bundle()
