@@ -23,6 +23,18 @@ const val audioFeature = true
 class LibraryFragment : Fragment() {
     val viewModel: LibraryViewModel by viewModels()
 
+    override fun onStart() {
+        super.onStart()
+        val noInternet = getString(R.string.internet_conn_error1)
+        viewModel.isOnline.observeOnce(viewLifecycleOwner) { isOnline ->
+            viewModel.errorLoad.observeOnce(viewLifecycleOwner) { errorLoad ->
+                if (!isOnline && errorLoad) {
+                    Toast.makeText(requireContext(), noInternet, Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+    }
+
     @ExperimentalPagerApi
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -57,18 +69,5 @@ class LibraryFragment : Fragment() {
             consumed
         }
         return view
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
-        val noInternet = getString(R.string.internet_conn_error1)
-        viewModel.isOnline.observeOnce(viewLifecycleOwner) {
-            viewModel.errorLoad.observeOnce(viewLifecycleOwner) {
-                if (viewModel.isOnline.value == false && viewModel.errorLoad.value == true) {
-                    Toast.makeText(requireContext(), noInternet, Toast.LENGTH_LONG).show()
-                }
-            }
-            super.onViewCreated(view, savedInstanceState)
-        }
     }
 }
