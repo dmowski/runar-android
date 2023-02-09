@@ -8,10 +8,12 @@ import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.model.LibraryItemsModel
 import com.tnco.runar.repository.DatabaseRepository
 import com.tnco.runar.repository.SharedDataRepository
+import com.tnco.runar.repository.data_store.DataStorePreferences
 import com.tnco.runar.util.NetworkMonitor
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.asCoroutineDispatcher
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.util.concurrent.Executors
 import javax.inject.Inject
@@ -21,7 +23,8 @@ class LibraryViewModel @Inject constructor(
     networkMonitor: NetworkMonitor,
     private val databaseRepository: DatabaseRepository,
     val analyticsHelper: AnalyticsHelper,
-    sharedDataRepository: SharedDataRepository
+    sharedDataRepository: SharedDataRepository,
+    dataStore: DataStorePreferences
 ) : ViewModel() {
 
     private val singleThread = Executors.newSingleThreadExecutor().asCoroutineDispatcher()
@@ -42,6 +45,12 @@ class LibraryViewModel @Inject constructor(
 
     private var menuNavData = mutableListOf<String>()
 
+    val audioSwitcher = dataStore.switchers.map { list ->
+        list.firstOrNull {
+            it.name == DataStorePreferences.AUDIO_SWITCHER_NAME
+        }
+    }
+
     fun getRuneDataFromDB() {
         CoroutineScope(singleThread).launch {
             dbList = databaseRepository.getLibraryItemList()
@@ -56,6 +65,7 @@ class LibraryViewModel @Inject constructor(
             }
         }
     }
+
     fun updateStateLoad(error: Boolean) {
         _errorLoad.value = error
     }
