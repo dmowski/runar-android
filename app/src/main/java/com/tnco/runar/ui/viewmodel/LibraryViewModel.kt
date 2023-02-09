@@ -46,8 +46,8 @@ class LibraryViewModel @Inject constructor(
     private var menuNavData = mutableListOf<String>()
 
     val audioSwitcher = dataStore.switchers.map { list ->
-        list.first {
-            it.name == "Audio fairy tales displaying"
+        list.firstOrNull {
+            it.name == DataStorePreferences.AUDIO_SWITCHER_NAME
         }
     }
 
