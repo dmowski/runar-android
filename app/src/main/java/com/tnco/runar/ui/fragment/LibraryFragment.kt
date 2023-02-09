@@ -24,6 +24,7 @@ class LibraryFragment : Fragment() {
     val viewModel: LibraryViewModel by viewModels()
 
     override fun onStart() {
+        super.onStart()
         val noInternet = getString(R.string.internet_conn_error1)
         viewModel.isOnline.observeOnce(viewLifecycleOwner) { isOnline ->
             viewModel.errorLoad.observeOnce(viewLifecycleOwner) { errorLoad ->
@@ -32,8 +33,8 @@ class LibraryFragment : Fragment() {
                 }
             }
         }
-        super.onStart()
     }
+
     @ExperimentalPagerApi
     override fun onCreateView(
         inflater: LayoutInflater,
