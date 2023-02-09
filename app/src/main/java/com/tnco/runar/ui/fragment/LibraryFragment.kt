@@ -34,7 +34,6 @@ class LibraryFragment : Fragment() {
         }
         super.onStart()
     }
-
     @ExperimentalPagerApi
     override fun onCreateView(
         inflater: LayoutInflater,
