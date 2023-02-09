@@ -1,7 +1,6 @@
 package com.tnco.runar.ui.viewmodel
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.repository.DatabaseRepository
@@ -22,7 +21,7 @@ class LayoutViewModel @Inject constructor(
 
     private var _showStatus = SingleLiveEvent<Boolean>()
     val showStatus: LiveData<Boolean> = _showStatus
-    val fontSize: LiveData<Float> = MutableLiveData(sharedDataRepository.fontSize)
+    val fontSize: LiveData<Float> = sharedDataRepository.fontSize // TODO unused?
 
     fun checkDescriptionStatus(id: Int) {
         CoroutineScope(Dispatchers.IO).launch {

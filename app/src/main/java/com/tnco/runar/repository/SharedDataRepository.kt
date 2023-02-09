@@ -5,6 +5,8 @@ import android.content.res.Resources
 import android.graphics.Paint
 import android.graphics.Rect
 import androidx.core.content.res.ResourcesCompat
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.tnco.runar.R
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
@@ -12,16 +14,14 @@ import javax.inject.Singleton
 
 @Singleton
 class SharedDataRepository @Inject constructor(
-    @ApplicationContext context: Context,
+    @ApplicationContext private val context: Context
 ) {
-    var fontSize: Float = 0.0f
-        private set
 
-    init {
-        defineFontSize(context)
-    }
+    private val _fontSize = MutableLiveData(0f)
+    val fontSize: LiveData<Float>
+        get() = _fontSize
 
-    fun defineFontSize(context: Context) {
+    fun defineFontSize() {
         val text = context.resources.getString(R.string.text_calculation_helper)
         val paint = Paint()
         val bounds = Rect()
@@ -37,6 +37,6 @@ class SharedDataRepository @Inject constructor(
             paint.getTextBounds(text, 0, text.length, bounds)
             currentWidth = bounds.width()
         }
-        fontSize = textSize - 2f
+        _fontSize.postValue(textSize - 2f)
     }
 }

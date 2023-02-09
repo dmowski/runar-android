@@ -1,19 +1,24 @@
 package com.tnco.runar.repository
 
 import com.tnco.runar.RunarLogger
-import com.tnco.runar.data.local.AppDB
+import com.tnco.runar.data.local.AppDao
 import com.tnco.runar.data.local.DataDao
+import com.tnco.runar.di.annotations.EnLocale
+import com.tnco.runar.di.annotations.RuLocale
 import com.tnco.runar.model.*
+import dagger.Lazy
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class DatabaseRepository @Inject constructor(
-    private val dataDao: DataDao
+    private val dataDao: DataDao,
+    private val languageRepository: LanguageRepository,
+    @RuLocale private val ruAppDao: Lazy<AppDao>,
+    @EnLocale private val enAppDao: Lazy<AppDao>
 ) {
-    private var appDao = AppDB.getLayoutDB().appDAO()
 
-    fun reinit() {
-        appDao = AppDB.getLayoutDB().appDAO()
+    private fun appDao(): AppDao {
+        return if (languageRepository.currentAppLanguage() == "ru") ruAppDao.get() else enAppDao.get()
     }
 
     fun notShow(id: Int) {
@@ -21,11 +26,11 @@ class DatabaseRepository @Inject constructor(
     }
 
     fun getLayoutDetails(id: Int): LayoutDescriptionModel {
-        return appDao.getLayoutDetails(id)
+        return appDao().getLayoutDetails(id)
     }
 
     fun getAllLayouts(): List<LayoutDescriptionModel> {
-        return appDao.getAllLayoutDetails()
+        return appDao().getAllLayoutDetails()
     }
 
     fun getShowStatus(id: Int): Int {
@@ -33,19 +38,19 @@ class DatabaseRepository @Inject constructor(
     }
 
     fun getRunesList(): List<RuneDescriptionModel> {
-        return appDao.getRunesDetails()
+        return appDao().getRunesDetails()
     }
 
     fun getAffirmList(): List<AffimDescriptionModel> {
-        return appDao.getAffirmations()
+        return appDao().getAffirmations()
     }
 
     fun getTwoRunesInterpretation(id: Int): String {
-        return appDao.getTwoRunesInter(id)
+        return appDao().getTwoRunesInter(id)
     }
 
     fun getAllTwoRunesInter(): List<TwoRunesInterModel> {
-        return appDao.getAllTwoRunesInter()
+        return appDao().getAllTwoRunesInter()
     }
 
     fun addUserLayout(data: UserLayoutModel) {
@@ -53,17 +58,17 @@ class DatabaseRepository @Inject constructor(
     }
 
     fun getLayoutName(id: Int): String {
-        return appDao.getLayoutName(id)
+        return appDao().getLayoutName(id)
     }
 
     fun getLibraryItemList(): List<LibraryItemsModel> {
-        return appDao.getLibraryItems()
+        return appDao().getLibraryItems()
     }
 
     fun updateLibraryDB(list: List<LibraryItemsModel>) {
-        appDao.clearLibrary()
+        appDao().clearLibrary()
         RunarLogger.logDebug("library cleared")
-        appDao.insertLibraryData(list)
+        appDao().insertLibraryData(list)
         RunarLogger.logDebug("library data inserted")
     }
 
@@ -76,11 +81,11 @@ class DatabaseRepository @Inject constructor(
     }
 
     fun getRunesGenerator(): Flow<List<RunesItemsModel>> {
-        return appDao.getRunesGenerator()
+        return appDao().getRunesGenerator()
     }
 
     fun updateRunesGeneratorDB(list: List<RunesItemsModel>) {
-        appDao.clearRunesGenerator()
-        appDao.insertRunesGenerator(list)
+        appDao().clearRunesGenerator()
+        appDao().insertRunesGenerator(list)
     }
 }

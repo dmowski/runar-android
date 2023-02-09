@@ -26,7 +26,6 @@ import androidx.navigation.fragment.navArgs
 import com.tnco.runar.R
 import com.tnco.runar.databinding.FragmentLayoutInterpretationBinding
 import com.tnco.runar.enums.AnalyticsEvent
-import com.tnco.runar.repository.SharedPreferencesRepository
 import com.tnco.runar.ui.viewmodel.InterpretationViewModel
 import com.tnco.runar.util.*
 import dagger.hilt.android.AndroidEntryPoint
@@ -46,7 +45,6 @@ class LayoutInterpretationFragment :
     private var runesViewList: ArrayList<FrameLayout> = arrayListOf()
     private var runesPositionsList: ArrayList<String?> = arrayListOf()
     private var runesDotsList: ArrayList<ImageView> = arrayListOf()
-    private val preferencesRepository = SharedPreferencesRepository.get()
 
     private var runeHeight: Int = 0
     private var runeWidth: Int = 0
@@ -97,7 +95,7 @@ class LayoutInterpretationFragment :
 
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentLayoutInterpretationBinding.bind(view)
-        preferencesRepository.putLastTimeDivination(System.currentTimeMillis())
+        viewModel.sharedPreferencesRepository.putLastTimeDivination(System.currentTimeMillis())
         // set necessary views
         headerFrame = binding.descriptionHeaderFrame
         runesLayout = binding.runesLayout

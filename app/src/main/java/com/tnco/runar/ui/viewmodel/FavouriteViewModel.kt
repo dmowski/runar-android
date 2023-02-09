@@ -24,7 +24,7 @@ class FavouriteViewModel @Inject constructor(
     val analyticsHelper: AnalyticsHelper,
     sharedDataRepository: SharedDataRepository
 ) : ViewModel() {
-    val fontSize: LiveData<Float> = MutableLiveData(sharedDataRepository.fontSize)
+    val fontSize: LiveData<Float> = sharedDataRepository.fontSize
     private var favList: List<UserLayoutModel> = emptyList()
     private var runesData: List<RuneDescriptionModel> = emptyList()
     private var layoutsData: List<LayoutDescriptionModel> = emptyList()

@@ -1,7 +1,6 @@
 package com.tnco.runar.ui.viewmodel
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.model.LayoutDescriptionModel
@@ -24,7 +23,7 @@ class DescriptionViewModel @Inject constructor(
     private var _selectedLayout = SingleLiveEvent<LayoutDescriptionModel>()
 
     val selectedLayout: LiveData<LayoutDescriptionModel> = _selectedLayout
-    val fontSize: LiveData<Float> = MutableLiveData(sharedDataRepository.fontSize)
+    val fontSize: LiveData<Float> = sharedDataRepository.fontSize
 
     fun getLayoutDescription(id: Int) {
         CoroutineScope(Dispatchers.IO).launch {

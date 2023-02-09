@@ -34,7 +34,7 @@ fun AudioScreen(navController: NavController) {
             "Superhero",
             "Last Christmas",
             "Rich Flex"
-        ),
+        )
     )
     AudioFairyTalesList(
         audioFairyTales = audioFairyTales,

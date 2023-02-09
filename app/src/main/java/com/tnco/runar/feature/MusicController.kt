@@ -17,6 +17,7 @@ import javax.inject.Singleton
 @Singleton
 class MusicController @Inject constructor(
     @ApplicationContext context: Context,
+    private val sharedPreferencesRepository: SharedPreferencesRepository
 ) {
 
     private var musicList = arrayOf(
@@ -26,7 +27,6 @@ class MusicController @Inject constructor(
         R.raw.led_mat_moya_skazala
     )
     private var mediaPlayer: MediaPlayer
-    private var preferencesRepository = SharedPreferencesRepository.get()
     private var currentSongPos = 0
     private var log1 = 0.25f
 
@@ -55,7 +55,7 @@ class MusicController @Inject constructor(
             mediaPlayer.setDataSource(context, mediaPath)
             mediaPlayer.prepare()
             mediaPlayer.setVolume(log1, log1)
-            if (preferencesRepository.settingsMusic == 1) {
+            if (sharedPreferencesRepository.settingsMusic == 1) {
                 mediaPlayer.start()
             }
         }
@@ -81,7 +81,7 @@ class MusicController @Inject constructor(
     }
 
     fun startMusic() {
-        if (preferencesRepository.settingsMusic == 1) {
+        if (sharedPreferencesRepository.settingsMusic == 1) {
             if (!mediaPlayer.isLooping) {
                 if (splashStatus || mainStatus || onboardingStatus) mediaPlayer.start()
             }

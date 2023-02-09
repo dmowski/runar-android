@@ -12,23 +12,13 @@ import com.tnco.runar.R
 import com.tnco.runar.databinding.ActivityOnboardBinding
 import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.model.OnboardGuideElementModel
-import com.tnco.runar.repository.LanguageRepository
 import com.tnco.runar.ui.adapter.OnboardViewPagerAdapter
 import com.tnco.runar.ui.viewmodel.MusicControllerViewModel
 import com.tnco.runar.ui.viewmodel.OnboardViewModel
-import com.tnco.runar.ui.viewmodel.SettingsViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.runBlocking
-import javax.inject.Inject
-
 
 @AndroidEntryPoint
 class OnboardActivity : AppCompatActivity() {
-
-    @Inject
-    lateinit var languageRepository: LanguageRepository // TODO get rid of it
-    private val settingsViewModel: SettingsViewModel by viewModels()
 
     private val viewModel: OnboardViewModel by viewModels()
     private val musicControllerViewModel: MusicControllerViewModel by viewModels()
@@ -42,11 +32,6 @@ class OnboardActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        runBlocking { // TODO get rid of it
-            val initLanguage = settingsViewModel.appLanguage.first()
-            languageRepository.changeLanguage(this@OnboardActivity, initLanguage)
-        }
 
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         window.statusBarColor = getColor(R.color.library_top_bar)
