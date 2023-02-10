@@ -93,8 +93,6 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
 
         binding.bottomNavigationBar.getBackground().setAlpha(100)
 
-        //   binding.blurview.visibility = VisibilityListener(navHostFragment)
-
         binding.bottomNavigationBar.setupWithNavController(navController)
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
