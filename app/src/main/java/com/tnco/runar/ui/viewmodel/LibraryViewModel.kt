@@ -1,13 +1,20 @@
 package com.tnco.runar.ui.viewmodel
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.model.LibraryItemsModel
 import com.tnco.runar.repository.DatabaseRepository
 import com.tnco.runar.repository.SharedDataRepository
+import com.tnco.runar.repository.data_store.DataStorePreferences
 import com.tnco.runar.util.NetworkMonitor
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.asCoroutineDispatcher
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 import java.util.concurrent.Executors
 import javax.inject.Inject
 
@@ -16,13 +23,14 @@ class LibraryViewModel @Inject constructor(
     networkMonitor: NetworkMonitor,
     private val databaseRepository: DatabaseRepository,
     val analyticsHelper: AnalyticsHelper,
-    sharedDataRepository: SharedDataRepository
+    sharedDataRepository: SharedDataRepository,
+    dataStore: DataStorePreferences
 ) : ViewModel() {
 
     private val singleThread = Executors.newSingleThreadExecutor().asCoroutineDispatcher()
 
-    val fontSize: LiveData<Float> = MutableLiveData(sharedDataRepository.fontSize)
-    internal var dbList: List<LibraryItemsModel> = emptyList()
+    val fontSize: LiveData<Float> = sharedDataRepository.fontSize
+    private var dbList: List<LibraryItemsModel> = emptyList() // TODO change to Flow
     var lastMenuHeader = MutableLiveData("")
 
     private val _errorLoad = MutableLiveData<Boolean>()
@@ -31,15 +39,22 @@ class LibraryViewModel @Inject constructor(
 
     var scrollPositionHistory = MutableLiveData(mutableListOf(0))
 
-    var menuData = MutableLiveData<List<LibraryItemsModel>>(emptyList())
+    val menuData = MutableLiveData<List<LibraryItemsModel>>(emptyList())
 
     val isOnline = networkMonitor.isConnected.asLiveData()
 
     private var menuNavData = mutableListOf<String>()
 
+    val audioSwitcher = dataStore.switchers.map { list ->
+        list.firstOrNull {
+            it.name == DataStorePreferences.AUDIO_SWITCHER_NAME
+        }
+    }
+
     fun getRuneDataFromDB() {
         CoroutineScope(singleThread).launch {
             dbList = databaseRepository.getLibraryItemList()
+            updateMenuData()
         }
     }
 
@@ -50,6 +65,7 @@ class LibraryViewModel @Inject constructor(
             }
         }
     }
+
     fun updateStateLoad(error: Boolean) {
         _errorLoad.value = error
     }

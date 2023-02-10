@@ -137,29 +137,4 @@ class SharedPreferencesRepository @Inject constructor(
         editor.putInt("Settings_onboarding", n)
         editor.apply()
     }
-
-    fun changeSettingsLanguage(s: String) {
-        var lang = s
-        if (lang != "ru") lang = "en"
-        val editor = preferences.edit()
-        language = lang
-        editor.putString("language", language)
-        editor.apply()
-    }
-
-    companion object {
-
-        @Volatile
-        private lateinit var sharedPreferencesRepository: SharedPreferencesRepository
-
-        fun init(context: Context) {
-            synchronized(this) {
-                sharedPreferencesRepository = SharedPreferencesRepository(context)
-            }
-        }
-
-        fun get(): SharedPreferencesRepository {
-            return sharedPreferencesRepository
-        }
-    }
 }

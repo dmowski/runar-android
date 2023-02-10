@@ -1,27 +1,11 @@
 package com.tnco.runar.repository
 
-import android.app.Activity
-import android.content.res.Configuration
-import com.tnco.runar.data.local.AppDB
+import androidx.appcompat.app.AppCompatDelegate
 import java.util.*
 import javax.inject.Inject
 
-class LanguageRepository @Inject constructor(
-    private val databaseRepository: DatabaseRepository,
-    private val sharedDataRepository: SharedDataRepository
-) {
+class LanguageRepository @Inject constructor() {
 
-    fun changeLanguage(activity: Activity, language: String) { // TODO get rid of activity of whole repository?
-        val locale = Locale(language)
-        Locale.setDefault(locale)
-        val config: Configuration? = activity.baseContext?.resources?.configuration
-        config?.locale = locale
-        activity.baseContext?.resources?.updateConfiguration(
-            config,
-            activity.baseContext?.resources?.displayMetrics
-        )
-        AppDB.init(activity)
-        databaseRepository.reinit()
-        sharedDataRepository.defineFontSize(activity)
-    }
+    fun currentAppLanguage(): String = AppCompatDelegate.getApplicationLocales().get(0)?.language
+        ?: Locale.getDefault().language
 }

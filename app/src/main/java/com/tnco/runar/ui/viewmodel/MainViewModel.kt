@@ -16,6 +16,7 @@ import com.tnco.runar.repository.SharedDataRepository
 import com.tnco.runar.repository.SharedPreferencesRepository
 import com.tnco.runar.repository.backend.BackendRepository
 import com.tnco.runar.repository.backend.DataClassConverters
+import com.tnco.runar.repository.LanguageRepository
 import com.tnco.runar.util.NetworkMonitor
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -31,24 +32,14 @@ class MainViewModel @Inject constructor(
     private val databaseRepository: DatabaseRepository,
     private val backendRepository: BackendRepository,
     val analyticsHelper: AnalyticsHelper,
-    sharedDataRepository: SharedDataRepository
+    private val sharedDataRepository: SharedDataRepository,
+    val sharedPreferencesRepository: SharedPreferencesRepository,
+    val languageRepository: LanguageRepository
 ) : ViewModel() {
-
-//    private val _isLoading = MutableStateFlow(true)
-//    val isLoading = _isLoading.asStateFlow()
-//
-//    init {
-//        viewModelScope.launch {
-//            delay(2000)
-//            _isLoading.value = false
-//        }
-//    }
 
     val isNetworkAvailable = networkMonitor.isConnected.asLiveData()
 
-    var preferencesRepository = SharedPreferencesRepository.get()
-
-    val fontSize: LiveData<Float> = MutableLiveData(sharedDataRepository.fontSize)
+    val fontSize: LiveData<Float> = sharedDataRepository.fontSize
     var backgroundInfo = mutableListOf<BackgroundInfo>()
     val backgroundInfoResponse = MutableLiveData<NetworkResult<List<BackgroundInfo>>>()
 //    val selectedIndices = mutableListOf<Int>()
@@ -64,6 +55,10 @@ class MainViewModel @Inject constructor(
 
     var shareURL = ""
 
+    fun defineFontSize() {
+        sharedDataRepository.defineFontSize()
+    }
+
     fun getRunes() = viewModelScope.launch(Dispatchers.IO) {
         backgroundInfo.clear()
         runesResponse.postValue(NetworkResult.Loading())
@@ -78,7 +73,7 @@ class MainViewModel @Inject constructor(
     var runesSelected: String = ""
 
     fun identify() {
-        val userId = preferencesRepository.userId
+        val userId = sharedPreferencesRepository.userId
         val timeStamp = System.currentTimeMillis() / 1000L
         val androidVersion = "Android " + Build.VERSION.RELEASE
         backendRepository.identify(UserInfo(userId, timeStamp, androidVersion))
@@ -148,7 +143,7 @@ class MainViewModel @Inject constructor(
     fun cancelChildrenCoroutines() = viewModelScope.coroutineContext.cancelChildren()
 
     private fun handleRunesResponse(
-        response: Response<List<RunesResponse>>,
+        response: Response<List<RunesResponse>>
     ): NetworkResult<List<RunesItemsModel>> {
         return when {
             response.isSuccessful -> {

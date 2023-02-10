@@ -14,6 +14,7 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.tnco.runar.R
 import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.ui.viewmodel.LibraryViewModel
+import com.tnco.runar.util.observeOnce
 import dagger.hilt.android.AndroidEntryPoint
 
 const val audioFeature = true
@@ -21,6 +22,18 @@ const val audioFeature = true
 @AndroidEntryPoint
 class LibraryFragment : Fragment() {
     val viewModel: LibraryViewModel by viewModels()
+
+    override fun onStart() {
+        super.onStart()
+        val noInternet = getString(R.string.internet_conn_error1)
+        viewModel.isOnline.observeOnce(viewLifecycleOwner) { isOnline ->
+            viewModel.errorLoad.observeOnce(viewLifecycleOwner) { errorLoad ->
+                if (!isOnline && errorLoad) {
+                    Toast.makeText(requireContext(), noInternet, Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+    }
 
     @ExperimentalPagerApi
     override fun onCreateView(
@@ -30,15 +43,6 @@ class LibraryFragment : Fragment() {
     ): View {
         viewModel.getRuneDataFromDB()
         viewModel.analyticsHelper.sendEvent(AnalyticsEvent.LIBRARY_OPENED)
-
-        val noInternet = getString(R.string.internet_conn_error1)
-        val toast = Toast.makeText(requireContext(), noInternet, Toast.LENGTH_SHORT)
-
-        viewModel.errorLoad.observe(viewLifecycleOwner) {
-            if (viewModel.isOnline.value == null && viewModel.errorLoad.value == true) {
-                toast.show()
-            } else toast.cancel()
-        }
 
         val view = ComposeView(requireContext()).apply {
             setContent {

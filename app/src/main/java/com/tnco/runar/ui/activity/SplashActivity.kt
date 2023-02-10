@@ -7,7 +7,6 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.tnco.runar.R
 import com.tnco.runar.databinding.ActivitySplashBinding
-import com.tnco.runar.repository.SharedPreferencesRepository
 import com.tnco.runar.ui.viewmodel.MusicControllerViewModel
 import com.tnco.runar.ui.viewmodel.SplashViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -19,12 +18,9 @@ class SplashActivity : AppCompatActivity() {
     private val musicControllerViewModel: MusicControllerViewModel by viewModels()
     private lateinit var binding: ActivitySplashBinding
     private var musicState = true
-    var preferencesRepository = SharedPreferencesRepository.get()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-//        LanguageRepository.setSettingsLanguage(this) //TODO why is it here?
 
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
@@ -61,7 +57,7 @@ class SplashActivity : AppCompatActivity() {
 
     private fun launchMainActivity() {
         val intent: Intent
-        if (preferencesRepository.settingsOnboarding == 1) {
+        if (viewModel.sharedPreferencesRepository.settingsOnboarding == 1) {
             intent = Intent(this, OnboardActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
             }

@@ -22,12 +22,11 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.tnco.runar.R
 import com.tnco.runar.databinding.GeneratorFinalBinding
 import com.tnco.runar.enums.AnalyticsEvent
-import com.tnco.runar.ui.component.dialog.CancelDialog
 import com.tnco.runar.ui.viewmodel.MainViewModel
 import com.tnco.runar.util.InternalDeepLink
 import dagger.hilt.android.AndroidEntryPoint
@@ -42,7 +41,7 @@ class GeneratorFinal : Fragment() {
 
     private var _binding: GeneratorFinalBinding? = null
     private val binding get() = _binding!!
-    private lateinit var viewModel: MainViewModel
+    private val viewModel: MainViewModel by activityViewModels()
 
     private companion object {
         const val QUALITY = 100
@@ -70,7 +69,6 @@ class GeneratorFinal : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = GeneratorFinalBinding.inflate(inflater, container, false)
-        viewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
         return binding.root
     }
 

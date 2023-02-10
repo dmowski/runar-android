@@ -7,7 +7,7 @@
     <string name="generator">Генератор</string>
 
     <string name="pattern_generator">Генератор узоров</string>
-    <string name="run_pattern">Рунный узор</string>
+    <string name="run_pattern">Рунический узор</string>
     <string name="run_patterns">Рунические узоры</string>
     <string name="formula">Рунная Формула</string>
     <string name="stav">Рунный Став</string>
@@ -56,8 +56,6 @@
 
     <string name="settings_layout">Настройки</string>
     <string name="settings_language">Язык</string>
-    <string name="settings_language_rus">Русский</string>
-    <string name="settings_language_en">English</string>
     <string name="music_txt">Музыка</string>
     <string name="onboarding_txt">Отображать стр. приветствия</string>
     <string name="rate_app_txt">Оценить приложение</string>

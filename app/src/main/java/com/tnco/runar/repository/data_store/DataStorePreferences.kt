@@ -14,8 +14,6 @@ class DataStorePreferences @Inject constructor(
 ) {
 
     private val switcherStates = stringSetPreferencesKey("switchers_states")
-    private val languageKey = stringPreferencesKey("language")
-
 
     /**
      * Add your switchers to the list.
@@ -27,7 +25,7 @@ class DataStorePreferences @Inject constructor(
     suspend fun initialPopulate() {
         saveSwitchers(
             listOf(
-//                DeveloperSwitcher(name = "test", state = false)
+                DeveloperSwitcher(name = AUDIO_SWITCHER_NAME, state = true)
             )
         )
     }
@@ -57,17 +55,6 @@ class DataStorePreferences @Inject constructor(
         }
     }
 
-    val appLanguage: Flow<String>
-        get() = dataStore.data.map { preferences ->
-            preferences[languageKey] ?: "ru"
-        }
-
-    suspend fun saveAppLanguage(language: String) {
-        dataStore.edit { preferences ->
-            preferences[languageKey] = language
-        }
-    }
-
     suspend fun saveSwitcher(switcher: DeveloperSwitcher) {
         dataStore.edit { preferences ->
             preferences[booleanPreferencesKey(switcher.name)] = switcher.state
@@ -78,5 +65,9 @@ class DataStorePreferences @Inject constructor(
         dataStore.edit { preferences ->
             preferences.clear()
         }
+    }
+
+    companion object {
+        const val AUDIO_SWITCHER_NAME = "Audio fairy tales displaying"
     }
 }

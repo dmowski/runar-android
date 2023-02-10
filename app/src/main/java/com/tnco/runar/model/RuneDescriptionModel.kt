@@ -17,5 +17,5 @@ data class RuneDescriptionModel(
     @ColumnInfo(name = "description")
     var shortDescription: String?,
     var meaning: String?,
-    var ausp: Int?,
+    var ausp: Int?
 )

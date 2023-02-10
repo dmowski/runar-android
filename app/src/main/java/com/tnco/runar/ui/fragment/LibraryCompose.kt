@@ -25,10 +25,11 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
-import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
@@ -59,6 +60,8 @@ internal fun LibraryBars(navController: NavController) {
     var barFont = FontFamily(Font(R.font.amatic_sc_bold))
     var barFontSize = with(LocalDensity.current) { ((fontSize!! * 2.4f)).toSp() }
     var navIcon: @Composable (() -> Unit)? = null
+
+    val audioSwitcher by viewModel.audioSwitcher.asLiveData().observeAsState()
 
     if (header != stringResource(id = R.string.library_top_bar_header)) {
         tabsState.value = false
@@ -95,7 +98,7 @@ internal fun LibraryBars(navController: NavController) {
         if (scrollState.isScrollInProgress && scrollState.value > 0) {
             ScrollBars(scrollState)
         }
-        if (tabsState.value && audioFeature) {
+        if (tabsState.value && audioFeature && audioSwitcher?.state == true) {
             TabScreen(pagerState, scrollState, fontSize, navController)
         } else {
             Column(
@@ -242,11 +245,14 @@ private fun FirstMenuItem(
                 )
                 when (painterState) {
                     is AsyncImagePainter.State.Error ->
-                    {  CircularProgressIndicator(
-                            modifier = Modifier.offset(x = (-25).dp),
-                            color = Color.Gray,
-                            strokeWidth = 6.dp)
-                        viewModel.updateStateLoad(true) }
+                        {
+                            CircularProgressIndicator(
+                                modifier = Modifier.offset(x = (-25).dp),
+                                color = Color.Gray,
+                                strokeWidth = 6.dp
+                            )
+                            viewModel.updateStateLoad(true)
+                        }
                     is AsyncImagePainter.State.Success -> viewModel.updateStateLoad(false)
                     else -> NO_RESULT
                 }
