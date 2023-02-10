@@ -32,6 +32,17 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
+    <com.github.mmin18.widget.RealtimeBlurView
+        android:id="@+id/blurview"
+        android:layout_width="match_parent"
+        android:layout_height="57dp"
+        app:realtimeBlurRadius="10dp"
+        app:labelVisibilityMode="labeled"
+        app:realtimeOverlayColor="#8000"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationBar"
         android:layout_width="match_parent"

@@ -1,8 +1,6 @@
 package com.tnco.runar.ui.activity
 
 import android.content.Context
-import android.graphics.RenderEffect
-import android.graphics.Shader
 import android.media.AudioManager
 import android.os.Build
 import android.os.Bundle
@@ -96,28 +94,47 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
             supportFragmentManager.findFragmentById(R.id.fragmentContainer) as NavHostFragment
         navController = navHostFragment.navController
 
-        binding.bottomNavigationBar.setRenderEffect(
-            RenderEffect.createBlurEffect(
-                20f, // radiusX
-                20f, // radiusY
-                Shader.TileMode.CLAMP
-            )
-        )
+        binding.bottomNavigationBar.getBackground().setAlpha(100)
+
+        //   binding.blurview.visibility = VisibilityListener(navHostFragment)
 
         binding.bottomNavigationBar.setupWithNavController(navController)
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            val bottomNavBarVisibility = when (destination.id) {
-                R.id.layoutFragment -> View.VISIBLE
-                R.id.libraryFragment -> View.VISIBLE
-                R.id.generatorStartFragment -> View.VISIBLE
-                R.id.favouriteFragment -> View.VISIBLE
-                R.id.settingsFragment -> View.VISIBLE
-                R.id.developerOptionsFragment -> View.VISIBLE
-                R.id.aboutAppFragment -> View.VISIBLE
+            var bottomNavBarVisibility = View.GONE
+            var bottomBlurNavBarVisibility = View.GONE
+
+            when (destination.id) {
+                R.id.layoutFragment -> {
+                    bottomNavBarVisibility = View.VISIBLE
+                    bottomBlurNavBarVisibility = View.VISIBLE
+                }
+                R.id.libraryFragment -> {
+                    bottomNavBarVisibility = View.VISIBLE
+                    bottomBlurNavBarVisibility = View.VISIBLE
+                }
+                R.id.generatorStartFragment -> {
+                    bottomNavBarVisibility = View.VISIBLE
+                    bottomBlurNavBarVisibility = View.VISIBLE
+                }
+                R.id.favouriteFragment -> {
+                    bottomNavBarVisibility = View.VISIBLE
+                    bottomBlurNavBarVisibility = View.VISIBLE
+                }
+                R.id.settingsFragment -> {
+                    bottomNavBarVisibility = View.VISIBLE
+                    bottomBlurNavBarVisibility = View.VISIBLE
+                }
+                R.id.developerOptionsFragment -> {
+                    View.VISIBLE
+                }
+                R.id.aboutAppFragment -> {
+                    View.VISIBLE
+                }
                 else -> View.GONE
             }
             binding.bottomNavigationBar.visibility = bottomNavBarVisibility
+            binding.blurview.visibility = bottomBlurNavBarVisibility
         }
 
         FirebaseMessaging.getInstance().token.addOnCompleteListener(
