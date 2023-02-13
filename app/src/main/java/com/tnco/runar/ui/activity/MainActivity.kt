@@ -95,17 +95,20 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
                     bottomBlurNavBarVisibility = View.VISIBLE
                 }
                 R.id.favouriteFragment -> {
-                    View.VISIBLE
+                    bottomNavBarVisibility = View.VISIBLE
+                    bottomBlurNavBarVisibility = View.VISIBLE
                 }
                 R.id.settingsFragment -> {
                     bottomNavBarVisibility = View.VISIBLE
                     bottomBlurNavBarVisibility = View.VISIBLE
                 }
                 R.id.developerOptionsFragment -> {
-                    View.VISIBLE
+                    bottomNavBarVisibility = View.VISIBLE
+                    bottomBlurNavBarVisibility = View.VISIBLE
                 }
                 R.id.aboutAppFragment -> {
-                    View.VISIBLE
+                    bottomNavBarVisibility = View.VISIBLE
+                    bottomBlurNavBarVisibility = View.VISIBLE
                 }
                 else -> View.GONE
             }

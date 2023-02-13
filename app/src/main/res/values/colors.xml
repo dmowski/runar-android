@@ -102,6 +102,7 @@
     <color name="bottom_bar_background">#CE1D1D1D</color>
 
     <color name="color_blur">#D8000000</color>
+    <color name="reatimeblur_color">#8000</color>
 
     <color name="onboard_skip_color">#B3FFFFFF</color>
 

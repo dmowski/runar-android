@@ -8,8 +8,6 @@
     tools:context=".ui.activity.MainActivity">
 
 
-
-
     <com.tnco.runar.ui.component.view.OffsetImageView
         android:id="@+id/offsetImageView2"
         android:layout_width="match_parent"
@@ -38,7 +36,7 @@
         android:layout_height="57dp"
         app:realtimeBlurRadius="10dp"
         app:labelVisibilityMode="labeled"
-        app:realtimeOverlayColor="#8000"
+        app:realtimeOverlayColor="@color/reatimeblur_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -47,7 +45,7 @@
         android:id="@+id/bottomNavigationBar"
         android:layout_width="match_parent"
         android:layout_height="57dp"
-        android:background="#D8000000"
+        android:background="@color/color_blur"
         app:itemIconSize="21dp"
         app:itemIconTint="@color/bottom_nav_icon_selector"
         app:itemTextAppearanceActive="@style/BottomNavigationView.Active"
