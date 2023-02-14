@@ -20,6 +20,7 @@ import com.tnco.runar.R
 import com.tnco.runar.RunarLogger
 import com.tnco.runar.databinding.ActivityMainBinding
 import com.tnco.runar.ui.Navigator
+import com.tnco.runar.ui.viewmodel.DeveloperOptionsViewModel
 import com.tnco.runar.ui.viewmodel.MainViewModel
 import com.tnco.runar.ui.viewmodel.MusicControllerViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -28,6 +29,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusChangeListener {
 
     private val viewModel: MainViewModel by viewModels()
+    private val developerOptionsViewModel: DeveloperOptionsViewModel by viewModels()
     private val musicControllerViewModel: MusicControllerViewModel by viewModels()
     private lateinit var navController: NavController
 
@@ -46,6 +48,7 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
 //        }
 
         firebaseAnalytics = Firebase.analytics
+        developerOptionsViewModel.initialPopulate()
 
         // status bar color
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
