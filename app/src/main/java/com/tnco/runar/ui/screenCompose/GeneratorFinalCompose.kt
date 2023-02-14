@@ -5,9 +5,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.LibraryMusic
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -18,10 +17,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import coil.compose.AsyncImage
 import com.tnco.runar.R
 import com.tnco.runar.ui.screenCompose.componets.AppBar
+import com.tnco.runar.ui.viewmodel.MainViewModel
 import com.tnco.runar.util.rectShadow
 
 @Composable
@@ -31,6 +33,8 @@ fun GenFinal(navController: NavController) {
 
 @Composable
 private fun GeneratorFinalScreen(navController: NavController) {
+    val viewModel = viewModel<MainViewModel>()
+    val image = viewModel.backgroundInfo.first { it.isSelected }.img!!
     Scaffold(
         topBar = {
             AppBar(
@@ -46,8 +50,7 @@ private fun GeneratorFinalScreen(navController: NavController) {
                 .padding(top = paddingValues.calculateTopPadding())
         ) {
 
-            val (imgFinal, onClickSave) = createRefs()
-            val btnColor = R.color.generator_btns
+            val (onClickSave) = createRefs()
 
             MaterialTheme {
                 Surface(
@@ -75,11 +78,9 @@ private fun GeneratorFinalScreen(navController: NavController) {
                     color = colorResource(id = R.color.audio_image_background)
 
                 ) {
-                    Icon(
-                        modifier = Modifier.fillMaxSize(1f),
-                        imageVector = Icons.Filled.LibraryMusic,
-                        contentDescription = "Detail Image",
-                        tint = Color.White
+                    AsyncImage(
+                        model = image,
+                        contentDescription = null
                     )
                 }
                 Row(
