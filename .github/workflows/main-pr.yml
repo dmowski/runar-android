@@ -23,6 +23,9 @@ jobs:
       - name: Build with Gradle
         run: bash ./gradlew assembleDebugWithR8 --stacktrace
 
+      - name: Run test
+        run: bash ./gradlew connectedAndroidTest
+
       - name: Rename File
         run: |
           cp "app/build/outputs/apk/debugWithR8/app-debugWithR8.apk" "app/build/outputs/apk/debugWithR8/pr-${{ steps.date.outputs.date }}.apk"
