@@ -20,6 +20,12 @@ jobs:
           distribution: "temurin"
           java-version: "17"
 
+      - name: Run tests
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 29
+          script: ./gradlew connectedCheck
+
       - name: Build with Gradle
         run: bash ./gradlew assembleDebugWithR8 --stacktrace
 
