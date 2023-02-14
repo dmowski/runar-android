@@ -23,8 +23,8 @@ jobs:
       - name: Build with Gradle
         run: bash ./gradlew assembleDebugWithR8 --stacktrace
 
-      - name: Run test
-        run: bash ./gradlew connectedAndroidTest
+      - name: Run test (testDebugUnitTest)
+        run: bash ./gradlew testDebugUnitTest
 
       - name: Rename File
         run: |
