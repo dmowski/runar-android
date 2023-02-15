@@ -107,11 +107,11 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
     }
 
     override fun onAudioFocusChange(focusChange: Int) {
-        if (focusChange <= 0) {
-            musicControllerViewModel.stopMusic()
-        } else {
-            musicControllerViewModel.startMusic()
-        }
+//        if (focusChange <= 0) {
+//            musicControllerViewModel.stopMusic()
+//        } else {
+//            musicControllerViewModel.startMusic()
+//        }
     }
 
     override fun onResume() {
