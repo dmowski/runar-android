@@ -7,8 +7,8 @@ import com.tnco.runar.model.DeveloperSwitcher
 import com.tnco.runar.repository.SharedDataRepository
 import com.tnco.runar.repository.data_store.DataStorePreferences
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -18,20 +18,17 @@ class DeveloperOptionsViewModel @Inject constructor(
     sharedDataRepository: SharedDataRepository
 ) : ViewModel() {
 
-    init {
-        viewModelScope.launch {
-            val switcherStates = dataStorePreferences.switchers.first()
-            if (switcherStates.isEmpty()) {
-                dataStorePreferences.initialPopulate()
-            }
-        }
-    }
-
     val fontSize: LiveData<Float> = sharedDataRepository.fontSize
     val switchers: Flow<List<DeveloperSwitcher>> = dataStorePreferences.switchers
 
+    fun initialPopulate() {
+        viewModelScope.launch(Dispatchers.IO) { // TODO move to the constructor
+            dataStorePreferences.initialPopulate()
+        }
+    }
+
     fun saveSwitcher(switcher: DeveloperSwitcher) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             dataStorePreferences.saveSwitcher(switcher)
         }
     }

@@ -13,8 +13,6 @@ class DataStorePreferences @Inject constructor(
     private val dataStore: DataStore<Preferences>
 ) {
 
-    private val switcherStates = stringSetPreferencesKey("switchers_states")
-
     /**
      * Add your switchers to the list.
      * Of significant note: This switchers are available in debug mode only.
@@ -22,38 +20,28 @@ class DataStorePreferences @Inject constructor(
      * @param name displayed switcher text
      * @param state initial state
      */
+    private val initialSwitchers = listOf(
+        DeveloperSwitcher(name = AUDIO_SWITCHER_NAME, state = true)
+    )
+
     suspend fun initialPopulate() {
-        saveSwitchers(
-            listOf(
-                DeveloperSwitcher(name = AUDIO_SWITCHER_NAME, state = true)
-            )
-        )
+        dataStore.edit { preferences ->
+            initialSwitchers.forEach { switcher ->
+                if (!preferences.contains(booleanPreferencesKey(switcher.name)))
+                    preferences[booleanPreferencesKey(switcher.name)] = switcher.state
+            }
+        }
     }
 
     val switchers: Flow<List<DeveloperSwitcher>>
         get() = dataStore.data.map { preferences ->
             val switchers = mutableListOf<DeveloperSwitcher>()
-            val switcherNames = preferences[switcherStates]
-            switcherNames?.let {
-                it.forEach { name ->
-                    val state = preferences[booleanPreferencesKey(name)] ?: false
-                    switchers.add(DeveloperSwitcher(name = name, state = state))
-                }
+            initialSwitchers.forEach { switcher ->
+                val state = preferences[booleanPreferencesKey(switcher.name)] ?: switcher.state
+                switchers.add(DeveloperSwitcher(name = switcher.name, state = state))
             }
             switchers
         }
-
-    private suspend fun saveSwitchers(switchers: List<DeveloperSwitcher>) {
-        dataStore.edit { preferences ->
-            val states = switchers
-                .map { it.name }
-                .toSet()
-            preferences[switcherStates] = states
-            switchers.forEach {
-                preferences[booleanPreferencesKey(it.name)] = it.state
-            }
-        }
-    }
 
     suspend fun saveSwitcher(switcher: DeveloperSwitcher) {
         dataStore.edit { preferences ->
