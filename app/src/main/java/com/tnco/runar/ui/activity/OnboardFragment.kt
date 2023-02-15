@@ -27,7 +27,6 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
-
 @AndroidEntryPoint
 class OnboardFragment : Fragment() {
 
@@ -46,8 +45,7 @@ class OnboardFragment : Fragment() {
     private lateinit var onOnboardFinishedListener: OnOnboardFinishedListener
 
     private var _binding: FragmentOnboardBinding? = null
-    private val binding: FragmentOnboardBinding
-        get() = _binding ?: throw RuntimeException("FragmentOnboardBinding == null")
+    private val binding get() = requireNotNull(_binding)
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -157,13 +155,12 @@ class OnboardFragment : Fragment() {
             changeSelectionCircle(it)
             binding.skipButton.isVisible = it != 5
         }
-        onboardViewModel.end.observe(viewLifecycleOwner) {
+        onboardViewModel.endPosition.observe(viewLifecycleOwner) {
             if (it) {
                 shouldCloseScreen()
             }
         }
     }
-
 
     private fun initModels() {
         models = ArrayList<OnboardGuideElementModel>().apply {

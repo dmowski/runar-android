@@ -15,7 +15,7 @@ class OnboardViewModel @Inject constructor(
     private var _currentPosition = SingleLiveEvent<Int>()
     var currentPosition: LiveData<Int> = _currentPosition
     private var _end = SingleLiveEvent<Boolean>()
-    var end: LiveData<Boolean> = _end
+    var endPosition: LiveData<Boolean> = _end
 
     fun changeCurrentPosition(pos: Int) {
         _currentPosition.postValue(pos)
