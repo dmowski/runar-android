@@ -10,7 +10,9 @@ import coil.load
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.tnco.runar.R
 import com.tnco.runar.databinding.BottomSheetLayoutBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class BottomSheetFragment : BottomSheetDialogFragment() {
 
     private var _binding: BottomSheetLayoutBinding? = null

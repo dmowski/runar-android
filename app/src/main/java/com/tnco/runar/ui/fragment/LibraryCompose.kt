@@ -25,15 +25,14 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
-import androidx.navigation.NavController
-import coil.compose.rememberImagePainter
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
 import com.tnco.runar.R
-import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.ui.viewmodel.LibraryViewModel
 import com.tnco.runar.util.AnalyticsConstants
@@ -43,6 +42,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 private const val TO_LAST_SCROLLSTATE = 2
+private const val NO_RESULT = 0
 
 @ExperimentalPagerApi
 @Composable
@@ -59,6 +59,8 @@ internal fun LibraryBars(navController: NavController) {
     var barFont = FontFamily(Font(R.font.amatic_sc_bold))
     var barFontSize = with(LocalDensity.current) { ((fontSize!! * 2.4f)).toSp() }
     var navIcon: @Composable (() -> Unit)? = null
+
+    val audioSwitcher by viewModel.audioSwitcher.asLiveData().observeAsState()
 
     if (header != stringResource(id = R.string.library_top_bar_header)) {
         tabsState.value = false
@@ -95,7 +97,7 @@ internal fun LibraryBars(navController: NavController) {
         if (scrollState.isScrollInProgress && scrollState.value > 0) {
             ScrollBars(scrollState)
         }
-        if (tabsState.value && audioFeature) {
+        if (tabsState.value && audioFeature && audioSwitcher?.state == true) {
             TabScreen(pagerState, scrollState, fontSize, navController)
         } else {
             Column(
@@ -130,7 +132,7 @@ internal fun ItemData(scrollState: ScrollState) {
                         text = item.content!!,
                         imgLink = item.imageUrl!!,
                         clickAction = {
-                            AnalyticsHelper.sendEvent(
+                            viewModel.analyticsHelper.sendEvent(
                                 AnalyticsEvent.LIBRARY_SECTION_OPENED,
                                 Pair(AnalyticsConstants.SECTION, item.title!!)
                             )
@@ -232,7 +234,7 @@ private fun FirstMenuItem(
                 val painter = rememberAsyncImagePainter(imgLink)
                 val painterState = painter.state
                 val viewModel: LibraryViewModel = viewModel()
-                if(painterState is AsyncImagePainter.State.Error) {
+                if (painterState is AsyncImagePainter.State.Error) {
                     viewModel.updateStateLoad(true)
                 }
                 if (viewModel.errorLoad?.value == null) {
@@ -415,10 +417,10 @@ private fun SecondMenuItem(
                     val painterEmpty = painterResource(R.drawable.slot_active)
                     val painterState = painterRune.state
                     val viewModel: LibraryViewModel = viewModel()
-                    if(painterState is AsyncImagePainter.State.Error) {
+                    if (painterState is AsyncImagePainter.State.Error) {
                         viewModel.updateStateLoad(true)
                     }
-                    if( viewModel.errorLoad.value == null) {
+                    if (viewModel.errorLoad.value == null) {
                         Image(
                             painter = painterRune,
                             contentDescription = null,
@@ -436,7 +438,8 @@ private fun SecondMenuItem(
                                 .background(Color(0x00000000))
                                 .padding(top = 5.dp, bottom = 5.dp)
                                 .weight(60f)
-                                .fillMaxSize())
+                                .fillMaxSize()
+                        )
                     }
                     Row(
                         Modifier

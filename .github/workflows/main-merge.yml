@@ -21,7 +21,7 @@ jobs:
           distribution: "temurin" # See 'Supported distributions' for available options
           java-version: "17"
 
-      - name: Build with Grandle
+      - name: Build with Gradle
         run: bash ./gradlew assembleDebugWithR8 --stacktrace
 
       - name: Rename File
@@ -43,4 +43,38 @@ jobs:
           format: markdown
           message: |
             🔥 New build from ${{ github.actor }} 🔥
-            ${{ github.event.commits[0].message }}
+            ${{ github.event.commits[0].url }}
+
+  test:
+    runs-on: macos-latest
+    needs: build
+    strategy:
+      matrix:
+        api-level: [21, 23, 29]
+        target: [default]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: "temurin"
+          java-version: "17"
+
+      - name: Instrumentation Tests
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: ${{ matrix.api-level }}
+          target: ${{ matrix.target }}
+          arch: x86
+          profile: Nexus 6
+          script: ./gradlew connectedCheck --stacktrace
+
+      - name: Upload Reports
+        uses: actions/upload-artifact@v2
+        with:
+          name: Test-Reports
+          path: app/build/reports
+        if: always()

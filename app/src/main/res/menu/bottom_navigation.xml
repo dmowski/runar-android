@@ -13,12 +13,8 @@
         android:icon="@drawable/generator_button"
         android:title="@string/generator"/>
     <item
-        android:id="@+id/favourites"
-        android:icon="@drawable/ic_union"
-        android:title="@string/bottom_nav_favourites"/>
-    <item
-        android:id="@+id/settings"
-        android:icon="@drawable/ic_settings"
-        android:title="@string/bottom_nav_settings"/>
+        android:id="@+id/menu"
+        android:icon="@drawable/ic_menu"
+        android:title="@string/bottom_nav_menu"/>
 
 </menu>

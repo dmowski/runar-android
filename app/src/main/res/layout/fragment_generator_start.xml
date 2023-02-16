@@ -102,28 +102,13 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.44" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/lineStartRune"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.22" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/lineEndRune"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.77" />
-
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/runes_numbers"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="@id/lineBottomRune"
-        app:layout_constraintEnd_toEndOf="@id/lineEndRune"
-        app:layout_constraintStart_toStartOf="@+id/lineStartRune"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/lineTopRune">
 
         <TextView
@@ -137,7 +122,9 @@
             android:textColor="@color/rune_number_color_deselected"
             android:textSize="50sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/tv_rune_2"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
         <ImageView
             android:id="@+id/rune_1"
@@ -169,6 +156,7 @@
             android:text="2"
             android:textColor="@color/rune_number_color_deselected"
             android:textSize="50sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/tv_rune_3"
             app:layout_constraintStart_toEndOf="@+id/tv_rune_1"
             app:layout_constraintTop_toTopOf="parent" />
@@ -202,6 +190,8 @@
             android:fontFamily="@font/amatic_sc_bold"
             android:gravity="center"
             android:text="3"
+            app:layout_constraintStart_toEndOf="@id/tv_rune_2"
+            app:layout_constraintBottom_toBottomOf="parent"
             android:textColor="@color/rune_number_color_deselected"
             android:textSize="50sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -314,7 +304,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/runes_recycler_view"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -337,7 +327,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
 
             <include layout="@layout/shimmer_layout" />
 

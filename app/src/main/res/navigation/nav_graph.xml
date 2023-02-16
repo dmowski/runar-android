@@ -23,5 +23,26 @@
             android:name="topMostDestinationToRetry"
             app:argType="integer" />
     </fragment>
+    <dialog
+        android:id="@+id/cancelDialog"
+        android:name="com.tnco.runar.ui.component.dialog.CancelDialog"
+        android:label="CancelDialog"
+        tools:layout="@layout/cancel_dialog_layout">
+        <deepLink
+            android:id="@+id/deepLinkCancelDialog"
+            app:uri="runar-android://CancelDialog/{fontSize}/{page}/{dialogText}/{destinationOnAgree}" />
+        <argument
+            android:name="fontSize"
+            app:argType="float" />
+        <argument
+            android:name="page"
+            app:argType="string" />
+        <argument
+            android:name="dialogText"
+            app:argType="string" />
+        <argument
+            android:name="destinationOnAgree"
+            app:argType="integer" />
+    </dialog>
 
 </navigation>

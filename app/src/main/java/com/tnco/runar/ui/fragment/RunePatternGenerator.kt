@@ -9,41 +9,40 @@ import android.view.ViewGroup
 import androidx.activity.addCallback
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.tnco.runar.R
-import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.data.remote.NetworkResult
 import com.tnco.runar.databinding.RunePatternGeneratorBinding
 import com.tnco.runar.enums.AnalyticsEvent
-import com.tnco.runar.ui.component.dialog.CancelDialog
 import com.tnco.runar.ui.viewmodel.MainViewModel
 import com.tnco.runar.util.InternalDeepLink
 import com.tnco.runar.util.OnSwipeTouchListener
 import com.tnco.runar.util.observeOnce
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class RunePatternGenerator : Fragment() {
 
     private var _binding: RunePatternGeneratorBinding? = null
     private val binding get() = _binding!!
-    private lateinit var viewModel: MainViewModel
+    private val viewModel: MainViewModel by activityViewModels()
     private var firstImageWasReady = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         requireActivity().onBackPressedDispatcher.addCallback(this) {
-            CancelDialog(
-                requireContext(),
-                viewModel.fontSize.value!!,
-                "rune_pattern_generator",
-                getString(R.string.description_generator_popup)
-            ) {
-                requireActivity().viewModelStore.clear()
-                val direction = RunePatternGeneratorDirections.actionGlobalGeneratorFragment()
-                findNavController().navigate(direction)
-            }
-                .showDialog()
+            val uri = Uri.parse(
+                InternalDeepLink.CancelDialog
+                    .withArgs(
+                        "${viewModel.fontSize.value!!}",
+                        "rune_pattern_generator",
+                        getString(R.string.description_runic_draws_popup),
+                        "${R.id.generatorStartFragment}"
+                    )
+            )
+            findNavController().navigate(uri)
         }
     }
 
@@ -51,9 +50,8 @@ class RunePatternGenerator : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = RunePatternGeneratorBinding.inflate(inflater, container, false)
-        viewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
         return binding.root
     }
 
@@ -61,7 +59,7 @@ class RunePatternGenerator : Fragment() {
         if (viewModel.runesImages.isEmpty()) {
             return
         }
-        AnalyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_PATTERN_NEW_TYPE)
+        viewModel.analyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_PATTERN_NEW_TYPE)
         var nextIndex = viewModel.selectedRuneIndex + incrementer
         val countOfPatterns = viewModel.runesImages.size
 
@@ -78,7 +76,7 @@ class RunePatternGenerator : Fragment() {
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        AnalyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_PATTERN_CREATED)
+        viewModel.analyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_PATTERN_CREATED)
 
         viewModel.isNetworkAvailable.observeOnce(viewLifecycleOwner) { status ->
             if (status) {
@@ -149,10 +147,9 @@ class RunePatternGenerator : Fragment() {
 
     private fun showInternetConnectionError() {
         requireActivity().viewModelStore.clear()
-        val topMostDestinationToRetry = R.id.generatorFragment
         val uri = Uri.parse(
             InternalDeepLink.ConnectivityErrorFragment
-                .withArgs("$topMostDestinationToRetry")
+                .withArgs("${R.id.generatorStartFragment}")
         )
         findNavController().navigate(uri)
     }

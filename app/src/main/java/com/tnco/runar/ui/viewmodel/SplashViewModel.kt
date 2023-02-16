@@ -3,15 +3,23 @@ package com.tnco.runar.ui.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.tnco.runar.repository.LanguageRepository
+import com.tnco.runar.repository.SharedPreferencesRepository
 import com.tnco.runar.repository.backend.BackendRepository
 import com.tnco.runar.util.SingleLiveEvent
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.util.*
+import javax.inject.Inject
 
-class SplashViewModel : ViewModel() {
+@HiltViewModel
+class SplashViewModel @Inject constructor(
+    private val backendRepository: BackendRepository,
+    private val languageRepository: LanguageRepository,
+    val sharedPreferencesRepository: SharedPreferencesRepository
+) : ViewModel() {
 
     private val _splashCommand = SingleLiveEvent<Boolean>()
     private val _progress = MutableLiveData<Int>()
@@ -29,9 +37,11 @@ class SplashViewModel : ViewModel() {
                 _progress.postValue(25 * (it + 1))
             }
             if (backendConnection) {
-                val locale: String = Locale.getDefault().language
-                if (locale == "ru") BackendRepository.getLibraryData("ru")
-                else BackendRepository.getLibraryData("en")
+                if (languageRepository.currentAppLanguage() == "ru") {
+                    backendRepository.getLibraryData("ru")
+                } else {
+                    backendRepository.getLibraryData("en")
+                }
             }
             repeat(2) {
                 delay(STEP_OF_LOADING)

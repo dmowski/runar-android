@@ -8,33 +8,32 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import coil.load
 import com.tnco.runar.R
-import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.data.remote.NetworkResult
 import com.tnco.runar.databinding.FragmentGeneratorStartBinding
 import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.model.RunesItemsModel
-import com.tnco.runar.repository.SharedPreferencesRepository
 import com.tnco.runar.ui.adapter.RunesGeneratorAdapter
 import com.tnco.runar.ui.viewmodel.MainViewModel
 import com.tnco.runar.util.InternalDeepLink
 import com.tnco.runar.util.observeOnce
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.util.*
 
+@AndroidEntryPoint
 class GeneratorStartFragment : Fragment() {
 
     private var _binding: FragmentGeneratorStartBinding? = null
     private val binding get() = _binding!!
-    private lateinit var mViewModel: MainViewModel
+    private val viewModel: MainViewModel by activityViewModels()
     private var listId: MutableList<Int> = mutableListOf()
     private var listAllIds: MutableList<Int> = mutableListOf()
-    private val sharedPreferences by lazy { SharedPreferencesRepository.get() }
     private val mAdapter: RunesGeneratorAdapter by lazy {
         RunesGeneratorAdapter(::onShowBottomSheet)
     }
@@ -50,12 +49,10 @@ class GeneratorStartFragment : Fragment() {
             findNavController().popBackStack()
         }
 
-        AnalyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_PATTERN_SELECTED)
-        mViewModel = ViewModelProvider(requireActivity())[MainViewModel::class.java]
+        viewModel.analyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_PATTERN_SELECTED)
         setupRecyclerView()
-        // readDatabase()
 
-        mViewModel.isNetworkAvailable.observeOnce(viewLifecycleOwner) { status ->
+        viewModel.isNetworkAvailable.observeOnce(viewLifecycleOwner) { status ->
             if (status) {
                 requestApiData()
             } else {
@@ -113,11 +110,10 @@ class GeneratorStartFragment : Fragment() {
     private fun onShowBottomSheet(rune: RunesItemsModel) {
         var title = ""
         var desc = ""
-
-        if (sharedPreferences.language == "ru") {
+        if (viewModel.languageRepository.currentAppLanguage() == "ru") {
             title = rune.ruTitle.toString()
             desc = rune.ruDesc.toString()
-        } else if (sharedPreferences.language == "en") {
+        } else {
             title = rune.enTitle.toString()
             desc = rune.enDesc.toString()
         }
@@ -143,10 +139,10 @@ class GeneratorStartFragment : Fragment() {
         }
     }
 
-    private fun readDatabase() { // доделать считывание
+    private fun readDatabase() { // TODO доделать считывание
         listAllIds.clear()
         lifecycleScope.launch {
-            mViewModel.readRunes.observeOnce(viewLifecycleOwner) { listRunes ->
+            viewModel.readRunes.observeOnce(viewLifecycleOwner) { listRunes ->
                 if (listRunes.isNotEmpty()) {
                     mAdapter.setData(listRunes)
                     listRunes.forEach {
@@ -159,8 +155,8 @@ class GeneratorStartFragment : Fragment() {
 
     private fun requestApiData() {
         listAllIds.clear()
-        mViewModel.getRunes()
-        mViewModel.runesResponse.observe(viewLifecycleOwner) { response ->
+        viewModel.getRunes()
+        viewModel.runesResponse.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is NetworkResult.Success -> {
                     if (response.data!!.isNotEmpty()) {
@@ -250,7 +246,7 @@ class GeneratorStartFragment : Fragment() {
     }
 
     private fun randomRunes() {
-        AnalyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_PATTERN_RANDOM_RUNES)
+        viewModel.analyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_PATTERN_RANDOM_RUNES)
         val count = (1..3).random()
         listId.clear()
 
@@ -272,7 +268,7 @@ class GeneratorStartFragment : Fragment() {
                 idsString = "${listId[0]}_${listId[1]}_${listId[2]}"
             }
         }
-        mViewModel.runesSelected = idsString
+        viewModel.runesSelected = idsString
 
         val direction = GeneratorStartFragmentDirections
             .actionGeneratorStartFragmentToGeneratorMagicRune()
@@ -300,7 +296,7 @@ class GeneratorStartFragment : Fragment() {
             }
         }
 
-        mViewModel.runesSelected = idsString
+        viewModel.runesSelected = idsString
 
         val direction = GeneratorStartFragmentDirections
             .actionGeneratorStartFragmentToGeneratorMagicRune()
@@ -308,16 +304,16 @@ class GeneratorStartFragment : Fragment() {
     }
 
     private fun showInternetConnectionError() {
-        val topMostDestinationToRetry = R.id.generatorFragment
         val uri = Uri.parse(
             InternalDeepLink.ConnectivityErrorFragment
-                .withArgs("$topMostDestinationToRetry")
+                .withArgs("${R.id.generatorStartFragment}")
         )
         findNavController().navigate(uri)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
+        mAdapter.clearData()
         _binding = null
     }
 }

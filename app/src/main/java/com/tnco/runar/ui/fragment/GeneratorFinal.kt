@@ -22,25 +22,26 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.tnco.runar.R
-import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.databinding.GeneratorFinalBinding
 import com.tnco.runar.enums.AnalyticsEvent
-import com.tnco.runar.ui.component.dialog.CancelDialog
 import com.tnco.runar.ui.viewmodel.MainViewModel
+import com.tnco.runar.util.InternalDeepLink
+import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
+@AndroidEntryPoint
 class GeneratorFinal : Fragment() {
 
     private var _binding: GeneratorFinalBinding? = null
     private val binding get() = _binding!!
-    private lateinit var viewModel: MainViewModel
+    private val viewModel: MainViewModel by activityViewModels()
 
     private companion object {
         const val QUALITY = 100
@@ -68,7 +69,6 @@ class GeneratorFinal : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = GeneratorFinalBinding.inflate(inflater, container, false)
-        viewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
         return binding.root
     }
 
@@ -80,7 +80,7 @@ class GeneratorFinal : Fragment() {
 //        instagram = view.findViewById(R.id.instagram)
 
         binding.share.setOnClickListener {
-            AnalyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_PATTERN_SHARED)
+            viewModel.analyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_PATTERN_SHARED)
             val bmp = (binding.imgFinal.drawable as BitmapDrawable).bitmap
             shareImage(bmp, requireContext())
         }
@@ -92,7 +92,7 @@ class GeneratorFinal : Fragment() {
         }
 
         binding.save.setOnClickListener {
-            AnalyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_PATTERN_SAVED)
+            viewModel.analyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_PATTERN_SAVED)
             val fileName = generateFileName()
             val bmp = (binding.imgFinal.drawable as BitmapDrawable).bitmap
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -189,17 +189,16 @@ class GeneratorFinal : Fragment() {
     }
 
     private fun showCancelDialog() {
-        CancelDialog(
-            requireContext(),
-            viewModel.fontSize.value!!,
-            PAGE,
-            getString(R.string.description_generator_popup)
-        ) {
-            requireActivity().viewModelStore.clear()
-            val direction = GeneratorFinalDirections.actionGlobalGeneratorFragment()
-            findNavController().navigate(direction)
-        }
-            .showDialog()
+        val uri = Uri.parse(
+            InternalDeepLink.CancelDialog
+                .withArgs(
+                    "${viewModel.fontSize.value!!}",
+                    PAGE,
+                    getString(R.string.description_runic_draws_popup),
+                    "${R.id.generatorStartFragment}"
+                )
+        )
+        findNavController().navigate(uri)
     }
 
     override fun onDestroyView() {

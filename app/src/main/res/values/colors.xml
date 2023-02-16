@@ -81,7 +81,8 @@
     <color name="lib_run_header">#EFCD93</color>
 
     <color name="lib_rune_tag_text">#D2C4AD</color>
-    <color name="lib_rune_tag_border">#696257</color>
+    <color name="lib_rune_tag_border">#D2C4AD</color>
+    <color name="lib_rune_tag_background">#141414</color>
     <color name="border">#99D2C4AD</color>
 
 
@@ -142,10 +143,12 @@
     <color name="audio_divider">#FF292929</color>
     <color name="audio_image_more_tint">#FF6E6E6E</color>
     <color name="audio_top_app_bar">@color/library_top_bar</color>
-    <color name="audio_top_app_bar_header">@color/library_top_bar_header</color>
+    <color name="audio_top_app_bar_header">@color/library_top_bar_fav</color>
     <color name="audio_image_background">#FF1E1E1E</color>
     <color name="audio_play_button">#EFCD93</color>
     <color name="audio_play_panel">@color/audio_border_image</color>
     <color name="audio_thumb_slider">@color/audio_border_image</color>
 
+    <color name="generator_card_border">#6A6A6A</color>
+    <color name="generator_btns">#D2C4AD</color>
 </resources>

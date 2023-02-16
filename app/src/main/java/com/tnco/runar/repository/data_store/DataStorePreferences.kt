@@ -1,26 +1,17 @@
 package com.tnco.runar.repository.data_store
 
-import android.content.Context
 import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.booleanPreferencesKey
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.stringSetPreferencesKey
-import androidx.datastore.preferences.preferencesDataStore
+import androidx.datastore.preferences.core.*
 import com.tnco.runar.model.DeveloperSwitcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
+import javax.inject.Singleton
 
-object DataStorePreferences {
-
-    private const val PREFERENCE_NAME = "settings"
-    private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = PREFERENCE_NAME)
-    private val SWITCHERS_STATES = stringSetPreferencesKey("switchers_states")
-    private lateinit var dataStore: DataStore<Preferences>
-
-    fun init(context: Context) {
-        dataStore = context.dataStore
-    }
+@Singleton
+class DataStorePreferences @Inject constructor(
+    private val dataStore: DataStore<Preferences>
+) {
 
     /**
      * Add your switchers to the list.
@@ -29,38 +20,28 @@ object DataStorePreferences {
      * @param name displayed switcher text
      * @param state initial state
      */
+    private val initialSwitchers = listOf(
+        DeveloperSwitcher(name = AUDIO_SWITCHER_NAME, state = true)
+    )
+
     suspend fun initialPopulate() {
-        saveSwitchers(
-            listOf(
-//                DeveloperSwitcher(name = "test", state = false)
-            )
-        )
+        dataStore.edit { preferences ->
+            initialSwitchers.forEach { switcher ->
+                if (!preferences.contains(booleanPreferencesKey(switcher.name)))
+                    preferences[booleanPreferencesKey(switcher.name)] = switcher.state
+            }
+        }
     }
 
     val switchers: Flow<List<DeveloperSwitcher>>
         get() = dataStore.data.map { preferences ->
             val switchers = mutableListOf<DeveloperSwitcher>()
-            val switcherNames = preferences[SWITCHERS_STATES]
-            switcherNames?.let {
-                it.forEach { name ->
-                    val state = preferences[booleanPreferencesKey(name)] ?: false
-                    switchers.add(DeveloperSwitcher(name = name, state = state))
-                }
+            initialSwitchers.forEach { switcher ->
+                val state = preferences[booleanPreferencesKey(switcher.name)] ?: switcher.state
+                switchers.add(DeveloperSwitcher(name = switcher.name, state = state))
             }
             switchers
         }
-
-    private suspend fun saveSwitchers(switchers: List<DeveloperSwitcher>) {
-        dataStore.edit { preferences ->
-            val states = switchers
-                .map { it.name }
-                .toSet()
-            preferences[SWITCHERS_STATES] = states
-            switchers.forEach {
-                preferences[booleanPreferencesKey(it.name)] = it.state
-            }
-        }
-    }
 
     suspend fun saveSwitcher(switcher: DeveloperSwitcher) {
         dataStore.edit { preferences ->
@@ -72,5 +53,9 @@ object DataStorePreferences {
         dataStore.edit { preferences ->
             preferences.clear()
         }
+    }
+
+    companion object {
+        const val AUDIO_SWITCHER_NAME = "Audio fairy tales displaying"
     }
 }

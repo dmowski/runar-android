@@ -9,7 +9,9 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.tnco.runar.feature_audio_fairytailes.presentation.player.AudioScreenDetails
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class AudioDetailsFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
