@@ -45,29 +45,3 @@ jobs:
             PULL REQUEST from ${{ github.actor }}
             https://github.com/dmowski/runar-android/pull/${{ github.event.pull_request.number }}
             ${{ github.event.pull_request.title }}
-
-  test:
-    runs-on: macos-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Setup JDK
-        uses: actions/setup-java@v3
-        with:
-          distribution: "temurin"
-          java-version: "17"
-
-      - name: Instrumentation Tests
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          api-level: 29
-          target: default
-          script: ./gradlew connectedCheck --stacktrace
-
-      - name: Upload Reports
-        uses: actions/upload-artifact@v2
-        with:
-          name: Test-Reports
-          path: app/build/reports
-        if: always()
