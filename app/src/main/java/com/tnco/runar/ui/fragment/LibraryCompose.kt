@@ -30,7 +30,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
-import coil.compose.rememberImagePainter
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
 import com.tnco.runar.R
@@ -231,30 +230,33 @@ private fun FirstMenuItem(
                     .weight(62f),
                 verticalAlignment = Alignment.CenterVertically
             ) {
+                val painterEmpty = painterResource(R.drawable.empty)
                 val painter = rememberAsyncImagePainter(imgLink)
                 val painterState = painter.state
                 val viewModel: LibraryViewModel = viewModel()
-                Image(
-                    painter = painter,
-                    contentDescription = null,
-                    modifier = Modifier
-                        .background(Color(0x00000000))
-                        .padding(top = 5.dp, bottom = 5.dp)
-                        .weight(60f)
-                        .fillMaxSize()
-                )
-                when (painterState) {
-                    is AsyncImagePainter.State.Error ->
-                        {
-                            CircularProgressIndicator(
-                                modifier = Modifier.offset(x = (-25).dp),
-                                color = Color.Gray,
-                                strokeWidth = 6.dp
-                            )
-                            viewModel.updateStateLoad(true)
-                        }
-                    is AsyncImagePainter.State.Success -> viewModel.updateStateLoad(false)
-                    else -> NO_RESULT
+                if (painterState is AsyncImagePainter.State.Error) {
+                    viewModel.updateStateLoad(true)
+                }
+                if (viewModel.errorLoad?.value == null) {
+                    Image(
+                        painter = painter,
+                        contentDescription = null,
+                        modifier = Modifier
+                            .background(Color(0x00000000))
+                            .padding(top = 5.dp, bottom = 5.dp)
+                            .weight(60f)
+                            .fillMaxSize()
+                    )
+                } else {
+                    Image(
+                        painter = painterEmpty,
+                        contentDescription = null,
+                        modifier = Modifier
+                            .background(Color(0x00000000))
+                            .padding(top = 5.dp, bottom = 5.dp)
+                            .weight(60f)
+                            .fillMaxSize()
+                    )
                 }
                 Column(
                     Modifier
@@ -411,15 +413,34 @@ private fun SecondMenuItem(
                         .weight(62f),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Image(
-                        painter = rememberImagePainter(imgLink),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .background(Color(0x00000000))
-                            .padding(top = 5.dp, bottom = 5.dp)
-                            .weight(60f)
-                            .fillMaxSize()
-                    )
+                    val painterRune = rememberAsyncImagePainter(imgLink)
+                    val painterEmpty = painterResource(R.drawable.slot_active)
+                    val painterState = painterRune.state
+                    val viewModel: LibraryViewModel = viewModel()
+                    if (painterState is AsyncImagePainter.State.Error) {
+                        viewModel.updateStateLoad(true)
+                    }
+                    if (viewModel.errorLoad.value == null) {
+                        Image(
+                            painter = painterRune,
+                            contentDescription = null,
+                            modifier = Modifier
+                                .background(Color(0x00000000))
+                                .padding(top = 5.dp, bottom = 5.dp)
+                                .weight(60f)
+                                .fillMaxSize()
+                        )
+                    } else {
+                        Image(
+                            painter = painterEmpty,
+                            contentDescription = null,
+                            modifier = Modifier
+                                .background(Color(0x00000000))
+                                .padding(top = 5.dp, bottom = 5.dp)
+                                .weight(60f)
+                                .fillMaxSize()
+                        )
+                    }
                     Row(
                         Modifier
                             .fillMaxSize()
