@@ -20,16 +20,19 @@ import com.tnco.runar.R
 import com.tnco.runar.RunarLogger
 import com.tnco.runar.databinding.ActivityMainBinding
 import com.tnco.runar.ui.Navigator
-import com.tnco.runar.ui.viewmodel.DeveloperOptionsViewModel
+import com.tnco.runar.ui.fragment.OnboardFragment
 import com.tnco.runar.ui.viewmodel.MainViewModel
 import com.tnco.runar.ui.viewmodel.MusicControllerViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusChangeListener {
+class MainActivity :
+    AppCompatActivity(),
+    Navigator,
+    AudioManager.OnAudioFocusChangeListener,
+    OnboardFragment.OnOnboardFinishedListener {
 
     private val viewModel: MainViewModel by viewModels()
-    private val developerOptionsViewModel: DeveloperOptionsViewModel by viewModels()
     private val musicControllerViewModel: MusicControllerViewModel by viewModels()
     private lateinit var navController: NavController
 
@@ -41,14 +44,7 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-//        installSplashScreen().apply {
-//            setKeepOnScreenCondition {
-//                viewModel.isLoading.value
-//            }
-//        }
-
         firebaseAnalytics = Firebase.analytics
-        developerOptionsViewModel.initialPopulate()
 
         // status bar color
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
@@ -107,11 +103,11 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
     }
 
     override fun onAudioFocusChange(focusChange: Int) {
-//        if (focusChange <= 0) {
-//            musicControllerViewModel.stopMusic()
-//        } else {
-//            musicControllerViewModel.startMusic()
-//        }
+        if (focusChange <= 0) {
+            musicControllerViewModel.stopMusic()
+        } else {
+            musicControllerViewModel.startMusic()
+        }
     }
 
     override fun onResume() {
@@ -147,5 +143,10 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
 
     override fun dropAudioFocus() {
         audioManager.abandonAudioFocus(this)
+    }
+
+    override fun onOnboardFinished() {
+        supportFragmentManager.popBackStack()
+        binding.bottomNavigationBar.visibility = View.VISIBLE
     }
 }

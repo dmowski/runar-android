@@ -56,15 +56,9 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun launchMainActivity() {
-        val intent: Intent
-        if (viewModel.sharedPreferencesRepository.settingsOnboarding == 1) {
-            intent = Intent(this, OnboardActivity::class.java).apply {
-                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-            }
-        } else {
-            intent = Intent(this, MainActivity::class.java).apply {
-                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-            }
+        Intent(this, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+            startActivity(this)
         }
         musicState = false
         startActivity(intent)
