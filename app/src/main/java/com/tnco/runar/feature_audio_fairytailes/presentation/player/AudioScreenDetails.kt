@@ -57,10 +57,9 @@ private fun MainScreen(navController: NavController) {
 
     Scaffold(
         topBar = {
-            AudioAppBar(
-                title = "",
-                navController = navController
-            )
+            AudioAppBar(title = "") {
+                navController.popBackStack()
+            }
         },
         backgroundColor = Color.Transparent
     ) { paddingValues ->

@@ -29,6 +29,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.navigation.NavController
 import com.tnco.runar.R
+import com.tnco.runar.feature_audio_fairytailes.presentation.util.toMinSecFormat
 import com.tnco.runar.ui.fragment.LibraryFragmentDirections
 
 @Composable
@@ -78,7 +79,7 @@ internal fun AudioDetailRow(
     audioNameText: String,
     audioCategoryText: String,
     image: ImageVector = Icons.Filled.LibraryMusic,
-    time: String = "3:27",
+    time: Int,
     navController: NavController
 ) {
     Surface(
@@ -157,7 +158,7 @@ internal fun AudioDetailRow(
                             bottom.linkTo(parent.bottom)
                             end.linkTo(parent.end, 16.dp)
                         },
-                    text = time,
+                    text = toMinSecFormat(time),
                     style = TextStyle(
                         color = colorResource(id = R.color.audio_time_text),
                         fontSize = 16.sp,
@@ -184,7 +185,7 @@ internal fun AudioDetailRow(
 internal fun AudioAppBar(
     title: String,
     icon: ImageVector = Icons.Filled.ArrowBack,
-    navController: NavController
+    onClick: () -> Unit
 ) {
     TopAppBar(
         title = {
@@ -200,7 +201,7 @@ internal fun AudioAppBar(
         backgroundColor = colorResource(id = R.color.audio_top_app_bar),
         navigationIcon = {
             IconButton(
-                onClick = { navController.popBackStack() }
+                onClick = onClick
             ) {
                 Icon(
                     imageVector = icon,

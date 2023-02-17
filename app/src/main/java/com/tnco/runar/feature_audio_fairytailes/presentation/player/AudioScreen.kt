@@ -3,39 +3,26 @@ package com.tnco.runar.feature_audio_fairytailes.presentation.player
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.tnco.runar.feature_audio_fairytailes.presentation.player.components.AudioDetailRow
 import com.tnco.runar.feature_audio_fairytailes.presentation.player.components.AudioHeader
+import com.tnco.runar.model.LibraryItemsModel
 
+@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
-fun AudioScreen(navController: NavController) {
-    val audioFairyTales: Map<String, List<String>> = mapOf(
-        "Books" to listOf(
-            "To Kill a Mockingbird",
-            "Lord of the Flies",
-            "Wuthering Heights"
-        ),
-        "Norwegian Fairytales" to listOf(
-            "The Fisherman and the Draug",
-            "The Giant Who Had No Heart in His Body",
-            "Farmer Weatherbeard",
-            "The King's Hares",
-            "Minnikin",
-            "The Master Maid"
-        ),
-        "Christmas Music" to listOf(
-            "All I Want For Christmas Is You",
-            "Rockin' Around The Christmas Tree",
-            "Jingle Bell Rock",
-            "A Holly Jolly Christmas",
-            "Anti-Hero",
-            "Unholy",
-            "Superhero",
-            "Last Christmas",
-            "Rich Flex"
-        )
-    )
+fun AudioScreen(
+    navController: NavController,
+    viewModel: AudioViewModel = viewModel()
+) {
+
+    val audioFairyTales by viewModel.audioFairyTales.collectAsStateWithLifecycle()
+    viewModel.getLibraryItems()
+
     AudioFairyTalesList(
         audioFairyTales = audioFairyTales,
         navController = navController
@@ -44,22 +31,23 @@ fun AudioScreen(navController: NavController) {
 
 @Composable
 private fun AudioFairyTalesList(
-    audioFairyTales: Map<String, List<String>>,
+    audioFairyTales: Map<LibraryItemsModel, List<LibraryItemsModel>>,
     navController: NavController
 ) {
     LazyColumn {
         audioFairyTales.onEachIndexed { index, fairyTalesEntry ->
             item {
                 AudioHeader(
-                    name = fairyTalesEntry.key,
+                    name = fairyTalesEntry.key.title ?: "",
                     isFirstHeader = index == 0
                 )
             }
 
             items(fairyTalesEntry.value) { audioFairyTale ->
                 AudioDetailRow(
-                    audioNameText = audioFairyTale,
-                    audioCategoryText = fairyTalesEntry.key,
+                    audioNameText = audioFairyTale.title ?: "",
+                    audioCategoryText = fairyTalesEntry.key.title ?: "",
+                    time = audioFairyTale.audioDuration ?: 0,
                     navController = navController
                 )
             }
