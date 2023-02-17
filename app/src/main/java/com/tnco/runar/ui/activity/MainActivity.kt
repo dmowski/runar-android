@@ -21,6 +21,7 @@ import com.tnco.runar.RunarLogger
 import com.tnco.runar.databinding.ActivityMainBinding
 import com.tnco.runar.ui.Navigator
 import com.tnco.runar.ui.fragment.OnboardFragment
+import com.tnco.runar.ui.viewmodel.DeveloperOptionsViewModel
 import com.tnco.runar.ui.viewmodel.MainViewModel
 import com.tnco.runar.ui.viewmodel.MusicControllerViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -33,6 +34,7 @@ class MainActivity :
     OnboardFragment.OnOnboardFinishedListener {
 
     private val viewModel: MainViewModel by viewModels()
+    private val developerOptionsViewModel: DeveloperOptionsViewModel by viewModels()
     private val musicControllerViewModel: MusicControllerViewModel by viewModels()
     private lateinit var navController: NavController
 
@@ -44,7 +46,14 @@ class MainActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        //        installSplashScreen().apply {
+//            setKeepOnScreenCondition {
+//                viewModel.isLoading.value
+//            }
+//        }
+
         firebaseAnalytics = Firebase.analytics
+        developerOptionsViewModel.initialPopulate()
 
         // status bar color
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
@@ -103,23 +112,23 @@ class MainActivity :
     }
 
     override fun onAudioFocusChange(focusChange: Int) {
-        if (focusChange <= 0) {
-            musicControllerViewModel.stopMusic()
-        } else {
-            musicControllerViewModel.startMusic()
-        }
-    }
-
-    override fun onResume() {
-        musicControllerViewModel.updateMainStatus(true)
-        musicControllerViewModel.startMusic()
-        super.onResume()
+        //      if (focusChange <= 0) {
+        //         musicControllerViewModel.stopMusic()
+        //     } else {
+        //         musicControllerViewModel.startMusic()
+        //     }
     }
 
     override fun onPause() {
         musicControllerViewModel.updateMainStatus(false)
         musicControllerViewModel.softStopMusic()
         super.onPause()
+    }
+
+    override fun onResume() {
+        musicControllerViewModel.updateMainStatus(true)
+        musicControllerViewModel.startMusic()
+        super.onResume()
     }
 
     override fun onSupportNavigateUp(): Boolean {
