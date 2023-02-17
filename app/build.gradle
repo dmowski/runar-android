@@ -172,4 +172,5 @@ dependencies {
 
     //Splash Screen API
     implementation 'androidx.core:core-splashscreen:1.0.0'
+    implementation 'androidx.hilt:hilt-navigation-compose:1.0.0-alpha02'
 }

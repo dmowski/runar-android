@@ -1,45 +1,46 @@
 package com.tnco.runar.ui.screenCompose
 
+import android.util.Log
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import coil.compose.AsyncImage
 import com.tnco.runar.R
 import com.tnco.runar.ui.screenCompose.componets.AppBar
 import com.tnco.runar.ui.viewmodel.MainViewModel
 import com.tnco.runar.util.rectShadow
 
 @Composable
-fun GenFinal(navController: NavController) {
-    GeneratorFinalScreen(navController)
+fun GeneratorFinalScreen(navController: NavController) {
+    GeneratorFinal(navController, viewModel = MainViewModel())
 }
 
 @Composable
-private fun GeneratorFinalScreen(navController: NavController) {
-    val viewModel = viewModel<MainViewModel>()
+private fun GeneratorFinal(navController: NavController, viewModel: MainViewModel) {
+    val viewModel: MainViewModel = hiltViewModel()
+    Log.d("ViewModel", "Adress = $viewModel")
     val image = viewModel.backgroundInfo.first { it.isSelected }.img!!
+
     Scaffold(
         topBar = {
             AppBar(
                 title = stringResource(id = R.string.run_pattern),
-                navController = navController
             )
         },
         backgroundColor = Color.Transparent
@@ -49,9 +50,6 @@ private fun GeneratorFinalScreen(navController: NavController) {
                 .fillMaxSize()
                 .padding(top = paddingValues.calculateTopPadding())
         ) {
-
-            val (onClickSave) = createRefs()
-
             MaterialTheme {
                 Surface(
                     modifier = Modifier
@@ -78,8 +76,8 @@ private fun GeneratorFinalScreen(navController: NavController) {
                     color = colorResource(id = R.color.audio_image_background)
 
                 ) {
-                    AsyncImage(
-                        model = image,
+                    Image(
+                        bitmap = image.asImageBitmap(),
                         contentDescription = null
                     )
                 }
@@ -92,7 +90,6 @@ private fun GeneratorFinalScreen(navController: NavController) {
                     Box(
                         modifier = Modifier
                             .size(60.dp)
-                            .clickable { onClickSave }
                             .clip(RoundedCornerShape(CornerSize(5.dp)))
                             .background(colorResource(id = R.color.generator_btns)),
                         contentAlignment = Alignment.Center
@@ -107,7 +104,6 @@ private fun GeneratorFinalScreen(navController: NavController) {
                         modifier = Modifier
                             .padding(start = 16.dp)
                             .size(60.dp)
-                            .clickable { onClickSave }
                             .clip(RoundedCornerShape(CornerSize(5.dp)))
                             .background(colorResource(id = R.color.generator_btns)),
                         contentAlignment = Alignment.Center

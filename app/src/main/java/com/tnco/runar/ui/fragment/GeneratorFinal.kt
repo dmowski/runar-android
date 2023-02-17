@@ -5,14 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.addCallback
-import androidx.compose.ui.platform.ViewCompositionStrategy
+import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.tnco.runar.R
 import com.tnco.runar.databinding.GeneratorFinalBinding
-import com.tnco.runar.ui.screenCompose.GenFinal
+import com.tnco.runar.ui.component.dialog.CancelDialog
+import com.tnco.runar.ui.screenCompose.GeneratorFinalScreen
 import com.tnco.runar.ui.viewmodel.MainViewModel
-import java.util.*
 
 class GeneratorFinal : Fragment() {
 
@@ -36,6 +37,7 @@ class GeneratorFinal : Fragment() {
         super.onCreate(savedInstanceState)
 
         requireActivity().onBackPressedDispatcher.addCallback(this) {
+            showCancelDialog()
             findNavController().popBackStack()
         }
     }
@@ -47,12 +49,28 @@ class GeneratorFinal : Fragment() {
     ): View {
         _binding = GeneratorFinalBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
-        return binding.root
-        binding.generatorFinalScreen.apply {
-            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+        return ComposeView(requireContext()).apply {
             setContent {
-                GenFinal(navController = findNavController())
+                GeneratorFinalScreen(findNavController())
             }
         }
+    }
+    private fun showCancelDialog() {
+        CancelDialog(
+            requireContext(),
+            viewModel.fontSize.value!!,
+            PAGE,
+            getString(R.string.description_generator_popup)
+        ) {
+            requireActivity().viewModelStore.clear()
+            val direction = GeneratorFinalDirections.actionGlobalGeneratorFragment()
+            findNavController().navigate(direction)
+        }
+            .showDialog()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

@@ -11,14 +11,12 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import com.tnco.runar.R
 
 @Composable
 internal fun AppBar(
     title: String,
     icon: ImageVector = Icons.Filled.ArrowBack,
-    navController: NavController
 ) {
     TopAppBar(
         title = {
@@ -33,15 +31,11 @@ internal fun AppBar(
         },
         backgroundColor = colorResource(id = R.color.audio_top_app_bar),
         navigationIcon = {
-            IconButton(
-                onClick = { navController.popBackStack() }
-            ) {
-                Icon(
-                    imageVector = icon,
-                    contentDescription = "Arrow Back",
-                    tint = colorResource(id = R.color.audio_top_app_bar_header)
-                )
-            }
+            Icon(
+                imageVector = icon,
+                contentDescription = "Arrow Back",
+                tint = colorResource(id = R.color.audio_top_app_bar_header)
+            )
         },
         elevation = 0.dp
     )
