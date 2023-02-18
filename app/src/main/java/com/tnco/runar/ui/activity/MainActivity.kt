@@ -46,7 +46,7 @@ class MainActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        //        installSplashScreen().apply {
+//        installSplashScreen().apply {
 //            setKeepOnScreenCondition {
 //                viewModel.isLoading.value
 //            }
@@ -112,23 +112,23 @@ class MainActivity :
     }
 
     override fun onAudioFocusChange(focusChange: Int) {
-        //      if (focusChange <= 0) {
-        //         musicControllerViewModel.stopMusic()
-        //     } else {
-        //         musicControllerViewModel.startMusic()
-        //     }
-    }
-
-    override fun onPause() {
-        musicControllerViewModel.updateMainStatus(false)
-        musicControllerViewModel.softStopMusic()
-        super.onPause()
+//        if (focusChange <= 0) {
+//            musicControllerViewModel.stopMusic()
+//        } else {
+//            musicControllerViewModel.startMusic()
+//        }
     }
 
     override fun onResume() {
         musicControllerViewModel.updateMainStatus(true)
         musicControllerViewModel.startMusic()
         super.onResume()
+    }
+
+    override fun onPause() {
+        musicControllerViewModel.updateMainStatus(false)
+        musicControllerViewModel.softStopMusic()
+        super.onPause()
     }
 
     override fun onSupportNavigateUp(): Boolean {
