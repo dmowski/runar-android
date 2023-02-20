@@ -7,6 +7,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.tnco.runar.R
 import com.tnco.runar.databinding.ActivitySplashBinding
+import com.tnco.runar.ui.fragment.OnboardFragment
 import com.tnco.runar.ui.viewmodel.MusicControllerViewModel
 import com.tnco.runar.ui.viewmodel.SplashViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -56,9 +57,13 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun launchMainActivity() {
-        Intent(this, MainActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-            startActivity(this)
+        if (viewModel.sharedPreferencesRepository.settingsOnboarding == 1) {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.action_container, OnboardFragment()).commit()
+        } else {
+            intent = Intent(this, MainActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+            }
         }
         musicState = false
         startActivity(intent)
