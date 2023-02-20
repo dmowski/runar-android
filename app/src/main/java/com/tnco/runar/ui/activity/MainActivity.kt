@@ -75,7 +75,6 @@ class MainActivity :
         }
 
         audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
-        if (viewModel.sharedPreferencesRepository.settingsMusic == 1) getAudioFocus()
 
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.fragmentContainer) as NavHostFragment
@@ -112,11 +111,11 @@ class MainActivity :
     }
 
     override fun onAudioFocusChange(focusChange: Int) {
-//        if (focusChange <= 0) {
-//            musicControllerViewModel.stopMusic()
-//        } else {
-//            musicControllerViewModel.startMusic()
-//        }
+        if (focusChange <= 0) {
+            musicControllerViewModel.stopMusic()
+        } else {
+            musicControllerViewModel.startMusic()
+        }
     }
 
     override fun onResume() {
