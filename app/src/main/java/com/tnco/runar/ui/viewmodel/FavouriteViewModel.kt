@@ -3,7 +3,9 @@ package com.tnco.runar.ui.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.tnco.runar.analytics.AnalyticsHelper
+import com.tnco.runar.di.annotations.IoDispatcher
 import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.model.*
 import com.tnco.runar.repository.DatabaseRepository
@@ -11,8 +13,7 @@ import com.tnco.runar.repository.SharedDataRepository
 import com.tnco.runar.util.AnalyticsConstants
 import com.tnco.runar.util.AnalyticsUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
@@ -22,7 +23,8 @@ import javax.inject.Inject
 class FavouriteViewModel @Inject constructor(
     private val databaseRepository: DatabaseRepository,
     val analyticsHelper: AnalyticsHelper,
-    sharedDataRepository: SharedDataRepository
+    sharedDataRepository: SharedDataRepository,
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) : ViewModel() {
     val fontSize: LiveData<Float> = sharedDataRepository.fontSize
     private var favList: List<UserLayoutModel> = emptyList()
@@ -34,7 +36,7 @@ class FavouriteViewModel @Inject constructor(
         MutableLiveData(0) // 0 - not exist, 1 - exist, 2 - something unchecked, 3 - selected all
 
     fun getUserLayoutsFromDB() {
-        CoroutineScope(Dispatchers.IO).launch {
+        viewModelScope.launch(ioDispatcher) {
             favList = databaseRepository.getUserLayouts().asReversed().take(500)
             runesData = databaseRepository.getRunesList()
             layoutsData = databaseRepository.getAllLayouts()
@@ -88,7 +90,7 @@ class FavouriteViewModel @Inject constructor(
                 }
             }
         }
-        CoroutineScope(Dispatchers.IO).launch {
+        viewModelScope.launch(ioDispatcher) {
             databaseRepository.deleteUserLayoutsByIds(idsList)
             favList = databaseRepository.getUserLayouts()
             getCorrectUserData()

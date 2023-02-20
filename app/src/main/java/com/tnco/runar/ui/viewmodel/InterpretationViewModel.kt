@@ -2,7 +2,9 @@ package com.tnco.runar.ui.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.tnco.runar.analytics.AnalyticsHelper
+import com.tnco.runar.di.annotations.IoDispatcher
 import com.tnco.runar.model.AffimDescriptionModel
 import com.tnco.runar.model.LayoutDescriptionModel
 import com.tnco.runar.model.RuneDescriptionModel
@@ -12,8 +14,7 @@ import com.tnco.runar.repository.SharedDataRepository
 import com.tnco.runar.repository.SharedPreferencesRepository
 import com.tnco.runar.util.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -22,7 +23,8 @@ class InterpretationViewModel @Inject constructor(
     private val databaseRepository: DatabaseRepository,
     val analyticsHelper: AnalyticsHelper,
     val sharedPreferencesRepository: SharedPreferencesRepository,
-    sharedDataRepository: SharedDataRepository
+    sharedDataRepository: SharedDataRepository,
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) : ViewModel() {
     val fontSize: LiveData<Float> = sharedDataRepository.fontSize
     var runesData: List<RuneDescriptionModel> = emptyList()
@@ -67,7 +69,7 @@ class InterpretationViewModel @Inject constructor(
         when (layoutId) {
             1 -> result = getFullDescriptionForRune(userLayout[1])
             2 -> {
-                CoroutineScope(IO).launch {
+                viewModelScope.launch(ioDispatcher) {
                     val index = userLayout[1] * 100 + userLayout[2]
                     val inter = databaseRepository.getTwoRunesInterpretation(index)
                     val res = String.format(selectedLayout.value?.interpretation!!, inter)
@@ -130,7 +132,7 @@ class InterpretationViewModel @Inject constructor(
         val userId = sharedPreferencesRepository.userId
         val layoutId = selectedLayout.value?.layoutId
         val currentDate = System.currentTimeMillis() / 1000L
-        CoroutineScope(IO).launch {
+        viewModelScope.launch(ioDispatcher) {
             val userLayout = UserLayoutModel(
                 userId,
                 currentDate,
@@ -220,19 +222,19 @@ class InterpretationViewModel @Inject constructor(
     }
 
     fun getRuneDataFromDB() {
-        CoroutineScope(IO).launch {
+        viewModelScope.launch(ioDispatcher) {
             runesData = databaseRepository.getRunesList()
         }
     }
 
     fun getAffirmationsDataFromDB() {
-        CoroutineScope(IO).launch {
+        viewModelScope.launch(ioDispatcher) {
             affirmData = databaseRepository.getAffirmList()
         }
     }
 
     fun getLayoutDescription(id: Int) {
-        CoroutineScope(IO).launch {
+        viewModelScope.launch(ioDispatcher) {
             _selectedLayout.postValue(databaseRepository.getLayoutDetails(id))
         }
     }

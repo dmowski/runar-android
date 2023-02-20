@@ -10,16 +10,17 @@ import com.tnco.runar.data.remote.BackgroundInfo
 import com.tnco.runar.data.remote.NetworkResult
 import com.tnco.runar.data.remote.RunesResponse
 import com.tnco.runar.data.remote.UserInfo
+import com.tnco.runar.di.annotations.IoDispatcher
 import com.tnco.runar.model.RunesItemsModel
 import com.tnco.runar.repository.DatabaseRepository
+import com.tnco.runar.repository.LanguageRepository
 import com.tnco.runar.repository.SharedDataRepository
 import com.tnco.runar.repository.SharedPreferencesRepository
 import com.tnco.runar.repository.backend.BackendRepository
 import com.tnco.runar.repository.backend.DataClassConverters
-import com.tnco.runar.repository.LanguageRepository
 import com.tnco.runar.util.NetworkMonitor
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.launch
 import okhttp3.ResponseBody
@@ -34,7 +35,8 @@ class MainViewModel @Inject constructor(
     val analyticsHelper: AnalyticsHelper,
     private val sharedDataRepository: SharedDataRepository,
     val sharedPreferencesRepository: SharedPreferencesRepository,
-    val languageRepository: LanguageRepository
+    val languageRepository: LanguageRepository,
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
     val isNetworkAvailable = networkMonitor.isConnected.asLiveData()
@@ -59,7 +61,7 @@ class MainViewModel @Inject constructor(
         sharedDataRepository.defineFontSize()
     }
 
-    fun getRunes() = viewModelScope.launch(Dispatchers.IO) {
+    fun getRunes() = viewModelScope.launch(ioDispatcher) {
         backgroundInfo.clear()
         runesResponse.postValue(NetworkResult.Loading())
         try {
@@ -79,7 +81,7 @@ class MainViewModel @Inject constructor(
         backendRepository.identify(UserInfo(userId, timeStamp, androidVersion))
     }
 
-    fun getBackgroundInfo() = viewModelScope.launch(Dispatchers.IO) {
+    fun getBackgroundInfo() = viewModelScope.launch(ioDispatcher) {
         backgroundInfo.clear()
 
         try {
@@ -90,7 +92,7 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun getBackgroundImages() = viewModelScope.launch(Dispatchers.IO) {
+    fun getBackgroundImages() = viewModelScope.launch(ioDispatcher) {
         if (backgroundInfo.isEmpty()) {
             backgroundInfoResponse.postValue(NetworkResult.Error(""))
         }
@@ -111,7 +113,7 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun getRunePattern() = viewModelScope.launch(Dispatchers.IO) {
+    fun getRunePattern() = viewModelScope.launch(ioDispatcher) {
         runePattern.clear()
 
         try {
@@ -122,7 +124,7 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun getRuneImages() = viewModelScope.launch(Dispatchers.IO) {
+    fun getRuneImages() = viewModelScope.launch(ioDispatcher) {
         runesImages.clear()
         runesImagesResponse.postValue(NetworkResult.Loading())
 

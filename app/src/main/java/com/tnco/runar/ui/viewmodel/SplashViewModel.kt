@@ -3,13 +3,14 @@ package com.tnco.runar.ui.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.tnco.runar.di.annotations.IoDispatcher
 import com.tnco.runar.repository.LanguageRepository
 import com.tnco.runar.repository.SharedPreferencesRepository
 import com.tnco.runar.repository.backend.BackendRepository
 import com.tnco.runar.util.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -18,7 +19,8 @@ import javax.inject.Inject
 class SplashViewModel @Inject constructor(
     private val backendRepository: BackendRepository,
     private val languageRepository: LanguageRepository,
-    val sharedPreferencesRepository: SharedPreferencesRepository
+    val sharedPreferencesRepository: SharedPreferencesRepository,
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
     private val _splashCommand = SingleLiveEvent<Boolean>()
@@ -28,7 +30,7 @@ class SplashViewModel @Inject constructor(
     val progress: LiveData<Int> = _progress
 
     init {
-        CoroutineScope(Dispatchers.IO).launch {
+        viewModelScope.launch(ioDispatcher) {
             val backendConnection = true
 
             delay(DELAY_BEFORE_START_LOADING)
