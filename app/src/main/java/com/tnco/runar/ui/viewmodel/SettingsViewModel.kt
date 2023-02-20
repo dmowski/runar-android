@@ -5,14 +5,15 @@ import androidx.core.os.LocaleListCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.tnco.runar.di.annotations.IoDispatcher
 import com.tnco.runar.feature.MusicController
+import com.tnco.runar.repository.LanguageRepository
 import com.tnco.runar.repository.SharedDataRepository
 import com.tnco.runar.repository.SharedPreferencesRepository
 import com.tnco.runar.repository.backend.BackendRepository
-import com.tnco.runar.repository.LanguageRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -22,7 +23,8 @@ class SettingsViewModel @Inject constructor(
     private val backendRepository: BackendRepository,
     private val languageRepository: LanguageRepository,
     private val sharedPreferencesRepository: SharedPreferencesRepository,
-    sharedDataRepository: SharedDataRepository
+    sharedDataRepository: SharedDataRepository,
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
     val fontSize: LiveData<Float> = sharedDataRepository.fontSize
@@ -43,7 +45,7 @@ class SettingsViewModel @Inject constructor(
         AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(langOrder[pos]))
         selectedLanguagePos.postValue(pos)
         headerUpdater.postValue(!headerUpdater.value!!)
-        CoroutineScope(Dispatchers.IO).launch {
+        viewModelScope.launch(ioDispatcher) {
             backendRepository.getLibraryData(langOrder[pos])
         }
     }
