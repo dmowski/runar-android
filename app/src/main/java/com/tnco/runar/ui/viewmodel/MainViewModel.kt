@@ -67,6 +67,7 @@ class MainViewModel @Inject constructor(
         try {
             val response = backendRepository.getRunes()
             runesResponse.postValue(handleRunesResponse(response))
+        } catch (_: CancellationException) {
         } catch (e: Exception) {
             runesResponse.postValue(NetworkResult.Error(e.toString()))
         }
@@ -87,6 +88,7 @@ class MainViewModel @Inject constructor(
         try {
             val response = backendRepository.getBackgroundInfo()
             handleBackgroundInfoResponse(response)
+        } catch (_: CancellationException) {
         } catch (e: Exception) {
             getBackgroundImages()
         }
@@ -99,6 +101,7 @@ class MainViewModel @Inject constructor(
 
         for (index in backgroundInfo.indices) {
             try {
+                if (!isActive) return@launch
                 val response = backendRepository.getBackgroundImage(
                     runesSelected,
                     runePattern[selectedRuneIndex],
@@ -107,6 +110,7 @@ class MainViewModel @Inject constructor(
                     1280
                 )
                 backgroundInfoResponse.postValue(handleBackgroundImageResponse(index, response))
+            } catch (_: CancellationException) {
             } catch (e: Exception) {
                 backgroundInfoResponse.postValue(NetworkResult.Error(e.toString()))
             }
@@ -119,6 +123,7 @@ class MainViewModel @Inject constructor(
         try {
             val response = backendRepository.getRunePattern(runesSelected)
             handleRunePatternResponse(response)
+        } catch (_: CancellationException) {
         } catch (e: Exception) {
             getRuneImages()
         }
@@ -134,8 +139,10 @@ class MainViewModel @Inject constructor(
 
         for (imgPath in runePattern) {
             try {
+                if (!isActive) return@launch
                 val response = backendRepository.getRuneImage(runesSelected, imgPath)
                 runesImagesResponse.postValue(handleRuneImagesResponse(response))
+            } catch (_: CancellationException) {
             } catch (e: Exception) {
                 runesImagesResponse.postValue(NetworkResult.Error(e.toString()))
             }
@@ -143,6 +150,15 @@ class MainViewModel @Inject constructor(
     }
 
     fun cancelChildrenCoroutines() = viewModelScope.coroutineContext.cancelChildren()
+
+    fun clearData() {
+        backgroundInfo = mutableListOf()
+        runePattern.clear()
+        runesImages.clear()
+        selectedRuneIndex = 0
+        shareURL = ""
+        runesSelected = ""
+    }
 
     private fun handleRunesResponse(
         response: Response<List<RunesResponse>>
