@@ -38,13 +38,13 @@ class OnboardFragment : Fragment() {
     private var _binding: FragmentOnboardBinding? = null
     private val binding get() = requireNotNull(_binding)
 
+    private lateinit var onboardFinishedListener: OnOnboardFinishedListener
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context is OnOnboardFinishedListener) {
-            onOnboardFinishedListener = context
-        } else {
-            throw RuntimeException("$context Activity must implement OnOnboardFinishedListener")
-        }
+
+        super.onAttach(context)
+        onboardFinishedListener = requireActivity() as OnOnboardFinishedListener
     }
 
     override fun onCreateView(

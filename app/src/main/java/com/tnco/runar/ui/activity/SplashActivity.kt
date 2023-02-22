@@ -13,7 +13,7 @@ import com.tnco.runar.ui.viewmodel.SplashViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SplashActivity : AppCompatActivity() {
+class SplashActivity : AppCompatActivity(), OnboardFragment.OnOnboardFinishedListener {
 
     private val viewModel: SplashViewModel by viewModels()
     private val musicControllerViewModel: MusicControllerViewModel by viewModels()
@@ -33,6 +33,10 @@ class SplashActivity : AppCompatActivity() {
         setContentView(view)
         supportActionBar?.hide()
         setupViewModel()
+    }
+
+    override fun onOnboardFinished() {
+        // ваш код, который должен выполниться, когда пользователь завершает Onboarding
     }
 
     override fun onResume() {
@@ -59,7 +63,7 @@ class SplashActivity : AppCompatActivity() {
     private fun launchMainActivity() {
         if (viewModel.sharedPreferencesRepository.settingsOnboarding == 1) {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.action_container, OnboardFragment()).commit()
+                .replace(R.id.fragmentContainer, OnboardFragment()).commit()
         } else {
             intent = Intent(this, MainActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
