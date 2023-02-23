@@ -67,6 +67,8 @@ class MainViewModel @Inject constructor(
             try {
                 val response = backendRepository.getRunes()
                 runesResponse.postValue(handleRunesResponse(response))
+            } catch (e: CancellationException) {
+                throw e
             } catch (e: Exception) {
                 runesResponse.postValue(NetworkResult.Error(e.toString()))
             }
@@ -90,6 +92,8 @@ class MainViewModel @Inject constructor(
             try {
                 val response = backendRepository.getBackgroundInfo()
                 handleBackgroundInfoResponse(response)
+            } catch (e: CancellationException) {
+                throw e
             } catch (e: Exception) {
                 getBackgroundImages()
             }
@@ -114,6 +118,8 @@ class MainViewModel @Inject constructor(
                         1280
                     )
                     backgroundInfoResponse.postValue(handleBackgroundImageResponse(index, response))
+                } catch (e: CancellationException) {
+                    throw e
                 } catch (e: Exception) {
                     backgroundInfoResponse.postValue(NetworkResult.Error(e.toString()))
                 }
@@ -129,6 +135,8 @@ class MainViewModel @Inject constructor(
             try {
                 val response = backendRepository.getRunePattern(runesSelected)
                 handleRunePatternResponse(response)
+            } catch (e: CancellationException) {
+                throw e
             } catch (e: Exception) {
                 getRuneImages()
             }
@@ -148,6 +156,8 @@ class MainViewModel @Inject constructor(
                 try {
                     val response = backendRepository.getRuneImage(runesSelected, imgPath)
                     runesImagesResponse.postValue(handleRuneImagesResponse(response))
+                } catch (e: CancellationException) {
+                    throw e
                 } catch (e: Exception) {
                     runesImagesResponse.postValue(NetworkResult.Error(e.toString()))
                 }
