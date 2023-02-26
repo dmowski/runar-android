@@ -194,6 +194,12 @@ dependencies {
     implementation 'androidx.core:core-splashscreen:1.0.0'
 
     //Kaspresso
-    androidTestImplementation 'org.hamcrest:hamcrest-core:2.2'
+    implementation 'com.google.android.apps.common.testing.accessibility.framework:accessibility-test-framework:4.0.0'
+    testImplementation 'org.hamcrest:hamcrest:2.2'
+    testImplementation 'org.hamcrest:hamcrest-core:2.2'
     androidTestImplementation "com.kaspersky.android-components:kaspresso:$kaspresso_version"
+    androidTestImplementation "com.kaspersky.android-components:kaspresso-allure-support:$kaspresso_version"
+    androidTestImplementation "com.kaspersky.android-components:kaspresso-compose-support:$kaspresso_version"
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.test:core-ktx:1.5.0'
 }
