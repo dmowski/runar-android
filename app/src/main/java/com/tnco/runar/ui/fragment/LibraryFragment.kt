@@ -23,8 +23,8 @@ const val audioFeature = true
 class LibraryFragment : Fragment() {
     val viewModel: LibraryViewModel by viewModels()
 
-    override fun onStart() {
-        super.onStart()
+    override fun onResume() {
+        super.onResume()
         val noInternet = getString(R.string.internet_conn_error1)
         viewModel.isOnline.observeOnce(viewLifecycleOwner) { isOnline ->
             viewModel.errorLoad.observeOnce(viewLifecycleOwner) { errorLoad ->
