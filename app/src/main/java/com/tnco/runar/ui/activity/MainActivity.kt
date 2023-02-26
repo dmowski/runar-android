@@ -8,6 +8,8 @@ import android.view.WindowManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.get
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
@@ -20,6 +22,7 @@ import com.tnco.runar.R
 import com.tnco.runar.RunarLogger
 import com.tnco.runar.databinding.ActivityMainBinding
 import com.tnco.runar.ui.Navigator
+import com.tnco.runar.ui.fragment.*
 import com.tnco.runar.ui.viewmodel.DeveloperOptionsViewModel
 import com.tnco.runar.ui.viewmodel.MainViewModel
 import com.tnco.runar.ui.viewmodel.MusicControllerViewModel
@@ -38,7 +41,30 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
 
     private lateinit var firebaseAnalytics: FirebaseAnalytics
 
+    private val fragmentListener =
+        object : FragmentManager.FragmentLifecycleCallbacks() {
+            override fun onFragmentViewCreated(
+                fragmentManager: FragmentManager,
+                fragment: Fragment,
+                view: View,
+                savedInstanceState: Bundle?
+            ) {
+                super.onFragmentViewCreated(fragmentManager, fragment, view, savedInstanceState)
+                if (fragment is NavHostFragment) return
+                updateNavBarVisible(fragment)
+            }
+        }
+
+    private fun updateNavBarVisible(fragment: Fragment) {
+        if (fragment is HasVisibleNavBar) {
+            binding.bottomNavigationBar.visibility = View.VISIBLE
+        } else {
+            binding.bottomNavigationBar.visibility = View.GONE
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        supportFragmentManager.registerFragmentLifecycleCallbacks(fragmentListener, true)
         super.onCreate(savedInstanceState)
 
 //        installSplashScreen().apply {
@@ -65,10 +91,6 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
         viewModel.identify()
         supportActionBar?.hide()
 
-        if (viewModel.sharedPreferencesRepository.firstLaunch == 1) {
-            viewModel.sharedPreferencesRepository.changeSettingsOnboarding(0)
-        }
-
         audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
 
         val navHostFragment =
@@ -76,20 +98,6 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
         navController = navHostFragment.navController
 
         binding.bottomNavigationBar.setupWithNavController(navController)
-
-        navController.addOnDestinationChangedListener { _, destination, _ ->
-            val bottomNavBarVisibility = when (destination.id) {
-                R.id.layoutFragment -> View.VISIBLE
-                R.id.libraryFragment -> View.VISIBLE
-                R.id.generatorStartFragment -> View.VISIBLE
-                R.id.favouriteFragment -> View.VISIBLE
-                R.id.settingsFragment -> View.VISIBLE
-                R.id.developerOptionsFragment -> View.VISIBLE
-                R.id.aboutAppFragment -> View.VISIBLE
-                else -> View.GONE
-            }
-            binding.bottomNavigationBar.visibility = bottomNavBarVisibility
-        }
 
         FirebaseMessaging.getInstance().token.addOnCompleteListener(
             OnCompleteListener { task ->
@@ -146,5 +154,10 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
 
     override fun dropAudioFocus() {
         audioManager.abandonAudioFocus(this)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        supportFragmentManager.unregisterFragmentLifecycleCallbacks(fragmentListener)
     }
 }

@@ -1,15 +1,17 @@
-package com.tnco.runar.ui.activity
+package com.tnco.runar.ui.fragment
 
-import android.content.Intent
 import android.os.Bundle
-import android.view.WindowManager
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.viewpager.widget.ViewPager
 import com.tnco.runar.R
-import com.tnco.runar.databinding.ActivityOnboardBinding
+import com.tnco.runar.databinding.FragmentOnboardBinding
 import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.model.OnboardGuideElementModel
 import com.tnco.runar.ui.adapter.OnboardViewPagerAdapter
@@ -18,7 +20,7 @@ import com.tnco.runar.ui.viewmodel.OnboardViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class OnboardActivity : AppCompatActivity() {
+class OnboardFragment : Fragment() {
 
     private val viewModel: OnboardViewModel by viewModels()
     private val musicControllerViewModel: MusicControllerViewModel by viewModels()
@@ -28,29 +30,30 @@ class OnboardActivity : AppCompatActivity() {
     private lateinit var adapter: OnboardViewPagerAdapter
     private lateinit var models: ArrayList<OnboardGuideElementModel>
 
-    private lateinit var binding: ActivityOnboardBinding
+    private var _binding: FragmentOnboardBinding? = null
+    private val binding get() = requireNotNull(_binding)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentOnboardBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-        window.statusBarColor = getColor(R.color.library_top_bar)
-        window.navigationBarColor = getColor(R.color.library_top_bar)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        binding = ActivityOnboardBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        supportActionBar?.hide()
+        binding.skipButton.setOnClickListener {
+            viewModel.analyticsHelper.sendEvent(AnalyticsEvent.OB_SKIP)
+            finishOnboard()
+        }
 
         viewModel.changeCurrentPosition(0)
         viewModel.nextActivity(false)
 
         viewModel.analyticsHelper.sendEvent(AnalyticsEvent.OB_ABOUT_OPENED)
-
-        binding.skipButton.setOnClickListener {
-            viewModel.analyticsHelper.sendEvent(AnalyticsEvent.OB_SKIP)
-            closeActivity()
-        }
 
         models = ArrayList()
         models.add(
@@ -130,31 +133,23 @@ class OnboardActivity : AppCompatActivity() {
             }
         })
 
-        viewModel.currentPosition.observe(this) {
+        viewModel.currentPosition.observe(viewLifecycleOwner) {
             binding.viewPager.setCurrentItem(it, true)
             changeSelectionCircle(it)
             binding.skipButton.isVisible = it != 5
         }
-        viewModel.end.observe(this) {
+        viewModel.end.observe(viewLifecycleOwner) {
             if (it == true) {
-                closeActivity()
+                finishOnboard()
             }
         }
     }
-
-    override fun onBackPressed() {
-        if (currentPosition in 1..5) {
-            viewModel.changeCurrentPosition(currentPosition - 1)
-        } else {
-            super.onBackPressed()
+    private fun finishOnboard() {
+        if (viewModel.sharedPreferencesRepository.firstLaunch == 1) {
+            viewModel.sharedPreferencesRepository.changeSettingsOnboarding(0)
         }
-    }
-
-    private fun closeActivity() {
-        val intent = Intent(this, MainActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-        }
-        startActivity(intent)
+        val direction = OnboardFragmentDirections.actionOnboardFragmentToRunicDraws()
+        findNavController().navigate(direction)
     }
 
     private fun changeSelectionCircle(position: Int) {

@@ -20,7 +20,7 @@ import dagger.hilt.android.AndroidEntryPoint
 const val audioFeature = true
 
 @AndroidEntryPoint
-class LibraryFragment : Fragment() {
+class LibraryFragment : Fragment(), HasVisibleNavBar {
     val viewModel: LibraryViewModel by viewModels()
 
     override fun onResume() {

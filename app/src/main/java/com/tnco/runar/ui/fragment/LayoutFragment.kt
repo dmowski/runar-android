@@ -44,7 +44,7 @@ import com.tnco.runar.util.setOnCLickListenerForAll
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener {
+class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener, HasVisibleNavBar {
 
     private val viewModel: LayoutViewModel by viewModels()
 

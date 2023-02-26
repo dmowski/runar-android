@@ -3,13 +3,42 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/runic_draws">
+    app:startDestination="@id/splashFragment">
 
-    <include app:graph="@navigation/runic_draws"/>
-    <include app:graph="@navigation/library"/>
-    <include app:graph="@navigation/generator"/>
-    <include app:graph="@navigation/favourites"/>
-    <include app:graph="@navigation/settings"/>
+    <include app:graph="@navigation/runic_draws" />
+    <include app:graph="@navigation/library" />
+    <include app:graph="@navigation/generator" />
+    <include app:graph="@navigation/favourites" />
+    <include app:graph="@navigation/settings" />
+
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="com.tnco.runar.ui.fragment.SplashFragment"
+        android:label="SplashFragment">
+        <action
+            android:id="@+id/action_splashFragment_to_runic_draws"
+            app:destination="@id/runic_draws"
+            app:popUpTo="@+id/nav_graph"
+            app:popUpToInclusive="true"
+            />
+        <action
+            android:id="@+id/action_splashFragment_to_onboardFragment"
+            app:destination="@id/onboardFragment"
+            app:popUpTo="@+id/nav_graph"
+            app:popUpToInclusive="true"
+            />
+    </fragment>
+
+    <fragment
+        android:id="@+id/onboardFragment"
+        android:name="com.tnco.runar.ui.fragment.OnboardFragment"
+        android:label="OnboardFragment">
+        <action
+            android:id="@+id/action_onboardFragment_to_runic_draws"
+            app:destination="@id/runic_draws"
+            app:popUpTo="@+id/nav_graph"
+            app:popUpToInclusive="true" />
+    </fragment>
 
     <fragment
         android:id="@+id/connectivityErrorFragment"

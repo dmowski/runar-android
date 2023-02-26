@@ -30,20 +30,8 @@
             android:exported="true"
             android:screenOrientation="portrait">
             <nav-graph android:value="@navigation/nav_graph" />
-        </activity>
-        <activity
-            android:name="com.tnco.runar.ui.activity.OnboardActivity"
-            android:noHistory="true"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name="com.tnco.runar.ui.activity.SplashActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.Runar"
-            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
