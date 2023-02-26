@@ -146,7 +146,8 @@ class RunePatternGenerator : Fragment() {
     }
 
     private fun showInternetConnectionError() {
-        requireActivity().viewModelStore.clear()
+        viewModel.clearData()
+        viewModel.cancelChildrenCoroutines()
         val uri = Uri.parse(
             InternalDeepLink.ConnectivityErrorFragment
                 .withArgs("${R.id.generatorStartFragment}")
