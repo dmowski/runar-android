@@ -145,6 +145,9 @@ class OnboardFragment : Fragment() {
         }
     }
     private fun finishOnboard() {
+        if (viewModel.sharedPreferencesRepository.firstLaunch == 1) {
+            viewModel.sharedPreferencesRepository.changeSettingsOnboarding(0)
+        }
         val direction = OnboardFragmentDirections.actionOnboardFragmentToRunicDraws()
         findNavController().navigate(direction)
     }

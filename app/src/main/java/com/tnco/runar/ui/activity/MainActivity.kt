@@ -91,10 +91,6 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
         viewModel.identify()
         supportActionBar?.hide()
 
-        if (viewModel.sharedPreferencesRepository.firstLaunch == 1) {
-            viewModel.sharedPreferencesRepository.changeSettingsOnboarding(0)
-        }
-
         audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
 
         val navHostFragment =
