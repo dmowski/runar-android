@@ -23,10 +23,10 @@ class SplashViewModel @Inject constructor(
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
-    private val _splashCommand = SingleLiveEvent<Boolean>()
+    private val _isOnboardToStart = SingleLiveEvent<Boolean>()
     private val _progress = MutableLiveData<Int>()
 
-    val splashCommand: LiveData<Boolean> = _splashCommand
+    val isOnboardToStart: LiveData<Boolean> = _isOnboardToStart
     val progress: LiveData<Int> = _progress
 
     init {
@@ -38,7 +38,7 @@ class SplashViewModel @Inject constructor(
                 delay(STEP_OF_LOADING)
                 _progress.postValue(25 * (it + 1))
             }
-            if (backendConnection) {
+            if (backendConnection) { // TODO predicate is always true
                 if (languageRepository.currentAppLanguage() == "ru") {
                     backendRepository.getLibraryData("ru")
                 } else {
@@ -49,7 +49,8 @@ class SplashViewModel @Inject constructor(
                 delay(STEP_OF_LOADING)
                 _progress.postValue(25 * (it + 2))
             }
-            _splashCommand.postValue(true)
+            val settingsOnboarding = sharedPreferencesRepository.settingsOnboarding == 1
+            _isOnboardToStart.postValue(settingsOnboarding)
         }
     }
 

@@ -41,7 +41,7 @@ import com.tnco.runar.util.AnalyticsUtils
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class FavouriteFragment : Fragment() {
+class FavouriteFragment : Fragment(), HasVisibleNavBar {
     val viewModel: FavouriteViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {

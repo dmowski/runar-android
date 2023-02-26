@@ -27,7 +27,7 @@ import kotlinx.coroutines.launch
 import java.util.*
 
 @AndroidEntryPoint
-class GeneratorStartFragment : Fragment() {
+class GeneratorStartFragment : Fragment(), HasVisibleNavBar {
 
     private var _binding: FragmentGeneratorStartBinding? = null
     private val binding get() = _binding!!

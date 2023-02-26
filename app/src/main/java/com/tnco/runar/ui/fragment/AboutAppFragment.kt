@@ -34,7 +34,7 @@ import com.tnco.runar.ui.viewmodel.AboutViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class AboutAppFragment : Fragment() {
+class AboutAppFragment : Fragment(), HasVisibleNavBar {
 
     override fun onCreateView(
         inflater: LayoutInflater,
