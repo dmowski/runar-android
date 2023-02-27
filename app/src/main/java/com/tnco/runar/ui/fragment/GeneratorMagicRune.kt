@@ -8,41 +8,43 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.tnco.runar.R
-import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.databinding.FragmentGeneratorProcessingBinding
 import com.tnco.runar.enums.AnalyticsEvent
-import com.tnco.runar.feature.MusicController
-import com.tnco.runar.ui.component.dialog.CancelDialog
 import com.tnco.runar.ui.viewmodel.MainViewModel
+import com.tnco.runar.ui.viewmodel.MusicControllerViewModel
 import com.tnco.runar.util.AnalyticsConstants
+import com.tnco.runar.util.InternalDeepLink
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 
+@AndroidEntryPoint
 class GeneratorMagicRune : Fragment() {
 
     private var _binding: FragmentGeneratorProcessingBinding? = null
     private val binding get() = _binding!!
-    private lateinit var viewModel: MainViewModel
+    private val viewModel: MainViewModel by activityViewModels()
+    private val musicControllerViewModel: MusicControllerViewModel by viewModels()
     private var link = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         requireActivity().onBackPressedDispatcher.addCallback(this) {
-            CancelDialog(
-                requireContext(),
-                viewModel.fontSize.value!!,
-                "generator_processing",
-                getString(R.string.description_generator_popup)
-            ) {
-                requireActivity().viewModelStore.clear()
-                val direction = GeneratorMagicRuneDirections.actionGlobalGeneratorFragment()
-                findNavController().navigate(direction)
-            }
-                .showDialog()
+            val uri = Uri.parse(
+                InternalDeepLink.CancelDialog
+                    .withArgs(
+                        "${viewModel.fontSize.value!!}",
+                        "generator_processing",
+                        getString(R.string.description_runic_draws_popup),
+                        "${R.id.generatorStartFragment}"
+                    )
+            )
+            findNavController().navigate(uri)
         }
     }
 
@@ -50,10 +52,8 @@ class GeneratorMagicRune : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentGeneratorProcessingBinding.inflate(inflater, container, false)
-        // Inflate the layout for this fragment
-        viewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
         return binding.root
     }
 
@@ -61,7 +61,7 @@ class GeneratorMagicRune : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         progressBarAction()
         binding.generatorDescriptionButtonFrame.setOnClickListener {
-            AnalyticsHelper.sendEvent(
+            viewModel.analyticsHelper.sendEvent(
                 AnalyticsEvent.MUSIC_LINK_OPENED,
                 Pair(AnalyticsConstants.GROUP_NAME, binding.generatorTextGroupName.text.toString()),
                 Pair(AnalyticsConstants.TRACK_NAME, binding.generatorTextSongName.text.toString())
@@ -78,7 +78,7 @@ class GeneratorMagicRune : Fragment() {
             for (i in 0..100) {
                 binding.generatorProgressOfLoadingView.progress = i
                 delay(70)
-                when (MusicController.currentSongPos) {
+                when (musicControllerViewModel.currentSongPos()) {
                     2 -> {
                         link = "https://lyod1.bandcamp.com/releases"
                         with(binding) {
@@ -114,9 +114,13 @@ class GeneratorMagicRune : Fragment() {
                 }
             }
 
-            val direction = GeneratorMagicRuneDirections
-                .actionGeneratorMagicRuneToRunePatternGenerator()
-            findNavController().navigate(direction)
+            findNavController().currentBackStackEntryFlow.collect { navBackStackEntry ->
+                if (navBackStackEntry.destination.id == R.id.generatorMagicRune) {
+                    val direction = GeneratorMagicRuneDirections
+                        .actionGeneratorMagicRuneToRunePatternGenerator()
+                    findNavController().navigate(direction)
+                }
+            }
         }
     }
 

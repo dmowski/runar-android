@@ -5,37 +5,47 @@ import android.graphics.BitmapFactory
 import android.os.Build
 import android.util.Log
 import androidx.lifecycle.*
+import com.tnco.runar.analytics.AnalyticsHelper
+import com.tnco.runar.data.remote.BackgroundInfo
 import com.tnco.runar.data.remote.NetworkResult
 import com.tnco.runar.data.remote.RunesResponse
 import com.tnco.runar.data.remote.UserInfo
+import com.tnco.runar.di.annotations.IoDispatcher
 import com.tnco.runar.model.RunesItemsModel
 import com.tnco.runar.repository.DatabaseRepository
+import com.tnco.runar.repository.LanguageRepository
 import com.tnco.runar.repository.SharedDataRepository
 import com.tnco.runar.repository.SharedPreferencesRepository
 import com.tnco.runar.repository.backend.BackendRepository
 import com.tnco.runar.repository.backend.DataClassConverters
-import com.tnco.runar.retrofit.BackgroundInfo
 import com.tnco.runar.util.NetworkMonitor
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.cancelChildren
-import kotlinx.coroutines.launch
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.*
 import okhttp3.ResponseBody
 import retrofit2.Response
+import javax.inject.Inject
 
-class MainViewModel : ViewModel() {
+@HiltViewModel
+class MainViewModel @Inject constructor(
+    networkMonitor: NetworkMonitor,
+    private val databaseRepository: DatabaseRepository,
+    private val backendRepository: BackendRepository,
+    val analyticsHelper: AnalyticsHelper,
+    private val sharedDataRepository: SharedDataRepository,
+    val sharedPreferencesRepository: SharedPreferencesRepository,
+    val languageRepository: LanguageRepository,
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher
+) : ViewModel() {
 
-    private val networkMonitor = NetworkMonitor.get()
     val isNetworkAvailable = networkMonitor.isConnected.asLiveData()
 
-    var preferencesRepository = SharedPreferencesRepository.get()
-
-    val fontSize: LiveData<Float> = MutableLiveData(SharedDataRepository.fontSize)
+    val fontSize: LiveData<Float> = sharedDataRepository.fontSize
     var backgroundInfo = mutableListOf<BackgroundInfo>()
     val backgroundInfoResponse = MutableLiveData<NetworkResult<List<BackgroundInfo>>>()
 //    val selectedIndices = mutableListOf<Int>()
 
     var readRunes: LiveData<List<RunesItemsModel>> =
-        DatabaseRepository.getRunesGenerator().asLiveData()
+        databaseRepository.getRunesGenerator().asLiveData()
     val runesResponse = MutableLiveData<NetworkResult<List<RunesItemsModel>>>()
 
     val runePattern = mutableListOf<String>()
@@ -45,69 +55,95 @@ class MainViewModel : ViewModel() {
 
     var shareURL = ""
 
-    fun getRunes() = viewModelScope.launch(Dispatchers.IO) {
-        runesResponse.postValue(NetworkResult.Loading())
-        try {
-            val response = BackendRepository.getRunes()
-            runesResponse.postValue(handleRunesResponse(response))
-        } catch (e: Exception) {
-            runesResponse.postValue(NetworkResult.Error(e.toString()))
+    fun defineFontSize() {
+        sharedDataRepository.defineFontSize()
+    }
+
+    fun getRunes() {
+        backgroundInfo.clear()
+        runesResponse.value = NetworkResult.Loading()
+
+        viewModelScope.launch(ioDispatcher) {
+            try {
+                val response = backendRepository.getRunes()
+                runesResponse.postValue(handleRunesResponse(response))
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                runesResponse.postValue(NetworkResult.Error(e.toString()))
+            }
         }
     }
 
     var runesSelected: String = ""
 
     fun identify() {
-        val userId = preferencesRepository.userId
+        val userId = sharedPreferencesRepository.userId
         val timeStamp = System.currentTimeMillis() / 1000L
         val androidVersion = "Android " + Build.VERSION.RELEASE
-        BackendRepository.identify(UserInfo(userId, timeStamp, androidVersion))
+        backendRepository.identify(UserInfo(userId, timeStamp, androidVersion))
     }
 
-    fun getBackgroundInfo() = viewModelScope.launch(Dispatchers.IO) {
+    fun getBackgroundInfo() {
         backgroundInfo.clear()
+        backgroundInfoResponse.value = NetworkResult.Loading()
 
-        try {
-            val response = BackendRepository.getBackgroundInfo()
-            handleBackgroundInfoResponse(response)
-        } catch (e: Exception) {
-            getBackgroundImages()
-        }
-    }
-
-    fun getBackgroundImages() = viewModelScope.launch(Dispatchers.IO) {
-        if (backgroundInfo.isEmpty()) {
-            backgroundInfoResponse.postValue(NetworkResult.Error(""))
-        }
-
-        for (index in backgroundInfo.indices) {
+        viewModelScope.launch(ioDispatcher) {
             try {
-                val response = BackendRepository.getBackgroundImage(
-                    runesSelected,
-                    runePattern[selectedRuneIndex],
-                    backgroundInfo[index].name,
-                    720,
-                    1280
-                )
-                backgroundInfoResponse.postValue(handleBackgroundImageResponse(index, response))
+                val response = backendRepository.getBackgroundInfo()
+                handleBackgroundInfoResponse(response)
+            } catch (e: CancellationException) {
+                throw e
             } catch (e: Exception) {
-                backgroundInfoResponse.postValue(NetworkResult.Error(e.toString()))
+                getBackgroundImages()
             }
         }
     }
 
-    fun getRunePattern() = viewModelScope.launch(Dispatchers.IO) {
-        runePattern.clear()
+    fun getBackgroundImages() {
+        backgroundInfoResponse.postValue(NetworkResult.Loading())
 
-        try {
-            val response = BackendRepository.getRunePattern(runesSelected)
-            handleRunePatternResponse(response)
-        } catch (e: Exception) {
-            getRuneImages()
+        if (backgroundInfo.isEmpty()) {
+            backgroundInfoResponse.postValue(NetworkResult.Error(""))
+        }
+
+        viewModelScope.launch(ioDispatcher) {
+            for (index in backgroundInfo.indices) {
+                try {
+                    val response = backendRepository.getBackgroundImage(
+                        runesSelected,
+                        runePattern[selectedRuneIndex],
+                        backgroundInfo[index].name,
+                        720,
+                        1280
+                    )
+                    backgroundInfoResponse.postValue(handleBackgroundImageResponse(index, response))
+                } catch (e: CancellationException) {
+                    throw e
+                } catch (e: Exception) {
+                    backgroundInfoResponse.postValue(NetworkResult.Error(e.toString()))
+                }
+            }
         }
     }
 
-    fun getRuneImages() = viewModelScope.launch(Dispatchers.IO) {
+    fun getRunePattern() {
+        runePattern.clear()
+        runesImagesResponse.value = NetworkResult.Loading()
+
+        viewModelScope.launch(ioDispatcher) {
+            try {
+                val response = backendRepository.getRunePattern(runesSelected)
+                handleRunePatternResponse(response)
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                getRuneImages()
+            }
+        }
+    }
+
+    fun getRuneImages() {
         runesImages.clear()
         runesImagesResponse.postValue(NetworkResult.Loading())
 
@@ -115,17 +151,30 @@ class MainViewModel : ViewModel() {
             runesImagesResponse.postValue(NetworkResult.Error(""))
         }
 
-        for (imgPath in runePattern) {
-            try {
-                val response = BackendRepository.getRuneImage(runesSelected, imgPath)
-                runesImagesResponse.postValue(handleRuneImagesResponse(response))
-            } catch (e: Exception) {
-                runesImagesResponse.postValue(NetworkResult.Error(e.toString()))
+        viewModelScope.launch(ioDispatcher) {
+            for (imgPath in runePattern) {
+                try {
+                    val response = backendRepository.getRuneImage(runesSelected, imgPath)
+                    runesImagesResponse.postValue(handleRuneImagesResponse(response))
+                } catch (e: CancellationException) {
+                    throw e
+                } catch (e: Exception) {
+                    runesImagesResponse.postValue(NetworkResult.Error(e.toString()))
+                }
             }
         }
     }
 
     fun cancelChildrenCoroutines() = viewModelScope.coroutineContext.cancelChildren()
+
+    fun clearData() {
+        backgroundInfo = mutableListOf()
+        runePattern.clear()
+        runesImages.clear()
+        selectedRuneIndex = 0
+        shareURL = ""
+        runesSelected = ""
+    }
 
     private fun handleRunesResponse(
         response: Response<List<RunesResponse>>
@@ -134,7 +183,7 @@ class MainViewModel : ViewModel() {
             response.isSuccessful -> {
                 val convertedResult =
                     DataClassConverters.runesRespToItems(response.body()!!)
-                DatabaseRepository.updateRunesGeneratorDB(convertedResult)
+                databaseRepository.updateRunesGeneratorDB(convertedResult)
                 NetworkResult.Success(convertedResult)
             }
             else -> NetworkResult.Error(response.errorBody().toString())

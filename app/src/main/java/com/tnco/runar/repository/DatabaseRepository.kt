@@ -1,17 +1,24 @@
 package com.tnco.runar.repository
 
 import com.tnco.runar.RunarLogger
-import com.tnco.runar.data.local.AppDB
-import com.tnco.runar.data.local.DataDB
+import com.tnco.runar.data.local.AppDao
+import com.tnco.runar.data.local.DataDao
+import com.tnco.runar.di.annotations.EnLocale
+import com.tnco.runar.di.annotations.RuLocale
 import com.tnco.runar.model.*
+import dagger.Lazy
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-object DatabaseRepository {
-    private var appDao = AppDB.getLayoutDB().appDAO()
-    private var dataDao = DataDB.getDataDB().dataDAO()
-    fun reinit() {
-        appDao = AppDB.getLayoutDB().appDAO()
-        dataDao = DataDB.getDataDB().dataDAO()
+class DatabaseRepository @Inject constructor(
+    private val dataDao: DataDao,
+    private val languageRepository: LanguageRepository,
+    @RuLocale private val ruAppDao: Lazy<AppDao>,
+    @EnLocale private val enAppDao: Lazy<AppDao>
+) {
+
+    private fun appDao(): AppDao {
+        return if (languageRepository.currentAppLanguage() == "ru") ruAppDao.get() else enAppDao.get()
     }
 
     fun notShow(id: Int) {
@@ -19,11 +26,11 @@ object DatabaseRepository {
     }
 
     fun getLayoutDetails(id: Int): LayoutDescriptionModel {
-        return appDao.getLayoutDetails(id)
+        return appDao().getLayoutDetails(id)
     }
 
     fun getAllLayouts(): List<LayoutDescriptionModel> {
-        return appDao.getAllLayoutDetails()
+        return appDao().getAllLayoutDetails()
     }
 
     fun getShowStatus(id: Int): Int {
@@ -31,19 +38,19 @@ object DatabaseRepository {
     }
 
     fun getRunesList(): List<RuneDescriptionModel> {
-        return appDao.getRunesDetails()
+        return appDao().getRunesDetails()
     }
 
     fun getAffirmList(): List<AffimDescriptionModel> {
-        return appDao.getAffirmations()
+        return appDao().getAffirmations()
     }
 
     fun getTwoRunesInterpretation(id: Int): String {
-        return appDao.getTwoRunesInter(id)
+        return appDao().getTwoRunesInter(id)
     }
 
     fun getAllTwoRunesInter(): List<TwoRunesInterModel> {
-        return appDao.getAllTwoRunesInter()
+        return appDao().getAllTwoRunesInter()
     }
 
     fun addUserLayout(data: UserLayoutModel) {
@@ -51,17 +58,17 @@ object DatabaseRepository {
     }
 
     fun getLayoutName(id: Int): String {
-        return appDao.getLayoutName(id)
+        return appDao().getLayoutName(id)
     }
 
     fun getLibraryItemList(): List<LibraryItemsModel> {
-        return appDao.getLibraryItems()
+        return appDao().getLibraryItems()
     }
 
     fun updateLibraryDB(list: List<LibraryItemsModel>) {
-        appDao.clearLibrary()
+        appDao().clearLibrary()
         RunarLogger.logDebug("library cleared")
-        appDao.insertLibraryData(list)
+        appDao().insertLibraryData(list)
         RunarLogger.logDebug("library data inserted")
     }
 
@@ -74,11 +81,11 @@ object DatabaseRepository {
     }
 
     fun getRunesGenerator(): Flow<List<RunesItemsModel>> {
-        return appDao.getRunesGenerator()
+        return appDao().getRunesGenerator()
     }
 
     fun updateRunesGeneratorDB(list: List<RunesItemsModel>) {
-        appDao.clearRunesGenerator()
-        appDao.insertRunesGenerator(list)
+        appDao().clearRunesGenerator()
+        appDao().insertRunesGenerator(list)
     }
 }

@@ -2,12 +2,13 @@ package com.tnco.runar.data.local
 
 import androidx.room.Dao
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.tnco.runar.model.*
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface AppDAO {
+interface AppDao {
 
     @Query("SELECT * FROM layouts WHERE layout_id = :id")
     fun getLayoutDetails(id: Int): LayoutDescriptionModel
@@ -36,7 +37,7 @@ interface AppDAO {
     @Query("DELETE FROM library")
     fun clearLibrary()
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertLibraryData(data: List<LibraryItemsModel>)
 
     @Insert

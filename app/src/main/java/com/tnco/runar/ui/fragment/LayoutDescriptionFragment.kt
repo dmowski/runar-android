@@ -8,14 +8,15 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.tnco.runar.R
-import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.databinding.FragmentLayoutDescriptionBinding
 import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.ui.viewmodel.DescriptionViewModel
 import com.tnco.runar.util.AnalyticsConstants
 import com.tnco.runar.util.AnalyticsUtils
 import com.tnco.runar.util.setOnCLickListenerForAll
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class LayoutDescriptionFragment :
     Fragment(R.layout.fragment_layout_description),
     View.OnClickListener {
@@ -74,7 +75,7 @@ class LayoutDescriptionFragment :
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.exit_button -> {
-                AnalyticsHelper.sendEvent(
+                viewModel.analyticsHelper.sendEvent(
                     AnalyticsEvent.SCRIPT_INTERRUPTION,
                     Pair(AnalyticsConstants.PAGE, "layout_description")
                 )
@@ -85,7 +86,7 @@ class LayoutDescriptionFragment :
                     viewModel.notShowSelectedLayout(layoutId)
                 }
                 val layoutName = AnalyticsUtils.convertLayoutIdToName(layoutId)
-                AnalyticsHelper.sendEvent(
+                viewModel.analyticsHelper.sendEvent(
                     AnalyticsEvent.DRAWS_STARTED,
                     Pair(AnalyticsConstants.DRAW_RUNE_LAYOUT, layoutName)
                 )

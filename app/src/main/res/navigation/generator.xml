@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/generator"
-    app:startDestination="@id/generatorFragment">
+    app:startDestination="@id/generatorStartFragment">
 
     <fragment
         android:id="@+id/generatorFragment"

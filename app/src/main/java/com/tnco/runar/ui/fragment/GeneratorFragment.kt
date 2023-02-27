@@ -6,16 +6,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.databinding.FragmentLayoutGeneratorBinding
 import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.ui.viewmodel.MainViewModel
 import com.tnco.runar.util.observeOnce
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class GeneratorFragment : Fragment() {
-    val viewModel: MainViewModel by viewModels()
+
+    val viewModel: MainViewModel by activityViewModels() // TODO private?
 
     private var _binding: FragmentLayoutGeneratorBinding? = null
     private val binding get() = _binding!!
@@ -41,7 +43,7 @@ class GeneratorFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        AnalyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_OPENED)
+        viewModel.analyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_OPENED)
     }
 
     override fun onDestroyView() {

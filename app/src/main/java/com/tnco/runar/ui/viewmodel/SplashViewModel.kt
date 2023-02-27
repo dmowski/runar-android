@@ -3,24 +3,34 @@ package com.tnco.runar.ui.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.tnco.runar.di.annotations.IoDispatcher
+import com.tnco.runar.repository.LanguageRepository
+import com.tnco.runar.repository.SharedPreferencesRepository
 import com.tnco.runar.repository.backend.BackendRepository
 import com.tnco.runar.util.SingleLiveEvent
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.util.*
+import javax.inject.Inject
 
-class SplashViewModel : ViewModel() {
+@HiltViewModel
+class SplashViewModel @Inject constructor(
+    private val backendRepository: BackendRepository,
+    private val languageRepository: LanguageRepository,
+    val sharedPreferencesRepository: SharedPreferencesRepository,
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher
+) : ViewModel() {
 
-    private val _splashCommand = SingleLiveEvent<Boolean>()
+    private val _isOnboardToStart = SingleLiveEvent<Boolean>()
     private val _progress = MutableLiveData<Int>()
 
-    val splashCommand: LiveData<Boolean> = _splashCommand
+    val isOnboardToStart: LiveData<Boolean> = _isOnboardToStart
     val progress: LiveData<Int> = _progress
 
     init {
-        CoroutineScope(Dispatchers.IO).launch {
+        viewModelScope.launch(ioDispatcher) {
             val backendConnection = true
 
             delay(DELAY_BEFORE_START_LOADING)
@@ -28,16 +38,19 @@ class SplashViewModel : ViewModel() {
                 delay(STEP_OF_LOADING)
                 _progress.postValue(25 * (it + 1))
             }
-            if (backendConnection) {
-                val locale: String = Locale.getDefault().language
-                if (locale == "ru") BackendRepository.getLibraryData("ru")
-                else BackendRepository.getLibraryData("en")
+            if (backendConnection) { // TODO predicate is always true
+                if (languageRepository.currentAppLanguage() == "ru") {
+                    backendRepository.getLibraryData("ru")
+                } else {
+                    backendRepository.getLibraryData("en")
+                }
             }
             repeat(2) {
                 delay(STEP_OF_LOADING)
                 _progress.postValue(25 * (it + 2))
             }
-            _splashCommand.postValue(true)
+            val settingsOnboarding = sharedPreferencesRepository.settingsOnboarding == 1
+            _isOnboardToStart.postValue(settingsOnboarding)
         }
     }
 

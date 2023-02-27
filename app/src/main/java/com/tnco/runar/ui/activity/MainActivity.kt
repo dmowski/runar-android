@@ -1,7 +1,6 @@
 package com.tnco.runar.ui.activity
 
 import android.content.Context
-import android.content.IntentFilter
 import android.media.AudioManager
 import android.os.Bundle
 import android.view.View
@@ -9,6 +8,8 @@ import android.view.WindowManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.get
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
@@ -20,18 +21,19 @@ import com.google.firebase.messaging.FirebaseMessaging
 import com.tnco.runar.R
 import com.tnco.runar.RunarLogger
 import com.tnco.runar.databinding.ActivityMainBinding
-import com.tnco.runar.feature.MusicController
-import com.tnco.runar.receivers.LanguageBroadcastReceiver
-import com.tnco.runar.repository.LanguageRepository
-import com.tnco.runar.repository.SharedPreferencesRepository
 import com.tnco.runar.ui.Navigator
+import com.tnco.runar.ui.fragment.*
+import com.tnco.runar.ui.viewmodel.DeveloperOptionsViewModel
 import com.tnco.runar.ui.viewmodel.MainViewModel
+import com.tnco.runar.ui.viewmodel.MusicControllerViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusChangeListener {
 
     private val viewModel: MainViewModel by viewModels()
-    private var languageReceiver = LanguageBroadcastReceiver()
-    var preferencesRepository = SharedPreferencesRepository.get()
+    private val developerOptionsViewModel: DeveloperOptionsViewModel by viewModels()
+    private val musicControllerViewModel: MusicControllerViewModel by viewModels()
     private lateinit var navController: NavController
 
     private lateinit var audioManager: AudioManager
@@ -39,10 +41,41 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
 
     private lateinit var firebaseAnalytics: FirebaseAnalytics
 
+    private val fragmentListener =
+        object : FragmentManager.FragmentLifecycleCallbacks() {
+            override fun onFragmentViewCreated(
+                fragmentManager: FragmentManager,
+                fragment: Fragment,
+                view: View,
+                savedInstanceState: Bundle?
+            ) {
+                super.onFragmentViewCreated(fragmentManager, fragment, view, savedInstanceState)
+                if (fragment is NavHostFragment) return
+                updateNavBarVisible(fragment)
+            }
+        }
+
+    private fun updateNavBarVisible(fragment: Fragment) {
+        if (fragment is HasVisibleNavBar) {
+            binding.bottomNavigationBar.visibility = View.VISIBLE
+        } else {
+            binding.bottomNavigationBar.visibility = View.GONE
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        supportFragmentManager.registerFragmentLifecycleCallbacks(fragmentListener, true)
         super.onCreate(savedInstanceState)
+
+//        installSplashScreen().apply {
+//            setKeepOnScreenCondition {
+//                viewModel.isLoading.value
+//            }
+//        }
+
         firebaseAnalytics = Firebase.analytics
-        LanguageRepository.setSettingsLanguage(this) // set app language from settings
+        developerOptionsViewModel.initialPopulate()
+
         // status bar color
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
@@ -52,40 +85,19 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        this.registerReceiver(
-            languageReceiver,
-            IntentFilter("android.intent.action.LOCALE_CHANGED")
-        )
+        viewModel.defineFontSize()
+        updateBarTitles()
 
         viewModel.identify()
         supportActionBar?.hide()
 
-        if (preferencesRepository.firstLaunch == 1) {
-            preferencesRepository.changeSettingsOnboarding(0)
-        }
-
         audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
-        if (preferencesRepository.settingsMusic == 1) getAudioFocus()
 
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.fragmentContainer) as NavHostFragment
         navController = navHostFragment.navController
 
         binding.bottomNavigationBar.setupWithNavController(navController)
-
-        navController.addOnDestinationChangedListener { _, destination, _ ->
-            val bottomNavBarVisibility = when (destination.id) {
-                R.id.layoutFragment -> View.VISIBLE
-                R.id.libraryFragment -> View.VISIBLE
-                R.id.generatorFragment -> View.VISIBLE
-                R.id.favouriteFragment -> View.VISIBLE
-                R.id.settingsFragment -> View.VISIBLE
-                R.id.developerOptionsFragment -> View.VISIBLE
-                R.id.aboutAppFragment -> View.VISIBLE
-                else -> View.GONE
-            }
-            binding.bottomNavigationBar.visibility = bottomNavBarVisibility
-        }
 
         FirebaseMessaging.getInstance().token.addOnCompleteListener(
             OnCompleteListener { task ->
@@ -103,21 +115,21 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
 
     override fun onAudioFocusChange(focusChange: Int) {
         if (focusChange <= 0) {
-            MusicController.stopMusic()
+            musicControllerViewModel.stopMusic()
         } else {
-            MusicController.startMusic()
+            musicControllerViewModel.startMusic()
         }
     }
 
     override fun onResume() {
-        MusicController.mainStatus = true
-        MusicController.startMusic()
+        musicControllerViewModel.updateMainStatus(true)
+        musicControllerViewModel.startMusic()
         super.onResume()
     }
 
     override fun onPause() {
-        MusicController.mainStatus = false
-        MusicController.softStopMusic()
+        musicControllerViewModel.updateMainStatus(false)
+        musicControllerViewModel.softStopMusic()
         super.onPause()
     }
 
@@ -125,12 +137,11 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
         return navController.navigateUp() || super.onSupportNavigateUp()
     }
 
-    fun reshowBar() {
+    private fun updateBarTitles() {
         binding.bottomNavigationBar.menu[0].title = getString(R.string.bottom_nav_layouts)
         binding.bottomNavigationBar.menu[1].title = getString(R.string.bottom_nav_library)
         binding.bottomNavigationBar.menu[2].title = getString(R.string.generator)
-        binding.bottomNavigationBar.menu[3].title = getString(R.string.bottom_nav_favourites)
-        binding.bottomNavigationBar.menu[4].title = getString(R.string.bottom_nav_settings)
+        binding.bottomNavigationBar.menu[3].title = getString(R.string.bottom_nav_menu)
     }
 
     override fun getAudioFocus() {
@@ -143,5 +154,10 @@ class MainActivity : AppCompatActivity(), Navigator, AudioManager.OnAudioFocusCh
 
     override fun dropAudioFocus() {
         audioManager.abandonAudioFocus(this)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        supportFragmentManager.unregisterFragmentLifecycleCallbacks(fragmentListener)
     }
 }

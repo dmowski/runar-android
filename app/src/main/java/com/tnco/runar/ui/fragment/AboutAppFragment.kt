@@ -31,8 +31,10 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.tnco.runar.R
 import com.tnco.runar.ui.viewmodel.AboutViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
-class AboutAppFragment : Fragment() {
+@AndroidEntryPoint
+class AboutAppFragment : Fragment(), HasVisibleNavBar {
 
     override fun onCreateView(
         inflater: LayoutInflater,

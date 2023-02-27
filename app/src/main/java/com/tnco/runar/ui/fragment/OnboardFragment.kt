@@ -1,55 +1,59 @@
-package com.tnco.runar.ui.activity
+package com.tnco.runar.ui.fragment
 
-import android.content.Intent
 import android.os.Bundle
-import android.view.WindowManager
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.viewpager.widget.ViewPager
 import com.tnco.runar.R
-import com.tnco.runar.analytics.AnalyticsHelper
-import com.tnco.runar.databinding.ActivityOnboardBinding
+import com.tnco.runar.databinding.FragmentOnboardBinding
 import com.tnco.runar.enums.AnalyticsEvent
-import com.tnco.runar.feature.MusicController
 import com.tnco.runar.model.OnboardGuideElementModel
-import com.tnco.runar.repository.LanguageRepository
 import com.tnco.runar.ui.adapter.OnboardViewPagerAdapter
+import com.tnco.runar.ui.viewmodel.MusicControllerViewModel
 import com.tnco.runar.ui.viewmodel.OnboardViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
-class OnboardActivity : AppCompatActivity() {
+@AndroidEntryPoint
+class OnboardFragment : Fragment() {
+
     private val viewModel: OnboardViewModel by viewModels()
+    private val musicControllerViewModel: MusicControllerViewModel by viewModels()
+
     private var currentPosition = 0
 
     private lateinit var adapter: OnboardViewPagerAdapter
     private lateinit var models: ArrayList<OnboardGuideElementModel>
 
-    private lateinit var binding: ActivityOnboardBinding
+    private var _binding: FragmentOnboardBinding? = null
+    private val binding get() = requireNotNull(_binding)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentOnboardBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
-        LanguageRepository.setSettingsLanguage(this)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-        window.statusBarColor = getColor(R.color.library_top_bar)
-        window.navigationBarColor = getColor(R.color.library_top_bar)
-
-        binding = ActivityOnboardBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        supportActionBar?.hide()
+        binding.skipButton.setOnClickListener {
+            viewModel.analyticsHelper.sendEvent(AnalyticsEvent.OB_SKIP)
+            finishOnboard()
+        }
 
         viewModel.changeCurrentPosition(0)
         viewModel.nextActivity(false)
 
-        AnalyticsHelper.sendEvent(AnalyticsEvent.OB_ABOUT_OPENED)
-
-        binding.skipButton.setOnClickListener {
-            AnalyticsHelper.sendEvent(AnalyticsEvent.OB_SKIP)
-            closeActivity()
-        }
+        viewModel.analyticsHelper.sendEvent(AnalyticsEvent.OB_ABOUT_OPENED)
 
         models = ArrayList()
         models.add(
@@ -101,7 +105,7 @@ class OnboardActivity : AppCompatActivity() {
             )
         )
 
-        adapter = OnboardViewPagerAdapter(models, this, viewModel)
+        adapter = OnboardViewPagerAdapter(models, ::onChangeActivity, ::onChangePosition)
         binding.viewPager.adapter = adapter
 
         binding.viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
@@ -115,12 +119,12 @@ class OnboardActivity : AppCompatActivity() {
             override fun onPageSelected(position: Int) {
                 viewModel.changeCurrentPosition(position)
                 when (position) {
-                    0 -> AnalyticsHelper.sendEvent(AnalyticsEvent.OB_ABOUT_OPENED)
-                    1 -> AnalyticsHelper.sendEvent(AnalyticsEvent.OB_FORTUNE_OPENED)
-                    2 -> AnalyticsHelper.sendEvent(AnalyticsEvent.OB_INTERPRETATION_OPENED)
-                    3 -> AnalyticsHelper.sendEvent(AnalyticsEvent.OB_FAVOURITES_OPENED)
-                    4 -> AnalyticsHelper.sendEvent(AnalyticsEvent.OB_GENERATOR_OPENED)
-                    5 -> AnalyticsHelper.sendEvent(AnalyticsEvent.OB_LIBRARY_OPENED)
+                    0 -> viewModel.analyticsHelper.sendEvent(AnalyticsEvent.OB_ABOUT_OPENED)
+                    1 -> viewModel.analyticsHelper.sendEvent(AnalyticsEvent.OB_FORTUNE_OPENED)
+                    2 -> viewModel.analyticsHelper.sendEvent(AnalyticsEvent.OB_INTERPRETATION_OPENED)
+                    3 -> viewModel.analyticsHelper.sendEvent(AnalyticsEvent.OB_FAVOURITES_OPENED)
+                    4 -> viewModel.analyticsHelper.sendEvent(AnalyticsEvent.OB_GENERATOR_OPENED)
+                    5 -> viewModel.analyticsHelper.sendEvent(AnalyticsEvent.OB_LIBRARY_OPENED)
                 }
                 currentPosition = position
             }
@@ -129,31 +133,23 @@ class OnboardActivity : AppCompatActivity() {
             }
         })
 
-        viewModel.currentPosition.observe(this) {
+        viewModel.currentPosition.observe(viewLifecycleOwner) {
             binding.viewPager.setCurrentItem(it, true)
             changeSelectionCircle(it)
             binding.skipButton.isVisible = it != 5
         }
-        viewModel.end.observe(this) {
+        viewModel.end.observe(viewLifecycleOwner) {
             if (it == true) {
-                closeActivity()
+                finishOnboard()
             }
         }
     }
-
-    override fun onBackPressed() {
-        if (currentPosition in 1..5) {
-            viewModel.changeCurrentPosition(currentPosition - 1)
-        } else {
-            super.onBackPressed()
+    private fun finishOnboard() {
+        if (viewModel.sharedPreferencesRepository.firstLaunch == 1) {
+            viewModel.sharedPreferencesRepository.changeSettingsOnboarding(0)
         }
-    }
-
-    private fun closeActivity() {
-        val intent = Intent(this, MainActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-        }
-        startActivity(intent)
+        val direction = OnboardFragmentDirections.actionOnboardFragmentToRunicDraws()
+        findNavController().navigate(direction)
     }
 
     private fun changeSelectionCircle(position: Int) {
@@ -166,14 +162,24 @@ class OnboardActivity : AppCompatActivity() {
     }
 
     override fun onResume() {
-        MusicController.onboardingStatus = true
-        MusicController.startMusic()
+        musicControllerViewModel.updateOnboardingStatus(true)
+        musicControllerViewModel.startMusic()
         super.onResume()
     }
 
     override fun onPause() {
-        MusicController.onboardingStatus = false
-        MusicController.softStopMusic()
+        musicControllerViewModel.updateOnboardingStatus(false)
+        musicControllerViewModel.softStopMusic()
         super.onPause()
+    }
+
+    private fun onChangeActivity() {
+        viewModel.analyticsHelper.sendEvent(AnalyticsEvent.OB_START)
+        viewModel.nextActivity(true)
+    }
+
+    private fun onChangePosition(position: Int) {
+        viewModel.analyticsHelper.sendEvent(AnalyticsEvent.OB_NEXT)
+        viewModel.changeCurrentPosition(position + 1)
     }
 }

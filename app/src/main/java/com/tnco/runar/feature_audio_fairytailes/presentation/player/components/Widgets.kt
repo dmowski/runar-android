@@ -2,15 +2,15 @@ package com.tnco.runar.feature_audio_fairytailes.presentation.player.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Divider
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.LibraryMusic
-import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
@@ -24,11 +24,12 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import androidx.navigation.NavController
 import com.tnco.runar.R
+import com.tnco.runar.ui.fragment.LibraryFragmentDirections
 
 @Composable
 internal fun AudioHeader(
@@ -59,8 +60,10 @@ internal fun AudioHeader(
                     color = colorResource(id = R.color.audio_header_text),
                     fontSize = 16.sp,
                     fontFamily = FontFamily(Font(R.font.roboto_regular)),
-                    lineHeight = 24.em
-                )
+                    lineHeight = 24.sp
+                ),
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
             )
             Divider(
                 color = colorResource(id = R.color.audio_divider),
@@ -72,17 +75,24 @@ internal fun AudioHeader(
 
 @Composable
 internal fun AudioDetailRow(
-    name: String,
+    audioNameText: String,
+    audioCategoryText: String,
     image: ImageVector = Icons.Filled.LibraryMusic,
-    time: String = "3:27"
+    time: String = "3:27",
+    navController: NavController
 ) {
     Surface(
         modifier = Modifier
             .fillMaxWidth()
+            .clickable {
+                val direction = LibraryFragmentDirections
+                    .actionLibraryFragmentToAudioDetailsFragment(audioNameText, audioCategoryText)
+                navController.navigate(direction)
+            }
             .padding(
                 start = 16.dp,
                 end = 16.dp,
-                top = 8.dp
+                top = 12.dp
             ),
         color = Color.Transparent
     ) {
@@ -92,9 +102,9 @@ internal fun AudioDetailRow(
             ConstraintLayout(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(bottom = 8.dp)
+                    .padding(bottom = 12.dp)
             ) {
-                val (audioImage, audioText, audioTime, audioImageMore) = createRefs()
+                val (audioImage, audioText, audioTime) = createRefs()
 
                 Image(
                     painter = rememberVectorPainter(image = image),
@@ -105,7 +115,7 @@ internal fun AudioDetailRow(
                             start.linkTo(parent.start)
                             bottom.linkTo(parent.bottom)
                         }
-                        .size(40.dp)
+                        .size(64.dp)
                         .border(
                             1.dp,
                             colorResource(id = R.color.audio_border_image),
@@ -114,32 +124,38 @@ internal fun AudioDetailRow(
                     colorFilter = ColorFilter.tint(Color.White),
                     contentScale = ContentScale.Fit
                 )
-                Text(
+                Box(
                     modifier = Modifier
                         .constrainAs(audioText) {
                             width = Dimension.fillToConstraints
-                            top.linkTo(parent.top)
+                            height = Dimension.fillToConstraints
+                            top.linkTo(audioImage.top)
+                            bottom.linkTo(audioImage.bottom)
                             start.linkTo(audioImage.end, 16.dp)
                             end.linkTo(audioTime.start, 16.dp)
                         },
-                    text = name,
-                    style = TextStyle(
-                        color = colorResource(id = R.color.audio_name_text),
-                        fontSize = 16.sp,
-                        fontFamily = FontFamily(
-                            Font(R.font.roboto_regular)
+                    contentAlignment = Alignment.CenterStart
+                ) {
+                    Text(
+                        text = audioNameText,
+                        style = TextStyle(
+                            color = colorResource(id = R.color.audio_name_text),
+                            fontSize = 16.sp,
+                            fontFamily = FontFamily(
+                                Font(R.font.roboto_regular)
+                            ),
+                            lineHeight = 24.sp
                         ),
-                        lineHeight = 24.em
-                    ),
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
                 Text(
                     modifier = Modifier
                         .constrainAs(audioTime) {
                             top.linkTo(parent.top)
                             bottom.linkTo(parent.bottom)
-                            end.linkTo(audioImageMore.start, 16.dp)
+                            end.linkTo(parent.end, 16.dp)
                         },
                     text = time,
                     style = TextStyle(
@@ -148,26 +164,14 @@ internal fun AudioDetailRow(
                         fontFamily = FontFamily(
                             Font(R.font.roboto_regular)
                         ),
-                        lineHeight = 24.em
+                        lineHeight = 24.sp
                     )
-                )
-                Image(
-                    painter = rememberVectorPainter(image = Icons.Filled.MoreVert),
-                    contentDescription = "Image More",
-                    modifier = Modifier
-                        .constrainAs(audioImageMore) {
-                            top.linkTo(parent.top)
-                            end.linkTo(parent.end)
-                            bottom.linkTo(parent.bottom)
-                        }
-                        .size(24.dp),
-                    colorFilter = ColorFilter.tint(colorResource(id = R.color.audio_image_more_tint))
                 )
             }
             Divider(
                 modifier = Modifier
                     .padding(
-                        start = 56.dp
+                        start = 80.dp
                     ),
                 color = colorResource(id = R.color.audio_divider),
                 thickness = 0.5.dp
@@ -176,10 +180,43 @@ internal fun AudioDetailRow(
     }
 }
 
+@Composable
+internal fun AudioAppBar(
+    title: String,
+    icon: ImageVector = Icons.Filled.ArrowBack,
+    navController: NavController
+) {
+    TopAppBar(
+        title = {
+            Text(
+                text = title,
+                style = TextStyle(
+                    color = colorResource(id = R.color.audio_top_app_bar_header),
+                    fontSize = 24.sp,
+                    fontFamily = FontFamily(Font(R.font.roboto_medium))
+                )
+            )
+        },
+        backgroundColor = colorResource(id = R.color.audio_top_app_bar),
+        navigationIcon = {
+            IconButton(
+                onClick = { navController.popBackStack() }
+            ) {
+                Icon(
+                    imageVector = icon,
+                    contentDescription = "Arrow Back",
+                    tint = colorResource(id = R.color.audio_top_app_bar_header)
+                )
+            }
+        },
+        elevation = 0.dp
+    )
+}
+
 @Preview
 @Composable
 private fun AudioDetailRowPreview() {
-    AudioDetailRow(name = "Сказка о пряничке")
+    // AudioDetailRow(name = "Сказка о пряничке")
 }
 
 @Preview

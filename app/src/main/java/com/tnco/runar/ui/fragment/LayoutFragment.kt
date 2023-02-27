@@ -15,11 +15,6 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Paint
-import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.res.colorResource
@@ -29,7 +24,6 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -40,15 +34,17 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.tnco.runar.R
-import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.databinding.FragmentLayoutsBinding
 import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.ui.viewmodel.LayoutViewModel
 import com.tnco.runar.util.AnalyticsConstants
 import com.tnco.runar.util.AnalyticsUtils
+import com.tnco.runar.util.rectShadow
 import com.tnco.runar.util.setOnCLickListenerForAll
+import dagger.hilt.android.AndroidEntryPoint
 
-class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener {
+@AndroidEntryPoint
+class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener, HasVisibleNavBar {
 
     private val viewModel: LayoutViewModel by viewModels()
 
@@ -81,7 +77,7 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        AnalyticsHelper.sendEvent(AnalyticsEvent.SCREEN_VIEW_RUNIC_DRAWS)
+        viewModel.analyticsHelper.sendEvent(AnalyticsEvent.SCREEN_VIEW_RUNIC_DRAWS)
         setClickListenerOnRuneLayouts()
     }
 
@@ -119,7 +115,7 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
         }
         viewModel.checkDescriptionStatus(idOfRune)
         val layoutName = AnalyticsUtils.convertLayoutIdToName(idOfRune)
-        AnalyticsHelper.sendEvent(
+        viewModel.analyticsHelper.sendEvent(
             AnalyticsEvent.DRAWS_SELECTED,
             Pair(AnalyticsConstants.DRAW_RUNE_LAYOUT, layoutName)
         )
@@ -221,38 +217,5 @@ private fun UpperBanner(onClick: () -> Unit = {}) {
             )
             Spacer(Modifier.height(24.dp))
         }
-    }
-}
-
-fun Modifier.rectShadow(
-    color: Color = Color.Black,
-    alpha: Float = 0.99f,
-    cornersRadius: Dp = 0.dp,
-    shadowBlurRadius: Dp = 0.dp,
-    offsetY: Dp = 0.dp,
-    offsetX: Dp = 0.dp
-) = drawBehind {
-    val shadowColor = color.copy(alpha = alpha).toArgb()
-    val transparentColor = color.copy(alpha = 0f).toArgb()
-
-    drawIntoCanvas {
-        val paint = Paint()
-        val frameworkPaint = paint.asFrameworkPaint()
-        frameworkPaint.color = transparentColor
-        frameworkPaint.setShadowLayer(
-            shadowBlurRadius.toPx(),
-            offsetX.toPx(),
-            offsetY.toPx(),
-            shadowColor
-        )
-        it.drawRoundRect(
-            0f,
-            0f,
-            this.size.width,
-            this.size.height,
-            cornersRadius.toPx(),
-            cornersRadius.toPx(),
-            paint
-        )
     }
 }

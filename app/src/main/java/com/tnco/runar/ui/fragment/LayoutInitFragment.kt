@@ -16,7 +16,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.tnco.runar.R
-import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.databinding.FragmentLayoutInitBinding
 import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.ui.component.dialog.DescriptionDialog
@@ -25,10 +24,12 @@ import com.tnco.runar.util.AnalyticsConstants
 import com.tnco.runar.util.AnalyticsUtils
 import com.tnco.runar.util.setOnCLickListenerForAll
 import com.tnco.runar.util.startAnim
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.*
 
+@AndroidEntryPoint
 class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClickListener {
 
     private val viewModel: InitViewModel by viewModels()
@@ -252,7 +253,7 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
                     val userLayout = layoutTable.toIntArray()
                     if (userLayout[0] == itemsChecker(userLayout)) {
                         val layoutName = AnalyticsUtils.convertLayoutIdToName(layoutId)
-                        AnalyticsHelper.sendEvent(
+                        viewModel.analyticsHelper.sendEvent(
                             AnalyticsEvent.INTERPRETATION_STARTED,
                             Pair(
                                 AnalyticsConstants.DRAW_RUNE_LAYOUT, layoutName
@@ -357,7 +358,7 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
         activeSlot: ConstraintLayout?,
         childNumber: Int
     ) {
-        AnalyticsHelper.sendEvent(AnalyticsEvent.RUNE_OPENED)
+        viewModel.analyticsHelper.sendEvent(AnalyticsEvent.RUNE_OPENED)
         lifecycleScope.launch {
             threadCounter++
             blockButton(false)

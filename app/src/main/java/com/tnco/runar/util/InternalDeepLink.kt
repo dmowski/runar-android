@@ -3,6 +3,11 @@ package com.tnco.runar.util
 sealed class InternalDeepLink(private val route: String) {
 
     object ConnectivityErrorFragment : InternalDeepLink("runar-android://ConnectivityErrorFragment")
+    object CancelDialog : InternalDeepLink("runar-android://CancelDialog")
+
+    object LayoutFragment : InternalDeepLink("runar-android://LayoutFragment")
+
+    fun getRoute(): String = route
 
     fun withArgs(vararg args: String): String {
         return buildString {
