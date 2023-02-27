@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/menu"
     app:startDestination="@id/settingsFragment">
 
@@ -22,6 +23,15 @@
     <fragment
         android:id="@+id/developerOptionsFragment"
         android:name="com.tnco.runar.ui.fragment.DeveloperOptionsFragment"
-        android:label="DeveloperOptionsFragment" />
+        android:label="DeveloperOptionsFragment" >
+        <action
+            android:id="@+id/action_developerOptionsFragment_to_vikingAssistantFragment"
+            app:destination="@id/vikingAssistantFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/vikingAssistantFragment"
+        android:name="com.tnco.runar.ui.fragment.VikingAssistantFragment"
+        android:label="fragment_viking_assistant"
+        tools:layout="@layout/fragment_viking_assistant" />
 
 </navigation>

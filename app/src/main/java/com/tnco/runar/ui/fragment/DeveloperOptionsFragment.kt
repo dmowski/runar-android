@@ -4,10 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -102,6 +100,18 @@ private fun DeveloperOptionsScreen(navController: NavController) {
             devSwitcherStates?.let {
                 Switchers(it)
             }
+            Divider(
+                color = colorResource(id = R.color.settings_divider)
+            )
+            VikingAssistantItem(
+                fontSize = fontSize,
+                header = stringResource(id = R.string.viking_assistant),
+                clickAction = {
+                    val direction = DeveloperOptionsFragmentDirections
+                        .actionDeveloperOptionsFragmentToVikingAssistantFragment()
+                    navController.navigate(direction)
+                }
+            )
         }
     }
 }
@@ -162,6 +172,45 @@ private fun SwitcherMenuItem(
             Modifier
                 .fillMaxSize()
                 .weight(9f)
+        )
+    }
+}
+
+@Composable
+private fun VikingAssistantItem(
+    fontSize: Float,
+    header: String,
+    clickAction: () -> Unit
+) {
+    Row(
+        Modifier
+            .aspectRatio(7.5f)
+            .clickable(onClick = clickAction)
+    ) {
+        Row(
+            Modifier
+                .fillMaxSize()
+                .weight(323f),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text(
+                text = header,
+                color = colorResource(id = R.color.library_item_header),
+                fontFamily = FontFamily(Font(R.font.roboto_regular)),
+                style = TextStyle(fontSize = with(LocalDensity.current) { fontSize.toSp() }),
+            )
+            Image(
+                painter = painterResource(id = R.drawable.ic_right),
+                contentDescription = null,
+                modifier = Modifier
+                    .background(colorResource(id = R.color.transparent))
+            )
+        }
+        Spacer(
+            Modifier
+                .fillMaxSize()
+                .weight(21f)
         )
     }
 }
