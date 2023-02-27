@@ -24,6 +24,7 @@ import com.tnco.runar.ui.viewmodel.InitViewModel
 import com.tnco.runar.util.AnalyticsConstants
 import com.tnco.runar.util.AnalyticsUtils
 import com.tnco.runar.util.setOnCLickListenerForAll
+import com.tnco.runar.util.startAnim
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.*
@@ -365,6 +366,18 @@ class LayoutInitFragment : Fragment(R.layout.fragment_layout_init), View.OnClick
             val runeId = getUniqueRune()
             val ims = context?.assets?.open("runes/$runeId.png")
             val runeImage = Drawable.createFromStream(ims, null)
+
+            with(binding) {
+                when (slot) {
+                    firstRune -> startAnim(animFirstRune)
+                    secondRune -> startAnim(animSecondRune)
+                    thirdRune -> startAnim(animThirdRune)
+                    fourthRune -> startAnim(animFourthRune)
+                    fifthRune -> startAnim(animFifthRune)
+                    sixthRune -> startAnim(animSixthRune)
+                    seventhRune -> startAnim(animSeventhRune)
+                }
+            }
 
             slot.background = runeImage
             (slot.getChildAt(0) as TextView).visibility = View.INVISIBLE
