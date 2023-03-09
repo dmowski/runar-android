@@ -18,11 +18,10 @@ class AboutAppFragment : Fragment(), HasVisibleNavBar {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val view = ComposeView(requireContext()).apply {
+        return ComposeView(requireContext()).apply {
             setContent {
                 AboutAppFragmentLayout(findNavController())
             }
         }
-        return view
     }
 }
