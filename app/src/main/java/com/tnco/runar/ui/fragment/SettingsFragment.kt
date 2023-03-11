@@ -37,7 +37,7 @@ import com.tnco.runar.ui.viewmodel.SettingsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SettingsFragment : Fragment(), HasVisibleNavBar {
+class SettingsFragment : Fragment() {
 
     val viewModel: SettingsViewModel by viewModels()
     private var navigator: Navigator? = null

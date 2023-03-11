@@ -9,6 +9,7 @@
     <string name="pattern_generator">Pattern generator</string>
     <string name="run_pattern">Rune pattern</string>
     <string name="run_patterns">Rune patterns</string>
+    <string name="menu">Menu</string>
     <string name="formula">Runic Formula</string>
     <string name="stav">Runic Staves</string>
     <string name="coming_soon">Coming soon</string>
@@ -145,5 +146,7 @@
     <string name="retry">Retry</string>
     <string name="internet_conn_error">Please check your network connection and try again</string>
     <string name="internet_conn_error1">No internet connection</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
