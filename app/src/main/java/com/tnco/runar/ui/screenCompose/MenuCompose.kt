@@ -132,7 +132,7 @@ fun AboutItem(clickAction: () -> Unit) {
     ) {
         Icon(
             modifier = Modifier.padding(start = 10.dp),
-            painter = painterResource(id = R.drawable.ic_settings),
+            painter = painterResource(id = R.drawable.ic_about),
             contentDescription = "",
             tint = colorResource(id = R.color.menu_icons)
         )
@@ -167,7 +167,7 @@ fun FavItem(clickAction: () -> Unit) {
     ) {
         Icon(
             modifier = Modifier.padding(start = 10.dp),
-            painter = painterResource(id = R.drawable.ic_settings),
+            painter = painterResource(id = R.drawable.ic_fav),
             contentDescription = "",
             tint = colorResource(id = R.color.menu_icons)
         )
