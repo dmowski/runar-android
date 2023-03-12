@@ -231,7 +231,7 @@ fun SettingsItem(clickAction: () -> Unit) {
 fun RateAppItem(clickAction: () -> Unit) {
     Box(
         modifier = Modifier
-            .padding(10.dp, 100.dp, 10.dp, 20.dp)
+            .padding(10.dp, 20.dp, 10.dp, 20.dp)
             .size(400.dp, 60.dp)
             .clip(RoundedCornerShape(10.dp))
             .background(colorResource(id = R.color.settings_review_button))
