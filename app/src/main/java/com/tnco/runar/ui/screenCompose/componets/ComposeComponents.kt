@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
@@ -65,14 +66,15 @@ fun APPBar(
         title = {
             Box(
                 modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center,
+                contentAlignment = Alignment.CenterStart // выравнивание содержимого Box влево
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.ic_library_back_arrow_2),
                     contentDescription = null,
                     modifier = Modifier
-                        .padding(start = 10.dp)
-                        .clickable(onClick = { navController.popBackStack() })
+                        .padding(top = 15.dp, start = 5.dp)
+                        .clickable(onClick = { navController.popBackStack() }),
+                    alignment = Alignment.CenterStart // выравнивание изображения по левому краю
                 )
 
                 Text(
@@ -80,7 +82,9 @@ fun APPBar(
                     color = colorResource(id = R.color.library_top_bar_header),
                     fontFamily = FontFamily(Font(R.font.amatic_sc_bold)),
                     style = TextStyle(fontSize = 48.sp),
-                    textAlign = TextAlign.Center
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .fillMaxWidth() // занимать максимальную ширину
                 )
             }
         },

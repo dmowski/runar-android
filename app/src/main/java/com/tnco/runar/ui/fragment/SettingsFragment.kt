@@ -33,6 +33,7 @@ import androidx.navigation.fragment.findNavController
 import com.tnco.runar.BuildConfig
 import com.tnco.runar.R
 import com.tnco.runar.ui.Navigator
+import com.tnco.runar.ui.screenCompose.componets.APPBar
 import com.tnco.runar.ui.viewmodel.SettingsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -90,20 +91,10 @@ private fun Bars(navigator: Navigator, navController: NavController) {
 
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        text = header,
-                        color = colorResource(id = R.color.library_top_bar_header),
-                        fontFamily = FontFamily(Font(R.font.roboto_medium)),
-                        style = TextStyle(
-                            fontSize = with(LocalDensity.current) {
-                                ((fontSize!! * 1.35).toFloat()).toSp()
-                            }
-                        )
-                    )
-                },
-                backgroundColor = colorResource(id = R.color.library_top_bar)
+
+            APPBar(
+                title = stringResource(id = R.string.settings_layout),
+                navController = navController
             )
         },
         backgroundColor = colorResource(id = R.color.settings_top_app_bar)

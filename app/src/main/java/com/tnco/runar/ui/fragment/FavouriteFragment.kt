@@ -35,6 +35,7 @@ import androidx.navigation.fragment.findNavController
 import com.tnco.runar.R
 import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.ui.component.dialog.SavedLayoutsDialog
+import com.tnco.runar.ui.screenCompose.componets.APPBar
 import com.tnco.runar.ui.viewmodel.FavouriteViewModel
 import com.tnco.runar.util.AnalyticsConstants
 import com.tnco.runar.util.AnalyticsUtils
@@ -107,18 +108,9 @@ private fun Bars(navController: NavController) {
 
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        text = barText,
-                        color = barColor,
-                        fontFamily = barFont,
-                        style = TextStyle(fontSize = barFontSize)
-                    )
-                },
-                backgroundColor = colorResource(id = R.color.library_top_bar),
-                navigationIcon = navIcon,
-                actions = navActions
+            APPBar(
+                title = stringResource(id = R.string.library_bar_fav),
+                navController = navController
             )
         },
         backgroundColor = colorResource(id = R.color.library_top_bar_2)
