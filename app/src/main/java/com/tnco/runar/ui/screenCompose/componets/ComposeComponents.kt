@@ -8,12 +8,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -28,7 +25,6 @@ import com.tnco.runar.R
 @Composable
 internal fun AppBar(
     title: String,
-    icon: ImageVector = Icons.Filled.ArrowBack,
     navController: NavController,
     navIcon: @Composable (() -> Unit)? = null,
     showIcon: Boolean = false
@@ -51,7 +47,7 @@ internal fun AppBar(
                 }
 
                 Text(
-                    text = requireNotNull(title),
+                    text = title,
                     color = colorResource(id = R.color.library_top_bar_header),
                     fontFamily = FontFamily(Font(R.font.amatic_sc_bold)),
                     style = TextStyle(fontSize = 48.sp),

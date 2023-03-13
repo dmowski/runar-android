@@ -30,13 +30,15 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.tnco.runar.R
-import com.tnco.runar.ui.Navigator
 import com.tnco.runar.ui.fragment.MenuFragmentDirections
 import com.tnco.runar.ui.fragment.SettingsFragmentDirections
 import com.tnco.runar.ui.screenCompose.componets.AppBar
 
+val storeLink = "https://play.google.com/store/apps/details?id=com.tnco.runar"
+val vending = "com.android.vending"
+
 @Composable
-fun MenuScreen(navigator: Navigator, navController: NavController) {
+fun MenuScreen(navController: NavController) {
     Menu(navController)
 }
 
@@ -109,13 +111,16 @@ private fun Menu(navController: NavController) {
                         navController.navigate(direction)
                     })
                 }
-                Row {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center
+                ) {
                     RateAppItem(clickAction = {
                         val intent = Intent(Intent.ACTION_VIEW).apply {
                             data = Uri.parse(
-                                "https://play.google.com/store/apps/details?id=com.tnco.runar"
-                            ) // here is the uri  app in google play
-                            setPackage("com.android.vending")
+                                storeLink
+                            )
+                            setPackage(vending)
                         }
                         context.startActivity(intent)
                     })

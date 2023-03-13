@@ -45,7 +45,7 @@ class MenuFragment : Fragment(), HasVisibleNavBar {
         val view = ComposeView(requireContext()).apply {
             setContent {
                 setContent {
-                    MenuScreen(navigator!!, findNavController())
+                    MenuScreen(findNavController())
                 }
             }
         }
