@@ -33,7 +33,7 @@ import androidx.navigation.fragment.findNavController
 import com.tnco.runar.BuildConfig
 import com.tnco.runar.R
 import com.tnco.runar.ui.Navigator
-import com.tnco.runar.ui.screenCompose.componets.APPBar
+import com.tnco.runar.ui.screenCompose.componets.AppBar
 import com.tnco.runar.ui.viewmodel.SettingsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -92,9 +92,10 @@ private fun Bars(navigator: Navigator, navController: NavController) {
     Scaffold(
         topBar = {
 
-            APPBar(
+            AppBar(
                 title = stringResource(id = R.string.settings_layout),
-                navController = navController
+                navController = navController,
+                showIcon = true
             )
         },
         backgroundColor = colorResource(id = R.color.settings_top_app_bar)

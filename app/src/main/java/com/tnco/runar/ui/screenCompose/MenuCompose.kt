@@ -47,7 +47,8 @@ private fun Menu(navController: NavController) {
         topBar = {
             AppBar(
                 title = stringResource(id = R.string.menu),
-                navController = navController
+                navController = navController,
+                showIcon = false
             )
         },
         backgroundColor = colorResource(id = R.color.transparent)
@@ -59,7 +60,9 @@ private fun Menu(navController: NavController) {
         ) {
             Column {
                 Row(
-                    modifier = Modifier.fillMaxWidth().padding(top = 20.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 20.dp),
                     horizontalArrangement = Arrangement.Center
                 ) {
                     Image(

@@ -30,52 +30,25 @@ internal fun AppBar(
     title: String,
     icon: ImageVector = Icons.Filled.ArrowBack,
     navController: NavController,
-    navIcon: @Composable (() -> Unit)? = null
+    navIcon: @Composable (() -> Unit)? = null,
+    showIcon: Boolean = false
 ) {
     TopAppBar(
         title = {
             Box(
                 modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center,
+                contentAlignment = Alignment.CenterStart
             ) {
-
-                Text(
-                    text = requireNotNull(title),
-                    color = colorResource(id = R.color.library_top_bar_header),
-                    fontFamily = FontFamily(Font(R.font.amatic_sc_bold)),
-                    style = TextStyle(fontSize = 48.sp),
-                    textAlign = TextAlign.Center
-                )
-            }
-        },
-        backgroundColor = colorResource(id = R.color.transparent),
-        navigationIcon = navIcon,
-        elevation = 0.dp
-    )
-}
-
-@Composable
-fun APPBar(
-    title: String,
-    icon: ImageVector = Icons.Filled.ArrowBack,
-    navController: NavController,
-    navIcon: @Composable (() -> Unit)? = null
-) {
-
-    TopAppBar(
-        title = {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.CenterStart // выравнивание содержимого Box влево
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_library_back_arrow_2),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .padding(top = 15.dp, start = 5.dp)
-                        .clickable(onClick = { navController.popBackStack() }),
-                    alignment = Alignment.CenterStart // выравнивание изображения по левому краю
-                )
+                if (showIcon) {
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_library_back_arrow_2),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .padding(top = 15.dp, start = 5.dp)
+                            .clickable(onClick = { navController.popBackStack() }),
+                        alignment = Alignment.CenterStart
+                    )
+                }
 
                 Text(
                     text = requireNotNull(title),
@@ -84,7 +57,7 @@ fun APPBar(
                     style = TextStyle(fontSize = 48.sp),
                     textAlign = TextAlign.Center,
                     modifier = Modifier
-                        .fillMaxWidth() // занимать максимальную ширину
+                        .fillMaxWidth()
                 )
             }
         },
