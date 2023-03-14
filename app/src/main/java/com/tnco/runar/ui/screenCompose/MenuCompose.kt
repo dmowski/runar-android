@@ -34,8 +34,8 @@ import com.tnco.runar.ui.fragment.MenuFragmentDirections
 import com.tnco.runar.ui.fragment.SettingsFragmentDirections
 import com.tnco.runar.ui.screenCompose.componets.AppBar
 
-val storeLink = "https://play.google.com/store/apps/details?id=com.tnco.runar"
-val vending = "com.android.vending"
+const val STORE_LINK = "https://play.google.com/store/apps/details?id=com.tnco.runar"
+const val VENDING = "com.android.vending"
 
 @Composable
 fun MenuScreen(navController: NavController) {
@@ -102,7 +102,7 @@ private fun Menu(navController: NavController) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = 20.dp, bottom = 10.dp),
+                        .padding(top = 20.dp, bottom = 20.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     AboutItem(clickAction = {
@@ -111,16 +111,18 @@ private fun Menu(navController: NavController) {
                         navController.navigate(direction)
                     })
                 }
+                DividerItem()
                 Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Center
+                    modifier = Modifier.fillMaxSize(),
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
                     RateAppItem(clickAction = {
                         val intent = Intent(Intent.ACTION_VIEW).apply {
                             data = Uri.parse(
-                                storeLink
+                                STORE_LINK
                             )
-                            setPackage(vending)
+                            setPackage(VENDING)
                         }
                         context.startActivity(intent)
                     })
@@ -145,7 +147,7 @@ fun AboutItem(clickAction: () -> Unit) {
             tint = colorResource(id = R.color.menu_icons)
         )
         Text(
-            modifier = Modifier.padding(start = 40.dp),
+            modifier = Modifier.padding(start = 10.dp),
             text = stringResource(id = R.string.about_app_txt),
             fontSize = 20.sp,
             color = colorResource(id = R.color.onboard_text_color),
@@ -180,7 +182,7 @@ fun FavItem(clickAction: () -> Unit) {
             tint = colorResource(id = R.color.menu_icons)
         )
         Text(
-            modifier = Modifier.padding(start = 40.dp),
+            modifier = Modifier.padding(start = 10.dp),
             text = stringResource(id = R.string.library_bar_fav),
             fontSize = 20.sp,
             color = colorResource(id = R.color.onboard_text_color)
@@ -215,7 +217,7 @@ fun SettingsItem(clickAction: () -> Unit) {
             tint = colorResource(id = R.color.menu_icons)
         )
         Text(
-            modifier = Modifier.padding(start = 40.dp),
+            modifier = Modifier.padding(start = 10.dp),
             text = stringResource(id = R.string.settings_layout),
             fontSize = 20.sp,
             color = colorResource(id = R.color.onboard_text_color)
