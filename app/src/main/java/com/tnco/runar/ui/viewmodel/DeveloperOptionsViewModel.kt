@@ -1,30 +1,37 @@
 package com.tnco.runar.ui.viewmodel
 
-import androidx.compose.runtime.snapshots.SnapshotStateMap
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.tnco.runar.di.annotations.IoDispatcher
+import com.tnco.runar.model.DeveloperSwitcher
 import com.tnco.runar.repository.SharedDataRepository
-import com.tnco.runar.repository.SharedPreferencesRepository
+import com.tnco.runar.repository.data_store.DataStorePreferences
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class DeveloperOptionsViewModel : ViewModel() {
+@HiltViewModel
+class DeveloperOptionsViewModel @Inject constructor(
+    private val dataStorePreferences: DataStorePreferences,
+    sharedDataRepository: SharedDataRepository,
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher
+) : ViewModel() {
 
-    private val preferencesRepository = SharedPreferencesRepository.get()
-    val fontSize: LiveData<Float> = MutableLiveData(SharedDataRepository.fontSize)
+    val fontSize: LiveData<Float> = sharedDataRepository.fontSize
+    val switchers: Flow<List<DeveloperSwitcher>> = dataStorePreferences.switchers
 
-    private var _devSwitcherStates: MutableMap<String, Boolean> = switcherStatesFromRepository()
-    val devSwitcherStates: Map<String, Boolean>
-        get() = _devSwitcherStates
-
-    fun putSwitcherState(key: String, state: Boolean) {
-        _devSwitcherStates[key] = state
-        preferencesRepository.putSwitcherState(key, state)
+    fun initialPopulate() {
+        viewModelScope.launch(ioDispatcher) {
+            dataStorePreferences.initialPopulate()
+        }
     }
 
-    private fun switcherStatesFromRepository() = SnapshotStateMap<String, Boolean>().apply {
-        val states = preferencesRepository.switcherStates()
-        states.forEach {
-            put(it.key, it.value)
+    fun saveSwitcher(switcher: DeveloperSwitcher) {
+        viewModelScope.launch(ioDispatcher) {
+            dataStorePreferences.saveSwitcher(switcher)
         }
     }
 }

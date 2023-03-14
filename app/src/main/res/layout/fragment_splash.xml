@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <com.tnco.runar.ui.component.view.OffsetImageView
         android:id="@+id/offsetImageView"
         android:layout_width="match_parent"
@@ -11,6 +12,7 @@
         app:offsetScaleType="fitX"
         app:verticalCropOffset="1"
         app:verticalFitOffset="0" />
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/progressBar_guideline"
         android:layout_width="wrap_content"
@@ -35,9 +37,9 @@
     <androidx.appcompat.widget.AppCompatImageView
         android:layout_width="57dp"
         android:layout_height="70dp"
+        android:layout_marginBottom="16dp"
         android:adjustViewBounds="true"
         android:src="@drawable/loading_image"
-        android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toTopOf="@id/appName"
         app:layout_constraintEnd_toEndOf="@id/right_progress_guideline"
         app:layout_constraintStart_toStartOf="@id/left_progress_guideline" />
@@ -64,5 +66,5 @@
         android:progressDrawable="@drawable/splsh_screen_process_loading"
         app:layout_constraintEnd_toStartOf="@+id/right_progress_guideline"
         app:layout_constraintStart_toStartOf="@+id/left_progress_guideline"
-        app:layout_constraintTop_toTopOf="@+id/progressBar_guideline"/>
+        app:layout_constraintTop_toTopOf="@+id/progressBar_guideline" />
 </androidx.constraintlayout.widget.ConstraintLayout>

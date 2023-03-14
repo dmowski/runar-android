@@ -1,30 +1,34 @@
 package com.tnco.runar.ui.viewmodel
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.tnco.runar.analytics.AnalyticsHelper
+import com.tnco.runar.di.annotations.IoDispatcher
 import com.tnco.runar.model.LayoutDescriptionModel
 import com.tnco.runar.repository.DatabaseRepository
 import com.tnco.runar.repository.SharedDataRepository
 import com.tnco.runar.util.SingleLiveEvent
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class InitViewModel : ViewModel() {
+@HiltViewModel
+class InitViewModel @Inject constructor(
+    private val databaseRepository: DatabaseRepository,
+    val analyticsHelper: AnalyticsHelper,
+    sharedDataRepository: SharedDataRepository,
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher
+) : ViewModel() {
 
-    private var _selectedLayout = SingleLiveEvent<LayoutDescriptionModel>()
-    private var _fontSize = MutableLiveData<Float>()
+    private val _selectedLayout = SingleLiveEvent<LayoutDescriptionModel>()
+    val fontSize = sharedDataRepository.fontSize
     val selectedLayout: LiveData<LayoutDescriptionModel> = _selectedLayout
-    val fontSize: LiveData<Float> = _fontSize
-
-    init {
-        _fontSize.postValue(SharedDataRepository.fontSize)
-    }
 
     fun getLayoutDescription(id: Int) {
-        CoroutineScope(Dispatchers.IO).launch {
-            _selectedLayout.postValue(DatabaseRepository.getLayoutDetails(id))
+        viewModelScope.launch(ioDispatcher) {
+            _selectedLayout.postValue(databaseRepository.getLayoutDetails(id))
         }
     }
 }

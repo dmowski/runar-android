@@ -42,14 +42,17 @@
     <color name="divider">#A6545458</color>
 
     <color name="library_top_bar">#191919</color>
-    <color name="library_top_bar_2">#73000000</color>
-    <color name="library_top_bar_header">#EFCD93</color>
+    <color name="library_top_bar_2">#00000000</color>
+    <color name="library_top_bar_header">#B5F0EDE7</color>
     <color name="library_top_bar_header_2">#FFFFFF</color>
     <color name="library_top_bar_fav">#EFCD93</color>
     <color name="library_item_header">#DADADA</color>
     <color name="library_item_text">#99EBEBF5</color>
-    <color name="library_tab_text_selected">#D2C4AD</color>
-    <color name="library_tab_text_not_selected">#F8F8F8</color>
+    <color name="library_tab_text_selected">#272624</color>
+    <color name="library_tab_text_not_selected">#F8F5F5</color>
+    <color name="library_tab_background_selected">#EFE6CA</color>
+    <color name="library_tab_background_not_selected">#00636060</color>
+    <color name="library_tab_background">#72636060</color>
     <color name="library_tab_divider">#292929</color>
     <color name="library_tab_indicator">#D2C4AD</color>
 
@@ -78,7 +81,8 @@
     <color name="lib_run_header">#EFCD93</color>
 
     <color name="lib_rune_tag_text">#D2C4AD</color>
-    <color name="lib_rune_tag_border">#696257</color>
+    <color name="lib_rune_tag_border">#D2C4AD</color>
+    <color name="lib_rune_tag_background">#141414</color>
     <color name="border">#99D2C4AD</color>
 
 
@@ -138,5 +142,13 @@
     <color name="audio_border_image">#FFD2C4AD</color>
     <color name="audio_divider">#FF292929</color>
     <color name="audio_image_more_tint">#FF6E6E6E</color>
+    <color name="audio_top_app_bar">@color/library_top_bar</color>
+    <color name="audio_top_app_bar_header">@color/library_top_bar_fav</color>
+    <color name="audio_image_background">#FF1E1E1E</color>
+    <color name="audio_play_button">#EFCD93</color>
+    <color name="audio_play_panel">@color/audio_border_image</color>
+    <color name="audio_thumb_slider">@color/audio_border_image</color>
 
+    <color name="generator_card_border">#6A6A6A</color>
+    <color name="generator_btns">#D2C4AD</color>
 </resources>

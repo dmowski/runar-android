@@ -20,5 +20,29 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
-# enable for export the R8 configuration
+# Enable for export the R8 configuration
 #-printconfiguration proguard_config.txt
+
+# Disable obfuscate
+-dontobfuscate
+
+# Keep Gson data classes with annotations SerializedName
+-keepclasseswithmembers class * {
+    @com.google.gson.annotations.SerializedName <fields>;
+}
+
+# Keep inherited services.
+-if interface * { @retrofit2.http.* <methods>; }
+-keep interface * extends <1>
+
+# Keep generic signature of Call, Response (R8 full mode strips signatures from non-kept items).
+-keep,allowshrinking interface retrofit2.Call
+-keep,allowshrinking class retrofit2.Response
+
+# With R8 full mode generic signatures are stripped for classes that are not
+# kept. Suspend functions are wrapped in continuations where the type argument
+# is used.
+-keep,allowshrinking class kotlin.coroutines.Continuation
+
+# Suppress warnings about missing class com.google.firebase.iid.FcmBroadcastProcessor
+-dontwarn com.google.firebase.iid.FcmBroadcastProcessor

@@ -1,6 +1,5 @@
 package com.tnco.runar.data.remote
 
-import com.tnco.runar.retrofit.BackgroundInfo
 import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.*

@@ -8,7 +8,9 @@ import androidx.fragment.app.viewModels
 import com.tnco.runar.R
 import com.tnco.runar.databinding.FragmentLayoutSacr3Binding
 import com.tnco.runar.ui.viewmodel.Sacr3ViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SacrFragment3 : Fragment(R.layout.fragment_layout_sacr_3), View.OnClickListener {
 
     private val viewModel: Sacr3ViewModel by viewModels()

@@ -22,26 +22,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Runar"
-        tools:ignore="LockedOrientationActivity">
+        tools:ignore="LockedOrientationActivity"
+        android:localeConfig="@xml/locales_config"
+        tools:targetApi="tiramisu">
         <activity
             android:name="com.tnco.runar.ui.activity.MainActivity"
             android:exported="true"
             android:screenOrientation="portrait">
             <nav-graph android:value="@navigation/nav_graph" />
-        </activity>
-        <activity
-            android:name="com.tnco.runar.ui.activity.OnboardActivity"
-            android:noHistory="true"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name="com.tnco.runar.ui.activity.SplashActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.Runar"
-            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -52,6 +42,14 @@
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
+        </service>
+        <service
+            android:name="androidx.appcompat.app.AppLocalesMetadataHolderService"
+            android:enabled="false"
+            android:exported="false">
+            <meta-data
+                android:name="autoStoreLocales"
+                android:value="true" />
         </service>
         <provider
             android:name="androidx.core.content.FileProvider"
