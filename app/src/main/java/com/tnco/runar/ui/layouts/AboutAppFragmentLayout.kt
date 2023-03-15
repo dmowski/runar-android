@@ -29,7 +29,7 @@ fun AboutAppFragmentLayout(navController: NavController) {
     Scaffold(
         topBar = {
             AppBar(
-                title = stringResource(id = R.string.library_bar_fav),
+                title = stringResource(id = R.string.about_app_txt),
                 navController = navController,
                 showIcon = true
             )

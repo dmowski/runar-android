@@ -1,8 +1,6 @@
 package com.tnco.runar.ui.fragment
 
 import android.content.Context
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -141,30 +139,6 @@ private fun Bars(navigator: Navigator, navController: NavController) {
                 state = onboardingStatus!!,
                 clickAction = {
                     viewModel.changeOnboardingStatus(!onboardingStatus!!)
-                }
-            )
-            DividerItem()
-            SimpleMenuItem(
-                fontSize = fontSize!!,
-                header = stringResource(id = R.string.rate_app_txt),
-                clickAction = {
-                    val intent = Intent(Intent.ACTION_VIEW).apply {
-                        data = Uri.parse(
-                            "https://play.google.com/store/apps/details?id=com.tnco.runar"
-                        ) // here is the uri  app in google play
-                        setPackage("com.android.vending")
-                    }
-                    context.startActivity(intent)
-                }
-            )
-            DividerItem()
-            SimpleMenuItem(
-                fontSize = fontSize!!,
-                header = stringResource(id = R.string.about_app_txt),
-                clickAction = {
-                    val direction = SettingsFragmentDirections
-                        .actionSettingsFragmentToAboutAppFragment()
-                    navController.navigate(direction)
                 }
             )
             DividerItem()
