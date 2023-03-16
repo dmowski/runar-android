@@ -45,7 +45,7 @@ internal fun AppBar(
                     text = title,
                     color = colorResource(id = R.color.library_top_bar_header),
                     fontFamily = FontFamily(Font(R.font.amatic_sc_bold)),
-                    style = TextStyle(fontSize = 48.sp),
+                    style = TextStyle(fontSize = 36.sp),
                     textAlign = TextAlign.Center,
                     modifier = Modifier.fillMaxWidth()
                 )

@@ -34,6 +34,7 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
 import com.tnco.runar.R
 import com.tnco.runar.enums.AnalyticsEvent
+import com.tnco.runar.ui.screenCompose.componets.AppBar
 import com.tnco.runar.ui.viewmodel.LibraryViewModel
 import com.tnco.runar.util.AnalyticsConstants
 import kotlinx.coroutines.CoroutineScope
@@ -55,43 +56,21 @@ internal fun LibraryBars(navController: NavController) {
     }
     val pagerState = rememberPagerState(pageCount = 2)
 
-    var barColor = colorResource(id = R.color.library_top_bar_header)
-    var barFont = FontFamily(Font(R.font.amatic_sc_bold))
-    var barFontSize = with(LocalDensity.current) { ((fontSize!! * 2.4f)).toSp() }
-    var navIcon: @Composable (() -> Unit)? = null
-
     val audioSwitcher by viewModel.audioSwitcher.asLiveData().observeAsState()
 
     if (header != stringResource(id = R.string.library_top_bar_header)) {
         tabsState.value = false
-        barColor = colorResource(id = R.color.library_top_bar_header_2)
-        barFont = FontFamily(Font(R.font.amatic_sc_bold))
-        barFontSize = with(LocalDensity.current) { fontSize!!.toSp() }
-        navIcon = { TopBarIcon() }
     } else tabsState.value = true
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = {
-                    Box(
-                        modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.Center,
-                    ) {
-                        Text(
-                            text = requireNotNull(header),
-                            color = barColor,
-                            fontFamily = barFont,
-                            style = TextStyle(fontSize = barFontSize),
-                            textAlign = TextAlign.Center
-                        )
-                    }
-                },
-                backgroundColor = colorResource(id = R.color.library_top_bar),
-                navigationIcon = navIcon,
-                elevation = 0.dp
+
+            AppBar(
+                title = header.toString(),
+                navController = navController,
+                showIcon = true
             )
         },
-        backgroundColor = colorResource(id = R.color.library_top_bar_2)
+        backgroundColor = colorResource(id = R.color.settings_top_app_bar)
     ) { paddingValue ->
         val scrollState = rememberScrollState()
         if (scrollState.isScrollInProgress && scrollState.value > 0) {
