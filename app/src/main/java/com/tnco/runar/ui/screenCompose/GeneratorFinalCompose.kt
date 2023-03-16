@@ -4,7 +4,10 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Surface
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.LibraryMusic
 import androidx.compose.runtime.Composable
@@ -35,7 +38,8 @@ private fun GeneratorFinalScreen(navController: NavController) {
         topBar = {
             AppBar(
                 title = stringResource(id = R.string.run_pattern),
-                navController = navController
+                navController = navController,
+                showIcon = false
             )
         },
         backgroundColor = Color.Transparent

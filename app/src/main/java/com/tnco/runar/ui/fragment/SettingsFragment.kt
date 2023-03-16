@@ -1,8 +1,6 @@
 package com.tnco.runar.ui.fragment
 
 import android.content.Context
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -33,11 +31,12 @@ import androidx.navigation.fragment.findNavController
 import com.tnco.runar.BuildConfig
 import com.tnco.runar.R
 import com.tnco.runar.ui.Navigator
+import com.tnco.runar.ui.screenCompose.componets.AppBar
 import com.tnco.runar.ui.viewmodel.SettingsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SettingsFragment : Fragment(), HasVisibleNavBar {
+class SettingsFragment : Fragment() {
 
     val viewModel: SettingsViewModel by viewModels()
     private var navigator: Navigator? = null
@@ -90,20 +89,11 @@ private fun Bars(navigator: Navigator, navController: NavController) {
 
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        text = header,
-                        color = colorResource(id = R.color.library_top_bar_header),
-                        fontFamily = FontFamily(Font(R.font.roboto_medium)),
-                        style = TextStyle(
-                            fontSize = with(LocalDensity.current) {
-                                ((fontSize!! * 1.35).toFloat()).toSp()
-                            }
-                        )
-                    )
-                },
-                backgroundColor = colorResource(id = R.color.library_top_bar)
+
+            AppBar(
+                title = stringResource(id = R.string.settings_layout),
+                navController = navController,
+                showIcon = true
             )
         },
         backgroundColor = colorResource(id = R.color.settings_top_app_bar)
@@ -149,30 +139,6 @@ private fun Bars(navigator: Navigator, navController: NavController) {
                 state = onboardingStatus!!,
                 clickAction = {
                     viewModel.changeOnboardingStatus(!onboardingStatus!!)
-                }
-            )
-            DividerItem()
-            SimpleMenuItem(
-                fontSize = fontSize!!,
-                header = stringResource(id = R.string.rate_app_txt),
-                clickAction = {
-                    val intent = Intent(Intent.ACTION_VIEW).apply {
-                        data = Uri.parse(
-                            "https://play.google.com/store/apps/details?id=com.tnco.runar"
-                        ) // here is the uri  app in google play
-                        setPackage("com.android.vending")
-                    }
-                    context.startActivity(intent)
-                }
-            )
-            DividerItem()
-            SimpleMenuItem(
-                fontSize = fontSize!!,
-                header = stringResource(id = R.string.about_app_txt),
-                clickAction = {
-                    val direction = SettingsFragmentDirections
-                        .actionSettingsFragmentToAboutAppFragment()
-                    navController.navigate(direction)
                 }
             )
             DividerItem()

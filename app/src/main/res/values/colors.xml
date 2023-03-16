@@ -43,7 +43,7 @@
 
     <color name="library_top_bar">#191919</color>
     <color name="library_top_bar_2">#00000000</color>
-    <color name="library_top_bar_header">#B5F0EDE7</color>
+    <color name="library_top_bar_header">#D2C4AD</color>
     <color name="library_top_bar_header_2">#FFFFFF</color>
     <color name="library_top_bar_fav">#EFCD93</color>
     <color name="library_item_header">#DADADA</color>
@@ -65,6 +65,7 @@
     <color name="settings_top_app_bar">#73000000</color>
     <color name="library_nav_not_selected">#A8A6A3</color>
     <color name="library_nav_selected">#EFCD93</color>
+    <color name="settings_review_button">#5C6A6A6A</color>
 
     <color name="library_simple_text">#DADADA</color>
 
@@ -151,4 +152,7 @@
 
     <color name="generator_card_border">#6A6A6A</color>
     <color name="generator_btns">#D2C4AD</color>
+
+    <color name="menu_icons">#6E6E6E</color>
+    <color name="menu_icons_next">#919191</color>
 </resources>

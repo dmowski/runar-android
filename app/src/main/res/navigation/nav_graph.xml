@@ -9,7 +9,7 @@
     <include app:graph="@navigation/library" />
     <include app:graph="@navigation/generator" />
     <include app:graph="@navigation/favourites" />
-    <include app:graph="@navigation/settings" />
+    <include app:graph="@navigation/menu" />
 
     <fragment
         android:id="@+id/splashFragment"
