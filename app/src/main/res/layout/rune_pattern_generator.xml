@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:text="@string/pattern_created"
         android:fontFamily="@font/amatic_sc_bold"
-        android:textColor="@color/layout_desc_deselected"
+        android:textColor="@color/library_top_bar_header"
         android:textSize="36sp"
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"

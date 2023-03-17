@@ -39,7 +39,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/amatic_sc_bold"
             android:text="@string/generatorBackground"
-            android:textColor="@color/gray"
+            android:textColor="@color/library_top_bar_header"
             android:textSize="36sp" />
     </androidx.appcompat.widget.Toolbar>
 

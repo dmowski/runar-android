@@ -24,7 +24,7 @@
         android:letterSpacing="@dimen/layout_text_letter_spacing"
         android:text="@string/text_magic_happens"
         android:textAlignment="center"
-        android:textColor="@color/layout_desc_deselected"
+        android:textColor="@color/library_top_bar_header"
         android:textSize="36sp"
         app:layout_constraintDimensionRatio="H,3.5:1"
         app:layout_constraintEnd_toStartOf="@id/generator_right_header_guideline"
