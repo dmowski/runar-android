@@ -17,17 +17,18 @@
 
     <TextView
         android:id="@+id/generator_description_header_frame"
-        android:text="@string/text_magic_happens"
-        android:textSize="36sp"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="24dp"
         android:fontFamily="@font/amatic_sc_bold"
         android:letterSpacing="@dimen/layout_text_letter_spacing"
+        android:text="@string/text_magic_happens"
         android:textAlignment="center"
         android:textColor="@color/layout_desc_deselected"
+        android:textSize="36sp"
         app:layout_constraintDimensionRatio="H,3.5:1"
         app:layout_constraintEnd_toStartOf="@id/generator_right_header_guideline"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@id/generator_left_header_guideline"
         app:layout_constraintTop_toTopOf="parent" />
 

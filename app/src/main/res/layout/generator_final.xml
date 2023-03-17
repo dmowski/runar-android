@@ -27,10 +27,11 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/roboto_medium"
+            android:layout_gravity="center"
+            android:fontFamily="@font/amatic_sc_bold"
             android:text="@string/runic_pattern"
             android:textColor="@color/gray"
-            android:textSize="20sp" />
+            android:textSize="36sp" />
     </androidx.appcompat.widget.Toolbar>
 
     <androidx.constraintlayout.widget.Guideline
