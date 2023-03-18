@@ -37,7 +37,7 @@
                 android:layout_centerInParent="true"
                 android:fontFamily="@font/amatic_sc_bold"
                 android:text="@string/runes_selection"
-                android:textColor="@color/gray"
+                android:textColor="@color/library_top_bar_header"
                 android:textSize="36sp" />
 
         </RelativeLayout>
