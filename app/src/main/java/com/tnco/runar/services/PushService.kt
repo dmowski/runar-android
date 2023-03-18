@@ -61,8 +61,9 @@ class PushService : FirebaseMessagingService() {
         )
         val largeIcon = ResourcesCompat.getDrawable(resources, R.drawable.large_icon, null)
         val bigLargeIcon = ResourcesCompat.getDrawable(resources, R.drawable.big_large_icon, null)
+        val notif_ic = R.attr.notif_ic
         return NotificationCompat.Builder(this, REMINDER_CHANNEL_ID)
-            .setSmallIcon(R.drawable.notif_icon_white)
+            .setSmallIcon(notif_ic)
             .setContentText(
                 if (notificationInfo?.extras?.getString("gcm.notification.body") != null)
                     notificationInfo.extras?.getString("gcm.notification.body")

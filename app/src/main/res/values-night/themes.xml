@@ -12,6 +12,7 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <item name="android:windowDisablePreview">true</item>
+        <item name="notif_ic">@drawable/notif_ic_night</item>
         <!-- Customize your theme here. -->
     </style>
 </resources>

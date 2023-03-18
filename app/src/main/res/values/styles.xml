@@ -4,6 +4,7 @@
         <item name="android:letterSpacing"  format="float">0.0</item>
         <item name="fontFamily">@font/roboto_regular</item>
     </style>
+    <attr name="notif_ic" format="reference"/>
 
     <style name="BottomNavigationView.Active" parent="@style/TextAppearance.AppCompat.Caption">
         <item name="android:letterSpacing" format="float">0.0</item>
