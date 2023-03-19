@@ -15,7 +15,6 @@
         android:fontFamily="@font/amatic_sc_bold"
         android:textColor="@color/library_top_bar_header"
         android:textSize="36sp"
-        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
