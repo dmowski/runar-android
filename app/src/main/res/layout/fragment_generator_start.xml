@@ -19,28 +19,23 @@
         app:layout_constraintTop_toTopOf="parent"
         app:titleTextColor="@color/library_top_bar_header">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/arrowBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:src="@drawable/ic_library_back_arrow_2"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp" />
 
-            <ImageView
-                android:id="@+id/arrowBack"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:src="@drawable/ic_library_back_arrow_2"
-                android:layout_centerVertical="true" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:fontFamily="@font/amatic_sc_bold"
-                android:text="@string/runes_selection"
-                android:textColor="@color/library_top_bar_header"
-                android:textSize="36sp" />
-
-        </RelativeLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/amatic_sc_bold"
+            android:text="@string/runes_selection"
+            android:textColor="@color/library_top_bar_header"
+            android:textSize="36sp" />
 
     </androidx.appcompat.widget.Toolbar>
 
