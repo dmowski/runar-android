@@ -19,7 +19,6 @@
         android:id="@+id/generator_description_header_frame"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="24dp"
         android:fontFamily="@font/amatic_sc_bold"
         android:letterSpacing="@dimen/layout_text_letter_spacing"
         android:text="@string/text_magic_happens"
