@@ -25,6 +25,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
@@ -34,7 +35,6 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
 import com.tnco.runar.R
 import com.tnco.runar.enums.AnalyticsEvent
-import com.tnco.runar.ui.screenCompose.componets.AppBar
 import com.tnco.runar.ui.viewmodel.LibraryViewModel
 import com.tnco.runar.util.AnalyticsConstants
 import kotlinx.coroutines.CoroutineScope
@@ -63,11 +63,30 @@ internal fun LibraryBars(navController: NavController) {
     } else tabsState.value = true
     Scaffold(
         topBar = {
-
-            AppBar(
-                title = header.toString(),
-                navController = navController,
-                showIcon = true
+            TopAppBar(
+                title = {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.CenterStart
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.ic_library_back_arrow_2),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .padding(top = 15.dp)
+                                .clickable(onClick = { viewModel.goBackInMenu() })
+                        )
+                        Text(
+                            text = requireNotNull(header),
+                            color = colorResource(id = R.color.library_top_bar_header),
+                            fontFamily = FontFamily(Font(R.font.amatic_sc_bold)),
+                            style = TextStyle(fontSize = 36.sp),
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                    }
+                },
+                backgroundColor = colorResource(id = R.color.transparent)
             )
         },
         backgroundColor = colorResource(id = R.color.settings_top_app_bar)
@@ -491,18 +510,6 @@ private fun ThirdMenuItem(fontSize: Float, text: String, title: String) {
             modifier = Modifier.padding(top = 5.dp)
         )
         Box(Modifier.aspectRatio(35f))
-    }
-}
-
-@Composable
-private fun TopBarIcon() {
-    val viewModel: LibraryViewModel = viewModel()
-    IconButton(onClick = { viewModel.goBackInMenu() }) {
-        Icon(
-            painter = painterResource(id = R.drawable.ic_library_back_arrow_2),
-            tint = colorResource(id = R.color.library_top_bar_fav),
-            contentDescription = "arrow"
-        )
     }
 }
 
