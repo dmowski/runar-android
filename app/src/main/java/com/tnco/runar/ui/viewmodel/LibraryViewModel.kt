@@ -1,16 +1,16 @@
 package com.tnco.runar.ui.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
+import androidx.lifecycle.*
 import com.tnco.runar.analytics.AnalyticsHelper
+import com.tnco.runar.di.annotations.IoDispatcher
+import com.tnco.runar.domain.entities.LibraryItem
 import com.tnco.runar.model.LibraryItemsModel
 import com.tnco.runar.repository.DatabaseRepository
 import com.tnco.runar.repository.SharedDataRepository
 import com.tnco.runar.repository.data_store.DataStorePreferences
 import com.tnco.runar.util.NetworkMonitor
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.asCoroutineDispatcher
 import kotlinx.coroutines.flow.map
@@ -24,7 +24,8 @@ class LibraryViewModel @Inject constructor(
     private val databaseRepository: DatabaseRepository,
     val analyticsHelper: AnalyticsHelper,
     sharedDataRepository: SharedDataRepository,
-    dataStore: DataStorePreferences
+    dataStore: DataStorePreferences,
+    @IoDispatcher val ioDispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
     private val singleThread = Executors.newSingleThreadExecutor().asCoroutineDispatcher()
@@ -45,6 +46,8 @@ class LibraryViewModel @Inject constructor(
 
     private var menuNavData = mutableListOf<String>()
 
+    var libraryItemList: MutableLiveData<List<LibraryItem>> = MutableLiveData()
+
     val audioSwitcher = dataStore.switchers.map { list ->
         list.firstOrNull {
             it.name == DataStorePreferences.AUDIO_SWITCHER_NAME
@@ -53,8 +56,18 @@ class LibraryViewModel @Inject constructor(
 
     fun getRuneDataFromDB() {
         CoroutineScope(singleThread).launch {
-            dbList = databaseRepository.getLibraryItemList()
+//            dbList = databaseRepository.getLibraryItemList()
             updateMenuData()
+        }
+        viewModelScope.launch(ioDispatcher) {
+            libraryItemList.postValue(databaseRepository.getLibraryRootItemsList())
+            updateMenuData()
+        }
+    }
+
+    fun getFilteredLibraryList(idList: List<String>) {
+        viewModelScope.launch(ioDispatcher) {
+            libraryItemList.postValue(databaseRepository.getFilteredLibraryItemsList(idList = idList))
         }
     }
 

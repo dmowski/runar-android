@@ -21,7 +21,11 @@ const val audioFeature = true
 
 @AndroidEntryPoint
 class LibraryFragment : Fragment(), HasVisibleNavBar {
+
     val viewModel: LibraryViewModel by viewModels()
+    private val libraryItemId by lazy {
+        arguments?.getStringArrayList(LIBRARY_ITEM_ID)
+    }
 
     override fun onResume() {
         super.onResume()
@@ -41,7 +45,7 @@ class LibraryFragment : Fragment(), HasVisibleNavBar {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        viewModel.getRuneDataFromDB()
+//        viewModel.getRuneDataFromDB()
         viewModel.analyticsHelper.sendEvent(AnalyticsEvent.LIBRARY_OPENED)
 
         val view = ComposeView(requireContext()).apply {
@@ -69,5 +73,24 @@ class LibraryFragment : Fragment(), HasVisibleNavBar {
             consumed
         }
         return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        libraryItemId?.let {
+            viewModel.getFilteredLibraryList(it)
+        }
+            ?: viewModel.getRuneDataFromDB()
+    }
+
+    companion object {
+
+        private const val LIBRARY_ITEM_ID = "habit item id"
+        private const val EMPTY_STRING = ""
+
+        fun createArgs(libraryItemId: ArrayList<String>?) =
+            Bundle().apply {
+                putStringArrayList(LIBRARY_ITEM_ID, libraryItemId ?: arrayListOf())
+            }
     }
 }

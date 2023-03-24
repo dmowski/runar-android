@@ -24,6 +24,7 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -33,6 +34,7 @@ import coil.compose.rememberAsyncImagePainter
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
 import com.tnco.runar.R
+import com.tnco.runar.domain.entities.LibraryItemType.*
 import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.ui.viewmodel.LibraryViewModel
 import com.tnco.runar.util.AnalyticsConstants
@@ -105,9 +107,83 @@ internal fun LibraryBars(navController: NavController) {
                     .padding(top = paddingValue.calculateBottomPadding())
                     .verticalScroll(state = scrollState, enabled = true)
             ) {
-                ItemData(scrollState)
+//                ItemData(scrollState)
+                LibraryItems(navController)
                 Box(modifier = Modifier.aspectRatio(15f, true))
             }
+        }
+    }
+}
+
+@OptIn(ExperimentalPagerApi::class)
+@Composable
+fun LibraryItems(navController: NavController) {
+    val viewModel: LibraryViewModel = viewModel()
+    val fontSize by viewModel.fontSize.observeAsState()
+    val libraryItemList by viewModel.libraryItemList.observeAsState()
+    libraryItemList?.let {
+        when (it.firstOrNull()?.type) {
+            ROOT -> {
+                it.forEach { item ->
+                    RootLibraryItem(
+                        fontSize = fontSize!!,
+                        header = item.title,
+                        text = item.content,
+                        imgLink = item.imageUrl,
+                        clickAction = {
+                            viewModel.analyticsHelper.sendEvent(
+                                AnalyticsEvent.LIBRARY_SECTION_OPENED,
+                                Pair(AnalyticsConstants.SECTION, item.title)
+                            )
+                            navController.navigate(R.id.libraryFragment, LibraryFragment.createArgs(item.childs as? ArrayList<String>))
+//                            viewModel.getFilteredLibraryList(item.childs)
+                        }
+                    )
+                }
+            }
+            RUNE -> {
+                it.forEach { item ->
+                    RuneDescription(
+                        fontSize = fontSize!!,
+                        header = item.title,
+                        text = item.content,
+                        imgLink = item.imageUrl ?: " ", // TODO why space?
+                        runeTags = item.runeTags
+                    )
+                }
+            }
+            SUB_MENU -> {
+                it.forEach { item ->
+                    FairyTales(
+                        fontSize = fontSize!!,
+                        header = item.title,
+                        imgLink = item.imageUrl,
+                        clickAction = {
+                            viewModel.getFilteredLibraryList(item.childs)
+                        }
+                    )
+                }
+            }
+            POEM -> {
+                it.forEach { item ->
+                    ThirdMenuItem(
+                        fontSize = fontSize!!,
+                        text = item.content,
+                        title = item.title
+                    )
+                }
+            }
+            PLAIN_TEXT -> {
+                it.forEach { item ->
+                    SimpleTextItem(
+                        fontSize = fontSize!!,
+                        text = item.content,
+                        urlTitle = item.linkTitle,
+                        urlLink = item.linkUrl
+                    )
+                }
+            }
+            NULL, null -> {}
         }
     }
 }
@@ -126,7 +202,7 @@ internal fun ItemData(scrollState: ScrollState) {
             if (item.imageUrl.isNullOrEmpty()) item.imageUrl = ""
             when (item.type) {
                 "root" -> {
-                    FirstMenuItem(
+                    RootLibraryItem(
                         fontSize = fontSize!!,
                         header = item.title!!,
                         text = item.content!!,
@@ -145,7 +221,7 @@ internal fun ItemData(scrollState: ScrollState) {
                     )
                 }
 
-                "subMenu" -> SecondMenuItem(
+                "subMenu" -> FairyTales(
                     fontSize = fontSize!!,
                     header = item.title!!,
                     imgLink = item.imageUrl!!,
@@ -186,18 +262,18 @@ internal fun ItemData(scrollState: ScrollState) {
 
     viewModel.scrollPositionHistory.observe(LocalLifecycleOwner.current) { list ->
         CoroutineScope(Dispatchers.IO).launch {
-            if (list.last() == 9999) {
-                delay(450)
-                scrollState.scrollTo(list[list.size - TO_LAST_SCROLLSTATE])
-                viewModel.removeLastScrollPositionHistory()
-            }
+//            if (list.last() == 9999) {
+//                delay(450)
+//                scrollState.scrollTo(list[list.size - TO_LAST_SCROLLSTATE])
+//                viewModel.removeLastScrollPositionHistory()
+//            }
         }
     }
 }
 
 @ExperimentalPagerApi
 @Composable
-private fun FirstMenuItem(
+private fun RootLibraryItem(
     fontSize: Float,
     header: String,
     text: String,
@@ -312,8 +388,16 @@ private fun FirstMenuItem(
     }
 }
 
+@OptIn(ExperimentalPagerApi::class)
+@Preview
 @Composable
-private fun SecondMenuItem(
+fun FirstMenuItemPreview() {
+    RootLibraryItem(fontSize = 50f, header = "header", text = "text", imgLink = "") {
+    }
+}
+
+@Composable
+private fun FairyTales(
     fontSize: Float,
     header: String,
     imgLink: String,

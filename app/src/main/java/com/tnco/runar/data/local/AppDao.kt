@@ -34,6 +34,15 @@ interface AppDao {
     @Query("SELECT * FROM library")
     fun getLibraryItems(): List<LibraryItemsModel>
 
+    @Query("SELECT * FROM library WHERE type = \"root\" ORDER BY sort_order ASC")
+    fun getLibraryRootItemsList(): List<LibraryItemsModel>
+
+    @Query("SELECT * FROM library WHERE id IN (:idList) ORDER BY sort_order ASC")
+    fun getFilteredLibraryItemsList(idList: List<String>): Flow<List<LibraryItemsModel>>
+
+    @Query("SELECT * FROM library WHERE id IN (:idList) ORDER BY sort_order ASC")
+    fun getFilteredLibraryItemsList2(idList: List<String>): List<LibraryItemsModel>
+
     @Query("DELETE FROM library")
     fun clearLibrary()
 
