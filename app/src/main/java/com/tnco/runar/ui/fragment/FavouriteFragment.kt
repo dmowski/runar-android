@@ -9,13 +9,11 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ColorFilter.Companion.tint
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
@@ -78,20 +76,20 @@ private fun Bars(navController: NavController) {
     val barFont = FontFamily(Font(R.font.roboto_medium))
     val barFontSize = with(LocalDensity.current) { ((fontSize!! * 1.35f)).toSp() }
     var barText = stringResource(id = R.string.library_bar_fav)
+    var visible by remember { mutableStateOf(true) }
 
     var navIcon: @Composable (() -> Unit)? = null
     var navActions: @Composable RowScope.() -> Unit = {}
 
     val checkedState = remember { mutableStateOf(false) }
-
+    navIcon = {
+        TopBarIcon(clickAction = {
+            viewModel.changeAll(false)
+            checkedState.value = false
+            navController.popBackStack()
+        })
+    }
     if (existSelected!! >= 1) {
-        barText = ""
-        navIcon = {
-            TopBarIcon(clickAction = {
-                viewModel.changeAll(false)
-                checkedState.value = false
-            })
-        }
         navActions = {
             TopBarActions(
                 fontSize!!,
@@ -104,14 +102,17 @@ private fun Bars(navController: NavController) {
         }
         if (existSelected == 2) checkedState.value = false
         else if (existSelected == 3) checkedState.value = true
-    } else checkedState.value = false
+    } else {
+        checkedState.value = false
+    }
 
     Scaffold(
         topBar = {
             AppBar(
                 title = stringResource(id = R.string.library_bar_fav),
                 navController = navController,
-                showIcon = true
+                navIcon = navIcon,
+                navActions = navActions
             )
         },
         backgroundColor = colorResource(id = R.color.library_top_bar_2)
