@@ -9,13 +9,12 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ColorFilter.Companion.tint
+import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
@@ -27,6 +26,10 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.ConstraintSet
+import androidx.constraintlayout.compose.layoutId
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -35,7 +38,6 @@ import androidx.navigation.fragment.findNavController
 import com.tnco.runar.R
 import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.ui.component.dialog.SavedLayoutsDialog
-import com.tnco.runar.ui.screenCompose.componets.AppBar
 import com.tnco.runar.ui.viewmodel.FavouriteViewModel
 import com.tnco.runar.util.AnalyticsConstants
 import com.tnco.runar.util.AnalyticsUtils
@@ -73,25 +75,20 @@ private fun Bars(navController: NavController) {
     val fontSize by viewModel.fontSize.observeAsState()
     val favData by viewModel.favData.observeAsState()
     val existSelected by viewModel.haveSelectedItem.observeAsState()
-
-    val barColor = colorResource(id = R.color.library_top_bar_header)
-    val barFont = FontFamily(Font(R.font.roboto_medium))
-    val barFontSize = with(LocalDensity.current) { ((fontSize!! * 1.35f)).toSp() }
     var barText = stringResource(id = R.string.library_bar_fav)
 
     var navIcon: @Composable (() -> Unit)? = null
     var navActions: @Composable RowScope.() -> Unit = {}
 
     val checkedState = remember { mutableStateOf(false) }
-
+    navIcon = {
+        TopBarIcon(clickAction = {
+            viewModel.changeAll(false)
+            checkedState.value = false
+            navController.popBackStack()
+        })
+    }
     if (existSelected!! >= 1) {
-        barText = ""
-        navIcon = {
-            TopBarIcon(clickAction = {
-                viewModel.changeAll(false)
-                checkedState.value = false
-            })
-        }
         navActions = {
             TopBarActions(
                 fontSize!!,
@@ -104,14 +101,46 @@ private fun Bars(navController: NavController) {
         }
         if (existSelected == 2) checkedState.value = false
         else if (existSelected == 3) checkedState.value = true
-    } else checkedState.value = false
+    } else {
+        checkedState.value = false
+    }
 
     Scaffold(
         topBar = {
-            AppBar(
-                title = stringResource(id = R.string.library_bar_fav),
-                navController = navController,
-                showIcon = true
+            TopAppBar(
+                title = {
+                    ConstraintLayout(
+                        modifier = Modifier.padding(start = 25.dp),
+                        constraintSet = ConstraintSet {
+                            val title = createRefFor("title")
+                            constrain(title) {
+                                top.linkTo(parent.top)
+                                start.linkTo(parent.start)
+                                end.linkTo(parent.end)
+                                bottom.linkTo(parent.bottom)
+                            }
+                        }
+                    ) {
+
+                        Column(
+                            modifier = Modifier.width(200.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Text(
+                                text = barText,
+                                color = colorResource(id = R.color.library_top_bar_header),
+                                fontFamily = FontFamily(Font(R.font.amatic_sc_bold)),
+                                style = TextStyle(fontSize = 36.sp),
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier.fillMaxWidth().layoutId("title")
+                            )
+                        }
+                    }
+                },
+                backgroundColor = colorResource(id = R.color.transparent),
+                navigationIcon = navIcon,
+                elevation = 0.dp,
+                actions = navActions
             )
         },
         backgroundColor = colorResource(id = R.color.library_top_bar_2)
