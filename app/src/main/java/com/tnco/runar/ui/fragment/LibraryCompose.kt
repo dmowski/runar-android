@@ -55,7 +55,7 @@ internal fun LibraryBars(navController: NavController) {
         topBar = {
 
             AppBar(
-                title = viewModel.currentFragmentTitle, // header.toString(),
+                title = viewModel.currentFragmentTitle,
                 navController = navController,
                 showIcon = true
             )
