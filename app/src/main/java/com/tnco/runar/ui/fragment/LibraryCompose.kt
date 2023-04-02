@@ -15,7 +15,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -24,6 +23,7 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -33,39 +33,29 @@ import coil.compose.rememberAsyncImagePainter
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
 import com.tnco.runar.R
+import com.tnco.runar.domain.entities.LibraryItemType.*
 import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.ui.screenCompose.componets.AppBar
 import com.tnco.runar.ui.viewmodel.LibraryViewModel
 import com.tnco.runar.util.AnalyticsConstants
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-
-private const val TO_LAST_SCROLLSTATE = 2
-private const val NO_RESULT = 0
 
 @ExperimentalPagerApi
 @Composable
 internal fun LibraryBars(navController: NavController) {
     val viewModel: LibraryViewModel = viewModel()
     val fontSize by viewModel.fontSize.observeAsState()
-    val header by viewModel.lastMenuHeader.observeAsState()
     val tabsState = remember {
         mutableStateOf(true)
     }
     val pagerState = rememberPagerState(pageCount = 2)
-
     val audioSwitcher by viewModel.audioSwitcher.asLiveData().observeAsState()
 
-    if (header != stringResource(id = R.string.library_top_bar_header)) {
-        tabsState.value = false
-    } else tabsState.value = true
+    tabsState.value = viewModel.currentFragmentTitle == stringResource(id = R.string.library_top_bar_header)
     Scaffold(
         topBar = {
 
             AppBar(
-                title = header.toString(),
+                title = viewModel.currentFragmentTitle,
                 navController = navController,
                 showIcon = true
             )
@@ -84,99 +74,100 @@ internal fun LibraryBars(navController: NavController) {
                     .padding(top = paddingValue.calculateBottomPadding())
                     .verticalScroll(state = scrollState, enabled = true)
             ) {
-                ItemData(scrollState)
+                LibraryItems(navController)
                 Box(modifier = Modifier.aspectRatio(15f, true))
             }
         }
     }
 }
 
-@ExperimentalPagerApi
+@OptIn(ExperimentalPagerApi::class)
 @Composable
-internal fun ItemData(scrollState: ScrollState) {
+fun LibraryItems(navController: NavController) {
     val viewModel: LibraryViewModel = viewModel()
     val fontSize by viewModel.fontSize.observeAsState()
-    val menuData by viewModel.menuData.observeAsState()
-    viewModel.updateLastMenuHeader(stringResource(id = R.string.library_top_bar_header))
-    viewModel.firstMenuDataCheck()
-
-    if (menuData != null) {
-        for (item in menuData!!) {
-            if (item.imageUrl.isNullOrEmpty()) item.imageUrl = ""
-            when (item.type) {
-                "root" -> {
-                    FirstMenuItem(
+    val libraryItemList by viewModel.libraryItemList.observeAsState()
+    libraryItemList?.let {
+        when (it.firstOrNull()?.type) {
+            ROOT -> {
+                it.forEach { item ->
+                    RootLibraryItem(
                         fontSize = fontSize!!,
-                        header = item.title!!,
-                        text = item.content!!,
-                        imgLink = item.imageUrl!!,
+                        header = item.title,
+                        text = item.content,
+                        imgLink = item.imageUrl,
                         clickAction = {
                             viewModel.analyticsHelper.sendEvent(
                                 AnalyticsEvent.LIBRARY_SECTION_OPENED,
-                                Pair(AnalyticsConstants.SECTION, item.title!!)
+                                Pair(AnalyticsConstants.SECTION, item.title)
                             )
-                            viewModel.addScrollPositionHistory(scrollState.value)
-                            CoroutineScope(Dispatchers.IO).launch {
-                                scrollState.scrollTo(0)
-                            }
-                            viewModel.updateMenuData(item.id)
+                            navController.navigate(
+                                R.id.libraryFragment,
+                                LibraryFragment.createArgs(
+                                    childIdList = item.childs as? ArrayList<String>,
+                                    fragmentTitle = item.title
+                                )
+                            )
                         }
                     )
                 }
-
-                "subMenu" -> SecondMenuItem(
-                    fontSize = fontSize!!,
-                    header = item.title!!,
-                    imgLink = item.imageUrl!!,
-                    clickAction = {
-                        viewModel.addScrollPositionHistory(scrollState.value)
-                        CoroutineScope(Dispatchers.IO).launch {
-                            delay(100)
-                            scrollState.scrollTo(0)
-                        }
-                        viewModel.updateMenuData(item.id)
-                    }
-                )
-                "poem" -> ThirdMenuItem(
-                    fontSize = fontSize!!,
-                    text = item.content!!,
-                    title = item.title!!
-                )
-                "plainText" -> SimpleTextItem(
-                    fontSize = fontSize!!,
-                    text = item.content,
-                    urlTitle = item.linkTitle,
-                    urlLink = item.linkUrl
-                )
-                "rune" -> {
-                    var imgUrl = " "
-                    if (item.imageUrl != null) imgUrl = item.imageUrl!!
+            }
+            RUNE -> {
+                it.forEach { item ->
                     RuneDescription(
                         fontSize = fontSize!!,
-                        header = item.title!!,
-                        text = item.content!!,
-                        imgLink = imgUrl,
-                        runeTags = item.runeTags!!
+                        header = item.title,
+                        text = item.content,
+                        imgLink = item.imageUrl,
+                        runeTags = item.runeTags
                     )
                 }
             }
-        }
-    }
-
-    viewModel.scrollPositionHistory.observe(LocalLifecycleOwner.current) { list ->
-        CoroutineScope(Dispatchers.IO).launch {
-            if (list.last() == 9999) {
-                delay(450)
-                scrollState.scrollTo(list[list.size - TO_LAST_SCROLLSTATE])
-                viewModel.removeLastScrollPositionHistory()
+            SUB_MENU -> {
+                it.forEach { item ->
+                    FairyTales(
+                        fontSize = fontSize!!,
+                        header = item.title,
+                        imgLink = item.imageUrl,
+                        clickAction = {
+                            navController.navigate(
+                                R.id.libraryFragment,
+                                LibraryFragment.createArgs(
+                                    childIdList = item.childs as? ArrayList<String>,
+                                    fragmentTitle = item.title
+                                )
+                            )
+                        }
+                    )
+                }
             }
+            POEM -> {
+                it.forEach { item ->
+                    ThirdMenuItem(
+                        fontSize = fontSize!!,
+                        text = item.content,
+                        title = item.title
+                    )
+                }
+            }
+            PLAIN_TEXT -> {
+                it.forEach { item ->
+                    SimpleTextItem(
+                        fontSize = fontSize!!,
+                        text = item.content,
+                        urlTitle = item.linkTitle,
+                        urlLink = item.linkUrl
+                    )
+                }
+            }
+            NULL, null -> {}
         }
     }
 }
 
 @ExperimentalPagerApi
 @Composable
-private fun FirstMenuItem(
+private fun RootLibraryItem(
     fontSize: Float,
     header: String,
     text: String,
@@ -216,7 +207,7 @@ private fun FirstMenuItem(
                 if (painterState is AsyncImagePainter.State.Error) {
                     viewModel.updateStateLoad(true)
                 }
-                if (viewModel.errorLoad?.value == null) {
+                if (viewModel.errorLoad.value == null) {
                     Image(
                         painter = painter,
                         contentDescription = null,
@@ -291,8 +282,16 @@ private fun FirstMenuItem(
     }
 }
 
+@OptIn(ExperimentalPagerApi::class)
+@Preview
 @Composable
-private fun SecondMenuItem(
+fun FirstMenuItemPreview() {
+    RootLibraryItem(fontSize = 50f, header = "header", text = "text", imgLink = "") {
+    }
+}
+
+@Composable
+private fun FairyTales(
     fontSize: Float,
     header: String,
     imgLink: String,
@@ -491,18 +490,6 @@ private fun ThirdMenuItem(fontSize: Float, text: String, title: String) {
             modifier = Modifier.padding(top = 5.dp)
         )
         Box(Modifier.aspectRatio(35f))
-    }
-}
-
-@Composable
-private fun TopBarIcon() {
-    val viewModel: LibraryViewModel = viewModel()
-    IconButton(onClick = { viewModel.goBackInMenu() }) {
-        Icon(
-            painter = painterResource(id = R.drawable.ic_library_back_arrow_2),
-            tint = colorResource(id = R.color.library_top_bar_fav),
-            contentDescription = "arrow"
-        )
     }
 }
 

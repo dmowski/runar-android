@@ -19,6 +19,7 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
 import coil.size.OriginalSize
@@ -81,7 +82,8 @@ internal fun RuneDescription(
                                 width = 1.dp,
                                 color = colorResource(R.color.lib_rune_tag_border),
                                 shape = RoundedCornerShape(8.dp)
-                            ).rectShadow(
+                            )
+                            .rectShadow(
                                 cornersRadius = 8.dp,
                                 shadowBlurRadius = 8.dp,
                                 offsetX = 5.dp,
@@ -143,4 +145,16 @@ internal fun RuneDescription(
             )
         }
     }
+}
+
+@Preview
+@Composable
+fun RuneDescriptionPreview() {
+    RuneDescription(
+        fontSize = 50f,
+        header = "header",
+        text = "text",
+        imgLink = "",
+        runeTags = listOf("tag", "other tag")
+    )
 }
