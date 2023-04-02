@@ -15,7 +15,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -36,64 +35,32 @@ import com.google.accompanist.pager.rememberPagerState
 import com.tnco.runar.R
 import com.tnco.runar.domain.entities.LibraryItemType.*
 import com.tnco.runar.enums.AnalyticsEvent
+import com.tnco.runar.ui.screenCompose.componets.AppBar
 import com.tnco.runar.ui.viewmodel.LibraryViewModel
 import com.tnco.runar.util.AnalyticsConstants
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-
-private const val TO_LAST_SCROLLSTATE = 2
-private const val NO_RESULT = 0
 
 @ExperimentalPagerApi
 @Composable
 internal fun LibraryBars(navController: NavController) {
     val viewModel: LibraryViewModel = viewModel()
     val fontSize by viewModel.fontSize.observeAsState()
-    val header by viewModel.lastMenuHeader.observeAsState()
     val tabsState = remember {
         mutableStateOf(true)
     }
     val pagerState = rememberPagerState(pageCount = 2)
-
-    var barColor = colorResource(id = R.color.library_top_bar_header)
-    var barFont = FontFamily(Font(R.font.amatic_sc_bold))
-    var barFontSize = with(LocalDensity.current) { ((fontSize!! * 2.4f)).toSp() }
-    var navIcon: @Composable (() -> Unit)? = null
-
     val audioSwitcher by viewModel.audioSwitcher.asLiveData().observeAsState()
 
-    if (header != stringResource(id = R.string.library_top_bar_header)) {
-        tabsState.value = false
-        barColor = colorResource(id = R.color.library_top_bar_header_2)
-        barFont = FontFamily(Font(R.font.amatic_sc_bold))
-        barFontSize = with(LocalDensity.current) { fontSize!!.toSp() }
-        navIcon = { TopBarIcon() }
-    } else tabsState.value = true
+    tabsState.value = viewModel.currentFragmentTitle == stringResource(id = R.string.library_top_bar_header)
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = {
-                    Box(
-                        modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.Center,
-                    ) {
-                        Text(
-                            text = requireNotNull(header),
-                            color = barColor,
-                            fontFamily = barFont,
-                            style = TextStyle(fontSize = barFontSize),
-                            textAlign = TextAlign.Center
-                        )
-                    }
-                },
-                backgroundColor = colorResource(id = R.color.library_top_bar),
-                navigationIcon = navIcon,
-                elevation = 0.dp
+
+            AppBar(
+                title = viewModel.currentFragmentTitle, // header.toString(),
+                navController = navController,
+                showIcon = true
             )
         },
-        backgroundColor = colorResource(id = R.color.library_top_bar_2)
+        backgroundColor = colorResource(id = R.color.settings_top_app_bar)
     ) { paddingValue ->
         val scrollState = rememberScrollState()
         if (scrollState.isScrollInProgress && scrollState.value > 0) {
@@ -107,7 +74,6 @@ internal fun LibraryBars(navController: NavController) {
                     .padding(top = paddingValue.calculateBottomPadding())
                     .verticalScroll(state = scrollState, enabled = true)
             ) {
-//                ItemData(scrollState)
                 LibraryItems(navController)
                 Box(modifier = Modifier.aspectRatio(15f, true))
             }
@@ -135,8 +101,13 @@ fun LibraryItems(navController: NavController) {
                                 AnalyticsEvent.LIBRARY_SECTION_OPENED,
                                 Pair(AnalyticsConstants.SECTION, item.title)
                             )
-                            navController.navigate(R.id.libraryFragment, LibraryFragment.createArgs(item.childs as? ArrayList<String>))
-//                            viewModel.getFilteredLibraryList(item.childs)
+                            navController.navigate(
+                                R.id.libraryFragment,
+                                LibraryFragment.createArgs(
+                                    childIdList = item.childs as? ArrayList<String>,
+                                    fragmentTitle = item.title
+                                )
+                            )
                         }
                     )
                 }
@@ -147,7 +118,7 @@ fun LibraryItems(navController: NavController) {
                         fontSize = fontSize!!,
                         header = item.title,
                         text = item.content,
-                        imgLink = item.imageUrl ?: " ", // TODO why space?
+                        imgLink = item.imageUrl,
                         runeTags = item.runeTags
                     )
                 }
@@ -159,7 +130,13 @@ fun LibraryItems(navController: NavController) {
                         header = item.title,
                         imgLink = item.imageUrl,
                         clickAction = {
-                            viewModel.getFilteredLibraryList(item.childs)
+                            navController.navigate(
+                                R.id.libraryFragment,
+                                LibraryFragment.createArgs(
+                                    childIdList = item.childs as? ArrayList<String>,
+                                    fragmentTitle = item.title
+                                )
+                            )
                         }
                     )
                 }
@@ -184,89 +161,6 @@ fun LibraryItems(navController: NavController) {
                 }
             }
             NULL, null -> {}
-        }
-    }
-}
-
-@ExperimentalPagerApi
-@Composable
-internal fun ItemData(scrollState: ScrollState) {
-    val viewModel: LibraryViewModel = viewModel()
-    val fontSize by viewModel.fontSize.observeAsState()
-    val menuData by viewModel.menuData.observeAsState()
-    viewModel.updateLastMenuHeader(stringResource(id = R.string.library_top_bar_header))
-    viewModel.firstMenuDataCheck()
-
-    if (menuData != null) {
-        for (item in menuData!!) {
-            if (item.imageUrl.isNullOrEmpty()) item.imageUrl = ""
-            when (item.type) {
-                "root" -> {
-                    RootLibraryItem(
-                        fontSize = fontSize!!,
-                        header = item.title!!,
-                        text = item.content!!,
-                        imgLink = item.imageUrl!!,
-                        clickAction = {
-                            viewModel.analyticsHelper.sendEvent(
-                                AnalyticsEvent.LIBRARY_SECTION_OPENED,
-                                Pair(AnalyticsConstants.SECTION, item.title!!)
-                            )
-                            viewModel.addScrollPositionHistory(scrollState.value)
-                            CoroutineScope(Dispatchers.IO).launch {
-                                scrollState.scrollTo(0)
-                            }
-                            viewModel.updateMenuData(item.id)
-                        }
-                    )
-                }
-
-                "subMenu" -> FairyTales(
-                    fontSize = fontSize!!,
-                    header = item.title!!,
-                    imgLink = item.imageUrl!!,
-                    clickAction = {
-                        viewModel.addScrollPositionHistory(scrollState.value)
-                        CoroutineScope(Dispatchers.IO).launch {
-                            delay(100)
-                            scrollState.scrollTo(0)
-                        }
-                        viewModel.updateMenuData(item.id)
-                    }
-                )
-                "poem" -> ThirdMenuItem(
-                    fontSize = fontSize!!,
-                    text = item.content!!,
-                    title = item.title!!
-                )
-                "plainText" -> SimpleTextItem(
-                    fontSize = fontSize!!,
-                    text = item.content,
-                    urlTitle = item.linkTitle,
-                    urlLink = item.linkUrl
-                )
-                "rune" -> {
-                    var imgUrl = " "
-                    if (item.imageUrl != null) imgUrl = item.imageUrl!!
-                    RuneDescription(
-                        fontSize = fontSize!!,
-                        header = item.title!!,
-                        text = item.content!!,
-                        imgLink = imgUrl,
-                        runeTags = item.runeTags!!
-                    )
-                }
-            }
-        }
-    }
-
-    viewModel.scrollPositionHistory.observe(LocalLifecycleOwner.current) { list ->
-        CoroutineScope(Dispatchers.IO).launch {
-//            if (list.last() == 9999) {
-//                delay(450)
-//                scrollState.scrollTo(list[list.size - TO_LAST_SCROLLSTATE])
-//                viewModel.removeLastScrollPositionHistory()
-//            }
         }
     }
 }
@@ -313,7 +207,7 @@ private fun RootLibraryItem(
                 if (painterState is AsyncImagePainter.State.Error) {
                     viewModel.updateStateLoad(true)
                 }
-                if (viewModel.errorLoad?.value == null) {
+                if (viewModel.errorLoad.value == null) {
                     Image(
                         painter = painter,
                         contentDescription = null,
@@ -596,18 +490,6 @@ private fun ThirdMenuItem(fontSize: Float, text: String, title: String) {
             modifier = Modifier.padding(top = 5.dp)
         )
         Box(Modifier.aspectRatio(35f))
-    }
-}
-
-@Composable
-private fun TopBarIcon() {
-    val viewModel: LibraryViewModel = viewModel()
-    IconButton(onClick = { viewModel.goBackInMenu() }) {
-        Icon(
-            painter = painterResource(id = R.drawable.ic_library_back_arrow_2),
-            tint = colorResource(id = R.color.library_top_bar_fav),
-            contentDescription = "arrow"
-        )
     }
 }
 

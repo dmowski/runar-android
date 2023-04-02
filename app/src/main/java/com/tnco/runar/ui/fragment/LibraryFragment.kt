@@ -1,7 +1,6 @@
 package com.tnco.runar.ui.fragment
 
 import android.os.Bundle
-import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,7 +23,10 @@ class LibraryFragment : Fragment(), HasVisibleNavBar {
 
     val viewModel: LibraryViewModel by viewModels()
     private val libraryItemId by lazy {
-        arguments?.getStringArrayList(LIBRARY_ITEM_ID)
+        arguments?.getStringArrayList(ITEM_CHILD_IDS_LIST)
+    }
+    private val fragmentTitle by lazy {
+        arguments?.getString(FRAGMENT_TITLE)
     }
 
     override fun onResume() {
@@ -45,52 +47,38 @@ class LibraryFragment : Fragment(), HasVisibleNavBar {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-//        viewModel.getRuneDataFromDB()
         viewModel.analyticsHelper.sendEvent(AnalyticsEvent.LIBRARY_OPENED)
 
+        libraryItemId?.let {
+            viewModel.getFilteredLibraryList(it)
+        } ?: viewModel.getRuneDataFromDB()
+
+        fragmentTitle?.let {
+            viewModel.updateCurrentFragmentTitle(title = it)
+        } ?: viewModel.updateCurrentFragmentTitle(
+            title = context?.resources?.getString(
+                R.string.library_top_bar_header
+            ) ?: LibraryViewModel.DEFAULT_TITLE
+        )
         val view = ComposeView(requireContext()).apply {
             setContent {
                 LibraryBars(findNavController())
             }
         }
-        var header = getString(R.string.library_top_bar_header)
-        viewModel.lastMenuHeader.observe(viewLifecycleOwner) {
-            header = it
-        }
-
         view.isFocusableInTouchMode = true
         view.requestFocus()
-
-        view.setOnKeyListener { _, keyCode, event ->
-            var consumed = false
-            if (event.action == KeyEvent.ACTION_DOWN) {
-                if (keyCode == KeyEvent.KEYCODE_BACK) {
-                    viewModel.goBackInMenu()
-                    consumed = true
-                    if (header == getString(R.string.library_top_bar_header)) consumed = false
-                }
-            }
-            consumed
-        }
         return view
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        libraryItemId?.let {
-            viewModel.getFilteredLibraryList(it)
-        }
-            ?: viewModel.getRuneDataFromDB()
     }
 
     companion object {
 
-        private const val LIBRARY_ITEM_ID = "habit item id"
-        private const val EMPTY_STRING = ""
+        private const val ITEM_CHILD_IDS_LIST = "item's child ids list"
+        private const val FRAGMENT_TITLE = "fragment title"
 
-        fun createArgs(libraryItemId: ArrayList<String>?) =
+        fun createArgs(childIdList: ArrayList<String>?, fragmentTitle: String) =
             Bundle().apply {
-                putStringArrayList(LIBRARY_ITEM_ID, libraryItemId ?: arrayListOf())
+                putStringArrayList(ITEM_CHILD_IDS_LIST, childIdList ?: arrayListOf())
+                putString(FRAGMENT_TITLE, fragmentTitle)
             }
     }
 }

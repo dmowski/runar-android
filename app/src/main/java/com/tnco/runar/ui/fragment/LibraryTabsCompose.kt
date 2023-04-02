@@ -59,7 +59,7 @@ private fun TabsContent(
                         .verticalScroll(state = scrollState, enabled = true)
                         .fillMaxWidth()
                 ) {
-                    ItemData(scrollState)
+                    LibraryItems(navController)
                     Box(modifier = Modifier.aspectRatio(15f, true))
                 }
             }

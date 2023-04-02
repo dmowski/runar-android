@@ -1,6 +1,5 @@
 package com.tnco.runar.repository
 
-import android.util.Log
 import com.tnco.runar.RunarLogger
 import com.tnco.runar.data.local.AppDao
 import com.tnco.runar.data.local.DataDao
@@ -10,7 +9,6 @@ import com.tnco.runar.domain.entities.LibraryItem
 import com.tnco.runar.model.*
 import dagger.Lazy
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class DatabaseRepository @Inject constructor(
@@ -64,33 +62,15 @@ class DatabaseRepository @Inject constructor(
         return appDao().getLayoutName(id)
     }
 
-    fun getLibraryItemList(): List<LibraryItemsModel> {
-        return appDao().getLibraryItems()
-    }
-
     fun getLibraryRootItemsList(): List<LibraryItem> =
         appDao().getLibraryRootItemsList().map {
             LibraryItem.fromLibraryItemsModel(it)
         }
-//        appDao().getLibraryRootItemsList().map { list -> //TODO extract mapping to fun
-//            list.map {
-//                LibraryItem.fromLibraryItemsModel(it)
-//            }
-//        }
 
-    fun getFilteredLibraryItemsList(idList: List<String>): List<LibraryItem> {
-        Log.d("99999", "getFilteredLibraryItemsList id $idList")
-        val l = appDao().getFilteredLibraryItemsList2(idList = idList).map {
+    fun getFilteredLibraryItemsList(idList: List<String>): List<LibraryItem> =
+        appDao().getFilteredLibraryItemsList(idList = idList).map {
             LibraryItem.fromLibraryItemsModel(it)
         }
-        val list = appDao().getFilteredLibraryItemsList(idList = idList).map { list ->
-            list.map {
-                LibraryItem.fromLibraryItemsModel(it)
-            }
-        }
-        Log.d("99999", "getFilteredLibraryItemsList list $l")
-        return l
-    }
 
     fun updateLibraryDB(list: List<LibraryItemsModel>) {
         appDao().clearLibrary()
