@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -24,13 +23,13 @@ internal fun AppBar(
     title: String,
     navController: NavController,
     navIcon: @Composable (() -> Unit)? = null,
-    showIcon: Boolean = false
+    navActions: @Composable RowScope.() -> Unit = {},
+    showIcon: Boolean = false,
 ) {
     TopAppBar(
         title = {
             Box(
                 modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.CenterStart
             ) {
                 if (showIcon) {
                     Image(
@@ -45,7 +44,7 @@ internal fun AppBar(
                     text = title,
                     color = colorResource(id = R.color.library_top_bar_header),
                     fontFamily = FontFamily(Font(R.font.amatic_sc_bold)),
-                    style = TextStyle(fontSize = 48.sp),
+                    style = TextStyle(fontSize = 36.sp),
                     textAlign = TextAlign.Center,
                     modifier = Modifier.fillMaxWidth()
                 )
@@ -53,6 +52,7 @@ internal fun AppBar(
         },
         backgroundColor = colorResource(id = R.color.transparent),
         navigationIcon = navIcon,
-        elevation = 0.dp
+        elevation = 0.dp,
+        actions = navActions
     )
 }

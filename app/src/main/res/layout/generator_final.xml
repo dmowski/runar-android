@@ -11,7 +11,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:background="@color/library_top_bar"
+        android:background="@color/transparent"
         app:layout_constraintTop_toTopOf="parent"
         app:subtitleTextAppearance="@font/roboto_medium"
         app:titleTextColor="@color/library_top_bar_header">
@@ -27,10 +27,11 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/roboto_medium"
+            android:layout_gravity="center"
+            android:fontFamily="@font/amatic_sc_bold"
             android:text="@string/runic_pattern"
-            android:textColor="@color/gray"
-            android:textSize="20sp" />
+            android:textColor="@color/library_top_bar_header"
+            android:textSize="36sp" />
     </androidx.appcompat.widget.Toolbar>
 
     <androidx.constraintlayout.widget.Guideline
