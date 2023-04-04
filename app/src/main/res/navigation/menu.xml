@@ -8,8 +8,7 @@
     <fragment
         android:id="@+id/menuFragment"
         android:name="com.tnco.runar.ui.fragment.MenuFragment"
-        android:label="MenuFragment"
-        tools:layout="@layout/fragment_menu">
+        android:label="MenuFragment">
         <action
             android:id="@+id/action_settingsFragment_to_aboutAppFragment"
             app:destination="@id/aboutAppFragment" />
@@ -19,6 +18,9 @@
         <action
             android:id="@+id/action_menuFragment_to_settings"
             app:destination="@id/settings" />
+        <action
+            android:id="@+id/action_menuFragment_to_runarPremiumFragment"
+            app:destination="@id/runarPremiumFragment" />
     </fragment>
     <fragment
         android:id="@+id/aboutAppFragment"
@@ -26,5 +28,9 @@
         android:label="AboutAppFragment" />
     <include app:graph="@navigation/favourites" />
     <include app:graph="@navigation/settings" />
+    <fragment
+        android:id="@+id/runarPremiumFragment"
+        android:name="com.tnco.runar.ui.fragment.RunarPremiumFragment"
+        android:label="RunarPremiumFragment" />
 
 </navigation>
