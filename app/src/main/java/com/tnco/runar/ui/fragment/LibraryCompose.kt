@@ -33,6 +33,7 @@ import coil.compose.rememberAsyncImagePainter
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
 import com.tnco.runar.R
+import com.tnco.runar.domain.entities.LibraryItem
 import com.tnco.runar.domain.entities.LibraryItemType.*
 import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.ui.screenCompose.componets.AppBar
@@ -50,7 +51,8 @@ internal fun LibraryBars(navController: NavController) {
     val pagerState = rememberPagerState(pageCount = 2)
     val audioSwitcher by viewModel.audioSwitcher.asLiveData().observeAsState()
 
-    tabsState.value = viewModel.currentFragmentTitle == stringResource(id = R.string.library_top_bar_header)
+    tabsState.value =
+        viewModel.currentFragmentTitle == stringResource(id = R.string.library_top_bar_header)
     Scaffold(
         topBar = {
 
@@ -86,7 +88,10 @@ internal fun LibraryBars(navController: NavController) {
 fun LibraryItems(navController: NavController) {
     val viewModel: LibraryViewModel = viewModel()
     val fontSize by viewModel.fontSize.observeAsState()
-    val libraryItemList by viewModel.libraryItemList.observeAsState()
+    val libraryItemsModel by viewModel.libraryItemList.observeAsState()
+    val libraryItemList = libraryItemsModel?.map {
+        LibraryItem.fromLibraryItemsModel(it)
+    }
     libraryItemList?.let {
         when (it.firstOrNull()?.type) {
             ROOT -> {
@@ -101,10 +106,14 @@ fun LibraryItems(navController: NavController) {
                                 AnalyticsEvent.LIBRARY_SECTION_OPENED,
                                 Pair(AnalyticsConstants.SECTION, item.title)
                             )
+                            val childIds: ArrayList<String> = arrayListOf()
+                            item.childs.forEach { id ->
+                                childIds.add(id)
+                            }
                             navController.navigate(
                                 R.id.libraryFragment,
                                 LibraryFragment.createArgs(
-                                    childIdList = item.childs as? ArrayList<String>,
+                                    childIdList = childIds,
                                     fragmentTitle = item.title
                                 )
                             )
@@ -130,10 +139,14 @@ fun LibraryItems(navController: NavController) {
                         header = item.title,
                         imgLink = item.imageUrl,
                         clickAction = {
+                            val childIds: ArrayList<String> = arrayListOf()
+                            item.childs.forEach { id ->
+                                childIds.add(id)
+                            }
                             navController.navigate(
                                 R.id.libraryFragment,
                                 LibraryFragment.createArgs(
-                                    childIdList = item.childs as? ArrayList<String>,
+                                    childIdList = childIds,
                                     fragmentTitle = item.title
                                 )
                             )
