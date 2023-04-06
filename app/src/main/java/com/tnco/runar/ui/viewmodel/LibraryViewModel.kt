@@ -3,7 +3,7 @@ package com.tnco.runar.ui.viewmodel
 import androidx.lifecycle.*
 import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.di.annotations.IoDispatcher
-import com.tnco.runar.domain.entities.LibraryItem
+import com.tnco.runar.model.LibraryItemsModel
 import com.tnco.runar.repository.DatabaseRepository
 import com.tnco.runar.repository.SharedDataRepository
 import com.tnco.runar.repository.data_store.DataStorePreferences
@@ -11,7 +11,6 @@ import com.tnco.runar.util.NetworkMonitor
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -34,7 +33,7 @@ class LibraryViewModel @Inject constructor(
 
     val isOnline = networkMonitor.isConnected.asLiveData()
 
-    var libraryItemList: MutableLiveData<List<LibraryItem>> = MutableLiveData()
+    var libraryItemList: LiveData<List<LibraryItemsModel>> = MutableLiveData()
 
     val audioSwitcher = dataStore.switchers.map { list ->
         list.firstOrNull {
@@ -47,15 +46,11 @@ class LibraryViewModel @Inject constructor(
     }
 
     fun getRuneDataFromDB() {
-        viewModelScope.launch(ioDispatcher) {
-            libraryItemList.postValue(databaseRepository.getLibraryRootItemsList())
-        }
+        libraryItemList = databaseRepository.getLibraryRootItemsList()
     }
 
     fun getFilteredLibraryList(idList: List<String>) {
-        viewModelScope.launch(ioDispatcher) {
-            libraryItemList.postValue(databaseRepository.getFilteredLibraryItemsList(idList = idList))
-        }
+        libraryItemList = databaseRepository.getFilteredLibraryItemsList(idList = idList)
     }
 
     fun updateStateLoad(error: Boolean) {

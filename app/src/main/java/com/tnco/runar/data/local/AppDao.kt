@@ -1,5 +1,6 @@
 package com.tnco.runar.data.local
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -31,14 +32,11 @@ interface AppDao {
     @Query("SELECT * FROM two_runes")
     fun getAllTwoRunesInter(): List<TwoRunesInterModel>
 
-    @Query("SELECT * FROM library")
-    fun getLibraryItems(): List<LibraryItemsModel>
-
     @Query("SELECT * FROM library WHERE type = \"root\" ORDER BY sort_order ASC")
-    fun getLibraryRootItemsList(): List<LibraryItemsModel>
+    fun getLibraryRootItemsList(): LiveData<List<LibraryItemsModel>>
 
     @Query("SELECT * FROM library WHERE id IN (:idList) ORDER BY sort_order ASC")
-    fun getFilteredLibraryItemsList(idList: List<String>): List<LibraryItemsModel>
+    fun getFilteredLibraryItemsList(idList: List<String>): LiveData<List<LibraryItemsModel>>
 
     @Query("DELETE FROM library")
     fun clearLibrary()
