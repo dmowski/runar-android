@@ -123,7 +123,7 @@ private fun Bars(navController: NavController) {
                     ) {
 
                         Column(
-                            modifier = Modifier.width(200.dp),
+                            modifier = Modifier.width(180.dp),
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             Text(
@@ -209,11 +209,17 @@ private fun TopBarActions(fontSize: Float, clickAction: () -> Unit) {
     IconButton(onClick = {
         SavedLayoutsDialog(context, fontSize, clickAction).showDialog()
     }) {
-        Icon(
-            painter = painterResource(id = R.drawable.ic_delete),
-            tint = colorResource(id = R.color.fav_top_bar_delete),
-            contentDescription = "trash"
-        )
+        Box(
+            Modifier
+                .fillMaxSize()
+                .absoluteOffset(x = 9.dp, y = 15.dp)
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_delete),
+                tint = colorResource(id = R.color.fav_top_bar_delete),
+                contentDescription = "trash"
+            )
+        }
     }
 }
 
