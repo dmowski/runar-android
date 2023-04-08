@@ -12,7 +12,7 @@
 1. Open project in Android Studio
 2. Build
 3. Create new devise (Tools/Devise Manage/Create device)
-4. Run devise (Button play in Devise Manage)
+4. Run devise (Button play in Devise Manage)ы
 5. Run application (Run/Run "app")
 
 ## Project file structure (Global view)
