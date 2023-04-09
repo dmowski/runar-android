@@ -144,4 +144,18 @@
     <string name="internet_conn_error">Пожалуйста, проверьте подключение к сети и повторите попытку</string>
     <string name="internet_conn_error1">Нет доступа к интернету</string>
 
+    <string name="subsription">Подписка</string>
+    //RunarPremium Fragment Strings
+    <string name="runar_premium">Runar популярный</string>
+    <string name="get_a_full_access">Включи все функции Runar</string>
+    <string name="all_runic_draws">Все рунные расклады</string>
+    <string name="all_runes_description">Все описания рун</string>
+    <string name="audio_library">Аудио библиотека</string>
+    <string name="runic_patterns_generator">Генератор рунных узоров</string>
+    <string name="choose_payment_plan">Выбери план платежей</string>
+    <string name="pay">Оплатить</string>
+    <string name="terms_of_use">Условия\nиспользования</string>
+    <string name="privacy_policy">Политика\nконфиденциальности</string>
+    <string name="restore">Восстановить</string>
+
 </resources>
