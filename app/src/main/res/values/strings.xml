@@ -147,4 +147,18 @@
     <string name="internet_conn_error1">No internet connection</string>
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
 
+    <string name="subsription">Subscription</string>
+    //RunarPremium Fragment Strings
+    <string name="runar_premium">Runar premium</string>
+    <string name="get_a_full_access">Get a full access to Runar</string>
+    <string name="all_runic_draws">All runic draws</string>
+    <string name="all_runes_description">All runes description</string>
+    <string name="audio_library">Audio library</string>
+    <string name="runic_patterns_generator">Runic patterns generator</string>
+    <string name="choose_payment_plan">Choose a payment plan</string>
+    <string name="pay">Pay the plan</string>
+    <string name="terms_of_use">Terms of use</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="restore">Restore</string>
+
 </resources>

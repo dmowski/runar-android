@@ -2,10 +2,7 @@ package com.tnco.runar.ui.screenCompose
 
 import android.content.Intent
 import android.net.Uri
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
@@ -59,6 +56,7 @@ private fun Menu(navController: NavController) {
             modifier = Modifier
                 .fillMaxSize()
                 .padding(top = paddingValues.calculateTopPadding())
+                .verticalScroll(state = rememberScrollState())
         ) {
             Column {
                 Row(
@@ -108,6 +106,19 @@ private fun Menu(navController: NavController) {
                     AboutItem(clickAction = {
                         val direction = SettingsFragmentDirections
                             .actionSettingsFragmentToAboutAppFragment()
+                        navController.navigate(direction)
+                    })
+                }
+                DividerItem()
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 20.dp, bottom = 20.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    SubscriptionItem(clickAction = {
+                        val direction =
+                            MenuFragmentDirections.actionMenuFragmentToRunarPremiumFragment()
                         navController.navigate(direction)
                     })
                 }
@@ -219,6 +230,41 @@ fun SettingsItem(clickAction: () -> Unit) {
         Text(
             modifier = Modifier.padding(start = 10.dp),
             text = stringResource(id = R.string.settings_layout),
+            fontSize = 20.sp,
+            color = colorResource(id = R.color.onboard_text_color)
+        )
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(end = 20.dp),
+            horizontalAlignment = Alignment.End
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_right),
+                contentDescription = "",
+                tint = colorResource(id = R.color.menu_icons_next)
+            )
+        }
+    }
+}
+
+@Composable
+fun SubscriptionItem(clickAction: () -> Unit) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = clickAction),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Icon(
+            modifier = Modifier.padding(start = 10.dp),
+            painter = painterResource(id = R.drawable.subscription_icon),
+            contentDescription = "",
+            tint = colorResource(id = R.color.menu_icons)
+        )
+        Text(
+            modifier = Modifier.padding(start = 10.dp),
+            text = stringResource(id = R.string.subsription),
             fontSize = 20.sp,
             color = colorResource(id = R.color.onboard_text_color)
         )

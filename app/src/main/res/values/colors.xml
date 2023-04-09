@@ -155,4 +155,11 @@
 
     <color name="menu_icons">#6E6E6E</color>
     <color name="menu_icons_next">#919191</color>
+    
+    //RunarPremiumFragment Colors
+    <color name="purchase_header_color">#D2C4AD</color>
+    <color name="purchase_header_secondary_color">#EFCD93</color>
+    <color name="purchase_gray700">#979797</color>
+    <color name="purchase_card_color">#1C1C1E</color>
+    <color name="purchase_discount_card_color">#FFC046</color>
 </resources>
