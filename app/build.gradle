@@ -196,4 +196,9 @@ dependencies {
     //Kaspresso
     androidTestImplementation 'org.hamcrest:hamcrest-core:2.2'
     androidTestImplementation "com.kaspersky.android-components:kaspresso:$kaspresso_version"
+
+    implementation("com.android.billingclient:billing-ktx:5.1.0")
+    implementation 'com.android.billingclient:billing:5.0.0'
+    implementation 'com.google.guava:guava:24.1-jre'
+    implementation 'com.google.guava:guava:27.0.1-android'
 }

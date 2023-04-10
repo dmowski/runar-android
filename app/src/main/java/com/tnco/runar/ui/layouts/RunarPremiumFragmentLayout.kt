@@ -1,12 +1,11 @@
 package com.tnco.runar.ui.layouts
 
+import android.app.Activity
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -15,6 +14,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
@@ -33,6 +33,7 @@ import com.tnco.runar.R
 import com.tnco.runar.model.SkuModel
 import com.tnco.runar.ui.screenCompose.componets.AppBar
 import com.tnco.runar.ui.viewmodel.RunarPremiumViewModel
+import com.tnco.runar.util.PurchaseHelper
 
 @Composable
 fun RunarPremiumFragmentLayout(
@@ -55,6 +56,8 @@ fun RunarPremiumFragmentLayout(
         val choseSku = remember {
             mutableStateOf(listOfSkus[0])
         }
+        val purchaseHelper = PurchaseHelper(LocalContext.current as Activity)
+        purchaseHelper.billingSetup()
 
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -95,9 +98,7 @@ fun RunarPremiumFragmentLayout(
                     }
                 }
             }
-            PayButton(fontSize) {
-                onClick(choseSku.value)
-            }
+            PayButton(fontSize, onClick, purchaseHelper)
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(24.dp, Alignment.CenterHorizontally),
@@ -115,10 +116,18 @@ fun RunarPremiumFragmentLayout(
 }
 
 @Composable
-fun PayButton(fontSize: Float, onClick: () -> (Unit)) {
+fun PayButton(fontSize: Float,
+              onClick: (SkuModel) -> Unit,
+              purchaseHelper: PurchaseHelper) {
+    val buyEnabled by purchaseHelper.buyEnabled.collectAsState(false)
+    val consumeEnabled by purchaseHelper.consumeEnabled.collectAsState(false)
+    val productName by purchaseHelper.productName.collectAsState("")
+    val statusText by purchaseHelper.statusText.collectAsState("")
+
+
     Button(
         onClick = {
-            onClick()
+            purchaseHelper.makePurchase()
         },
         colors = ButtonDefaults.buttonColors(
             backgroundColor = colorResource(id = R.color.purchase_header_color)
