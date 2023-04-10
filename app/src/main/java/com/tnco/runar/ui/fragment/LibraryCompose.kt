@@ -33,7 +33,6 @@ import coil.compose.rememberAsyncImagePainter
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
 import com.tnco.runar.R
-import com.tnco.runar.domain.entities.LibraryItem
 import com.tnco.runar.domain.entities.LibraryItemType.*
 import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.ui.screenCompose.componets.AppBar
@@ -88,11 +87,9 @@ internal fun LibraryBars(navController: NavController) {
 fun LibraryItems(navController: NavController) {
     val viewModel: LibraryViewModel = viewModel()
     val fontSize by viewModel.fontSize.observeAsState()
-    val libraryItemsModel by viewModel.libraryItemList.observeAsState()
-    val libraryItemList = libraryItemsModel?.map {
-        LibraryItem.fromLibraryItemsModel(it)
-    }
-    libraryItemList?.let {
+    val libraryItems by viewModel.libraryItemList.observeAsState()
+
+    libraryItems?.let {
         when (it.firstOrNull()?.type) {
             ROOT -> {
                 it.forEach { item ->
