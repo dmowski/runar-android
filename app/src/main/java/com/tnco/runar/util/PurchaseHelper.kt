@@ -18,7 +18,7 @@ class PurchaseHelper(val context: Context) {
     private lateinit var productDetails: ProductDetails
     private lateinit var purchase: Purchase
 
-    private val ProductId = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsWC0q26mb2E72tT2d5JST9OxUMPqDWvnVwP4RsqJp7M8Ew/s9gmFq04ABiEhGQ5aq55FP3p19DpOmpipA6aZdk3luhh4DOm/hRCnlgjF/O2XsiidXDGk2miIIAwA7rwVIMpgFwuwJXT3PoJTorPvop3WND9sijMTb8JKxnY5zUq7szgK5PjQ80ewtdd/UvDL581v/GUI/grCRgcvvEHM2Bw860xJRkBWoAbv5f2UI8KK7ETAcZClCj844aXWevBji8P60fvbZ5pU6wZcmvTtSNKK+h6o3AKuMBfSe6QaUR1EWpdP3xxrFYMA4RQcH3uyl8+ZR5MymP9ReLCjCfOuIwIDAQAB"
+    private val ProductId = "runar_premium.forever"
     private val _productName = MutableStateFlow("Searching...")
     val productName = _productName.asStateFlow()
 
