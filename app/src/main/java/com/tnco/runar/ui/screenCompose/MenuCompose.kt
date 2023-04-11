@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.tnco.runar.BuildConfig
 import com.tnco.runar.R
 import com.tnco.runar.ui.fragment.MenuFragmentDirections
 import com.tnco.runar.ui.fragment.SettingsFragmentDirections
@@ -109,18 +110,20 @@ private fun Menu(navController: NavController) {
                         navController.navigate(direction)
                     })
                 }
-                DividerItem()
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 20.dp, bottom = 20.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    SubscriptionItem(clickAction = {
-                        val direction =
-                            MenuFragmentDirections.actionMenuFragmentToRunarPremiumFragment()
-                        navController.navigate(direction)
-                    })
+                if (BuildConfig.DEBUG) {
+                    DividerItem()
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 20.dp, bottom = 20.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        SubscriptionItem(clickAction = {
+                            val direction =
+                                MenuFragmentDirections.actionMenuFragmentToRunarPremiumFragment()
+                            navController.navigate(direction)
+                        })
+                    }
                 }
                 DividerItem()
                 Row(
