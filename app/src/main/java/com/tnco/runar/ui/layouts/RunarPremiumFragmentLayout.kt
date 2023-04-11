@@ -1,6 +1,5 @@
 package com.tnco.runar.ui.layouts
 
-import android.app.Activity
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -56,7 +55,7 @@ fun RunarPremiumFragmentLayout(
         val choseSku = remember {
             mutableStateOf(listOfSkus[0])
         }
-        val purchaseHelper = PurchaseHelper(LocalContext.current as Activity)
+        val purchaseHelper = PurchaseHelper(LocalContext.current)
         purchaseHelper.billingSetup()
 
         Column(
@@ -116,14 +115,15 @@ fun RunarPremiumFragmentLayout(
 }
 
 @Composable
-fun PayButton(fontSize: Float,
-              onClick: (SkuModel) -> Unit,
-              purchaseHelper: PurchaseHelper) {
+fun PayButton(
+    fontSize: Float,
+    onClick: (SkuModel) -> Unit,
+    purchaseHelper: PurchaseHelper
+) {
     val buyEnabled by purchaseHelper.buyEnabled.collectAsState(false)
     val consumeEnabled by purchaseHelper.consumeEnabled.collectAsState(false)
     val productName by purchaseHelper.productName.collectAsState("")
     val statusText by purchaseHelper.statusText.collectAsState("")
-
 
     Button(
         onClick = {

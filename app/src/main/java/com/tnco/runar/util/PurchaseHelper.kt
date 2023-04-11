@@ -1,6 +1,7 @@
 package com.tnco.runar.util
 
 import android.app.Activity
+import android.content.Context
 import android.util.Log
 import com.android.billingclient.api.*
 import com.google.common.collect.ImmutableList
@@ -10,7 +11,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class PurchaseHelper(val activity: Activity) {
+class PurchaseHelper(val context: Context) {
     private val coroutineScope = CoroutineScope(Dispatchers.IO)
 
     private lateinit var billingClient: BillingClient
@@ -31,7 +32,7 @@ class PurchaseHelper(val activity: Activity) {
     val statusText = _statusText.asStateFlow()
 
     fun billingSetup() {
-        billingClient = BillingClient.newBuilder(activity)
+        billingClient = BillingClient.newBuilder(context)
             .setListener(purchasesUpdatedListener)
             .enablePendingPurchases()
             .build()
@@ -85,8 +86,8 @@ class PurchaseHelper(val activity: Activity) {
     private val purchasesUpdatedListener =
         PurchasesUpdatedListener { billingResult, purchases ->
             if (billingResult.responseCode ==
-                BillingClient.BillingResponseCode.OK
-                && purchases != null
+                BillingClient.BillingResponseCode.OK &&
+                purchases != null
             ) {
                 for (purchase in purchases) {
                     completePurchase(purchase)
@@ -119,7 +120,7 @@ class PurchaseHelper(val activity: Activity) {
             )
             .build()
 
-        billingClient.launchBillingFlow(activity, billingFlowParams)
+        billingClient.launchBillingFlow(context as Activity, billingFlowParams)
     }
     fun consumePurchase() {
         val consumeParams = ConsumeParams.newBuilder()
@@ -130,7 +131,8 @@ class PurchaseHelper(val activity: Activity) {
             val result = billingClient.consumePurchase(consumeParams)
 
             if (result.billingResult.responseCode ==
-                BillingClient.BillingResponseCode.OK) {
+                BillingClient.BillingResponseCode.OK
+            ) {
                 _statusText.value = "Purchase Consumed"
                 _buyEnabled.value = true
                 _consumeEnabled.value = false
@@ -168,9 +170,4 @@ class PurchaseHelper(val activity: Activity) {
                 Log.i("InAppPurchase", billingResult.getDebugMessage())
             }
         }
-
-
-
 }
-
-
