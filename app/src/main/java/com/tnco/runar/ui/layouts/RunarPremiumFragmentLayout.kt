@@ -14,7 +14,6 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
@@ -33,7 +32,6 @@ import com.tnco.runar.R
 import com.tnco.runar.model.SkuModel
 import com.tnco.runar.ui.screenCompose.componets.AppBar
 import com.tnco.runar.ui.viewmodel.RunarPremiumViewModel
-import com.tnco.runar.util.PurchaseHelper
 
 @Composable
 fun RunarPremiumFragmentLayout(
@@ -57,8 +55,6 @@ fun RunarPremiumFragmentLayout(
         val choseSku = remember {
             mutableStateOf(listOfSkus[0])
         }
-        val purchaseHelper = PurchaseHelper(LocalContext.current)
-        purchaseHelper.billingSetup()
 
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -99,7 +95,9 @@ fun RunarPremiumFragmentLayout(
                     }
                 }
             }
-            PayButton(fontSize, onClick, purchaseHelper)
+            PayButton(fontSize, choseSku.value) {
+                onClick(it)
+            }
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(24.dp, Alignment.CenterHorizontally),
@@ -119,17 +117,12 @@ fun RunarPremiumFragmentLayout(
 @Composable
 fun PayButton(
     fontSize: Float,
-    onClick: (SkuModel) -> Unit,
-    purchaseHelper: PurchaseHelper
+    sku: SkuModel,
+    onClick: (SkuModel) -> Unit
 ) {
-    val buyEnabled by purchaseHelper.buyEnabled.collectAsState(false)
-    val consumeEnabled by purchaseHelper.consumeEnabled.collectAsState(false)
-    val productName by purchaseHelper.productName.collectAsState("")
-    val statusText by purchaseHelper.statusText.collectAsState("")
-
     Button(
         onClick = {
-            purchaseHelper.makePurchase()
+            onClick(sku)
         },
         colors = ButtonDefaults.buttonColors(
             backgroundColor = colorResource(id = R.color.purchase_header_color)
