@@ -27,7 +27,7 @@ class GoogleAdUtils(val activity: Activity) : FullScreenContentCallback(), OnUse
     private fun load() {
         RewardedInterstitialAd.load(
             activity,
-            TEST_INTERSTITIAL_AD_AD,
+            INTERSTITIAL_AD_AD,
             AdRequest.Builder().build(),
             object : RewardedInterstitialAdLoadCallback() {
                 override fun onAdFailedToLoad(adError: LoadAdError) {
