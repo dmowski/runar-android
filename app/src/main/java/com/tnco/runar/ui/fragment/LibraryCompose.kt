@@ -67,20 +67,20 @@ internal fun LibraryBars(navController: NavController) {
         if (scrollState.isScrollInProgress && scrollState.value > 0) {
             ScrollBars(scrollState)
         }
-        if (tabsState.value && audioFeature && audioSwitcher?.state == true) {
-            TabScreen(pagerState, scrollState, fontSize, navController)
-        } else {
-            Column(
-                modifier = Modifier
-                    .padding(top = paddingValue.calculateBottomPadding())
-                    .verticalScroll(state = scrollState, enabled = true)
-            ) {
-                LibraryItems(navController)
-                Box(modifier = Modifier.aspectRatio(15f, true))
-            }
+//        if (tabsState.value && audioFeature && audioSwitcher?.state == true) {
+//            TabScreen(pagerState, scrollState, fontSize, navController)
+//        } else {
+        Column(
+            modifier = Modifier
+                .padding(top = paddingValue.calculateBottomPadding())
+                .verticalScroll(state = scrollState, enabled = true)
+        ) {
+            LibraryItems(navController)
+            Box(modifier = Modifier.aspectRatio(15f, true))
         }
     }
 }
+// }
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
