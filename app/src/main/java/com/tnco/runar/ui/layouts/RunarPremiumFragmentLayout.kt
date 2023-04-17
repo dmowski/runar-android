@@ -1,11 +1,12 @@
 package com.tnco.runar.ui.layouts
 
-import android.widget.Button
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -23,22 +24,19 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
+import com.android.billingclient.api.ProductDetails
 import com.tnco.runar.R
-import com.tnco.runar.model.SkuModel
 import com.tnco.runar.ui.screenCompose.componets.AppBar
-import com.tnco.runar.ui.viewmodel.RunarPremiumViewModel
 
 @Composable
 fun RunarPremiumFragmentLayout(
     navController: NavController,
     fontSize: Float,
-    listOfSkus: List<SkuModel>,
-    onClick: (SkuModel) -> Unit
+    listOfSkus: List<ProductDetails>,
+    buyEnabled: Boolean = false,
+    onClick: (ProductDetails) -> Unit
 ) {
 
     Scaffold(
@@ -82,20 +80,21 @@ fun RunarPremiumFragmentLayout(
                 )
             ) {
                 listOfSkus.forEach { sku ->
-                    SkuCard(
-                        title = sku.title,
-                        description = sku.description,
-                        cost = sku.cost,
-                        currencySign = sku.currencySign,
-                        fontSize = fontSize,
-                        isSelected = (choseSku.value.id == sku.id),
-                        discount = sku.discount
-                    ) {
-                        choseSku.value = sku
+                    sku.subscriptionOfferDetails?.get(0)?.let {
+                        SkuCard(
+                            title = sku.name,
+                            description = sku.description,
+                            cost = it.pricingPhases.pricingPhaseList[0].formattedPrice,
+                            fontSize = fontSize,
+                            isSelected = (choseSku.value.productId == sku.productId),
+                            discount = if (sku.productId == "runar_yearly") "-50%" else null
+                        ) {
+                            choseSku.value = sku
+                        }
                     }
                 }
             }
-            PayButton(fontSize, choseSku.value) {
+            PayButton(fontSize, choseSku.value, buyEnabled) {
                 onClick(it)
             }
             Row(
@@ -117,8 +116,9 @@ fun RunarPremiumFragmentLayout(
 @Composable
 fun PayButton(
     fontSize: Float,
-    sku: SkuModel,
-    onClick: (SkuModel) -> Unit
+    sku: ProductDetails,
+    buttonEnabled: Boolean,
+    onClick: (ProductDetails) -> Unit
 ) {
     Button(
         onClick = {
@@ -128,7 +128,8 @@ fun PayButton(
             backgroundColor = colorResource(id = R.color.purchase_header_color)
         ),
         shape = RoundedCornerShape(8.dp),
-        modifier = Modifier.padding(horizontal = 24.dp, vertical = 12.dp)
+        modifier = Modifier.padding(horizontal = 24.dp, vertical = 12.dp),
+        enabled = buttonEnabled
     ) {
         Text(
             text = stringResource(id = R.string.pay),
@@ -147,7 +148,7 @@ fun PayButton(
 fun SkuCard(
     title: String,
     cost: String,
-    currencySign: String,
+    currencySign: String = "",
     description: String = "pay once",
     fontSize: Float,
     isSelected: Boolean = false,
@@ -349,18 +350,4 @@ fun ExtraText(name: String, fontSize: Float) {
         ),
         textAlign = TextAlign.Center
     )
-}
-
-@Preview(
-    showBackground = true,
-    showSystemUi = true,
-    locale = "ru"
-)
-@Composable
-fun RunarPremiumFragmentLayoutPreview() {
-    RunarPremiumFragmentLayout(
-        navController = rememberNavController(),
-        fontSize = 55f,
-        listOfSkus = viewModel(modelClass = RunarPremiumViewModel::class.java).listOfSkus
-    ) {}
 }

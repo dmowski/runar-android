@@ -3,7 +3,6 @@ package com.tnco.runar.util
 import android.app.Activity
 import android.util.Log
 import com.android.billingclient.api.*
-import com.android.billingclient.api.BillingClient
 import com.google.common.collect.ImmutableList
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -15,12 +14,13 @@ class PurchaseHelper(val activity: Activity) {
     private val coroutineScope = CoroutineScope(Dispatchers.IO)
 
     private lateinit var billingClient: BillingClient
-    private var productDetails: ProductDetails? = null
     private lateinit var purchase: Purchase
 
-    private val ProductId = "runar_premium.forever"
-    private val _productName = MutableStateFlow("Searching...")
-    val productName = _productName.asStateFlow()
+    private val productMonthlyId = "runar_premium.forever"
+    private val productYearlyId = "runar_yearly"
+
+    private val _products = MutableStateFlow(listOf<ProductDetails>())
+    val products = _products.asStateFlow()
 
     private val _buyEnabled = MutableStateFlow(false)
     val buyEnabled = _buyEnabled.asStateFlow()
@@ -41,35 +41,48 @@ class PurchaseHelper(val activity: Activity) {
             ) {
                 if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
                     _statusText.value = "Billing Client Connected"
-                    queryProduct(ProductId)
+                    queryProduct(productMonthlyId, productYearlyId)
+                    Log.d("TAG_PURCHASE", "onBillingSetupFinished: Ok!")
                 } else {
+                    Log.d("TAG_PURCHASE", "onBillingSetupFinished: Connection Failure!")
                     _statusText.value = "Billing Client Connection Failure"
                 }
             }
 
             override fun onBillingServiceDisconnected() {
+                Log.d("TAG_PURCHASE", "onBillingServiceDisconnected: Connection Lost!")
                 _statusText.value = "Billing Client Connection Lost"
             }
         })
     }
 
-    fun queryProduct(productId: String) {
+    fun queryProduct(productWeekLyId: String, productYearLyId: String) {
         val queryProductDetailsParams = QueryProductDetailsParams.newBuilder().setProductList(
             ImmutableList.of(
-                QueryProductDetailsParams.Product.newBuilder().setProductId(productId)
+                QueryProductDetailsParams.Product.newBuilder().setProductId(productWeekLyId)
                     .setProductType(
                         BillingClient.ProductType.SUBS
-                    ).build()
+                    ).build(),
+                QueryProductDetailsParams.Product.newBuilder().setProductId(productYearLyId)
+                    .setProductType(
+                        BillingClient.ProductType.SUBS
+                    ).build(),
             )
         ).build()
 
         billingClient.queryProductDetailsAsync(
             queryProductDetailsParams
         ) { billingResult, productDetailsList ->
+            Log.d("TAG_PURCHASE", "queryProduct: Result - $billingResult")
+
+            // TODO: Handle - FEATURE_NOT_SUPPORTED
+
             if (productDetailsList.isNotEmpty()) {
-                productDetails = productDetailsList[0]
-                _productName.value = "Product: " + productDetails?.name
+                Log.d("TAG_PURCHASE", "queryProduct: ok! - Products = $productDetailsList")
+                _products.value = productDetailsList
+                _buyEnabled.value = true
             } else {
+                Log.d("TAG_PURCHASE", "queryProduct: No Matching Products Found!")
                 _statusText.value = "No Matching Products Found"
                 _buyEnabled.value = false
             }
@@ -97,19 +110,18 @@ class PurchaseHelper(val activity: Activity) {
         }
     }
 
-    fun makePurchase() {
-        productDetails?.let {
-            val billingFlowParams = BillingFlowParams.newBuilder().setProductDetailsParamsList(
-                listOf(
-                    BillingFlowParams.ProductDetailsParams.newBuilder()
-                        .setProductDetails(it)
-                        .setOfferToken(it.subscriptionOfferDetails?.get(0)?.offerToken ?: "")
-                        .build()
-                )
-            ).build()
+    fun makePurchase(productDetails: ProductDetails) {
+        Log.d("TAG_PURCHASE", "makePurchase: ProductDetails  = $productDetails")
+        val billingFlowParams = BillingFlowParams.newBuilder().setProductDetailsParamsList(
+            listOf(
+                BillingFlowParams.ProductDetailsParams.newBuilder()
+                    .setProductDetails(productDetails)
+                    .setOfferToken(productDetails.subscriptionOfferDetails?.get(0)?.offerToken ?: "")
+                    .build()
+            )
+        ).build()
 
-            billingClient.launchBillingFlow(activity, billingFlowParams)
-        }
+        billingClient.launchBillingFlow(activity, billingFlowParams)
     }
 
     fun consumePurchase() {

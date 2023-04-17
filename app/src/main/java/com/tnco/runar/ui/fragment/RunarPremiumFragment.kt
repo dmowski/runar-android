@@ -1,6 +1,7 @@
 package com.tnco.runar.ui.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,33 +26,36 @@ class RunarPremiumFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
+        val purchaseHelper = PurchaseHelper(requireActivity())
+        purchaseHelper.billingSetup()
+
         return ComposeView(requireContext()).apply {
             setContent {
                 val purchaseViewModel: RunarPremiumViewModel = viewModel()
                 val fontSize by purchaseViewModel.fontSize.observeAsState()
 
-                val listOfSkus = purchaseViewModel.listOfSkus
-
-                val purchaseHelper = PurchaseHelper(requireActivity())
-                purchaseHelper.billingSetup()
-
                 val buyEnabled by purchaseHelper.buyEnabled.collectAsState(false)
                 val consumeEnabled by purchaseHelper.consumeEnabled.collectAsState(false)
-                val productName by purchaseHelper.productName.collectAsState("")
                 val statusText by purchaseHelper.statusText.collectAsState("")
+                val products by purchaseHelper.products.collectAsState(listOf())
 
-                RunarPremiumFragmentLayout(
-                    navController = findNavController(),
-                    fontSize = fontSize ?: 55f,
-                    listOfSkus = listOfSkus
-                ) { choseRate ->
-
-                    try {
-                        purchaseHelper.makePurchase()
-                    } catch (e: Exception) {
-                        Toast.makeText(requireContext(), "${e.message}", Toast.LENGTH_SHORT).show()
+                if (products.isNotEmpty()) {
+                    RunarPremiumFragmentLayout(
+                        navController = findNavController(),
+                        fontSize = fontSize ?: 55f,
+                        listOfSkus = products,
+                        buyEnabled = buyEnabled
+                    ) { chosenSku ->
+                        try {
+                            purchaseHelper.makePurchase(chosenSku)
+                            Log.d("TAG_PURCHASE", "onCreateView: $chosenSku")
+                        } catch (e: Exception) {
+                            Log.d("TAG_PURCHASE", "onCreateView: ${e.message}")
+                            Toast.makeText(requireContext(), "${e.message}", Toast.LENGTH_SHORT)
+                                .show()
+                        }
                     }
-                    // Toast.makeText(requireContext(), choseRate.title, Toast.LENGTH_SHORT).show()
                 }
             }
         }
