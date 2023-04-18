@@ -33,7 +33,6 @@ import coil.compose.rememberAsyncImagePainter
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
 import com.tnco.runar.R
-import com.tnco.runar.domain.entities.LibraryItem
 import com.tnco.runar.domain.entities.LibraryItemType.*
 import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.ui.screenCompose.componets.AppBar
@@ -68,31 +67,29 @@ internal fun LibraryBars(navController: NavController) {
         if (scrollState.isScrollInProgress && scrollState.value > 0) {
             ScrollBars(scrollState)
         }
-        if (tabsState.value && audioFeature && audioSwitcher?.state == true) {
-            TabScreen(pagerState, scrollState, fontSize, navController)
-        } else {
-            Column(
-                modifier = Modifier
-                    .padding(top = paddingValue.calculateBottomPadding())
-                    .verticalScroll(state = scrollState, enabled = true)
-            ) {
-                LibraryItems(navController)
-                Box(modifier = Modifier.aspectRatio(15f, true))
-            }
+//        if (tabsState.value && audioFeature && audioSwitcher?.state == true) {
+//            TabScreen(pagerState, scrollState, fontSize, navController)
+//        } else {
+        Column(
+            modifier = Modifier
+                .padding(top = paddingValue.calculateBottomPadding())
+                .verticalScroll(state = scrollState, enabled = true)
+        ) {
+            LibraryItems(navController)
+            Box(modifier = Modifier.aspectRatio(15f, true))
         }
     }
 }
+// }
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun LibraryItems(navController: NavController) {
     val viewModel: LibraryViewModel = viewModel()
     val fontSize by viewModel.fontSize.observeAsState()
-    val libraryItemsModel by viewModel.libraryItemList.observeAsState()
-    val libraryItemList = libraryItemsModel?.map {
-        LibraryItem.fromLibraryItemsModel(it)
-    }
-    libraryItemList?.let {
+    val libraryItems by viewModel.libraryItemList.observeAsState()
+
+    libraryItems?.let {
         when (it.firstOrNull()?.type) {
             ROOT -> {
                 it.forEach { item ->
