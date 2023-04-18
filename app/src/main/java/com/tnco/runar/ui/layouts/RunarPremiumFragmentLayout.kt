@@ -15,23 +15,25 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.tnco.runar.R
 import com.tnco.runar.model.SkuModel
-import com.tnco.runar.ui.screenCompose.componets.AppBar
+import com.tnco.runar.repository.SharedDataRepository
 import com.tnco.runar.ui.viewmodel.RunarPremiumViewModel
 
 @Composable
@@ -42,25 +44,18 @@ fun RunarPremiumFragmentLayout(
     onClick: (SkuModel) -> Unit
 ) {
     Scaffold(
-        topBar = {
-            AppBar(
-                title = stringResource(id = R.string.runar_premium),
-                navController = navController,
-                showIcon = true
-            )
-        },
         backgroundColor = colorResource(id = R.color.settings_top_app_bar),
     ) {
 
         val choseSku = remember {
             mutableStateOf(listOfSkus[0])
         }
-
         Column(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.SpaceAround,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            MonetizationTopBar(fontSize, navController)
             Features(fontSize = fontSize)
             Text(
                 text = stringResource(id = R.string.choose_payment_plan),
@@ -105,7 +100,7 @@ fun RunarPremiumFragmentLayout(
             ) {
                 ExtraText(name = stringResource(id = R.string.terms_of_use), fontSize = fontSize)
                 ExtraText(name = stringResource(id = R.string.privacy_policy), fontSize = fontSize)
-                ExtraText(name = stringResource(id = R.string.restore), fontSize = fontSize)
+                ExtraText(name = stringResource(id = R.string.restore), fontSize = fontSize, weight = FontWeight.W700)
             }
             Spacer(
                 modifier = Modifier.height(2.dp)
@@ -115,7 +110,36 @@ fun RunarPremiumFragmentLayout(
 }
 
 @Composable
-fun PayButton(fontSize: Float, onClick: () -> (Unit)) {
+fun MonetizationTopBar(fontSize: Float, navController: NavController) {
+    Box(modifier = Modifier.fillMaxWidth()) {
+        Text(
+            text = stringResource(id = R.string.runar_premium),
+            color = colorResource(id = R.color.purchase_header_color),
+            fontFamily = FontFamily(Font(R.font.amatic_sc_bold)),
+            style = TextStyle(
+                fontSize = with(LocalDensity.current) {
+                    (fontSize * 2.5f).toSp()
+                }
+            ),
+            textAlign = TextAlign.Center,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 8.dp)
+                .padding(horizontal = 60.dp)
+        )
+        Image(
+            painter = painterResource(id = R.drawable.monetization_close_button),
+            contentDescription = null,
+            modifier = Modifier
+                .padding(end = 12.dp)
+                .align(Alignment.TopEnd)
+                .clickable(onClick = { navController.popBackStack() }),
+        )
+    }
+}
+
+@Composable
+fun ColumnScope.PayButton(fontSize: Float, onClick: () -> (Unit)) {
     Button(
         onClick = {
             onClick()
@@ -123,8 +147,7 @@ fun PayButton(fontSize: Float, onClick: () -> (Unit)) {
         colors = ButtonDefaults.buttonColors(
             backgroundColor = colorResource(id = R.color.purchase_header_color)
         ),
-        shape = RoundedCornerShape(8.dp),
-        modifier = Modifier.padding(horizontal = 24.dp, vertical = 12.dp)
+        shape = RoundedCornerShape(8.dp)
     ) {
         Text(
             text = stringResource(id = R.string.pay),
@@ -134,7 +157,8 @@ fun PayButton(fontSize: Float, onClick: () -> (Unit)) {
                 fontSize = with(LocalDensity.current) {
                     (fontSize * 1.4f).toSp()
                 }
-            )
+            ),
+            modifier = Modifier.padding(horizontal = 16.dp)
         )
     }
 }
@@ -162,7 +186,7 @@ fun SkuCard(
     val borderColor = if (isSelected)
         colorResource(id = R.color.purchase_header_color)
     else
-        colorResource(id = R.color.purchase_header_color).copy(alpha = 0.5f)
+        colorResource(id = R.color.purchase_header_color).copy(alpha = 0.3f)
 
     // for device with height = 800dp and width = 400dp
     // use height = 200 and width = 120
@@ -177,7 +201,7 @@ fun SkuCard(
             .clip(shape = RoundedCornerShape(16.dp))
             .background(color = colorResource(id = R.color.purchase_card_color))
             .border(
-                width = 1.5.dp,
+                width = 1.dp,
                 color = borderColor,
                 shape = RoundedCornerShape(16.dp)
             )
@@ -203,8 +227,8 @@ fun SkuCard(
             Divider(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .width(1.dp),
-                color = colorResource(id = R.color.purchase_header_color)
+                    .height(1.dp),
+                color = borderColor
             )
         }
         Box(
@@ -264,12 +288,13 @@ fun DisCount(percent: String, fontSize: Float) {
     ) {
         Text(
             text = percent,
-            color = colorResource(id = R.color.purchase_card_color),
+            color = colorResource(id = R.color.black),
             fontFamily = FontFamily(Font(resId = R.font.sf_pro_display)),
             style = TextStyle(
                 fontSize = with(LocalDensity.current) {
                     (fontSize * 0.7f).toSp()
-                }
+                },
+                fontWeight = FontWeight.W600
             ),
             modifier = Modifier
                 .padding(top = 8.dp)
@@ -287,7 +312,7 @@ fun Features(fontSize: Float) {
         R.string.runic_patterns_generator
     )
 
-    Column {
+    Column(modifier = Modifier.padding(vertical = 16.dp)) {
         Text(
             text = stringResource(id = R.string.get_a_full_access),
             color = colorResource(id = R.color.purchase_header_color),
@@ -304,9 +329,6 @@ fun Features(fontSize: Float) {
         listOfFeatures.forEach { stringId ->
             Feature(title = stringResource(id = stringId), fontSize = fontSize)
         }
-        Spacer(
-            modifier = Modifier.height(16.dp)
-        )
     }
 }
 
@@ -319,6 +341,7 @@ fun Feature(title: String, fontSize: Float) {
             imageVector = ImageVector.vectorResource(R.drawable.ios_true),
             contentDescription = title
         )
+        Spacer(modifier = Modifier.width(8.dp))
         Text(
             text = title,
             color = colorResource(id = R.color.white),
@@ -333,7 +356,7 @@ fun Feature(title: String, fontSize: Float) {
 }
 
 @Composable
-fun ExtraText(name: String, fontSize: Float) {
+fun ExtraText(name: String, fontSize: Float, weight: FontWeight = FontWeight.W400) {
     Text(
         text = name,
         color = colorResource(id = R.color.purchase_header_secondary_color),
@@ -341,7 +364,8 @@ fun ExtraText(name: String, fontSize: Float) {
         style = TextStyle(
             fontSize = with(LocalDensity.current) {
                 (fontSize * 0.8f).toSp()
-            }
+            },
+            fontWeight = weight
         ),
         textAlign = TextAlign.Center
     )
@@ -354,9 +378,11 @@ fun ExtraText(name: String, fontSize: Float) {
 )
 @Composable
 fun RunarPremiumFragmentLayoutPreview() {
+    val viewModel = RunarPremiumViewModel(SharedDataRepository(LocalContext.current))
+
     RunarPremiumFragmentLayout(
         navController = rememberNavController(),
         fontSize = 55f,
-        listOfSkus = viewModel(modelClass = RunarPremiumViewModel::class.java).listOfSkus
+        listOfSkus = viewModel.listOfSkus
     ) {}
 }

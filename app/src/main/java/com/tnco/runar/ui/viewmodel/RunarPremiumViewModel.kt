@@ -20,7 +20,7 @@ class RunarPremiumViewModel @Inject constructor(
             id = 0,
             title = "Month",
             description = "\$23.68/year",
-            cost = "11.99",
+            cost = "1.99",
             currencySign = "$"
         ),
         SkuModel(
