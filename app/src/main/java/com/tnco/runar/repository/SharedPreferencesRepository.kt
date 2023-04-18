@@ -24,6 +24,7 @@ class SharedPreferencesRepository @Inject constructor(
     var language: String
     var lastRunTime: Long
     var lastDivination: Long = 0
+    var сountingStartDate: Long = 0
 
     init {
         val appVersion = context.packageManager.getPackageInfo(context.packageName, 0).versionCode
@@ -93,6 +94,15 @@ class SharedPreferencesRepository @Inject constructor(
             editor.apply()
         }
 
+        if (preferences.contains("start_counting_date")) {
+            сountingStartDate = preferences.getLong("start_counting_date", 0)
+        } else {
+            сountingStartDate = 0
+            val editor = preferences.edit()
+            editor.putLong("start_counting_date", сountingStartDate)
+            editor.apply()
+        }
+
         val editor = preferences.edit()
         lastRunTime = System.currentTimeMillis()
         editor.putLong("last_run", lastRunTime)
@@ -135,6 +145,13 @@ class SharedPreferencesRepository @Inject constructor(
         val editor = preferences.edit()
         settingsOnboarding = n
         editor.putInt("Settings_onboarding", n)
+        editor.apply()
+    }
+
+    fun changeStartCountingDate(l: Long) {
+        val editor = preferences.edit()
+        сountingStartDate = l
+        editor.putLong("start_counting_date", сountingStartDate)
         editor.apply()
     }
 }

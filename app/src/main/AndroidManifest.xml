@@ -9,6 +9,8 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="com.android.vending.BILLING"/>
 
+    <uses-permission android:name="com.google.android.gms.permission.AD_ID"/>
+    
     <supports-screens
         android:largeScreens="true"
         android:normalScreens="true"
@@ -61,5 +63,10 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
+
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-4330541344219932~1179362833"/>
+
     </application>
 </manifest>
