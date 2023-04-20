@@ -162,4 +162,10 @@
     <color name="purchase_gray700">#979797</color>
     <color name="purchase_card_color">#1C1C1E</color>
     <color name="purchase_discount_card_color">#FFC046</color>
+    
+    <color name="runic_draws_limit_card_background">#B0B0B0</color>
+    <color name="run_draws_open_text_color">#FFC046</color>
+    <color name="shadow">#33000000</color>
+    <color name="run_draws_time_color">#D2C4AD</color>
+    <color name="close_layout_foreground">#4D7888DA</color>
 </resources>

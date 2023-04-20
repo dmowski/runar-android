@@ -158,4 +158,8 @@
     <string name="privacy_policy">Политика\nконфиденциальности</string>
     <string name="restore">Восстановить</string>
 
+    <string name="d">д.</string>
+    <string name="h">ч.</string>
+    <string name="m">м.</string>
+
 </resources>

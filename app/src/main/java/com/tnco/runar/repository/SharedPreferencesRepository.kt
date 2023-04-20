@@ -24,7 +24,8 @@ class SharedPreferencesRepository @Inject constructor(
     var language: String
     var lastRunTime: Long
     var lastDivination: Long = 0
-    var сountingStartDate: Long = 0
+    var countingStartDate: Long = 0
+    var runicLayoutsLimit: Int = 0
 
     init {
         val appVersion = context.packageManager.getPackageInfo(context.packageName, 0).versionCode
@@ -95,11 +96,20 @@ class SharedPreferencesRepository @Inject constructor(
         }
 
         if (preferences.contains("start_counting_date")) {
-            сountingStartDate = preferences.getLong("start_counting_date", 0)
+            countingStartDate = preferences.getLong("start_counting_date", 0)
         } else {
-            сountingStartDate = 0
+            countingStartDate = 0
             val editor = preferences.edit()
-            editor.putLong("start_counting_date", сountingStartDate)
+            editor.putLong("start_counting_date", countingStartDate)
+            editor.apply()
+        }
+
+        if (preferences.contains("runic_draws_limit_count")) {
+            runicLayoutsLimit = preferences.getInt("runic_draws_limit_count", 0)
+        } else {
+            runicLayoutsLimit = 0
+            val editor = preferences.edit()
+            editor.putInt("runic_draws_limit_count", runicLayoutsLimit)
             editor.apply()
         }
 
@@ -150,8 +160,15 @@ class SharedPreferencesRepository @Inject constructor(
 
     fun changeStartCountingDate(l: Long) {
         val editor = preferences.edit()
-        сountingStartDate = l
-        editor.putLong("start_counting_date", сountingStartDate)
+        countingStartDate = l
+        editor.putLong("start_counting_date", countingStartDate)
+        editor.apply()
+    }
+
+    fun changeLimit(count: Int) {
+        val editor = preferences.edit()
+        runicLayoutsLimit = count
+        editor.putInt("runic_draws_limit_count", runicLayoutsLimit)
         editor.apply()
     }
 }

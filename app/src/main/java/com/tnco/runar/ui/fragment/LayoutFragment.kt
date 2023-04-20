@@ -1,6 +1,7 @@
 package com.tnco.runar.ui.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,11 +11,15 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.res.colorResource
@@ -24,10 +29,13 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -36,11 +44,10 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.tnco.runar.R
 import com.tnco.runar.databinding.FragmentLayoutsBinding
 import com.tnco.runar.enums.AnalyticsEvent
+import com.tnco.runar.model.RunicDrawsAccessModel
+import com.tnco.runar.repository.SharedPreferencesRepository
 import com.tnco.runar.ui.viewmodel.LayoutViewModel
-import com.tnco.runar.util.AnalyticsConstants
-import com.tnco.runar.util.AnalyticsUtils
-import com.tnco.runar.util.rectShadow
-import com.tnco.runar.util.setOnCLickListenerForAll
+import com.tnco.runar.util.*
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -71,8 +78,129 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
                 UpperBanner(onClick = bannerOnClick)
             }
         }
-
+        showLimitsOnLayouts()
         return view
+    }
+
+    private fun showLimitsOnLayouts() = binding.apply {
+        val count = mutableStateOf(SharedPreferencesRepository(requireContext()).runicLayoutsLimit)
+        val time = mutableStateOf("")
+
+        object : CounterUtil(requireContext()) {
+            override fun onTimerTick(timeUntilFinished: String) {
+                Log.d("TAG_LIMIT", "onTimerTick: $timeUntilFinished")
+                time.value = timeUntilFinished
+            }
+
+            override fun onTimerFinish() {
+                // TODO: Remove Limit on Layouts and Get User another 3 chances
+            }
+        }.startOrRefreshCounting()
+
+        listOf(firstLayoutAccessCard, secondLayoutAccessCard, thirdLayoutAccessCard).forEach {
+            it.setContent {
+                AccessCard(accessType = RunicDrawsAccessModel.Free)
+            }
+        }
+
+        val accessType = if (count.value > 0) {
+            setForeground(color = null)
+            RunicDrawsAccessModel.OpenWithLimit(count = count)
+        } else {
+            setForeground(color = R.color.close_layout_foreground)
+            RunicDrawsAccessModel.ClosedForAWhile(time = time)
+        }
+
+        listOf(
+            fourthLayoutAccessCard,
+            fifthLayoutAccessCard,
+            sixthLayoutAccessCard,
+            seventhLayoutAccessCard,
+            eightLayoutAccessCard
+        ).forEach {
+            it.setContent {
+                AccessCard(accessType = accessType)
+            }
+        }
+    }
+
+    private fun setForeground(color: Int?) {
+        binding.apply {
+            val listOfView = listOf(
+                fourthLayout,
+                fifthLayout,
+                sixthLayout,
+                seventhLayout,
+                eightLayout
+            )
+
+            listOfView.forEach {
+                if (color != null) {
+                    it.isEnabled = false
+                    it.foreground = ResourcesCompat.getDrawable(resources, color, null)
+                } else {
+                    it.isEnabled = true
+                    it.foreground = null
+                }
+            }
+        }
+    }
+
+    @Composable
+    fun AccessCard(accessType: RunicDrawsAccessModel) {
+        val image: Painter
+        val counter: String
+        val textColor: Color
+
+        when (accessType) {
+            is RunicDrawsAccessModel.Free -> {
+                image = painterResource(id = R.drawable.yellow_bag)
+                counter = "∞"
+                textColor = colorResource(id = R.color.run_draws_open_text_color)
+            }
+            is RunicDrawsAccessModel.Closed -> {
+                image = painterResource(id = R.drawable.lock_icon)
+                counter = ""
+                textColor = colorResource(id = R.color.run_draws_open_text_color)
+            }
+            is RunicDrawsAccessModel.OpenWithLimit -> {
+                image = painterResource(id = R.drawable.yellow_bag)
+                counter = accessType.count.value.toString()
+                textColor = colorResource(id = R.color.run_draws_open_text_color)
+            }
+            is RunicDrawsAccessModel.ClosedForAWhile -> {
+                image = painterResource(id = R.drawable.lock_with_time)
+                counter = accessType.time.value
+                textColor = colorResource(id = R.color.run_draws_time_color)
+            }
+        }
+
+        Card(
+            shape = RoundedCornerShape(topEnd = 8.dp, bottomStart = 8.dp),
+            backgroundColor = colorResource(
+                id = R.color.shadow
+            ),
+            modifier = Modifier.wrapContentSize()
+        ) {
+            Row(
+                modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Image(
+                    painter = image,
+                    contentDescription = ""
+                )
+                if (counter.isNotEmpty()) {
+                    Spacer(modifier = Modifier.width(4.dp))
+                    Text(
+                        text = counter,
+                        color = textColor,
+                        fontFamily = FontFamily(Font(resId = R.font.roboto_regular)),
+                        fontSize = 11.sp
+                    )
+                }
+            }
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -218,4 +346,25 @@ private fun UpperBanner(onClick: () -> Unit = {}) {
             Spacer(Modifier.height(24.dp))
         }
     }
+}
+
+@Preview
+@Composable
+private fun RuneAccessCardPreview(
+    @PreviewParameter(PreviewParams::class)
+    accessType: RunicDrawsAccessModel
+) {
+    MaterialTheme {
+        LayoutFragment().AccessCard(accessType = accessType)
+    }
+}
+
+class PreviewParams : PreviewParameterProvider<RunicDrawsAccessModel> {
+    override val values: Sequence<RunicDrawsAccessModel>
+        get() = sequenceOf(
+            RunicDrawsAccessModel.Free,
+            RunicDrawsAccessModel.Closed,
+            RunicDrawsAccessModel.OpenWithLimit(count = mutableStateOf(3)),
+            RunicDrawsAccessModel.ClosedForAWhile(time = mutableStateOf("24:18:32"))
+        )
 }

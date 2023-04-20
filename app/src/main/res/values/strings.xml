@@ -161,4 +161,8 @@
     <string name="privacy_policy">Privacy Policy</string>
     <string name="restore">Restore</string>
 
+    <string name="d">d.</string>
+    <string name="h">h.</string>
+    <string name="m">m.</string>
+
 </resources>
