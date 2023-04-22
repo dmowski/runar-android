@@ -31,10 +31,26 @@ class PurchaseHelper(val activity: Activity) {
     private val _statusText = MutableStateFlow("Initializing...")
     val statusText = _statusText.asStateFlow()
 
-    fun billingSetup() {
+    private val purchasesUpdatedListener: PurchasesUpdatedListener
+
+    init {
+        purchasesUpdatedListener = PurchasesUpdatedListener { billingResult, purchases ->
+            if (billingResult.responseCode == BillingClient.BillingResponseCode.OK && purchases != null) {
+                for (purchase in purchases) {
+                    completePurchase(purchase)
+                }
+            } else if (billingResult.responseCode == BillingClient.BillingResponseCode.USER_CANCELED) {
+                _statusText.value = "Purchase Canceled"
+            } else {
+                _statusText.value = "Purchase Error"
+            }
+        }
+
         billingClient = BillingClient.newBuilder(activity).setListener(purchasesUpdatedListener)
             .enablePendingPurchases().build()
+    }
 
+    fun billingSetup() {
         billingClient.startConnection(object : BillingClientStateListener {
             override fun onBillingSetupFinished(
                 billingResult: BillingResult
@@ -89,18 +105,6 @@ class PurchaseHelper(val activity: Activity) {
         }
     }
 
-    private val purchasesUpdatedListener = PurchasesUpdatedListener { billingResult, purchases ->
-        if (billingResult.responseCode == BillingClient.BillingResponseCode.OK && purchases != null) {
-            for (purchase in purchases) {
-                completePurchase(purchase)
-            }
-        } else if (billingResult.responseCode == BillingClient.BillingResponseCode.USER_CANCELED) {
-            _statusText.value = "Purchase Canceled"
-        } else {
-            _statusText.value = "Purchase Error"
-        }
-    }
-
     private fun completePurchase(item: Purchase) {
         purchase = item
         if (purchase.purchaseState == Purchase.PurchaseState.PURCHASED) {
@@ -116,7 +120,9 @@ class PurchaseHelper(val activity: Activity) {
             listOf(
                 BillingFlowParams.ProductDetailsParams.newBuilder()
                     .setProductDetails(productDetails)
-                    .setOfferToken(productDetails.subscriptionOfferDetails?.get(0)?.offerToken ?: "")
+                    .setOfferToken(
+                        productDetails.subscriptionOfferDetails?.get(0)?.offerToken ?: ""
+                    )
                     .build()
             )
         ).build()
@@ -139,7 +145,7 @@ class PurchaseHelper(val activity: Activity) {
         }
     }
 
-    private fun reloadPurchase() {
+    fun reloadPurchase() {
         val queryPurchasesParams =
             QueryPurchasesParams.newBuilder().setProductType(BillingClient.ProductType.SUBS).build()
 
@@ -149,15 +155,19 @@ class PurchaseHelper(val activity: Activity) {
     }
 
     private val purchasesListener = PurchasesResponseListener { billingResult, purchases ->
-        if (purchases.isNotEmpty()) {
-            purchase = purchases.first()
-            _buyEnabled.value = false
-            _consumeEnabled.value = true
-            _statusText.value = "Previous Purchase Found"
-        } else {
-            _buyEnabled.value = true
-            _consumeEnabled.value = false
+        for (prch in purchases) {
+            if (prch.purchaseState == Purchase.PurchaseState.PURCHASED) {
+                purchase = prch
+                _buyEnabled.value = false
+                _consumeEnabled.value = true
+                _statusText.value = "Previous Purchase Found"
+                return@PurchasesResponseListener
+            }
         }
+
+        _buyEnabled.value = true
+        _consumeEnabled.value = false
+
         if (billingResult.responseCode == BillingClient.BillingResponseCode.USER_CANCELED) {
             _statusText.value = "Purchase Canceled"
         } else {

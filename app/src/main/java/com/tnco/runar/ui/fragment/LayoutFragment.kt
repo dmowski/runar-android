@@ -14,8 +14,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -49,11 +48,15 @@ import com.tnco.runar.repository.SharedPreferencesRepository
 import com.tnco.runar.ui.viewmodel.LayoutViewModel
 import com.tnco.runar.util.*
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 
 @AndroidEntryPoint
 class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener, HasVisibleNavBar {
 
     private val viewModel: LayoutViewModel by viewModels()
+
+    private lateinit var purchaseHelper: PurchaseHelper
 
     private var _binding: FragmentLayoutsBinding? = null
     private val binding
@@ -78,6 +81,9 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
                 UpperBanner(onClick = bannerOnClick)
             }
         }
+        purchaseHelper = PurchaseHelper(requireActivity())
+        purchaseHelper.reloadPurchase()
+
         showLimitsOnLayouts()
         return view
     }
@@ -85,6 +91,7 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
     private fun showLimitsOnLayouts() = binding.apply {
         val count = mutableStateOf(SharedPreferencesRepository(requireContext()).runicLayoutsLimit)
         val time = mutableStateOf("")
+        val hasSubs = purchaseHelper.consumeEnabled
 
         object : CounterUtil(requireContext()) {
             override fun onTimerTick(timeUntilFinished: String) {
@@ -99,7 +106,7 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
 
         listOf(firstLayoutAccessCard, secondLayoutAccessCard, thirdLayoutAccessCard).forEach {
             it.setContent {
-                AccessCard(accessType = RunicDrawsAccessModel.Free)
+                AccessCard(accessType = RunicDrawsAccessModel.Free, hasSubs = hasSubs)
             }
         }
 
@@ -119,7 +126,7 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
             eightLayoutAccessCard
         ).forEach {
             it.setContent {
-                AccessCard(accessType = accessType)
+                AccessCard(accessType = accessType, hasSubs = hasSubs)
             }
         }
     }
@@ -147,57 +154,64 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
     }
 
     @Composable
-    fun AccessCard(accessType: RunicDrawsAccessModel) {
-        val image: Painter
-        val counter: String
-        val textColor: Color
-
-        when (accessType) {
-            is RunicDrawsAccessModel.Free -> {
-                image = painterResource(id = R.drawable.yellow_bag)
-                counter = "∞"
-                textColor = colorResource(id = R.color.run_draws_open_text_color)
-            }
-            is RunicDrawsAccessModel.Closed -> {
-                image = painterResource(id = R.drawable.lock_icon)
-                counter = ""
-                textColor = colorResource(id = R.color.run_draws_open_text_color)
-            }
-            is RunicDrawsAccessModel.OpenWithLimit -> {
-                image = painterResource(id = R.drawable.yellow_bag)
-                counter = accessType.count.value.toString()
-                textColor = colorResource(id = R.color.run_draws_open_text_color)
-            }
-            is RunicDrawsAccessModel.ClosedForAWhile -> {
-                image = painterResource(id = R.drawable.lock_with_time)
-                counter = accessType.time.value
-                textColor = colorResource(id = R.color.run_draws_time_color)
-            }
+    fun AccessCard(accessType: RunicDrawsAccessModel, hasSubs: StateFlow<Boolean>) {
+        val hasSubsState = hasSubs.collectAsState()
+        val hasSubsRemember by remember {
+            hasSubsState
         }
 
-        Card(
-            shape = RoundedCornerShape(topEnd = 8.dp, bottomStart = 8.dp),
-            backgroundColor = colorResource(
-                id = R.color.shadow
-            ),
-            modifier = Modifier.wrapContentSize()
-        ) {
-            Row(
-                modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
-                verticalAlignment = Alignment.CenterVertically
+        if (!hasSubsRemember) {
+            val image: Painter
+            val counter: String
+            val textColor: Color
+
+            when (accessType) {
+                is RunicDrawsAccessModel.Free -> {
+                    image = painterResource(id = R.drawable.yellow_bag)
+                    counter = "∞"
+                    textColor = colorResource(id = R.color.run_draws_open_text_color)
+                }
+                is RunicDrawsAccessModel.Closed -> {
+                    image = painterResource(id = R.drawable.lock_icon)
+                    counter = ""
+                    textColor = colorResource(id = R.color.run_draws_open_text_color)
+                }
+                is RunicDrawsAccessModel.OpenWithLimit -> {
+                    image = painterResource(id = R.drawable.yellow_bag)
+                    counter = accessType.count.value.toString()
+                    textColor = colorResource(id = R.color.run_draws_open_text_color)
+                }
+                is RunicDrawsAccessModel.ClosedForAWhile -> {
+                    image = painterResource(id = R.drawable.lock_with_time)
+                    counter = accessType.time.value
+                    textColor = colorResource(id = R.color.run_draws_time_color)
+                }
+            }
+
+            Card(
+                shape = RoundedCornerShape(topEnd = 8.dp, bottomStart = 8.dp),
+                backgroundColor = colorResource(
+                    id = R.color.shadow
+                ),
+                modifier = Modifier.wrapContentSize()
             ) {
-                Image(
-                    painter = image,
-                    contentDescription = ""
-                )
-                if (counter.isNotEmpty()) {
-                    Spacer(modifier = Modifier.width(4.dp))
-                    Text(
-                        text = counter,
-                        color = textColor,
-                        fontFamily = FontFamily(Font(resId = R.font.roboto_regular)),
-                        fontSize = 11.sp
+                Row(
+                    modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Image(
+                        painter = image,
+                        contentDescription = ""
                     )
+                    if (counter.isNotEmpty()) {
+                        Spacer(modifier = Modifier.width(4.dp))
+                        Text(
+                            text = counter,
+                            color = textColor,
+                            fontFamily = FontFamily(Font(resId = R.font.roboto_regular)),
+                            fontSize = 11.sp
+                        )
+                    }
                 }
             }
         }
@@ -355,7 +369,7 @@ private fun RuneAccessCardPreview(
     accessType: RunicDrawsAccessModel
 ) {
     MaterialTheme {
-        LayoutFragment().AccessCard(accessType = accessType)
+        LayoutFragment().AccessCard(accessType = accessType, hasSubs = MutableStateFlow(true))
     }
 }
 
