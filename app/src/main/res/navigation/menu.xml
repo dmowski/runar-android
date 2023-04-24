@@ -31,6 +31,15 @@
     <fragment
         android:id="@+id/runarPremiumFragment"
         android:name="com.tnco.runar.ui.fragment.RunarPremiumFragment"
-        android:label="RunarPremiumFragment" />
+        android:label="RunarPremiumFragment" >
+        <action
+            android:id="@+id/action_runarPremiumFragment_to_privacyPolicyFragment"
+            app:destination="@id/privacyPolicyFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/privacyPolicyFragment"
+        android:name="com.tnco.runar.ui.fragment.PrivacyPolicyFragment"
+        android:label="PrivacyPolicyFragment" />
+
 
 </navigation>

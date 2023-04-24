@@ -34,6 +34,8 @@ import androidx.navigation.compose.rememberNavController
 import com.tnco.runar.R
 import com.tnco.runar.model.SkuModel
 import com.tnco.runar.repository.SharedDataRepository
+import com.tnco.runar.ui.fragment.MenuFragmentDirections
+import com.tnco.runar.ui.fragment.RunarPremiumFragmentDirections
 import com.tnco.runar.ui.viewmodel.RunarPremiumViewModel
 
 @Composable
@@ -98,9 +100,15 @@ fun RunarPremiumFragmentLayout(
                 horizontalArrangement = Arrangement.spacedBy(24.dp, Alignment.CenterHorizontally),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                ExtraText(name = stringResource(id = R.string.terms_of_use), fontSize = fontSize)
-                ExtraText(name = stringResource(id = R.string.privacy_policy), fontSize = fontSize)
-                ExtraText(name = stringResource(id = R.string.restore), fontSize = fontSize, weight = FontWeight.W700)
+                ExtraText(name = stringResource(id = R.string.terms_of_use), fontSize = fontSize, clickAction = {
+                })
+                ExtraText(name = stringResource(id = R.string.privacy_policy), fontSize = fontSize, clickAction = {
+                    val direction =
+                        RunarPremiumFragmentDirections.actionRunarPremiumFragmentToPrivacyPolicyFragment()
+                    navController.navigate(direction)
+                })
+                ExtraText(name = stringResource(id = R.string.restore), fontSize = fontSize, weight = FontWeight.W700, clickAction = {
+                })
             }
             Spacer(
                 modifier = Modifier.height(2.dp)
@@ -356,8 +364,9 @@ fun Feature(title: String, fontSize: Float) {
 }
 
 @Composable
-fun ExtraText(name: String, fontSize: Float, weight: FontWeight = FontWeight.W400) {
+fun ExtraText(name: String, fontSize: Float, weight: FontWeight = FontWeight.W400, clickAction: () -> Unit) {
     Text(
+        modifier = Modifier.clickable(onClick = clickAction),
         text = name,
         color = colorResource(id = R.color.purchase_header_secondary_color),
         fontFamily = FontFamily(Font(resId = R.font.sf_pro_display)),
