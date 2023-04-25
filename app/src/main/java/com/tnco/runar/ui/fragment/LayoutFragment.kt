@@ -5,16 +5,16 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -36,7 +36,9 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.asLiveData
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -45,15 +47,17 @@ import com.tnco.runar.databinding.FragmentLayoutsBinding
 import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.model.RunicDrawsAccessModel
 import com.tnco.runar.repository.SharedPreferencesRepository
+import com.tnco.runar.ui.layouts.NoticeBottomSheet
 import com.tnco.runar.ui.viewmodel.LayoutViewModel
+import com.tnco.runar.ui.viewmodel.MainViewModel
 import com.tnco.runar.util.*
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener, HasVisibleNavBar {
-
+    private val mainViewModel: MainViewModel by activityViewModels()
     private val viewModel: LayoutViewModel by viewModels()
 
     private lateinit var purchaseHelper: PurchaseHelper
@@ -61,6 +65,10 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
     private var _binding: FragmentLayoutsBinding? = null
     private val binding
         get() = _binding!!
+
+    private var hasSubs = false
+    private val showBottomSheet = mutableStateOf(false)
+    private lateinit var sharedPreferencesRepository: SharedPreferencesRepository
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -81,41 +89,118 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
                 UpperBanner(onClick = bannerOnClick)
             }
         }
+
+        sharedPreferencesRepository = SharedPreferencesRepository(requireContext())
+        mainViewModel.countOfChance.value = sharedPreferencesRepository.runicLayoutsLimit
+
         purchaseHelper = PurchaseHelper(requireActivity())
         purchaseHelper.reloadPurchase()
 
-        showLimitsOnLayouts()
-        return view
-    }
-
-    private fun showLimitsOnLayouts() = binding.apply {
-        val count = mutableStateOf(SharedPreferencesRepository(requireContext()).runicLayoutsLimit)
-        val time = mutableStateOf("")
-        val hasSubs = purchaseHelper.consumeEnabled
-
-        object : CounterUtil(requireContext()) {
-            override fun onTimerTick(timeUntilFinished: String) {
-                Log.d("TAG_LIMIT", "onTimerTick: $timeUntilFinished")
-                time.value = timeUntilFinished
-            }
-
-            override fun onTimerFinish() {
-                // TODO: Remove Limit on Layouts and Get User another 3 chances
-            }
-        }.startOrRefreshCounting()
-
-        listOf(firstLayoutAccessCard, secondLayoutAccessCard, thirdLayoutAccessCard).forEach {
-            it.setContent {
-                AccessCard(accessType = RunicDrawsAccessModel.Free, hasSubs = hasSubs)
+        purchaseHelper.consumeEnabled.asLiveData().observe(viewLifecycleOwner) {
+            hasSubs = it
+            if (!hasSubs) {
+                showLimitsOnLayouts()
             }
         }
 
-        val accessType = if (count.value > 0) {
-            setForeground(color = null)
-            RunicDrawsAccessModel.OpenWithLimit(count = count)
-        } else {
-            setForeground(color = R.color.close_layout_foreground)
-            RunicDrawsAccessModel.ClosedForAWhile(time = time)
+        return view
+    }
+
+    @OptIn(ExperimentalMaterialApi::class)
+    @Composable
+    private fun ModalBottomSheet(time: State<String>) {
+        val showBottomSheetRemember by remember {
+            showBottomSheet
+        }
+        val coroutineScope = rememberCoroutineScope()
+
+        val bottomSheetState = rememberModalBottomSheetState(
+            initialValue = ModalBottomSheetValue.Hidden,
+            confirmStateChange = { it != ModalBottomSheetValue.Expanded }
+        )
+
+        NoticeBottomSheet(
+            sheetState = bottomSheetState,
+            coroutineScope = coroutineScope,
+            fontSize = viewModel.fontSize.observeAsState().value!!,
+            time = time.value,
+            watchAD = {
+                GoogleAdUtils(requireActivity()).apply {
+                    onUserEarnedReward = {
+                        hideBottomSheet(bottomSheetState, coroutineScope)
+                        sharedPreferencesRepository.apply {
+                            changeStartCountingDate(0)
+                            changeLimit(3)
+                        }
+                        mainViewModel.countOfChance.value = 3
+                    }
+                    onAdFailedToLoad = {
+                        Toast.makeText(requireContext(), "Something going wrong. Please try again!", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            },
+            purchaseSubsBtnClicked = {
+                val direction = LayoutFragmentDirections.actionLayoutFragmentToRunarPremiumFragment2()
+                findNavController().navigate(direction)
+            }
+        ) {
+            showBottomSheet.value = false
+            hideBottomSheet(bottomSheetState, coroutineScope)
+        }
+
+        LaunchedEffect(key1 = bottomSheetState.currentValue) {
+            if (showBottomSheet.value && (bottomSheetState.currentValue == ModalBottomSheetValue.Hidden)) {
+                showBottomSheet.value = false
+            }
+        }
+
+        if (showBottomSheetRemember)
+            showBottomSheet(bottomSheetState, coroutineScope)
+        else
+            hideBottomSheet(bottomSheetState, coroutineScope)
+    }
+
+    @OptIn(ExperimentalMaterialApi::class)
+    private fun showBottomSheet(
+        bottomSheetState: ModalBottomSheetState,
+        coroutineScope: CoroutineScope
+    ) = coroutineScope.launch {
+        bottomSheetState.animateTo(ModalBottomSheetValue.Expanded)
+    }
+
+    @OptIn(ExperimentalMaterialApi::class)
+    private fun hideBottomSheet(
+        bottomSheetState: ModalBottomSheetState,
+        coroutineScope: CoroutineScope
+    ) = coroutineScope.launch {
+        bottomSheetState.hide()
+    }
+
+    private fun showLimitsOnLayouts() = binding.apply {
+        val time = mutableStateOf("")
+
+        if (mainViewModel.countOfChance.value == 0) {
+            object : CounterUtil(requireContext()) {
+                override fun onTimerTick(timeUntilFinished: String) {
+                    Log.d("TAG_LIMIT", "onTimerTick: $timeUntilFinished")
+                    time.value = timeUntilFinished
+                }
+
+                override fun onTimerFinish() {
+                    sharedPreferencesRepository.changeLimit(3)
+                    mainViewModel.countOfChance.value = 3
+                }
+            }.startOrRefreshCounting()
+        }
+
+        binding.noticeBottomSheet.setContent {
+            ModalBottomSheet(time = time)
+        }
+
+        listOf(firstLayoutAccessCard, secondLayoutAccessCard, thirdLayoutAccessCard).forEach {
+            it.setContent {
+                AccessCard()
+            }
         }
 
         listOf(
@@ -126,7 +211,7 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
             eightLayoutAccessCard
         ).forEach {
             it.setContent {
-                AccessCard(accessType = accessType, hasSubs = hasSubs)
+                AccessCard(count = mainViewModel.countOfChance.value, time = time.value)
             }
         }
     }
@@ -143,10 +228,8 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
 
             listOfView.forEach {
                 if (color != null) {
-                    it.isEnabled = false
                     it.foreground = ResourcesCompat.getDrawable(resources, color, null)
                 } else {
-                    it.isEnabled = true
                     it.foreground = null
                 }
             }
@@ -154,64 +237,68 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
     }
 
     @Composable
-    fun AccessCard(accessType: RunicDrawsAccessModel, hasSubs: StateFlow<Boolean>) {
-        val hasSubsState = hasSubs.collectAsState()
-        val hasSubsRemember by remember {
-            hasSubsState
+    fun AccessCard(count: Int = -1, time: String = "") {
+        val accessType = if (count > 0) {
+            setForeground(color = null)
+            RunicDrawsAccessModel.OpenWithLimit(count = count)
+        } else if (count == -1) { // When layout is free
+            setForeground(color = null)
+            RunicDrawsAccessModel.Free
+        } else {
+            setForeground(color = R.color.close_layout_foreground)
+            RunicDrawsAccessModel.ClosedForAWhile(time = time)
         }
 
-        if (!hasSubsRemember) {
-            val image: Painter
-            val counter: String
-            val textColor: Color
+        val image: Painter
+        val counter: String
+        val textColor: Color
 
-            when (accessType) {
-                is RunicDrawsAccessModel.Free -> {
-                    image = painterResource(id = R.drawable.yellow_bag)
-                    counter = "∞"
-                    textColor = colorResource(id = R.color.run_draws_open_text_color)
-                }
-                is RunicDrawsAccessModel.Closed -> {
-                    image = painterResource(id = R.drawable.lock_icon)
-                    counter = ""
-                    textColor = colorResource(id = R.color.run_draws_open_text_color)
-                }
-                is RunicDrawsAccessModel.OpenWithLimit -> {
-                    image = painterResource(id = R.drawable.yellow_bag)
-                    counter = accessType.count.value.toString()
-                    textColor = colorResource(id = R.color.run_draws_open_text_color)
-                }
-                is RunicDrawsAccessModel.ClosedForAWhile -> {
-                    image = painterResource(id = R.drawable.lock_with_time)
-                    counter = accessType.time.value
-                    textColor = colorResource(id = R.color.run_draws_time_color)
-                }
+        when (accessType) {
+            is RunicDrawsAccessModel.Free -> {
+                image = painterResource(id = R.drawable.yellow_bag)
+                counter = "∞"
+                textColor = colorResource(id = R.color.run_draws_open_text_color)
             }
+            is RunicDrawsAccessModel.Closed -> {
+                image = painterResource(id = R.drawable.lock_icon)
+                counter = ""
+                textColor = colorResource(id = R.color.run_draws_open_text_color)
+            }
+            is RunicDrawsAccessModel.OpenWithLimit -> {
+                image = painterResource(id = R.drawable.yellow_bag)
+                counter = accessType.count.toString()
+                textColor = colorResource(id = R.color.run_draws_open_text_color)
+            }
+            is RunicDrawsAccessModel.ClosedForAWhile -> {
+                image = painterResource(id = R.drawable.lock_with_time)
+                counter = accessType.time
+                textColor = colorResource(id = R.color.run_draws_time_color)
+            }
+        }
 
-            Card(
-                shape = RoundedCornerShape(topEnd = 8.dp, bottomStart = 8.dp),
-                backgroundColor = colorResource(
-                    id = R.color.shadow
-                ),
-                modifier = Modifier.wrapContentSize()
+        Card(
+            shape = RoundedCornerShape(topEnd = 8.dp, bottomStart = 8.dp),
+            backgroundColor = colorResource(
+                id = R.color.shadow
+            ),
+            modifier = Modifier.wrapContentSize()
+        ) {
+            Row(
+                modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Row(
-                    modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Image(
-                        painter = image,
-                        contentDescription = ""
+                Image(
+                    painter = image,
+                    contentDescription = ""
+                )
+                if (counter.isNotEmpty()) {
+                    Spacer(modifier = Modifier.width(4.dp))
+                    Text(
+                        text = counter,
+                        color = textColor,
+                        fontFamily = FontFamily(Font(resId = R.font.roboto_regular)),
+                        fontSize = 11.sp
                     )
-                    if (counter.isNotEmpty()) {
-                        Spacer(modifier = Modifier.width(4.dp))
-                        Text(
-                            text = counter,
-                            color = textColor,
-                            fontFamily = FontFamily(Font(resId = R.font.roboto_regular)),
-                            fontSize = 11.sp
-                        )
-                    }
                 }
             }
         }
@@ -245,33 +332,47 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
     }
 
     override fun onClick(v: View?) {
-        val idOfRune = when (v?.id) {
-            R.id.first_layout -> 1
-            R.id.second_layout -> 2
-            R.id.third_layout -> 3
-            R.id.fourth_layout -> 4
-            R.id.fifth_layout -> 5
-            R.id.sixth_layout -> 6
-            R.id.seventh_layout -> 7
-            else -> 8
-        }
-        viewModel.checkDescriptionStatus(idOfRune)
-        val layoutName = AnalyticsUtils.convertLayoutIdToName(idOfRune)
-        viewModel.analyticsHelper.sendEvent(
-            AnalyticsEvent.DRAWS_SELECTED,
-            Pair(AnalyticsConstants.DRAW_RUNE_LAYOUT, layoutName)
-        )
-        viewModel.showStatus.observe(viewLifecycleOwner) { needShowDescription ->
-            if (needShowDescription) {
-                val direction = LayoutFragmentDirections
-                    .actionLayoutFragmentToLayoutDescriptionFragment(idOfRune)
-                findNavController().navigate(direction)
-            } else {
-                val direction = LayoutFragmentDirections
-                    .actionLayoutFragmentToLayoutInitFragment(idOfRune)
-                findNavController().navigate(direction)
+        val isLayoutFree =
+            (v?.id in listOf(R.id.first_layout, R.id.second_layout, R.id.third_layout))
+
+        val hasChance = (mainViewModel.countOfChance.value != 0)
+
+        if (hasSubs || isLayoutFree || hasChance) {
+            val idOfRune: Int = when (v?.id) {
+                R.id.first_layout -> 1
+                R.id.second_layout -> 2
+                R.id.third_layout -> 3
+                R.id.fourth_layout -> 4
+                R.id.fifth_layout -> 5
+                R.id.sixth_layout -> 6
+                R.id.seventh_layout -> 7
+                else -> 8
             }
-        }
+
+            viewModel.checkDescriptionStatus(idOfRune)
+            val layoutName = AnalyticsUtils.convertLayoutIdToName(idOfRune)
+            viewModel.analyticsHelper.sendEvent(
+                AnalyticsEvent.DRAWS_SELECTED,
+                Pair(AnalyticsConstants.DRAW_RUNE_LAYOUT, layoutName)
+            )
+            viewModel.showStatus.observe(viewLifecycleOwner) { needShowDescription ->
+                if (needShowDescription) {
+                    val direction = LayoutFragmentDirections
+                        .actionLayoutFragmentToLayoutDescriptionFragment(idOfRune)
+                    findNavController().navigate(direction)
+                } else {
+                    if (idOfRune > 3) {
+                        sharedPreferencesRepository.changeLimit(sharedPreferencesRepository.runicLayoutsLimit - 1)
+                        mainViewModel.countOfChance.value =
+                            sharedPreferencesRepository.runicLayoutsLimit
+                    }
+                    val direction = LayoutFragmentDirections
+                        .actionLayoutFragmentToLayoutInitFragment(idOfRune)
+                    findNavController().navigate(direction)
+                }
+            }
+        } else
+            showBottomSheet.value = true
     }
 }
 
@@ -366,19 +467,14 @@ private fun UpperBanner(onClick: () -> Unit = {}) {
 @Composable
 private fun RuneAccessCardPreview(
     @PreviewParameter(PreviewParams::class)
-    accessType: RunicDrawsAccessModel
+    count: Int
 ) {
     MaterialTheme {
-        LayoutFragment().AccessCard(accessType = accessType, hasSubs = MutableStateFlow(true))
+        LayoutFragment().AccessCard(count = count)
     }
 }
 
-class PreviewParams : PreviewParameterProvider<RunicDrawsAccessModel> {
-    override val values: Sequence<RunicDrawsAccessModel>
-        get() = sequenceOf(
-            RunicDrawsAccessModel.Free,
-            RunicDrawsAccessModel.Closed,
-            RunicDrawsAccessModel.OpenWithLimit(count = mutableStateOf(3)),
-            RunicDrawsAccessModel.ClosedForAWhile(time = mutableStateOf("24:18:32"))
-        )
+class PreviewParams : PreviewParameterProvider<Int> {
+    override val values: Sequence<Int>
+        get() = sequenceOf(3, 2, 1, -1)
 }

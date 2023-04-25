@@ -13,6 +13,7 @@ class GoogleAdUtils(val activity: Activity) : FullScreenContentCallback(), OnUse
     val adLoadingState = mutableStateOf(rewardedInterstitialAd != null)
 
     var onUserEarnedReward: ((RewardItem) -> (Unit))? = null
+    var onAdFailedToLoad: (() -> (Unit))? = null
 
     init {
         initialize()
@@ -33,6 +34,7 @@ class GoogleAdUtils(val activity: Activity) : FullScreenContentCallback(), OnUse
                 override fun onAdFailedToLoad(adError: LoadAdError) {
                     Log.d("TAG_AD", adError.toString())
                     rewardedInterstitialAd = null
+                    onAdFailedToLoad?.invoke()
                 }
 
                 override fun onAdLoaded(rewardedInterstitialAd: RewardedInterstitialAd) {
@@ -50,8 +52,10 @@ class GoogleAdUtils(val activity: Activity) : FullScreenContentCallback(), OnUse
     private fun showRewardAd() {
         if (adLoadingState.value)
             rewardedInterstitialAd?.show(activity, this)
-        else
+        else {
             Log.d("TAG_AD", "The interstitial ad wasn't ready yet.")
+            onAdFailedToLoad?.invoke()
+        }
     }
 
     override fun onAdDismissedFullScreenContent() {
@@ -72,25 +76,3 @@ class GoogleAdUtils(val activity: Activity) : FullScreenContentCallback(), OnUse
         private const val INTERSTITIAL_AD_AD = "ca-app-pub-4330541344219932/3903096074"
     }
 }
-/*
-            var rewardAdState by remember {
-                mutableStateOf(false)
-            }
-
-            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                Button(onClick = {
-                    GoogleAdUtils(requireActivity()).apply {
-                        onUserEarnedReward = {
-                            rewardAdState = false
-                            Log.d("TAG_AD", "onUserEarnedReward: Yeah! It is really working!")
-                        }
-                    }
-                    rewardAdState = true
-                }) {
-                    Text(
-                        text = "Show test Reward AD"
-                    )
-                }
-                if(rewardAdState)
-                    CircularProgressIndicator()
- */

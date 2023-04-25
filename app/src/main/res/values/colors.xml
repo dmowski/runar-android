@@ -118,6 +118,7 @@
     <color name="neutrals_gray_100">#E1E1E1</color>
     <color name="neutrals_gray_50">#F1F1F1</color>
     <color name="neutrals_gray_500">#6E6E6E</color>
+    <color name="neutrals_gray_300">#ACACAC</color>
 
     <color name="sacr_big_button_ripple">#29D2C4AD</color>
 
@@ -167,5 +168,13 @@
     <color name="run_draws_open_text_color">#FFC046</color>
     <color name="shadow">#33000000</color>
     <color name="run_draws_time_color">#D2C4AD</color>
-    <color name="close_layout_foreground">#4D7888DA</color>
+    <color name="close_layout_foreground">#596E6E6E</color>
+
+    <color name="notice_border_color">#A6545458</color>
+    <color name="black_100_per">#000000</color>
+    <color name="black_47_per">#78000000</color>
+    <color name="black_0_per">#00000000</color>
+
+    <color name="bottom_sheet_ad_button">#5C6A6A6A</color>
+    <color name="bottom_sheet_subs_button">#D2C4AD</color>
 </resources>

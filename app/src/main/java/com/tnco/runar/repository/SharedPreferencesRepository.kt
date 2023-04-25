@@ -107,7 +107,7 @@ class SharedPreferencesRepository @Inject constructor(
         if (preferences.contains("runic_draws_limit_count")) {
             runicLayoutsLimit = preferences.getInt("runic_draws_limit_count", 0)
         } else {
-            runicLayoutsLimit = 0
+            runicLayoutsLimit = 3
             val editor = preferences.edit()
             editor.putInt("runic_draws_limit_count", runicLayoutsLimit)
             editor.apply()

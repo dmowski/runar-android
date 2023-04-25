@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Build
 import android.util.Log
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.*
 import com.tnco.runar.analytics.AnalyticsHelper
 import com.tnco.runar.data.remote.BackgroundInfo
@@ -43,6 +44,8 @@ class MainViewModel @Inject constructor(
     var backgroundInfo = mutableListOf<BackgroundInfo>()
     val backgroundInfoResponse = MutableLiveData<NetworkResult<List<BackgroundInfo>>>()
 //    val selectedIndices = mutableListOf<Int>()
+
+    val countOfChance = mutableStateOf(sharedPreferencesRepository.runicLayoutsLimit)
 
     var readRunes: LiveData<List<RunesItemsModel>> =
         databaseRepository.getRunesGenerator().asLiveData()
