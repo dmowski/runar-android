@@ -46,7 +46,7 @@ internal fun AppBar(
                     fontFamily = FontFamily(Font(R.font.amatic_sc_bold)),
                     style = TextStyle(fontSize = 36.sp),
                     textAlign = TextAlign.Center,
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth().padding(top = 6.dp)
                 )
             }
         },
