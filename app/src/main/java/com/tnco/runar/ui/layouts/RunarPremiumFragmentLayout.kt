@@ -26,10 +26,15 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.android.billingclient.api.ProductDetails
 import com.tnco.runar.R
+import com.tnco.runar.repository.SharedDataRepository
+import com.tnco.runar.ui.fragment.RunarPremiumFragmentDirections
+import com.tnco.runar.ui.viewmodel.RunarPremiumViewModel
 
 @Composable
 fun RunarPremiumFragmentLayout(
@@ -97,9 +102,15 @@ fun RunarPremiumFragmentLayout(
                 horizontalArrangement = Arrangement.spacedBy(24.dp, Alignment.CenterHorizontally),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                ExtraText(name = stringResource(id = R.string.terms_of_use), fontSize = fontSize)
-                ExtraText(name = stringResource(id = R.string.privacy_policy), fontSize = fontSize)
-                ExtraText(name = stringResource(id = R.string.restore), fontSize = fontSize, weight = FontWeight.W700)
+                ExtraText(name = stringResource(id = R.string.terms_of_use), fontSize = fontSize, clickAction = {
+                })
+                ExtraText(name = stringResource(id = R.string.privacy_policy), fontSize = fontSize, clickAction = {
+                    val direction =
+                        RunarPremiumFragmentDirections.actionRunarPremiumFragmentToPrivacyPolicyFragment()
+                    navController.navigate(direction)
+                })
+                ExtraText(name = stringResource(id = R.string.restore), fontSize = fontSize, weight = FontWeight.W700, clickAction = {
+                })
             }
             Spacer(
                 modifier = Modifier.height(2.dp)
@@ -361,8 +372,9 @@ fun Feature(title: String, fontSize: Float) {
 }
 
 @Composable
-fun ExtraText(name: String, fontSize: Float, weight: FontWeight = FontWeight.W400) {
+fun ExtraText(name: String, fontSize: Float, weight: FontWeight = FontWeight.W400, clickAction: () -> Unit) {
     Text(
+        modifier = Modifier.clickable(onClick = clickAction),
         text = name,
         color = colorResource(id = R.color.purchase_header_secondary_color),
         fontFamily = FontFamily(Font(resId = R.font.sf_pro_display)),
@@ -374,4 +386,20 @@ fun ExtraText(name: String, fontSize: Float, weight: FontWeight = FontWeight.W40
         ),
         textAlign = TextAlign.Center
     )
+}
+
+@Preview(
+    showBackground = true,
+    showSystemUi = true,
+    locale = "ru"
+)
+@Composable
+fun RunarPremiumFragmentLayoutPreview() {
+    val viewModel = RunarPremiumViewModel(SharedDataRepository(LocalContext.current))
+
+    RunarPremiumFragmentLayout(
+        navController = rememberNavController(),
+        fontSize = 55f,
+        listOfSkus = listOf()
+    ) {}
 }
