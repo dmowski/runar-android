@@ -120,7 +120,7 @@ private fun Menu(navController: NavController) {
                     ) {
                         SubscriptionItem(clickAction = {
                             val direction =
-                                MenuFragmentDirections.actionMenuFragmentToRunarPremiumFragment()
+                                MenuFragmentDirections.actionMenuFragmentToRunarSubs()
                             navController.navigate(direction)
                         })
                     }

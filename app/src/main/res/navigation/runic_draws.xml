@@ -20,8 +20,8 @@
             android:id="@+id/layoutFragment"
             app:uri="runar-android://LayoutFragment" />
         <action
-            android:id="@+id/action_layoutFragment_to_runarPremiumFragment2"
-            app:destination="@id/runarPremiumFragment2" />
+            android:id="@+id/action_layoutFragment_to_runar_subs"
+            app:destination="@id/runar_subs" />
 
     </fragment>
 
@@ -111,9 +111,6 @@
         android:name="com.tnco.runar.ui.fragment.SacrFragment3"
         android:label="SacrFragment3"
         tools:layout="@layout/fragment_layout_sacr_3"/>
-    <fragment
-        android:id="@+id/runarPremiumFragment2"
-        android:name="com.tnco.runar.ui.fragment.RunarPremiumFragment"
-        android:label="RunarPremiumFragment" />
+    <include app:graph="@navigation/runar_subs" />
 
 </navigation>

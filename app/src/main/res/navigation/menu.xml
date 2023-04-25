@@ -19,8 +19,8 @@
             android:id="@+id/action_menuFragment_to_settings"
             app:destination="@id/settings" />
         <action
-            android:id="@+id/action_menuFragment_to_runarPremiumFragment"
-            app:destination="@id/runarPremiumFragment" />
+            android:id="@+id/action_menuFragment_to_runar_subs"
+            app:destination="@id/runar_subs" />
     </fragment>
     <fragment
         android:id="@+id/aboutAppFragment"
@@ -28,18 +28,7 @@
         android:label="AboutAppFragment" />
     <include app:graph="@navigation/favourites" />
     <include app:graph="@navigation/settings" />
-    <fragment
-        android:id="@+id/runarPremiumFragment"
-        android:name="com.tnco.runar.ui.fragment.RunarPremiumFragment"
-        android:label="RunarPremiumFragment" >
-        <action
-            android:id="@+id/action_runarPremiumFragment_to_privacyPolicyFragment"
-            app:destination="@id/privacyPolicyFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/privacyPolicyFragment"
-        android:name="com.tnco.runar.ui.fragment.PrivacyPolicyFragment"
-        android:label="PrivacyPolicyFragment" />
+    <include app:graph="@navigation/runar_subs" />
 
 
 </navigation>

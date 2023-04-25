@@ -140,7 +140,7 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
                 }
             },
             purchaseSubsBtnClicked = {
-                val direction = LayoutFragmentDirections.actionLayoutFragmentToRunarPremiumFragment2()
+                val direction = LayoutFragmentDirections.actionLayoutFragmentToRunarSubs()
                 findNavController().navigate(direction)
             }
         ) {

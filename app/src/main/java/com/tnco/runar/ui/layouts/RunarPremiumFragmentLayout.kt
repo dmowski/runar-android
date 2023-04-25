@@ -32,9 +32,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.android.billingclient.api.ProductDetails
 import com.tnco.runar.R
-import com.tnco.runar.repository.SharedDataRepository
 import com.tnco.runar.ui.fragment.RunarPremiumFragmentDirections
-import com.tnco.runar.ui.viewmodel.RunarPremiumViewModel
 
 @Composable
 fun RunarPremiumFragmentLayout(
@@ -105,8 +103,7 @@ fun RunarPremiumFragmentLayout(
                 ExtraText(name = stringResource(id = R.string.terms_of_use), fontSize = fontSize, clickAction = {
                 })
                 ExtraText(name = stringResource(id = R.string.privacy_policy), fontSize = fontSize, clickAction = {
-                    val direction =
-                        RunarPremiumFragmentDirections.actionRunarPremiumFragmentToPrivacyPolicyFragment()
+                    val direction = RunarPremiumFragmentDirections.actionRunarPremiumFragmentToPrivacyPolicyFragment()
                     navController.navigate(direction)
                 })
                 ExtraText(name = stringResource(id = R.string.restore), fontSize = fontSize, weight = FontWeight.W700, clickAction = {
@@ -395,8 +392,6 @@ fun ExtraText(name: String, fontSize: Float, weight: FontWeight = FontWeight.W40
 )
 @Composable
 fun RunarPremiumFragmentLayoutPreview() {
-    val viewModel = RunarPremiumViewModel(SharedDataRepository(LocalContext.current))
-
     RunarPremiumFragmentLayout(
         navController = rememberNavController(),
         fontSize = 55f,

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/runar_subs"
+    app:startDestination="@id/runarPremiumFragment">
+
+    <fragment
+        android:id="@+id/runarPremiumFragment"
+        android:name="com.tnco.runar.ui.fragment.RunarPremiumFragment"
+        android:label="RunarPremiumFragment" >
+        <action
+            android:id="@+id/action_runarPremiumFragment_to_privacyPolicyFragment"
+            app:destination="@id/privacyPolicyFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/privacyPolicyFragment"
+        android:name="com.tnco.runar.ui.fragment.PrivacyPolicyFragment"
+        android:label="PrivacyPolicyFragment" />
+</navigation>
