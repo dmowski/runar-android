@@ -321,7 +321,6 @@ fun Features(fontSize: Float) {
     val listOfFeatures = listOf(
         R.string.all_runic_draws,
         R.string.all_runes_description,
-        R.string.audio_library,
         R.string.runic_patterns_generator
     )
 
