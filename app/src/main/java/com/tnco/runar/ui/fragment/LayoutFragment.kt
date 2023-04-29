@@ -52,8 +52,7 @@ import com.tnco.runar.ui.viewmodel.LayoutViewModel
 import com.tnco.runar.ui.viewmodel.MainViewModel
 import com.tnco.runar.util.*
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 @AndroidEntryPoint
 class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener, HasVisibleNavBar {
@@ -102,9 +101,10 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
         purchaseHelper.consumeEnabled.asLiveData().observe(viewLifecycleOwner) {
             hasSubs = it
             Log.d("TAG_BILLING_TEST", "hasSubs: $hasSubs")
-            if (!hasSubs) {
+            if (!hasSubs)
                 showLimitsOnLayouts()
-            }
+            else
+                setForeground(color = null)
         }
 
         return view
@@ -198,12 +198,18 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
         }
 
         binding.noticeBottomSheet.setContent {
-            ModalBottomSheet(time = time)
+            val purchaseRemember by purchaseHelper.consumeEnabled.collectAsState()
+
+            if (!purchaseRemember)
+                ModalBottomSheet(time = time)
         }
 
         listOf(firstLayoutAccessCard, secondLayoutAccessCard, thirdLayoutAccessCard).forEach {
             it.setContent {
-                AccessCard()
+                val purchaseRemember by purchaseHelper.consumeEnabled.collectAsState()
+
+                if (!purchaseRemember)
+                    AccessCard()
             }
         }
 
@@ -215,7 +221,10 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
             eightLayoutAccessCard
         ).forEach {
             it.setContent {
-                AccessCard(count = mainViewModel.countOfChance.value, time = time.value)
+                val purchaseRemember by purchaseHelper.consumeEnabled.collectAsState()
+
+                if (!purchaseRemember)
+                    AccessCard(count = mainViewModel.countOfChance.value, time = time.value)
             }
         }
     }
