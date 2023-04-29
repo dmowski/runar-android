@@ -94,10 +94,14 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
         mainViewModel.countOfChance.value = sharedPreferencesRepository.runicLayoutsLimit
 
         purchaseHelper = PurchaseHelper(requireActivity())
-        purchaseHelper.reloadPurchase()
+        purchaseHelper.billingSetup()
 
+        purchaseHelper.statusText.asLiveData().observe(viewLifecycleOwner) {
+            Log.d("TAG_BILLING_TEST", "Status: $it")
+        }
         purchaseHelper.consumeEnabled.asLiveData().observe(viewLifecycleOwner) {
             hasSubs = it
+            Log.d("TAG_BILLING_TEST", "hasSubs: $hasSubs")
             if (!hasSubs) {
                 showLimitsOnLayouts()
             }
@@ -361,7 +365,7 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
                         .actionLayoutFragmentToLayoutDescriptionFragment(idOfRune)
                     findNavController().navigate(direction)
                 } else {
-                    if (idOfRune > 3) {
+                    if (!hasSubs && idOfRune > 3) {
                         sharedPreferencesRepository.changeLimit(sharedPreferencesRepository.runicLayoutsLimit - 1)
                         mainViewModel.countOfChance.value =
                             sharedPreferencesRepository.runicLayoutsLimit

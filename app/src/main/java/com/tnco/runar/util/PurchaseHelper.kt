@@ -3,6 +3,7 @@ package com.tnco.runar.util
 import android.app.Activity
 import android.util.Log
 import com.android.billingclient.api.*
+import com.android.billingclient.api.BillingClient.BillingResponseCode
 import com.google.common.collect.ImmutableList
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -13,7 +14,7 @@ import kotlinx.coroutines.launch
 class PurchaseHelper(val activity: Activity) {
     private val coroutineScope = CoroutineScope(Dispatchers.IO)
 
-    private lateinit var billingClient: BillingClient
+    private val billingClient: BillingClient
     private lateinit var purchase: Purchase
 
     private val productMonthlyId = "runar_premium.forever"
@@ -35,11 +36,11 @@ class PurchaseHelper(val activity: Activity) {
 
     init {
         purchasesUpdatedListener = PurchasesUpdatedListener { billingResult, purchases ->
-            if (billingResult.responseCode == BillingClient.BillingResponseCode.OK && purchases != null) {
+            if (billingResult.responseCode == BillingResponseCode.OK && purchases != null) {
                 for (purchase in purchases) {
                     completePurchase(purchase)
                 }
-            } else if (billingResult.responseCode == BillingClient.BillingResponseCode.USER_CANCELED) {
+            } else if (billingResult.responseCode == BillingResponseCode.USER_CANCELED) {
                 _statusText.value = "Purchase Canceled"
             } else {
                 _statusText.value = "Purchase Error"
@@ -55,8 +56,9 @@ class PurchaseHelper(val activity: Activity) {
             override fun onBillingSetupFinished(
                 billingResult: BillingResult
             ) {
-                if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
+                if (billingResult.responseCode == BillingResponseCode.OK) {
                     _statusText.value = "Billing Client Connected"
+                    reloadPurchase()
                     queryProduct(productMonthlyId, productYearlyId)
                     Log.d("TAG_PURCHASE", "onBillingSetupFinished: Ok!")
                 } else {
@@ -72,7 +74,7 @@ class PurchaseHelper(val activity: Activity) {
         })
     }
 
-    fun queryProduct(productWeekLyId: String, productYearLyId: String) {
+    private fun queryProduct(productWeekLyId: String, productYearLyId: String) {
         val queryProductDetailsParams = QueryProductDetailsParams.newBuilder().setProductList(
             ImmutableList.of(
                 QueryProductDetailsParams.Product.newBuilder().setProductId(productWeekLyId)
@@ -137,7 +139,7 @@ class PurchaseHelper(val activity: Activity) {
         coroutineScope.launch {
             val result = billingClient.consumePurchase(consumeParams)
 
-            if (result.billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
+            if (result.billingResult.responseCode == BillingResponseCode.OK) {
                 _statusText.value = "Purchase Consumed"
                 _buyEnabled.value = true
                 _consumeEnabled.value = false
@@ -149,30 +151,24 @@ class PurchaseHelper(val activity: Activity) {
         val queryPurchasesParams =
             QueryPurchasesParams.newBuilder().setProductType(BillingClient.ProductType.SUBS).build()
 
-        billingClient.queryPurchasesAsync(
-            queryPurchasesParams, purchasesListener
-        )
+        if (billingClient.isReady) {
+            billingClient.queryPurchasesAsync(
+                queryPurchasesParams, purchasesListener
+            )
+        } else
+            Log.d("TAG_BILLING_TEST", "reloadPurchase: is Not Ready!")
     }
 
     private val purchasesListener = PurchasesResponseListener { billingResult, purchases ->
-        for (prch in purchases) {
-            if (prch.purchaseState == Purchase.PurchaseState.PURCHASED) {
-                purchase = prch
-                _buyEnabled.value = false
-                _consumeEnabled.value = true
-                _statusText.value = "Previous Purchase Found"
-                return@PurchasesResponseListener
-            }
-        }
-
+        Log.i("TAG_BILLING_TEST", "Purchaes found: ${purchases.size}")
         _buyEnabled.value = true
         _consumeEnabled.value = false
-
-        if (billingResult.responseCode == BillingClient.BillingResponseCode.USER_CANCELED) {
+        if (billingResult.responseCode == BillingResponseCode.OK)
+            for (purchase in purchases)
+                completePurchase(purchase)
+        else if (billingResult.responseCode == BillingResponseCode.USER_CANCELED)
             _statusText.value = "Purchase Canceled"
-        } else {
+        else
             _statusText.value = "Purchase Error"
-            Log.i("InAppPurchase", billingResult.getDebugMessage())
-        }
     }
 }
