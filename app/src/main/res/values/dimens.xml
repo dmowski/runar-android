@@ -16,6 +16,7 @@
     <dimen name="settings_padding_top">16dp</dimen>
 
     <dimen name="about_app_padding">24dp</dimen>
+    <dimen name="about_app_padding_policy">16dp</dimen>
 
     <dimen name="buttonSkip">14sp</dimen>
     <dimen name="headerText">36sp</dimen>
