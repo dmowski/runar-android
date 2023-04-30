@@ -195,4 +195,14 @@
     <string name="review_update_delete">11. Review, update, or delete the data we collect</string>
     <string name="review_update_delete_content">Based on the applicable laws of your country, you may have the right to request access to the personal information we collect from you, change that information, or delete it.</string>
 
+    <string name="d">d.</string>
+    <string name="h">h.</string>
+    <string name="m">m.</string>
+    
+    <string name="oh_sorry">Ой, как жаль!</string>
+    <string name="rune_powers_not_enough">Рунных сил недостаточно, чтобы возобновить запас потребуется %s</string>
+
+    <string name="watch_ad">Посмотреть рекламу</string>
+    <string name="purchase_subs">Приобрести подписку</string>
+    
 </resources>

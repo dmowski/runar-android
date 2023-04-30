@@ -15,7 +15,6 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -31,20 +30,19 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.android.billingclient.api.ProductDetails
 import com.tnco.runar.R
-import com.tnco.runar.model.SkuModel
-import com.tnco.runar.repository.SharedDataRepository
-import com.tnco.runar.ui.fragment.MenuFragmentDirections
 import com.tnco.runar.ui.fragment.RunarPremiumFragmentDirections
-import com.tnco.runar.ui.viewmodel.RunarPremiumViewModel
 
 @Composable
 fun RunarPremiumFragmentLayout(
     navController: NavController,
     fontSize: Float,
-    listOfSkus: List<SkuModel>,
-    onClick: (SkuModel) -> Unit
+    listOfSkus: List<ProductDetails>,
+    buyEnabled: Boolean = false,
+    onClick: (ProductDetails) -> Unit
 ) {
+
     Scaffold(
         backgroundColor = colorResource(id = R.color.settings_top_app_bar),
     ) {
@@ -52,6 +50,7 @@ fun RunarPremiumFragmentLayout(
         val choseSku = remember {
             mutableStateOf(listOfSkus[0])
         }
+
         Column(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.SpaceAround,
@@ -79,21 +78,22 @@ fun RunarPremiumFragmentLayout(
                 )
             ) {
                 listOfSkus.forEach { sku ->
-                    SkuCard(
-                        title = sku.title,
-                        description = sku.description,
-                        cost = sku.cost,
-                        currencySign = sku.currencySign,
-                        fontSize = fontSize,
-                        isSelected = (choseSku.value.id == sku.id),
-                        discount = sku.discount
-                    ) {
-                        choseSku.value = sku
+                    sku.subscriptionOfferDetails?.get(0)?.let {
+                        SkuCard(
+                            title = sku.name,
+                            description = sku.description,
+                            cost = it.pricingPhases.pricingPhaseList[0].formattedPrice,
+                            fontSize = fontSize,
+                            isSelected = (choseSku.value.productId == sku.productId),
+                            discount = if (sku.productId == "runar_yearly") "-50%" else null
+                        ) {
+                            choseSku.value = sku
+                        }
                     }
                 }
             }
-            PayButton(fontSize) {
-                onClick(choseSku.value)
+            PayButton(fontSize, choseSku.value, buyEnabled) {
+                onClick(it)
             }
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -103,8 +103,7 @@ fun RunarPremiumFragmentLayout(
                 ExtraText(name = stringResource(id = R.string.terms_of_use), fontSize = fontSize, clickAction = {
                 })
                 ExtraText(name = stringResource(id = R.string.privacy_policy), fontSize = fontSize, clickAction = {
-                    val direction =
-                        RunarPremiumFragmentDirections.actionRunarPremiumFragmentToPrivacyPolicyFragment()
+                    val direction = RunarPremiumFragmentDirections.actionRunarPremiumFragmentToPrivacyPolicyFragment()
                     navController.navigate(direction)
                 })
                 ExtraText(name = stringResource(id = R.string.restore), fontSize = fontSize, weight = FontWeight.W700, clickAction = {
@@ -147,15 +146,21 @@ fun MonetizationTopBar(fontSize: Float, navController: NavController) {
 }
 
 @Composable
-fun ColumnScope.PayButton(fontSize: Float, onClick: () -> (Unit)) {
+fun ColumnScope.PayButton(
+    fontSize: Float,
+    sku: ProductDetails,
+    buttonEnabled: Boolean,
+    onClick: (ProductDetails) -> Unit
+) {
     Button(
         onClick = {
-            onClick()
+            onClick(sku)
         },
         colors = ButtonDefaults.buttonColors(
             backgroundColor = colorResource(id = R.color.purchase_header_color)
         ),
-        shape = RoundedCornerShape(8.dp)
+        shape = RoundedCornerShape(8.dp),
+        enabled = buttonEnabled
     ) {
         Text(
             text = stringResource(id = R.string.pay),
@@ -175,7 +180,7 @@ fun ColumnScope.PayButton(fontSize: Float, onClick: () -> (Unit)) {
 fun SkuCard(
     title: String,
     cost: String,
-    currencySign: String,
+    currencySign: String = "",
     description: String = "pay once",
     fontSize: Float,
     isSelected: Boolean = false,
@@ -316,7 +321,6 @@ fun Features(fontSize: Float) {
     val listOfFeatures = listOf(
         R.string.all_runic_draws,
         R.string.all_runes_description,
-        R.string.audio_library,
         R.string.runic_patterns_generator
     )
 
@@ -387,11 +391,9 @@ fun ExtraText(name: String, fontSize: Float, weight: FontWeight = FontWeight.W40
 )
 @Composable
 fun RunarPremiumFragmentLayoutPreview() {
-    val viewModel = RunarPremiumViewModel(SharedDataRepository(LocalContext.current))
-
     RunarPremiumFragmentLayout(
         navController = rememberNavController(),
         fontSize = 55f,
-        listOfSkus = viewModel.listOfSkus
+        listOfSkus = listOf()
     ) {}
 }

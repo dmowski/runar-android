@@ -17,7 +17,7 @@ android {
         applicationId "com.tnco.runar"
         minSdkVersion 24
         targetSdkVersion 33
-        versionCode 10
+        versionCode 12
         versionName "0.20"
         resConfigs "en", "ru"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -206,4 +206,9 @@ dependencies {
 
     // Google Ads Play Service
     implementation "com.google.android.gms:play-services-ads:$google_ad_play_service_version"
+
+    implementation("com.android.billingclient:billing-ktx:5.1.0")
+    implementation 'com.android.billingclient:billing:5.0.0'
+    implementation 'com.google.guava:guava:24.1-jre'
+    implementation 'com.google.guava:guava:27.0.1-android'
 }

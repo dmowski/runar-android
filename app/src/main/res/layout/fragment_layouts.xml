@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <ScrollView
         android:id="@+id/scroll_view"
         android:layout_width="match_parent"
@@ -40,12 +41,26 @@
                 app:layout_constraintTop_toBottomOf="@id/upper_banner"
                 android:orientation="vertical">
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/first_layout_iw"
+                <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:src="@drawable/layout_1_img"
-                    android:layout_weight="3.15"/>
+                    android:layout_weight="3.15">
+
+                    <androidx.compose.ui.platform.ComposeView
+                        android:id="@+id/first_layout_access_card"
+                        android:layout_gravity="end"
+                        android:layout_marginTop="1dp"
+                        android:layout_marginEnd="1dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/first_layout_iw"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/layout_1_img"/>
+
+                </FrameLayout>
 
                 <TextView
                     android:id="@+id/first_layout_tw"
@@ -79,12 +94,27 @@
                 app:layout_constraintTop_toTopOf="@id/first_layout"
                 android:orientation="vertical">
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/second_layout_iw"
+                <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:src="@drawable/layout_2_img"
-                    android:layout_weight="3.15"/>
+                    android:layout_weight="3.15">
+
+                    <androidx.compose.ui.platform.ComposeView
+                        android:id="@+id/second_layout_access_card"
+                        android:layout_gravity="end"
+                        android:layout_marginTop="1dp"
+                        android:layout_marginEnd="1dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/second_layout_iw"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/layout_2_img"/>
+
+                </FrameLayout>
+
 
                 <TextView
                     android:id="@+id/second_layout_tw"
@@ -119,12 +149,26 @@
                 app:layout_constraintTop_toBottomOf="@id/first_layout"
                 android:orientation="vertical">
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/third_layout_iw"
+                <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:src="@drawable/layout_3_img"
-                    android:layout_weight="3.15"/>
+                    android:layout_weight="3.15">
+
+                    <androidx.compose.ui.platform.ComposeView
+                        android:id="@+id/third_layout_access_card"
+                        android:layout_gravity="end"
+                        android:layout_marginTop="1dp"
+                        android:layout_marginEnd="1dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/third_layout_iw"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/layout_3_img"/>
+
+                </FrameLayout>
 
                 <TextView
                     android:id="@+id/third_layout_tw"
@@ -141,6 +185,7 @@
                     app:autoSizeTextType="uniform"
                     app:maxLines="1"
                     app:autoSizeMinTextSize="5sp"/>
+
             </LinearLayout>
 
             <LinearLayout
@@ -156,12 +201,26 @@
                 app:layout_constraintTop_toTopOf="@id/third_layout"
                 android:orientation="vertical">
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/fourth_layout_iw"
+                <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:src="@drawable/layout_4_img"
-                    android:layout_weight="3.15"/>
+                    android:layout_weight="3.15">
+                    
+                    <androidx.compose.ui.platform.ComposeView
+                        android:id="@+id/fourth_layout_access_card"
+                        android:layout_gravity="end"
+                        android:layout_marginTop="1dp"
+                        android:layout_marginEnd="1dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/fourth_layout_iw"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/layout_4_img"/>
+
+                </FrameLayout>
 
                 <TextView
                     android:id="@+id/fourth_layout_tw"
@@ -196,12 +255,26 @@
                 app:layout_constraintTop_toBottomOf="@id/third_layout"
                 android:orientation="vertical">
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/fifth_layout_iw"
+                <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:src="@drawable/layout_5_img"
-                    android:layout_weight="3.15"/>
+                    android:layout_weight="3.15">
+
+                    <androidx.compose.ui.platform.ComposeView
+                        android:id="@+id/fifth_layout_access_card"
+                        android:layout_gravity="end"
+                        android:layout_marginTop="1dp"
+                        android:layout_marginEnd="1dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/fifth_layout_iw"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/layout_5_img"/>
+
+                </FrameLayout>
 
                 <TextView
                     android:id="@+id/fifth_layout_tw"
@@ -233,12 +306,26 @@
                 app:layout_constraintTop_toTopOf="@id/fifth_layout"
                 android:orientation="vertical">
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/sixth_layout_iw"
+                <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:src="@drawable/layout_6_img"
-                    android:layout_weight="3.15"/>
+                    android:layout_weight="3.15">
+
+                    <androidx.compose.ui.platform.ComposeView
+                        android:id="@+id/sixth_layout_access_card"
+                        android:layout_gravity="end"
+                        android:layout_marginTop="1dp"
+                        android:layout_marginEnd="1dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/sixth_layout_iw"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/layout_6_img"/>
+
+                </FrameLayout>
 
                 <TextView
                     android:id="@+id/sixth_layout_tw"
@@ -271,12 +358,26 @@
                 app:layout_constraintTop_toBottomOf="@id/fifth_layout"
                 android:orientation="vertical">
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/seventh_layout_iw"
+                <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:src="@drawable/layout_7_img"
-                    android:layout_weight="3.15" />
+                    android:layout_weight="3.15">
+
+                    <androidx.compose.ui.platform.ComposeView
+                        android:id="@+id/seventh_layout_access_card"
+                        android:layout_gravity="end"
+                        android:layout_marginTop="1dp"
+                        android:layout_marginEnd="1dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/seventh_layout_iw"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/layout_7_img"/>
+
+                </FrameLayout>
 
                 <TextView
                     android:id="@+id/seventh_layout_tw"
@@ -308,12 +409,26 @@
                 app:layout_constraintTop_toTopOf="@id/seventh_layout"
                 android:orientation="vertical">
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/eight_layout_iw"
+                <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:src="@drawable/layout_8_img"
-                    android:layout_weight="3.15" />
+                    android:layout_weight="3.15">
+
+                    <androidx.compose.ui.platform.ComposeView
+                        android:id="@+id/eight_layout_access_card"
+                        android:layout_gravity="end"
+                        android:layout_marginTop="1dp"
+                        android:layout_marginEnd="1dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/eight_layout_iw"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/layout_8_img"/>
+
+                </FrameLayout>
 
                 <TextView
                     android:id="@+id/eight_layout_tw"
@@ -333,4 +448,13 @@
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
+
+    <androidx.compose.ui.platform.ComposeView
+        android:id="@+id/notice_bottom_sheet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
