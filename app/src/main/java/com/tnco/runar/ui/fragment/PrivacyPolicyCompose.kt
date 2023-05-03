@@ -50,7 +50,7 @@ fun PrivacyPolicyFragmentLayout(navController: NavController) {
                             textAlign = TextAlign.Center,
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(start = EDGE_WIDTH.dp, end = 12.dp)
+                                .padding(start = EDGE_WIDTH.dp, end = 45.dp)
                                 .widthIn(max = EDGE_WIDTH.dp * 4)
                                 .graphicsLayer { compositingStrategy = CompositingStrategy.Offscreen }
                                 .drawWithContent {
@@ -60,7 +60,8 @@ fun PrivacyPolicyFragmentLayout(navController: NavController) {
                                 }
                                 .basicMarquee(
                                     iterations = Int.MAX_VALUE,
-                                    spacing = MarqueeSpacing(0.dp))
+                                    spacing = MarqueeSpacing(0.dp)
+                                )
                                 .padding(top = 6.dp, start = EDGE_WIDTH.dp, end = 12.dp)
                         )
                     }
