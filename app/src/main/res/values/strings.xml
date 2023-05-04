@@ -199,10 +199,10 @@
     <string name="h">h.</string>
     <string name="m">m.</string>
     
-    <string name="oh_sorry">Ой, как жаль!</string>
-    <string name="rune_powers_not_enough">Рунных сил недостаточно, чтобы возобновить запас потребуется %s</string>
+    <string name="oh_sorry">Oh, what a pity!</string>
+    <string name="rune_powers_not_enough">The Runic power is not strong enough. Restocking will take (%s)</string>
 
-    <string name="watch_ad">Посмотреть рекламу</string>
-    <string name="purchase_subs">Приобрести подписку</string>
+    <string name="watch_ad">View ads</string>
+    <string name="purchase_subs">Purchase a subscription</string>
     
 </resources>

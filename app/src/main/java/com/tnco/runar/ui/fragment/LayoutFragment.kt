@@ -134,9 +134,9 @@ class LayoutFragment : Fragment(R.layout.fragment_layouts), View.OnClickListener
                         hideBottomSheet(bottomSheetState, coroutineScope)
                         sharedPreferencesRepository.apply {
                             changeStartCountingDate(0)
-                            changeLimit(3)
+                            changeLimit(1)
                         }
-                        mainViewModel.countOfChance.value = 3
+                        mainViewModel.countOfChance.value = 1
                     }
                     onAdFailedToLoad = {
                         Toast.makeText(requireContext(), "Something going wrong. Please try again!", Toast.LENGTH_SHORT).show()

@@ -105,7 +105,7 @@ fun NoticeBottomSheet(
                         fontWeight = FontWeight.W400
                     ),
                     textAlign = TextAlign.Center,
-                    modifier = Modifier.padding(top = 16.dp)
+                    modifier = Modifier.padding(top = 16.dp).padding(horizontal = 32.dp)
                 )
                 Spacer(modifier = Modifier.weight(1f))
                 Button(

@@ -68,13 +68,13 @@ abstract class CounterUtil(val context: Context) {
         var temp = this
 
         return if ((this / DAY_IN_MILLISECOND) > 0) {
-            var res = (temp / DAY_IN_MILLISECOND).toString() + " " + day
+            var res = (temp / DAY_IN_MILLISECOND).toString() + day
             temp %= DAY_IN_MILLISECOND
 
-            res += " " + (temp / HOUR_IN_MILLISECOND) + " " + hour
+            res += " " + (temp / HOUR_IN_MILLISECOND) + hour
             temp %= HOUR_IN_MILLISECOND
 
-            "$res ${temp / MINUTE_IN_MILLISECOND} $minute"
+            "$res ${temp / MINUTE_IN_MILLISECOND}$minute"
         } else {
             val seconds = (this / 1000)
             val hours = seconds / 3600
