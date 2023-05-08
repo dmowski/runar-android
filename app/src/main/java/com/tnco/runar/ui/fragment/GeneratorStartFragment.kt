@@ -15,12 +15,14 @@ import androidx.recyclerview.widget.GridLayoutManager
 import coil.load
 import com.tnco.runar.R
 import com.tnco.runar.data.remote.NetworkResult
+import com.tnco.runar.databinding.FragmentGenBlockBinding
 import com.tnco.runar.databinding.FragmentGeneratorStartBinding
 import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.model.RunesItemsModel
 import com.tnco.runar.ui.adapter.RunesGeneratorAdapter
 import com.tnco.runar.ui.viewmodel.MainViewModel
 import com.tnco.runar.util.InternalDeepLink
+import com.tnco.runar.util.PurchaseHelper
 import com.tnco.runar.util.observeOnce
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -30,8 +32,13 @@ import java.util.*
 class GeneratorStartFragment : Fragment(), HasVisibleNavBar {
 
     private var _binding: FragmentGeneratorStartBinding? = null
+    private var binding2: FragmentGenBlockBinding? = null
     private val binding get() = _binding!!
     private val viewModel: MainViewModel by activityViewModels()
+
+    private lateinit var purchaseHelper: PurchaseHelper
+    private var hasSubs = false
+
     private var listId: MutableList<Int> = mutableListOf()
     private var listAllIds: MutableList<Int> = mutableListOf()
     private val mAdapter: RunesGeneratorAdapter by lazy {
@@ -43,6 +50,7 @@ class GeneratorStartFragment : Fragment(), HasVisibleNavBar {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
         _binding = FragmentGeneratorStartBinding.inflate(inflater, container, false)
 
         binding.arrowBack.setOnClickListener {
@@ -59,6 +67,13 @@ class GeneratorStartFragment : Fragment(), HasVisibleNavBar {
                 showInternetConnectionError()
             }
         }
+//        purchaseHelper.consumeEnabled.asLiveData().observe(viewLifecycleOwner) {
+//            hasSubs = it
+//            Log.d("TAG_BILLING_TEST", "hasSubs: $hasSubs")
+//            if (!hasSubs)
+//            else
+//        }
+
         return binding.root
     }
 

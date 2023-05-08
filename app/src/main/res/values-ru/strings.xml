@@ -16,6 +16,8 @@
     <string name="runes_selection">Выбор рун</string>
     <string name="runes_collect_formula">Собери свой рунный узор, выбрав от 1 до 3 рун</string>
     <string name="runes_random">Выбрать случайные руны</string>
+    <string name="generator_fog">Генератор покрыт туманом</string>
+    <string name="generator_fog_desc">Мудрость генератора доступна premium-подписчикам</string>
 
     <string name="runes_generate">Сгенерировать</string>
 
