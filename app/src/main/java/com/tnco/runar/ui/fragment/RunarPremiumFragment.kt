@@ -36,25 +36,24 @@ class RunarPremiumFragment : Fragment() {
                 val fontSize by purchaseViewModel.fontSize.observeAsState()
 
                 val buyEnabled by purchaseHelper.buyEnabled.collectAsState(false)
-                val consumeEnabled by purchaseHelper.consumeEnabled.collectAsState(false)
                 val statusText by purchaseHelper.statusText.collectAsState("")
                 val products by purchaseHelper.products.collectAsState(listOf())
 
-                if (products.isNotEmpty()) {
-                    RunarPremiumFragmentLayout(
-                        navController = findNavController(),
-                        fontSize = fontSize ?: 55f,
-                        listOfSkus = products,
-                        buyEnabled = buyEnabled
-                    ) { chosenSku ->
-                        try {
-                            purchaseHelper.makePurchase(chosenSku)
-                            Log.d("TAG_PURCHASE", "onCreateView: $chosenSku")
-                        } catch (e: Exception) {
-                            Log.d("TAG_PURCHASE", "onCreateView: ${e.message}")
-                            Toast.makeText(requireContext(), "${e.message}", Toast.LENGTH_SHORT)
-                                .show()
-                        }
+                if (statusText.isNotEmpty())
+                    Toast.makeText(requireContext(), statusText, Toast.LENGTH_LONG).show()
+
+                RunarPremiumFragmentLayout(
+                    navController = findNavController(),
+                    fontSize = fontSize ?: 55f,
+                    listOfSkus = products,
+                    buyEnabled = buyEnabled
+                ) { chosenSku ->
+                    try {
+                        purchaseHelper.makePurchase(chosenSku)
+                        Log.d("TAG_PURCHASE", "onCreateView: $chosenSku")
+                    } catch (e: Exception) {
+                        Log.d("TAG_PURCHASE", "onCreateView: ${e.message}")
+                        Toast.makeText(requireContext(), "${e.message}", Toast.LENGTH_SHORT).show()
                     }
                 }
             }

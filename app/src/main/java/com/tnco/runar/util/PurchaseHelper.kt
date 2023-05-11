@@ -29,7 +29,7 @@ class PurchaseHelper(val activity: Activity) {
     private val _consumeEnabled = MutableStateFlow(false)
     val consumeEnabled = _consumeEnabled.asStateFlow()
 
-    private val _statusText = MutableStateFlow("Initializing...")
+    private val _statusText = MutableStateFlow("")
     val statusText = _statusText.asStateFlow()
 
     private val purchasesUpdatedListener: PurchasesUpdatedListener
@@ -56,14 +56,30 @@ class PurchaseHelper(val activity: Activity) {
             override fun onBillingSetupFinished(
                 billingResult: BillingResult
             ) {
-                if (billingResult.responseCode == BillingResponseCode.OK) {
-                    _statusText.value = "Billing Client Connected"
-                    reloadPurchase()
-                    queryProduct(productMonthlyId, productYearlyId)
-                    Log.d("TAG_PURCHASE", "onBillingSetupFinished: Ok!")
-                } else {
-                    Log.d("TAG_PURCHASE", "onBillingSetupFinished: Connection Failure!")
-                    _statusText.value = "Billing Client Connection Failure"
+                when (billingResult.responseCode) {
+                    BillingResponseCode.OK -> {
+                        reloadPurchase()
+                        queryProduct(productMonthlyId, productYearlyId)
+                        Log.d("TAG_PURCHASE", "onBillingSetupFinished: Ok!")
+                    }
+                    in setOf(
+                        BillingResponseCode.BILLING_UNAVAILABLE,
+                        BillingResponseCode.DEVELOPER_ERROR,
+                        BillingResponseCode.FEATURE_NOT_SUPPORTED,
+                    ) -> {
+                        _statusText.value =
+                            "Billing Server Unavailable. Please check Play Store updates and try again!"
+                        _buyEnabled.value = false
+                    }
+                    /*
+                    BillingResponseCode.ITEM_NOT_OWNED
+                    BillingResponseCode.ERROR,
+                    BillingResponseCode.SERVICE_DISCONNECTED,
+                    BillingResponseCode.SERVICE_UNAVAILABLE*/
+                    else -> {
+                        _statusText.value = "Something went wrong. Please Try again!"
+                        _buyEnabled.value = false
+                    }
                 }
             }
 
@@ -93,16 +109,36 @@ class PurchaseHelper(val activity: Activity) {
         ) { billingResult, productDetailsList ->
             Log.d("TAG_PURCHASE", "queryProduct: Result - $billingResult")
 
-            // TODO: Handle - FEATURE_NOT_SUPPORTED
-
-            if (productDetailsList.isNotEmpty()) {
-                Log.d("TAG_PURCHASE", "queryProduct: ok! - Products = $productDetailsList")
-                _products.value = productDetailsList
-                _buyEnabled.value = true
-            } else {
-                Log.d("TAG_PURCHASE", "queryProduct: No Matching Products Found!")
-                _statusText.value = "No Matching Products Found"
-                _buyEnabled.value = false
+            when (billingResult.responseCode) {
+                BillingResponseCode.OK -> {
+                    if (productDetailsList.isNotEmpty()) {
+                        Log.d("TAG_PURCHASE", "queryProduct: ok! - Products = $productDetailsList")
+                        _products.value = productDetailsList
+                        _buyEnabled.value = true
+                    } else {
+                        Log.d("TAG_PURCHASE", "queryProduct: No Matching Products Found!")
+                        _statusText.value = "No Matching Products Found"
+                        _buyEnabled.value = false
+                    }
+                }
+                in setOf(
+                    BillingResponseCode.BILLING_UNAVAILABLE,
+                    BillingResponseCode.DEVELOPER_ERROR,
+                    BillingResponseCode.FEATURE_NOT_SUPPORTED,
+                ) -> {
+                    _statusText.value =
+                        "Billing Unavailable. Please check Play Store updates and try again!"
+                    _buyEnabled.value = false
+                }
+                /*
+                BillingResponseCode.ITEM_NOT_OWNED
+                BillingResponseCode.ERROR,
+                BillingResponseCode.SERVICE_DISCONNECTED,
+                BillingResponseCode.SERVICE_UNAVAILABLE*/
+                else -> {
+                    _statusText.value = "Something going wrong. Please Try again!"
+                    _buyEnabled.value = false
+                }
             }
         }
     }
@@ -163,12 +199,15 @@ class PurchaseHelper(val activity: Activity) {
         Log.i("TAG_BILLING_TEST", "Purchaes found: ${purchases.size}")
         _buyEnabled.value = true
         _consumeEnabled.value = false
-        if (billingResult.responseCode == BillingResponseCode.OK)
-            for (purchase in purchases)
-                completePurchase(purchase)
-        else if (billingResult.responseCode == BillingResponseCode.USER_CANCELED)
-            _statusText.value = "Purchase Canceled"
-        else
-            _statusText.value = "Purchase Error"
+
+        when (billingResult.responseCode) {
+            BillingResponseCode.OK ->
+                for (purchase in purchases)
+                    completePurchase(purchase)
+            BillingResponseCode.USER_CANCELED ->
+                _statusText.value = "Purchase Canceled"
+            else ->
+                _statusText.value = "Purchase Error"
+        }
     }
 }
