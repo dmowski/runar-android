@@ -2,23 +2,26 @@ package com.tnco.runar.ui.fragment
 
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.compose.runtime.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import coil.load
 import com.tnco.runar.R
 import com.tnco.runar.data.remote.NetworkResult
-import com.tnco.runar.databinding.FragmentGenBlockBinding
 import com.tnco.runar.databinding.FragmentGeneratorStartBinding
 import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.model.RunesItemsModel
+import com.tnco.runar.repository.SharedPreferencesRepository
 import com.tnco.runar.ui.adapter.RunesGeneratorAdapter
 import com.tnco.runar.ui.viewmodel.MainViewModel
 import com.tnco.runar.util.InternalDeepLink
@@ -32,12 +35,12 @@ import java.util.*
 class GeneratorStartFragment : Fragment(), HasVisibleNavBar {
 
     private var _binding: FragmentGeneratorStartBinding? = null
-    private var binding2: FragmentGenBlockBinding? = null
     private val binding get() = _binding!!
     private val viewModel: MainViewModel by activityViewModels()
 
     private lateinit var purchaseHelper: PurchaseHelper
     private var hasSubs = false
+    private lateinit var sharedPreferencesRepository: SharedPreferencesRepository
 
     private var listId: MutableList<Int> = mutableListOf()
     private var listAllIds: MutableList<Int> = mutableListOf()
@@ -67,18 +70,24 @@ class GeneratorStartFragment : Fragment(), HasVisibleNavBar {
                 showInternetConnectionError()
             }
         }
-//        purchaseHelper.consumeEnabled.asLiveData().observe(viewLifecycleOwner) {
-//            hasSubs = it
-//            Log.d("TAG_BILLING_TEST", "hasSubs: $hasSubs")
-//            if (!hasSubs)
-//            else
-//        }
-
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        purchaseHelper = PurchaseHelper(requireActivity())
+        purchaseHelper.billingSetup()
+        purchaseHelper.consumeEnabled.asLiveData().observe(viewLifecycleOwner) {
+            hasSubs = it
+            Log.d("TAG_BILLING_TEST", "hasSubs: $hasSubs")
+            if (!hasSubs) {
+                binding.hasSubsRune.visibility = View.GONE
+                binding.noSubsRune.visibility = View.VISIBLE
+            } else {
+                binding.hasSubsRune.visibility = View.VISIBLE
+                binding.noSubsRune.visibility = View.GONE
+            }
+        }
 
         with(binding) {
             btnRandom.setOnClickListener {
@@ -140,14 +149,25 @@ class GeneratorStartFragment : Fragment(), HasVisibleNavBar {
 
     private fun onStartShimmering() {
         with(binding) {
-            runesRecyclerView.visibility = View.GONE
-            shimmerLayout.visibility = View.VISIBLE
-            shimmerLayout.startShimmer()
+            if (hasSubsRune.visibility == View.GONE) {
+                runesRecyclerViewBlock.visibility = View.GONE
+                shimmerLayoutBlock?.visibility = View.VISIBLE
+                shimmerLayoutBlock?.startShimmer()
+            } else {
+                runesRecyclerView.visibility = View.GONE
+                shimmerLayout.visibility = View.VISIBLE
+                shimmerLayout.startShimmer()
+            }
         }
     }
 
     private fun onStopShimmering() {
         with(binding) {
+            if (hasSubsRune.visibility == View.GONE) {
+                shimmerLayoutBlock?.stopShimmer()
+                shimmerLayoutBlock?.visibility = View.GONE
+                runesRecyclerViewBlock.visibility = View.VISIBLE
+            }
             shimmerLayout.stopShimmer()
             shimmerLayout.visibility = View.GONE
             runesRecyclerView.visibility = View.VISIBLE
@@ -191,10 +211,14 @@ class GeneratorStartFragment : Fragment(), HasVisibleNavBar {
     private fun setupRecyclerView() {
         val gridLayoutManager =
             GridLayoutManager(requireContext(), 3, GridLayoutManager.HORIZONTAL, false)
+        val gridLayoutManagerBlock =
+            GridLayoutManager(requireContext(), 3, GridLayoutManager.HORIZONTAL, false)
 
         with(binding) {
             runesRecyclerView.layoutManager = gridLayoutManager
+            runesRecyclerViewBlock.layoutManager = gridLayoutManagerBlock
             runesRecyclerView.adapter = mAdapter
+            runesRecyclerViewBlock.adapter = mAdapter
 
             mAdapter.obsSelectedRunes.observe(viewLifecycleOwner) {
                 when (it.size) {
@@ -331,4 +355,72 @@ class GeneratorStartFragment : Fragment(), HasVisibleNavBar {
         mAdapter.clearData()
         _binding = null
     }
+//    @OptIn(ExperimentalMaterialApi::class)
+//    @Composable
+//    private fun ModalBottomSheetGenerator(time: State<String>) {
+//        val showBottomSheetRemember by remember {
+//            showBottomSheetGenerator
+//        }
+//        val coroutineScope = rememberCoroutineScope()
+//
+//        val bottomSheetState = rememberModalBottomSheetState(
+//            initialValue = ModalBottomSheetValue.Hidden,
+//            confirmStateChange = { it != ModalBottomSheetValue.Expanded }
+//        )
+//
+//        NoticeBottomSheetGenerator(
+//            sheetState = bottomSheetState,
+//            coroutineScope = coroutineScope,
+//            fontSize = 15.dp,
+//            watchAD = {
+//                GoogleAdUtils(requireActivity()).apply {
+//                    onUserEarnedReward = {
+//                        hideBottomSheetGenerator(bottomSheetState, coroutineScope)
+//                        sharedPreferencesRepository.apply {
+//                            changeStartCountingDate(0)
+//                            changeLimit(3)
+//                        }
+//                    }
+//                    onAdFailedToLoad = {
+//                        Toast.makeText(requireContext(), "Something going wrong. Please try again!", Toast.LENGTH_SHORT).show()
+//                    }
+//                }
+//            },
+//            purchaseSubsBtnClicked = {
+//                val direction = LayoutFragmentDirections.actionLayoutFragmentToRunarSubs()
+//                findNavController().navigate(direction)
+//            }
+//        ) {
+//            showBottomSheetGenerator.value = false
+//            hideBottomSheetGenerator(bottomSheetState, coroutineScope)
+//        }
+//
+//        LaunchedEffect(key1 = bottomSheetState.currentValue) {
+//            if (showBottomSheetGenerator.value && (bottomSheetState.currentValue == ModalBottomSheetValue.Hidden)) {
+//                showBottomSheetGenerator.value = false
+//            }
+//        }
+//
+//        if (showBottomSheetRemember)
+//            showBottomSheetGenerator(bottomSheetState, coroutineScope)
+//        else
+//            hideBottomSheetGenerator(bottomSheetState, coroutineScope)
+//    }
+//
+//
+//    @OptIn(ExperimentalMaterialApi::class)
+//    private fun showBottomSheetGenerator(
+//        bottomSheetState: ModalBottomSheetState,
+//        coroutineScope: CoroutineScope
+//    ) = coroutineScope.launch {
+//        bottomSheetState.animateTo(ModalBottomSheetValue.Expanded)
+//    }
+//
+//    @OptIn(ExperimentalMaterialApi::class)
+//    private fun hideBottomSheetGenerator(
+//        bottomSheetState: ModalBottomSheetState,
+//        coroutineScope: CoroutineScope
+//    ) = coroutineScope.launch {
+//        bottomSheetState.hide()
+//    }
 }

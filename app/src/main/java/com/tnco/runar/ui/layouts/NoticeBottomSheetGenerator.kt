@@ -36,7 +36,6 @@ fun NoticeBottomSheetGenerator(
     sheetState: ModalBottomSheetState,
     coroutineScope: CoroutineScope,
     fontSize: Float,
-    time: String,
     watchAD: () -> (Unit),
     purchaseSubsBtnClicked: () -> (Unit),
     onClose: () -> (Unit)
@@ -95,7 +94,7 @@ fun NoticeBottomSheetGenerator(
                     textAlign = TextAlign.Center
                 )
                 Text(
-                    text = stringResource(id = R.string.rune_powers_not_enough, time),
+                    text = stringResource(id = R.string.rune_powers_not_enough),
                     color = colorResource(id = R.color.neutrals_gray_300),
                     fontFamily = FontFamily(Font(R.font.roboto_medium)),
                     style = TextStyle(
@@ -185,7 +184,6 @@ fun NoticeBottomSheetGeneratorPreview() {
         sheetState = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.HalfExpanded),
         coroutineScope = rememberCoroutineScope(),
         fontSize = 55f,
-        time = "3 д. 12 ч. 45 м.",
         watchAD = {},
         purchaseSubsBtnClicked = {}
     ) {}
