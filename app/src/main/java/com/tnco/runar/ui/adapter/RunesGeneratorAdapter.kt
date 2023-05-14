@@ -15,6 +15,7 @@ import com.tnco.runar.util.RunesDiffUtil
 class RunesGeneratorAdapter(
     private val onShowBottomSheet: (RunesItemsModel) -> Unit
 ) : RecyclerView.Adapter<RunesGeneratorAdapter.RunesGeneratorHolder>() {
+    var onClick: (() -> (Boolean))? = null
 
     private val selectedRunes: MutableList<RunesItemsModel> = mutableListOf()
     private val selectedAdapterPositions: MutableList<Int> = mutableListOf()
@@ -47,11 +48,13 @@ class RunesGeneratorAdapter(
         val normalRuneOpacity = getOpacity(holder.itemView.context, R.dimen.normal_rune_opacity)
         val selectedRuneOpacity = getOpacity(holder.itemView.context, R.dimen.selected_rune_opacity)
         holder.itemView.setOnClickListener {
-            if (selectedRunes.size < 3 && !selectedRunes.contains(currentRune)) {
-                selectedRunes.add(currentRune)
-                selectedAdapterPositions.add(position)
-                it.alpha = selectedRuneOpacity
-                obsSelectedRunes.value = selectedRunes
+            onClick?.invoke()?.let { hasSubs ->
+                if (hasSubs && selectedRunes.size < 3 && !selectedRunes.contains(currentRune)) {
+                    selectedRunes.add(currentRune)
+                    selectedAdapterPositions.add(position)
+                    it.alpha = selectedRuneOpacity
+                    obsSelectedRunes.value = selectedRunes
+                }
             }
         }
 
@@ -63,7 +66,10 @@ class RunesGeneratorAdapter(
             }
 
         holder.itemView.setOnLongClickListener {
-            onShowBottomSheet(currentRune)
+            onClick?.invoke()?.let { hasSubs ->
+                if (hasSubs)
+                    onShowBottomSheet(currentRune)
+            }
             true
         }
     }

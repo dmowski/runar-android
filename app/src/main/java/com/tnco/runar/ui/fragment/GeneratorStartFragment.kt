@@ -8,7 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.ModalBottomSheetState
+import androidx.compose.material.ModalBottomSheetValue
+import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.asLiveData
@@ -23,11 +29,14 @@ import com.tnco.runar.enums.AnalyticsEvent
 import com.tnco.runar.model.RunesItemsModel
 import com.tnco.runar.repository.SharedPreferencesRepository
 import com.tnco.runar.ui.adapter.RunesGeneratorAdapter
+import com.tnco.runar.ui.layouts.NoticeBottomSheetGenerator
 import com.tnco.runar.ui.viewmodel.MainViewModel
+import com.tnco.runar.util.GoogleAdUtils
 import com.tnco.runar.util.InternalDeepLink
 import com.tnco.runar.util.PurchaseHelper
 import com.tnco.runar.util.observeOnce
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import java.util.*
 
@@ -37,6 +46,7 @@ class GeneratorStartFragment : Fragment(), HasVisibleNavBar {
     private var _binding: FragmentGeneratorStartBinding? = null
     private val binding get() = _binding!!
     private val viewModel: MainViewModel by activityViewModels()
+    private var hasChance = false
 
     private lateinit var purchaseHelper: PurchaseHelper
     private var hasSubs = false
@@ -47,6 +57,8 @@ class GeneratorStartFragment : Fragment(), HasVisibleNavBar {
     private val mAdapter: RunesGeneratorAdapter by lazy {
         RunesGeneratorAdapter(::onShowBottomSheet)
     }
+
+    private val showBottomSheet = mutableStateOf(false)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -70,17 +82,25 @@ class GeneratorStartFragment : Fragment(), HasVisibleNavBar {
                 showInternetConnectionError()
             }
         }
+
+        purchaseHelper = PurchaseHelper(requireActivity())
+        purchaseHelper.billingSetup()
+
+        binding.noticeBottomSheetGenerator.setContent {
+            if (!hasSubs || !hasChance)
+                ModalBottomSheet()
+        }
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        purchaseHelper = PurchaseHelper(requireActivity())
-        purchaseHelper.billingSetup()
+
         purchaseHelper.consumeEnabled.asLiveData().observe(viewLifecycleOwner) {
             hasSubs = it
             Log.d("TAG_BILLING_TEST", "hasSubs: $hasSubs")
-            if (!hasSubs) {
+            if ((!hasSubs && !hasChance) || (!hasSubs && hasChance)) {
                 binding.hasSubsRune.visibility = View.GONE
                 binding.noSubsRune.visibility = View.VISIBLE
             } else {
@@ -98,6 +118,16 @@ class GeneratorStartFragment : Fragment(), HasVisibleNavBar {
             btnGenerate.setOnClickListener {
                 if (shimmerLayout.visibility == View.GONE)
                     sentRunes()
+            }
+
+            noSubsRune.setOnClickListener {
+                onBlockClick()
+            }
+            mAdapter.onClick = {
+                if (!hasSubs)
+                    showBottomSheet.value = !hasChance
+
+                (hasSubs || hasChance)
             }
         }
 
@@ -148,11 +178,12 @@ class GeneratorStartFragment : Fragment(), HasVisibleNavBar {
     }
 
     private fun onStartShimmering() {
+        Log.d("TAG_SHIMMER", "onStartShimmering: Start Shimmering!")
         with(binding) {
             if (hasSubsRune.visibility == View.GONE) {
                 runesRecyclerViewBlock.visibility = View.GONE
-                shimmerLayoutBlock?.visibility = View.VISIBLE
-                shimmerLayoutBlock?.startShimmer()
+                shimmerLayoutBlock.visibility = View.VISIBLE
+                shimmerLayoutBlock.startShimmer()
             } else {
                 runesRecyclerView.visibility = View.GONE
                 shimmerLayout.visibility = View.VISIBLE
@@ -162,10 +193,11 @@ class GeneratorStartFragment : Fragment(), HasVisibleNavBar {
     }
 
     private fun onStopShimmering() {
+        Log.d("TAG_SHIMMER", "onStopShimmering: Stop Shimmering!")
         with(binding) {
             if (hasSubsRune.visibility == View.GONE) {
-                shimmerLayoutBlock?.stopShimmer()
-                shimmerLayoutBlock?.visibility = View.GONE
+                shimmerLayoutBlock.stopShimmer()
+                shimmerLayoutBlock.visibility = View.GONE
                 runesRecyclerViewBlock.visibility = View.VISIBLE
             }
             shimmerLayout.stopShimmer()
@@ -309,6 +341,8 @@ class GeneratorStartFragment : Fragment(), HasVisibleNavBar {
         }
         viewModel.runesSelected = idsString
 
+        hasChance = false
+
         val direction = GeneratorStartFragmentDirections
             .actionGeneratorStartFragmentToGeneratorMagicRune()
         findNavController().navigate(direction)
@@ -337,9 +371,84 @@ class GeneratorStartFragment : Fragment(), HasVisibleNavBar {
 
         viewModel.runesSelected = idsString
 
+        hasChance = false
+
         val direction = GeneratorStartFragmentDirections
             .actionGeneratorStartFragmentToGeneratorMagicRune()
         findNavController().navigate(direction)
+    }
+
+    private fun onBlockClick() {
+        Log.d("TAG_SHIMMER", "Clicked:")
+        if (!hasSubs || !hasChance)
+            showBottomSheet.value = true
+    }
+
+    @OptIn(ExperimentalMaterialApi::class)
+    @Composable
+    private fun ModalBottomSheet() {
+        Log.d("TAG_SHIMMIT", "ModalBottomSheet: $showBottomSheet")
+        val showBottomSheetRemember by remember {
+            showBottomSheet
+        }
+        val coroutineScope = rememberCoroutineScope()
+
+        val bottomSheetState = rememberModalBottomSheetState(
+            initialValue = ModalBottomSheetValue.Hidden,
+            confirmStateChange = { it != ModalBottomSheetValue.Expanded }
+        )
+
+        NoticeBottomSheetGenerator(
+            sheetState = bottomSheetState,
+            coroutineScope = coroutineScope,
+            fontSize = viewModel.fontSize.observeAsState().value!!,
+            watchAD = {
+                GoogleAdUtils(requireActivity()).apply {
+                    onUserEarnedReward = {
+                        binding.hasSubsRune.visibility = View.VISIBLE
+                        binding.noSubsRune.visibility = View.GONE
+                        showBottomSheet.value = false
+                        hasChance = true
+                    }
+                    onAdFailedToLoad = {
+                        Toast.makeText(requireContext(), "Something going wrong. Please try again!", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            },
+            purchaseSubsBtnClicked = {
+                // TODO: NAvigate to Subs LAyout!
+            }
+        ) {
+            showBottomSheet.value = false
+            hideBottomSheet(bottomSheetState, coroutineScope)
+        }
+
+        LaunchedEffect(key1 = bottomSheetState.currentValue) {
+            if (showBottomSheet.value && (bottomSheetState.currentValue == ModalBottomSheetValue.Hidden)) {
+                showBottomSheet.value = false
+            }
+        }
+
+        if (showBottomSheetRemember)
+            showBottomSheet(bottomSheetState, coroutineScope)
+        else
+            hideBottomSheet(bottomSheetState, coroutineScope)
+    }
+
+    @OptIn(ExperimentalMaterialApi::class)
+    private fun showBottomSheet(
+        bottomSheetState: ModalBottomSheetState,
+        coroutineScope: CoroutineScope
+    ) = coroutineScope.launch {
+        bottomSheetState.animateTo(ModalBottomSheetValue.Expanded)
+    }
+
+    @OptIn(ExperimentalMaterialApi::class)
+    private fun hideBottomSheet(
+        bottomSheetState: ModalBottomSheetState,
+        coroutineScope: CoroutineScope
+    ) = coroutineScope.launch {
+        bottomSheetState.hide()
     }
 
     private fun showInternetConnectionError() {
@@ -355,72 +464,4 @@ class GeneratorStartFragment : Fragment(), HasVisibleNavBar {
         mAdapter.clearData()
         _binding = null
     }
-//    @OptIn(ExperimentalMaterialApi::class)
-//    @Composable
-//    private fun ModalBottomSheetGenerator(time: State<String>) {
-//        val showBottomSheetRemember by remember {
-//            showBottomSheetGenerator
-//        }
-//        val coroutineScope = rememberCoroutineScope()
-//
-//        val bottomSheetState = rememberModalBottomSheetState(
-//            initialValue = ModalBottomSheetValue.Hidden,
-//            confirmStateChange = { it != ModalBottomSheetValue.Expanded }
-//        )
-//
-//        NoticeBottomSheetGenerator(
-//            sheetState = bottomSheetState,
-//            coroutineScope = coroutineScope,
-//            fontSize = 15.dp,
-//            watchAD = {
-//                GoogleAdUtils(requireActivity()).apply {
-//                    onUserEarnedReward = {
-//                        hideBottomSheetGenerator(bottomSheetState, coroutineScope)
-//                        sharedPreferencesRepository.apply {
-//                            changeStartCountingDate(0)
-//                            changeLimit(3)
-//                        }
-//                    }
-//                    onAdFailedToLoad = {
-//                        Toast.makeText(requireContext(), "Something going wrong. Please try again!", Toast.LENGTH_SHORT).show()
-//                    }
-//                }
-//            },
-//            purchaseSubsBtnClicked = {
-//                val direction = LayoutFragmentDirections.actionLayoutFragmentToRunarSubs()
-//                findNavController().navigate(direction)
-//            }
-//        ) {
-//            showBottomSheetGenerator.value = false
-//            hideBottomSheetGenerator(bottomSheetState, coroutineScope)
-//        }
-//
-//        LaunchedEffect(key1 = bottomSheetState.currentValue) {
-//            if (showBottomSheetGenerator.value && (bottomSheetState.currentValue == ModalBottomSheetValue.Hidden)) {
-//                showBottomSheetGenerator.value = false
-//            }
-//        }
-//
-//        if (showBottomSheetRemember)
-//            showBottomSheetGenerator(bottomSheetState, coroutineScope)
-//        else
-//            hideBottomSheetGenerator(bottomSheetState, coroutineScope)
-//    }
-//
-//
-//    @OptIn(ExperimentalMaterialApi::class)
-//    private fun showBottomSheetGenerator(
-//        bottomSheetState: ModalBottomSheetState,
-//        coroutineScope: CoroutineScope
-//    ) = coroutineScope.launch {
-//        bottomSheetState.animateTo(ModalBottomSheetValue.Expanded)
-//    }
-//
-//    @OptIn(ExperimentalMaterialApi::class)
-//    private fun hideBottomSheetGenerator(
-//        bottomSheetState: ModalBottomSheetState,
-//        coroutineScope: CoroutineScope
-//    ) = coroutineScope.launch {
-//        bottomSheetState.hide()
-//    }
 }
