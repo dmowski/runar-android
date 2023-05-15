@@ -71,6 +71,9 @@ class GeneratorStartFragment : Fragment(), HasVisibleNavBar {
         binding.arrowBack.setOnClickListener {
             findNavController().popBackStack()
         }
+        binding.arrowBackBlock.setOnClickListener {
+            findNavController().popBackStack()
+        }
 
         viewModel.analyticsHelper.sendEvent(AnalyticsEvent.GENERATOR_PATTERN_SELECTED)
         setupRecyclerView()
@@ -416,7 +419,8 @@ class GeneratorStartFragment : Fragment(), HasVisibleNavBar {
                 }
             },
             purchaseSubsBtnClicked = {
-                // TODO: NAvigate to Subs LAyout!
+                val direction = GeneratorStartFragmentDirections.actionGeneratorStartFragmentToRunarSubs()
+                findNavController().navigate(direction)
             }
         ) {
             showBottomSheet.value = false

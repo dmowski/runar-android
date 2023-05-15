@@ -32,6 +32,9 @@
         <action
             android:id="@+id/action_generatorStartFragment_to_bottomSheetFragment"
             app:destination="@id/bottomSheetFragment" />
+        <action
+            android:id="@+id/action_generatorStartFragment_to_runar_subs"
+            app:destination="@id/runar_subs" />
     </fragment>
     <fragment
         android:id="@+id/generatorMagicRune"
@@ -84,5 +87,6 @@
             app:argType="string"
             app:nullable="true" />
     </dialog>
+    <include app:graph="@navigation/runar_subs" />
 
 </navigation>

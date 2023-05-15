@@ -76,7 +76,7 @@ fun NoticeBottomSheetGenerator(
                     )
                 }
                 Image(
-                    painter = painterResource(id = R.drawable.notice_stars),
+                    painter = painterResource(id = R.drawable.generator_sleep),
                     contentDescription = "",
                     modifier = Modifier.offset(y = (-20).dp),
                 )
@@ -94,7 +94,7 @@ fun NoticeBottomSheetGenerator(
                     textAlign = TextAlign.Center
                 )
                 Text(
-                    text = stringResource(id = R.string.rune_powers_not_enough),
+                    text = stringResource(id = R.string.generator_fog_desc),
                     color = colorResource(id = R.color.neutrals_gray_300),
                     fontFamily = FontFamily(Font(R.font.roboto_medium)),
                     style = TextStyle(
