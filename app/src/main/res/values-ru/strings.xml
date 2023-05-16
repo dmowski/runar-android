@@ -194,6 +194,7 @@
     <string name="d">д.</string>
     <string name="h">ч.</string>
     <string name="m">м.</string>
+    <string name="s">с.</string>
 
     <string name="oh_sorry">Ой, как жаль!</string>
     <string name="rune_powers_not_enough">Рунных сил недостаточно. Чтобы восстановить запас потребуется %s</string>

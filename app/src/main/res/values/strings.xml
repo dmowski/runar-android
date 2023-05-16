@@ -198,7 +198,8 @@
     <string name="d">d.</string>
     <string name="h">h.</string>
     <string name="m">m.</string>
-    
+    <string name="s">s.</string>
+
     <string name="oh_sorry">Oh, what a pity!</string>
     <string name="rune_powers_not_enough">The Runic power is not strong enough. Restocking will take (%s)</string>
 
