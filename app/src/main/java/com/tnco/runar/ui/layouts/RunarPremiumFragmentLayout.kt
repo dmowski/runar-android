@@ -116,7 +116,11 @@ fun RunarPremiumFragmentLayout(
                 ExtraText(
                     name = stringResource(id = R.string.terms_of_use),
                     fontSize = fontSize,
-                    clickAction = {}
+                    clickAction = {
+                        val direction =
+                            RunarPremiumFragmentDirections.actionRunarPremiumFragmentToTermsOfUseFragment()
+                        navController.navigate(direction)
+                    }
                 )
                 ExtraText(
                     name = stringResource(id = R.string.privacy_policy),
