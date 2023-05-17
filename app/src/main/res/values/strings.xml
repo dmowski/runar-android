@@ -195,13 +195,13 @@
     <string name="review_update_delete">11. Review, update, or delete the data we collect</string>
     <string name="review_update_delete_content">Based on the applicable laws of your country, you may have the right to request access to the personal information we collect from you, change that information, or delete it.</string>
 
-    <string name="d">d.</string>
-    <string name="h">h.</string>
-    <string name="m">m.</string>
-    <string name="s">s.</string>
+    <string name="d">days</string>
+    <string name="h">hours</string>
+    <string name="m">minutes</string>
+    <string name="s">seconds</string>
 
     <string name="oh_sorry">Oh, what a pity!</string>
-    <string name="rune_powers_not_enough">The Runic power is not strong enough. Restocking will take (%s)</string>
+    <string name="rune_powers_not_enough">The Runic power is not strong enough. Recharging will take (%s)</string>
 
     <string name="watch_ad">View ads</string>
     <string name="purchase_subs">Purchase a subscription</string>
