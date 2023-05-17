@@ -163,10 +163,62 @@
     <string name="privacy_policy">Privacy Policy</string>
     <string name="privacy_policy_title"> Privacy Policy </string>
     <string name="privacy_policy_title_2">Privacy Policy</string>
+    <string name="terms_of_use_title">Terms of use</string>
     <string name="restore">Restore</string>
     <string name="conditions">Conditions</string>
     <string name="last_update">Last updated July 27, 2022</string>
-    <string name="conditions_notifications">This privacy notice for Runar App ("Company," "we," "us," or "our"), describes how and why we might collect, store, use, and/or share ("process") your information when you use our Application ("The App"), such as when you:\n- Download and use our mobile application (Runar App), or any other application of ours (Services) that links to this privacy notice\n- Engage with us in other related ways, including any sales, marketing, or events.</string>
+    <string name="conditions_notifications">This privacy notice for Runar App (\&quot;Company\&quot;, \&quot;we\&quot;, \&quot;us\&quot;, or \&quot;our\&quot;), describes how and why we might collect, store, use, and/or share ("process") your information when you use our Application ("The App"), such as when you:\n- Download and use our mobile application (Runar App), or any other application of ours (Services) that links to this privacy notice\n- Engage with us in other related ways, including any sales, marketing, or events.</string>
+    <string name="terms_of_use_predesc">Please read these terms and conditions carefully before using Our Service (Runar App).</string>
+    <string name="terms_of_use_definitions">Definitions</string>
+    <string name="terms_of_use_desc_definitions">For the purposes of these Terms and Conditions:
+\&quot;Application\&quot; means the software program provided by the Runar App Team downloaded by You on any electronic device, named Runar App.
+\&quot;Application Store\&quot; means the digital distribution service operated and developed by Apple Inc. (Apple App Store) or Google Inc. (Google Play Store) in which the Application has been downloaded.
+\&quot;Runar App Team\&quot; (referred to as either \&quot;the Company\&quot;, \&quot;We\&quot;, \&quot;Us\&quot; or \&quot;Our\&quot; in this Agreement) refers to Runar App Team.
+\&quot;Country\&quot; refers to Poland.
+\&quot;Content\&quot; refers to content such as text, images, or other information that can be posted, uploaded, linked to or otherwise made available by You, regardless of the form of that content.
+\&quot;Device\&quot; means any device that can access the Runar App such as a computer, a cell phone or a digital tablet.
+\&quot;Feedback\&quot; means feedback, innovations or suggestions sent by You regarding the attributes, performance or features of our Service.
+\&quot;Service\&quot; refers to the https://runar.app/.
+\&quot;Third-party Social Media Service\&quot; means any services or content (including data, information, products or services) provided by a third-party that may be displayed, included or made available by the Service.</string>
+    \&quot;Website\&quot; refers to https://runar.app/
+    \&quot;You\&quot; means the individual accessing or using the Service, or the company, or other legal entity on behalf of which such individual is accessing or using the Service, as applicable
+    <string name="terms_of_use_acknowledgment">Acknowledgment</string>
+    <string name="terms_of_use_desc_acknowledgment">These are the Terms and Conditions governing the use of this Service and the agreement that operates between You and the Company. These Terms and Conditions set out the rights and obligations of all users regarding the use of the Service.
+Your access to and use of the Service is conditioned on Your acceptance of and compliance with these Terms and Conditions. These Terms and Conditions apply to all visitors, users and others who access or use the Service.
+By accessing or using the Service You agree to be bound by these Terms and Conditions. If You disagree with any part of these Terms and Conditions then You may not access the Service.
+Your access to and use of the Service is also conditioned on Your acceptance of and compliance with the Privacy Policy of the Company. Our Privacy Policy describes Our policies and procedures on the collection, use and disclosure of Your personal information when You use the Application or the Website and tells You about Your privacy rights and how the law protects You. Please read Our Privacy Policy carefully before using Our Service.</string>
+    <string name="terms_of_use_copyright_policy">Copyright Policy</string>
+    <string name="terms_of_use_desc_copyright_policy">We respect the intellectual property rights of others. It is Our policy to respond to any claim that Content posted on the Service infringes a copyright or other intellectual property infringement of any person.
+If You are a copyright owner, or authorized on behalf of one, and You believe that the copyrighted work has been copied in a way that constitutes copyright infringement that is taking place through the Service, You must submit Your notice in writing to the attention of our copyright agent via email (runarapp@gmail.com) and include in Your notice a detailed description of the alleged infringement.
+You may be held accountable for damages (including costs and attorneys fees) for misrepresenting that any Content is infringing Your copyright.</string>
+    <string name="terms_of_use_intellectual_property">Intellectual Property</string>
+    <string name="terms_of_use_desc_intellectual_property">The Runar and its original content (excluding Content provided by You or other users), features and functionality are and will remain the exclusive property of the Company and its licensors.
+The Runar app is protected by copyright, trademark, and other laws of both the Country and foreign countries.
+Our trademarks and trade dress may not be used in connection with any product or service without the prior written consent of the Company.</string>
+    <string name="terms_of_use_your_feedback_to_us">Your Feedback to Us</string>
+    <string name="terms_of_use_desc_your_feedback_to_us">You assign all rights, title and interest in any Feedback You provide the Company. If for any reason such assignment is ineffective, You agree to grant the Company a non-exclusive, perpetual, irrevocable, royalty free, worldwide right and license to use, reproduce, disclose, sub-license, distribute, modify and exploit such Feedback without restriction.</string>
+    <string name="terms_of_use_links_to_other_websites">Links to Other Websites</string>
+    <string name="terms_of_use_desc_links_to_other_websites">Our Service may contain links to third-party websites or services that are not owned or controlled by the Company.
+The Company has no control over, and assumes no responsibility for, the content, privacy policies, or practices of any third-party websites or services. You further acknowledge and agree that the Company shall not be responsible or liable, directly or indirectly, for any damage or loss caused or alleged to be caused by or in connection with the use of or reliance on any such content, goods or services available on or through any such web sites or services.
+We strongly advise You to read the terms and conditions and privacy policies of any third-party websites or services that You visit.</string>
+    <string name="terms_of_use_governing_law">Governing Law</string>
+    <string name="terms_of_use_desc_governing_law">The laws of the Country, excluding its conflicts of law rules, shall govern this Terms and Your use of the Service. Your use of the Application may also be subject to other local, state, national, or international laws.</string>
+    <string name="terms_of_use_disputes_resolution">Disputes Resolution</string>
+    <string name="terms_of_use_desc_disputes_resolution">If You have any concern or dispute about the Service, You agree to first try to resolve the dispute informally by contacting the Company.</string>
+    <string name="terms_of_use_for_european_union">For European Union (EU) Users</string>
+    <string name="terms_of_use_desc_for_european_union">If You are a European Union consumer, you will benefit from any mandatory provisions of the law of the country in which you are resident in.</string>
+    <string name="terms_of_use_the_united_states">The United States Legal Compliance</string>
+    <string name="terms_of_use_desc_the_united_states">You represent and warrant that (i) You are not located in a country that is subject to the United States government embargo, or that has been designated by the United States government as a "terrorist supporting" country, and (ii) You are not listed on any United States government list of prohibited or restricted parties.</string>
+    <string name="terms_of_use_severability">Severability</string>
+    <string name="terms_of_use_desc_severability">If any provision of these Terms is held to be unenforceable or invalid, such provision will be changed and interpreted to accomplish the objectives of such provision to the greatest extent possible under applicable law and the remaining provisions will continue in full force and effect.</string>
+    <string name="terms_of_use_changes">Changes to These Terms and Conditions</string>
+    <string name="terms_of_use_desc_changes">We reserve the right, at Our sole discretion, to modify or replace these Terms at any time. If a revision is material We will make reasonable efforts to provide at least 30 days notice prior to any new terms taking effect. What constitutes a material change will be determined at Our sole discretion.
+By continuing to access or use Our Service after those revisions become effective, You agree to be bound by the revised terms. If You do not agree to the new terms, in whole or in part, please stop using the website and the Service.</string>
+    <string name="terms_of_use_contact_us">Contact Us</string>
+    <string name="terms_of_use_desc_contact_us">If you have any questions about these Terms and Conditions, You can contact us:
+By visiting this page on our website: https://runar.app/
+By sending us an email: runarapp@gmail.com</string>
+
     <string name="personal_information">1. Personal information you disclose to us.</string>
     <string name="content_personal_information_1">We collect personal information that you voluntarily provide to us when you express an interest in obtaining information about us or our products, when you participate in activities on the App, or otherwise when you contact us.\n The personal information that we collect depends on the context of your interactions with us and the App, the choices you make, and the products and features you use.\n If you use our application(s), we also may collect the following information if you choose to provide us with access or permission:</string>
     <string name="content_personal_information_2">- Geolocation Information. We may request access or permission to track location-based information from your mobile\n- Device type, either continuously or while you are using our mobile application(s), to provide certain location-based \n- Services. If you wish to change our access or permissions, you may do so in your device\'s settings.\n This information is primarily needed to maintain the security and operation of our application(s), for troubleshooting, and for our internal analytics and reporting purposes.\n All personal information that you provide to us must be true, complete, and accurate, and you must notify us of any changes to such personal information.</string>
@@ -204,7 +256,7 @@
     <string name="oh_sorry">Ой, как жаль!</string>
     <string name="rune_powers_not_enough">Рунных сил недостаточно, чтобы возобновить запас потребуется %s</string>
 
-    <string name="watch_ad">Посмотреть рекламу</string>
-    <string name="purchase_subs">Приобрести подписку</string>
+    <string name="watch_ad">Watch an Ad</string>
+    <string name="purchase_subs">Subscribe</string>
     
 </resources>

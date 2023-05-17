@@ -11,9 +11,16 @@
         <action
             android:id="@+id/action_runarPremiumFragment_to_privacyPolicyFragment"
             app:destination="@id/privacyPolicyFragment" />
+        <action
+            android:id="@+id/action_runarPremiumFragment_to_termsOfUseFragment"
+            app:destination="@id/termsOfUseFragment" />
     </fragment>
     <fragment
         android:id="@+id/privacyPolicyFragment"
         android:name="com.tnco.runar.ui.fragment.PrivacyPolicyFragment"
         android:label="PrivacyPolicyFragment" />
+    <fragment
+        android:id="@+id/termsOfUseFragment"
+        android:name="com.tnco.runar.ui.fragment.TermsOfUseFragment"
+        android:label="TermsOfUseFragment" />
 </navigation>
