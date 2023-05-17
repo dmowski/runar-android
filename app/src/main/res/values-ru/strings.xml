@@ -147,7 +147,7 @@
 
     <string name="subsription">Подписка</string>
     //RunarPremium Fragment Strings
-    <string name="runar_premium">Runar популярный</string>
+    <string name="runar_premium">Runar премиум</string>
     <string name="get_a_full_access">Включи все функции Runar</string>
     <string name="all_runic_draws">Все рунные расклады</string>
     <string name="all_runes_description">Все описания рун</string>
