@@ -127,13 +127,13 @@ fun RunarPremiumFragmentLayout(
                         navController.navigate(direction)
                     }
                 )
-                ExtraText(
-                    name = stringResource(id = R.string.restore),
-                    fontSize = fontSize,
-                    weight = FontWeight.W700,
-                    clickAction = {
-                    }
-                )
+//                ExtraText(
+//                    name = stringResource(id = R.string.restore),
+//                    fontSize = fontSize,
+//                    weight = FontWeight.W700,
+//                    clickAction = {
+//                    }
+//                )
             }
             Spacer(
                 modifier = Modifier.height(2.dp)
