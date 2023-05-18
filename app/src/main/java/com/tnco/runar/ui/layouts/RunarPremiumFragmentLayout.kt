@@ -48,8 +48,11 @@ fun RunarPremiumFragmentLayout(
     ) {
 
         val choseSku = remember {
-            mutableStateOf(listOfSkus[0])
+            mutableStateOf(listOfSkus.getOrNull(0))
         }
+        // when recomposer
+        if (choseSku.value == null && listOfSkus.isNotEmpty())
+            choseSku.value = listOfSkus[0]
 
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -66,48 +69,75 @@ fun RunarPremiumFragmentLayout(
                     fontSize = with(LocalDensity.current) {
                         (fontSize * 1.8f).toSp()
                     }
-                ),
+                )
             )
             Row(
-                modifier = Modifier.horizontalScroll(
-                    state = rememberScrollState()
-                ),
+                // for device with height = 800dp and width = 400dp
+                // use height = 200 and width = 120
+                modifier = Modifier
+                    .height(((LocalConfiguration.current.screenHeightDp * 180) / 800f).dp)
+                    .horizontalScroll(
+                        state = rememberScrollState()
+                    ),
                 horizontalArrangement = Arrangement.spacedBy(
                     8.dp,
                     Alignment.CenterHorizontally
-                )
+                ),
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                listOfSkus.forEach { sku ->
-                    sku.subscriptionOfferDetails?.get(0)?.let {
-                        SkuCard(
-                            title = sku.name,
-                            description = sku.description,
-                            cost = it.pricingPhases.pricingPhaseList[0].formattedPrice,
-                            fontSize = fontSize,
-                            isSelected = (choseSku.value.productId == sku.productId),
-                            discount = if (sku.productId == "runar_yearly") "-50%" else null
-                        ) {
-                            choseSku.value = sku
+                if (listOfSkus.isNotEmpty())
+                    listOfSkus.forEach { sku ->
+                        sku.subscriptionOfferDetails?.get(0)?.let {
+                            SkuCard(
+                                title = sku.name,
+                                description = sku.description,
+                                cost = it.pricingPhases.pricingPhaseList[0].formattedPrice,
+                                fontSize = fontSize,
+                                isSelected = (choseSku.value?.productId == sku.productId),
+                                discount = if (sku.productId == "runar_yearly") "-50%" else null
+                            ) {
+                                choseSku.value = sku
+                            }
                         }
                     }
-                }
+                else
+                    CircularProgressIndicator(
+                        color = colorResource(id = R.color.purchase_header_color)
+                    )
             }
-            PayButton(fontSize, choseSku.value, buyEnabled) {
-                onClick(it)
+            PayButton(fontSize, buyEnabled) {
+                onClick(choseSku.value!!)
             }
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(24.dp, Alignment.CenterHorizontally),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                ExtraText(name = stringResource(id = R.string.terms_of_use), fontSize = fontSize, clickAction = {
-                })
-                ExtraText(name = stringResource(id = R.string.privacy_policy), fontSize = fontSize, clickAction = {
-                    val direction = RunarPremiumFragmentDirections.actionRunarPremiumFragmentToPrivacyPolicyFragment()
-                    navController.navigate(direction)
-                })
-                ExtraText(name = stringResource(id = R.string.restore), fontSize = fontSize, weight = FontWeight.W700, clickAction = {
-                })
+                ExtraText(
+                    name = stringResource(id = R.string.terms_of_use),
+                    fontSize = fontSize,
+                    clickAction = {
+                        val direction =
+                            RunarPremiumFragmentDirections.actionRunarPremiumFragmentToTermsOfUseFragment()
+                        navController.navigate(direction)
+                    }
+                )
+                ExtraText(
+                    name = stringResource(id = R.string.privacy_policy),
+                    fontSize = fontSize,
+                    clickAction = {
+                        val direction =
+                            RunarPremiumFragmentDirections.actionRunarPremiumFragmentToPrivacyPolicyFragment()
+                        navController.navigate(direction)
+                    }
+                )
+                ExtraText(
+                    name = stringResource(id = R.string.restore),
+                    fontSize = fontSize,
+                    weight = FontWeight.W700,
+                    clickAction = {
+                    }
+                )
             }
             Spacer(
                 modifier = Modifier.height(2.dp)
@@ -146,15 +176,14 @@ fun MonetizationTopBar(fontSize: Float, navController: NavController) {
 }
 
 @Composable
-fun ColumnScope.PayButton(
+fun PayButton(
     fontSize: Float,
-    sku: ProductDetails,
     buttonEnabled: Boolean,
-    onClick: (ProductDetails) -> Unit
+    onClick: () -> Unit
 ) {
     Button(
         onClick = {
-            onClick(sku)
+            onClick()
         },
         colors = ButtonDefaults.buttonColors(
             backgroundColor = colorResource(id = R.color.purchase_header_color)
@@ -203,13 +232,11 @@ fun SkuCard(
 
     // for device with height = 800dp and width = 400dp
     // use height = 200 and width = 120
-    val configuration = LocalConfiguration.current
-    val height = ((configuration.screenHeightDp * 180) / 800f).dp
-    val width = ((configuration.screenWidthDp * 120) / 400f).dp
+    val width = ((LocalConfiguration.current.screenWidthDp * 120) / 400f).dp
 
     Column(
         modifier = Modifier
-            .height(height)
+            .fillMaxHeight()
             .width(width)
             .clip(shape = RoundedCornerShape(16.dp))
             .background(color = colorResource(id = R.color.purchase_card_color))
@@ -368,7 +395,12 @@ fun Feature(title: String, fontSize: Float) {
 }
 
 @Composable
-fun ExtraText(name: String, fontSize: Float, weight: FontWeight = FontWeight.W400, clickAction: () -> Unit) {
+fun ExtraText(
+    name: String,
+    fontSize: Float,
+    weight: FontWeight = FontWeight.W400,
+    clickAction: () -> Unit
+) {
     Text(
         modifier = Modifier.clickable(onClick = clickAction),
         text = name,
