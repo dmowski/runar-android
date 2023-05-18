@@ -246,12 +246,13 @@
     <string name="review_update_delete">11. Пересматривать, обновлять или удалять собранные нами данные</string>
     <string name="review_update_delete_content">В соответствии с действующим законодательством вашей страны, вы можете иметь право запросить доступ к личной информации, которую мы собираем от вас, изменить эту информацию или удалить ее.</string>
 
-    <string name="d">д.</string>
-    <string name="h">ч.</string>
-    <string name="m">м.</string>
+    <string name="d">дней</string>
+    <string name="h">часов</string>
+    <string name="m">минут</string>
+    <string name="s">секунд</string>
 
     <string name="oh_sorry">Ой, как жаль!</string>
-    <string name="rune_powers_not_enough">Рунных сил недостаточно, чтобы возобновить запас потребуется %s</string>
+    <string name="rune_powers_not_enough">Рунных сил недостаточно. Чтобы восстановить запас потребуется %s</string>
 
     <string name="watch_ad">Посмотреть рекламу</string>
     <string name="purchase_subs">Приобрести подписку</string>

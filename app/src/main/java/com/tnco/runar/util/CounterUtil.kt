@@ -44,7 +44,8 @@ abstract class CounterUtil(val context: Context) {
                         millisUntilFinished.toDateFormat(
                             context.getString(R.string.d),
                             context.getString(R.string.h),
-                            context.getString(R.string.m)
+                            context.getString(R.string.m),
+                            context.getString(R.string.s)
                         )
                     )
                 }
@@ -58,32 +59,21 @@ abstract class CounterUtil(val context: Context) {
         }
     }
 
-    fun cancelCounting() {
+    private fun cancelCounting() {
         sharedPreferencesRepository.changeStartCountingDate(0)
         timer?.cancel()
         timer = null
     }
 
-    private fun Long.toDateFormat(day: String, hour: String, minute: String): String {
-        var temp = this
-
-        return if ((this / DAY_IN_MILLISECOND) > 0) {
-            var res = (temp / DAY_IN_MILLISECOND).toString() + " " + day
-            temp %= DAY_IN_MILLISECOND
-
-            res += " " + (temp / HOUR_IN_MILLISECOND) + " " + hour
-            temp %= HOUR_IN_MILLISECOND
-
-            "$res ${temp / MINUTE_IN_MILLISECOND} $minute"
-        } else {
-            val seconds = (this / 1000)
-            val hours = seconds / 3600
-            val minutes = (seconds % 3600) / 60
-            val remainingSeconds = seconds % 60
-
-            String.format("%02d:%02d:%02d", hours, minutes, remainingSeconds)
-        }
-    }
+    private fun Long.toDateFormat(day: String, hour: String, minute: String, seconds: String): String =
+        if ((this / DAY_IN_MILLISECOND) > 0)
+            "${(this / DAY_IN_MILLISECOND) + 1} $day"
+        else if ((this / HOUR_IN_MILLISECOND) > 0)
+            "${(this / HOUR_IN_MILLISECOND) + 1} $hour"
+        else if ((this / MINUTE_IN_MILLISECOND) > 0)
+            "${(this / MINUTE_IN_MILLISECOND) + 1} $minute"
+        else
+            "${this / 1000L} $seconds"
 
     companion object {
         const val MINUTE_IN_MILLISECOND = 60000L
