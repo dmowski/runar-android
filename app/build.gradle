@@ -17,8 +17,8 @@ android {
         applicationId "com.tnco.runar"
         minSdkVersion 24
         targetSdkVersion 33
-        versionCode 12
-        versionName "0.20"
+        versionCode 25
+        versionName "0.25"
         resConfigs "en", "ru"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
