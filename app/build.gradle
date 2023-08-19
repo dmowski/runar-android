@@ -15,10 +15,10 @@ android {
 
     defaultConfig {
         applicationId "com.tnco.runar"
-        minSdkVersion 33
+        minSdkVersion 24
         targetSdkVersion 33
-        versionCode 26
-        versionName "0.26"
+        versionCode 27
+        versionName "0.27"
         resConfigs "en", "ru"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

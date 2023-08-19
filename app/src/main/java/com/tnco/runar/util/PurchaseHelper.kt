@@ -54,6 +54,7 @@ class PurchaseHelper(val activity: Activity) {
             .enablePendingPurchases().build()
     }
 
+    /*
     private fun acknowledgeIfNecessary(purchase: Purchase) {
         if (!purchase.isAcknowledged) {
             val acknowledgePurchaseParams = AcknowledgePurchaseParams.newBuilder()
@@ -67,7 +68,7 @@ class PurchaseHelper(val activity: Activity) {
                 Log.v("TAG_INAPP", "debugMessage : $billingDebugMessage")
             }
         }
-    }
+    }*/
 
     fun billingSetup() {
         billingClient.startConnection(object : BillingClientStateListener {
