@@ -38,9 +38,9 @@ class PurchaseHelper(val activity: Activity) {
         purchasesUpdatedListener = PurchasesUpdatedListener { billingResult, purchases ->
             if (billingResult.responseCode == BillingResponseCode.OK && purchases != null) {
                 for (purchase in purchases) {
-                    if (purchase.purchaseState == Purchase.PurchaseState.PURCHASED) {
-                        acknowledgeIfNecessary(purchase)
-                    }
+                    // if (purchase.purchaseState == Purchase.PurchaseState.PURCHASED) {
+                    // acknowledgeIfNecessary(purchase)
+                    // }
                     completePurchase(purchase)
                 }
             } else if (billingResult.responseCode == BillingResponseCode.USER_CANCELED) {
