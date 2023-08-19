@@ -38,9 +38,9 @@ class PurchaseHelper(val activity: Activity) {
         purchasesUpdatedListener = PurchasesUpdatedListener { billingResult, purchases ->
             if (billingResult.responseCode == BillingResponseCode.OK && purchases != null) {
                 for (purchase in purchases) {
-                    // if (purchase.purchaseState == Purchase.PurchaseState.PURCHASED) {
-                    // acknowledgeIfNecessary(purchase)
-                    // }
+                    if (purchase.purchaseState == Purchase.PurchaseState.PURCHASED) {
+                        acknowledgeIfNecessary(purchase)
+                    }
                     completePurchase(purchase)
                 }
             } else if (billingResult.responseCode == BillingResponseCode.USER_CANCELED) {
@@ -54,7 +54,6 @@ class PurchaseHelper(val activity: Activity) {
             .enablePendingPurchases().build()
     }
 
-    /*
     private fun acknowledgeIfNecessary(purchase: Purchase) {
         if (!purchase.isAcknowledged) {
             val acknowledgePurchaseParams = AcknowledgePurchaseParams.newBuilder()
@@ -68,7 +67,7 @@ class PurchaseHelper(val activity: Activity) {
                 Log.v("TAG_INAPP", "debugMessage : $billingDebugMessage")
             }
         }
-    }*/
+    }
 
     fun billingSetup() {
         billingClient.startConnection(object : BillingClientStateListener {
