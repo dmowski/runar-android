@@ -17,8 +17,8 @@ android {
         applicationId "com.tnco.runar"
         minSdkVersion 24
         targetSdkVersion 33
-        versionCode 25
-        versionName "0.25"
+        versionCode 27
+        versionName "0.27"
         resConfigs "en", "ru"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -27,13 +27,13 @@ android {
         release {
             minifyEnabled true
             shrinkResources true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debugWithR8 {
             debuggable true
             minifyEnabled true
             shrinkResources true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
             minifyEnabled false
