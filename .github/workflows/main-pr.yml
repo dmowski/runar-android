@@ -33,15 +33,15 @@ jobs:
           name: "ANDROID_APP_${{ steps.date.outputs.date }}"
           path: app/build/outputs/apk/debugWithR8/pr-${{ steps.date.outputs.date }}.apk
 
-      - name: Send telegram message
-        uses: appleboy/telegram-action@master
-        with:
-          to: ${{ secrets.TELEGRAM_TO }}
-          token: ${{ secrets.TELEGRAM_TOKEN }}
-          document: app/build/outputs/apk/debugWithR8/pr-${{ steps.date.outputs.date }}.apk
-          format: markdown
-          disable_notification: true
-          message: |
-            PULL REQUEST from ${{ github.actor }}
-            https://github.com/dmowski/runar-android/pull/${{ github.event.pull_request.number }}
-            ${{ github.event.pull_request.title }}
+      #- name: Send telegram message
+      #  uses: appleboy/telegram-action@master
+      #  with:
+      #    to: ${{ secrets.TELEGRAM_TO }}
+      #    token: ${{ secrets.TELEGRAM_TOKEN }}
+      #    document: app/build/outputs/apk/debugWithR8/pr-${{ steps.date.outputs.date }}.apk
+      #    format: markdown
+      #    disable_notification: true
+      #    message: |
+      #      PULL REQUEST from ${{ github.actor }}
+      #      https://github.com/dmowski/runar-android/pull/${{ github.event.pull_request.number }}
+      #      ${{ github.event.pull_request.title }}
