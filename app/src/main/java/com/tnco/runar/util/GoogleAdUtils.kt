@@ -71,6 +71,6 @@ class GoogleAdUtils(val activity: Activity) : FullScreenContentCallback(), OnUse
     }
 
     companion object {
-        private const val INTERSTITIAL_AD_AD = "ca-app-pub-5358349013419780/5194664506"
+        private const val INTERSTITIAL_AD_AD = "ca-app-pub-5358349013419780/1535093850"
     }
 }
