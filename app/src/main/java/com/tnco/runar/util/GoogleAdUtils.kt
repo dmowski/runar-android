@@ -71,8 +71,6 @@ class GoogleAdUtils(val activity: Activity) : FullScreenContentCallback(), OnUse
     }
 
     companion object {
-        // For testing Rewarded Interstitial Ad: ca-app-pub-3940256099942544/5354046379
-        private const val TEST_INTERSTITIAL_AD_AD = "ca-app-pub-3940256099942544/5354046379"
-        private const val INTERSTITIAL_AD_AD = "ca-app-pub-4330541344219932/3903096074"
+        private const val INTERSTITIAL_AD_AD = "ca-app-pub-5358349013419780/5194664506"
     }
 }
